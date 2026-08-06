@@ -10,17 +10,57 @@ import { allSettledWithConcurrency } from './_seed-utils.mjs';
 
 const GDELT_STORAGE_ORIGIN = 'https://storage.googleapis.com/data.gdeltproject.org';
 export const GDELT_MASTER_FILELIST_URL = `${GDELT_STORAGE_ORIGIN}/gdeltv2/masterfilelist.txt`;
+export const GDELT_TRANSLINGUAL_MASTER_FILELIST_URL = `${GDELT_STORAGE_ORIGIN}/gdeltv2/masterfilelist-translation.txt`;
+
+/**
+ * GDELT publishes two parallel 15-minute bulk streams. `masterfilelist.txt`
+ * carries English-language sourcing; `masterfilelist-translation.txt` carries
+ * the same schema machine-translated from 65 other languages, under filenames
+ * with a `.translation` infix. Only the first was ingested, so every conflict
+ * event in the product came from an English-language publisher — the catalog
+ * covered the world, the sourcing did not.
+ *
+ * The two are schema-identical (61 tab-separated columns), so
+ * mapGdeltExportToConflictEvents parses both unchanged, and GlobalEventID is
+ * unique across streams, so the existing id-keyed dedup absorbs any overlap.
+ *
+ * The translingual stream runs roughly one 15-minute slot behind English and is
+ * a strict ADDITION: fetchGdeltBulkConflictEvents degrades to English-only if
+ * its manifest fails, because a new source must not be able to take down the
+ * one that already works.
+ */
+export const GDELT_EXPORT_STREAMS = Object.freeze([
+  Object.freeze({ id: 'english', infix: '', manifestUrl: GDELT_MASTER_FILELIST_URL, required: true }),
+  Object.freeze({
+    id: 'translingual',
+    infix: '.translation',
+    manifestUrl: GDELT_TRANSLINGUAL_MASTER_FILELIST_URL,
+    required: false,
+  }),
+]);
 export const GDELT_MAX_EXPORT_ZIP_BYTES = 5_000_000;
 export const GDELT_MAX_EXPORT_CSV_BYTES = 30_000_000;
 export const GDELT_ROLLING_WINDOW_MAX_EVENTS = 5_000;
 
 const MASTER_TAIL_BYTES = 16_384;
 const RECENT_EXPORT_COUNT = 8;
-const EXPORT_FETCH_CONCURRENCY = 4;
+// 8, not 4: adding the translingual stream doubles the download count, and the
+// seeder's worst-case network budget has only ~15s of slack under the 7-minute
+// ACLED lock (tests/seed-fetch-deadline-budget-invariants). Widening the pool by
+// the same factor keeps the worst case at its pre-translingual value instead of
+// buying coverage with lock headroom. These are bounded range GETs against
+// Google Cloud Storage, where 8 in flight is unremarkable.
+const EXPORT_FETCH_CONCURRENCY = 8;
 const REQUEST_TIMEOUT_MS = 20_000;
 export const GDELT_ROLLING_WINDOW_MS = 24 * 60 * 60 * 1000;
+// One manifest round (the per-stream reads run concurrently, so N streams still
+// cost one timeout, not N) plus every stream's exports through the shared
+// download pool. With the pool widened alongside the stream count this holds at
+// its pre-translingual value — seed-conflict-intel derives its sweep budget and
+// lock headroom from this number, so it must track the real fetch shape rather
+// than the stream count alone.
 export const GDELT_BULK_WORST_NETWORK_MS = REQUEST_TIMEOUT_MS
-  * (1 + Math.ceil(RECENT_EXPORT_COUNT / EXPORT_FETCH_CONCURRENCY));
+  * (1 + Math.ceil((RECENT_EXPORT_COUNT * GDELT_EXPORT_STREAMS.length) / EXPORT_FETCH_CONCURRENCY));
 const USER_AGENT = 'WorldMonitor/1.0 (+https://www.worldmonitor.app)';
 const MATERIAL_VIOLENCE_ROOT_CODES = new Set(['18', '19', '20']);
 
@@ -40,7 +80,12 @@ function boundedPositiveInteger(value, label, max) {
   return parsed;
 }
 
-function parseExportDescriptorLine(exportLine) {
+/** Escape a stream infix for embedding in the path/filename patterns. */
+function infixPattern(infix) {
+  return String(infix || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function parseExportDescriptorLine(exportLine, stream = GDELT_EXPORT_STREAMS[0]) {
   const [sizeRaw, md5Raw, urlRaw, ...extra] = exportLine.split(/\s+/);
   if (!sizeRaw || !md5Raw || !urlRaw || extra.length) {
     throw new Error('malformed GDELT event export manifest line');
@@ -53,7 +98,9 @@ function parseExportDescriptorLine(exportLine) {
   if (!['http:', 'https:'].includes(url.protocol) || url.hostname !== 'data.gdeltproject.org' || url.port) {
     throw new Error(`untrusted GDELT event export URL: ${urlRaw}`);
   }
-  const match = url.pathname.match(/^\/gdeltv2\/(\d{14})\.export\.CSV\.zip$/);
+  const match = url.pathname.match(
+    new RegExp(`^/gdeltv2/(\\d{14})${infixPattern(stream.infix)}\\.export\\.CSV\\.zip$`),
+  );
   if (!match || url.search || url.hash) throw new Error(`invalid GDELT event export path: ${urlRaw}`);
 
   return {
@@ -61,16 +108,32 @@ function parseExportDescriptorLine(exportLine) {
     md5,
     url: `${GDELT_STORAGE_ORIGIN}${url.pathname}`,
     exportTimestamp: match[1],
+    streamId: stream.id,
+    infix: stream.infix,
   };
 }
 
-export function parseGdeltRecentExports(manifest, limit = RECENT_EXPORT_COUNT) {
+export function parseGdeltRecentExports(
+  manifest,
+  limit = RECENT_EXPORT_COUNT,
+  stream = GDELT_EXPORT_STREAMS[0],
+) {
   const descriptors = [];
+  // The timestamp is part of the anchor, not just the infix. Without it the
+  // English pattern (empty infix) still matches `...<ts>.translation.export.CSV.zip`,
+  // because that name also ends in `.export.CSV.zip` — the filter would accept a
+  // translingual line and only the descriptor parse below would reject it, which
+  // is a throw rather than a skip. Requiring 14 digits immediately before the
+  // infix makes each stream's filter reject the other's entries outright.
+  const lineSuffix = new RegExp(
+    `\\d{14}${infixPattern(stream.infix)}\\.export\\.CSV\\.zip$`,
+    'i',
+  );
   for (const line of String(manifest || '').split(/\r?\n/)) {
     const trimmed = line.trim();
-    if (!/\.export\.CSV\.zip$/i.test(trimmed)) continue;
+    if (!lineSuffix.test(trimmed)) continue;
     try {
-      descriptors.push(parseExportDescriptorLine(trimmed));
+      descriptors.push(parseExportDescriptorLine(trimmed, stream));
     } catch (error) {
       // A suffix range can begin mid-line. Ignore that incomplete fragment,
       // but fail closed for any full-looking descriptor that violates the
@@ -85,7 +148,7 @@ export function parseGdeltRecentExports(manifest, limit = RECENT_EXPORT_COUNT) {
     .slice(-Math.max(1, limit));
 }
 
-export function extractGdeltExportCsv(zipBytes, expectedTimestamp = '') {
+export function extractGdeltExportCsv(zipBytes, expectedTimestamp = '', infix = '') {
   const zip = Buffer.isBuffer(zipBytes) ? zipBytes : Buffer.from(zipBytes || []);
   if (zip.length < 30 || zip.readUInt32LE(0) !== 0x04034b50) {
     throw new Error('invalid GDELT event export ZIP header');
@@ -112,16 +175,17 @@ export function extractGdeltExportCsv(zipBytes, expectedTimestamp = '') {
   if (dataStart > zip.length || dataEnd > zip.length) throw new Error('truncated GDELT event export ZIP');
 
   const filename = zip.subarray(30, 30 + filenameLength).toString('utf8');
-  if (!/^\d{14}\.export\.CSV$/.test(filename)) {
+  const escapedInfix = infixPattern(infix);
+  if (!new RegExp(`^\\d{14}${escapedInfix}\\.export\\.CSV$`).test(filename)) {
     throw new Error(`unexpected GDELT event export filename: ${filename}`);
   }
   // Exact-match the descriptor when the caller has one (#5864): the pattern
   // above accepts ANY well-formed timestamp, so a substituted-but-valid entry
   // would pass. The bulk materializer's copy of this transport already pins the
   // exact name; both copies now agree.
-  if (expectedTimestamp && filename !== `${expectedTimestamp}.export.CSV`) {
+  if (expectedTimestamp && filename !== `${expectedTimestamp}${infix}.export.CSV`) {
     throw new Error(
-      `GDELT event export filename ${filename} does not match descriptor ${expectedTimestamp}`,
+      `GDELT event export filename ${filename} does not match descriptor ${expectedTimestamp}${infix}`,
     );
   }
 
@@ -267,15 +331,38 @@ async function fetchBoundedBuffer(fetchImpl, url, maxBytes, expectedStatus, extr
   return Buffer.concat(chunks, total);
 }
 
-export async function fetchGdeltBulkConflictEvents({ fetchImpl = globalThis.fetch } = {}) {
-  const manifestBytes = await fetchBoundedBuffer(
+export async function fetchGdeltBulkConflictEvents({
+  fetchImpl = globalThis.fetch,
+  streams = GDELT_EXPORT_STREAMS,
+} = {}) {
+  // Concurrent, not sequential: GDELT_BULK_WORST_NETWORK_MS charges one manifest
+  // timeout for the whole set, and the seeder's lock headroom is derived from it.
+  // Reading them in series would silently cost one extra timeout per stream.
+  const manifests = await Promise.allSettled(streams.map((stream) => fetchBoundedBuffer(
     fetchImpl,
-    GDELT_MASTER_FILELIST_URL,
+    stream.manifestUrl,
     MASTER_TAIL_BYTES,
     206,
     { Range: `bytes=-${MASTER_TAIL_BYTES}` },
-  );
-  const descriptors = parseGdeltRecentExports(manifestBytes.toString('utf8'));
+  )));
+
+  const descriptors = [];
+  const streamFailures = [];
+  for (const [index, stream] of streams.entries()) {
+    const settled = manifests[index];
+    try {
+      if (settled.status === 'rejected') throw settled.reason;
+      descriptors.push(
+        ...parseGdeltRecentExports(settled.value.toString('utf8'), RECENT_EXPORT_COUNT, stream),
+      );
+    } catch (error) {
+      // A required stream failing is fatal exactly as before. An optional one is
+      // not: the translingual list is additive coverage, and letting it fail the
+      // run would trade the conflict feed that works for the one being added.
+      if (stream.required !== false) throw error;
+      streamFailures.push(`${stream.id}: ${error?.message || error}`);
+    }
+  }
   const results = await allSettledWithConcurrency(
     descriptors,
     EXPORT_FETCH_CONCURRENCY,
@@ -288,9 +375,10 @@ export async function fetchGdeltBulkConflictEvents({ fetchImpl = globalThis.fetc
       if (actualMd5 !== descriptor.md5) throw new Error('checksum mismatch');
       return {
         events: mapGdeltExportToConflictEvents(
-          extractGdeltExportCsv(zipBytes, descriptor.exportTimestamp),
+          extractGdeltExportCsv(zipBytes, descriptor.exportTimestamp, descriptor.infix ?? ''),
         ),
         exportTimestamp: descriptor.exportTimestamp,
+        streamId: descriptor.streamId ?? 'english',
       };
     },
   );
@@ -321,5 +409,13 @@ export async function fetchGdeltBulkConflictEvents({ fetchImpl = globalThis.fetc
       .at(-1),
     exportsRequested: descriptors.length,
     exportsSucceeded: successful.length,
+    // Per-stream counts so a silently-empty translingual half is visible in the
+    // seed log instead of hiding inside a healthy-looking total.
+    eventsByStream: successful.reduce((acc, result) => {
+      const id = result.value.streamId;
+      acc[id] = (acc[id] ?? 0) + result.value.events.length;
+      return acc;
+    }, {}),
+    streamFailures,
   };
 }

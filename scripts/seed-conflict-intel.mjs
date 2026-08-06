@@ -473,6 +473,13 @@ export async function fetchGdeltConflictEvents({
       // (#5855 review).
       console.warn(`  GDELT bulk exports partially degraded: ${bulk.exportsSucceeded}/${bulk.exportsRequested} export files fetched`);
     }
+    // An optional stream that fails is swallowed by design so it cannot take
+    // down the required one — which is exactly why it has to be said out loud.
+    // Silently, a permanently-503 translingual manifest looks identical to a
+    // healthy run that simply had nothing extra to add.
+    for (const failure of bulk.streamFailures ?? []) {
+      console.warn(`  GDELT bulk optional stream unavailable — ${failure}`);
+    }
     // Cold-start coverage floor (#5849 review, flagged independently by two
     // reviewers): on a true first-ever run, an implausibly thin bulk result —
     // a partially-degraded mirror serving one usable export — must not become
@@ -496,9 +503,13 @@ export async function fetchGdeltConflictEvents({
         + ` (min ${GDELT_BULK_COLD_START_MIN_COUNTRIES})`,
       );
     }
+    const byStream = Object.entries(bulk.eventsByStream ?? {})
+      .map(([id, count]) => `${id}=${count}`)
+      .join(' ');
     console.log(
       `  GDELT bulk conflict-events: ${rolling.events.length} events through export ${bulk.exportTimestamp}`
-      + ` (${rolling.retainedPreviousEvents} retained from prior runs)`,
+      + ` (${rolling.retainedPreviousEvents} retained from prior runs)`
+      + (byStream ? ` [pre-dedup by stream: ${byStream}]` : ''),
     );
     return {
       events: rolling.events,

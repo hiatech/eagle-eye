@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {
   extractGdeltExportCsv,
   fetchGdeltBulkConflictEvents,
+  GDELT_EXPORT_STREAMS,
   GDELT_ROLLING_WINDOW_MS,
   GDELT_ROLLING_WINDOW_MAX_EVENTS,
   mapGdeltExportToConflictEvents,
@@ -79,6 +80,8 @@ test('parseGdeltRecentExports validates descriptors and rewrites downloads to th
     md5: '0123456789abcdef0123456789abcdef',
     url: 'https://storage.googleapis.com/data.gdeltproject.org/gdeltv2/20260713110000.export.CSV.zip',
     exportTimestamp: '20260713110000',
+    streamId: 'english',
+    infix: '',
   });
 });
 
@@ -247,16 +250,24 @@ test('fetchGdeltBulkConflictEvents verifies the manifest and returns mapped even
   const md5 = createHash('md5').update(zip).digest('hex');
   const manifest = `${zip.length} ${md5} http://data.gdeltproject.org/gdeltv2/20260713110000.export.CSV.zip\n`;
   const requests = [];
-  const responses = [
-    new Response(manifest, { status: 206, headers: { 'content-length': String(Buffer.byteLength(manifest)) } }),
-    new Response(zip, { headers: { 'content-length': String(zip.length) } }),
-  ];
+  // URL-keyed, not a positional queue: the fetcher reads one manifest per
+  // configured stream, so a queue silently hands the second manifest read
+  // whatever response was meant for the first ZIP download.
   const fetchImpl = async (url, options) => {
     requests.push({ url, options });
-    return responses.shift();
+    if (String(url).endsWith('masterfilelist.txt')) {
+      return new Response(manifest, {
+        status: 206,
+        headers: { 'content-length': String(Buffer.byteLength(manifest)) },
+      });
+    }
+    return new Response(zip, { headers: { 'content-length': String(zip.length) } });
   };
 
-  const result = await fetchGdeltBulkConflictEvents({ fetchImpl });
+  const result = await fetchGdeltBulkConflictEvents({
+    fetchImpl,
+    streams: [GDELT_EXPORT_STREAMS[0]],
+  });
   assert.equal(result.exportTimestamp, '20260713110000');
   assert.equal(result.events.length, 1);
   assert.equal(result.events[0].country, 'Sudan');
@@ -271,10 +282,12 @@ test('fetchGdeltBulkConflictEvents fails closed on checksum mismatch', async () 
   const csv = gdeltRow();
   const zip = makeStoredZip('20260713110000.export.CSV', csv);
   const manifest = `${zip.length} 00000000000000000000000000000000 http://data.gdeltproject.org/gdeltv2/20260713110000.export.CSV.zip\n`;
-  const responses = [new Response(manifest, { status: 206 }), new Response(zip)];
+  const fetchImpl = async (url) => (String(url).endsWith('masterfilelist.txt')
+    ? new Response(manifest, { status: 206 })
+    : new Response(zip));
 
   await assert.rejects(
-    fetchGdeltBulkConflictEvents({ fetchImpl: async () => responses.shift() }),
+    fetchGdeltBulkConflictEvents({ fetchImpl, streams: [GDELT_EXPORT_STREAMS[0]] }),
     /all recent GDELT event exports failed: checksum mismatch/,
   );
 });
@@ -310,5 +323,148 @@ test('fetchGdeltBulkConflictEvents rejects a manifest response that ignores the 
   await assert.rejects(
     fetchGdeltBulkConflictEvents({ fetchImpl: async () => new Response('full manifest') }),
     /expected HTTP 206, got 200/,
+  );
+});
+
+// ---------------------------------------------------------------------------
+// Translingual stream (GDELT masterfilelist-translation.txt).
+//
+// Every conflict event used to come from an English-language publisher because
+// only one of GDELT's two parallel bulk streams was ingested. The translingual
+// half is schema-identical and keyed by the same GlobalEventID, so it merges
+// through the existing dedup — but it is ADDITIVE, and these tests pin that it
+// can never take down the stream that already worked.
+// ---------------------------------------------------------------------------
+
+const [ENGLISH_STREAM, TRANSLINGUAL_STREAM] = GDELT_EXPORT_STREAMS;
+
+/** Route manifest reads per stream and serve each descriptor's own ZIP. */
+function twoStreamFetch({ englishManifest, translingualManifest, zips, onRequest }) {
+  return async (url, options) => {
+    const href = String(url);
+    onRequest?.(href, options);
+    if (href.endsWith('masterfilelist-translation.txt')) {
+      if (translingualManifest instanceof Error) throw translingualManifest;
+      return new Response(translingualManifest, { status: 206 });
+    }
+    if (href.endsWith('masterfilelist.txt')) {
+      if (englishManifest instanceof Error) throw englishManifest;
+      return new Response(englishManifest, { status: 206 });
+    }
+    const zip = zips[href.split('/').pop()];
+    if (!zip) throw new Error(`unexpected download: ${href}`);
+    return new Response(zip);
+  };
+}
+
+function manifestLine(name, zip) {
+  return `${zip.length} ${createHash('md5').update(zip).digest('hex')} http://data.gdeltproject.org/gdeltv2/${name}.zip`;
+}
+
+test('parseGdeltRecentExports keeps the two streams from claiming each other\'s entries', () => {
+  const englishLine = '123 0123456789abcdef0123456789abcdef http://data.gdeltproject.org/gdeltv2/20260713110000.export.CSV.zip';
+  const translingualLine = '456 fedcba9876543210fedcba9876543210 http://data.gdeltproject.org/gdeltv2/20260713110000.translation.export.CSV.zip';
+
+  // A translingual name also ends in `.export.CSV.zip`, so without the
+  // timestamp anchor the English filter would accept it and then throw on the
+  // descriptor parse instead of skipping it.
+  assert.throws(
+    () => parseGdeltRecentExports(translingualLine, 8, ENGLISH_STREAM),
+    /no valid event exports/,
+  );
+  assert.throws(
+    () => parseGdeltRecentExports(englishLine, 8, TRANSLINGUAL_STREAM),
+    /no valid event exports/,
+  );
+
+  const [descriptor] = parseGdeltRecentExports(translingualLine, 1, TRANSLINGUAL_STREAM);
+  assert.equal(descriptor.streamId, 'translingual');
+  assert.equal(descriptor.infix, '.translation');
+  assert.equal(descriptor.exportTimestamp, '20260713110000');
+  assert.equal(
+    descriptor.url,
+    'https://storage.googleapis.com/data.gdeltproject.org/gdeltv2/20260713110000.translation.export.CSV.zip',
+  );
+});
+
+test('extractGdeltExportCsv pins the inner filename to its own stream', () => {
+  const csv = gdeltRow();
+  const translingualZip = makeStoredZip('20260713110000.translation.export.CSV', csv);
+
+  assert.equal(
+    extractGdeltExportCsv(translingualZip, '20260713110000', '.translation'),
+    csv,
+  );
+  // An English descriptor must not accept a translingual archive: both are
+  // well-formed and checksum-clean, so only the name distinguishes them.
+  assert.throws(
+    () => extractGdeltExportCsv(translingualZip, '20260713110000', ''),
+    /unexpected GDELT event export filename/,
+  );
+  assert.throws(
+    () => extractGdeltExportCsv(makeStoredZip('20260713110000.export.CSV', csv), '20260713110000', '.translation'),
+    /unexpected GDELT event export filename/,
+  );
+});
+
+test('fetchGdeltBulkConflictEvents merges both streams and dedups by event id', async () => {
+  const englishZip = makeStoredZip('20260713110000.export.CSV', gdeltRow({ id: '1' }));
+  // Same GlobalEventID as the English row plus one that only the translingual
+  // stream carries — the shared id must collapse, the new one must survive.
+  const translingualZip = makeStoredZip(
+    '20260713104500.translation.export.CSV',
+    `${gdeltRow({ id: '1' })}\n${gdeltRow({ id: '2' })}`,
+  );
+
+  const result = await fetchGdeltBulkConflictEvents({
+    fetchImpl: twoStreamFetch({
+      englishManifest: manifestLine('20260713110000.export.CSV', englishZip),
+      translingualManifest: manifestLine('20260713104500.translation.export.CSV', translingualZip),
+      zips: {
+        '20260713110000.export.CSV.zip': englishZip,
+        '20260713104500.translation.export.CSV.zip': translingualZip,
+      },
+    }),
+  });
+
+  assert.equal(result.exportsRequested, 2);
+  assert.equal(result.exportsSucceeded, 2);
+  assert.deepEqual(result.events.map((event) => event.id).sort(), ['gdelt-event-1', 'gdelt-event-2']);
+  assert.deepEqual(result.eventsByStream, { english: 1, translingual: 2 });
+  assert.deepEqual(result.streamFailures, []);
+  // The translingual stream runs a slot behind, so it widens coverage backwards
+  // without pretending the newest data is older than it is.
+  assert.equal(result.exportTimestamp, '20260713110000');
+  assert.equal(result.oldestExportTimestamp, '20260713104500');
+});
+
+test('fetchGdeltBulkConflictEvents degrades to English when the translingual manifest fails', async () => {
+  const englishZip = makeStoredZip('20260713110000.export.CSV', gdeltRow({ id: '1' }));
+
+  const result = await fetchGdeltBulkConflictEvents({
+    fetchImpl: twoStreamFetch({
+      englishManifest: manifestLine('20260713110000.export.CSV', englishZip),
+      translingualManifest: new Error('translingual manifest 503'),
+      zips: { '20260713110000.export.CSV.zip': englishZip },
+    }),
+  });
+
+  assert.equal(result.events.length, 1);
+  assert.deepEqual(result.eventsByStream, { english: 1 });
+  assert.equal(result.streamFailures.length, 1);
+  assert.match(result.streamFailures[0], /^translingual: /);
+});
+
+test('fetchGdeltBulkConflictEvents still fails closed when the English manifest fails', async () => {
+  // The optional-stream escape hatch must not swallow the required one.
+  await assert.rejects(
+    fetchGdeltBulkConflictEvents({
+      fetchImpl: twoStreamFetch({
+        englishManifest: new Error('english manifest 503'),
+        translingualManifest: 'ignored',
+        zips: {},
+      }),
+    }),
+    /english manifest 503/,
   );
 });
