@@ -1,0 +1,41 @@
+{
+  "_readme": [
+    "Coverage policy for the UI-language / native-source health audit.",
+    "",
+    "The app ships 26 UI languages (src/services/i18n.ts SUPPORTED_LANGUAGES) but a",
+    "feed only reaches a user whose UI language matches its `lang` tag, or that",
+    "carries `strategicDefault` (src/services/feed-language.ts). An untagged feed is",
+    "universal — in practice English-language journalism. So a UI language with zero",
+    "`lang`-tagged sources ships a fully translated interface over a news pane that",
+    "contains no journalism written in that language.",
+    "",
+    "universalPoolLanguage: the language the UNTAGGED pool is written in. Those",
+    "feeds carry no `lang`, reach every locale, and are the bulk of both catalogs,",
+    "so this one language is exempt from the native-source floor and the digest",
+    "parity check — measuring it by `lang`-tagged count alone would report a",
+    "catalog of hundreds of English sources as having none.",
+    "",
+    "floors: minimum NATIVE (lang-tagged) client sources required per UI language.",
+    "Unlisted languages default to 1. These are a RATCHET, not a target: they lock",
+    "in today's coverage so it cannot silently regress. Raise a floor as sources land.",
+    "",
+    "zeroNativeAllowlist: UI languages that currently have ZERO native sources,",
+    "with a documented reason. The audit fails BOTH ways — a language drops to zero",
+    "without being listed here (new gap), or a listed language gains native coverage",
+    "and the entry is not removed (stale allowlist). Shrink this list as coverage lands.",
+    "",
+    "digestBlindAllowlist: UI languages whose native sources exist client-side but",
+    "never reach the server digest catalog (server/worldmonitor/news/v1/_feeds.ts),",
+    "so no AI brief is ever built from journalism in that language. Same two-way",
+    "ratchet as zeroNativeAllowlist."
+  ],
+  "universalPoolLanguage": "en",
+  "floors": {},
+  "zeroNativeAllowlist": {
+    "fa": "Zero fa sources client-side. The server digest catalog carries BBC Persian, so the asymmetry runs the OTHER way here: the brief can ingest Persian journalism the news pane can never show. Mirror BBC Persian into src/config/feeds.ts to clear this."
+  },
+  "digestBlindAllowlist": {
+    "ar": "Asharq News is the only ar source and it is client-only. Arabic is ~400M speakers with a fully translated RTL interface, so this is the widest gap in the catalog.",
+    "pt": "O Globo, Folha de S.Paulo and Brasil Paralelo are all client-only. Brazil is a Tier-1 commodity and geopolitical subject the briefs currently reason about using English coverage only."
+  }
+}
