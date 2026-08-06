@@ -91,6 +91,25 @@ describe('language coverage gate', () => {
     );
   });
 
+  it('locale-boosts every native source for its own locale', () => {
+    // The startup boost (App.ts → getLocaleBoostedSources) walks FULL_FEEDS +
+    // INTEL_SOURCES, while the catalog audited here is the canonical union of
+    // every variant map. A native feed added to any other variant map would be
+    // unreachable in practice: the reduction migration writes it into the
+    // disabled set and no boost ever takes it back out, so it would sit in the
+    // catalog looking present while no user in its own language could see it.
+    const rows = computeLanguageCoverage(inputs);
+    const unboosted = rows
+      .filter((row) => row.nativeUnboosted.length > 0)
+      .map((row) => `${row.language}: ${row.nativeUnboosted.join(', ')}`);
+    assert.deepEqual(
+      unboosted,
+      [],
+      'native sources outside FULL_FEEDS are never locale-boosted — move them into ' +
+      'FULL_FEEDS or widen getLanguageMatchedSources in src/config/feeds.ts',
+    );
+  });
+
   it('exempts only the universal-pool language from the native-source floor', () => {
     const rows = computeLanguageCoverage(inputs);
     const exempt = rows.filter((row) => row.isUniversalPool).map((row) => row.language);

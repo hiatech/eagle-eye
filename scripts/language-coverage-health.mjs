@@ -182,6 +182,10 @@ export async function loadLanguageCoverageInputs(repoRoot = DEFAULT_REPO_ROOT, p
       clientFeeds: dedupeByName(collectClientFeeds(client)),
       serverFeeds: dedupeByName(collectServerFeeds(server)),
       defaultEnabled: client.getAllDefaultEnabledSources(),
+      // The startup locale boost (App.ts) walks FULL_FEEDS + INTEL_SOURCES, not
+      // the canonical all-variant union, so a native feed added to any other
+      // variant map would never be boosted for its own locale.
+      getLocaleBoostedSources: client.getLocaleBoostedSources,
       cleanup,
     };
   } catch (error) {
@@ -232,6 +236,9 @@ export function computeLanguageCoverage(inputs) {
     const serverNative = serverFeeds.filter((feed) => feed.lang === language);
     const clientNames = new Set(clientNative.map((feed) => feed.name));
     const serverNames = new Set(serverNative.map((feed) => feed.name));
+    // Hoisted: getLocaleBoostedSources rebuilds its set from the whole catalog
+    // on every call, so calling it per feed would rescan for each one.
+    const boosted = language === 'en' ? null : inputs.getLocaleBoostedSources(language);
 
     return {
       language,
@@ -247,8 +254,16 @@ export function computeLanguageCoverage(inputs) {
       universalServer,
       nativeClient: clientNative.map((feed) => feed.name),
       nativeServer: serverNative.map((feed) => feed.name),
-      // Native sources the user sees without opening settings.
-      nativeDefaultOn: clientNative.filter((feed) => defaultEnabled.has(feed.name)).length,
+      // Native sources visible to users in OTHER locales. A user IN this locale
+      // already gets every native source via the startup locale boost
+      // (App.ts → getLocaleBoostedSources), so counting "default-on" against the
+      // locale-independent set and calling it visibility reads the catalog
+      // exactly backwards — it reports sources the boost switches on as unseen.
+      nativeCrossLocale: clientNative.filter((feed) => defaultEnabled.has(feed.name)).length,
+      // Native sources the locale boost would miss (see loadLanguageCoverageInputs).
+      nativeUnboosted: boosted
+        ? clientNative.filter((feed) => !boosted.has(feed.name)).map((feed) => feed.name)
+        : [],
       // Native sources that bypass the language filter for every other locale.
       nativeStrategic: clientNative.filter((feed) => Boolean(feed.strategicDefault)).length,
       clientOnly: [...clientNames].filter((name) => !serverNames.has(name)).sort(),
@@ -353,8 +368,8 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
   lines.push('  sources ships a translated interface over journalism in another language.');
   lines.push('');
 
-  const header = ['lang', 'locale', 'native', 'on', 'strat', 'digest', 'reach', 'status'];
-  const widths = [5, 7, 7, 4, 6, 7, 6, 18];
+  const header = ['lang', 'locale', 'native', 'xloc', 'strat', 'digest', 'reach', 'status'];
+  const widths = [5, 7, 7, 6, 6, 7, 6, 18];
   const pad = (cells) => cells.map((cell, i) => String(cell).padEnd(widths[i])).join('').trimEnd();
 
   lines.push(pad(header));
@@ -374,7 +389,7 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
       row.language,
       row.hasLocale ? 'yes' : 'MISSING',
       row.nativeClient.length,
-      row.nativeDefaultOn,
+      row.nativeCrossLocale,
       row.nativeStrategic,
       row.nativeServer.length,
       row.reachableClient,
@@ -383,7 +398,9 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
   }
 
   lines.push('');
-  lines.push('  on     = native sources enabled by default (no settings visit required)');
+  lines.push('  A user IN this locale already sees ALL of its native sources: the startup');
+  lines.push('  locale boost (App.ts) removes them from the disabled set on first run.');
+  lines.push('  xloc   = native sources ALSO visible to users in OTHER locales');
   lines.push('  strat  = native sources flagged strategicDefault (visible in every locale)');
   lines.push('  digest = native sources present in the server digest catalog (AI briefs)');
   lines.push('  reach  = total feeds a UI in this language attempts to fetch');
