@@ -29,6 +29,7 @@ import {
   loadLanguageCoverageInputs,
   parseSupportedLanguages,
   validateLanguageTags,
+  validateTagParity,
 } from '../scripts/language-coverage-health.mjs';
 
 type Inputs = Awaited<ReturnType<typeof loadLanguageCoverageInputs>>;
@@ -91,6 +92,45 @@ describe('language coverage gate', () => {
     );
   });
 
+  it('keeps lang tags identical across both catalogs', () => {
+    assert.deepEqual(
+      validateTagParity(inputs),
+      [],
+      'a name carried by both catalogs under different lang tags behaves as two ' +
+      'different feeds — run `npm run report:language-coverage`',
+    );
+  });
+
+  it('flags a tag-parity allowlist entry once the drift it excuses is gone', () => {
+    // The stale direction, proven without editing the catalogs: an entry for a
+    // feed whose tags already agree must fail. Without this the allowlist is a
+    // one-way valve — drift gets excused once and the excuse never expires.
+    const aligned = inputs.clientFeeds.find((clientFeed) => {
+      const serverFeed = inputs.serverFeeds.find((f) => f.name === clientFeed.name);
+      return serverFeed && (clientFeed.lang ?? null) === (serverFeed.lang ?? null);
+    });
+    assert.ok(aligned, 'expected at least one feed with matching tags in both catalogs');
+    const problems = validateTagParity({
+      ...inputs,
+      policy: { tagParityAllowlist: { [aligned.name]: 'stale' } },
+    });
+    assert.ok(
+      problems.some((p) => p.startsWith(`${aligned.name}:`) && p.includes('stale')),
+      'an allowlist entry must fail once its drift is resolved',
+    );
+  });
+
+  it('flags a tag-parity allowlist entry for a feed no longer in both catalogs', () => {
+    const problems = validateTagParity({
+      ...inputs,
+      policy: { tagParityAllowlist: { 'Feed That Does Not Exist': 'dead config' } },
+    });
+    assert.ok(
+      problems.some((p) => p.startsWith('Feed That Does Not Exist:')),
+      'a dead allowlist entry would silently excuse a name nothing checks anymore',
+    );
+  });
+
   it('locale-boosts every native source for its own locale', () => {
     // The startup boost (App.ts → getLocaleBoostedSources) walks FULL_FEEDS +
     // INTEL_SOURCES, while the catalog audited here is the canonical union of
@@ -123,20 +163,30 @@ describe('language coverage gate', () => {
 });
 
 describe('language coverage ratchet fails in both directions', () => {
-  it('fails when a real gap is dropped from the allowlist', async () => {
+  it('fails when a documented gap is dropped from the allowlist', async () => {
+    // Data-driven off the committed policy rather than naming a language:
+    // pinning this to a specific gap makes the test fail the moment that gap
+    // is CLOSED, which punishes exactly the work the audit exists to drive.
+    // Vacuous once every gap is closed — the mechanism stays covered by the
+    // synthetic stale-entry and floor tests below.
+    const documented = [
+      ...Object.keys(inputs.policy.zeroNativeAllowlist ?? {}),
+      ...Object.keys(inputs.policy.digestBlindAllowlist ?? {}),
+    ];
     const violations = await auditWithPolicy({
       universalPoolLanguage: 'en',
       floors: {},
       zeroNativeAllowlist: {},
       digestBlindAllowlist: {},
     });
-    assert.ok(
-      violations.some((v) => v.startsWith('fa:')),
-      'emptying zeroNativeAllowlist must resurface the fa gap',
+    const unexplained = documented.filter(
+      (lang) => !violations.some((v) => v.startsWith(`${lang}:`)),
     );
-    assert.ok(
-      violations.some((v) => v.startsWith('ar:')),
-      'emptying digestBlindAllowlist must resurface the ar digest gap',
+    assert.deepEqual(
+      unexplained,
+      [],
+      'every allowlisted language must resurface as a violation once its entry is ' +
+      'removed — an entry that does not is documenting a gap that no longer exists',
     );
   });
 

@@ -16,13 +16,14 @@ import {
   formatLanguageCoverageHuman,
   loadLanguageCoverageInputs,
   validateLanguageTags,
+  validateTagParity,
 } from './language-coverage-health.mjs';
 
 const asJson = process.argv.includes('--json');
 
 const inputs = await loadLanguageCoverageInputs();
 try {
-  const problems = validateLanguageTags(inputs);
+  const problems = [...validateLanguageTags(inputs), ...validateTagParity(inputs)];
   const rows = computeLanguageCoverage(inputs);
   const { violations } = evaluateLanguageCoverage(rows);
   const allViolations = [...problems, ...violations];

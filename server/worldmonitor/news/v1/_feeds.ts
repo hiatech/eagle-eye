@@ -151,6 +151,10 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'The National', url: 'https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml' },
       { name: 'Oman Observer', url: 'https://www.omanobserver.om/rssFeed/1' },
       { name: 'Asharq Business', url: 'https://asharqbusiness.com/rss.xml' },
+      // Mirrors src/config/feeds.ts. Without it the only Arabic-language source
+      // in the catalog never reaches a brief, so every ar reader gets briefs
+      // reasoned entirely from English coverage of the region.
+      { name: 'Asharq News', url: 'https://asharq.com/snapchat/rss.xml', lang: 'ar' },
       { name: 'Rudaw', url: gn('site:rudaw.net when:7d') },
     ],
     tech: [
@@ -245,6 +249,14 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Infobae Americas', url: 'https://www.infobae.com/arc/outboundfeeds/rss/', lang: 'es' },
       { name: 'El Universo', url: 'https://www.eluniverso.com/arc/outboundfeeds/rss/category/noticias/?outputType=xml', lang: 'es' },
       { name: 'Clarín', url: 'https://www.clarin.com/rss/lo-ultimo/', lang: 'es' },
+      // Brazil pack, mirrored from src/config/feeds.ts. Brazil is a Tier-1
+      // commodity and geopolitical subject the briefs already reason about, but
+      // until now only through English coverage of it. O Globo keeps the
+      // client's locale-tuned Google News edition so feeds-client-server-parity
+      // sees both sides making the same fallback choice.
+      { name: 'O Globo', url: gnLocale('site:oglobo.globo.com when:1d', 'pt-BR', 'BR', 'BR:pt-419'), lang: 'pt' },
+      { name: 'Folha de S.Paulo', url: 'https://feeds.folha.uol.com.br/emcimadahora/rss091.xml', lang: 'pt' },
+      { name: 'Brasil Paralelo', url: 'https://www.brasilparalelo.com.br/noticias/feed.xml', lang: 'pt' },
       { name: 'InSight Crime', url: 'https://insightcrime.org/feed/' },
     ],
     asia: [

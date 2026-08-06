@@ -262,7 +262,11 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'Al Arabiya', url: { en: rss('https://news.google.com/rss/search?q=site:english.alarabiya.net+when:2d&hl=en-US&gl=US&ceid=US:en'), ar: rss('https://www.alarabiya.net/tools/mrss/?cat=main') } },
     // Arab News and Times of Israel removed — 403 from cloud IPs
     { name: 'Guardian ME', url: rss('https://www.theguardian.com/world/middleeast/rss') },
-    { name: 'BBC Persian', url: rss('https://feeds.bbci.co.uk/persian/rss.xml') },
+    // lang: 'fa' matches the server digest catalog (_feeds.ts). Untagged, this
+    // publishes Persian-script headlines into every locale's Middle East panel
+    // by default (it is in DEFAULT_ENABLED_SOURCES.middleeast), which no
+    // non-Persian reader can use.
+    { name: 'BBC Persian', url: rss('https://feeds.bbci.co.uk/persian/rss.xml'), lang: 'fa' },
     { name: 'Iran International', url: rss('https://news.google.com/rss/search?q=site:iranintl.com+when:2d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Fars News', url: rss('https://news.google.com/rss/search?q=site:farsnews.ir+when:2d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'IRNA', url: rss('https://en.irna.ir/rss') },
@@ -383,7 +387,9 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'Clarín', url: rss('https://www.clarin.com/rss/lo-ultimo/'), lang: 'es' },
     { name: 'O Globo', url: rss('https://news.google.com/rss/search?q=site:oglobo.globo.com+when:1d&hl=pt-BR&gl=BR&ceid=BR:pt-419'), lang: 'pt' },
     { name: 'Folha de S.Paulo', url: rss('https://feeds.folha.uol.com.br/emcimadahora/rss091.xml'), lang: 'pt' },
-    { name: 'Brasil Paralelo', url: rss('https://www.brasilparalelo.com.br/noticias/rss.xml'), lang: 'pt' },
+    // feed.xml, not rss.xml: the latter 308s here and costs a redirect hop on
+    // every fetch. Verified 200 with 50 items and no redirect.
+    { name: 'Brasil Paralelo', url: rss('https://www.brasilparalelo.com.br/noticias/feed.xml'), lang: 'pt' },
     { name: 'El Tiempo', url: rss('https://www.eltiempo.com/rss/mundo_latinoamerica.xml'), lang: 'es' },
     { name: 'La Silla Vacía', url: rss('https://www.lasillavacia.com/rss') },
     { name: 'Primicias', url: rss('https://www.primicias.ec/feed/'), lang: 'es' },

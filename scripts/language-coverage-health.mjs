@@ -224,6 +224,59 @@ export function validateLanguageTags({ languages, clientFeeds, serverFeeds }) {
   return problems;
 }
 
+/**
+ * Flag feeds whose `lang` tag differs between the two catalogs.
+ *
+ * The tag is what scopes a feed to a locale, so a name carried by both catalogs
+ * under different tags behaves as two different feeds. The direction decides
+ * which half breaks: tagged on the server but untagged on the client publishes
+ * that language into every locale's panel, while tagged on the client but
+ * untagged on the server hides it from the pane for readers whose brief still
+ * ingests it. Neither is visible from either file alone.
+ */
+export function validateTagParity({ clientFeeds, serverFeeds, policy }) {
+  const allowlist = policy.tagParityAllowlist ?? {};
+  const serverByName = new Map(serverFeeds.map((feed) => [feed.name, feed]));
+  const problems = [];
+  const seen = new Set();
+
+  for (const clientFeed of clientFeeds) {
+    const serverFeed = serverByName.get(clientFeed.name);
+    if (!serverFeed) continue;
+    seen.add(clientFeed.name);
+    const clientLang = clientFeed.lang ?? null;
+    const serverLang = serverFeed.lang ?? null;
+    if (clientLang === serverLang) {
+      if (allowlist[clientFeed.name]) {
+        problems.push(
+          `${clientFeed.name}: lang tags agree now (${clientLang ?? 'untagged'}) — ` +
+          'remove the stale entry from tagParityAllowlist in ' +
+          'shared/language-coverage-policy.json',
+        );
+      }
+      continue;
+    }
+    if (allowlist[clientFeed.name]) continue;
+    problems.push(
+      `${clientFeed.name}: lang tag differs between catalogs — ` +
+      `client=${clientLang ?? 'untagged'} server=${serverLang ?? 'untagged'}. ` +
+      'Align them, or document the divergence in tagParityAllowlist',
+    );
+  }
+
+  // An allowlist entry for a feed that is no longer in both catalogs is dead
+  // config that would silently keep excusing a name nothing checks anymore.
+  for (const name of Object.keys(allowlist)) {
+    if (!seen.has(name)) {
+      problems.push(
+        `${name}: tagParityAllowlist entry for a feed that is no longer in both ` +
+        'catalogs — remove it from shared/language-coverage-policy.json',
+      );
+    }
+  }
+  return problems;
+}
+
 /** Build one coverage row per supported UI language. */
 export function computeLanguageCoverage(inputs) {
   const { languages, localeFiles, policy, clientFeeds, serverFeeds, defaultEnabled } = inputs;
