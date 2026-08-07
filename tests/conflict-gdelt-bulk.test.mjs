@@ -432,10 +432,79 @@ test('fetchGdeltBulkConflictEvents merges both streams and dedups by event id', 
   assert.deepEqual(result.events.map((event) => event.id).sort(), ['gdelt-event-1', 'gdelt-event-2']);
   assert.deepEqual(result.eventsByStream, { english: 1, translingual: 2 });
   assert.deepEqual(result.streamFailures, []);
-  // The translingual stream runs a slot behind, so it widens coverage backwards
-  // without pretending the newest data is older than it is.
+  // The translingual stream runs a slot behind and contributes EVENTS, not
+  // COVERAGE. Both bounds stay pinned to the required stream, so the slot of
+  // lag cannot widen the window the rolling merge claims to have covered.
   assert.equal(result.exportTimestamp, '20260713110000');
-  assert.equal(result.oldestExportTimestamp, '20260713104500');
+  assert.equal(result.oldestExportTimestamp, '20260713110000');
+});
+
+test('reports export degradation per stream, not as one conflated ratio', async () => {
+  // The alarm this separates: "partially degraded N/M" is the mirror-outage
+  // runbook trigger. A translingual manifest that resolves while its files all
+  // fail used to move that ratio, so on-call got a mirror alarm for the one
+  // condition the design calls non-actionable.
+  const englishZip = makeStoredZip('20260713110000.export.CSV', gdeltRow({ id: '1' }));
+
+  const result = await fetchGdeltBulkConflictEvents({
+    fetchImpl: twoStreamFetch({
+      englishManifest: manifestLine('20260713110000.export.CSV', englishZip),
+      translingualManifest: manifestLine('20260713104500.translation.export.CSV', englishZip),
+      // The translingual download is simply absent — manifest fine, file gone.
+      zips: { '20260713110000.export.CSV.zip': englishZip },
+    }),
+  });
+
+  assert.deepEqual(result.exportsByStream, {
+    english: { requested: 1, succeeded: 1, required: true },
+    translingual: { requested: 1, succeeded: 0, required: false },
+  });
+  // The conflated totals still show the loss; the split is what tells them apart.
+  assert.equal(result.exportsSucceeded, 1);
+  assert.equal(result.exportsRequested, 2);
+  // Manifest-level failures are a different signal and must stay empty here.
+  assert.deepEqual(result.streamFailures, []);
+});
+
+test('a stalled optional stream cannot backdate the coverage window', async () => {
+  // The failure this pins: GDELT's translation pipeline stops, but its manifest
+  // tail keeps serving the pre-stall files. Only the NEWEST export is age-
+  // checked (seed-conflict-intel's GDELT_BULK_MAX_EXPORT_AGE_MS), so a 32h-old
+  // optional export used to set oldestExportTimestamp -> currentCoverageStart
+  // -> rollingWindowStartedAt below the 24h cutoff, and a cold start published
+  // rollingWindowComplete: true over two hours of real data.
+  const englishZip = makeStoredZip('20260713110000.export.CSV', gdeltRow({ id: '1' }));
+  const staleZip = makeStoredZip('20260712030000.translation.export.CSV', gdeltRow({ id: '2' }));
+
+  const result = await fetchGdeltBulkConflictEvents({
+    fetchImpl: twoStreamFetch({
+      englishManifest: manifestLine('20260713110000.export.CSV', englishZip),
+      translingualManifest: manifestLine('20260712030000.translation.export.CSV', staleZip),
+      zips: {
+        '20260713110000.export.CSV.zip': englishZip,
+        '20260712030000.translation.export.CSV.zip': staleZip,
+      },
+    }),
+  });
+
+  // The stale events still arrive — additive coverage is the point — but the
+  // coverage bounds ignore them entirely.
+  assert.deepEqual(result.eventsByStream, { english: 1, translingual: 1 });
+  assert.equal(result.oldestExportTimestamp, '20260713110000');
+  assert.equal(result.exportTimestamp, '20260713110000');
+
+  // End to end: the rolling merge must NOT declare a complete 24h window.
+  const nowMs = Date.parse('2026-07-13T11:05:00Z');
+  const rolling = mergeGdeltBulkRollingWindow(result, null, nowMs);
+  assert.equal(
+    rolling.rollingWindowComplete,
+    false,
+    'a two-hour cold start must not claim a complete 24h rolling window',
+  );
+  assert.ok(
+    rolling.rollingWindowStartedAt > nowMs - GDELT_ROLLING_WINDOW_MS,
+    'the window start must stay inside the cutoff, not be backdated past it',
+  );
 });
 
 test('fetchGdeltBulkConflictEvents degrades to English when the translingual manifest fails', async () => {

@@ -57,6 +57,41 @@ describe('seed fetch-phase deadline & TTL invariants (issue #4864)', () => {
     );
   });
 
+  it('gdelt-bulk-materializer: the download pool absorbs every stream inside the default deadline', async () => {
+    // This seeder is the PRODUCTION conflict-events path (railway-services.json
+    // → seed-gdelt-intel, */15). It sets no lockTtlMs, so it runs on the 120s
+    // default lock and the 240s derived deadline — there is no headroom to
+    // spend, and adding a stream silently spends it. Pins the relationship
+    // between kind count, pool width and that deadline so a third stream has to
+    // widen the pool (or raise the lock) rather than quietly overrun.
+    const { GDELT_ENGLISH_KINDS, GDELT_TRANSLINGUAL_KINDS } =
+      await import('../scripts/_gdelt-bulk-materializer.mjs');
+    const src = read('seed-gdelt-bulk-materializer.mjs');
+    const timeout = optValue(src, 'REQUEST_TIMEOUT_MS');
+    const concurrency = optValue(src, 'FETCH_CONCURRENCY');
+    const maxPerKind = optValue(src, 'MAX_CATCHUP_FILES_PER_KIND');
+    assert.ok(timeout && concurrency && maxPerKind, 'transport constants must be defined');
+    assert.doesNotMatch(
+      src,
+      /runSeed\([^)]*lockTtlMs/s,
+      'this invariant assumes the default lock; wire lockTtlMs and update it if that changes',
+    );
+
+    const kinds = GDELT_ENGLISH_KINDS.length + GDELT_TRANSLINGUAL_KINDS.length;
+    // Manifests are read concurrently, so N streams cost one request timeout.
+    const worstNetworkMs = timeout * (1 + Math.ceil((kinds * maxPerKind) / concurrency));
+    assert.ok(
+      worstNetworkMs <= deadlineFromLock(120_000),
+      `worst download phase ${worstNetworkMs}ms must fit the ${deadlineFromLock(120_000)}ms default deadline`,
+    );
+    // …and must not have grown past what it cost before the translingual stream.
+    const preTranslingualMs = timeout * (1 + Math.ceil((GDELT_ENGLISH_KINDS.length * maxPerKind) / 4));
+    assert.ok(
+      worstNetworkMs <= preTranslingualMs,
+      `worst download phase ${worstNetworkMs}ms must not exceed the pre-translingual ${preTranslingualMs}ms`,
+    );
+  });
+
   it('grocery-basket: lock/deadline covers its ~600s degraded serial runtime (24 serial countries)', () => {
     const src = read('seed-grocery-basket.mjs');
     const lock = optValue(src, 'lockTtlMs');

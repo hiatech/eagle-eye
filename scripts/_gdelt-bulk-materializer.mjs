@@ -97,7 +97,7 @@ function boundedPositiveInteger(value, label, max) {
   return parsed;
 }
 
-function parseDescriptor(line) {
+function parseDescriptor(line, kinds) {
   const [sizeRaw, md5Raw, urlRaw, ...extra] = line.split(/\s+/);
   if (!sizeRaw || !md5Raw || !urlRaw || extra.length) {
     throw new Error('malformed GDELT bulk manifest line');
@@ -109,32 +109,58 @@ function parseDescriptor(line) {
   if (!['http:', 'https:'].includes(url.protocol) || url.hostname !== 'data.gdeltproject.org' || url.port) {
     throw new Error(`untrusted GDELT bulk URL: ${urlRaw}`);
   }
+  // The `.translation` infix marks GDELT's parallel machine-translated stream
+  // (masterfilelist-translation.txt), which is schema-identical and carries the
+  // same 15-minute cadence. It gets its own kinds so the per-kind cursor,
+  // cohort and coverage logic never mixes the two streams' timestamps — they
+  // run a slot apart, and treating them as one feed would read as a gap.
   const match = url.pathname.match(
-    /^\/gdeltv2\/(\d{14})\.(gkg\.csv|export\.CSV)\.zip$/,
+    /^\/gdeltv2\/(\d{14})(\.translation)?\.(gkg\.csv|export\.CSV)\.zip$/,
   );
   if (!match || url.search || url.hash) throw new Error(`invalid GDELT bulk path: ${urlRaw}`);
-  const kind = match[2].toLowerCase().startsWith('gkg') ? 'gkg' : 'export';
-  const maxBytes = kind === 'gkg' ? 15_000_000 : 5_000_000;
+  const base = match[3].toLowerCase().startsWith('gkg') ? 'gkg' : 'export';
+  const kind = match[2] ? `${base}-translingual` : base;
+  // Bail BEFORE the size bound for a kind the caller does not collect. The
+  // translation manifest lists `.translation.gkg.csv.zip` alongside the export
+  // we want, and those routinely exceed the 15 MB GKG ceiling — validating a
+  // file we will never download took the whole translingual stream down with it.
+  if (kinds && !kinds.includes(kind)) return null;
+  const maxBytes = base === 'gkg' ? 15_000_000 : 5_000_000;
   return {
     kind,
     timestamp: match[1],
+    infix: match[2] ?? '',
     size: boundedPositiveInteger(sizeRaw, `${kind} ZIP size`, maxBytes),
     md5,
     url: `${GDELT_STORAGE_ORIGIN}${url.pathname}`,
   };
 }
 
+/** Kinds the materializer collects from the English master manifest. */
+export const GDELT_ENGLISH_KINDS = Object.freeze(['gkg', 'export']);
+/**
+ * Kinds collected from the translation manifest. Only the event export: the
+ * conflict feed is what the translingual stream is here to widen, and pulling
+ * `gkg-translingual` too would double the GKG download budget for topics,
+ * timelines and geo aggregation that nothing asked to be multilingual.
+ */
+export const GDELT_TRANSLINGUAL_KINDS = Object.freeze(['export-translingual']);
+
 export function parseGdeltBulkDescriptors(
   manifest,
-  { afterTimestamp = '', maxPerKind = 8 } = {},
+  { afterTimestamp = '', maxPerKind = 8, kinds = GDELT_ENGLISH_KINDS } = {},
 ) {
-  const byKind = { gkg: [], export: [] };
+  // Only the requested kinds get a bucket. The translation manifest also lists
+  // `.translation.gkg.csv.zip`, which parses fine but is deliberately not
+  // collected — an unbucketed kind is skipped rather than thrown on, so the
+  // caller decides what a manifest contributes instead of the parser.
+  const byKind = Object.fromEntries(kinds.map((kind) => [kind, []]));
   for (const rawLine of String(manifest || '').split(/\r?\n/)) {
     const line = rawLine.trim();
     if (!/\.(?:gkg\.csv|export\.CSV)\.zip$/i.test(line)) continue;
     let descriptor;
     try {
-      descriptor = parseDescriptor(line);
+      descriptor = parseDescriptor(line, kinds);
     } catch (error) {
       // A suffix-range response starts at an arbitrary byte and therefore its
       // first line is often truncated. Ignore only that incomplete fragment;
@@ -142,6 +168,7 @@ export function parseGdeltBulkDescriptors(
       if (!/^\d+\s+[a-f0-9]{32}\s+/i.test(line)) continue;
       throw error;
     }
+    if (!descriptor) continue;
     const kindCursor = typeof afterTimestamp === 'object'
       ? afterTimestamp?.[descriptor.kind]
       : afterTimestamp;
@@ -165,8 +192,9 @@ export function extractGdeltBulkCsv(zipBytes, descriptor) {
   if (flags & 0x1) throw new Error('encrypted GDELT bulk ZIP is unsupported');
   if (flags & 0x8) throw new Error('streaming GDELT bulk ZIP is unsupported');
 
-  const maxZipBytes = descriptor.kind === 'gkg' ? MAX_GKG_ZIP_BYTES : MAX_EXPORT_ZIP_BYTES;
-  const maxCsvBytes = descriptor.kind === 'gkg' ? MAX_GKG_CSV_BYTES : MAX_EXPORT_CSV_BYTES;
+  const isGkg = descriptor.kind.startsWith('gkg');
+  const maxZipBytes = isGkg ? MAX_GKG_ZIP_BYTES : MAX_EXPORT_ZIP_BYTES;
+  const maxCsvBytes = isGkg ? MAX_GKG_CSV_BYTES : MAX_EXPORT_CSV_BYTES;
   const method = zip.readUInt16LE(8);
   const compressedSize = boundedPositiveInteger(
     zip.readUInt32LE(18),
@@ -186,8 +214,11 @@ export function extractGdeltBulkCsv(zipBytes, descriptor) {
     throw new Error('truncated GDELT bulk ZIP');
   }
 
-  const suffix = descriptor.kind === 'gkg' ? 'gkg.csv' : 'export.CSV';
-  const expectedFilename = `${descriptor.timestamp}.${suffix}`;
+  // The infix is part of the pinned name, so a translingual ZIP served under an
+  // English descriptor (or the reverse) fails here rather than being parsed as
+  // the wrong stream's data.
+  const suffix = isGkg ? 'gkg.csv' : 'export.CSV';
+  const expectedFilename = `${descriptor.timestamp}${descriptor.infix ?? ''}.${suffix}`;
   const filename = zip.subarray(30, 30 + filenameLength).toString('utf8');
   if (filename !== expectedFilename) {
     throw new Error(`unexpected GDELT bulk filename: ${filename}`);

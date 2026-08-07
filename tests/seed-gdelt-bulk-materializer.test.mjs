@@ -100,9 +100,10 @@ function storedZip(filename, csv) {
 }
 
 function bulkDescriptorLine(kind, timestamp, zip, { size = zip.length, md5 } = {}) {
-  const filename = kind === 'gkg' ? 'gkg.csv' : 'export.CSV';
+  const filename = kind.startsWith('gkg') ? 'gkg.csv' : 'export.CSV';
+  const infix = kind.endsWith('-translingual') ? '.translation' : '';
   return `${size} ${md5 ?? createHash('md5').update(zip).digest('hex')} `
-    + `https://data.gdeltproject.org/gdeltv2/${timestamp}.${filename}.zip`;
+    + `https://data.gdeltproject.org/gdeltv2/${timestamp}${infix}.${filename}.zip`;
 }
 
 function bulkFixture({
@@ -217,23 +218,31 @@ describe('seed-gdelt-bulk-materializer download boundaries', () => {
       const zip = storedZip(`${timestamp}.${filename}`, csv);
       return bulkDescriptorLine(kind, timestamp, zip);
     }).join('\n');
-    let requestCount = 0;
+    // Counted by URL shape, not call order: the two master manifests are read
+    // concurrently, so "validation runs first" means zero FILE downloads, not
+    // exactly one request.
+    let manifestRequests = 0;
+    let fileRequests = 0;
 
     await assert.rejects(
       fetchGdeltBulkFiles({
-        fetchImpl: async () => {
-          requestCount += 1;
-          assert.equal(requestCount, 1, 'cohort validation must run before file downloads');
-          return new Response(Buffer.from(manifest), {
-            status: 206,
-            headers: { 'content-length': String(Buffer.byteLength(manifest)) },
-          });
+        fetchImpl: async (url) => {
+          if (String(url).includes('masterfilelist')) {
+            manifestRequests += 1;
+            return new Response(Buffer.from(manifest), {
+              status: 206,
+              headers: { 'content-length': String(Buffer.byteLength(manifest)) },
+            });
+          }
+          fileRequests += 1;
+          throw new Error('cohort validation must run before file downloads');
         },
         nowMs: Date.parse('2026-07-30T12:05:00Z'),
       }),
       /non-contiguous export cohort.*20260730113000.*20260730120000/i,
     );
-    assert.equal(requestCount, 1);
+    assert.equal(fileRequests, 0, 'no file may be downloaded before the cohort validates');
+    assert.equal(manifestRequests, 2, 'both stream manifests are read, concurrently');
   });
 });
 
@@ -275,6 +284,125 @@ function publicationData() {
     _state: { cursor: { gkg: '20260730120000', export: '20260730120000' } },
   };
 }
+
+describe('seed-gdelt-bulk-materializer translingual export stream', () => {
+  // Builds a run where English is healthy and the translation manifest offers
+  // one snapshot, a slot behind — the real cadence.
+  function twoStreamRun({ translingualManifest, translingualZipAvailable = true } = {}) {
+    const english = ['gkg', 'export'].map((kind) => {
+      const csv = kind === 'gkg'
+        ? gkgRow({ timestamp: '20260730120000' })
+        : exportRow({ id: 'en-1', timestamp: '20260730120000' });
+      return { kind, timestamp: '20260730120000', zip: storedZip(`20260730120000.${kind === 'gkg' ? 'gkg.csv' : 'export.CSV'}`, csv) };
+    });
+    const translingualZip = storedZip(
+      '20260730114500.translation.export.CSV',
+      exportRow({ id: 'tl-1', timestamp: '20260730114500' }),
+    );
+    const englishManifest = english
+      .map(({ kind, timestamp, zip }) => bulkDescriptorLine(kind, timestamp, zip))
+      .join('\n');
+    const defaultTranslingual = bulkDescriptorLine(
+      'export-translingual',
+      '20260730114500',
+      translingualZip,
+    );
+    const zips = new Map(english.map(({ kind, timestamp, zip }) => [
+      `${timestamp}.${kind === 'gkg' ? 'gkg.csv' : 'export.CSV'}.zip`,
+      zip,
+    ]));
+    if (translingualZipAvailable) {
+      zips.set('20260730114500.translation.export.CSV.zip', translingualZip);
+    }
+    return {
+      fetchImpl: async (url) => {
+        const href = String(url);
+        if (href.endsWith('masterfilelist-translation.txt')) {
+          const body = translingualManifest === undefined ? defaultTranslingual : translingualManifest;
+          if (body instanceof Error) throw body;
+          return new Response(Buffer.from(body), {
+            status: 206,
+            headers: { 'content-length': String(Buffer.byteLength(body)) },
+          });
+        }
+        if (href.endsWith('masterfilelist.txt')) {
+          return new Response(Buffer.from(englishManifest), {
+            status: 206,
+            headers: { 'content-length': String(Buffer.byteLength(englishManifest)) },
+          });
+        }
+        const zip = zips.get(href.split('/').pop());
+        if (!zip) throw new Error(`unexpected download: ${href}`);
+        return new Response(zip);
+      },
+      nowMs: Date.parse('2026-07-30T12:05:00Z'),
+    };
+  }
+
+  it('downloads the translingual export alongside the English cohort', async () => {
+    const downloaded = await fetchGdeltBulkFiles(twoStreamRun());
+    assert.deepEqual(
+      downloaded.map(({ descriptor }) => `${descriptor.kind}@${descriptor.timestamp}`).sort(),
+      [
+        'export-translingual@20260730114500',
+        'export@20260730120000',
+        'gkg@20260730120000',
+      ],
+    );
+    const translingual = downloaded.find(
+      ({ descriptor }) => descriptor.kind === 'export-translingual',
+    );
+    assert.deepEqual(translingual.events.map((event) => event.id), ['gdelt-event-tl-1']);
+  });
+
+  it('degrades to the English cohort when the translation manifest fails', async () => {
+    // The whole point of the optional stream: adding sourcing must not be able
+    // to take down the conflict feed that already works.
+    const downloaded = await fetchGdeltBulkFiles(
+      twoStreamRun({ translingualManifest: new Error('translation manifest 503') }),
+    );
+    assert.deepEqual(
+      downloaded.map(({ descriptor }) => descriptor.kind).sort(),
+      ['export', 'gkg'],
+    );
+  });
+
+  it('drops a translingual cohort that is stale rather than widening coverage with it', async () => {
+    // A stalled translation pipeline keeps serving pre-stall files from its
+    // manifest tail. Those must not enter the cohort at all — the freshness
+    // check is what stops them from reaching the rolling merge.
+    const staleZip = storedZip(
+      '20260728120000.translation.export.CSV',
+      exportRow({ id: 'tl-stale', timestamp: '20260728120000' }),
+    );
+    const downloaded = await fetchGdeltBulkFiles(twoStreamRun({
+      translingualManifest: bulkDescriptorLine('export-translingual', '20260728120000', staleZip),
+    }));
+    assert.deepEqual(
+      downloaded.map(({ descriptor }) => descriptor.kind).sort(),
+      ['export', 'gkg'],
+      'a two-day-old translingual cohort must not join the run',
+    );
+  });
+
+  it('never lets the translation manifest satisfy the required English cohort', async () => {
+    // Symmetry and presence are properties of the English pair. A run where the
+    // English manifest carries nothing must fail, however healthy translingual is.
+    await assert.rejects(
+      fetchGdeltBulkFiles({
+        ...twoStreamRun(),
+        fetchImpl: async (url) => {
+          const href = String(url);
+          if (href.endsWith('masterfilelist.txt')) {
+            return new Response(Buffer.from(''), { status: 206, headers: { 'content-length': '0' } });
+          }
+          return twoStreamRun().fetchImpl(url);
+        },
+      }),
+      /no newer GKG or export snapshot/,
+    );
+  });
+});
 
 describe('seed-gdelt-bulk-materializer fetch integration', () => {
   it('advances per-kind cursors and merges the rolling conflict window', async () => {
@@ -348,6 +476,10 @@ describe('seed-gdelt-bulk-materializer fetch integration', () => {
     assert.deepEqual(result._state.cursor, {
       gkg: '20260730120000',
       export: '20260730120000',
+      // Carried independently so a translingual outage resumes where it stopped
+      // instead of reading as a gap in the English feed; empty when this
+      // fixture's manifest offers no translingual snapshot.
+      'export-translingual': '',
     });
     assert.deepEqual(
       result._state.recentGkgBatches.flatMap((batch) =>

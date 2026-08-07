@@ -3,11 +3,60 @@ import { describe, it } from 'node:test';
 
 import {
   extractGdeltBulkCsv,
+  GDELT_TRANSLINGUAL_KINDS,
   materializeGdeltBulk,
   parseGdeltBulkDescriptors,
   parseGdeltGkgCsv,
   toArticle as gdeltArticleForTests,
 } from '../scripts/_gdelt-bulk-materializer.mjs';
+
+const MD5 = 'a'.repeat(32);
+const gdeltLine = (size, name) =>
+  `${size} ${MD5} https://data.gdeltproject.org/gdeltv2/${name}`;
+
+describe('parseGdeltBulkDescriptors kind selection', () => {
+  it('skips an unrequested kind before enforcing its size bound', () => {
+    // Caught live: the translation manifest lists `.translation.gkg.csv.zip`
+    // next to the export we actually want, and those files run past the 15 MB
+    // GKG ceiling. Validating a file that is never downloaded threw, the
+    // optional-stream handler swallowed it, and the whole translingual stream
+    // silently degraded away on every run.
+    const manifest = [
+      gdeltLine(15_752_864, '20260807113000.translation.gkg.csv.zip'),
+      gdeltLine(180_000, '20260807113000.translation.export.CSV.zip'),
+    ].join('\n');
+
+    const descriptors = parseGdeltBulkDescriptors(manifest, {
+      kinds: GDELT_TRANSLINGUAL_KINDS,
+    });
+    assert.deepEqual(
+      descriptors.map(({ kind, timestamp }) => `${kind}@${timestamp}`),
+      ['export-translingual@20260807113000'],
+    );
+  });
+
+  it('still fails closed on an oversized file of a kind it does collect', () => {
+    assert.throws(
+      () => parseGdeltBulkDescriptors(
+        gdeltLine(15_752_864, '20260807113000.translation.export.CSV.zip'),
+        { kinds: GDELT_TRANSLINGUAL_KINDS },
+      ),
+      /ZIP size/,
+      'the skip must be scoped to unrequested kinds, not a blanket relaxation',
+    );
+  });
+
+  it('ignores the translation stream entirely for an English-kinds read', () => {
+    const manifest = [
+      gdeltLine(180_000, '20260807113000.translation.export.CSV.zip'),
+      gdeltLine(180_000, '20260807114500.export.CSV.zip'),
+    ].join('\n');
+    assert.deepEqual(
+      parseGdeltBulkDescriptors(manifest).map(({ kind }) => kind),
+      ['export'],
+    );
+  });
+});
 
 function gkgRow({
   id,

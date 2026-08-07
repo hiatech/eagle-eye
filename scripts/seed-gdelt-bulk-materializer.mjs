@@ -12,6 +12,8 @@ import {
 import {
   extractGdeltBulkCsv,
   GDELT_BULK_TOPICS,
+  GDELT_ENGLISH_KINDS,
+  GDELT_TRANSLINGUAL_KINDS,
   isGdeltGeoMaterializationRecord,
   materializeGdeltBulk,
   parseGdeltBulkDescriptors,
@@ -19,6 +21,7 @@ import {
 } from './_gdelt-bulk-materializer.mjs';
 import {
   GDELT_MASTER_FILELIST_URL,
+  GDELT_TRANSLINGUAL_MASTER_FILELIST_URL,
   GDELT_ROLLING_WINDOW_MS,
   gdeltTimestampToMs,
   mapGdeltExportToConflictEvents,
@@ -48,7 +51,12 @@ loadEnvFile(import.meta.url);
 const MASTER_TAIL_BYTES = 65_536;
 const USER_AGENT = 'WorldMonitor/1.0 (+https://www.worldmonitor.app)';
 const REQUEST_TIMEOUT_MS = 30_000;
-const FETCH_CONCURRENCY = 4;
+// 6, not 4: the translingual export adds up to MAX_CATCHUP_FILES_PER_KIND more
+// downloads per run (16 -> 24 worst case). At 4 that is 6 rounds x
+// REQUEST_TIMEOUT_MS = 180s of network against a 120s lock / 240s fetch
+// deadline; at 6 it is 4 rounds = 120s, which keeps the worst case under its
+// pre-translingual value. Pinned by tests/seed-fetch-deadline-budget-invariants.
+const FETCH_CONCURRENCY = 6;
 const MAX_CATCHUP_FILES_PER_KIND = 8;
 const RECENT_GKG_WINDOW_MS = 2 * 60 * 60 * 1000;
 const GDELT_SNAPSHOT_INTERVAL_MS = 15 * 60 * 1000;
@@ -81,9 +89,9 @@ function feedTimestamps(values, kind) {
     .sort();
 }
 
-function validateCurrentFeedCohort(values, nowMs) {
+function validateCurrentFeedCohort(values, nowMs, kinds = ['gkg', 'export']) {
   const latestByKind = {};
-  for (const kind of ['gkg', 'export']) {
+  for (const kind of kinds) {
     const timestamps = feedTimestamps(values, kind);
     if (timestamps.length === 0) {
       throw new Error(`GDELT bulk materializer received no current ${kind === 'gkg' ? 'GKG' : kind} snapshot`);
@@ -108,7 +116,12 @@ function validateCurrentFeedCohort(values, nowMs) {
       }
     }
   }
-  if (latestByKind.gkg !== latestByKind.export) {
+  // Symmetry is a property of the English pair only. The translingual export is
+  // validated alone (it has no GKG counterpart here by design) and runs a slot
+  // behind English, so comparing it against the GKG cohort would reject every
+  // healthy run.
+  if (kinds.includes('gkg') && kinds.includes('export')
+    && latestByKind.gkg !== latestByKind.export) {
     throw new Error(
       `GDELT bulk materializer requires a symmetric GKG and export cohort; `
       + `latest GKG is ${latestByKind.gkg}, latest export is ${latestByKind.export}`,
@@ -166,28 +179,75 @@ export async function fetchGdeltBulkFiles({
   fetchImpl = globalThis.fetch,
   nowMs = Date.now(),
 } = {}) {
-  const manifest = await fetchBoundedBuffer(
+  const readManifest = (url) => fetchBoundedBuffer(
     fetchImpl,
-    GDELT_MASTER_FILELIST_URL,
+    url,
     MASTER_TAIL_BYTES,
     {
       headers: { Range: `bytes=-${MASTER_TAIL_BYTES}` },
       expectedStatus: 206,
     },
   );
-  const descriptors = parseGdeltBulkDescriptors(manifest.toString('utf8'), {
+  // Both manifests concurrently: they are independent reads, so N streams cost
+  // one request timeout rather than N against the fetch-phase deadline.
+  const [english, translingual] = await Promise.allSettled([
+    readManifest(GDELT_MASTER_FILELIST_URL),
+    readManifest(GDELT_TRANSLINGUAL_MASTER_FILELIST_URL),
+  ]);
+  if (english.status === 'rejected') throw english.reason;
+
+  const descriptors = parseGdeltBulkDescriptors(english.value.toString('utf8'), {
     afterTimestamp,
     maxPerKind: MAX_CATCHUP_FILES_PER_KIND,
+    kinds: GDELT_ENGLISH_KINDS,
   });
   if (descriptors.length === 0) {
     throw new Error('GDELT bulk manifest has no newer GKG or export snapshot');
   }
+
+  // Strictly additive. The translingual export widens the conflict feed's
+  // SOURCING, never its coverage guarantees: a failure here degrades to the
+  // English-only feed that already works, because a stream being added must not
+  // be able to take down the one in production.
+  let translingualDescriptors = [];
+  try {
+    if (translingual.status === 'rejected') throw translingual.reason;
+    translingualDescriptors = parseGdeltBulkDescriptors(translingual.value.toString('utf8'), {
+      afterTimestamp,
+      maxPerKind: MAX_CATCHUP_FILES_PER_KIND,
+      kinds: GDELT_TRANSLINGUAL_KINDS,
+    });
+  } catch (error) {
+    // Said out loud: a permanently-503 translation manifest is otherwise
+    // indistinguishable from a healthy run with nothing extra to add.
+    console.warn(
+      `  GDELT bulk translingual manifest unavailable — ${error?.message || error}`,
+    );
+    translingualDescriptors = [];
+  }
+
   validateCurrentFeedCohort(descriptors.map((descriptor) => ({ descriptor })), nowMs);
+  if (translingualDescriptors.length > 0) {
+    // Validated on its own terms — contiguous and fresh — but never required,
+    // and never mixed into the English cohort, which runs a slot ahead.
+    try {
+      validateCurrentFeedCohort(
+        translingualDescriptors.map((descriptor) => ({ descriptor })),
+        nowMs,
+        GDELT_TRANSLINGUAL_KINDS,
+      );
+      descriptors.push(...translingualDescriptors);
+    } catch (error) {
+      console.warn(
+        `  GDELT bulk translingual cohort rejected — ${error?.message || error}`,
+      );
+    }
+  }
   const downloaded = await mapWithConcurrency(
     descriptors,
     FETCH_CONCURRENCY,
     async (descriptor) => {
-      const maxBytes = descriptor.kind === 'gkg' ? 15_000_000 : 5_000_000;
+      const maxBytes = descriptor.kind.startsWith('gkg') ? 15_000_000 : 5_000_000;
       const zip = await fetchBoundedBuffer(fetchImpl, descriptor.url, maxBytes);
       if (zip.length !== descriptor.size) {
         throw new Error(
@@ -197,7 +257,7 @@ export async function fetchGdeltBulkFiles({
       const md5 = createHash('md5').update(zip).digest('hex');
       if (md5 !== descriptor.md5) throw new Error(`GDELT ${descriptor.kind} checksum mismatch`);
       const csv = extractGdeltBulkCsv(zip, descriptor);
-      return descriptor.kind === 'gkg'
+      return descriptor.kind.startsWith('gkg')
         ? { descriptor, records: parseGdeltGkgCsv(csv) }
         : { descriptor, events: mapGdeltExportToConflictEvents(csv) };
     },
@@ -383,8 +443,19 @@ export async function fetchMaterializedGdelt(deps = {}) {
       timestamp: descriptor.timestamp,
       events: events ?? mapGdeltExportToConflictEvents(csv),
     }));
+  // Coverage bounds come from the ENGLISH batches only. The translingual stream
+  // contributes events, never coverage: it runs a slot behind at best, and when
+  // its pipeline stalls the manifest tail keeps serving pre-stall files, so
+  // letting it set the oldest bound would backdate currentCoverageStart past the
+  // 24h cutoff and publish rollingWindowComplete: true over a two-hour window.
   const latestExport = exportBatches.map(({ timestamp }) => timestamp).sort().at(-1);
   const oldestExport = exportBatches.map(({ timestamp }) => timestamp).sort().at(0);
+  const translingualBatches = downloaded
+    .filter(({ descriptor }) => descriptor.kind === 'export-translingual')
+    .map(({ descriptor, events, csv }) => ({
+      timestamp: descriptor.timestamp,
+      events: events ?? mapGdeltExportToConflictEvents(csv),
+    }));
   const coverage = {
     gkg: feedCoverage({ kind: 'gkg', downloaded, previousState, nowMs }),
     export: feedCoverage({ kind: 'export', downloaded, previousState, nowMs }),
@@ -392,7 +463,13 @@ export async function fetchMaterializedGdelt(deps = {}) {
   const conflict = exportBatches.length > 0
     ? mergeGdeltBulkRollingWindow(
         {
-          events: exportBatches.flatMap(({ events }) => events),
+          // GlobalEventID is unique across the two streams, so the merge's
+          // id-keyed dedup absorbs any overlap; English is listed first so it
+          // wins a collision.
+          events: [
+            ...exportBatches.flatMap(({ events }) => events),
+            ...translingualBatches.flatMap(({ events }) => events),
+          ],
           oldestExportTimestamp: oldestExport,
           exportTimestamp: latestExport,
         },
@@ -400,6 +477,12 @@ export async function fetchMaterializedGdelt(deps = {}) {
         nowMs,
       )
     : null;
+  if (translingualBatches.length > 0) {
+    console.log(
+      `  GDELT bulk translingual export: ${translingualBatches.length} snapshot(s),`
+      + ` ${translingualBatches.reduce((sum, batch) => sum + batch.events.length, 0)} pre-dedup events`,
+    );
+  }
   const coverageStartedAt = gdeltTimestampToMs(coverage.export.continuousSince);
   const rollingWindowStartedAt = Number.isFinite(coverageStartedAt)
     ? Math.max(conflict?.rollingWindowStartedAt ?? coverageStartedAt, coverageStartedAt)
@@ -441,6 +524,15 @@ export async function fetchMaterializedGdelt(deps = {}) {
           .map(({ descriptor }) => descriptor.timestamp)
           .sort()
           .at(-1) || previousState?.cursor?.export || '',
+        // Its own cursor, so a run where the translingual manifest was
+        // unavailable does not re-download the English slots it already has,
+        // and a translingual outage resumes from where it stopped rather than
+        // reading the cohort as a gap in the English feed.
+        'export-translingual': downloaded
+          .filter(({ descriptor }) => descriptor.kind === 'export-translingual')
+          .map(({ descriptor }) => descriptor.timestamp)
+          .sort()
+          .at(-1) || previousState?.cursor?.['export-translingual'] || '',
       },
       recentGkgBatches: compactedGeoBatches,
       timelines: materialized.timelines,

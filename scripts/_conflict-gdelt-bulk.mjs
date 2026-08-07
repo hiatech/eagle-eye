@@ -50,6 +50,13 @@ const RECENT_EXPORT_COUNT = 8;
 // the same factor keeps the worst case at its pre-translingual value instead of
 // buying coverage with lock headroom. These are bounded range GETs against
 // Google Cloud Storage, where 8 in flight is unremarkable.
+//
+// Peak memory is the cost this buys, and it doubled with the pool: the worst
+// case is EXPORT_FETCH_CONCURRENCY simultaneous downloads each holding a
+// GDELT_MAX_EXPORT_ZIP_BYTES buffer plus its inflated
+// GDELT_MAX_EXPORT_CSV_BYTES output — 8 × 35 MB rather than 4 × 35 MB. Live
+// export files run ~200 KB zipped, so this is a ceiling and not a working set;
+// raise the container memory floor alongside the pool if those caps ever move.
 const EXPORT_FETCH_CONCURRENCY = 8;
 const REQUEST_TIMEOUT_MS = 20_000;
 export const GDELT_ROLLING_WINDOW_MS = 24 * 60 * 60 * 1000;
@@ -383,6 +390,20 @@ export async function fetchGdeltBulkConflictEvents({
     },
   );
 
+  // Attribute each download outcome to its stream by index — allSettledWith-
+  // Concurrency preserves descriptor order in its result array.
+  const exportsByStream = {};
+  for (const [index, descriptor] of descriptors.entries()) {
+    const id = descriptor.streamId ?? 'english';
+    const bucket = exportsByStream[id] ?? (exportsByStream[id] = {
+      requested: 0,
+      succeeded: 0,
+      required: streams.find(stream => stream.id === id)?.required !== false,
+    });
+    bucket.requested += 1;
+    if (results[index]?.status === 'fulfilled') bucket.succeeded += 1;
+  }
+
   const successful = results.filter(result => result.status === 'fulfilled');
   if (!successful.length) {
     const sample = results.slice(0, 3).map(result => result.reason?.message || result.reason).join(', ');
@@ -397,16 +418,34 @@ export async function fetchGdeltBulkConflictEvents({
       events.push(event);
     }
   }
+  // Coverage timestamps come from the REQUIRED streams only. They are a claim
+  // about how much of the window we can vouch for — mergeGdeltBulkRollingWindow
+  // turns oldestExportTimestamp into currentCoverageStart, which decides
+  // rollingWindowStartedAt and the rollingWindowComplete flag the materialized
+  // reader's cold-start floor keys off. An optional stream is additive EVENTS,
+  // never additive coverage: it may lag arbitrarily (GDELT's translation
+  // pipeline runs a slot behind at best, and its manifest tail keeps serving
+  // the pre-stall files when it stops), and only the newest export is age-
+  // checked upstream. Letting the optional half set the oldest bound lets a
+  // stalled stream backdate the window start past the 24h cutoff and publish
+  // rollingWindowComplete: true over two hours of real data.
+  const requiredStreamIds = new Set(
+    streams.filter(stream => stream.required !== false).map(stream => stream.id),
+  );
+  const coverageTimestamps = successful
+    .filter(result => requiredStreamIds.has(result.value.streamId))
+    .map(result => result.value.exportTimestamp)
+    .sort();
+  // An all-optional stream set has no vouched-for coverage to report; fall back
+  // to every successful export rather than returning undefined bounds, which
+  // callers read as "stale or unparseable".
+  const bounds = coverageTimestamps.length
+    ? coverageTimestamps
+    : successful.map(result => result.value.exportTimestamp).sort();
   return {
     events,
-    oldestExportTimestamp: successful
-      .map(result => result.value.exportTimestamp)
-      .sort()
-      .at(0),
-    exportTimestamp: successful
-      .map(result => result.value.exportTimestamp)
-      .sort()
-      .at(-1),
+    oldestExportTimestamp: bounds.at(0),
+    exportTimestamp: bounds.at(-1),
     exportsRequested: descriptors.length,
     exportsSucceeded: successful.length,
     // Per-stream counts so a silently-empty translingual half is visible in the
@@ -416,6 +455,13 @@ export async function fetchGdeltBulkConflictEvents({
       acc[id] = (acc[id] ?? 0) + result.value.events.length;
       return acc;
     }, {}),
+    // Download outcome split by stream. The totals above conflate them, and the
+    // caller's "partially degraded N/M" warning is the mirror-outage runbook
+    // trigger: an optional stream whose manifest resolves but whose files all
+    // 404 would otherwise fire that alarm every tick for a condition the design
+    // says is non-actionable. streamFailures only covers MANIFEST failures, so
+    // without this there is no signal that separates the two halves.
+    exportsByStream,
     streamFailures,
   };
 }

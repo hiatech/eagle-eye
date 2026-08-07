@@ -463,7 +463,24 @@ export async function fetchGdeltConflictEvents({
     const rolling = mergeGdeltBulkRollingWindow(bulk, previousSnapshot, now());
     if (!rolling.events.length) throw new Error('rolling bulk window contained no priority-country material-conflict events');
     const countriesWithEvents = new Set(rolling.events.map(event => event.country)).size;
-    if (bulk.exportsSucceeded < bulk.exportsRequested) {
+    // Split the degradation report by stream. "partially degraded" is the
+    // mirror-outage runbook trigger, so it must describe the REQUIRED mirror
+    // only: an optional stream whose files all 404 is a non-actionable
+    // condition by design, and firing the same alarm for it every tick trains
+    // on-call to ignore the one signal that matters. Falls back to the
+    // conflated totals when a caller predates exportsByStream.
+    const streamExports = Object.entries(bulk.exportsByStream ?? {});
+    const requiredExports = streamExports.filter(([, counts]) => counts.required !== false);
+    const required = requiredExports.length
+      ? requiredExports.reduce(
+        (acc, [, counts]) => ({
+          requested: acc.requested + counts.requested,
+          succeeded: acc.succeeded + counts.succeeded,
+        }),
+        { requested: 0, succeeded: 0 },
+      )
+      : { requested: bulk.exportsRequested, succeeded: bulk.exportsSucceeded };
+    if (required.succeeded < required.requested) {
       // Partial mirror degradation normally still publishes (each 15-min slice
       // gets ~RECENT_EXPORT_COUNT retries before aging out of the manifest
       // tail, and the rolling merge retains prior events), but say so — a
@@ -471,7 +488,7 @@ export async function fetchGdeltConflictEvents({
       // review). Logged ahead of the cold-start floor so a thin cold-start
       // tick — exactly the degraded-mirror shape — still reports the ratio
       // (#5855 review).
-      console.warn(`  GDELT bulk exports partially degraded: ${bulk.exportsSucceeded}/${bulk.exportsRequested} export files fetched`);
+      console.warn(`  GDELT bulk exports partially degraded: ${required.succeeded}/${required.requested} export files fetched`);
     }
     // An optional stream that fails is swallowed by design so it cannot take
     // down the required one — which is exactly why it has to be said out loud.
@@ -479,6 +496,15 @@ export async function fetchGdeltConflictEvents({
     // healthy run that simply had nothing extra to add.
     for (const failure of bulk.streamFailures ?? []) {
       console.warn(`  GDELT bulk optional stream unavailable — ${failure}`);
+    }
+    // Its manifest can resolve while every file behind it fails, which
+    // streamFailures never sees.
+    for (const [id, counts] of streamExports) {
+      if (counts.required !== false || counts.succeeded >= counts.requested) continue;
+      console.warn(
+        `  GDELT bulk optional stream degraded — ${id}:`
+        + ` ${counts.succeeded}/${counts.requested} export files fetched`,
+      );
     }
     // Cold-start coverage floor (#5849 review, flagged independently by two
     // reviewers): on a true first-ever run, an implausibly thin bulk result —
