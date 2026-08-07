@@ -27,6 +27,10 @@ services:
       LOCAL_API_MODE: "docker"
       LOCAL_API_CLOUD_FALLBACK: "false"
       WS_RELAY_URL: "http://ais-relay:3004"
+      # The app is the relay's caller — server/_shared/relay.ts reads this to
+      # sign its requests, so without it every non-public relay route 401s even
+      # when the relay itself is healthy.
+      RELAY_SHARED_SECRET: "${RELAY_SHARED_SECRET:-}"
       # LLM provider (any OpenAI-compatible endpoint)
       LLM_API_URL: "${LLM_API_URL:-}"
       LLM_API_KEY: "${LLM_API_KEY:-}"
@@ -69,6 +73,16 @@ services:
     image: worldmonitor-ais-relay:latest
     container_name: worldmonitor-ais-relay
     environment:
+      # Authenticates every non-public relay route. SELF_HOSTING.md lists this
+      # as REQUIRED, but it was never wired through — following that document
+      # exactly produced a relay stuck in a FATAL restart loop, invisible unless
+      # you read container logs, because the app depends_on it with
+      # `service_started` (satisfied while restarting) and comes up regardless.
+      # Passed through rather than `:?`-required so the documented dev-only
+      # opt-out below still works; the relay's own startup check is the gate and
+      # its error message is already explicit.
+      RELAY_SHARED_SECRET: "${RELAY_SHARED_SECRET:-}"
+      I_UNDERSTAND_THIS_DISABLES_AUTH: "${I_UNDERSTAND_THIS_DISABLES_AUTH:-}"
       AISSTREAM_API_KEY: "${AISSTREAM_API_KEY:-}"
       FINNHUB_API_KEY: "${FINNHUB_API_KEY:-}"
       MARKET_YAHOO_REFRESH_INTERVAL_MS: "${MARKET_YAHOO_REFRESH_INTERVAL_MS:-900000}"
