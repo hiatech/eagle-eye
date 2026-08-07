@@ -413,7 +413,16 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'Japan Today', url: rss('https://japantoday.com/feed/atom') },
     { name: 'Nikkei Asia', url: rss('https://news.google.com/rss/search?q=site:asia.nikkei.com+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Asahi Shimbun', url: rss('https://www.asahi.com/rss/asahi/newsheadlines.rdf'), lang: 'ja', strategicDefault: true },
-    { name: 'The Hindu', url: rss('https://www.thehindu.com/news/national/feeder/default.rss'), lang: 'en' },
+    // Deliberately untagged, matching the server catalog. `lang` is an EXCLUSION
+    // mechanism here (isFeedInLanguage drops a tagged feed for every other
+    // locale), and the untagged pool IS the English pool — so `lang: 'en'` buys
+    // nothing and costs reach: it hid India's largest English daily from every
+    // non-English locale's Asia panel while BBC Asia, Reuters Asia, SCMP and
+    // Nikkei Asia stayed universal, and hid it from the `hi` pane while the `hi`
+    // brief kept ingesting it. It was also the catalog's only `lang: 'en'` entry
+    // out of 582, and bought no locale boost either — getLanguageMatchedSources
+    // short-circuits on 'en'.
+    { name: 'The Hindu', url: rss('https://www.thehindu.com/news/national/feeder/default.rss') },
     { name: 'Indian Express', url: rss('https://indianexpress.com/section/india/feed/') },
     { name: 'NDTV', url: rss('https://feeds.feedburner.com/ndtvnews-top-stories') },
     { name: 'India News Network', url: rss('https://news.google.com/rss/search?q=India+diplomacy+foreign+policy+news&hl=en&gl=US&ceid=US:en') },
@@ -1007,14 +1016,28 @@ export const FEEDS = SITE_VARIANT === 'tech'
 //  • data-loader `loadNews()` — loads preset categories + custom enabled panels
 //  • panel-layout — creates a NewsPanel for any enabled category, not just preset
 // See src/config/feed-resolution.ts for the merge + resolution helpers.
-export const CANONICAL_FEEDS: Record<string, Feed[]> = mergeCanonicalFeeds([
-  FULL_FEEDS,
-  TECH_FEEDS,
-  FINANCE_FEEDS,
-  COMMODITY_FEEDS,
-  ENERGY_FEEDS,
-  HAPPY_FEEDS,
-]);
+/**
+ * Every variant's feed map, keyed by variant — the client mirror of the server's
+ * `VARIANT_FEEDS` (server/worldmonitor/news/v1/_feeds.ts).
+ *
+ * `CANONICAL_FEEDS` below is the flattened UNION and is what the runtime resolves
+ * panels against, but the merge dedupes by URL and keeps the first map's object,
+ * so a feed re-declared under the same name and URL in a later variant map
+ * vanishes from the union entirely — tag and all. Anything auditing per-variant
+ * declarations (scripts/language-coverage-health.mjs) has to read them here.
+ */
+export const VARIANT_FEED_MAPS: Record<string, Record<string, Feed[]>> = {
+  full: FULL_FEEDS,
+  tech: TECH_FEEDS,
+  finance: FINANCE_FEEDS,
+  commodity: COMMODITY_FEEDS,
+  energy: ENERGY_FEEDS,
+  happy: HAPPY_FEEDS,
+};
+
+export const CANONICAL_FEEDS: Record<string, Feed[]> = mergeCanonicalFeeds(
+  Object.values(VARIANT_FEED_MAPS),
+);
 
 export const SOURCE_REGION_MAP: Record<string, { labelKey: string; feedKeys: string[] }> = {
   // Full (geopolitical) variant regions

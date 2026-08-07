@@ -30,6 +30,7 @@ import {
   parseSupportedLanguages,
   validateLanguageTags,
   validateTagParity,
+  validateVariantTagConsistency,
 } from '../scripts/language-coverage-health.mjs';
 
 type Inputs = Awaited<ReturnType<typeof loadLanguageCoverageInputs>>;
@@ -150,6 +151,60 @@ describe('language coverage gate', () => {
     );
   });
 
+  it('declares one lang tag per feed name across every client variant map', () => {
+    assert.deepEqual(
+      validateVariantTagConsistency(inputs),
+      [],
+      'the canonical union dedupes by URL and keeps the first map, so a variant-only ' +
+      'tag is invisible to every other check here — run `npm run report:language-coverage`',
+    );
+  });
+
+  it('sees a variant-only lang tag the canonical union hides', () => {
+    // The blind spot itself, proven without touching the catalogs: FULL declares
+    // the feed untagged, a later variant map re-declares the same name tagged.
+    // mergeCanonicalFeeds keeps FULL's object, so nativeUnboosted and the tag
+    // parity check both stay green while the tech variant fetches the tagged
+    // copy and drops it for every non-ja locale.
+    const problems = validateVariantTagConsistency({
+      variantFeedMaps: {
+        full: { tech: [{ name: 'Hacker News', url: 'https://hnrss.org/frontpage' }] },
+        tech: { tech: [{ name: 'Hacker News', url: 'https://hnrss.org/frontpage', lang: 'ja' }] },
+      },
+    });
+    assert.equal(problems.length, 1);
+    assert.match(problems[0], /^Hacker News: declared with conflicting lang tags/);
+    assert.match(problems[0], /untagged in full/);
+    assert.match(problems[0], /ja in tech/);
+  });
+
+  it('carries no inert floor entry', () => {
+    // Unlisted languages default to 1 and zero is checked BEFORE the floor, so a
+    // committed floor of 0 or 1 can never fire. Such an entry reads as coverage
+    // protection in review and provides none — the exact false comfort that let
+    // `floors: {}` sit under a _readme claiming it was a ratchet.
+    const inert = Object.entries(inputs.policy.floors ?? {})
+      .filter(([, floor]) => Number(floor) < 2)
+      .map(([language, floor]) => `${language}=${floor}`);
+    assert.deepEqual(
+      inert,
+      [],
+      'a floor below 2 is unreachable — drop the entry, or raise it to the pack size it protects',
+    );
+  });
+
+  it('enforces every committed floor against the live catalog', () => {
+    // The floors test below proves the MECHANISM with a synthetic value; this
+    // proves the COMMITTED values still bind, so a pack that gets thinned out
+    // fails here rather than after someone notices the panel got shorter.
+    const rows = computeLanguageCoverage(inputs);
+    const byLanguage = new Map(rows.map((row) => [row.language, row]));
+    const breaching = Object.entries(inputs.policy.floors ?? {})
+      .filter(([language, floor]) => (byLanguage.get(language)?.nativeClient.length ?? 0) < Number(floor))
+      .map(([language, floor]) => `${language}: ${byLanguage.get(language)?.nativeClient.length ?? 0} < ${floor}`);
+    assert.deepEqual(breaching, [], 'committed floors must hold against the catalogs');
+  });
+
   it('exempts only the universal-pool language from the native-source floor', () => {
     const rows = computeLanguageCoverage(inputs);
     const exempt = rows.filter((row) => row.isUniversalPool).map((row) => row.language);
@@ -247,6 +302,35 @@ describe('parseSupportedLanguages', () => {
       () => parseSupportedLanguages('const LANGS = ["en"];\n'),
       /could not find/,
       'a silent fallback would let the audit run against a stale hardcoded list',
+    );
+  });
+
+  it('keeps locale codes that are not two letters', () => {
+    // A shape filter (/[a-z]{2}/) silently dropped these, and a language the
+    // audit never sees is a language the audit never gates.
+    assert.deepEqual(
+      parseSupportedLanguages("const SUPPORTED_LANGUAGES = ['en', 'fil', 'ceb', 'pt-BR'] as const;\n"),
+      ['en', 'fil', 'ceb', 'pt-BR'],
+    );
+  });
+
+  it('ignores commented-out entries instead of reading them back as live', () => {
+    const source = "const SUPPORTED_LANGUAGES = [\n"
+      + "  'en',\n"
+      + "  // 'xx' retired in v2\n"
+      + "  /* 'yy' never shipped */\n"
+      + "  'tr',\n"
+      + '] as const;\n';
+    assert.deepEqual(parseSupportedLanguages(source), ['en', 'tr']);
+  });
+
+  it('throws on an entry it cannot read rather than skipping it', () => {
+    assert.throws(
+      () => parseSupportedLanguages(
+        'const SUPPORTED_LANGUAGES = [...LEGACY_LANGUAGES, \'en\'] as const;\n',
+      ),
+      /is not a plain string literal/,
+      'skipping an unreadable entry is how a language silently escapes the audit',
     );
   });
 });

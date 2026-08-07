@@ -63,11 +63,30 @@ export function parseSupportedLanguages(source) {
       'the declaration moved or changed shape; update parseSupportedLanguages()',
     );
   }
-  const languages = [...match[1].matchAll(/'([a-z]{2}(?:-[A-Za-z]+)?)'/g)].map((m) => m[1]);
-  if (languages.length === 0) {
+  // Tokenise by ELEMENT, not by pattern-matching what a language code looks
+  // like. A shape filter drops whatever it fails to recognise and reports
+  // success on the remainder: `['en', 'fil', 'ceb', 'tr']` came back as
+  // ['en', 'tr'] under an /[a-z]{2}/ read, and the three-letter locales were
+  // then never audited at all — silently exempt from every check this file
+  // exists to apply. Comments go first so a commented-out code is not read
+  // back as a live entry.
+  const body = match[1]
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\/\/[^\n]*/g, '');
+  const entries = body.split(',').map((entry) => entry.trim()).filter(Boolean);
+  if (entries.length === 0) {
     throw new Error(`${I18N_PATH}: SUPPORTED_LANGUAGES matched but parsed to zero entries`);
   }
-  return languages;
+  return entries.map((entry) => {
+    const quoted = /^'([^']+)'$/.exec(entry) ?? /^"([^"]+)"$/.exec(entry);
+    if (!quoted) {
+      throw new Error(
+        `${I18N_PATH}: SUPPORTED_LANGUAGES entry ${JSON.stringify(entry)} is not a plain ` +
+        'string literal — the declaration changed shape; update parseSupportedLanguages()',
+      );
+    }
+    return quoted[1];
+  });
 }
 
 /**
@@ -182,6 +201,8 @@ export async function loadLanguageCoverageInputs(repoRoot = DEFAULT_REPO_ROOT, p
       clientFeeds: dedupeByName(collectClientFeeds(client)),
       serverFeeds: dedupeByName(collectServerFeeds(server)),
       defaultEnabled: client.getAllDefaultEnabledSources(),
+      // Per-variant declarations, pre-union — see validateVariantTagConsistency.
+      variantFeedMaps: client.VARIANT_FEED_MAPS,
       // The startup locale boost (App.ts) walks FULL_FEEDS + INTEL_SOURCES, not
       // the canonical all-variant union, so a native feed added to any other
       // variant map would never be boosted for its own locale.
@@ -220,6 +241,47 @@ export function validateLanguageTags({ languages, clientFeeds, serverFeeds }) {
         `add the locale in ${I18N_PATH} or retag the feed(s)`,
       );
     }
+  }
+  return problems;
+}
+
+/**
+ * Flag a feed name carrying different `lang` tags across the client's own
+ * variant maps.
+ *
+ * `CANONICAL_FEEDS` — what every other check here reads — is built by
+ * `mergeCanonicalFeeds`, which dedupes by URL and keeps the FIRST map's object.
+ * Re-declare a FULL_FEEDS entry under the same name and URL in TECH_FEEDS with
+ * a `lang` added and the union keeps FULL's untagged copy: the tagged one is
+ * invisible to the audit while being the one the tech variant actually fetches,
+ * because `FEEDS` is the active variant's map, not the union. Every language
+ * check downstream then passes while non-matching locales silently lose the
+ * source on that variant. Only the maps themselves can show this.
+ */
+export function validateVariantTagConsistency({ variantFeedMaps }) {
+  const byName = new Map();
+  for (const [variant, categories] of Object.entries(variantFeedMaps ?? {})) {
+    for (const feeds of Object.values(categories)) {
+      for (const feed of feeds) {
+        const seen = byName.get(feed.name) ?? new Map();
+        const lang = feed.lang ?? null;
+        if (!seen.has(lang)) seen.set(lang, []);
+        seen.get(lang).push(variant);
+        byName.set(feed.name, seen);
+      }
+    }
+  }
+  const problems = [];
+  for (const [name, byLang] of byName) {
+    if (byLang.size < 2) continue;
+    const detail = [...byLang.entries()]
+      .map(([lang, variants]) => `${lang ?? 'untagged'} in ${[...new Set(variants)].join('/')}`)
+      .join(', ');
+    problems.push(
+      `${name}: declared with conflicting lang tags across client variant maps — ` +
+      `${detail}. The canonical union keeps only the first, so the audit cannot ` +
+      'see the others; align them in src/config/feeds.ts',
+    );
   }
   return problems;
 }
@@ -283,6 +345,7 @@ export function computeLanguageCoverage(inputs) {
 
   const universalClient = clientFeeds.filter((feed) => !feed.lang).length;
   const universalServer = serverFeeds.filter((feed) => !feed.lang).length;
+  const universalPoolLanguage = policy.universalPoolLanguage ?? 'en';
 
   return languages.map((language) => {
     const clientNative = clientFeeds.filter((feed) => feed.lang === language);
@@ -291,14 +354,23 @@ export function computeLanguageCoverage(inputs) {
     const serverNames = new Set(serverNative.map((feed) => feed.name));
     // Hoisted: getLocaleBoostedSources rebuilds its set from the whole catalog
     // on every call, so calling it per feed would rescan for each one.
-    const boosted = language === 'en' ? null : inputs.getLocaleBoostedSources(language);
+    //
+    // The universal-pool language is skipped because the RUNTIME skips it:
+    // getLanguageMatchedSources short-circuits to an empty set for 'en' (English
+    // is the baseline, not a boost), so every en-tagged feed would be reported
+    // unboosted — a finding about the exemption, not about the catalog. Keyed
+    // off the policy field rather than a literal so the floor axis and this one
+    // cannot disagree about which language holds the pool.
+    const boosted = language === universalPoolLanguage
+      ? null
+      : inputs.getLocaleBoostedSources(language);
 
     return {
       language,
       hasLocale: localeFiles.has(language),
       // The untagged pool is written in exactly one language; counting that
       // language's `lang`-tagged feeds would report hundreds of sources as none.
-      isUniversalPool: language === (policy.universalPoolLanguage ?? 'en'),
+      isUniversalPool: language === universalPoolLanguage,
       // Reachable = what a UI in this language actually attempts to fetch.
       reachableClient: clientFeeds.filter(
         (feed) => !feed.lang || feed.lang === language || Boolean(feed.strategicDefault),
@@ -307,12 +379,20 @@ export function computeLanguageCoverage(inputs) {
       universalServer,
       nativeClient: clientNative.map((feed) => feed.name),
       nativeServer: serverNative.map((feed) => feed.name),
-      // Native sources visible to users in OTHER locales. A user IN this locale
-      // already gets every native source via the startup locale boost
-      // (App.ts → getLocaleBoostedSources), so counting "default-on" against the
-      // locale-independent set and calling it visibility reads the catalog
-      // exactly backwards — it reports sources the boost switches on as unseen.
-      nativeCrossLocale: clientNative.filter((feed) => defaultEnabled.has(feed.name)).length,
+      // Native sources sitting in DEFAULT_ENABLED_SOURCES — i.e. never written
+      // into the initial disabled set, so they are on without a Settings visit
+      // even where the startup locale boost never runs (App.ts gates the whole
+      // migration block on the `full` variant).
+      //
+      // This is NOT cross-locale visibility, and reporting it as such was the
+      // reading this audit is supposed to prevent: membership in the
+      // default-enabled set only means "not disabled". `fetchCategoryFeeds`
+      // still applies isFeedInLanguage (src/services/feed-language.ts) at fetch
+      // time, and a `lang`-tagged feed is dropped there for every non-matching
+      // locale regardless of being enabled. `strategicDefault` is the ONLY flag
+      // that bypasses the filter, so nativeStrategic below is the real
+      // cross-locale number.
+      nativeDefaultEnabled: clientNative.filter((feed) => defaultEnabled.has(feed.name)).length,
       // Native sources the locale boost would miss (see loadLanguageCoverageInputs).
       nativeUnboosted: boosted
         ? clientNative.filter((feed) => !boosted.has(feed.name)).map((feed) => feed.name)
@@ -421,7 +501,7 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
   lines.push('  sources ships a translated interface over journalism in another language.');
   lines.push('');
 
-  const header = ['lang', 'locale', 'native', 'xloc', 'strat', 'digest', 'reach', 'status'];
+  const header = ['lang', 'locale', 'native', 'dflt', 'strat', 'digest', 'reach', 'status'];
   const widths = [5, 7, 7, 6, 6, 7, 6, 18];
   const pad = (cells) => cells.map((cell, i) => String(cell).padEnd(widths[i])).join('').trimEnd();
 
@@ -442,7 +522,7 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
       row.language,
       row.hasLocale ? 'yes' : 'MISSING',
       row.nativeClient.length,
-      row.nativeCrossLocale,
+      row.nativeDefaultEnabled,
       row.nativeStrategic,
       row.nativeServer.length,
       row.reachableClient,
@@ -453,8 +533,11 @@ export function formatLanguageCoverageHuman({ rows, violations, problems, client
   lines.push('');
   lines.push('  A user IN this locale already sees ALL of its native sources: the startup');
   lines.push('  locale boost (App.ts) removes them from the disabled set on first run.');
-  lines.push('  xloc   = native sources ALSO visible to users in OTHER locales');
-  lines.push('  strat  = native sources flagged strategicDefault (visible in every locale)');
+  lines.push('  dflt   = native sources in DEFAULT_ENABLED_SOURCES (never disabled by');
+  lines.push('           default). NOT cross-locale visibility: the fetch still applies');
+  lines.push('           isFeedInLanguage, which drops a tagged feed for every other locale.');
+  lines.push('  strat  = native sources flagged strategicDefault — the ONLY flag that');
+  lines.push('           bypasses the language filter, so this is the cross-locale count');
   lines.push('  digest = native sources present in the server digest catalog (AI briefs)');
   lines.push('  reach  = total feeds a UI in this language attempts to fetch');
   lines.push('  *      = known gap, documented in shared/language-coverage-policy.json');

@@ -16,8 +16,16 @@
     "catalog of hundreds of English sources as having none.",
     "",
     "floors: minimum NATIVE (lang-tagged) client sources required per UI language.",
-    "Unlisted languages default to 1. These are a RATCHET, not a target: they lock",
-    "in today's coverage so it cannot silently regress. Raise a floor as sources land.",
+    "Unlisted languages default to 1, so a floor of 0 or 1 is INERT — the zero",
+    "check below already fires first and demands an allowlist entry. Only a floor",
+    "of 2+ adds protection, and it protects exactly one thing: a deliberate pack",
+    "that must not be thinned back out one source at a time. Floors are opt-in",
+    "minimums, like shared/geo-coverage-policy.json — NOT a snapshot of today's",
+    "counts, so a language sitting above its floor can still lose sources down to",
+    "it without failing. The two-way ratchet is the zero/allowlist axis below.",
+    "Current floors: pt=3 — the Brazil pack (O Globo, Folha de S.Paulo, Brasil",
+    "Paralelo) landed as a set in both catalogs and is only worth its digest cost",
+    "as a set; dropping to two must fail rather than quietly halve the coverage.",
     "",
     "zeroNativeAllowlist: UI languages that currently have ZERO native sources,",
     "with a documented reason. The audit fails BOTH ways — a language drops to zero",
@@ -30,10 +38,10 @@
     "ratchet as zeroNativeAllowlist."
   ],
   "universalPoolLanguage": "en",
-  "floors": {},
-  "zeroNativeAllowlist": {},
-  "tagParityAllowlist": {
-    "The Hindu": "UNRESOLVED, not a decision. Client tags it lang:'en', server leaves it untagged. Both readings defend themselves — it is India's largest English daily, so `en` keeps it out of every non-English pane (including hi, which has 4 native sources already), while untagged makes it universal like the rest of the English pool. The catalogs currently do both at once: the hi news pane hides it, the hi brief ingests it. Pick one and delete this entry."
+  "floors": {
+    "pt": 3
   },
+  "zeroNativeAllowlist": {},
+  "tagParityAllowlist": {},
   "digestBlindAllowlist": {}
 }
