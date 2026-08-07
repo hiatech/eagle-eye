@@ -287,6 +287,66 @@ export function validateVariantTagConsistency({ variantFeedMaps }) {
 }
 
 /**
+ * Flag multi-URL client feeds whose server twin serves a different language.
+ *
+ * `Feed.url` may be a locale map (`{ en: …, ar: … }`) and `fetchFeed` picks the
+ * entry matching the UI language, so an `ar` reader's Middle East pane fetches
+ * Al Jazeera in Arabic. `ServerFeed.url` is a plain string with no such
+ * mechanism, so the digest fetches the one URL it has — English — under the
+ * same feed name. The `ar` brief is then reasoned entirely from English
+ * coverage while the pane beside it is in Arabic.
+ *
+ * Neither existing check sees this. validateTagParity compares `lang` tags and
+ * both sides are untagged; the per-language digest check only asks whether a
+ * language has ANY server-native source, and ar has Asharq News, so it passes.
+ * The gap is per-FEED, and only a per-feed comparison finds it.
+ */
+export function validateMultiUrlDigestParity({ clientFeeds, serverFeeds, languages, policy }) {
+  // `_`-prefixed keys are prose for the reader, not feed names.
+  const allowlist = Object.fromEntries(
+    Object.entries(policy?.multiUrlDigestAllowlist ?? {}).filter(([key]) => !key.startsWith('_')),
+  );
+  const supported = new Set(languages);
+  const serverByName = new Map(serverFeeds.map((feed) => [feed.name, feed]));
+  const problems = [];
+  const seen = new Set();
+
+  for (const clientFeed of clientFeeds) {
+    if (!clientFeed.url || typeof clientFeed.url !== 'object') continue;
+    const serverFeed = serverByName.get(clientFeed.name);
+    if (!serverFeed) continue;
+    // Locales this feed serves natively in the pane, minus whatever the server
+    // twin already covers. An untagged server twin IS the universal pool, so it
+    // covers that one language — every other locale key on the client is a pane
+    // the digest cannot follow.
+    const serverLang = serverFeed.lang ?? (policy?.universalPoolLanguage ?? 'en');
+    const unmatched = Object.keys(clientFeed.url)
+      .filter((locale) => supported.has(locale) && locale !== serverLang)
+      .sort();
+    if (unmatched.length === 0) continue;
+    seen.add(clientFeed.name);
+    if (allowlist[clientFeed.name]) continue;
+    problems.push(
+      `${clientFeed.name}: client serves ${unmatched.join('/')} from a locale-keyed URL, ` +
+      `server digest has a single ${serverLang ?? 'untagged'} URL — readers in those ` +
+      'locales get a pane in their language and a brief built from another. Mirror the ' +
+      'locale URL into server/worldmonitor/news/v1/_feeds.ts as its own lang-tagged entry, ' +
+      'or document it in multiUrlDigestAllowlist',
+    );
+  }
+
+  for (const name of Object.keys(allowlist)) {
+    if (!seen.has(name)) {
+      problems.push(
+        `${name}: multiUrlDigestAllowlist entry for a feed that no longer diverges — ` +
+        'remove it from shared/language-coverage-policy.json',
+      );
+    }
+  }
+  return problems;
+}
+
+/**
  * Flag feeds whose `lang` tag differs between the two catalogs.
  *
  * The tag is what scopes a feed to a locale, so a name carried by both catalogs
@@ -348,7 +408,20 @@ export function computeLanguageCoverage(inputs) {
   const universalPoolLanguage = policy.universalPoolLanguage ?? 'en';
 
   return languages.map((language) => {
-    const clientNative = clientFeeds.filter((feed) => feed.lang === language);
+    // Native the way the RUNTIME resolves it, which is two mechanisms, not one:
+    // a `lang` tag, OR a locale key on a multi-URL feed. `fetchFeed` picks
+    // `feed.url[language]` when it exists, so an `ar` reader opening Al Jazeera
+    // gets aljazeera.net in Arabic — that is native coverage by any measure a
+    // human would use, and getLanguageMatchedSources already counts it for the
+    // locale boost. Counting only `lang` tags reported ar as having one native
+    // source when the pane actually serves three.
+    const servesLanguage = (feed) => feed.lang === language
+      || (feed.url && typeof feed.url === 'object' && language in feed.url);
+    const clientNative = clientFeeds.filter(servesLanguage);
+    // The server catalog cannot express this: ServerFeed.url is a plain string,
+    // so a multi-URL client feed has exactly one server twin and it is whatever
+    // language that URL happens to be. That asymmetry is the point of
+    // validateMultiUrlDigestParity below.
     const serverNative = serverFeeds.filter((feed) => feed.lang === language);
     const clientNames = new Set(clientNative.map((feed) => feed.name));
     const serverNames = new Set(serverNative.map((feed) => feed.name));

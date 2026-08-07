@@ -29,6 +29,7 @@ import {
   loadLanguageCoverageInputs,
   parseSupportedLanguages,
   validateLanguageTags,
+  validateMultiUrlDigestParity,
   validateTagParity,
   validateVariantTagConsistency,
 } from '../scripts/language-coverage-health.mjs';
@@ -176,6 +177,42 @@ describe('language coverage gate', () => {
     assert.match(problems[0], /^Hacker News: declared with conflicting lang tags/);
     assert.match(problems[0], /untagged in full/);
     assert.match(problems[0], /ja in tech/);
+  });
+
+  it('matches the multi-URL digest allowlist exactly', () => {
+    // Two-way, like the other allowlists: a NEW locale-keyed client feed whose
+    // server twin is single-URL fails until documented, and an entry survives
+    // only as long as the divergence does.
+    assert.deepEqual(
+      validateMultiUrlDigestParity(inputs),
+      [],
+      'a locale-keyed pane with an English-only brief is invisible to every other ' +
+      'check here — run `npm run report:language-coverage`',
+    );
+  });
+
+  it('flags a locale-keyed feed whose server twin serves one language', () => {
+    const problems = validateMultiUrlDigestParity({
+      languages: ['en', 'ar'],
+      clientFeeds: [{ name: 'Probe', url: { en: 'https://x/en', ar: 'https://x/ar' } }],
+      serverFeeds: [{ name: 'Probe', url: 'https://x/en' }],
+      policy: {},
+    });
+    assert.equal(problems.length, 1);
+    assert.match(problems[0], /^Probe: client serves ar from a locale-keyed URL/);
+  });
+
+  it('flags a multi-URL allowlist entry once the divergence is gone', () => {
+    const problems = validateMultiUrlDigestParity({
+      languages: ['en', 'ar'],
+      clientFeeds: [{ name: 'Probe', url: { ar: 'https://x/ar' } }],
+      serverFeeds: [{ name: 'Probe', url: 'https://x/ar', lang: 'ar' }],
+      policy: { multiUrlDigestAllowlist: { Probe: 'stale' } },
+    });
+    assert.ok(
+      problems.some((p) => p.startsWith('Probe:') && p.includes('no longer diverges')),
+      'a resolved divergence must retire its entry',
+    );
   });
 
   it('carries no inert floor entry', () => {

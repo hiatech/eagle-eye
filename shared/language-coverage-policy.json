@@ -43,5 +43,20 @@
   },
   "zeroNativeAllowlist": {},
   "tagParityAllowlist": {},
-  "digestBlindAllowlist": {}
+  "digestBlindAllowlist": {},
+  "multiUrlDigestAllowlist": {
+    "_reason": "The client's Feed.url may be a locale map ({ en, ar, ... }) and fetchFeed picks the entry matching the UI language, so these panes are in the reader's language. ServerFeed.url is a plain string, so the digest fetches one URL — English — under the same name, and the brief beside that pane is built from English coverage. The fix follows the convention already in _feeds.ts (Ukrainska Pravda EN + Ukrainska Pravda lang:'uk'): add the locale URL as its own lang-tagged server entry. Shrink this list as each lands; every entry here is a language whose brief is not in its own language.",
+    "France 24": "pane ar/es/fr, brief en — 3 languages, the widest gap in the list",
+    "EuroNews": "pane de/es/fr/it/pt/ru, brief en — 6 languages; also the only pt/it path for those briefs",
+    "Le Monde": "pane fr, brief en",
+    "DW News": "pane de/es, brief en",
+    "TVN24": "pane pl, brief en",
+    "Rzeczpospolita": "pane pl, brief en",
+    "Meduza": "pane ru, brief en — independent RU outlet, the ru brief's main non-state source",
+    "Ukrinform": "pane uk, brief en",
+    "Suspilne": "pane uk, brief en",
+    "Al Jazeera": "pane ar, brief en — the ar brief's largest potential native source",
+    "Al Arabiya": "pane ar, brief en; the ar URL also 403s from cloud IPs (test:feeds), so this one needs a working URL before mirroring",
+    "Africanews": "pane fr, brief en"
+  }
 }

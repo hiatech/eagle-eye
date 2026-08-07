@@ -114,6 +114,56 @@ Bu bir genişletme değil, asimetri onarımıydı. Hedef dillerin bugünkü yere
 | zh, ko, th, vi | 2 | 5-8 |
 | tr, pt | 3 | 5-8 |
 
+### ⚠️ Ölçüm hatası düzeltildi — tablo baştan değişti (2026-08-07)
+
+Denetim yerel kapsamı **sistematik olarak eksik sayıyordu.** `Feed.url` bir locale haritası
+olabiliyor (`{ en, ar }`) ve `fetchFeed` UI diline uyan girdiyi seçiyor — yani `ar` okuyucusu
+Al Jazeera'yı **Arapça** görüyor. Runtime boost (`getLanguageMatchedSources`) bunu zaten
+sayıyordu, rapor saymıyordu. Düzeltildikten sonra:
+
+| Dil | Önce | Sonra | | Dil | Önce | Sonra |
+|---|---:|---:|---|---|---:|---:|
+| ar | 1 | **4** | | fr | 5 | **9** |
+| es | 8 | **11** | | de | 4 | **6** |
+| uk | 5 | **7** | | ru | 3 | **5** |
+| pl | 1 | **3** | | it | 3 | **4** |
+
+**En zayıf diller artık farklı:** `bg`, `cs`, `fa`, `ja` (1'er), sonra `ko`/`th`/`vi`/`zh` (2'şer).
+`ar` sanıldığı kadar kötü değil — ama bkz. aşağısı.
+
+### 🔴 En büyük çok dilli boşluk: panel okuyucunun dilinde, brief İngilizce
+
+Yeni doğrulayıcı (`validateMultiUrlDigestParity`) **12 yayın organı** buldu. `ServerFeed.url`
+düz string olduğu için digest tek URL çekiyor — İngilizce olanı — aynı besleme adı altında:
+
+| Besleme | Panelde | Brief'te |
+|---|---|---|
+| EuroNews | de/es/fr/it/pt/ru | en |
+| France 24 | ar/es/fr | en |
+| DW News | de/es | en |
+| Al Jazeera, Al Arabiya | ar | en |
+| Le Monde, Africanews | fr | en |
+| Meduza | ru | en |
+| Ukrinform, Suspilne | uk | en |
+| TVN24, Rzeczpospolita | pl | en |
+
+Hiçbir mevcut kontrol bunu göremiyordu: `validateTagParity` etiket karşılaştırıyor (iki taraf
+da etiketsiz), dil bazlı digest kontrolü "bu dilde hiç sunucu kaynağı var mı" diye soruyor
+(`ar`'da Asharq News var, geçiyor). Boşluk **besleme bazında.**
+
+**Neden bu, yeni kaynak aramaktan daha değerli:** bu 12 besleme zaten katalogda, zaten
+çalışıyor, zaten vetted. Locale URL'lerini sunucuya aynalamak 9 dile ~20 yerel digest kaynağı
+kazandırır — sıfırdan RSS avlamadan.
+
+**Nasıl:** repo'nun kendi konvansiyonu var — `_feeds.ts:98-106`'da `Ukrainska Pravda EN`
+(İngilizce, etiketsiz) + `Ukrainska Pravda` (`lang: 'uk'`) ayrı girdiler halinde duruyor.
+Aynı deseni bu 12'ye uygula. `ServerFeed.url`'i locale haritasına çevirmek yapısal olarak
+daha doğru ama yayılım alanı geniş (test:feeds, docs parity, attribution manifest).
+
+Şimdilik `multiUrlDigestAllowlist`'e gerekçeleriyle kaydedildi — iki yönlü ratchet: yeni
+locale'li besleme belgelenene kadar fail eder, aynalama landing yaptıkça liste küçülür.
+`Al Arabiya`'nın `ar` URL'i ayrıca **403** veriyor, önce çalışan bir URL gerekiyor.
+
 ### Canlı digest ölçümü — tek kaynak eklemek yetmiyor (2026-08-07)
 
 Ayakta duran stack'te `/api/news/v1/list-feed-digest` dile göre ölçüldü:
@@ -247,12 +297,18 @@ Faz 1 kapandı, referans noktası var, self-host blokerleri (B3) çözüldü. Ca
 
 Sıra:
 
-1. **Faz 4 — dil paketleri.** Artık ölçülebilir ve strateji netleşti: tek tek değil,
-   **paket halinde**. Önce ölü/bayat ayıklama (`ar`'ın tek yerel kaynağı Al Arabiya 403,
-   EuroNews `pt`/`ru` fetch failed, Tuoi Tre `vi` ölü), sonra `ar` ve `fa` ile başlayarak
-   dil başına 5-8'e çıkarma — `pt` paketi bunun çalıştığını canlıda kanıtladı.
-2. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE.
-3. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci
+1. **Faz 4.1 — 12 locale URL'ini sunucuya aynala.** En yüksek getirili iş: sıfır yeni kaynak
+   arayışı, 9 dile ~20 yerel digest kaynağı. `_feeds.ts:98-106`'daki `Ukrainska Pravda EN` /
+   `Ukrainska Pravda (uk)` desenini izle. Her aynalama `multiUrlDigestAllowlist`'ten bir
+   satır siler — ilerleme kendiliğinden ölçülür. Sırayla: EuroNews (6 dil), France 24 (3),
+   Al Jazeera (`ar` — en zayıf dil), DW News (2), sonra kalanlar.
+2. **Faz 4.2 — dil paketleri.** Gerçek zayıflar `bg`/`cs`/`fa`/`ja` (1'er). Tek tek değil
+   **paket halinde** — `pt` paketi bunun çalıştığını canlıda kanıtladı, tek başına eklenen
+   `ar` kaynağı kategori kapağında eleniyor.
+3. **Faz 4.0 — ölü ayıklama** (yukarıdakilerle paralel): Al Arabiya `ar` 403,
+   EuroNews `pt`/`ru` fetch failed, Tuoi Tre `vi` ölü.
+4. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE.
+5. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci
    gerekiyorsa. Aynı-origin Docker kurulumunda gerekmez.
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin

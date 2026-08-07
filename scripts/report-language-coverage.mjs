@@ -16,6 +16,7 @@ import {
   formatLanguageCoverageHuman,
   loadLanguageCoverageInputs,
   validateLanguageTags,
+  validateMultiUrlDigestParity,
   validateTagParity,
   validateVariantTagConsistency,
 } from './language-coverage-health.mjs';
@@ -28,6 +29,7 @@ try {
     ...validateLanguageTags(inputs),
     ...validateTagParity(inputs),
     ...validateVariantTagConsistency(inputs),
+    ...validateMultiUrlDigestParity(inputs),
   ];
   const rows = computeLanguageCoverage(inputs);
   const { violations } = evaluateLanguageCoverage(rows);
