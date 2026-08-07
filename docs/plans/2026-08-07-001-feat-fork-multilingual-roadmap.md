@@ -20,7 +20,7 @@ gazetecilik olmayabiliyor.
 | Faz | Konu | Durum |
 |---|---|---|
 | 0 | Zemin (git, upstream, baseline, dal) | ✅ Tamam |
-| 1 | Veriyi akıt, referans noktası oluştur | ❌ **Başlamadı — tıkalı** |
+| 1 | Veriyi akıt, referans noktası oluştur | ✅ Tamam (2026-08-07) |
 | 2 | Ölç ve önceliklendir | ✅ Tamam (+ sertleştirildi) |
 | 3 | GDELT çok dilli açılım | ✅ Tamam (plandan farklı rotayla) |
 | 4 | Yerel RSS kaynak genişletmesi | 🟡 ~%10 |
@@ -36,24 +36,43 @@ Baseline `d9a65dd`, `upstream/main` ile **birebir aynı** (tree hash `cd88e9fa�
 `convex/_generated/*.js`) `git add -f` ile içeri alındı — aksi halde her merge'de sahte
 çakışma üretecekti. Dal: `feature/multilingual-sources`. Husky `core.hooksPath` ile aktif.
 
-## Faz 1 — Veriyi akıt ❌ **TIKALI, sıradaki iş bu**
+## Faz 1 — Veriyi akıt ✅
 
-Tıkanma noktası: **`.env` yok** (sadece `.env.example` var). `docker compose` ayağa kalkmıyor:
+`.env` üretildi (3 zorunlu sır, `openssl rand -hex 32`, 0600, gitignore'da). Stack ayakta:
+`worldmonitor` + `ais-relay` healthy, `redis` + `redis-rest` up, dashboard `:3000` → 200.
 
-```
-required variable REDIS_PASSWORD is missing
-required variable REDIS_TOKEN is missing
-```
+**Yol boyunca çıkan hata:** `SELF_HOSTING.md` `RELAY_SHARED_SECRET`'i zorunlu diye
+belgeliyor ama `docker-compose.yml` onu hiçbir servise geçirmiyordu. Dokümanı birebir izleyen
+herkeste `ais-relay` sonsuz FATAL restart döngüsüne giriyor — ve bu dışarıdan görünmüyor,
+çünkü uygulama `condition: service_started` ile bağlı (restart sırasında da sağlanır), yani
+pano sağlıklı görünüp 200 dönerken tüm korumalı relay yolları ölü. Düzeltildi + regresyon
+testi (`tests/docker-compose-relay-secret-wiring.test.mts`).
 
-Docker daemon çalışıyor, stack çalışmıyor. Yapılacaklar:
+### Referans noktası — besleme canlılığı (ilk kez ölçüldü)
 
-1. `cp .env.example .env`, ardından `openssl rand -hex 32` ile `REDIS_PASSWORD` + `REDIS_TOKEN`
-2. `docker compose up -d && ./scripts/run-seeders.sh` (bkz. `SELF_HOSTING.md`)
-3. Ücretsiz anahtarlar: FRED, Finnhub, NASA FIRMS, ACLED, Groq (LLM özet için)
-4. **Ekran görüntüsü al** — "önce" hali olmadan hiçbir değişikliğin etkisi ölçülemez
-5. `npm run test:feeds` — 625 beslemenin kaçı ölü, hâlâ bilinmiyor
+`npm run test:feeds` → **728 OK · 12 bayat · 15 ölü · 20 boş · 1 atlandı**
 
-Boş pano bir hata değil: okuma/yazma tamamen ayrık, edge handler'lar yalnızca Redis okur.
+Ölü olanlardan dil kapsamını doğrudan ilgilendirenler:
+
+| Besleme | Hata | Etkilenen dil |
+|---|---|---|
+| Al Arabiya `[ar]` | HTTP 403 | **ar** — zaten tek kaynak |
+| EuroNews `[pt]`, EuroNews `[ru]` | fetch failed | **pt**, **ru** |
+| Tuoi Tre News | fetch failed | **vi** |
+| Irrawaddy, ABC News Australia, News24, Vanguard Nigeria, Channels TV | 403 / timeout / parse | bölgesel |
+
+Bayat olanlar arasında **Ynetnews (2024-03)**, **Corriere della Sera (2024-05)**,
+**Jerusalem Post (2025-06)**, **CSIS (2016!)** var. Boş dönenler arasında `Asharq Business`,
+`Primicias [es]`, `Híradó [hu]`, `Zerkalo` bulunuyor.
+
+**Faz 4 için sonuç:** yeni kaynak eklemeden önce ölü/bayat olanların ayıklanması gerekiyor —
+`ar` dilinin tek yerel kaynağı (Al Arabiya) 403 veriyor, yani `ar` kapsamı kâğıt üzerinde 1,
+pratikte 0.
+
+Boş pano bir hata değildir: okuma/yazma tamamen ayrık, edge handler'lar yalnızca Redis okur.
+
+Kalan opsiyonel iş: ücretsiz API anahtarları (FRED, Finnhub, NASA FIRMS, ACLED, Groq) —
+seeder'ların bir kısmı bunlar olmadan `FAIL` veriyor, ki bu beklenen davranış.
 
 ## Faz 2 — Ölç ve önceliklendir ✅
 
@@ -120,11 +139,47 @@ Wikinews (30+ dil, CC-BY, anahtarsız) · Mastodon (federe, yerel dil toplulukla
 Bluesky/AT Protocol (ücretsiz firehose). Her biri: `scripts/seed-*.mjs` + `runSeed()` +
 cache key + handler.
 
-## Faz 6 — Altyapı sağlamlaştırma ❌
+## Faz 6 — Altyapı ❌ — **canlıya çıkışın gerçek blokerleri burada**
 
-`api/_cors.js` → kendi domain (deploy edilecekse **ilk bu**) · `vite.config.ts` dev proxy'lere
-`dns.setDefaultResultOrder('ipv4first')` · demo/fixture modu (`npm run sandbox:fixtures`) ·
-`vite.config.ts` (1674 satır) bölme · **AGPL gereği:** arayüzde kaynak kodu linki + `NOTICE`.
+Aşağıdaki ilk iki madde bilgi eksikliğinden bekliyor: **fork'un herkese açık repo adresi** ve
+**deploy edilecek domain**. İkisi bilinmeden doğru yapılamaz, tahminle yapılırsa yanlış olur.
+
+### B1 — CORS kendi domain'ine bağlı değil 🔴
+
+`api/_cors.js:1-16` sabit kodlu:
+
+```js
+/^https:\/\/(.*\.)?worldmonitor\.app$/,
+/^https:\/\/worldmonitor-[a-z0-9-]+-eliewm\.vercel\.app$/,   // upstream'in Vercel takımı
+```
+
+Kendi domain'inde yayına alındığında tarayıcı istekleri engellenir ve izin verilmeyen
+origin'ler için dönen değer `https://worldmonitor.app` olur. `NODE_ENV=production` altında
+localhost da düşer. Domain bilinince tek dosyada çözülür.
+
+Ölçek notu: `worldmonitor.app` 218 dosyada geçiyor (53 `scripts/`, 32 `api/`, 27
+`src/locales/`), ama işlevsel merkez `src/config/web-origin.ts:15` (`WEB_APP_ORIGIN`, 10
+tüketici). Marka sökme işi bundan çok daha büyük ve **canlıya çıkmak için zorunlu değil.**
+
+### B2 — AGPL §13: kaynak kodu linki upstream'i gösteriyor 🔴
+
+Arayüzdeki tüm kaynak linkleri `koala73/worldmonitor`'a gidiyor:
+`src/app/panel-layout.ts:946` ve `:1131`, `index.html:137/163/438`,
+`src/services/preferences-content.ts:33`, `src/app/desktop-updater.ts:103`.
+
+AGPL-3.0 §13, ağ üzerinden **değiştirilmiş** bir sürümü sunduğunda kullanıcılara **o
+değiştirilmiş sürümün** Corresponding Source'unu sunmayı şart koşar. Upstream'e link vermek
+bunu karşılamaz — orada çalıştırdığın kod yok. Ayrıca `NOTICE` dosyası yok.
+
+Yapılacak (fork URL'i belli olunca): yukarıdaki linkleri fork'a çevir, `NOTICE` ekle
+(atıf + değişiklik bildirimi), `LICENSE` (AGPL-3.0-only) olduğu gibi kalsın, telif
+başlıklarını silme.
+
+### Kalan (bloker değil)
+
+`vite.config.ts` dev proxy'lerine `dns.setDefaultResultOrder('ipv4first')` ·
+demo/fixture modu (`npm run sandbox:fixtures` altyapısı hazır) · `vite.config.ts`
+(1674 satır) bölme.
 
 ---
 
@@ -141,6 +196,14 @@ Düşman gözüyle inceleme 10 kusur çıkardı, hepsi düzeltildi. Fazlarla ilg
 
 ## Önerilen sıradaki adım
 
-**Faz 1'i aç** (`.env` + docker + seeder). Faz 4'ün asıl işi — kaynak eklemek — referans
-noktası olmadan körlemesine yapılır: hangi beslemenin canlı olduğunu `npm run test:feeds`
-olmadan, eklemenin panoda ne değiştirdiğini dolu bir Redis olmadan göremezsin.
+Faz 1 kapandı, referans noktası artık var. İki iş paralel yürüyebilir:
+
+1. **Faz 6 / B1 + B2** — canlıya çıkışın önündeki tek gerçek engel. Fork repo adresi ve
+   deploy domain'i belli olur olmaz ikisi de birkaç saatlik iş. Bunlar bitmeden yayına
+   çıkmak AGPL ihlali (B2) ve çalışmayan bir tarayıcı deneyimi (B1) demek.
+2. **Faz 4** — artık ölçülebilir. Sıra: önce ölü/bayat ayıklama (özellikle `ar`'ın tek
+   kaynağı Al Arabiya 403 veriyor), sonra hedef dillerde 1-3 → 5-8 genişletme, her kaynak
+   için 6 dosyalık kontrol listesi.
+
+Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
+oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.
