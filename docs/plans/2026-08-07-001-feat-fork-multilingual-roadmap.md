@@ -114,6 +114,27 @@ Bu bir genişletme değil, asimetri onarımıydı. Hedef dillerin bugünkü yere
 | zh, ko, th, vi | 2 | 5-8 |
 | tr, pt | 3 | 5-8 |
 
+### Canlı digest ölçümü — tek kaynak eklemek yetmiyor (2026-08-07)
+
+Ayakta duran stack'te `/api/news/v1/list-feed-digest` dile göre ölçüldü:
+
+| Dil | Kaynak | Haber | Yerel kaynakların katkısı |
+|---|---:|---:|---|
+| pt | 99 | 281 | O Globo 5 · Folha 5 · Brasil Paralelo 5 = **15** ✅ |
+| ar | 96 | 275 | Asharq News = **0** |
+| en | 96 | 275 | — |
+| tr | 57 | 175 | Daily Sabah 1 · Hurriyet 0 |
+
+`ar` ve `en`'in birebir aynı çıkması cache sızıntısı değil — anahtar
+`news:digest:v1:${variant}:${lang}` (doğrulandı). Sebep `MAX_ITEMS_PER_CATEGORY = 20`:
+`middleeast` kategorisinde tek Arapça kaynak ~14 İngilizce kaynakla yarışıyor ve sıralamada
+eleniyor. Yani **kaynak katalogda var, digest'e giriyor, çıktıda görünmüyor.**
+
+Bunun Faz 4 için sonucu: 3'lü Brezilya paketi görünürken tek başına eklenen `ar`/`fa`
+kaynağı görünmüyor. Dil başına 5-8 hedefi bir kapsam sayısı değil, **görünürlük eşiği** —
+kategori kapağını aşabilmek için gereken kütle. Tek tek eklemek ölçülebilir sonuç vermez;
+dil paketi halinde eklemek verir.
+
 Her yeni besleme için **6 dosyalık kontrol listesi** (atlanırsa sessizce çalışmaz):
 
 | # | Dosya | Ne yapılır |
@@ -144,7 +165,18 @@ cache key + handler.
 Aşağıdaki ilk iki madde bilgi eksikliğinden bekliyor: **fork'un herkese açık repo adresi** ve
 **deploy edilecek domain**. İkisi bilinmeden doğru yapılamaz, tahminle yapılırsa yanlış olur.
 
-### B1 — CORS kendi domain'ine bağlı değil 🔴
+**Karar (2026-08-07):** deploy hedefi **kendi sunucu + Docker**; fork henüz yayınlanmadı.
+
+### B1 — CORS 🟡 bloker değil (Docker self-host'ta)
+
+Ayakta duran stack'te doğrulandı: pano ve API aynı origin'den (`:3000`) servis ediliyor, o
+yüzden normal kullanımda CORS devreye girmiyor — `/api/seismology/...` aynı origin'den 200.
+Yabancı origin'li bir istek ise beklendiği gibi reddediliyor (`access-control-allow-origin`
+istekle eşleşmiyor). CORS ancak şu üç durumda gerekli olur: başka siteye **embed** widget,
+**ayrı `api.` alt alan adı**, veya **Tauri masaüstü** istemcisi. Hiçbiri yayına çıkmak için
+zorunlu değil.
+
+Yine de domain belli olunca düzeltilmeli — mevcut hali upstream'in altyapısını gösteriyor:
 
 `api/_cors.js:1-16` sabit kodlu:
 
@@ -175,6 +207,20 @@ Yapılacak (fork URL'i belli olunca): yukarıdaki linkleri fork'a çevir, `NOTIC
 (atıf + değişiklik bildirimi), `LICENSE` (AGPL-3.0-only) olduğu gibi kalsın, telif
 başlıklarını silme.
 
+**Bugün ihlal yok:** yükümlülük ancak değiştirilmiş sürüm *ağ üzerinden başkalarına*
+sunulduğunda doğar. Şu an yalnızca yerelde çalışıyor, dolayısıyla linklerin upstream'i
+göstermesi bugün doğru. Sıralama şu: önce fork'u yayınla → sonra linkleri çevir → sonra
+deploy et. Bu sırayı bozmak (önce deploy) ihlal olur.
+
+### B3 — Self-host zorunlu sırları ✅ çözüldü (2026-08-07)
+
+İki tanesi eksikti ve ikisi de sessizce ölümcüldü: `RELAY_SHARED_SECRET` compose'a hiç
+geçirilmiyordu (relay FATAL restart döngüsü, dışarıdan görünmüyor çünkü uygulama
+`service_started` ile bağlı), `WM_SESSION_SECRET` ise ne compose'da ne `SELF_HOSTING.md`
+tablosundaydı — `POST /api/wm-session` 503 dönüyor, hiçbir tarayıcı oturum jetonu alamıyor
+ve digest dahil oturum korumalı her uç 401 veriyordu. İkisi de düzeltildi, belgelendi ve
+regresyon testine bağlandı (`tests/docker-compose-relay-secret-wiring.test.mts`).
+
 ### Kalan (bloker değil)
 
 `vite.config.ts` dev proxy'lerine `dns.setDefaultResultOrder('ipv4first')` ·
@@ -196,14 +242,18 @@ Düşman gözüyle inceleme 10 kusur çıkardı, hepsi düzeltildi. Fazlarla ilg
 
 ## Önerilen sıradaki adım
 
-Faz 1 kapandı, referans noktası artık var. İki iş paralel yürüyebilir:
+Faz 1 kapandı, referans noktası var, self-host blokerleri (B3) çözüldü. Canlıya çıkışın
+önünde artık **tek** iş kaldı ve o da sizin elinizde: fork'u yayınlamak (B2).
 
-1. **Faz 6 / B1 + B2** — canlıya çıkışın önündeki tek gerçek engel. Fork repo adresi ve
-   deploy domain'i belli olur olmaz ikisi de birkaç saatlik iş. Bunlar bitmeden yayına
-   çıkmak AGPL ihlali (B2) ve çalışmayan bir tarayıcı deneyimi (B1) demek.
-2. **Faz 4** — artık ölçülebilir. Sıra: önce ölü/bayat ayıklama (özellikle `ar`'ın tek
-   kaynağı Al Arabiya 403 veriyor), sonra hedef dillerde 1-3 → 5-8 genişletme, her kaynak
-   için 6 dosyalık kontrol listesi.
+Sıra:
+
+1. **Faz 4 — dil paketleri.** Artık ölçülebilir ve strateji netleşti: tek tek değil,
+   **paket halinde**. Önce ölü/bayat ayıklama (`ar`'ın tek yerel kaynağı Al Arabiya 403,
+   EuroNews `pt`/`ru` fetch failed, Tuoi Tre `vi` ölü), sonra `ar` ve `fa` ile başlayarak
+   dil başına 5-8'e çıkarma — `pt` paketi bunun çalıştığını canlıda kanıtladı.
+2. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE.
+3. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci
+   gerekiyorsa. Aynı-origin Docker kurulumunda gerekmez.
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.
