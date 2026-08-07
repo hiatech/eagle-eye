@@ -77,3 +77,44 @@ describe('docker self-hosting — relay secret reaches both sides', () => {
     assert.match(selfHosting, /RELAY_SHARED_SECRET/);
   });
 });
+
+describe('docker self-hosting — browser session auth is configurable', () => {
+  it('requires WM_SESSION_SECRET on the app container', async () => {
+    // Without it POST /api/wm-session fails closed with 503, so no browser can
+    // mint a session token and every session-gated route 401s — the news digest
+    // included, which is most of the dashboard. `:?`-required rather than
+    // passed through because the alternative is a stack that reports healthy,
+    // serves 200 on the shell, and is unusable in a browser: the 503 shows up
+    // only in the network tab.
+    assert.match(
+      serviceBlock(await read('docker-compose.yml'), 'worldmonitor'),
+      /^\s+WM_SESSION_SECRET:\s*"\$\{WM_SESSION_SECRET:\?/m,
+      'worldmonitor must require WM_SESSION_SECRET',
+    );
+  });
+
+  it('documents it in the required-variables table', async () => {
+    // It was already in .env.example but in neither the compose file nor this
+    // table, so following the Quick Start produced a broken dashboard.
+    const selfHosting = await read('SELF_HOSTING.md');
+    assert.match(
+      selfHosting,
+      /^\|\s*`WM_SESSION_SECRET`\s*\|/m,
+      'WM_SESSION_SECRET must appear in the Required Environment Variables table',
+    );
+    assert.match(
+      selfHosting,
+      /echo "WM_SESSION_SECRET=\$\(openssl rand -hex 32\)"/,
+      'the Quick Start must generate it alongside the other required secrets',
+    );
+  });
+
+  it('ships no default value for it', async () => {
+    const compose = await read('docker-compose.yml');
+    assert.doesNotMatch(
+      compose,
+      /WM_SESSION_SECRET:\s*"\$\{WM_SESSION_SECRET:-.+\}"/,
+      'a default HMAC key would make every session token forgeable',
+    );
+  });
+});
