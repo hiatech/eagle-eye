@@ -360,6 +360,42 @@ export function looksLikeRssXml(text: string): boolean {
   return /<rss[\s>]|<feed[\s>]|<rdf:rdf[\s>]/.test(head);
 }
 
+/**
+ * Decode an RSS body using the encoding the publisher actually declared.
+ *
+ * `Response.text()` reads the charset from the `Content-Type` header and
+ * silently assumes UTF-8 when there isn't one — it never looks at the XML
+ * prolog. Publishers that serve legacy encodings without a charset parameter
+ * therefore arrive as replacement characters: Folha de S.Paulo sends
+ * `Content-Type: text/xml` over an `encoding="ISO-8859-1"` body, and a single
+ * fetch lands ~950 U+FFFD in the digest — every accented Portuguese headline
+ * mangled before it reaches the brief LLM.
+ *
+ * Header charset wins (it is the authoritative transport-level statement);
+ * the prolog is the fallback; UTF-8 is the default. An encoding label Node
+ * doesn't know falls back to UTF-8 rather than throwing, because a feed we
+ * can't name the encoding of is still better read optimistically than dropped.
+ *
+ * Exported for direct unit testing.
+ */
+export function decodeRssBody(bytes: ArrayBuffer, contentType: string | null): string {
+  const headerCharset = /charset=["']?([\w-]+)/i.exec(contentType ?? '')?.[1];
+  // The prolog is ASCII-compatible in every encoding we could be facing here,
+  // so reading the first bytes as iso-8859-1 is safe for the declaration
+  // itself. TextDecoder (not Buffer) because this file has no Node built-ins
+  // and must stay runtime-agnostic.
+  const prologCharset = headerCharset
+    ? undefined
+    : /^<\?xml[^>]*\bencoding=["']([\w-]+)["']/i
+      .exec(new TextDecoder('iso-8859-1').decode(bytes.slice(0, 256)))?.[1];
+  const label = headerCharset ?? prologCharset ?? 'utf-8';
+  try {
+    return new TextDecoder(label).decode(bytes);
+  } catch {
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+}
+
 async function fetchRssText(
   url: string,
   signal: AbortSignal,
@@ -376,7 +412,7 @@ async function fetchRssText(
       signal: controller.signal,
     });
     if (!resp.ok) return null;
-    const text = await resp.text();
+    const text = decodeRssBody(await resp.arrayBuffer(), resp.headers.get('content-type'));
     // Defensive: upstream may return HTTP 200 with an HTML interstitial
     // (Cloudflare bot challenge, captcha page). Reject up front so the
     // caller's relay fallback fires instead of caching an empty parse.
@@ -470,7 +506,12 @@ async function fetchAndParseRss(
           });
           relayStatus = resp.status;
           if (resp.ok) {
-            const relayText = await resp.text();
+            // Same decode as the direct path — the relay streams the upstream
+            // body through, so a publisher's legacy encoding survives the hop.
+            const relayText = decodeRssBody(
+              await resp.arrayBuffer(),
+              resp.headers.get('content-type'),
+            );
             // Relay can also return CF-challenge HTML if the relay's IP is
             // challenged — apply the same sniff to keep the cache clean.
             if (looksLikeRssXml(relayText)) {
