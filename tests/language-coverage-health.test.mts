@@ -311,18 +311,36 @@ describe('language coverage ratchet fails in both directions', () => {
   });
 
   it('cannot be silenced by declaring a different universal-pool language', async () => {
-    const violations = await auditWithPolicy({
+    const policy = {
       universalPoolLanguage: 'tr',
       floors: {},
       zeroNativeAllowlist: { fa: 'documented' },
       digestBlindAllowlist: { ar: 'documented', pt: 'documented' },
-    });
-    // Exempting tr does not exempt en, so en's own (unmeasurable) tag count
-    // now surfaces instead of being quietly folded into the pool.
-    assert.ok(
-      violations.some((v) => v.startsWith('en:')),
-      'moving the exemption must expose the language that actually holds the pool',
+    };
+    const rows = computeLanguageCoverage({ ...inputs, policy });
+
+    // The exemption MOVES, it does not spread: declaring tr the pool exempts tr
+    // and puts en back under audit. (This used to assert an `en:` violation,
+    // which worked only while en had zero server-native sources; the locale
+    // maps in _feeds.ts gave it some, so the assertion has to test the
+    // invariant rather than that incidental gap.)
+    assert.deepEqual(rows.filter((row) => row.isUniversalPool).map((row) => row.language), ['tr']);
+    assert.notEqual(
+      rows.find((row) => row.language === 'en')?.status,
+      'UNIVERSAL-POOL',
+      'moving the exemption must put the previous pool language back under audit',
     );
+
+    // …and every other language is still evaluated, not globally silenced:
+    // these allowlist entries describe gaps that no longer exist, so they must
+    // still surface as stale.
+    const violations = await auditWithPolicy(policy);
+    for (const language of ['fa', 'ar', 'pt']) {
+      assert.ok(
+        violations.some((v) => v.startsWith(`${language}:`) && v.includes('stale')),
+        `${language} must still be audited when the pool language moves`,
+      );
+    }
   });
 });
 

@@ -301,6 +301,7 @@ export function validateVariantTagConsistency({ variantFeedMaps }) {
  * language has ANY server-native source, and ar has Asharq News, so it passes.
  * The gap is per-FEED, and only a per-feed comparison finds it.
  */
+
 export function validateMultiUrlDigestParity({ clientFeeds, serverFeeds, languages, policy }) {
   // `_`-prefixed keys are prose for the reader, not feed names.
   const allowlist = Object.fromEntries(
@@ -311,27 +312,39 @@ export function validateMultiUrlDigestParity({ clientFeeds, serverFeeds, languag
   const problems = [];
   const seen = new Set();
 
+  const localesOf = (feed) => (feed.url && typeof feed.url === 'object'
+    ? Object.keys(feed.url).filter((locale) => supported.has(locale))
+    : []);
+
   for (const clientFeed of clientFeeds) {
-    if (!clientFeed.url || typeof clientFeed.url !== 'object') continue;
+    const clientLocales = localesOf(clientFeed);
+    if (clientLocales.length === 0) continue;
     const serverFeed = serverByName.get(clientFeed.name);
     if (!serverFeed) continue;
-    // Locales this feed serves natively in the pane, minus whatever the server
-    // twin already covers. An untagged server twin IS the universal pool, so it
-    // covers that one language — every other locale key on the client is a pane
-    // the digest cannot follow.
-    const serverLang = serverFeed.lang ?? (policy?.universalPoolLanguage ?? 'en');
-    const unmatched = Object.keys(clientFeed.url)
-      .filter((locale) => supported.has(locale) && locale !== serverLang)
+    // An untagged single-URL server twin covers the universal-pool language
+    // only; anything else the client publishes per locale is a pane the digest
+    // cannot follow. TVN24 and Rzeczpospolita list the same Polish URL under
+    // `en` and `pl` (no English edition; deliberately EN default-on frontline
+    // coverage), so the URL comparison keeps them out of this.
+    const serverLocales = new Set(
+      localesOf(serverFeed).length > 0
+        ? localesOf(serverFeed)
+        : [serverFeed.lang ?? (policy?.universalPoolLanguage ?? 'en')],
+    );
+    const serverUrl = typeof serverFeed.url === 'string' ? serverFeed.url : null;
+    const unmatched = clientLocales
+      .filter((locale) => !serverLocales.has(locale)
+        && clientFeed.url[locale] !== serverUrl)
       .sort();
     if (unmatched.length === 0) continue;
     seen.add(clientFeed.name);
     if (allowlist[clientFeed.name]) continue;
     problems.push(
       `${clientFeed.name}: client serves ${unmatched.join('/')} from a locale-keyed URL, ` +
-      `server digest has a single ${serverLang ?? 'untagged'} URL — readers in those ` +
-      'locales get a pane in their language and a brief built from another. Mirror the ' +
-      'locale URL into server/worldmonitor/news/v1/_feeds.ts as its own lang-tagged entry, ' +
-      'or document it in multiUrlDigestAllowlist',
+      'the server digest catalog does not — readers in those locales get a pane in ' +
+      'their language and a brief built from another. Add the locale URL to this ' +
+      "feed's `url` map in server/worldmonitor/news/v1/_feeds.ts, or document it in " +
+      'multiUrlDigestAllowlist',
     );
   }
 
@@ -418,11 +431,10 @@ export function computeLanguageCoverage(inputs) {
     const servesLanguage = (feed) => feed.lang === language
       || (feed.url && typeof feed.url === 'object' && language in feed.url);
     const clientNative = clientFeeds.filter(servesLanguage);
-    // The server catalog cannot express this: ServerFeed.url is a plain string,
-    // so a multi-URL client feed has exactly one server twin and it is whatever
-    // language that URL happens to be. That asymmetry is the point of
-    // validateMultiUrlDigestParity below.
-    const serverNative = serverFeeds.filter((feed) => feed.lang === language);
+    // Symmetric: ServerFeed.url is now the same locale-map shape, and
+    // resolveServerFeedUrl picks by language exactly as fetchFeed does, so a
+    // locale key is native digest coverage on this side too.
+    const serverNative = serverFeeds.filter(servesLanguage);
     const clientNames = new Set(clientNative.map((feed) => feed.name));
     const serverNames = new Set(serverNative.map((feed) => feed.name));
     // Hoisted: getLocaleBoostedSources rebuilds its set from the whole catalog

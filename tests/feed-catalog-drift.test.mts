@@ -506,7 +506,11 @@ describe('feed catalog drift', () => {
     for (const name of FRONTLINE_EUROPE) {
       const feed = byName.get(name);
       assert.ok(feed, `server VARIANT_FEEDS.full.europe must include "${name}" for EN digests`);
-      assert.equal(feed?.url, expectedUrls[name], `server EN URL drifted for "${name}"`);
+      // `url` may be a locale map now (ServerFeed mirrors the client's shape so
+      // a uk/ru reader's brief is built from the edition their pane shows); the
+      // EN digest still has to resolve to exactly the URL pinned here.
+      const enUrl = typeof feed?.url === 'string' ? feed?.url : feed?.url?.en;
+      assert.equal(enUrl, expectedUrls[name], `server EN URL drifted for "${name}"`);
       assert.ok(!feed?.lang, `server entry for "${name}" must not set a non-en lang`);
     }
   });

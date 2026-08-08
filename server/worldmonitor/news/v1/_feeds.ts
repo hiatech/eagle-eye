@@ -1,6 +1,20 @@
 export interface ServerFeed {
   name: string;
-  url: string;
+  /**
+   * A single URL, or one per UI language — the same shape `Feed.url` has in
+   * src/config/feeds.ts.
+   *
+   * The locale map exists because these outlets publish a real edition per
+   * language under one masthead. The client already resolved per language, so
+   * an `ar` reader's Middle East pane fetched Al Jazeera in Arabic while the
+   * brief beside it was built from aljazeera.com in English — the pane and the
+   * summary of the pane in different languages. Mirroring the client's shape is
+   * what fixes that: naming the editions separately does not, because the
+   * digest is truncated to MAX_ITEMS_PER_CATEGORY and THEN filtered by the
+   * client's feed names, so a server-only name is fetched, ranked, and dropped
+   * while crowding out items that would have been visible.
+   */
+  url: string | Record<string, string>;
   lang?: string;
   strategicDefault?: boolean;
 }
@@ -10,6 +24,19 @@ export function isServerFeedReachableForLanguage(
   language: string,
 ): boolean {
   return !feed.lang || feed.lang === language || !!feed.strategicDefault;
+}
+
+/**
+ * The URL this feed should be fetched from for `language`.
+ *
+ * Deliberately identical to the client's rule (src/services/rss.ts:242-244):
+ * exact locale, then English, then whatever the map declares first. The two
+ * catalogs must resolve the same feed to the same URL or the digest summarises
+ * something the reader is not looking at.
+ */
+export function resolveServerFeedUrl(feed: ServerFeed, language: string): string {
+  if (typeof feed.url === 'string') return feed.url;
+  return feed.url[language] || feed.url.en || Object.values(feed.url)[0] || '';
 }
 
 const gn = (q: string) =>
@@ -50,10 +77,10 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Global News', url: 'https://globalnews.ca/feed/' },
     ],
     europe: [
-      { name: 'France 24', url: 'https://www.france24.com/en/rss' },
-      { name: 'EuroNews', url: 'https://www.euronews.com/rss?format=xml' },
-      { name: 'Le Monde', url: 'https://www.lemonde.fr/en/rss/une.xml' },
-      { name: 'DW News', url: 'https://rss.dw.com/xml/rss-en-all' },
+      { name: 'France 24', url: { en: 'https://www.france24.com/en/rss', fr: 'https://www.france24.com/fr/rss', es: 'https://www.france24.com/es/rss', ar: 'https://www.france24.com/ar/rss' } },
+      { name: 'EuroNews', url: { en: 'https://www.euronews.com/rss?format=xml', fr: 'https://fr.euronews.com/rss?format=xml', de: 'https://de.euronews.com/rss?format=xml', it: 'https://it.euronews.com/rss?format=xml', es: 'https://es.euronews.com/rss?format=xml', pt: 'https://pt.euronews.com/rss?format=xml', ru: 'https://ru.euronews.com/rss?format=xml' } },
+      { name: 'Le Monde', url: { en: 'https://www.lemonde.fr/en/rss/une.xml', fr: 'https://www.lemonde.fr/rss/une.xml' } },
+      { name: 'DW News', url: { en: 'https://rss.dw.com/xml/rss-en-all', de: 'https://rss.dw.com/xml/rss-de-all', es: gnLocale('site:dw.com/es', 'es-419', 'MX', 'MX:es-419') } },
       { name: 'Tagesschau', url: 'https://www.tagesschau.de/xml/rss2/', lang: 'de' },
       { name: 'ANSA', url: 'https://www.ansa.it/sito/ansait_rss.xml', lang: 'it' },
       { name: 'NOS Nieuws', url: 'https://feeds.nos.nl/nosnieuwsalgemeen', lang: 'nl' },
@@ -91,10 +118,10 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       // DEFAULT_ENABLED_SOURCES.europe. Ordinary non-en `lang` tags are filtered
       // from EN digests; strategic defaults explicitly bypass that filter.
       { name: 'Kyiv Independent', url: gn('site:kyivindependent.com when:3d') },
-      // Ukraine depth pack (#5951) — local institutional + independent sources
-      // (server keeps EN URLs; client multi-URL adds uk variants for UI locale).
-      { name: 'Ukrinform', url: gn('site:ukrinform.net when:3d') },
-      { name: 'Suspilne', url: gn('site:suspilne.media when:2d') },
+      // Ukraine depth pack (#5951) — local institutional + independent sources.
+      // Locale-keyed like the client: the uk digest reads the Ukrainian edition.
+      { name: 'Ukrinform', url: { en: gn('site:ukrinform.net when:3d'), uk: gnLocale('site:ukrinform.ua when:3d', 'uk', 'UA', 'UA:uk') } },
+      { name: 'Suspilne', url: { en: gn('site:suspilne.media when:2d'), uk: gnLocale('site:suspilne.media when:2d', 'uk', 'UA', 'UA:uk') } },
       { name: 'Ukrainska Pravda EN', url: gn('site:euromaidanpress.com when:2d') },
       { name: 'NV EN', url: gn('site:english.nv.ua when:2d') },
       { name: 'Hromadske EN', url: gn('site:hromadske.ua when:3d') },
@@ -108,7 +135,7 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       // use the outlets' live native RSS feeds for the EN digest path too.
       { name: 'TVN24', url: 'https://tvn24.pl/swiat.xml' },
       { name: 'Rzeczpospolita', url: 'https://www.rp.pl/rss_main' },
-      { name: 'Meduza', url: 'https://meduza.io/rss/en/all' },
+      { name: 'Meduza', url: { en: 'https://meduza.io/rss/en/all', ru: 'https://meduza.io/rss/all' } },
       { name: 'Moscow Times', url: 'https://www.themoscowtimes.com/rss/news' },
       // Caucasus (#5953) — secondary Russian periphery / BRI hinterland
       { name: 'Civil.ge', url: 'https://civil.ge/feed/' },
@@ -138,7 +165,7 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
     ],
     middleeast: [
       { name: 'BBC Middle East', url: 'https://feeds.bbci.co.uk/news/world/middle_east/rss.xml' },
-      { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
+      { name: 'Al Jazeera', url: { en: 'https://www.aljazeera.com/xml/rss/all.xml', ar: 'https://www.aljazeera.net/aljazeerarss/a7c186be-1adb-4b11-a982-4783e765316e/4e17ecdc-8fb9-40de-a5d6-d00f72384a51' } },
       // Theater coverage preset (#5956) - English regional sources.
       { name: 'Al Arabiya', url: gn('site:english.alarabiya.net when:2d') },
       { name: 'Guardian ME', url: 'https://www.theguardian.com/world/middleeast/rss' },
@@ -219,7 +246,7 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Africa News', url: gn('(Africa OR Nigeria OR Kenya OR "South Africa" OR Ethiopia) when:2d') },
       { name: 'Sahel Crisis', url: gn('(Sahel OR Mali OR Niger OR "Burkina Faso" OR Wagner) when:3d') },
       { name: 'News24', url: 'https://feeds.news24.com/articles/news24/TopStories/rss' },
-      { name: 'Africanews', url: 'https://www.africanews.com/feed/' },
+      { name: 'Africanews', url: { en: 'https://www.africanews.com/feed/', fr: 'https://fr.africanews.com/feed/rss' } },
       { name: 'Jeune Afrique', url: 'https://www.jeuneafrique.com/feed/', lang: 'fr', strategicDefault: true },
       { name: 'Premium Times', url: 'https://www.premiumtimesng.com/feed' },
       { name: 'Vanguard Nigeria', url: 'https://www.vanguardngr.com/feed/' },

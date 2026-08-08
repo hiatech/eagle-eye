@@ -14,10 +14,18 @@ import { sha256Hex } from '../../../_shared/hash';
 import { CHROME_UA } from '../../../_shared/constants';
 import {
   isServerFeedReachableForLanguage,
+  resolveServerFeedUrl,
   VARIANT_FEEDS,
   INTEL_SOURCES,
   type ServerFeed,
 } from './_feeds';
+
+/**
+ * A ServerFeed whose locale map has already been resolved for the request's
+ * language. Everything past buildDigest's entry assembly works with this, so
+ * the fetch/cache/telemetry path never has to know a feed can be multi-URL.
+ */
+type ResolvedServerFeed = Omit<ServerFeed, 'url'> & { url: string };
 import { classifyByKeyword, hasHistoricalMarker, type ThreatLevel } from './_classifier';
 import { assignStoryIdentity, adoptExistingCanonical } from './dedup.mjs';
 import { classifyOpinion } from '../../../_shared/opinion-classifier.js';
@@ -446,7 +454,7 @@ const CACHE_TTL_HEALTHY_S = 3600;
 const CACHE_TTL_EMPTY_S = 300;
 
 async function fetchAndParseRss(
-  feed: ServerFeed,
+  feed: ResolvedServerFeed,
   variant: string,
   signal: AbortSignal,
 ): Promise<ParseResult> {
@@ -583,7 +591,7 @@ function extractFirstDateTag(block: string, isAtom: boolean): string {
   return '';
 }
 
-function parseRssXml(xml: string, feed: ServerFeed, variant: string): ParseResult | null {
+function parseRssXml(xml: string, feed: ResolvedServerFeed, variant: string): ParseResult | null {
   const items: ParsedItem[] = [];
   let parsedTotal = 0;
   let droppedUndated = 0;
@@ -1331,19 +1339,28 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
   const deadlineTimeout = setTimeout(() => deadlineController.abort(), OVERALL_DEADLINE_MS);
 
   try {
-    const allEntries: Array<{ category: string; feed: ServerFeed }> = [];
+    // Locale resolution happens HERE, once, so everything downstream —
+    // fetch, relay fallback, per-host telemetry, and the `rss:feed:v8` cache
+    // key — sees a concrete URL. A feed whose url is a locale map would
+    // otherwise stringify into the cache key and collapse every language onto
+    // one entry.
+    const allEntries: Array<{ category: string; feed: ResolvedServerFeed }> = [];
+    const resolve = (feed: ServerFeed): ResolvedServerFeed => ({
+      ...feed,
+      url: resolveServerFeedUrl(feed, lang),
+    });
 
     for (const [category, feeds] of Object.entries(feedsByCategory)) {
       const filtered = feeds.filter(f => isServerFeedReachableForLanguage(f, lang));
       for (const feed of filtered) {
-        allEntries.push({ category, feed });
+        allEntries.push({ category, feed: resolve(feed) });
       }
     }
 
     if (variant === 'full') {
       const filteredIntel = INTEL_SOURCES.filter(f => isServerFeedReachableForLanguage(f, lang));
       for (const feed of filteredIntel) {
-        allEntries.push({ category: 'intel', feed });
+        allEntries.push({ category: 'intel', feed: resolve(feed) });
       }
     }
 

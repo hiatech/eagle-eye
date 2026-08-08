@@ -115,13 +115,10 @@ describe('feed parity: client vs server (PR #3715 follow-up)', () => {
     'SemiAnalysis',
     'EIA Reports',
     'Northern Miner',
-    // Mixed-locale routing: client uses direct rss() for en+de and a Google
-    // News query for es; server uses pure direct for en. The classifier
-    // treats any-locale-is-GoogleNews as Google News, so it flags this as a
-    // drift even though both sides do agree on en. Worth reconciling
-    // (probably: server should fall back to gn() for the same es query) but
-    // out of scope for the #3717 review fix.
-    'DW News',
+    // 'DW News' was here for mixed-locale routing — client used direct rss()
+    // for en+de and a Google News query for es while the server had only the
+    // direct en URL. Reconciled the way the note predicted: ServerFeed.url is
+    // now the same locale map, es included, so both sides route identically.
   ]);
 
   it('every NEW shared feed name uses consistent routing (grandfathered drift snapshot)', () => {
