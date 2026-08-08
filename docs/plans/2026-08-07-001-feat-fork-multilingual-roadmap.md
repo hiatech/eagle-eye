@@ -166,9 +166,64 @@ aynı), provenance/attribution dokunulmadı.
 Yan etki: `DW News` `KNOWN_DRIFTS`'ten çıktı — oradaki not zaten *"probably: server should fall
 back to gn() for the same es query"* diyordu, tam olarak bu yapıldı.
 
-**Açık kalan tek madde:** `Al Arabiya`'nın `ar` URL'i bulut IP'lerinden **403** veriyor
+**Açık kalan tek madde:** `Al Arabiya`'nın `ar` URL'i **403** veriyor
 (`multiUrlDigestAllowlist`'te belgeli). Çalışan bir Arapça URL bulunduğunda haritaya eklenip
 satır silinecek.
+
+### ✅ Faz 4.1b — istemcide olup sunucuda hiç olmayan yerel kaynaklar (2026-08-08)
+
+4.1 çok-URL'li beslemeleri hizaladı. Aynı sınıftan ikinci bir boşluk kaldı ve onu ayrı bir
+ölçüm buldu: **istemci kataloğunda `lang` etiketli olup sunucu digest kataloğunda adı bile
+geçmeyen** kaynaklar. Panelde okuyucunun dilinde görünüyor, AI brief'ine hiç girmiyor. 12
+dilde 25 kaynak. `validateMultiUrlDigestParity` bunları göremez — o yalnızca locale haritalı
+beslemeleri karşılaştırır, buradaki besleme sunucuda *hiç yok*.
+
+23'ü aynalandı. Aynalama, uydurma sunucu adı eklemek değil — isim istemcide zaten var, o
+yüzden `data-loader.ts`'in ad filtresi elemez ve 4.1'de reddedilen dışarı-itme sınıfına
+girmez.
+
+| Dil | Digest kaynağı: önce → sonra | Eklenenler |
+|---|---|---|
+| el | 1 → **5** | Naftemporiki, in.gr, iefimerida, Proto Thema |
+| es | 7 → **11** | El País, El Mundo, BBC Mundo, El Tiempo |
+| de | 3 → **6** | Bild, Der Spiegel, Die Zeit |
+| it | 2 → **4** | Corriere della Sera, Repubblica |
+| ru | 3 → **5** | BBC Russian, Novaya Gazeta Europe |
+| sv | 1 → **3** | Dagens Nyheter, Svenska Dagbladet |
+| tr | 1 → **3** | BBC Turkce, DW Turkish |
+| ko | 1 → **2** | Chosun Ilbo |
+| th | 1 → **2** | Thai PBS |
+| nl | 1 → **2** | De Telegraaf |
+| fr | 8 → **9** | BBC Afrique |
+
+`el`, `sv` ve `tr` bu satırların en önemlisi: üçünün de brief'i fiilen İngilizce'ydi.
+
+**İki kaynak bilinçli olarak aynalanmadı.** `NRC` (nl) 20s ve 40s yoklamada da yanıt vermedi;
+yanıtsız besleme `OVERALL_DEADLINE_MS` içindeki yerini yine de tutar, dolayısıyla eklediği tek
+kaynaktan pahalıya gelir. `Tuoi Tre News` (vi) TLS el sıkışmasında başarısız — planın zaten
+ölü diye kaydettiği besleme, doğrulandı. İkisinin de istemci girdisi duruyor.
+
+Kontrol listesi: 21 domain'in tamamı `rss-allowed-domains.json`'da zaten kayıtlıydı (kaynaklar
+istemcide mevcut olduğu için), yeni domain yok. `source-attribution-manifest.json` yeniden
+üretildi — host kümesi değişmedi, yalnızca `_feeds.ts` referansları eklendi — ve
+`scripts/shared/`'a aynalandı. `docs/data-sources.mdx`'te 4 envanter satırı güncellendi;
+satır sayısı 66 sabit kaldı çünkü o sayı besleme değil **kategori** sayıyor.
+
+### Faz 4.0 — ölü ayıklama: listenin yarısı artık geçersiz (2026-08-08)
+
+Yeniden yoklandı:
+
+| Besleme | Plandaki not | Bugün |
+|---|---|---|
+| EuroNews `[pt]` | fetch failed | ✅ HTTP 200, 50 öğe — **düzelmiş** |
+| EuroNews `[ru]` | fetch failed | ✅ HTTP 200, 50 öğe — **düzelmiş** |
+| Al Arabiya `[ar]` | 403 (bulut IP'lerinden) | ⚠️ 403 — konut IP'sinden de. Not düzeltildi: bulut IP'sine özgü değil |
+| Tuoi Tre News `[vi]` | fetch failed | ❌ TLS el sıkışması başarısız — gerçekten ölü |
+| NRC `[nl]` | *listede yoktu* | ❌ 20s ve 40s timeout — yeni bulgu |
+
+Ölü ikisinin istemci girdisini silmek kapsamı daraltır ve tek bir ağ noktasından yapılan
+ölçüm buna tek başına yetmez; `npm run test:feeds` deponun kendi erişilebilirlik kapısı ve
+karar sahibinindir. Şimdilik sunucuya aynalanmadılar, istemcide duruyorlar.
 
 ### Canlı digest ölçümü — tek kaynak eklemek yetmiyor (2026-08-07)
 
