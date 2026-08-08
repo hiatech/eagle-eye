@@ -162,6 +162,40 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Hurriyet', url: 'https://www.hurriyet.com.tr/rss/anasayfa', lang: 'tr', strategicDefault: true },
       { name: 'Polsat News', url: 'https://www.polsatnews.pl/rss/wszystkie.xml', lang: 'pl', strategicDefault: true },
       { name: 'Kathimerini', url: gnLocale('site:kathimerini.gr when:2d', 'el', 'GR', 'GR:el'), lang: 'el', strategicDefault: true },
+      // Native-language dailies that existed only in src/config/feeds.ts. The
+      // pane rendered them in the reader's language while the brief beside it
+      // was built from the English pool — the same "pane and summary in
+      // different languages" defect the locale-map work fixed for multi-URL
+      // feeds, arriving here by the other route: absent from this catalog
+      // entirely. Mirrored 1:1 (same name, same URL, same `lang`), so they are
+      // not the server-only entries feeds-client-server-parity rejects: a name
+      // with no client twin is fetched, ranked, then dropped by data-loader's
+      // name filter after MAX_ITEMS_PER_CATEGORY truncation, crowding out items
+      // that would have been visible.
+      { name: 'El País', url: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada', lang: 'es' },
+      { name: 'El Mundo', url: 'https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml', lang: 'es' },
+      { name: 'BBC Mundo', url: 'https://www.bbc.com/mundo/index.xml', lang: 'es' },
+      { name: 'Bild', url: 'https://www.bild.de/feed/alles.xml', lang: 'de' },
+      { name: 'Der Spiegel', url: 'https://www.spiegel.de/schlagzeilen/tops/index.rss', lang: 'de' },
+      { name: 'Die Zeit', url: 'https://newsfeed.zeit.de/index', lang: 'de' },
+      { name: 'Corriere della Sera', url: 'https://www.corriere.it/rss/homepage.xml', lang: 'it' },
+      { name: 'Repubblica', url: 'https://www.repubblica.it/rss/homepage/rss2.0.xml', lang: 'it' },
+      { name: 'De Telegraaf', url: gnLocale('site:telegraaf.nl when:1d', 'nl', 'NL', 'NL:nl'), lang: 'nl' },
+      { name: 'Dagens Nyheter', url: 'https://www.dn.se/rss/', lang: 'sv' },
+      { name: 'Svenska Dagbladet', url: 'https://www.svd.se/feed/articles.rss', lang: 'sv' },
+      { name: 'BBC Turkce', url: 'https://feeds.bbci.co.uk/turkce/rss.xml', lang: 'tr' },
+      { name: 'DW Turkish', url: 'https://rss.dw.com/xml/rss-tur-all', lang: 'tr' },
+      { name: 'Naftemporiki', url: 'https://www.naftemporiki.gr/feed/', lang: 'el' },
+      { name: 'in.gr', url: 'https://www.in.gr/feed/', lang: 'el' },
+      { name: 'iefimerida', url: 'https://www.iefimerida.gr/rss.xml', lang: 'el' },
+      { name: 'Proto Thema', url: gnLocale('site:protothema.gr when:2d', 'el', 'GR', 'GR:el'), lang: 'el' },
+      { name: 'BBC Russian', url: 'https://feeds.bbci.co.uk/russian/rss.xml', lang: 'ru' },
+      { name: 'Novaya Gazeta Europe', url: 'https://novayagazeta.eu/feed/rss', lang: 'ru' },
+      // NRC (nl) is deliberately NOT mirrored: nrc.nl/rss/ hung past both a
+      // 20s and a 40s probe on 2026-08-08. A feed that never answers still
+      // holds its slot against OVERALL_DEADLINE_MS, so it would cost the nl
+      // digest more than the one source it adds. Revisit if it starts
+      // answering; the client entry stays, since the pane fetches via proxy.
     ],
     middleeast: [
       { name: 'BBC Middle East', url: 'https://feeds.bbci.co.uk/news/world/middle_east/rss.xml' },
@@ -268,6 +302,8 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Le Quotidien', url: 'https://lequotidien.sn/feed/', lang: 'fr' },
       // Pan-African
       { name: 'RFI Afrique', url: 'https://www.rfi.fr/en/africa/rss' },
+      // Client-only until now, so the fr pane had it and the fr brief did not.
+      { name: 'BBC Afrique', url: 'https://www.bbc.com/afrique/index.xml', lang: 'fr' },
     ],
     latam: [
       { name: 'BBC Latin America', url: 'https://feeds.bbci.co.uk/news/world/latin_america/rss.xml' },
@@ -285,6 +321,8 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Folha de S.Paulo', url: 'https://feeds.folha.uol.com.br/emcimadahora/rss091.xml', lang: 'pt' },
       { name: 'Brasil Paralelo', url: 'https://www.brasilparalelo.com.br/noticias/feed.xml', lang: 'pt' },
       { name: 'InSight Crime', url: 'https://insightcrime.org/feed/' },
+      // Client-only until now; Colombia is the es pane's Andean anchor.
+      { name: 'El Tiempo', url: 'https://www.eltiempo.com/rss/mundo_latinoamerica.xml', lang: 'es' },
     ],
     asia: [
       { name: 'BBC Asia', url: 'https://feeds.bbci.co.uk/news/world/asia/rss.xml' },
@@ -305,6 +343,14 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Bangkok Post', url: gn('site:bangkokpost.com when:1d'), lang: 'th', strategicDefault: true },
       { name: 'VnExpress', url: 'https://vnexpress.net/rss/tin-moi-nhat.rss', lang: 'vi', strategicDefault: true },
       { name: 'Yonhap News', url: 'https://www.yonhapnewstv.co.kr/browse/feed/', lang: 'ko', strategicDefault: true },
+      // Client-only until now — ko and th each had exactly one digest source,
+      // so a second one is the difference between a brief that can quote a
+      // native outlet and one that cannot. Tuoi Tre News (vi) is the third
+      // feed in this group and is NOT mirrored: tuoitrenews.vn fails the TLS
+      // handshake outright (2026-08-08), which is what the roadmap already
+      // recorded as dead.
+      { name: 'Chosun Ilbo', url: 'https://www.chosun.com/arc/outboundfeeds/rss/?outputType=xml', lang: 'ko' },
+      { name: 'Thai PBS', url: gnLocale('Thai PBS World news', 'en', 'US', 'US:en'), lang: 'th' },
       // Hindi (HI) — mainstream national coverage boosted for Hindi locale users
       { name: 'BBC Hindi', url: 'https://feeds.bbci.co.uk/hindi/rss.xml', lang: 'hi' },
       { name: 'Aaj Tak', url: 'https://www.aajtak.in/rssfeeds/?id=home', lang: 'hi' },
