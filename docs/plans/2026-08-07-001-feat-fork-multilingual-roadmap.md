@@ -667,6 +667,11 @@ yerel *değil*.
 `ar` ve `pt`'nin kotanın üstüne çıkması doğru davranış: kota taban, kalan slotlar liyakatle
 kazanılıyor.
 
+### ⚠️ Aşağıdaki "bozuk besleme" listesi geçersiz — `feedStatuses` sağlık ölçüsü değil
+
+Liste `feedStatuses`'tan çıkarılmıştı. Sonraki araştırma bunun yanlış bir gösterge olduğunu
+gösterdi; doğrusu 4.2f'de. Liste kayıt için duruyor, **eyleme geçirilmemeli.**
+
 ### 📋 Bulunan bozuk beslemeler — ayrı bir iş kalemi
 
 22 dilin `feedStatuses` çıktısı toplandı: **45 besleme sorunlu.** İkiye ayrılıyor.
@@ -696,3 +701,57 @@ yazılan soyut fayda burada somut olarak ölçüldü.
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.
+
+### 🔬 Faz 4.2f — `feedStatuses` besleme sağlığını ölçmez (2026-08-08)
+
+4.2e'deki "45 bozuk besleme" listesi yanlış temelde kurulmuştu. Araştırma üç ayrı şey çıkardı.
+
+**1. Digest sıcak `rss:feed` cache'ine bağımlı, ve soğukken haberin yarısını veriyor.**
+Hem `news:digest:*` hem `rss:feed:*` silindikten sonra art arda istek:
+
+| Tur | Sorunlu besleme | Dağılım | Haber |
+|---|---:|---|---:|
+| 1 (tam soğuk) | 112 | 99 `timeout`, 13 `empty` | **124** |
+| 2 | 42 | 37 `empty`, 3 `timeout` | 266 |
+| 3-4 (kararlı) | **39** | 37 `empty`, 2 `all-undated` | **267** |
+
+Üretimde seeder/cron cache'i sıcak tutuyor, ama **taze deploy ya da cache temizliğinden
+sonraki ilk okuyucular yarım digest alıyor.** Bu başlı başına bir Faz 6 kalemi.
+
+Bunun yan sonucu: 4.2e'nin "45 bozuk" sayımı yarı-sıcak bir anda alınmıştı — bazı beslemeler
+1 saatlik sağlıklı cache'ten geliyor, bazıları gelmiyordu. Kararlı sayı 39.
+
+**2. Ama kararlı 39 da sağlık ölçüsü değil.** Kalan `empty`'lerden beşi (`ABC News`,
+`Hacker News`, `The Hill`, `Bellingcat`, `Japan Today`) uygulamanın **birebir aynı
+başlıklarıyla, konteynerin içinden** çalıştırıldığında HTTP 200 ve dolu dönüyor:
+
+```
+ABC News       HTTP 200  44751 bayt  25 item
+Hacker News    HTTP 200  15527 bayt  20 item
+The Hill       HTTP 200  20139 bayt  15 item
+Bellingcat     HTTP 200 437869 bayt  10 item
+Japan Today    HTTP 200  21037 bayt  30 item
+```
+
+Sebep `fetchRssText`'in iptal davranışı: genel deadline'a yaklaşıldığında in-flight fetch'ler
+abort ediliyor, çağıran taraf `.catch(() => null)` ile bunu yutuyor, relay de düşünce sonuç
+`empty` olarak damgalanıyor. Yani **`empty` iki farklı durumu birleştiriyor** — "kaynak ölü"
+ve "bu koşuda yetişemedik". `CACHE_TTL_EMPTY_S = 300` bunu kendi kendini besleyen bir hâle
+sokuyor: boş sonuç 5 dk cache'leniyor, yeniden denemesi de deadline baskısı altındaki bir
+koşuya denk gelirse boş kalmaya devam ediyor.
+
+Gerçekten ölü olanlar da var — `PBS NewsHour` HTTP **202 ve 0 bayt** dönüyor, klasik bot
+challenge. Onun `empty` damgası doğru. Ayrım `feedStatuses`'tan yapılamıyor, mesele bu.
+
+**3. Konteyner çıkış yolu suçsuz.** İlk hipotez buydu; `wget` ve `fetch` ile konteynerin
+içinden yapılan testler beslemelerin eriştiğini gösterdi. Tek gerçek istisna
+`Hankyoreh` (hani.co.kr, 51 bayt).
+
+**Sonuç:** besleme sağlığı **`npm run test:feeds`** ile ölçülmeli — deponun bu iş için
+ayırdığı kapı zaten o. `feedStatuses` bir koşunun ne kadarını yetiştirebildiğini gösterir,
+neyin canlı olduğunu değil. Hiçbir besleme bu listeye dayanarak silinmemeli.
+
+**Açılan iş kalemleri** (ikisi de Faz 6, kaynak eklemekten daha yüksek getirili):
+1. Soğuk-cache digest'i yarım çıktı veriyor — deadline bütçesi / ısıtma stratejisi.
+2. `empty` sınıflandırması iptal ile ölü kaynağı ayırmıyor; ayrıldığında `CACHE_TTL_EMPTY_S`
+   yalnızca gerçekten boş dönenlere uygulanabilir.
