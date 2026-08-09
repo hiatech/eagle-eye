@@ -505,6 +505,48 @@ kaynaklara ayrılmalı, kalanı normal sıralamadan doldurulmalı. `en` etkilenm
 **Bu bir ürün davranışı değişikliği** — her İngilizce olmayan okuyucunun brief'inin nasıl
 kurulduğunu değiştirir, ayrılan pay kadar küresel haber dışarı çıkar. Karar sahibinin.
 
+### ✅ Kota uygulandı ve canlıda doğrulandı (2026-08-08)
+
+Sahibin kararı: 20 slotun 8'i yerel kaynaklara ayrılsın. `sliceCategoryWithNativeReserve`
+(`list-feed-digest.ts`) kırpma anında devreye giriyor. Aynı stack, aynı ölçüm:
+
+| Dil | Önce | Sonra | Brief'te görünen yerel kaynaklar |
+|---|---:|---:|---|
+| bg | 0 | **8** | 24 Chasa, Dnevnik, Vesti.bg |
+| cs | 0 | **8** | Novinky.cz, Seznam Zprávy |
+| fa | 2 | **8** | BBC Persian, IRNA Persian, ISNA |
+| ja | 0 | **8** | Asahi Shimbun, Jiji Press, Kyodo News, Mainichi Shimbun |
+| ko | 1 | **8** | Chosun Ilbo, Yonhap News |
+| th | 0 | **8** | Bangkok Post, Khaosod, Matichon |
+| vi | 0 | **8** | Thanh Nien, VnExpress |
+| zh | 0 | **8** | DW Chinese, MIIT (China), Ming Pao |
+| en | 0 | **0** | — (kota evrensel havuz dilinde kapalı) |
+
+Diller artık birbirinin kopyası değil: kaynak sayıları 89-93 arasında ayrışıyor, önce
+sekizi de tam 91'di.
+
+**Tasarım notları.** Kota tavan değil taban: `pt`/latam'da yerel kaynaklar kotanın üstünde
+liyakatle 15 slot almaya devam ediyor. Boş kalan kota normal sıralamaya geri dönüyor, yani
+iki kaynaklı bir dil kategoriye altı slot maliyeti çıkarmıyor. `strategicDefault`
+beslemeleri kotaya sayılmıyor — onlar zaten her locale'e ulaşıyor, sayılsalardı aynı kaynak
+26 dilde kotayı yerdi. `en` için küme boş, çünkü etiketsiz havuz zaten o dil.
+
+8 slotun 2-4 farklı kaynaktan gelmesi normal: `ITEMS_PER_FEED = 5`, yani iki besleme kotayı
+doldurmaya yetiyor.
+
+Kapı: `tests/digest-native-language-reserve.test.mts` (7 test) — doygun kategoride kotanın
+dolduğunu, boş kotanın geri verildiğini, `en`'de kapalı olduğunu ve liyakat üstünlüğünün
+korunduğunu bağlıyor.
+
+## Önerilen sıradaki adım (güncel)
+
+Faz 4 artık gerçekten kapalı: katalog **ve** onu görünür kılan sıralama. Kalanlar:
+
+1. **`hr`/`nl`/`pl`/`sv`/`tr` paketleri** (3'er kaynakta). Artık anlamlı — kota sayesinde
+   eklenen kaynak brief'e giriyor. Öncekilerle aynı yöntem.
+2. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE. Sahibinde.
+3. **Faz 5** (Wikinews / Mastodon / Bluesky).
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.

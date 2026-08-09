@@ -53,6 +53,34 @@ const VALID_VARIANTS = new Set(['full', 'tech', 'finance', 'happy', 'commodity']
 const fallbackDigestCache = new Map<string, { data: ListFeedDigestResponse; ts: number }>();
 const ITEMS_PER_FEED = 5;
 const MAX_ITEMS_PER_CATEGORY = 20;
+/**
+ * Slots per category held for sources written in the reader's own language.
+ *
+ * Without this the reserve is zero and native sources are simply outranked. A
+ * live measurement on 2026-08-08 read the digest for eight non-English UI
+ * languages: all eight returned byte-identical results and not one of the ~40
+ * newly added native sources appeared. They had been fetched and parsed — the
+ * per-feed statuses showed no errors — and then every item ranked below the
+ * cap. `cs`/europe held 20 items from 13 sources, all English-pool.
+ *
+ * The deciding variable is how crowded the category already is: the Brazilian
+ * pack takes 15 of latam's 20 slots because latam has ~11 sources, while
+ * europe (~90) and asia (~61) admit none. So this cannot be fixed by adding
+ * more sources — in a saturated category no pack is ever large enough.
+ *
+ * 8 of 20 leaves the majority of every category to the global ranking. The
+ * reserve is a ceiling, not a quota: unused slots fall back to normal ranking,
+ * so a language with two native sources loses nothing.
+ */
+const NATIVE_LANGUAGE_RESERVED_SLOTS = 8;
+/**
+ * The language the untagged feed pool is written in — untagged feeds reach
+ * every locale and are the bulk of both catalogs. Mirrors `universalPoolLanguage`
+ * in shared/language-coverage-policy.json, duplicated as a constant because
+ * Vercel's esbuild rejects JSON import attributes in bundled Edge code (the
+ * same reason api/_rss-allowed-domains.js keeps a literal array).
+ */
+const UNIVERSAL_POOL_LANGUAGE = 'en';
 const FEED_TIMEOUT_MS = 8_000;
 // Vercel Edge functions have a 25s initial-response ceiling. The digest
 // must fail closed to the warmed in-isolate fallback before the platform does.
@@ -1327,6 +1355,47 @@ async function writeStoryTracking(items: ParsedItem[], variant: string, lang: st
   await runRedisPipeline([['EXPIRE', accKey, DIGEST_ACCUMULATOR_TTL]]);
 }
 
+/**
+ * Truncate one category to MAX_ITEMS_PER_CATEGORY, holding up to
+ * NATIVE_LANGUAGE_RESERVED_SLOTS of them for `nativeSources`.
+ *
+ * `items` must already be sorted by rank. Both partitions keep that order, and
+ * the result is re-sorted by it, so the reserve changes WHICH items survive the
+ * cut, never how the survivors are ordered.
+ *
+ * Degrades in both directions: an empty `nativeSources` (the reader is on the
+ * universal-pool language, or that language has no native source in this
+ * category) reduces to a plain slice, and a language with fewer native items
+ * than the reserve hands the difference back to the general ranking rather than
+ * shipping short.
+ */
+function sliceCategoryWithNativeReserve(
+  items: ParsedItem[],
+  nativeSources: Set<string>,
+): ParsedItem[] {
+  if (nativeSources.size === 0 || items.length <= MAX_ITEMS_PER_CATEGORY) {
+    return items.slice(0, MAX_ITEMS_PER_CATEGORY);
+  }
+  const native: ParsedItem[] = [];
+  const rest: ParsedItem[] = [];
+  for (const item of items) {
+    (nativeSources.has(item.source) ? native : rest).push(item);
+  }
+  if (native.length === 0) return rest.slice(0, MAX_ITEMS_PER_CATEGORY);
+
+  const keptNative = native.slice(0, NATIVE_LANGUAGE_RESERVED_SLOTS);
+  const kept = [...keptNative, ...rest.slice(0, MAX_ITEMS_PER_CATEGORY - keptNative.length)];
+  // Native items beyond the reserve compete for what is left on merit, which
+  // matters when the general pool is thin — latam already fills most of its
+  // cap from Spanish and Portuguese sources without any reserve at all.
+  if (kept.length < MAX_ITEMS_PER_CATEGORY) {
+    kept.push(...native.slice(keptNative.length, keptNative.length + (MAX_ITEMS_PER_CATEGORY - kept.length)));
+  }
+  return kept.sort((a, b) =>
+    b.importanceScore - a.importanceScore || b.publishedAt - a.publishedAt,
+  );
+}
+
 async function buildDigest(variant: string, lang: string): Promise<ListFeedDigestResponse> {
   const feedsByCategory = VARIANT_FEEDS[variant] ?? {};
   const feedStatuses: Record<string, string> = {};
@@ -1363,6 +1432,16 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
         allEntries.push({ category: 'intel', feed: resolve(feed) });
       }
     }
+
+    // Sources written in the reader's own language, for the per-category
+    // reserve applied at truncation. Exact `lang` match only: a
+    // strategicDefault feed reaches every locale precisely because it is NOT
+    // native to most of them, so counting it here would spend the reserve on
+    // the same source in 26 languages. Empty for the universal-pool language,
+    // which turns the reserve off — the untagged pool IS that language.
+    const nativeSourceNames = lang === UNIVERSAL_POOL_LANGUAGE
+      ? new Set<string>()
+      : new Set(allEntries.filter(e => e.feed.lang === lang).map(e => e.feed.name));
 
     const results = new Map<string, ParsedItem[]>();
     // Track feeds that actually completed (with or without items) so we can
@@ -1556,12 +1635,21 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 
     // Sort by importanceScore desc, then pubDate desc; then truncate per category.
     const slicedByCategory = new Map<string, ParsedItem[]>();
+    let nativeReserved = 0;
     for (const [category, items] of results) {
       items.sort((a, b) =>
         b.importanceScore - a.importanceScore || b.publishedAt - a.publishedAt,
       );
       ledgerDrops.perCategoryCap += Math.max(0, items.length - MAX_ITEMS_PER_CATEGORY);
-      slicedByCategory.set(category, items.slice(0, MAX_ITEMS_PER_CATEGORY));
+      const sliced = sliceCategoryWithNativeReserve(items, nativeSourceNames);
+      nativeReserved += sliced.filter(item => nativeSourceNames.has(item.source)).length;
+      slicedByCategory.set(category, sliced);
+    }
+    if (nativeSourceNames.size > 0) {
+      console.log(
+        `[digest] native reserve lang=${lang} sources=${nativeSourceNames.size} ` +
+          `itemsKept=${nativeReserved}`,
+      );
     }
 
     const allSliced = [...slicedByCategory.values()].flat();
@@ -1649,6 +1737,10 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 
 /** Internal exports for unit tests only — do not import in production code. */
 export const __testing__ = {
+  sliceCategoryWithNativeReserve,
+  MAX_ITEMS_PER_CATEGORY,
+  NATIVE_LANGUAGE_RESERVED_SLOTS,
+  UNIVERSAL_POOL_LANGUAGE,
   parseRssXml,
   decodeXmlEntities,
   extractDescription,
