@@ -126,7 +126,7 @@ describe('a cancellation is never written to the feed cache', () => {
 
   it('returns on cancellation before reaching the empty-cache write', () => {
     const cancelledReturn = body.indexOf("outcome: 'cancelled'");
-    const emptyCacheWrite = body.indexOf(`setCachedJson(cacheKey, empty, CACHE_TTL_EMPTY_S)`);
+    const emptyCacheWrite = body.indexOf('setCachedJson(cacheKey, cachedFailure, CACHE_TTL_EMPTY_S)');
     assert.notEqual(cancelledReturn, -1, 'the cancelled branch must exist');
     assert.notEqual(emptyCacheWrite, -1, 'the short-cache write must still exist for real failures');
     assert.ok(
@@ -139,7 +139,7 @@ describe('a cancellation is never written to the feed cache', () => {
     // not-rss and unreachable mean upstream answered unusably. Losing the
     // short cache for those would hammer a broken host every build.
     assert.ok(
-      body.includes("outcome: failure === 'not-rss' ? 'not-rss' : 'unreachable'"),
+      body.includes('outcome: outcomeForFailure(reason)'),
       'non-cancelled failures must still be classified and cached',
     );
   });
@@ -215,6 +215,80 @@ describe('feed fetching runs as a pool, not synchronised batches', () => {
     assert.ok(
       /while \(!deadlineController\.signal\.aborted\)/.test(buildDigest),
       'workers must check the deadline between feeds, not run the queue dry',
+    );
+  });
+});
+
+/**
+ * A cached failure keeps saying why.
+ *
+ * The gap this closes, measured 2026-08-08: eight healthy feeds — ABC News,
+ * Atlantic Council, Civil.ge, Correctiv, Financial Times, Japan Today, The Hill
+ * and ThisDay — failed under the cold round's full ~460-feed load and were
+ * correctly stamped `unreachable`. The reason was then thrown away: the cached
+ * row carried only an empty item list, so every request inside the 300s window
+ * reported a flat `empty`. That is why the steady-state list read as though it
+ * were full of working feeds being slandered, and why the diagnosis took three
+ * rounds of measurement to reach.
+ *
+ * The invariant: reasons belong to the ROW (they describe why it was written
+ * and they expire with it); outcomes belong to the ATTEMPT and must not be
+ * cached. A genuinely empty parse still carries no reason — calling that a
+ * failure would recreate the conflation from the other direction.
+ */
+describe('a cached failure carries its reason', () => {
+  const body = DIGEST_SRC.slice(
+    DIGEST_SRC.indexOf('async function fetchAndParseRss'),
+    DIGEST_SRC.indexOf('// Date-tag priority lists'),
+  );
+
+  it('bumps the cache prefix, because warm rows lack the new field', () => {
+    // The repo's established pattern for a ParseResult shape change — the same
+    // reasoning as the v5→v6 droppedFeedCap bump.
+    assert.ok(
+      DIGEST_SRC.includes('`rss:feed:v9:${variant}:${feed.url}`'),
+      'adding a field to the cached struct requires a prefix bump',
+    );
+    assert.ok(
+      !DIGEST_SRC.includes('`rss:feed:v8:${variant}:${feed.url}`'),
+      'no residual v8 key may remain',
+    );
+  });
+
+  it('writes the reason into the row it caches', () => {
+    assert.ok(
+      /failureReason: reason/.test(body),
+      'the short-cached failure row must record why it failed',
+    );
+  });
+
+  it('reads the reason back instead of flattening it to empty', () => {
+    assert.ok(
+      /cached\.failureReason \? outcomeForFailure\(cached\.failureReason\) : 'cached'/.test(body),
+      'a cache hit must report the stored reason, and only healthy rows may read as cached',
+    );
+  });
+
+  it('does not label a genuinely empty parse as a failure', () => {
+    // parsedTotal === 0 from a successful parse is upstream having nothing.
+    // Only the null-parse branch (unusable body) gets a reason.
+    assert.ok(
+      body.includes("failureReason: 'not-rss',"),
+      'a null parse is upstream answering unusably, so it carries a reason',
+    );
+    assert.ok(
+      /outcome: result\.parsedTotal > 0[\s\S]{0,160}: 'empty'/.test(body),
+      'a parse that simply found nothing must still read as empty, not as a failure',
+    );
+  });
+
+  it('still never caches a cancellation, reason or not', () => {
+    const cancelledReturn = body.indexOf("outcome: 'cancelled'");
+    const firstCacheWrite = body.indexOf('setCachedJson(cacheKey, cachedFailure');
+    assert.ok(cancelledReturn !== -1 && firstCacheWrite !== -1);
+    assert.ok(
+      cancelledReturn < firstCacheWrite,
+      'the cancelled branch must still return before any failure row is written',
     );
   });
 });

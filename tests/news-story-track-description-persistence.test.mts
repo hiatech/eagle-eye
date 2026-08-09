@@ -416,16 +416,20 @@ describe('fetchAndParseRss — cache prefix invalidation contract', () => {
     // v7→v8: duration-led historical explainers now receive the same stable
     // ingest stamp. Digest reads trust explicit stamps, so warm v7 rows must
     // not retain a pre-rule "0" verdict for a cache TTL.
+    // v8→v9: ParseResult gained failureReason, so a cached row written because
+    // a fetch failed can say why instead of degrading to a bare `empty` for its
+    // whole TTL. Same class as v5→v6 — warm rows lack the field.
     assert.ok(
-      src.includes("`rss:feed:v8:${variant}:${feed.url}`"),
-      'rss:feed cache key must use v8 prefix — see comment above the cacheKey assignment in fetchAndParseRss',
+      src.includes("`rss:feed:v9:${variant}:${feed.url}`"),
+      'rss:feed cache key must use v9 prefix — see comment above the cacheKey assignment in fetchAndParseRss',
     );
     assert.ok(
-      !src.includes("`rss:feed:v7:${variant}:${feed.url}`") &&
+      !src.includes("`rss:feed:v8:${variant}:${feed.url}`") &&
+        !src.includes("`rss:feed:v7:${variant}:${feed.url}`") &&
         !src.includes("`rss:feed:v6:${variant}:${feed.url}`") &&
         !src.includes("`rss:feed:v5:${variant}:${feed.url}`") &&
         !src.includes("`rss:feed:v4:${variant}:${feed.url}`"),
-      'must NOT leave a residual v4/v5/v6/v7 cacheKey assignment — would silently revert the cutover',
+      'must NOT leave a residual v4/v5/v6/v7/v8 cacheKey assignment — would silently revert the cutover',
     );
   });
 });

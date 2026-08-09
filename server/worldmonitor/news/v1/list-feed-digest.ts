@@ -497,21 +497,45 @@ interface ParseResult {
   parsedTotal: number;     // count of <item>/<entry> blocks attempted
   droppedUndated: number;  // count dropped because every recognized date tag was empty/unparseable/future
   droppedFeedCap?: number; // #4920: items beyond ITEMS_PER_FEED, previously uncounted
+  /**
+   * Why this entry is empty, when it is empty because the fetch failed rather
+   * than because upstream had nothing. Absent on healthy parses and on
+   * genuinely empty ones.
+   *
+   * This IS a property of the cached content, not of the request that read it:
+   * it records why the row was written, and it expires with the row. That is
+   * the distinction against FeedOutcome below, which describes an attempt and
+   * therefore must not be cached.
+   *
+   * Without it the reason survived exactly one request. Measured 2026-08-08:
+   * eight healthy feeds (ABC News, The Hill, Financial Times and others) failed
+   * under the cold round's full load, were stamped `unreachable`, and then
+   * every request inside the 300s window read the cache and reported a flat
+   * `empty` — which is what made the steady-state list look like it was full of
+   * working feeds being slandered.
+   */
+  failureReason?: FetchFailureReason;
 }
 
 /**
  * What became of one feed on this build. Deliberately NOT part of ParseResult:
- * ParseResult is the cached struct, and this describes the attempt, not the
- * content. Adding it to the cached shape would force a prefix bump and, worse,
- * would let a cached row assert an outcome from some earlier request.
+ * a cached row must never assert an outcome belonging to the request that
+ * wrote it. `failureReason` above is the part that legitimately survives,
+ * because it describes the row rather than the attempt.
  */
 type FeedOutcome =
-  | 'cached'      // served from rss:feed — this build never went upstream
+  | 'cached'      // served from rss:feed, and that row was healthy
   | 'ok'          // fetched and parsed with items
   | 'empty'       // fetched and parsed cleanly, upstream really has no items
   | 'not-rss'     // answered, but the body is an interstitial rather than a feed
   | 'unreachable' // network error or non-OK status on both direct and relay
   | 'cancelled';  // our 8s feed budget or the build deadline cut it off
+
+/** The outcome a failure reason implies, whether read live or out of cache. */
+function outcomeForFailure(reason: FetchFailureReason): FeedOutcome {
+  if (reason === 'cancelled') return 'cancelled';
+  return reason === 'not-rss' ? 'not-rss' : 'unreachable';
+}
 
 interface FetchResult extends ParseResult {
   outcome: FeedOutcome;
@@ -554,7 +578,12 @@ async function fetchAndParseRss(
   // v7→v8: extend the same exclusion policy to duration-led anniversary
   // explainers ("10 years on from …"). Warm v7 rows already carry an
   // authoritative isOpinion="0", so force another cold parse on rollout.
-  const cacheKey = `rss:feed:v8:${variant}:${feed.url}`;
+  // v8→v9: ParseResult gained failureReason. Same class as the v5→v6 bump —
+  // warm v8 rows lack the field, so an entry written because a fetch failed
+  // would report a bare `empty` for its whole TTL and keep feedStatuses
+  // unable to distinguish a dead feed from one that lost a race. Rolling the
+  // prefix makes the first build after deploy write reasons for everything.
+  const cacheKey = `rss:feed:v9:${variant}:${feed.url}`;
 
   try {
     // Read cache unconditionally — the v5 prefix guarantees pre-fix
@@ -565,7 +594,14 @@ async function fetchAndParseRss(
     // what the PR description claimed and what review P1 flagged was
     // missing.
     const cached = (await getCachedJson(cacheKey)) as ParseResult | null;
-    if (cached) return { ...cached, outcome: 'cached' };
+    if (cached) {
+      // A cached failure keeps saying why. 'cached' is reserved for rows that
+      // were healthy when written, and the caller treats it as a non-event.
+      return {
+        ...cached,
+        outcome: cached.failureReason ? outcomeForFailure(cached.failureReason) : 'cached',
+      };
+    }
 
     // Try direct fetch first
     const direct = await fetchRssText(feed.url, signal);
@@ -647,15 +683,26 @@ async function fetchAndParseRss(
       if (failure === 'cancelled') {
         return { ...empty, outcome: 'cancelled' };
       }
-      await setCachedJson(cacheKey, empty, CACHE_TTL_EMPTY_S);
-      return { ...empty, outcome: failure === 'not-rss' ? 'not-rss' : 'unreachable' };
+      // Stamp the reason into the row so it survives the TTL. Reading it back
+      // is the only way a later request can tell a dead feed from one that
+      // lost a race on a loaded build.
+      const reason: FetchFailureReason = failure ?? 'network';
+      const cachedFailure: ParseResult = { ...empty, failureReason: reason };
+      await setCachedJson(cacheKey, cachedFailure, CACHE_TTL_EMPTY_S);
+      return { ...cachedFailure, outcome: outcomeForFailure(reason) };
     }
 
     // parseRssXml returns null on hard parse failure (malformed XML even
     // after surviving the body-shape sniff). Treat that the same as a
     // network failure: cache empty short so we retry sooner.
     const parsed = parseRssXml(text, feed, variant);
-    const result: ParseResult = parsed ?? { items: [], parsedTotal: 0, droppedUndated: 0 };
+    // A null parse is upstream answering with something unusable, same family
+    // as the sniff rejection — so it carries a reason. A parse that succeeded
+    // and simply found nothing does NOT: that is a real empty, and labelling it
+    // a failure would be the same conflation this whole change removes.
+    const result: ParseResult = parsed ?? {
+      items: [], parsedTotal: 0, droppedUndated: 0, failureReason: 'not-rss',
+    };
     // Long cache only for healthy parses; short cache for zero-from-zero so
     // transient upstream issues don't sticky-fail for an hour.
     const ttl = result.parsedTotal > 0 ? CACHE_TTL_HEALTHY_S : CACHE_TTL_EMPTY_S;
@@ -665,7 +712,9 @@ async function fetchAndParseRss(
       // parsedTotal is the honest signal here: a feed that parsed blocks but
       // dropped them all is 'ok' at this layer, and the caller's undated
       // classification is what describes it.
-      outcome: result.parsedTotal > 0 ? 'ok' : 'empty',
+      outcome: result.parsedTotal > 0
+        ? 'ok'
+        : (result.failureReason ? outcomeForFailure(result.failureReason) : 'empty'),
     };
   } catch (err) {
     // Reached when the cache read/write itself throws, or the parser does.
@@ -1532,7 +1581,7 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 
   try {
     // Locale resolution happens HERE, once, so everything downstream —
-    // fetch, relay fallback, per-host telemetry, and the `rss:feed:v8` cache
+    // fetch, relay fallback, per-host telemetry, and the `rss:feed:v9` cache
     // key — sees a concrete URL. A feed whose url is a locale map would
     // otherwise stringify into the cache key and collapse every language onto
     // one entry.

@@ -947,3 +947,42 @@ v4→v8 arası beş kez uygulamış, gerekçeleri kodda yazılı). O zaman karar
 **İkinci kalem:** 8 besleme yük altında neden düşüyor? Tek tek 200, hep birlikte
 `unreachable`. Konteynerin ağ yığını (DNS kuyruğu, soket limiti) ya da upstream rate-limit
 olabilir. `FEED_FETCH_CONCURRENCY` düşürülüp ölçülerek ayrıştırılabilir.
+
+### ✅ Faz 6.3 — cache'lenen satır artık nedenini taşıyor (`rss:feed` v8→v9, 2026-08-08)
+
+Bir önceki bölüm sorunu teşhis etmişti: başarısızlık sebebi tam olarak bir istek yaşıyor,
+sonra cache düz `empty`'ye çöküyordu. `ParseResult` `failureReason?: FetchFailureReason`
+kazandı ve prefix `v9`'a çıktı.
+
+**Ayrım korundu.** `FeedOutcome` hâlâ cache'lenmiyor — o *denemeyi* anlatıyor ve cache'lenmiş
+bir satır eski bir isteğin sonucunu bugünün sonucu gibi iddia etmemeli. `failureReason` ise
+*satırı* anlatıyor: neden yazıldığını söylüyor ve satırla birlikte süresi doluyor. Doğru
+başarılı ayrıştırmada ve **gerçekten boş** olanda alan yok — orayı da "başarısızlık" diye
+etiketlemek aynı karıştırmayı ters yönden geri getirirdi.
+
+Prefix bump gerekçesi v5→v6 ile birebir aynı sınıf: sıcak `v8` satırları alanı taşımıyor,
+dolayısıyla TTL'leri boyunca çıplak `empty` raporlarlardı.
+
+**Canlı sonuç — `en` digesti, tam soğuk başlangıçtan kararlı hâle:**
+
+| | Önce | Sonra |
+|---|---|---|
+| Kararlı hâl | 21-31 `empty`, açıklama yok | **0 düz `empty`** |
+| | | 31 `unreachable`, 2 `not-rss`, 2 `all-undated` |
+
+Artık liste kendi açıklamasını taşıyor:
+
+- **`not-rss` (2):** `ArXiv AI`, `Zerkalo` — gövde besleme değil, doğru etiket.
+- **`all-undated` (2):** `CrisisWatch`, `IAEA` — ayrıştı ama hiçbir öğede kullanılabilir tarih yok.
+- **`unreachable` (31):** `ABC News`, `Bellingcat`, `Financial Times`, `The Hill`,
+  `Atlantic Council`, `Japan Today`, `Defense One`, `Breaking Defense`, `Krebs Security`,
+  `OCCRP`, `Military Times`, `The War Zone`, `gCaptain` ve diğerleri.
+
+Bu 31, kalan tek sorunu keskinleştiriyor: **`test:feeds`'in sağlıklı dediği beslemeler
+digest'in yükü altında çekilemiyor.** Tek tek ya da sekizli grup hâlinde aynı konteynerden
+170-1119ms'de 200 dönüyorlar. Artık "boş mu, ölü mü, yetişemedik mi" tartışması yok —
+soru tek: yük.
+
+**Sıradaki (Faz 6.4):** `FEED_FETCH_CONCURRENCY` 20'den düşürülüp ölçülerek, konteynerin ağ
+yığını (DNS kuyruğu, soket limiti) ile upstream rate-limit ayrıştırılabilir. 6.2'de
+eşzamanlılık bilerek sabit bırakılmıştı; ölçüm aleti hazır olduğuna göre artık oynatılabilir.
