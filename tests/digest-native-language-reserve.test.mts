@@ -20,9 +20,11 @@ import { __testing__ } from '../server/worldmonitor/news/v1/list-feed-digest.ts'
 
 const {
   sliceCategoryWithNativeReserve,
+  pickAcrossSources,
   MAX_ITEMS_PER_CATEGORY,
   NATIVE_LANGUAGE_RESERVED_SLOTS,
   UNIVERSAL_POOL_LANGUAGE,
+  ITEMS_PER_FEED,
 } = __testing__;
 
 /**
@@ -130,6 +132,66 @@ describe('per-category native-language reserve', () => {
       sliced.filter((i) => native.has(i.source)).length,
       15,
       'the reserve is a floor, not a ceiling — merit still applies above it',
+    );
+  });
+
+  it('spreads the reserve across sources instead of letting two feeds take it', () => {
+    // The measured failure: tr filled 8/8 but drew every item from BBC Turkce
+    // and DW Turkish while six other Turkish sources sat unused. ITEMS_PER_FEED
+    // is 5 and the reserve is 8, so two feeds saturate it on a plain slice.
+    assert.ok(
+      ITEMS_PER_FEED * 2 >= NATIVE_LANGUAGE_RESERVED_SLOTS,
+      'precondition: two feeds can saturate the reserve, which is why spreading is needed',
+    );
+    const items = makeItems([
+      ...Array.from({ length: 9 }, (_, i) => ({ source: `EN Source ${i}`, count: 10 })),
+      { source: 'BBC Turkce', count: 5 },
+      { source: 'DW Turkish', count: 5 },
+      { source: 'Cumhuriyet', count: 5 },
+      { source: 'Gazete Duvar', count: 5 },
+      { source: 'Sabah', count: 5 },
+      { source: 'Anadolu Ajansı', count: 5 },
+    ]);
+    const native = new Set([
+      'BBC Turkce', 'DW Turkish', 'Cumhuriyet', 'Gazete Duvar', 'Sabah', 'Anadolu Ajansı',
+    ]);
+
+    const sliced = sliceCategoryWithNativeReserve(items, native);
+    const nativeKept = sliced.filter((i) => native.has(i.source));
+    assert.equal(nativeKept.length, NATIVE_LANGUAGE_RESERVED_SLOTS, 'reserve still fills');
+    assert.equal(
+      new Set(nativeKept.map((i) => i.source)).size,
+      6,
+      'all six native sources are represented, not just the two best-ranked',
+    );
+  });
+
+  it('never displaces a stronger source with a weaker one while spreading', () => {
+    const items = makeItems([
+      { source: 'Strong', count: 5 },
+      { source: 'Weak', count: 5 },
+    ]);
+    const picked = pickAcrossSources(items, 4);
+    // Round order follows each source's best item, so Strong leads every round.
+    assert.deepEqual(
+      picked.map((i) => i.source),
+      ['Strong', 'Weak', 'Strong', 'Weak'],
+      'sources alternate in order of their best-ranked item',
+    );
+    const strongPicked = picked.filter((i) => i.source === 'Strong');
+    assert.deepEqual(
+      strongPicked.map((i) => i.importanceScore),
+      items.filter((i) => i.source === 'Strong').slice(0, 2).map((i) => i.importanceScore),
+      'within a source, rank order is preserved exactly',
+    );
+  });
+
+  it('falls back to one source when that is all the language has', () => {
+    const items = makeItems([{ source: 'Dnevnik', count: 5 }]);
+    assert.equal(
+      pickAcrossSources(items, NATIVE_LANGUAGE_RESERVED_SLOTS).length,
+      5,
+      'spreading must not invent items a single source cannot supply',
     );
   });
 

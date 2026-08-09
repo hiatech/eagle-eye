@@ -584,6 +584,57 @@ kotayı zaten dolduruyorlar. Onlara paket eklemek katalog büyütür, brief'i bu
 değiştirmez. Faz 4'ün kaynak-ekleme kısmı burada bitmeli; sıradaki kazanç kaynak sayısında
 değil, `ITEMS_PER_FEED`/kota ayarında ya da Faz 5'in yeni kaynak sınıflarında.
 
+> **Bu bölümün sonucu 4.2d ile geçersiz kaldı.** Ölçüm doğruydu ama teşhis eksikti:
+> paketlerin katkısız görünmesinin sebebi "yeterince yer yok" değil, **kotanın seçim
+> biçimiydi**. Düzeltilebilir bir sınırmış. Aşağı bak.
+
+### ✅ Faz 4.2d — kotayı kaynaklara yay (2026-08-08)
+
+4.2c'de kota doluyordu (8/8) ama **iki kaynaktan**: `ITEMS_PER_FEED = 5`, kota 8, ve düz
+`slice` sıralamanın tepesindeki iki beslemeye kotanın tamamını veriyordu. `tr` okuyucusu 8
+Türkçe kaynağın değil 3'ünün haberini görüyordu; Cumhuriyet, Sabah, Anadolu Ajansı, Gazete
+Duvar ve Habertürk sorunsuz çekiliyor ama hiç görünmüyordu.
+
+`pickAcrossSources` kotayı doldururken kaynaklar arasında round-robin yapıyor: her turda her
+kaynaktan bir öğe, kaynak sırası o kaynağın en iyi öğesine göre. Kaynak içinde sıralama
+aynen korunuyor, yani güçlü bir kaynak zayıfına yer açmıyor — sadece kotanın tamamını
+almıyor.
+
+**Kontrollü ölçüm.** Aynı stack, aynı soğuk Redis cache, tek fark round-robin:
+
+| Dil | Kotayı dolduran kaynak: önce → sonra | | Dil | önce → sonra |
+|---|---|---|---|---|
+| tr | 3 → **8** | | hr | 3 → **6** |
+| cs | 2 → **6** | | nl | 2 → **6** |
+| bg | 3 → **6** | | pl | 2 → **5** |
+| sv | 2 → **5** | | fa | 3 → **5** |
+| th | 3 → **5** | | ja | 4 → **5** |
+| ko | 2 → **4** | | vi | 2 → **3** |
+| zh | 3 → 3 | | en | 0 → 0 |
+
+`tr` 8/8: brief artık Cumhuriyet'ten Anadolu Ajansı'na kadar kutuplaşmış basının tamamından
+besleniyor — paketin amacı buydu ve ancak şimdi işliyor.
+
+**Ölçüm yöntemine dair uyarı — bu oturumda iki kez yanılttı.** Digest `news:digest:v1:full:<lang>`
+anahtarıyla Redis'te ~10 dk cache'leniyor. Konteyneri yeniden başlatmak bunu **temizlemiyor**.
+Ayrıca Redis parola istiyor: `redis-cli` parolasız çalıştırıldığında `NOAUTH` verip sessizce
+hiçbir şey silmiyor. Doğru sıra:
+
+```bash
+docker compose build worldmonitor && docker compose up -d worldmonitor
+PW=$(grep -oE '^REDIS_PASSWORD=.*' .env | cut -d= -f2-)
+docker compose exec -T redis redis-cli -a "$PW" --no-auth-warning \
+  EVAL "local k=redis.call('KEYS','news:digest:*') for i=1,#k do redis.call('DEL',k[i]) end return #k" 0
+```
+
+Teyit: 13 dilin hepsi aynı saniyede yanıtlanıyorsa ve konteyner logunda `[digest]` satırı
+yoksa, ölçtüğün şey cache'tir.
+
+**4.2c'nin "kaynak eklemeyi durdur" sonucu bu yüzden erken verilmişti.** Ölçüm doğruydu,
+ama sınır katalogda değil dilimleyicideydi. `ar`/`hi`/`it`/`pt`/`ro` (4'er kaynak) için soru
+yeniden açık: round-robin ile 4 kaynağın dördü de kotaya giriyor, yani paket eklemek artık
+ölçülebilir fark yaratabilir. Önce ölçülmeli, sonra eklenmeli.
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.

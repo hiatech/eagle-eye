@@ -1383,17 +1383,59 @@ function sliceCategoryWithNativeReserve(
   }
   if (native.length === 0) return rest.slice(0, MAX_ITEMS_PER_CATEGORY);
 
-  const keptNative = native.slice(0, NATIVE_LANGUAGE_RESERVED_SLOTS);
+  const keptNative = pickAcrossSources(native, NATIVE_LANGUAGE_RESERVED_SLOTS);
+  const keptNativeSet = new Set(keptNative);
   const kept = [...keptNative, ...rest.slice(0, MAX_ITEMS_PER_CATEGORY - keptNative.length)];
   // Native items beyond the reserve compete for what is left on merit, which
   // matters when the general pool is thin — latam already fills most of its
   // cap from Spanish and Portuguese sources without any reserve at all.
   if (kept.length < MAX_ITEMS_PER_CATEGORY) {
-    kept.push(...native.slice(keptNative.length, keptNative.length + (MAX_ITEMS_PER_CATEGORY - kept.length)));
+    const spare = native.filter(item => !keptNativeSet.has(item));
+    kept.push(...spare.slice(0, MAX_ITEMS_PER_CATEGORY - kept.length));
   }
   return kept.sort((a, b) =>
     b.importanceScore - a.importanceScore || b.publishedAt - a.publishedAt,
   );
+}
+
+/**
+ * Take `limit` items from a rank-sorted list, spreading them across distinct
+ * sources before taking a second item from any one of them.
+ *
+ * A plain `slice` does not do this. ITEMS_PER_FEED is 5 and the reserve is 8,
+ * so two feeds saturate it: measured live on 2026-08-08, every language filled
+ * its reserve 8/8 but tr drew all eight from BBC Turkce and DW Turkish while
+ * six other Turkish sources sat in the catalog unused. Filling the quota and
+ * representing the country's press are not the same thing, and in a
+ * consolidated or polarised media market the difference is the whole point —
+ * the tr pack spans opposition to state wire precisely so the reserve can.
+ *
+ * Rank still decides everything within a source, and the round order follows
+ * each source's best-ranked item, so a stronger source is never displaced by a
+ * weaker one — it just does not take the whole reserve.
+ */
+function pickAcrossSources(items: ParsedItem[], limit: number): ParsedItem[] {
+  const bySource = new Map<string, ParsedItem[]>();
+  for (const item of items) {
+    const existing = bySource.get(item.source);
+    if (existing) existing.push(item);
+    else bySource.set(item.source, [item]);
+  }
+  // Insertion order is first appearance, i.e. sources ordered by their best item.
+  const queues = [...bySource.values()];
+  const picked: ParsedItem[] = [];
+  for (let round = 0; picked.length < limit; round++) {
+    let progressed = false;
+    for (const queue of queues) {
+      const item = queue[round];
+      if (item === undefined) continue;
+      picked.push(item);
+      progressed = true;
+      if (picked.length === limit) return picked;
+    }
+    if (!progressed) break;
+  }
+  return picked;
 }
 
 async function buildDigest(variant: string, lang: string): Promise<ListFeedDigestResponse> {
@@ -1738,6 +1780,8 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 /** Internal exports for unit tests only — do not import in production code. */
 export const __testing__ = {
   sliceCategoryWithNativeReserve,
+  pickAcrossSources,
+  ITEMS_PER_FEED,
   MAX_ITEMS_PER_CATEGORY,
   NATIVE_LANGUAGE_RESERVED_SLOTS,
   UNIVERSAL_POOL_LANGUAGE,
