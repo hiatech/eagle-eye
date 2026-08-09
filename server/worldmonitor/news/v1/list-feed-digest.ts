@@ -1456,6 +1456,11 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
     // otherwise stringify into the cache key and collapse every language onto
     // one entry.
     const allEntries: Array<{ category: string; feed: ResolvedServerFeed }> = [];
+    // Pre-resolution feeds. Resolution replaces a locale-keyed `url` with the
+    // one concrete URL for this language, which erases the evidence that the
+    // feed serves this language at all — so the reserve's native check below
+    // has to read these, not allEntries.
+    const nativeCandidates: ServerFeed[] = [];
     const resolve = (feed: ServerFeed): ResolvedServerFeed => ({
       ...feed,
       url: resolveServerFeedUrl(feed, lang),
@@ -1464,6 +1469,7 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
     for (const [category, feeds] of Object.entries(feedsByCategory)) {
       const filtered = feeds.filter(f => isServerFeedReachableForLanguage(f, lang));
       for (const feed of filtered) {
+        nativeCandidates.push(feed);
         allEntries.push({ category, feed: resolve(feed) });
       }
     }
@@ -1471,19 +1477,38 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
     if (variant === 'full') {
       const filteredIntel = INTEL_SOURCES.filter(f => isServerFeedReachableForLanguage(f, lang));
       for (const feed of filteredIntel) {
+        nativeCandidates.push(feed);
         allEntries.push({ category: 'intel', feed: resolve(feed) });
       }
     }
 
     // Sources written in the reader's own language, for the per-category
-    // reserve applied at truncation. Exact `lang` match only: a
-    // strategicDefault feed reaches every locale precisely because it is NOT
-    // native to most of them, so counting it here would spend the reserve on
-    // the same source in 26 languages. Empty for the universal-pool language,
-    // which turns the reserve off — the untagged pool IS that language.
+    // reserve applied at truncation.
+    //
+    // Two ways a feed qualifies, and both are needed. A `lang` tag is the
+    // obvious one. The other is a locale-keyed `url` carrying this language:
+    // resolveServerFeedUrl above already fetched such a feed from its Arabic
+    // or German edition, so it IS native journalism for this reader even
+    // though it carries no tag. Counting only tags cost `ar` its reserve —
+    // Al Jazeera and France 24 both serve Arabic through their url maps, which
+    // left Asharq News as the only source the reserve could see, and one feed
+    // caps at ITEMS_PER_FEED so the category shipped 5 of its 8 slots.
+    //
+    // This is deliberately the same predicate the coverage audit uses to count
+    // native sources (scripts/language-coverage-health.mjs). The audit and the
+    // runtime disagreeing about what "native" means is how this whole class of
+    // bug started.
+    //
+    // strategicDefault is still NOT a qualifier: such a feed reaches every
+    // locale precisely because it is not native to most of them, so honouring
+    // it here would spend the reserve on one source across 26 languages.
+    // Empty for the universal-pool language, which turns the reserve off — the
+    // untagged pool IS that language.
+    const servesReaderLanguage = (feed: ServerFeed) =>
+      feed.lang === lang || (typeof feed.url === 'object' && lang in feed.url);
     const nativeSourceNames = lang === UNIVERSAL_POOL_LANGUAGE
       ? new Set<string>()
-      : new Set(allEntries.filter(e => e.feed.lang === lang).map(e => e.feed.name));
+      : new Set(nativeCandidates.filter(servesReaderLanguage).map(feed => feed.name));
 
     const results = new Map<string, ParsedItem[]>();
     // Track feeds that actually completed (with or without items) so we can

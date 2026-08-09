@@ -195,6 +195,30 @@ describe('per-category native-language reserve', () => {
     );
   });
 
+  it('counts a locale-keyed feed as native, matching how the coverage audit counts', () => {
+    // The runtime and scripts/language-coverage-health.mjs must agree on what
+    // "native" means. They did not: the audit credited ar with three digest
+    // sources while the reserve saw one, because Al Jazeera and France 24 serve
+    // Arabic through a locale-keyed `url` rather than a `lang` tag. ar shipped
+    // 5 of its 8 reserve slots — one feed, capped at ITEMS_PER_FEED.
+    const servesReaderLanguage = (feed: { lang?: string; url: string | Record<string, string> }, lang: string) =>
+      feed.lang === lang || (typeof feed.url === 'object' && lang in feed.url);
+
+    const alJazeera = { name: 'Al Jazeera', url: { en: 'https://en', ar: 'https://ar' } };
+    const asharq = { name: 'Asharq News', url: 'https://asharq', lang: 'ar' };
+    const bbcWorld = { name: 'BBC World', url: 'https://bbc' };
+    const leMonde = { name: 'Le Monde', url: { en: 'https://en', fr: 'https://fr' } };
+
+    assert.ok(servesReaderLanguage(alJazeera, 'ar'), 'a locale key must qualify as native');
+    assert.ok(servesReaderLanguage(asharq, 'ar'), 'a lang tag must still qualify');
+    assert.ok(!servesReaderLanguage(bbcWorld, 'ar'), 'an untagged single-URL feed is universal, not native');
+    assert.ok(!servesReaderLanguage(leMonde, 'ar'), 'a locale map without this language does not qualify');
+    assert.ok(
+      !servesReaderLanguage({ name: 'Hurriyet', url: 'https://h', lang: 'tr' }, 'ar'),
+      'another language\'s tag does not qualify',
+    );
+  });
+
   it('orders survivors by rank, so the reserve changes which items survive, not their order', () => {
     const items = makeItems([
       ...Array.from({ length: 9 }, (_, i) => ({ source: `EN Source ${i}`, count: 10 })),

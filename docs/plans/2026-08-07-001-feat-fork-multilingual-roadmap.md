@@ -635,6 +635,64 @@ ama sınır katalogda değil dilimleyicideydi. `ar`/`hi`/`it`/`pt`/`ro` (4'er ka
 yeniden açık: round-robin ile 4 kaynağın dördü de kotaya giriyor, yani paket eklemek artık
 ölçülebilir fark yaratabilir. Önce ölçülmeli, sonra eklenmeli.
 
+### ✅ Faz 4.2e — kota locale haritalı beslemeleri görmüyordu (2026-08-08)
+
+21 dilin tamamı soğuk cache'te ölçüldü. `ar` tek istisnaydı: kotasını **dolduramıyordu**
+(8 yerine 5 haber, 1/3 kaynak). Sebep kaynak eksikliği değil, kotanın "yerel" tanımıydı.
+
+`nativeSourceNames` yalnızca `feed.lang === lang` eşleşmesine bakıyordu. Ama Al Jazeera ve
+France 24 Arapçayı `lang` etiketiyle değil **locale haritalı `url`** ile sunuyor —
+`resolveServerFeedUrl` zaten Arapça baskıyı çekiyor, yani o besleme o okuyucu için yerel
+gazetecilik. Kota bunu göremeyince `ar`'da yalnızca Asharq News kalıyor, tek besleme de
+`ITEMS_PER_FEED = 5`'te kapanıyor. 8 slotun 5'i doluyordu.
+
+Bu, projenin baştan beri kovaladığı hata sınıfının aynısı: **denetim ile çalışma zamanının
+"yerel" kelimesinden farklı şey anlaması.** `scripts/language-coverage-health.mjs` `ar`'a 3
+digest kaynağı sayıyordu, kota 1 görüyordu. Ölçüt artık ikisinde de aynı:
+
+```ts
+feed.lang === lang || (typeof feed.url === 'object' && lang in feed.url)
+```
+
+`strategicDefault` hâlâ nitelik saymıyor — o besleme her locale'e ulaşıyor çünkü çoğuna
+yerel *değil*.
+
+| Dil | Kotayı dolduran kaynak | Haber |
+|---|---|---|
+| ar | 1 → **2** | 5 → **10** |
+| pt | 3 → **4** | 8 → **13** |
+| ru | 3 → **4** | 8 |
+| de | 2 → **3** | 8 |
+
+`ar` ve `pt`'nin kotanın üstüne çıkması doğru davranış: kota taban, kalan slotlar liyakatle
+kazanılıyor.
+
+### 📋 Bulunan bozuk beslemeler — ayrı bir iş kalemi
+
+22 dilin `feedStatuses` çıktısı toplandı: **45 besleme sorunlu.** İkiye ayrılıyor.
+
+**20'si tüm 22 dilde bozuk**, yani evrensel havuzda ve İngilizce okuyucuyu da etkiliyor —
+bu çalışmayla ilgisi yok, önceden vardı:
+
+`PBS NewsHour`, `ABC News`, `The Hill`, `Civil.ge`, `Zerkalo`, `Asharq Business`,
+`ArXiv AI`, `VentureBeat AI`, `Financial Times`, `CISA`, `News24`, `Channels TV`,
+`ThisDay`, `The Reporter Ethiopia`, `Japan Today`, `Irrawaddy`, `Atlantic Council`,
+`DFRLab` (hepsi `empty`), `CrisisWatch` ve `IAEA` (`all-undated`).
+
+**Kalanı dile özgü:** `Al Jazeera [ar]`, `EuroNews` (3 dil), `Tagesschau`, `Bild`
+(`all-undated`), `HotNews`, `G4Media`, `SVT Nyheter`, `Interia`, `BBC Hindi` (kısmî) ve bu
+oturumda eklenenlerden `BBC Chinese`, `RFA Chinese`, `Xinhua Chinese`, `Tuoi Tre`,
+`Tien Phong`, `Nhan Dan`, `Pressian`, `Hankyoreh`, `No Cut News`.
+
+**Dikkat:** son gruptakiler host makineden yoklandığında 200 + öğe dönüyordu, konteynerden
+`empty`. Yani sorun beslemede değil **konteynerin çıkış yolunda** olabilir (DNS, IP
+coğrafyası, relay). Ayrıca ayıklamadan önce bu araştırılmalı — yoksa çalışan beslemeler
+yanlışlıkla silinir.
+
+Kotanın bunu tolere ettiğini de not etmek gerek: `zh`'de üç yeni kaynak boş dönmesine rağmen
+kota 8/8 doluyor, çünkü paketin diğer üyeleri devralıyor. 4.2c'de "dayanıklılık" diye
+yazılan soyut fayda burada somut olarak ölçüldü.
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.
