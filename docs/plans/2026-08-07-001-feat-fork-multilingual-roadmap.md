@@ -755,3 +755,60 @@ neyin canlı olduğunu değil. Hiçbir besleme bu listeye dayanarak silinmemeli.
 1. Soğuk-cache digest'i yarım çıktı veriyor — deadline bütçesi / ısıtma stratejisi.
 2. `empty` sınıflandırması iptal ile ölü kaynağı ayırmıyor; ayrıldığında `CACHE_TTL_EMPTY_S`
    yalnızca gerçekten boş dönenlere uygulanabilir.
+
+### ✅ Faz 6.1 — iptal edilen fetch artık "boş besleme" diye cache'lenmiyor (2026-08-08)
+
+4.2f'nin açtığı iki kalemden ilki. Sıra bilinçli: soğuk-cache bütçesini, neyin neden düştüğünü
+ayırt edemeden düzeltmeye çalışmak körlemesine olurdu.
+
+**Hata.** `fetchAndParseRss` her başarısızlığı tek yola sokuyordu:
+
+```ts
+if (!text) {
+  const empty = { items: [], parsedTotal: 0, droppedUndated: 0 };
+  await setCachedJson(cacheKey, empty, CACHE_TTL_EMPTY_S);   // ← iptal de buraya
+```
+
+Deadline yaklaşınca abort edilen bir fetch, çağıran tarafta `.catch(() => null)` ile
+yutuluyor, sonra besleme **5 dakikalığına "boş" damgasıyla cache'e yazılıyordu.** Yeniden
+denemesi de baskı altındaki başka bir build'e denk gelirse damga tazeleniyor — sağlıklı bir
+besleme süresiz "boş" kalabiliyordu.
+
+**Ayrım.** Diğer bütün başarısızlık sebepleri upstream hakkında bir *hüküm*: cevap verdi ve
+verdiği kullanılamazdı. `cancelled` bizim hakkımızda bir hüküm: sormayı bıraktık. Artık
+`FetchFailureReason` dört sebebi ayırıyor (`http-error`, `not-rss`, `network`, `cancelled`)
+ve **yalnızca `cancelled` cache'lenmiyor.** Diğerleri kısa cache'i throttle olarak kullanmaya
+devam ediyor — yoksa bozuk bir host her build'de dövülür.
+
+`FeedOutcome` bilinçli olarak `ParseResult`'ın dışında: `ParseResult` cache'lenen yapı, bu ise
+denemeyi anlatıyor. İçine konsaydı hem prefix bump gerekirdi hem de cache'ten gelen bir satır
+eski bir isteğin sonucunu bugünün sonucu gibi iddia ederdi.
+
+`feedStatuses` da artık sonuçtan türüyor: `cancelled`, `not-rss`, `unreachable`, `empty`.
+`timeout` ile `cancelled` farklı şeyler ve ikisi de kalıyor — `timeout` "sırası hiç gelmedi"
+(çözüm: verim), `cancelled` "başladı, kesildi" (çözüm: per-feed timeout). Harita hâlâ yalnızca
+sorunları taşıyor (`tests/digest-no-reclassify.test.mjs` kısıtı).
+
+**Canlı ölçüm — tam soğuk başlangıç, `en` digesti:**
+
+| | Tur 1 (tam soğuk) | Kararlı hâl |
+|---|---|---|
+| Öncesi | 112 sorun, 124 haber | **39 sorun**, 267 haber |
+| Sonrası | 109 sorun, 129 haber | **27 sorun**, **272 haber** |
+
+Kararlı hâlde **12 besleme kurtuldu, 0 yeni sorun**:
+
+`Arms Control Assn`, `Bellingcat`, `Breaking Defense`, `Bulletin of Atomic Scientists`,
+`EuroNews`, `FAO News`, `Hacker News`, `Task & Purpose`, `The National`, `The Sentry`,
+`The War Zone`, `gCaptain`
+
+Listede `Bellingcat` ve `Hacker News` olması teşhisi doğruluyor — 4.2f'de elle "aslında
+sağlıklı" diye tespit ettiğim beş beslemeden ikisi bunlar. `EuroNews`'in kurtulması ayrıca
+dil çalışmasını doğrudan ilgilendiriyor: `de`/`it`/`pt`/`ru` için kayıp olan kaynak oydu.
+
+Kapı: `tests/news-feed-digest-cancellation-vs-empty.test.mts` (13 test) — dört sebebin
+ayrıldığını, iptalin cache yazımından **önce** döndüğünü, diğer sebeplerin cache'lenmeye devam
+ettiğini ve haritanın sağlıklı beslemeyi kaydetmediğini bağlıyor.
+
+**Kalan:** tur 1 hâlâ 129 haber (kararlı 272'ye karşı) ve 99 `timeout`. Bu artık ayrı ve net
+bir sorun — beslemelerin sırası hiç gelmiyor, yani verim meselesi. 4.2f'nin ikinci kalemi.

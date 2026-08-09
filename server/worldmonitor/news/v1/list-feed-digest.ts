@@ -432,10 +432,35 @@ export function decodeRssBody(bytes: ArrayBuffer, contentType: string | null): s
   }
 }
 
+/**
+ * Why a fetch produced no usable body.
+ *
+ * The distinction that matters is `cancelled` versus everything else. The
+ * other reasons are verdicts about the upstream — it answered, and what it
+ * answered with was unusable. `cancelled` is a verdict about US: the request
+ * was aborted because this feed's 8s budget or the whole build's deadline ran
+ * out, and upstream may be perfectly healthy. Caching that as "empty" is what
+ * made the failure self-sustaining, so the caller keys on it.
+ */
+type FetchFailureReason = 'http-error' | 'not-rss' | 'network' | 'cancelled';
+
+type FetchAttempt =
+  | { ok: true; text: string }
+  | { ok: false; reason: FetchFailureReason };
+
+/**
+ * Both the per-feed timeout and the overall build deadline surface as
+ * AbortError through the linked controller, and either means the same thing
+ * here: we stopped asking before upstream finished answering.
+ */
+function isAbortError(err: unknown): boolean {
+  return err instanceof Error && err.name === 'AbortError';
+}
+
 async function fetchRssText(
   url: string,
   signal: AbortSignal,
-): Promise<string | null> {
+): Promise<FetchAttempt> {
   const { controller, cleanup } = createTimeoutLinkedController(signal);
 
   try {
@@ -447,13 +472,15 @@ async function fetchRssText(
       },
       signal: controller.signal,
     });
-    if (!resp.ok) return null;
+    if (!resp.ok) return { ok: false, reason: 'http-error' };
     const text = decodeRssBody(await resp.arrayBuffer(), resp.headers.get('content-type'));
     // Defensive: upstream may return HTTP 200 with an HTML interstitial
     // (Cloudflare bot challenge, captcha page). Reject up front so the
     // caller's relay fallback fires instead of caching an empty parse.
-    if (!looksLikeRssXml(text)) return null;
-    return text;
+    if (!looksLikeRssXml(text)) return { ok: false, reason: 'not-rss' };
+    return { ok: true, text };
+  } catch (err) {
+    return { ok: false, reason: isAbortError(err) ? 'cancelled' : 'network' };
   } finally {
     cleanup();
   }
@@ -472,6 +499,24 @@ interface ParseResult {
   droppedFeedCap?: number; // #4920: items beyond ITEMS_PER_FEED, previously uncounted
 }
 
+/**
+ * What became of one feed on this build. Deliberately NOT part of ParseResult:
+ * ParseResult is the cached struct, and this describes the attempt, not the
+ * content. Adding it to the cached shape would force a prefix bump and, worse,
+ * would let a cached row assert an outcome from some earlier request.
+ */
+type FeedOutcome =
+  | 'cached'      // served from rss:feed — this build never went upstream
+  | 'ok'          // fetched and parsed with items
+  | 'empty'       // fetched and parsed cleanly, upstream really has no items
+  | 'not-rss'     // answered, but the body is an interstitial rather than a feed
+  | 'unreachable' // network error or non-OK status on both direct and relay
+  | 'cancelled';  // our 8s feed budget or the build deadline cut it off
+
+interface FetchResult extends ParseResult {
+  outcome: FeedOutcome;
+}
+
 // Cache TTLs: a successful parse (parsedTotal > 0) caches for an hour to
 // match the existing aggressive-caching behaviour. A zero-from-zero result
 // (no `<item>` tags found at all) caches for only 5 minutes — without this
@@ -485,7 +530,7 @@ async function fetchAndParseRss(
   feed: ResolvedServerFeed,
   variant: string,
   signal: AbortSignal,
-): Promise<ParseResult> {
+): Promise<FetchResult> {
   // v5 cache shape: identical struct to v4 but a new prefix invalidates
   // every pre-fix entry on deploy. v4 entries cached pre-PR contain
   // ParsedItems without the new isEphemeralLiveCoverage field. If a cache hit
@@ -520,10 +565,14 @@ async function fetchAndParseRss(
     // what the PR description claimed and what review P1 flagged was
     // missing.
     const cached = (await getCachedJson(cacheKey)) as ParseResult | null;
-    if (cached) return cached;
+    if (cached) return { ...cached, outcome: 'cached' };
 
     // Try direct fetch first
-    let text = await fetchRssText(feed.url, signal).catch(() => null);
+    const direct = await fetchRssText(feed.url, signal);
+    let text: string | null = direct.ok ? direct.text : null;
+    // Why the direct attempt failed, carried so the relay's own failure can be
+    // reported against the more informative of the two.
+    let failure: FetchFailureReason | null = direct.ok ? null : direct.reason;
     let source: 'direct' | 'relay' | 'both-failed' = text ? 'direct' : 'both-failed';
     let relayStatus: number | null = null;
     let relayBodyShape: 'rss' | 'html-or-empty' | 'no-relay' | 'fetch-error' = 'no-relay';
@@ -554,11 +603,19 @@ async function fetchAndParseRss(
               text = relayText;
               source = 'relay';
               relayBodyShape = 'rss';
+              failure = null;
             } else {
               relayBodyShape = 'html-or-empty';
+              failure = 'not-rss';
             }
+          } else {
+            failure = 'http-error';
           }
-        } catch { /* relay also failed */ } finally {
+        } catch (err) {
+          // A cancelled relay attempt is still a cancellation: we ran out of
+          // budget, upstream never got the chance to be judged.
+          failure = isAbortError(err) ? 'cancelled' : 'network';
+        } finally {
           cleanup();
         }
       }
@@ -576,11 +633,22 @@ async function fetchAndParseRss(
     }
 
     if (!text) {
-      // Both direct and relay failed. Cache empty short so we retry sooner
-      // than the healthy-result TTL.
       const empty: ParseResult = { items: [], parsedTotal: 0, droppedUndated: 0 };
+      // A cancellation is NOT evidence about this feed, so it must not be
+      // written to the cache. Doing so made the failure feed itself: an abort
+      // near the build deadline stamped the feed empty for CACHE_TTL_EMPTY_S,
+      // and if the retry landed in another deadline-pressured build it stayed
+      // empty indefinitely. Five of the feeds this looked like it had killed —
+      // ABC News, Hacker News, The Hill, Bellingcat, Japan Today — answer 200
+      // with items when asked directly with the same headers.
+      //
+      // Every other reason IS evidence: upstream answered and what it said was
+      // unusable, so the short cache still applies as a retry throttle.
+      if (failure === 'cancelled') {
+        return { ...empty, outcome: 'cancelled' };
+      }
       await setCachedJson(cacheKey, empty, CACHE_TTL_EMPTY_S);
-      return empty;
+      return { ...empty, outcome: failure === 'not-rss' ? 'not-rss' : 'unreachable' };
     }
 
     // parseRssXml returns null on hard parse failure (malformed XML even
@@ -592,9 +660,22 @@ async function fetchAndParseRss(
     // transient upstream issues don't sticky-fail for an hour.
     const ttl = result.parsedTotal > 0 ? CACHE_TTL_HEALTHY_S : CACHE_TTL_EMPTY_S;
     await setCachedJson(cacheKey, result, ttl);
-    return result;
-  } catch {
-    return { items: [], parsedTotal: 0, droppedUndated: 0 };
+    return {
+      ...result,
+      // parsedTotal is the honest signal here: a feed that parsed blocks but
+      // dropped them all is 'ok' at this layer, and the caller's undated
+      // classification is what describes it.
+      outcome: result.parsedTotal > 0 ? 'ok' : 'empty',
+    };
+  } catch (err) {
+    // Reached when the cache read/write itself throws, or the parser does.
+    // Nothing was written here, so an abort stays uncached by construction.
+    return {
+      items: [],
+      parsedTotal: 0,
+      droppedUndated: 0,
+      outcome: isAbortError(err) ? 'cancelled' : 'unreachable',
+    };
   }
 }
 
@@ -1523,17 +1604,31 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
         batch.map(async ({ category, feed }) => {
           const result = await fetchAndParseRss(feed, variant, deadlineController.signal);
           completedFeeds.add(feed.name);
-          // Classify per-feed status. 'all-undated' is the silent-zeroing
-          // failure mode (every parsed item dropped for missing/unparseable
-          // dates) — distinguished from a genuinely empty fetch ('empty')
-          // so log aggregation can keyword-match. 'partial-undated' is
-          // informational (some items dropped, some kept).
+          // Classify per-feed status. Only problems are recorded — a healthy
+          // feed writes nothing, which is what keeps this map small enough to
+          // ship on every response.
+          //
+          // The date classifications come first because they describe content
+          // and are the more specific finding: 'all-undated' is the
+          // silent-zeroing mode (every parsed item dropped for missing or
+          // unparseable dates), 'partial-undated' is informational. Both are
+          // keyword-matched by log aggregation, so their spelling is fixed.
+          //
+          // Below them sit the fetch outcomes, and the reason they are
+          // separate names rather than one 'empty' is that the old lumping
+          // made this map useless as a health signal: a feed cut off by the
+          // build deadline was indistinguishable from a dead one. 'cancelled'
+          // says nothing about upstream; 'not-rss' and 'unreachable' do.
           if (result.parsedTotal > 0 && result.items.length === 0 && result.droppedUndated > 0) {
             feedStatuses[feed.name] = 'all-undated';
-          } else if (result.items.length === 0) {
+          } else if (result.items.length > 0) {
+            if (result.droppedUndated > 0) feedStatuses[feed.name] = 'partial-undated';
+          } else if (result.outcome !== 'ok' && result.outcome !== 'cached') {
+            feedStatuses[feed.name] = result.outcome;
+          } else {
+            // Parsed cleanly, kept nothing, and no date drops explain it —
+            // e.g. every item failed the freshness floor.
             feedStatuses[feed.name] = 'empty';
-          } else if (result.droppedUndated > 0) {
-            feedStatuses[feed.name] = 'partial-undated';
           }
           return {
             category,
@@ -1556,6 +1651,13 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
       }
     }
 
+    // 'timeout' and 'cancelled' are both deadline casualties but not the same
+    // event, and telling them apart is how you know which lever to pull.
+    // 'timeout' means the batch loop broke before this feed's turn — it never
+    // ran, so the fix is throughput (concurrency, budget, a warm cache).
+    // 'cancelled' means it ran and was cut off mid-flight — the fix is the
+    // per-feed timeout or that upstream is slow. Neither is a verdict on the
+    // feed, and neither is cached.
     for (const entry of allEntries) {
       if (!completedFeeds.has(entry.feed.name)) {
         feedStatuses[entry.feed.name] = 'timeout';
@@ -1806,6 +1908,10 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 export const __testing__ = {
   sliceCategoryWithNativeReserve,
   pickAcrossSources,
+  fetchRssText,
+  isAbortError,
+  FEED_TIMEOUT_MS,
+  CACHE_TTL_EMPTY_S,
   ITEMS_PER_FEED,
   MAX_ITEMS_PER_CATEGORY,
   NATIVE_LANGUAGE_RESERVED_SLOTS,
