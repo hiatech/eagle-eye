@@ -23,7 +23,7 @@ gazetecilik olmayabiliyor.
 | 1 | Veriyi akıt, referans noktası oluştur | ✅ Tamam (2026-08-07) |
 | 2 | Ölç ve önceliklendir | ✅ Tamam (+ sertleştirildi) |
 | 3 | GDELT çok dilli açılım | ✅ Tamam (plandan farklı rotayla) |
-| 4 | Yerel RSS kaynak genişletmesi | 🟡 ~%10 |
+| 4 | Yerel RSS kaynak genişletmesi | 🟢 4.0/4.1/4.1b/4.2 tamam |
 | 5 | Yeni açık kaynak API'leri | ❌ Başlamadı |
 | 6 | Altyapı sağlamlaştırma | ❌ Başlamadı |
 
@@ -359,14 +359,54 @@ Faz 1 kapandı, referans noktası var, self-host blokerleri (B3) çözüldü. Ca
 Sıra:
 
 1. ~~**Faz 4.1 — locale URL'lerini sunucuya aynala.**~~ ✅ Yapıldı (yukarı bak).
-2. **Faz 4.2 — dil paketleri.** Gerçek zayıflar `bg`/`cs`/`fa`/`ja` (1'er). Tek tek değil
-   **paket halinde** — `pt` paketi bunun çalıştığını canlıda kanıtladı, tek başına eklenen
-   `ar` kaynağı kategori kapağında eleniyor.
-3. **Faz 4.0 — ölü ayıklama** (yukarıdakilerle paralel): Al Arabiya `ar` 403,
-   EuroNews `pt`/`ru` fetch failed, Tuoi Tre `vi` ölü.
+2. ~~**Faz 4.2 — dil paketleri.**~~ ✅ Yapıldı (aşağı bak).
+3. ~~**Faz 4.0 — ölü ayıklama.**~~ ✅ Yeniden ölçüldü, listenin yarısı geçersiz çıktı.
 4. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE.
 5. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci
    gerekiyorsa. Aynı-origin Docker kurulumunda gerekmez.
+
+### ✅ Faz 4.2 — dört zayıf dilin paketleri (2026-08-08)
+
+`bg`, `cs`, `fa`, `ja` 1'er native kaynakla duruyordu. Canlı ölçüm tek kaynağın
+`MAX_ITEMS_PER_CATEGORY = 20` kapağında elendiğini göstermişti, o yüzden dördü de **paket
+halinde** eklendi. Toplam 21 yeni kaynak, her biri iki katalogda birden.
+
+| Dil | Önce | Sonra | Paket |
+|---|---|---|---|
+| cs | 1 | **7** | ČT24, iRozhlas, Novinky.cz, iDNES, Aktuálně.cz, Deník N |
+| bg | 1 | **6** | Capital, Mediapool, Sega, 24 Chasa, Vesti.bg |
+| fa | 1 | **6** | DW Persian, Euronews Persian, Iran International Persian, IRNA Persian, ISNA |
+| ja | 1 | **6** | NHK, Kyodo News, Jiji Press, Mainichi Shimbun, Toyo Keizai |
+
+Adaylar önce yoklandı; yalnızca 200 + öğe döndürenler alındı. Elenenler: BTA, Mediapool'un
+ilk URL'i, OFFNews (403), bTV (403), Trud (403), Fakti, BNT, Nova, Blitz, Yomiuri, Sankei,
+Nikkei, Kyodo'nun nordot URL'i, Tokyo Shimbun, Chunichi, Nishinippon, Radio Farda ve VOA
+Farsi'nin API uçları (200 ama 0 öğe).
+
+**`fa` paketi bilinçli olarak karışık.** Üç yabancı/diaspora yayıncısı + iki Tahran ajansı.
+Yalnızca sürgün medyasına dayanan bir Farsça brief, yalnızca devlet ajanslarına dayanan
+kadar tek yanlı olur. `IRNA Persian` ve `ISNA` `shared/source-provenance.ts`'te
+`stateAffiliated: 'Iran'` + `risk: 'high'` olarak beyan edildi — İngilizce ikizleri `IRNA` ve
+`Mehr News` zaten öyleydi. `Iran International Persian` de karşı yönde `Gulf-funded` olarak
+etiketlendi.
+
+`ja` için NHK'nın `cat6` (uluslararası masa) beslemesi seçildi, `cat0` (yurt içi manşetler)
+değil — burası bir dünya monitörü.
+
+**Üretilen dosya zinciri, kontrol listesinin yazmadığı kısım.** 20 yeni host allowlist'e
+girdi ve bu üç kopyayı birden tetikledi: `shared/`, `scripts/shared/` ve
+`api/_rss-allowed-domains.js` (Edge Function import edemediği için diziyi literal tutuyor —
+üçüncü kopyanın varlığı yalnızca test kırılınca ortaya çıkıyor). Host sayacı 530 → 550
+olunca 11 dosyadaki `"530+ observed upstream hosts"` iddiası da bayatladı; bunların
+`index.html` ve welcome sayfaları **üreteç sahipli** (`npm run product:facts`), kalan 10'u
+elle bakımlı. Elle düzenlemek üreteci bozuyor, üretece bırakmak elle bakımlıları
+düzeltmiyor — ikisi ayrı ayrı yapılmalı. Son olarak üreteç `index.html`'deki inline
+script'i değiştirdiği için CSP sha256 hash'i `vercel.json`, `docker/nginx.conf` ve
+`docker/nginx-security-headers.conf`'ta güncellendi.
+
+**Yeni en zayıflar:** `ko`, `th`, `vi`, `zh` (2'şer). `vi`'nin ikinci kaynağı Tuoi Tre News
+ve o ölü (bkz. Faz 4.0), yani `vi` fiilen 1.
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.

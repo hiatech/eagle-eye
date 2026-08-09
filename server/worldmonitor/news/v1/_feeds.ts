@@ -103,6 +103,16 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'ATV', url: 'https://www.atv.hu/rss', lang: 'hu' },
       // Czech (CS) — V4 balance with Hungary (#5952). Locale-boosted for cs users.
       { name: 'Seznam Zprávy', url: 'https://www.seznamzpravy.cz/rss', lang: 'cs' },
+      // CS pack, mirrored from src/config/feeds.ts. cs had one digest source,
+      // and the live measurement showed a lone native source losing the
+      // MAX_ITEMS_PER_CATEGORY ranking to the English pool — packs clear the
+      // cap, singles do not.
+      { name: 'ČT24', url: 'https://ct24.ceskatelevize.cz/rss/hlavni-zpravy', lang: 'cs' },
+      { name: 'iRozhlas', url: 'https://www.irozhlas.cz/rss/irozhlas', lang: 'cs' },
+      { name: 'Novinky.cz', url: 'https://www.novinky.cz/rss', lang: 'cs' },
+      { name: 'iDNES', url: 'https://servis.idnes.cz/rss.aspx?c=zpravodaj', lang: 'cs' },
+      { name: 'Aktuálně.cz', url: 'https://zpravy.aktualne.cz/rss/', lang: 'cs' },
+      { name: 'Deník N', url: 'https://denikn.cz/feed/', lang: 'cs' },
       // Croatian (HR) — mainstream + investigative; Balkan Insight is English-language (no lang tag)
       { name: 'N1 Croatia', url: 'https://n1info.hr/feed/', lang: 'hr' },
       { name: 'Index.hr', url: 'https://www.index.hr/rss', lang: 'hr' },
@@ -114,6 +124,12 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'G4Media', url: 'https://www.g4media.ro/feed/', lang: 'ro' },
       // Bulgarian (BG) — Black Sea flank (#5952). Locale-boosted for bg users.
       { name: 'Dnevnik', url: 'https://www.dnevnik.bg/rss/', lang: 'bg' },
+      // BG pack, same reasoning as CS.
+      { name: 'Capital', url: 'https://www.capital.bg/rss/', lang: 'bg' },
+      { name: 'Mediapool', url: 'https://www.mediapool.bg/rss/', lang: 'bg' },
+      { name: 'Sega', url: 'https://www.segabg.com/rss', lang: 'bg' },
+      { name: '24 Chasa', url: 'https://www.24chasa.bg/rss', lang: 'bg' },
+      { name: 'Vesti.bg', url: 'https://www.vesti.bg/rss', lang: 'bg' },
       // Ukraine war frontline for EN digests (#5949). Names must match client
       // DEFAULT_ENABLED_SOURCES.europe. Ordinary non-en `lang` tags are filtered
       // from EN digests; strategic defaults explicitly bypass that filter.
@@ -204,6 +220,16 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Al Arabiya', url: gn('site:english.alarabiya.net when:2d') },
       { name: 'Guardian ME', url: 'https://www.theguardian.com/world/middleeast/rss' },
       { name: 'BBC Persian', url: 'https://feeds.bbci.co.uk/persian/rss.xml', lang: 'fa' },
+      // FA pack, mirrored from src/config/feeds.ts. Three foreign/diaspora
+      // broadcasters plus two Tehran-based agencies: a Persian brief built only
+      // on exile media is as one-sided as one built only on state wires. IRNA
+      // Persian and ISNA carry state-affiliation declarations in
+      // shared/source-provenance.ts, as their English twins already do.
+      { name: 'DW Persian', url: 'https://rss.dw.com/xml/rss-per-all', lang: 'fa' },
+      { name: 'Euronews Persian', url: 'https://parsi.euronews.com/rss?format=xml', lang: 'fa' },
+      { name: 'Iran International Persian', url: 'https://www.iranintl.com/feed', lang: 'fa' },
+      { name: 'IRNA Persian', url: 'https://www.irna.ir/rss', lang: 'fa' },
+      { name: 'ISNA', url: 'https://www.isna.ir/rss', lang: 'fa' },
       { name: 'Iran International', url: gn('site:iranintl.com when:2d') },
       { name: 'Haaretz', url: gn('site:haaretz.com when:7d') },
       { name: 'Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsheadlines.aspx' },
@@ -338,6 +364,14 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Asia News', url: gn('site:asianews.it when:3d') },
       { name: 'Xinhua', url: gn('site:xinhuanet.com OR Xinhua when:1d') },
       { name: 'Asahi Shimbun', url: 'https://www.asahi.com/rss/asahi/newsheadlines.rdf', lang: 'ja', strategicDefault: true },
+      // JA pack, mirrored from src/config/feeds.ts. NHK's cat6 feed is the
+      // international desk rather than cat0's domestic headlines — this is a
+      // world monitor, so the foreign desk is the relevant one.
+      { name: 'NHK', url: 'https://www.nhk.or.jp/rss/news/cat6.xml', lang: 'ja' },
+      { name: 'Kyodo News', url: 'https://www.kyodo.co.jp/feed/', lang: 'ja' },
+      { name: 'Jiji Press', url: 'https://www.jiji.com/rss/ranking.rdf', lang: 'ja' },
+      { name: 'Mainichi Shimbun', url: 'https://mainichi.jp/rss/etc/mainichi-flash.rss', lang: 'ja' },
+      { name: 'Toyo Keizai', url: 'https://toyokeizai.net/list/feed/rss', lang: 'ja' },
       { name: 'MIIT (China)', url: gnLocale('site:miit.gov.cn when:7d', 'zh-CN', 'CN', 'CN:zh-Hans'), lang: 'zh', strategicDefault: true },
       { name: 'MOFCOM (China)', url: gnLocale('site:mofcom.gov.cn when:7d', 'zh-CN', 'CN', 'CN:zh-Hans'), lang: 'zh', strategicDefault: true },
       { name: 'Bangkok Post', url: gn('site:bangkokpost.com when:1d'), lang: 'th', strategicDefault: true },

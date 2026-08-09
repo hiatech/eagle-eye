@@ -63,12 +63,27 @@ export const SOURCE_TYPES: Record<string, SourceType> = {
   'Digi24': 'mainstream', 'HotNews': 'mainstream', 'G4Media': 'mainstream',
   // Bulgarian (BG) — Black Sea flank (#5952)
   'Dnevnik': 'mainstream',
+  // BG native pack — bg had one native source before this
+  'Capital': 'market', 'Mediapool': 'mainstream', 'Sega': 'mainstream',
+  '24 Chasa': 'mainstream', 'Vesti.bg': 'mainstream',
   // Baltic states — Eastern flank (#5952)
   'ERR News': 'mainstream', 'LRT English': 'mainstream', 'LSM English': 'mainstream',
   // Turkey EN path (#5952)
   'Daily Sabah': 'mainstream',
   // Czech (CS) — V4 balance (#5952)
   'Seznam Zprávy': 'mainstream',
+  // CS native pack — cs had one native source before this
+  'ČT24': 'mainstream', 'iRozhlas': 'mainstream', 'Novinky.cz': 'mainstream',
+  'iDNES': 'mainstream', 'Aktuálně.cz': 'mainstream', 'Deník N': 'mainstream',
+  // Persian (FA) native pack — fa had one native source before this. IRNA
+  // Persian and ISNA are agencies, not independent outlets; see
+  // SOURCE_PROPAGANDA_RISK below for their state-affiliation declarations.
+  'DW Persian': 'mainstream', 'Euronews Persian': 'mainstream',
+  'Iran International Persian': 'mainstream',
+  'IRNA Persian': 'wire', 'ISNA': 'wire',
+  // Japanese (JA) native pack — ja had one native source before this
+  'NHK': 'mainstream', 'Mainichi Shimbun': 'mainstream', 'Toyo Keizai': 'market',
+  'Kyodo News': 'wire', 'Jiji Press': 'wire',
   // Hindi (HI)
   'BBC Hindi': 'mainstream', 'Aaj Tak': 'mainstream', 'NDTV India': 'mainstream', 'Amar Ujala': 'mainstream',
   // Hungarian (HU)
@@ -301,6 +316,32 @@ export const SOURCE_PROPAGANDA_RISK: Record<string, SourceRiskProfile> = {
   'Arctic Today': { risk: 'low', note: 'Independent High North / Arctic security and business news' },
   'Daily Sabah': { risk: 'medium', stateAffiliated: 'Turkey', note: 'Turkish pro-government daily, English edition' },
   'Seznam Zprávy': { risk: 'low', note: 'Czech independent online news outlet' },
+  // CS native pack (#4.2)
+  'ČT24': { risk: 'medium', stateAffiliated: 'Czechia', note: 'Czech Television news channel — public broadcaster, licence-fee funded' },
+  'iRozhlas': { risk: 'medium', stateAffiliated: 'Czechia', note: 'Czech Radio news service — public broadcaster' },
+  'Novinky.cz': { risk: 'low', note: 'Czech news portal (Seznam.cz), largest by reach' },
+  'iDNES': { risk: 'low', knownBiases: ['Owner-linked (Agrofert/MAFRA)'], note: 'Czech daily MF DNES online edition' },
+  'Aktuálně.cz': { risk: 'low', note: 'Czech online daily (Economia)' },
+  'Deník N': { risk: 'low', note: 'Czech independent subscriber-funded daily' },
+  // BG native pack (#4.2)
+  'Capital': { risk: 'low', note: 'Bulgarian business weekly/daily (Economedia), same publisher as Dnevnik' },
+  'Mediapool': { risk: 'low', note: 'Bulgarian independent online news outlet' },
+  'Sega': { risk: 'low', note: 'Bulgarian independent daily newspaper' },
+  '24 Chasa': { risk: 'low', knownBiases: ['Tabloid register'], note: 'Bulgarian mass-market daily' },
+  'Vesti.bg': { risk: 'low', note: 'Bulgarian commercial news portal' },
+  // FA native pack (#4.2) — the two Tehran agencies are declared state media,
+  // matching how their English twins IRNA and Mehr News are already declared.
+  'IRNA Persian': { risk: 'high', stateAffiliated: 'Iran', note: 'Persian edition of the Islamic Republic News Agency — Iranian state news agency' },
+  'ISNA': { risk: 'high', stateAffiliated: 'Iran', note: 'Iranian Students News Agency — operates under ACECR, a state body' },
+  'Iran International Persian': { risk: 'medium', knownBiases: ['Anti-Tehran', 'Gulf-funded'], note: 'London-based Persian broadcaster, Saudi-linked funding; counterweight to the state wires above' },
+  'DW Persian': { risk: 'medium', stateAffiliated: 'Germany', note: 'German state-funded, editorially independent — Persian service' },
+  'Euronews Persian': { risk: 'low', knownBiases: ['Pro-EU'], note: 'European public broadcaster consortium, Persian service' },
+  // JA native pack (#4.2)
+  'NHK': { risk: 'medium', stateAffiliated: 'Japan', note: 'Japanese public broadcaster, licence-fee funded — international desk feed' },
+  'Kyodo News': { risk: 'low', note: 'Japanese wire service, nonprofit cooperative' },
+  'Jiji Press': { risk: 'low', note: 'Japanese wire service' },
+  'Mainichi Shimbun': { risk: 'low', note: 'Japanese national daily of record' },
+  'Toyo Keizai': { risk: 'low', note: 'Japanese business and economics publisher' },
   'Reuters': { risk: 'low', note: 'Wire service, strict editorial standards' },
   'AP News': { risk: 'low', note: 'Wire service, nonprofit cooperative' },
   'AFP': { risk: 'low', note: 'Wire service, editorially independent' },
