@@ -480,15 +480,49 @@ type FetchFailureReason = 'http-error' | 'not-rss' | 'network' | 'cancelled';
 
 type FetchAttempt =
   | { ok: true; text: string }
-  | { ok: false; reason: FetchFailureReason };
+  | { ok: false; reason: FetchFailureReason; code?: string };
 
 /**
- * Both the per-feed timeout and the overall build deadline surface as
- * AbortError through the linked controller, and either means the same thing
- * here: we stopped asking before upstream finished answering.
+ * Whether a thrown fetch was our own cancellation.
+ *
+ * `signal` is the authority, not the error. undici rejects with a DOMException
+ * named AbortError, but the Docker self-host runs the sidecar's fetch
+ * replacement (src-tauri/sidecar/local-api-server.mjs), which rejects with a
+ * plain `Error('aborted by signal')` — name `Error`, invisible to a name check.
+ *
+ * That gap silently undid the fix it was written for: measured 2026-08-08,
+ * 19 feeds per cold build reported `network/aborted`, so every deadline
+ * cancellation in the deployment target was classified as a real failure and
+ * cached for CACHE_TTL_EMPTY_S — precisely the self-sustaining behaviour that
+ * separating cancellation from empty was meant to end.
+ *
+ * Asking the controller avoids depending on any runtime's error shape or on
+ * another module's message text.
  */
-function isAbortError(err: unknown): boolean {
+function isAbortError(err: unknown, signal?: AbortSignal): boolean {
+  if (signal?.aborted) return true;
   return err instanceof Error && err.name === 'AbortError';
+}
+
+/**
+ * The transport-level code behind a thrown fetch, for telemetry only.
+ *
+ * `network` covers everything from a refused connection to a TLS failure to a
+ * socket the peer reset, and those want different fixes. undici hides the real
+ * one under `cause`. Diagnosing the 2026-08-08 unreachable set stalled exactly
+ * here: concurrency, relay health, relay headers and DNS were each measured and
+ * cleared, and the one datum never captured was this.
+ */
+function fetchErrorCode(err: unknown): string {
+  if (!(err instanceof Error)) return 'non-error';
+  const cause = (err as { cause?: unknown }).cause;
+  if (cause && typeof cause === 'object') {
+    const code = (cause as { code?: unknown }).code;
+    if (typeof code === 'string') return code;
+    const message = (cause as { message?: unknown }).message;
+    if (typeof message === 'string') return message.slice(0, 40);
+  }
+  return err.message.slice(0, 40);
 }
 
 async function fetchRssText(
@@ -514,7 +548,8 @@ async function fetchRssText(
     if (!looksLikeRssXml(text)) return { ok: false, reason: 'not-rss' };
     return { ok: true, text };
   } catch (err) {
-    return { ok: false, reason: isAbortError(err) ? 'cancelled' : 'network' };
+    if (isAbortError(err, controller.signal)) return { ok: false, reason: 'cancelled' };
+    return { ok: false, reason: 'network', code: fetchErrorCode(err) };
   } finally {
     cleanup();
   }
@@ -638,11 +673,18 @@ async function fetchAndParseRss(
     }
 
     // Try direct fetch first
+    const fetchStartedAt = Date.now();
     const direct = await fetchRssText(feed.url, signal);
     let text: string | null = direct.ok ? direct.text : null;
     // Why the direct attempt failed, carried so the relay's own failure can be
     // reported against the more informative of the two.
     let failure: FetchFailureReason | null = direct.ok ? null : direct.reason;
+    // Kept separate from `failure`, which the relay overwrites — the log needs
+    // both hops' verdicts, not just the last one.
+    const directFailure: FetchFailureReason | null = direct.ok ? null : direct.reason;
+    const directCode: string | null = direct.ok ? null : (direct.code ?? null);
+    let relayFailure: FetchFailureReason | null = null;
+    let relayCode: string | null = null;
     let source: 'direct' | 'relay' | 'both-failed' = text ? 'direct' : 'both-failed';
     let relayStatus: number | null = null;
     let relayBodyShape: 'rss' | 'html-or-empty' | 'no-relay' | 'fetch-error' = 'no-relay';
@@ -680,11 +722,14 @@ async function fetchAndParseRss(
             }
           } else {
             failure = 'http-error';
+            relayFailure = 'http-error';
           }
         } catch (err) {
           // A cancelled relay attempt is still a cancellation: we ran out of
           // budget, upstream never got the chance to be judged.
-          failure = isAbortError(err) ? 'cancelled' : 'network';
+          failure = isAbortError(err, controller.signal) ? 'cancelled' : 'network';
+          relayFailure = failure;
+          if (failure !== 'cancelled') relayCode = fetchErrorCode(err);
         } finally {
           cleanup();
         }
@@ -699,7 +744,12 @@ async function fetchAndParseRss(
     // miss per feed (capped by CACHE_TTL_EMPTY_S=300s + healthy=3600s).
     if (source !== 'direct') {
       const host = (() => { try { return new URL(feed.url).hostname; } catch { return 'invalid-url'; } })();
-      console.log(`[feed-fetch] variant=${variant} category=? host=${host} source=${source} relay_status=${relayStatus ?? 'n/a'} relay_shape=${relayBodyShape} feed=${feed.name}`);
+      // direct_fail / relay_fail are why each hop gave up. Without them the
+      // line says a fetch failed but not whether upstream refused us, handed
+      // back an interstitial, or we ran out of budget before asking — which is
+      // three different fixes. Diagnosing the 2026-08-08 unreachable set needed
+      // exactly this and had to guess instead.
+      console.log(`[feed-fetch] variant=${variant} category=? host=${host} source=${source} direct_fail=${directFailure ?? 'n/a'}/${directCode ?? '-'} relay_status=${relayStatus ?? 'n/a'} relay_shape=${relayBodyShape} relay_fail=${relayFailure ?? 'n/a'}/${relayCode ?? '-'} elapsed_ms=${Date.now() - fetchStartedAt} feed=${feed.name}`);
     }
 
     if (!text) {

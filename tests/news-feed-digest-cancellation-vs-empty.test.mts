@@ -70,10 +70,25 @@ describe('fetchRssText reports why it failed', () => {
     assert.deepEqual(result, { ok: false, reason: 'http-error' });
   });
 
-  it('reports a network error as network, not as an empty feed', async () => {
+  it('reports a network error as network, and carries the transport code', async () => {
+    // The code is what turned a three-round guessing game into one log read:
+    // `network` alone cannot distinguish a refused connection from a TLS
+    // failure from an SSRF guard rejecting the request.
     stubFetch(async () => { throw new TypeError('fetch failed'); });
     const result = await fetchRssText('https://example.test/rss', new AbortController().signal);
-    assert.deepEqual(result, { ok: false, reason: 'network' });
+    assert.equal(result.ok, false);
+    assert.equal(!result.ok && result.reason, 'network');
+    assert.ok(!result.ok && typeof result.code === 'string' && result.code.length > 0);
+  });
+
+  it('surfaces the cause code when the runtime hides it under cause', async () => {
+    stubFetch(async () => {
+      const err = new TypeError('fetch failed');
+      (err as { cause?: unknown }).cause = { code: 'ECONNREFUSED' };
+      throw err;
+    });
+    const result = await fetchRssText('https://example.test/rss', new AbortController().signal);
+    assert.equal(!result.ok && result.code, 'ECONNREFUSED');
   });
 
   it('reports an abort as cancelled — the case that was being cached as empty', async () => {
@@ -107,6 +122,31 @@ describe('isAbortError', () => {
     assert.equal(isAbortError(new Error('AbortError')), false, 'the message is not the name');
     assert.equal(isAbortError('AbortError'), false);
     assert.equal(isAbortError(null), false);
+  });
+
+  it('trusts the signal over the error shape', () => {
+    // The Docker self-host runs the sidecar's fetch replacement, which rejects
+    // with a plain Error('aborted by signal') — name 'Error'. Measured
+    // 2026-08-08: 19 feeds per cold build were reported network/aborted, so
+    // every cancellation in the deployment target was cached as a failure.
+    const controller = new AbortController();
+    controller.abort();
+    const sidecarShape = new Error('aborted by signal');
+    assert.equal(
+      isAbortError(sidecarShape),
+      false,
+      'precondition: a name check alone cannot see this shape',
+    );
+    assert.equal(
+      isAbortError(sidecarShape, controller.signal),
+      true,
+      'an aborted controller settles it whatever the runtime threw',
+    );
+  });
+
+  it('does not call a real failure cancelled just because a signal exists', () => {
+    const live = new AbortController();
+    assert.equal(isAbortError(new TypeError('fetch failed'), live.signal), false);
   });
 });
 

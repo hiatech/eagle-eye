@@ -1019,3 +1019,65 @@ iki Faz 6 kaleminin ilkiydi (124 haber → 273), ikincisi 6.1/6.3 ile kapanmış
 200 dönüyorlar, eşzamanlılıkla ilgisi yok. Sıradaki adım artık tahmin değil gözlem olmalı:
 `[feed-fetch]` log satırı zaten relay yolunu ve gövde şeklini yazıyor; bir koşunun logu
 okunup bu 17'nin hangi aşamada düştüğüne bakılmalı.
+
+### 🔴 Faz 6.5 — telemetri iki gerçek hata buldu (2026-08-08)
+
+6.4 "sıradaki adım tahmin değil gözlem olmalı" diye bitmişti. `[feed-fetch]` satırı hangi
+yolun kazandığını yazıyordu ama **neden kaybettiğini** yazmıyordu. Eklendi: `direct_fail`,
+`relay_fail`, `elapsed_ms` ve altta yatan taşıma hata kodu.
+
+Önce elenenler (hepsi ölçüldü): eşzamanlılık seviyesi, relay'in sağlığı (tek başına 200,
+20 eşzamanlıda 20/20), relay başlıkları (beş kombinasyon da 200), DNS (400 eşzamanlı
+çözümlemede sıfır hata). Sonra tek koşunun logu iki şey söyledi.
+
+**1. Docker self-host'ta RSS relay yedeği yapısal olarak ölü.**
+
+```
+relay_fail=network/SSRF     (36/36)
+```
+
+Konteyner `src-tauri/sidecar/local-api-server.mjs` çalıştırıyor ve o `globalThis.fetch`'i
+SSRF korumasıyla sarmalıyor. `WS_RELAY_URL=http://ais-relay:3004` özel ağ adresi, izin
+listesinde yalnızca sidecar'ın kendi portu var. Yani **doğrudan çekimi düşen her besleme
+yedeksiz kalıyor** — 403 veren, bot challenge dönen, hepsi.
+
+**Düzeltilmedi ve bilinçli olarak öyle bırakıldı.** İzin listesini genişletmenin yolu
+`allowPrivateFetchOrigins`, ama koddaki yorum açık: *"Programmatic-only test escape hatch…
+no env-var path, so production startup can't widen the SSRF boundary by accident."* Relay
+origin'ini env'den eklemek bu kararı doğrudan çiğner. Seçenekler sahibinin:
+
+- relay'i izin listesinin zaten kabul ettiği bir adresten (loopback + yayınlanmış port) sun
+- `allowPrivateFetchOrigins`'e programatik yol aç (SSRF sınırını bilerek genişletir)
+- Docker self-host'ta relay yedeğinin olmadığını kabul et ve `SELF_HOSTING.md`'ye yaz
+
+Bu, bu roadmap'in üçüncü "belgelenmiş ama self-host'ta sessizce çalışmayan" bulgusu —
+`RELAY_SHARED_SECRET` ve `WM_SESSION_SECRET`'ten sonra.
+
+**2. 6.1 eksik kalmış: iptaller hâlâ cache'leniyordu.**
+
+```
+direct_fail=network/aborted  (19/36)
+```
+
+`isAbortError` yalnızca `err.name === 'AbortError'` bakıyordu. Ama sidecar'ın fetch
+replacement'ı düz `Error('aborted by signal')` fırlatıyor — adı `Error`. Yani **dağıtım
+hedefindeki her deadline iptali `network` sayılıp `CACHE_TTL_EMPTY_S` boyunca
+cache'leniyordu**; tam olarak 6.1'in bitirdiğini sandığım kendi kendini besleyen davranış.
+
+Düzeltme hata şekline değil **sinyale** bakıyor: `isAbortError(err, signal)` önce
+`signal.aborted` sorar. Böylece hiçbir runtime'ın hata biçimine ya da başka bir modülün
+mesaj metnine bağımlı değil.
+
+**Sonuç, aynı koşuda:**
+
+| | Önce | Sonra |
+|---|---|---|
+| `direct_fail=network/aborted` | 19 | **0** |
+| Log satırı (başarısız besleme) | 36-47 | **17** |
+| Kararlı hâl | 20 sorun / 273 haber | 20 sorun / 273 haber |
+
+Kalan 17'nin hepsi gerçek: 15 `http-error` (upstream reddediyor), 2 `not-rss` (interstitial).
+
+**Ölçüm disiplini notu:** ara koşulardan biri 43 sorun / 248 haber verdi ve düzeltmeyi
+gerileme sanmama yol açtı. Değildi — koşu varyansıydı. Bu oturumda üçüncü kez: tek koşu
+karar vermeye yetmiyor, log ise yetiyor.
