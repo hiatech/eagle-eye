@@ -586,7 +586,6 @@ export const CONFIGURED_SOURCE_PROVENANCE_DECLARATIONS: Readonly<
   "Treasury": { risk: 'unknown', type: 'reviewed' },
   "Treasury Watch": { risk: 'unknown', type: 'unknown' },
   "Tuoi Tre": { risk: 'reviewed', type: 'reviewed' },
-  "Tuoi Tre News": { risk: 'unknown', type: 'unknown' },
   "TVN24": { risk: 'unknown', type: 'unknown' },
   "TWIST Episodes": { risk: 'unknown', type: 'unknown' },
   "UK MOD": { risk: 'unknown', type: 'reviewed' },

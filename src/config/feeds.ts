@@ -491,10 +491,9 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'The Standard', url: rss('https://thestandard.co/feed/'), lang: 'th' },
     // Vietnam
     { name: 'VnExpress', url: rss('https://vnexpress.net/rss/tin-moi-nhat.rss'), lang: 'vi', strategicDefault: true },
-    { name: 'Tuoi Tre News', url: rss('https://tuoitrenews.vn/rss'), lang: 'vi' },
-    // VI pack. `Tuoi Tre` is the Vietnamese edition — a different feed from the
-    // dead English `Tuoi Tre News` above, which is why the vi count read 2 while
-    // only one source actually answered.
+    // VI pack. `Tuoi Tre` is the Vietnamese edition. The English `Tuoi Tre News`
+    // that used to sit here failed the TLS handshake outright and was removed
+    // once this live replacement from the same publisher landed.
     { name: 'Tuoi Tre', url: rss('https://tuoitre.vn/rss/tin-moi-nhat.rss'), lang: 'vi' },
     { name: 'Thanh Nien', url: rss('https://thanhnien.vn/rss/home.rss'), lang: 'vi' },
     { name: 'Dan Tri', url: rss('https://dantri.com.vn/rss/home.rss'), lang: 'vi' },

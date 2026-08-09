@@ -1556,7 +1556,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 523
+          "line": 522
         }
       ]
     },
@@ -1715,7 +1715,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 812
+          "line": 811
         }
       ]
     },
@@ -1764,7 +1764,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1163
+          "line": 1162
         }
       ]
     },
@@ -1956,7 +1956,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 728
+          "line": 727
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -2055,7 +2055,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 799
+          "line": 798
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -2166,7 +2166,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 903
+          "line": 902
         }
       ]
     },
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1215
+          "line": 1214
         }
       ]
     },
@@ -2238,7 +2238,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 814
+          "line": 813
         }
       ]
     },
@@ -2356,7 +2356,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 500
+          "line": 499
         }
       ]
     },
@@ -2599,7 +2599,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 803
+          "line": 802
         }
       ]
     },
@@ -2664,7 +2664,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 726
+          "line": 725
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -2683,7 +2683,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 723
+          "line": 722
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -2706,7 +2706,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1205
+          "line": 1204
         }
       ]
     },
@@ -3163,7 +3163,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 521
+          "line": 520
         }
       ]
     },
@@ -3217,11 +3217,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 565
+          "line": 564
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 566
+          "line": 565
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3263,7 +3263,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 721
+          "line": 720
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3313,7 +3313,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 551
+          "line": 550
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3477,11 +3477,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 557
+          "line": 556
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 668
+          "line": 667
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3538,7 +3538,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 757
+          "line": 756
         }
       ]
     },
@@ -3687,19 +3687,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 712
+          "line": 711
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 775
+          "line": 774
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1021
+          "line": 1020
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1029
+          "line": 1028
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -3811,7 +3811,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1170
+          "line": 1169
         }
       ]
     },
@@ -3925,7 +3925,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1153
+          "line": 1152
         }
       ]
     },
@@ -3982,7 +3982,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 641
+          "line": 640
         }
       ]
     },
@@ -4059,7 +4059,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1211
+          "line": 1210
         }
       ]
     },
@@ -4116,7 +4116,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 951
+          "line": 950
         }
       ]
     },
@@ -4161,7 +4161,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 897
+          "line": 896
         }
       ]
     },
@@ -4271,11 +4271,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 552
+          "line": 551
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 643
+          "line": 642
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4306,7 +4306,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 896
+          "line": 895
         }
       ]
     },
@@ -4359,7 +4359,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 616
+          "line": 615
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4499,7 +4499,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 519
+          "line": 518
         }
       ]
     },
@@ -4688,11 +4688,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 667
+          "line": 666
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1194
+          "line": 1193
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4968,7 +4968,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 727
+          "line": 726
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -5240,7 +5240,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 642
+          "line": 641
         }
       ]
     },
@@ -5377,7 +5377,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 574
+          "line": 573
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -5759,7 +5759,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 522
+          "line": 521
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 525
         },
         {
           "path": "src/config/feeds.ts",
@@ -5771,19 +5775,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 528
+          "line": 530
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 531
+          "line": 532
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 533
+          "line": 534
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 535
+          "line": 538
         },
         {
           "path": "src/config/feeds.ts",
@@ -5799,11 +5803,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 542
+          "line": 559
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 560
+          "line": 566
         },
         {
           "path": "src/config/feeds.ts",
@@ -5815,11 +5819,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 569
+          "line": 575
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 576
+          "line": 577
         },
         {
           "path": "src/config/feeds.ts",
@@ -5831,7 +5835,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 580
+          "line": 584
         },
         {
           "path": "src/config/feeds.ts",
@@ -5847,15 +5851,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 588
+          "line": 594
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 595
+          "line": 597
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 598
+          "line": 599
         },
         {
           "path": "src/config/feeds.ts",
@@ -5871,7 +5875,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 603
+          "line": 604
         },
         {
           "path": "src/config/feeds.ts",
@@ -5883,7 +5887,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 607
+          "line": 608
         },
         {
           "path": "src/config/feeds.ts",
@@ -5895,7 +5899,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 611
+          "line": 612
         },
         {
           "path": "src/config/feeds.ts",
@@ -5903,7 +5907,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 614
+          "line": 617
         },
         {
           "path": "src/config/feeds.ts",
@@ -5911,7 +5915,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 619
+          "line": 620
         },
         {
           "path": "src/config/feeds.ts",
@@ -5923,11 +5927,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 623
+          "line": 624
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 625
+          "line": 626
         },
         {
           "path": "src/config/feeds.ts",
@@ -5947,7 +5951,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 631
+          "line": 633
         },
         {
           "path": "src/config/feeds.ts",
@@ -5955,7 +5959,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 635
+          "line": 636
         },
         {
           "path": "src/config/feeds.ts",
@@ -5963,7 +5967,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 638
+          "line": 643
         },
         {
           "path": "src/config/feeds.ts",
@@ -5975,7 +5979,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 646
+          "line": 648
         },
         {
           "path": "src/config/feeds.ts",
@@ -5987,7 +5991,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 651
+          "line": 653
         },
         {
           "path": "src/config/feeds.ts",
@@ -6003,7 +6007,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 657
+          "line": 662
         },
         {
           "path": "src/config/feeds.ts",
@@ -6011,7 +6015,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 664
+          "line": 674
         },
         {
           "path": "src/config/feeds.ts",
@@ -6023,7 +6027,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 677
+          "line": 678
         },
         {
           "path": "src/config/feeds.ts",
@@ -6035,19 +6039,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 681
+          "line": 682
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 683
+          "line": 684
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 685
+          "line": 686
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 687
+          "line": 690
         },
         {
           "path": "src/config/feeds.ts",
@@ -6067,7 +6071,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 695
+          "line": 696
         },
         {
           "path": "src/config/feeds.ts",
@@ -6079,7 +6083,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 699
+          "line": 700
         },
         {
           "path": "src/config/feeds.ts",
@@ -6095,7 +6099,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 704
+          "line": 705
         },
         {
           "path": "src/config/feeds.ts",
@@ -6103,11 +6107,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 707
+          "line": 710
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 711
+          "line": 716
         },
         {
           "path": "src/config/feeds.ts",
@@ -6115,11 +6119,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 718
+          "line": 730
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 731
+          "line": 734
         },
         {
           "path": "src/config/feeds.ts",
@@ -6135,7 +6139,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 738
+          "line": 740
         },
         {
           "path": "src/config/feeds.ts",
@@ -6151,7 +6155,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 744
+          "line": 747
         },
         {
           "path": "src/config/feeds.ts",
@@ -6167,11 +6171,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 751
+          "line": 752
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 753
+          "line": 754
         },
         {
           "path": "src/config/feeds.ts",
@@ -6179,11 +6183,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 756
+          "line": 758
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 759
+          "line": 760
         },
         {
           "path": "src/config/feeds.ts",
@@ -6191,15 +6195,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 762
+          "line": 763
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 764
+          "line": 773
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 774
+          "line": 776
         },
         {
           "path": "src/config/feeds.ts",
@@ -6211,7 +6215,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 779
+          "line": 781
         },
         {
           "path": "src/config/feeds.ts",
@@ -6223,7 +6227,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 784
+          "line": 786
         },
         {
           "path": "src/config/feeds.ts",
@@ -6235,7 +6239,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 789
+          "line": 791
         },
         {
           "path": "src/config/feeds.ts",
@@ -6251,7 +6255,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 795
+          "line": 799
         },
         {
           "path": "src/config/feeds.ts",
@@ -6263,11 +6267,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 802
+          "line": 812
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 813
+          "line": 815
         },
         {
           "path": "src/config/feeds.ts",
@@ -6291,7 +6295,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 821
+          "line": 824
         },
         {
           "path": "src/config/feeds.ts",
@@ -6311,7 +6315,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 829
+          "line": 831
         },
         {
           "path": "src/config/feeds.ts",
@@ -6323,7 +6327,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 834
+          "line": 836
         },
         {
           "path": "src/config/feeds.ts",
@@ -6335,7 +6339,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 839
+          "line": 841
         },
         {
           "path": "src/config/feeds.ts",
@@ -6343,7 +6347,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 843
+          "line": 845
         },
         {
           "path": "src/config/feeds.ts",
@@ -6355,7 +6359,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 848
+          "line": 851
         },
         {
           "path": "src/config/feeds.ts",
@@ -6367,7 +6371,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 854
+          "line": 856
         },
         {
           "path": "src/config/feeds.ts",
@@ -6379,7 +6383,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 859
+          "line": 861
         },
         {
           "path": "src/config/feeds.ts",
@@ -6391,7 +6395,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 864
+          "line": 866
         },
         {
           "path": "src/config/feeds.ts",
@@ -6415,11 +6419,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 872
+          "line": 924
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 925
+          "line": 926
         },
         {
           "path": "src/config/feeds.ts",
@@ -6431,11 +6435,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 929
+          "line": 935
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 936
+          "line": 940
         },
         {
           "path": "src/config/feeds.ts",
@@ -6455,11 +6459,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 945
+          "line": 954
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 955
+          "line": 960
         },
         {
           "path": "src/config/feeds.ts",
@@ -6475,15 +6479,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 964
+          "line": 969
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 970
+          "line": 975
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 976
+          "line": 978
         },
         {
           "path": "src/config/feeds.ts",
@@ -6491,7 +6495,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 980
+          "line": 982
         },
         {
           "path": "src/config/feeds.ts",
@@ -6519,7 +6523,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 989
+          "line": 991
         },
         {
           "path": "src/config/feeds.ts",
@@ -6543,7 +6547,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 997
+          "line": 999
         },
         {
           "path": "src/config/feeds.ts",
@@ -6567,7 +6571,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1005
+          "line": 1007
         },
         {
           "path": "src/config/feeds.ts",
@@ -6583,7 +6587,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1011
+          "line": 1013
         },
         {
           "path": "src/config/feeds.ts",
@@ -6603,7 +6607,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1018
+          "line": 1022
         },
         {
           "path": "src/config/feeds.ts",
@@ -6611,15 +6615,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1024
+          "line": 1027
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1028
+          "line": 1030
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1031
+          "line": 1042
         },
         {
           "path": "src/config/feeds.ts",
@@ -6639,7 +6643,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1047
+          "line": 1052
         },
         {
           "path": "src/config/feeds.ts",
@@ -6663,7 +6667,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1058
+          "line": 1060
         },
         {
           "path": "src/config/feeds.ts",
@@ -6679,19 +6683,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1064
+          "line": 1148
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1149
+          "line": 1151
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1152
+          "line": 1164
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1165
+          "line": 1167
         },
         {
           "path": "src/config/feeds.ts",
@@ -6699,11 +6703,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1169
+          "line": 1172
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1173
+          "line": 1176
         },
         {
           "path": "src/config/feeds.ts",
@@ -6731,7 +6735,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1183
+          "line": 1184
         },
         {
           "path": "src/config/feeds.ts",
@@ -6739,7 +6743,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1186
+          "line": 1188
         },
         {
           "path": "src/config/feeds.ts",
@@ -6747,19 +6751,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1190
+          "line": 1192
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1193
+          "line": 1198
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1199
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1217
+          "line": 1216
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -7073,7 +7073,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 564
+          "line": 563
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -7096,7 +7096,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 902
+          "line": 901
         }
       ]
     },
@@ -7210,7 +7210,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 502
+          "line": 501
         }
       ]
     },
@@ -7358,15 +7358,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 958
+          "line": 957
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1041
+          "line": 1040
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1050
+          "line": 1049
         }
       ]
     },
@@ -8189,7 +8189,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 880
+          "line": 879
         }
       ]
     },
@@ -8325,7 +8325,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 765
+          "line": 764
         }
       ]
     },
@@ -8344,7 +8344,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 510
+          "line": 509
         }
       ]
     },
@@ -8402,7 +8402,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 752
+          "line": 751
         }
       ]
     },
@@ -8421,7 +8421,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 514
+          "line": 513
         }
       ]
     },
@@ -8448,7 +8448,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 674
+          "line": 673
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -8709,11 +8709,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 713
+          "line": 712
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 776
+          "line": 775
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -8828,7 +8828,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 597
+          "line": 596
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -8870,7 +8870,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 895
+          "line": 894
         }
       ]
     },
@@ -9187,7 +9187,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 590
+          "line": 589
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9305,7 +9305,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1151
+          "line": 1150
         }
       ]
     },
@@ -9324,7 +9324,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 596
+          "line": 595
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9362,7 +9362,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 633
+          "line": 632
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9401,19 +9401,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 549
+          "line": 548
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 572
+          "line": 571
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 577
+          "line": 576
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 732
+          "line": 731
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9516,7 +9516,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 499
+          "line": 498
         }
       ]
     },
@@ -9531,7 +9531,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 887
+          "line": 886
         }
       ]
     },
@@ -9550,7 +9550,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 811
+          "line": 810
         }
       ]
     },
@@ -9607,7 +9607,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 722
+          "line": 721
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9649,7 +9649,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1209
+          "line": 1208
         }
       ]
     },
@@ -9706,7 +9706,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 501
+          "line": 500
         }
       ]
     },
@@ -9744,7 +9744,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 524
+          "line": 523
         }
       ]
     },
@@ -9842,7 +9842,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 498
+          "line": 497
         }
       ]
     },
@@ -9850,10 +9850,10 @@
       "host": "tuoitrenews.vn",
       "provider": "tuoitrenews.vn",
       "kind": "feed",
-      "observed": true,
+      "observed": false,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit tuoitrenews.vn and link to the original feed publisher.",
-      "status": "terms-review",
+      "status": "excluded",
       "references": [
         {
           "path": "src/config/feeds.ts",
@@ -9982,7 +9982,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 815
+          "line": 814
         }
       ]
     },
@@ -10059,11 +10059,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 561
+          "line": 560
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 573
+          "line": 572
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -10143,7 +10143,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1213
+          "line": 1212
         }
       ]
     },
@@ -10708,7 +10708,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 516
+          "line": 515
         }
       ]
     },
@@ -10929,7 +10929,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1172
+          "line": 1171
         }
       ]
     },
@@ -10967,7 +10967,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 978
+          "line": 977
         }
       ]
     },
@@ -11191,7 +11191,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 581
+          "line": 580
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11328,7 +11328,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 505
+          "line": 504
         }
       ]
     },
@@ -11439,19 +11439,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 710
+          "line": 709
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 772
+          "line": 771
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1022
+          "line": 1021
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1027
+          "line": 1026
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -11478,7 +11478,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 798
+          "line": 797
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -11584,7 +11584,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 883
+          "line": 882
         }
       ]
     },
@@ -11622,7 +11622,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 669
+          "line": 668
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11645,7 +11645,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 530
+          "line": 529
         }
       ]
     },
@@ -11664,7 +11664,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1148
+          "line": 1147
         }
       ]
     },
@@ -11683,7 +11683,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1146
+          "line": 1145
         }
       ]
     },
@@ -11835,11 +11835,11 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 960
+          "line": 959
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1052
+          "line": 1051
         }
       ]
     },
@@ -11892,7 +11892,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 556
+          "line": 555
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11999,7 +11999,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1198
+          "line": 1197
         }
       ]
     },
@@ -12049,7 +12049,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 824
+          "line": 823
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -12099,7 +12099,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1171
+          "line": 1170
         }
       ]
     },
@@ -12176,7 +12176,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1030
+          "line": 1029
         }
       ]
     },
@@ -12305,7 +12305,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 949
+          "line": 948
         }
       ]
     },
@@ -12320,7 +12320,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 885
+          "line": 884
         }
       ]
     },
@@ -12335,7 +12335,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 884
+          "line": 883
         }
       ]
     },
@@ -12362,11 +12362,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 878
+          "line": 877
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 890
+          "line": 889
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 899
         },
         {
           "path": "src/config/feeds.ts",
@@ -12374,19 +12378,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 901
+          "line": 905
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 906
+          "line": 908
         },
         {
           "path": "src/config/feeds.ts",
           "line": 909
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 910
         }
       ]
     },
@@ -12459,7 +12459,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1164
+          "line": 1163
         }
       ]
     },
@@ -12493,7 +12493,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 511
+          "line": 510
         }
       ]
     },
@@ -12736,7 +12736,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 536
+          "line": 535
         }
       ]
     },
@@ -12869,7 +12869,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 512
+          "line": 511
         }
       ]
     },
@@ -12960,7 +12960,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 589
+          "line": 588
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -12983,7 +12983,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1207
+          "line": 1206
         }
       ]
     },
@@ -13017,7 +13017,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 893
+          "line": 892
         }
       ]
     },
@@ -13123,7 +13123,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1150
+          "line": 1149
         }
       ]
     },
@@ -13142,7 +13142,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 977
+          "line": 976
         }
       ]
     },
@@ -13161,7 +13161,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 926
+          "line": 925
         }
       ]
     },
@@ -13264,7 +13264,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 892
+          "line": 891
         }
       ]
     },
@@ -13317,7 +13317,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 894
+          "line": 893
         }
       ]
     },
@@ -13381,7 +13381,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 971
+          "line": 970
         }
       ]
     },
@@ -13468,7 +13468,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1203
+          "line": 1202
         }
       ]
     },
@@ -13521,7 +13521,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 881
+          "line": 880
         }
       ]
     },
@@ -13563,7 +13563,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1154
+          "line": 1153
         }
       ]
     },
@@ -13662,7 +13662,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 879
+          "line": 878
         }
       ]
     },
@@ -13700,7 +13700,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 513
+          "line": 512
         }
       ]
     },
@@ -13738,7 +13738,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 660
+          "line": 659
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -13799,7 +13799,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1176
+          "line": 1175
         }
       ]
     },
@@ -13814,7 +13814,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 1195
+          "line": 1194
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -13837,7 +13837,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 534
+          "line": 533
         }
       ]
     },
@@ -13947,15 +13947,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 959
+          "line": 958
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1042
+          "line": 1041
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1051
+          "line": 1050
         }
       ]
     },
@@ -14012,7 +14012,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 575
+          "line": 574
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14065,7 +14065,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 670
+          "line": 669
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14088,7 +14088,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 891
+          "line": 890
         }
       ]
     },
@@ -14150,7 +14150,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 851
+          "line": 850
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -14249,7 +14249,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 913
+          "line": 912
         }
       ]
     },
@@ -14264,7 +14264,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 950
+          "line": 949
         }
       ]
     },
@@ -14355,7 +14355,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 1184
+          "line": 1183
         }
       ]
     },
@@ -14385,7 +14385,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 886
+          "line": 885
         }
       ]
     },
@@ -14526,7 +14526,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 555
+          "line": 554
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14561,11 +14561,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 553
+          "line": 552
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 563
+          "line": 562
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14665,7 +14665,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 517
+          "line": 516
         }
       ]
     },
@@ -14776,11 +14776,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 550
+          "line": 549
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 562
+          "line": 561
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14849,7 +14849,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 716
+          "line": 715
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14872,7 +14872,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1147
+          "line": 1146
         }
       ]
     },
@@ -14902,7 +14902,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 882
+          "line": 881
         }
       ]
     },
@@ -15261,7 +15261,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 584
+          "line": 583
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -15288,7 +15288,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 914
+          "line": 913
         }
       ]
     },
@@ -15326,7 +15326,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 504
+          "line": 503
         }
       ]
     },
@@ -15439,7 +15439,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 554
+          "line": 553
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -15552,7 +15552,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 617
+          "line": 616
         },
         {
           "path": "src/config/variants/tech.ts",

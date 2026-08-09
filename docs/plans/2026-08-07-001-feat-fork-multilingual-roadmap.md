@@ -453,6 +453,58 @@ feed-catalog-drift sarkan ad hatası verir.
 **Yeni en zayıflar:** `hr`, `nl`, `pl`, `sv`, `tr` (3'er). Artık hiçbir UI dili 3'ün altında
 değil.
 
+## 🔴 Canlı ölçüm — paketler katalogda var, brief'te yok (2026-08-08)
+
+Faz 4.1b/4.2/4.2b ile 8 dile 40 kaynak eklendi ve **hiçbiri canlı stack'te doğrulanmamıştı.**
+İmaj yeni katalogla yeniden kuruldu, `/api/news/v1/list-feed-digest` sekiz dil için ölçüldü:
+
+| Dil | Kaynak | Haber | Paketten görünen kaynak | Paketten gelen haber |
+|---|---:|---:|---|---:|
+| bg, cs, ja, th, vi, zh | 91 | 269 | **0** | **0** |
+| fa | 91 | 269 | 1/6 (BBC Persian) | 2 |
+| ko | 91 | 269 | 1/7 (Yonhap News) | 1 |
+
+Sekiz dilin sekizi de **birebir aynı** 91 kaynak / 269 haber döndürüyor. Görünen iki kaynak
+zaten paket öncesinden vardı; `Yonhap News` ayrıca `strategicDefault`.
+
+**Ölçümün taze olduğu kesin:** `feedStatuses`'ta `ČT24` var, o da ancak bu commit'lerle
+katalogda. Yani digest yeni katalogla hesaplandı.
+
+**Sebep çekememe değil, kapak.** `feedStatuses` yalnızca sorunlu beslemeleri bildiriyor ve
+`iRozhlas`, `Novinky.cz`, `iDNES`, `Aktuálně.cz`, `Deník N` orada **yok** — yani başarıyla
+çekildiler, öğeleri sıralandı ve `MAX_ITEMS_PER_CATEGORY = 20` kesiminin altında kaldı:
+
+```
+cs / europe: 20 haber, 13 kaynak — hepsi İngilizce havuzundan
+             EuroNews, Ukrinform, Daily Sabah, Ukrainska Pravda EN, Meduza,
+             OC Media, Hromadske EN, France 24, DW News, NV EN,
+             Kyiv Independent, JAMnews, Le Monde
+```
+
+**Belirleyici değişken kategori doygunluğu.** Aynı katalog değişikliği zıt sonuç veriyor:
+
+| | Kategorideki kaynak sayısı | Paketin aldığı slot |
+|---|---:|---|
+| `pt` / latam | ~11 | **15/20** — O Globo 5, Folha 5, Brasil Paralelo 5 |
+| `es` / latam | ~11 | **15/20** |
+| `cs` / europe | ~90 | **0/20** |
+| `ja`..`zh` / asia | ~61 | **0/20** |
+
+Faz 4'ün dayandığı "`pt` paketi çalıştı, demek ki paket yaklaşımı doğru" çıkarımı **eksikmiş**:
+`pt` paketi latam kategorisi seyrek olduğu için çalıştı. `europe` ve `asia`'da paket ne kadar
+büyük olursa olsun görünmüyor.
+
+**Sonuç: sorun katalogda değil, sıralamada.** Kaynak eklemek doygun kategorilerde ölçülebilir
+sonuç vermiyor ve vermeyecek. Faz 4'ün geri kalanı (`hr`/`nl`/`pl`/`sv`/`tr` paketleri) bu
+düzeltilmeden yapılırsa aynı sonuca varır — katalog büyür, brief değişmez.
+
+Düzeltme `buildDigest`'te kırpma noktasında (`list-feed-digest.ts`, `slicedByCategory`):
+UI dili evrensel havuz dili değilse, her kategorinin 20 slotunun bir kısmı o dilde etiketli
+kaynaklara ayrılmalı, kalanı normal sıralamadan doldurulmalı. `en` etkilenmez.
+
+**Bu bir ürün davranışı değişikliği** — her İngilizce olmayan okuyucunun brief'inin nasıl
+kurulduğunu değiştirir, ayrılan pay kadar küresel haber dışarı çıkar. Karar sahibinin.
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.

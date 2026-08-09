@@ -320,7 +320,6 @@ export default [
   "www.corriere.it",
   "www.rt.com",
   "www.alarabiya.net",
-  "tuoitrenews.vn",
   "www.yonhapnewstv.co.kr",
   "www.chosun.com",
   "rss.libsyn.com",
