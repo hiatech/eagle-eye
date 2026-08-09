@@ -374,9 +374,38 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Toyo Keizai', url: 'https://toyokeizai.net/list/feed/rss', lang: 'ja' },
       { name: 'MIIT (China)', url: gnLocale('site:miit.gov.cn when:7d', 'zh-CN', 'CN', 'CN:zh-Hans'), lang: 'zh', strategicDefault: true },
       { name: 'MOFCOM (China)', url: gnLocale('site:mofcom.gov.cn when:7d', 'zh-CN', 'CN', 'CN:zh-Hans'), lang: 'zh', strategicDefault: true },
+      // ZH pack, mirrored from src/config/feeds.ts. Both pre-existing zh
+      // sources are ministry announcement feeds, so the digest carried zero
+      // journalism written in Chinese. Mixed like the FA pack: three foreign
+      // broadcasters, one Hong Kong independent, and the CCP wire.
+      { name: 'BBC Chinese', url: 'https://feeds.bbci.co.uk/zhongwen/simp/rss.xml', lang: 'zh' },
+      { name: 'DW Chinese', url: 'https://rss.dw.com/xml/rss-chi-all', lang: 'zh' },
+      { name: 'RFA Chinese', url: 'https://www.rfa.org/mandarin/rss2.xml', lang: 'zh' },
+      { name: 'Ming Pao', url: 'https://news.mingpao.com/rss/pns/s00001.xml', lang: 'zh' },
+      { name: 'Xinhua Chinese', url: 'https://www.xinhuanet.com/politics/news_politics.xml', lang: 'zh' },
       { name: 'Bangkok Post', url: gn('site:bangkokpost.com when:1d'), lang: 'th', strategicDefault: true },
+      // TH pack — the first Thai-script sources in the digest catalog.
+      { name: 'Khaosod', url: 'https://www.khaosod.co.th/feed', lang: 'th' },
+      { name: 'Matichon', url: 'https://www.matichon.co.th/feed', lang: 'th' },
+      { name: 'Prachatai', url: 'https://prachatai.com/rss.xml', lang: 'th' },
+      { name: 'The Standard', url: 'https://thestandard.co/feed/', lang: 'th' },
       { name: 'VnExpress', url: 'https://vnexpress.net/rss/tin-moi-nhat.rss', lang: 'vi', strategicDefault: true },
+      // VI pack. `Tuoi Tre` is the Vietnamese edition, a different feed from the
+      // dead English `Tuoi Tre News` — which is why vi counted 2 client-side
+      // while only one source actually answered.
+      { name: 'Tuoi Tre', url: 'https://tuoitre.vn/rss/tin-moi-nhat.rss', lang: 'vi' },
+      { name: 'Thanh Nien', url: 'https://thanhnien.vn/rss/home.rss', lang: 'vi' },
+      { name: 'Dan Tri', url: 'https://dantri.com.vn/rss/home.rss', lang: 'vi' },
+      { name: 'Tien Phong', url: 'https://tienphong.vn/rss/home.rss', lang: 'vi' },
+      { name: 'Nhan Dan', url: 'https://nhandan.vn/rss/home.rss', lang: 'vi' },
       { name: 'Yonhap News', url: 'https://www.yonhapnewstv.co.kr/browse/feed/', lang: 'ko', strategicDefault: true },
+      // KO pack, spread across the Korean press's political spectrum rather
+      // than stacked on one side.
+      { name: 'Donga Ilbo', url: 'https://rss.donga.com/total.xml', lang: 'ko' },
+      { name: 'Hankyoreh', url: 'https://www.hani.co.kr/rss/', lang: 'ko' },
+      { name: 'Kyunghyang', url: 'https://www.khan.co.kr/rss/rssdata/total_news.xml', lang: 'ko' },
+      { name: 'Pressian', url: 'https://www.pressian.com/api/v3/site/rss/news', lang: 'ko' },
+      { name: 'No Cut News', url: 'https://rss.nocutnews.co.kr/nocutnews.xml', lang: 'ko' },
       // Client-only until now — ko and th each had exactly one digest source,
       // so a second one is the difference between a brief that can quote a
       // native outlet and one that cannot. Tuoi Tre News (vi) is the third

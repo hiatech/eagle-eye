@@ -471,15 +471,47 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'CNA', url: rss('https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml') },
     { name: 'MIIT (China)', url: rss('https://news.google.com/rss/search?q=site:miit.gov.cn+when:7d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh', strategicDefault: true },
     { name: 'MOFCOM (China)', url: rss('https://news.google.com/rss/search?q=site:mofcom.gov.cn+when:7d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans'), lang: 'zh', strategicDefault: true },
+    // ZH pack. Both pre-existing zh sources are ministry announcement feeds, so
+    // the catalog carried zero journalism written in Chinese. Mixed on purpose,
+    // like the FA pack: three foreign broadcasters, one Hong Kong independent,
+    // and the CCP wire — all declared in shared/source-provenance.ts.
+    { name: 'BBC Chinese', url: rss('https://feeds.bbci.co.uk/zhongwen/simp/rss.xml'), lang: 'zh' },
+    { name: 'DW Chinese', url: rss('https://rss.dw.com/xml/rss-chi-all'), lang: 'zh' },
+    { name: 'RFA Chinese', url: rss('https://www.rfa.org/mandarin/rss2.xml'), lang: 'zh' },
+    { name: 'Ming Pao', url: rss('https://news.mingpao.com/rss/pns/s00001.xml'), lang: 'zh' },
+    { name: 'Xinhua Chinese', url: rss('https://www.xinhuanet.com/politics/news_politics.xml'), lang: 'zh' },
     // Thailand
     { name: 'Bangkok Post', url: rss('https://news.google.com/rss/search?q=site:bangkokpost.com+when:1d&hl=en-US&gl=US&ceid=US:en'), lang: 'th', strategicDefault: true },
     { name: 'Thai PBS', url: rss('https://news.google.com/rss/search?q=Thai+PBS+World+news&hl=en&gl=US&ceid=US:en'), lang: 'th' },
+    // TH pack. The two entries above are English-language Google News queries;
+    // these are the first Thai-script sources in the catalog.
+    { name: 'Khaosod', url: rss('https://www.khaosod.co.th/feed'), lang: 'th' },
+    { name: 'Matichon', url: rss('https://www.matichon.co.th/feed'), lang: 'th' },
+    { name: 'Prachatai', url: rss('https://prachatai.com/rss.xml'), lang: 'th' },
+    { name: 'The Standard', url: rss('https://thestandard.co/feed/'), lang: 'th' },
     // Vietnam
     { name: 'VnExpress', url: rss('https://vnexpress.net/rss/tin-moi-nhat.rss'), lang: 'vi', strategicDefault: true },
     { name: 'Tuoi Tre News', url: rss('https://tuoitrenews.vn/rss'), lang: 'vi' },
+    // VI pack. `Tuoi Tre` is the Vietnamese edition — a different feed from the
+    // dead English `Tuoi Tre News` above, which is why the vi count read 2 while
+    // only one source actually answered.
+    { name: 'Tuoi Tre', url: rss('https://tuoitre.vn/rss/tin-moi-nhat.rss'), lang: 'vi' },
+    { name: 'Thanh Nien', url: rss('https://thanhnien.vn/rss/home.rss'), lang: 'vi' },
+    { name: 'Dan Tri', url: rss('https://dantri.com.vn/rss/home.rss'), lang: 'vi' },
+    { name: 'Tien Phong', url: rss('https://tienphong.vn/rss/home.rss'), lang: 'vi' },
+    { name: 'Nhan Dan', url: rss('https://nhandan.vn/rss/home.rss'), lang: 'vi' },
     // Korea
     { name: 'Yonhap News', url: rss('https://www.yonhapnewstv.co.kr/browse/feed/'), lang: 'ko', strategicDefault: true },
     { name: 'Chosun Ilbo', url: rss('https://www.chosun.com/arc/outboundfeeds/rss/?outputType=xml'), lang: 'ko' },
+    // KO pack, spread across the Korean press's political spectrum rather than
+    // stacked on one side: Chosun Ilbo above is conservative, Donga Ilbo
+    // centre-right, Hankyoreh and Kyunghyang progressive, Pressian and No Cut
+    // News independent.
+    { name: 'Donga Ilbo', url: rss('https://rss.donga.com/total.xml'), lang: 'ko' },
+    { name: 'Hankyoreh', url: rss('https://www.hani.co.kr/rss/'), lang: 'ko' },
+    { name: 'Kyunghyang', url: rss('https://www.khan.co.kr/rss/rssdata/total_news.xml'), lang: 'ko' },
+    { name: 'Pressian', url: rss('https://www.pressian.com/api/v3/site/rss/news'), lang: 'ko' },
+    { name: 'No Cut News', url: rss('https://rss.nocutnews.co.kr/nocutnews.xml'), lang: 'ko' },
     // Australia
     { name: 'ABC News Australia', url: rss('https://www.abc.net.au/news/feed/2942460/rss.xml') },
     { name: 'Guardian Australia', url: rss('https://www.theguardian.com/australia-news/rss') },

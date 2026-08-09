@@ -407,6 +407,52 @@ script'i değiştirdiği için CSP sha256 hash'i `vercel.json`, `docker/nginx.co
 **Yeni en zayıflar:** `ko`, `th`, `vi`, `zh` (2'şer). `vi`'nin ikinci kaynağı Tuoi Tre News
 ve o ölü (bkz. Faz 4.0), yani `vi` fiilen 1.
 
+### ✅ Faz 4.2b — Doğu Asya paketleri (2026-08-08)
+
+Aynı yöntemle `ko`, `th`, `vi`, `zh`. 19 yeni kaynak.
+
+| Dil | Önce | Sonra | Paket |
+|---|---|---|---|
+| ko | 2 | **7** | Donga Ilbo, Hankyoreh, Kyunghyang, Pressian, No Cut News |
+| vi | 2 | **7** | Tuoi Tre, Thanh Nien, Dan Tri, Tien Phong, Nhan Dan |
+| zh | 2 | **7** | BBC Chinese, DW Chinese, RFA Chinese, Ming Pao, Xinhua Chinese |
+| th | 2 | **6** | Khaosod, Matichon, Prachatai, The Standard |
+
+**`zh`'de bulunan şey sayının söylediğinden kötüydü.** İki mevcut "native" kaynak MIIT ve
+MOFCOM, yani ikisi de bakanlık duyuru akışı. Katalogda Çince yazılmış **tek satır
+gazetecilik yoktu**; sayaç 2 gösteriyordu çünkü sayaç `lang` etiketi sayıyor, tür saymıyor.
+
+**`vi` sayacı da yanıltıcıymış.** İkinci kaynak ölü `Tuoi Tre News` (İngilizce
+tuoitrenews.vn). Asıl Vietnamca `Tuoi Tre` (tuoitre.vn) ayrı bir besleme ve canlı — eklendi.
+`vi` native 7, digest 6; aradaki fark hâlâ o ölü İngilizce besleme.
+
+**Beyanlar.** `vi`'de basının tamamı Parti ya da kitle örgütü lisanslı, o yüzden hiçbiri
+Batılı anlamda bağımsız değil; ayrım Partiye ne kadar doğrudan bağlı olduklarında. Nhan Dan
+(Parti merkez organı) `high`, Tuoi Tre/Thanh Nien/Tien Phong/Dan Tri `medium`, hepsi
+`stateAffiliated: 'Vietnam'`. `zh`'de Xinhua Chinese `high`/China, RFA Chinese
+`medium`/USA (USAGM fonlu), DW Chinese `medium`/Germany, Ming Pao Ulusal Güvenlik Yasası
+baskısıyla `medium`, BBC Chinese `low`. `ko` paketi bilinçli olarak siyasi yelpazeye
+yayıldı — Donga Ilbo merkez sağ, Hankyoreh ve Kyunghyang ilerici, Pressian ve No Cut News
+bağımsız — çünkü keskin kutuplaşmış bir basında tek taraftan kurulan brief taraflı olur.
+
+**Üretilen dosya zincirinin son halkası.** 4.2'de öğrenilen üç adıma bir dördüncüsü eklendi:
+`docs/generated/stats.json` `npm run docs:stats` ile ayrıca yenilenmeli. `docs:check` bunu
+okumaz, ama `tests/public-product-facts.test.mjs` `shared/product-facts.generated.json` ile
+karşılaştırır — atlanırsa iki test kırılır. Tam sıra artık şu:
+
+```
+generate-source-provenance-declarations → sources:generate → cp scripts/shared/
+  → product:facts → docs:stats → elle bakımlı 10 doc iddiası → CSP sha256 ×3
+```
+
+**Kalan tek ölü besleme:** `Tuoi Tre News`. Artık yerine canlı `Tuoi Tre` var, yani silmek
+kapsam kaybettirmiyor — ama silme kararı sahibinin. Silinirse `src/config/feeds.ts`,
+`shared/source-tiers.json` ve `scripts/shared/` aynası birlikte gitmeli, yoksa
+feed-catalog-drift sarkan ad hatası verir.
+
+**Yeni en zayıflar:** `hr`, `nl`, `pl`, `sv`, `tr` (3'er). Artık hiçbir UI dili 3'ün altında
+değil.
+
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin
 oturmadan yeni bir kaynak sınıfı eklemek katalog borcunu ikiye katlar.

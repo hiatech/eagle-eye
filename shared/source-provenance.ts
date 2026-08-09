@@ -84,6 +84,21 @@ export const SOURCE_TYPES: Record<string, SourceType> = {
   // Japanese (JA) native pack — ja had one native source before this
   'NHK': 'mainstream', 'Mainichi Shimbun': 'mainstream', 'Toyo Keizai': 'market',
   'Kyodo News': 'wire', 'Jiji Press': 'wire',
+  // Korean (KO) native pack
+  'Donga Ilbo': 'mainstream', 'Hankyoreh': 'mainstream', 'Kyunghyang': 'mainstream',
+  'Pressian': 'mainstream', 'No Cut News': 'mainstream',
+  // Thai (TH) native pack — first Thai-script sources in the catalog
+  'Khaosod': 'mainstream', 'Matichon': 'mainstream',
+  'Prachatai': 'mainstream', 'The Standard': 'mainstream',
+  // Vietnamese (VI) native pack. Every Vietnamese outlet is state-licensed and
+  // published by a Party or mass organisation; Nhan Dan is the Party's own
+  // central organ, hence 'gov'. See SOURCE_PROPAGANDA_RISK for the gradations.
+  'Tuoi Tre': 'mainstream', 'Thanh Nien': 'mainstream', 'Dan Tri': 'mainstream',
+  'Tien Phong': 'mainstream', 'Nhan Dan': 'gov',
+  // Chinese (ZH) native pack — both prior zh sources were ministry feeds, so
+  // the catalog carried no journalism written in Chinese at all.
+  'BBC Chinese': 'mainstream', 'DW Chinese': 'mainstream', 'RFA Chinese': 'mainstream',
+  'Ming Pao': 'mainstream', 'Xinhua Chinese': 'wire',
   // Hindi (HI)
   'BBC Hindi': 'mainstream', 'Aaj Tak': 'mainstream', 'NDTV India': 'mainstream', 'Amar Ujala': 'mainstream',
   // Hungarian (HU)
@@ -342,6 +357,35 @@ export const SOURCE_PROPAGANDA_RISK: Record<string, SourceRiskProfile> = {
   'Jiji Press': { risk: 'low', note: 'Japanese wire service' },
   'Mainichi Shimbun': { risk: 'low', note: 'Japanese national daily of record' },
   'Toyo Keizai': { risk: 'low', note: 'Japanese business and economics publisher' },
+  // KO native pack (#4.2) — spread across the spectrum on purpose, so the ko
+  // brief is not built from one side of a sharply polarised press.
+  'Donga Ilbo': { risk: 'low', knownBiases: ['Conservative'], note: 'South Korean daily of record, centre-right' },
+  'Hankyoreh': { risk: 'low', knownBiases: ['Progressive'], note: 'South Korean reader-owned progressive daily' },
+  'Kyunghyang': { risk: 'low', knownBiases: ['Progressive'], note: 'South Korean progressive daily' },
+  'Pressian': { risk: 'low', knownBiases: ['Progressive'], note: 'South Korean independent cooperative outlet' },
+  'No Cut News': { risk: 'low', note: 'South Korean news service of CBS, a Christian broadcaster' },
+  // TH native pack (#4.2)
+  'Khaosod': { risk: 'low', note: 'Thai mass-circulation daily (Matichon group)' },
+  'Matichon': { risk: 'low', note: 'Thai daily newspaper of record' },
+  'Prachatai': { risk: 'low', knownBiases: ['Pro-democracy'], note: 'Thai independent nonprofit outlet, repeatedly prosecuted under lese-majeste law' },
+  'The Standard': { risk: 'low', note: 'Thai independent digital news outlet' },
+  // VI native pack (#4.2). Vietnam licenses all press through the Party or a
+  // mass organisation, so none of these is independent in the Western sense —
+  // the gradation is how directly each answers to the Party.
+  'Nhan Dan': { risk: 'high', stateAffiliated: 'Vietnam', note: 'Central organ of the Communist Party of Vietnam' },
+  'Tuoi Tre': { risk: 'medium', stateAffiliated: 'Vietnam', note: 'Published by the Ho Chi Minh Communist Youth Union; widest-read Vietnamese daily' },
+  'Thanh Nien': { risk: 'medium', stateAffiliated: 'Vietnam', note: 'Published by the Vietnam National Youth Federation' },
+  'Tien Phong': { risk: 'medium', stateAffiliated: 'Vietnam', note: 'Published by the Ho Chi Minh Communist Youth Union' },
+  'Dan Tri': { risk: 'medium', stateAffiliated: 'Vietnam', note: 'Vietnamese online daily under the Association for Promoting Education' },
+  // ZH native pack (#4.2). Both prior zh sources were ministry announcement
+  // feeds, so this pack is the first Chinese-language journalism in the
+  // catalog — deliberately spanning foreign broadcasters, Hong Kong and the
+  // CCP wire rather than any one of them alone.
+  'Xinhua Chinese': { risk: 'high', stateAffiliated: 'China', note: 'Chinese-language wire of the official CCP news agency' },
+  'RFA Chinese': { risk: 'medium', stateAffiliated: 'USA', note: 'US government-funded Mandarin service (Radio Free Asia)' },
+  'DW Chinese': { risk: 'medium', stateAffiliated: 'Germany', note: 'German state-funded, editorially independent — Chinese service' },
+  'BBC Chinese': { risk: 'low', note: 'BBC World Service Chinese, editorial independence charter' },
+  'Ming Pao': { risk: 'medium', knownBiases: ['Hong Kong establishment pressure'], note: 'Hong Kong daily; editorial latitude narrowed under the National Security Law' },
   'Reuters': { risk: 'low', note: 'Wire service, strict editorial standards' },
   'AP News': { risk: 'low', note: 'Wire service, nonprofit cooperative' },
   'AFP': { risk: 'low', note: 'Wire service, editorially independent' },
