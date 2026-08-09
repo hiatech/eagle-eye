@@ -902,3 +902,48 @@ değil.** Katalog sayıları paketlerin gerçek gücünü olduğundan yüksek g�
 
 **Yapılacak:** `Euronews Persian` için çalışan bir Farsça URL, `ko` paketi için yeniden
 aday araması. İkisi de ölçülmüş, gerekçeli iş kalemleri.
+
+### 🔬 13 "yanlış pozitif"in gerçek mekanizması (2026-08-08)
+
+Önceki bölüm 13 beslemeyi "digest `empty` diyor, `test:feeds` sağlıklı diyor, mekanizma
+bilinmiyor" diye kaydetmişti ve `FEED_TIMEOUT_MS`'i şüpheli göstermişti. **O şüphe
+yanlıştı** — `FEED_TIMEOUT_MS` 8s, `OVERALL_DEADLINE_MS` 10s, yani 8s'i aşan besleme zaten
+genel deadline'a takılırdı. 13 üçe ayrıldı:
+
+**4'ü doğru rapor edilmiş.** Tazelik zemini 96 saat; `test:feeds` ise ancak 30 günü aşınca
+"bayat" diyor. Arada gri bölge var:
+
+| Besleme | En yeni öğe | Yaş |
+|---|---|---|
+| `VentureBeat AI` | 2026-05-19 | 81.9 gün |
+| `The Sentry` | 2026-07-27 | 12.8 gün |
+| `DFRLab` | 2026-07-29 | 10.9 gün |
+| `VSquare` | 2026-07-31 | 8.9 gün |
+
+**1'i gerçekten bozuk:** `The Reporter Ethiopia` — HTTP 403 (`test:feeds` OK diyor, muhtemelen
+farklı çıkış IP'si).
+
+**8'i cache'in sebebi kaybetmesinden.** `ABC News`, `Atlantic Council`, `Civil.ge`,
+`Correctiv`, `Financial Times`, `Japan Today`, `The Hill`, `ThisDay`. Zincir doğrulandı:
+
+1. Tam soğuk turda, 460 beslemelik yük altında düşüyorlar → `unreachable` (biri `timeout`)
+2. Bu, 300s'lik kısa cache'e **boş `ParseResult`** olarak yazılıyor
+3. Sonraki turlar cache'ten okuyor → sınıflandırma `empty` diyor
+
+Tek tek ya da sekizli grup hâlinde konteynerden çekildiklerinde hepsi 200 ve 170-1119ms.
+Yani beslemeler sağlam; sorun yük altındaki çekim ve sonra sebebin kaybolması.
+
+**Bu 6.1'in tasarımının bilinen sınırı.** `FeedOutcome` bilerek `ParseResult`'ın (cache'lenen
+yapının) dışında tutulmuştu — gerekçe hâlâ geçerli, cache'lenmiş bir satır eski bir isteğin
+sonucunu bugünün sonucu gibi iddia etmemeli. Ama bedeli şu: cache'ten gelen bir başarısızlık
+neden başarısız olduğunu söyleyemiyor, hepsi `empty` görünüyor. Bilgi 1. turda vardı,
+2. turda atıldı.
+
+**Çözüm (ölçülmüş, gerekçeli):** sebebi cache'lenen yapıya ekle — `ParseResult`'a
+`failureReason?: FetchFailureReason` ve `rss:feed:v8` → `v9` prefix bump (depo bu deseni
+v4→v8 arası beş kez uygulamış, gerekçeleri kodda yazılı). O zaman kararlı hâldeki liste
+"neden" bilgisini taşır ve `feedStatuses` gerçekten sağlık göstergesi olur.
+
+**İkinci kalem:** 8 besleme yük altında neden düşüyor? Tek tek 200, hep birlikte
+`unreachable`. Konteynerin ağ yığını (DNS kuyruğu, soket limiti) ya da upstream rate-limit
+olabilir. `FEED_FETCH_CONCURRENCY` düşürülüp ölçülerek ayrıştırılabilir.
