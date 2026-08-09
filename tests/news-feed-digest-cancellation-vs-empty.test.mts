@@ -196,8 +196,7 @@ describe('feed fetching runs as a pool, not synchronised batches', () => {
   it('pulls from one shared queue so a slow feed occupies one worker', () => {
     assert.ok(buildDigest.includes('nextEntryIndex++'), 'workers must share a cursor');
     assert.ok(
-      /Array\.from\(\{ length: Math\.min\(FEED_FETCH_CONCURRENCY, allEntries\.length\) \}, runWorker\)/
-        .test(buildDigest),
+      /Math\.min\(resolveFeedConcurrency\(\), allEntries\.length\)/.test(buildDigest),
       'worker count must be bounded by concurrency AND by how many feeds exist',
     );
   });
@@ -209,6 +208,18 @@ describe('feed fetching runs as a pool, not synchronised batches', () => {
       buildDigest.indexOf('await Promise.all('),
     );
     assert.ok(worker.includes('} catch {'), 'the worker body must swallow a per-feed throw');
+  });
+
+  it('bounds the concurrency override so it cannot be set absurdly', () => {
+    const resolver = DIGEST_SRC.slice(
+      DIGEST_SRC.indexOf('function resolveFeedConcurrency'),
+      DIGEST_SRC.indexOf('function resolveFeedConcurrency') + 400,
+    );
+    assert.ok(/raw > 0 && raw <= 64/.test(resolver), 'the override must be range-checked');
+    assert.ok(
+      /FEED_FETCH_CONCURRENCY_DEFAULT/.test(resolver),
+      'an unparseable or out-of-range value must fall back to the default',
+    );
   });
 
   it('still stops promptly when the build deadline fires', () => {
@@ -289,6 +300,39 @@ describe('a cached failure carries its reason', () => {
     assert.ok(
       cancelledReturn < firstCacheWrite,
       'the cancelled branch must still return before any failure row is written',
+    );
+  });
+});
+
+/**
+ * Feed concurrency is a measured value, and the measurement refuted the
+ * hypothesis it was made to test.
+ *
+ * The suspicion was that the pool's sustained concurrency caused healthy feeds
+ * to return unreachable, so lowering it should help. Sweeping 8/20/40 from a
+ * fully cold cache on the deployment target gave the opposite: more workers,
+ * fewer failures, and at 40 the first cold request already returns the full
+ * steady-state digest (273 items, reproduced three times) instead of the
+ * 203-208 that 8 and 20 delivered.
+ */
+describe('feed concurrency default', () => {
+  it('is the measured value, not the pre-measurement one', () => {
+    assert.equal(
+      __testing__.FEED_FETCH_CONCURRENCY_DEFAULT,
+      40,
+      'the sweep settled on 40; changing it should come with a new measurement',
+    );
+  });
+
+  it('stays under the cap its own resolver enforces', () => {
+    assert.ok(__testing__.FEED_FETCH_CONCURRENCY_DEFAULT <= 64);
+  });
+
+  it('leaves room for the deadline to matter', () => {
+    // Concurrency only helps while feeds still fit inside the build deadline.
+    assert.ok(
+      __testing__.FEED_TIMEOUT_MS < __testing__.OVERALL_DEADLINE_MS,
+      'a per-feed budget at or above the overall deadline makes the per-feed timeout unreachable',
     );
   });
 });

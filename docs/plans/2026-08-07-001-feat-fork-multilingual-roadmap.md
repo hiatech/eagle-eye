@@ -986,3 +986,36 @@ soru tek: yük.
 **Sıradaki (Faz 6.4):** `FEED_FETCH_CONCURRENCY` 20'den düşürülüp ölçülerek, konteynerin ağ
 yığını (DNS kuyruğu, soket limiti) ile upstream rate-limit ayrıştırılabilir. 6.2'de
 eşzamanlılık bilerek sabit bırakılmıştı; ölçüm aleti hazır olduğuna göre artık oynatılabilir.
+
+### ✅ Faz 6.4 — eşzamanlılık ölçüldü, hipotez çürüdü (2026-08-08)
+
+6.3'ün bıraktığı soru: `test:feeds`'in sağlıklı dediği beslemeler digest'in yükü altında neden
+`unreachable` veriyor? Şüphe havuzun sürekli eşzamanlılığındaydı, yani **düşürmek iyileştirmeli**.
+
+Değer `NEWS_FEED_CONCURRENCY` ile ayarlanabilir yapıldı (`resolveMaxAgeMs` kalıbı, aralık
+kontrolü, 64 tavanı) ve 8/20/40 süpürüldü. Her ölçüm **tam soğuk cache**'ten, dağıtım
+hedefinin kendisinde (kendi sunucu + Docker):
+
+| Eşzamanlılık | Soğuk tur 1 | Kararlı hâl |
+|---|---|---|
+| 8 | **208** haber, 50 `timeout` | 25 `unreachable` |
+| 20 | **203** haber, 35 `timeout` | 23 `unreachable` |
+| **40** | **273** haber, **0** `timeout` | **17** `unreachable` |
+
+**Hipotez yanlıştı ve tam ters yönde.** Daha çok eşzamanlılık daha *az* başarısızlık verdi.
+40'ta soğuk başlangıç açığı küçülmüyor, **tamamen kayboluyor**: ilk istek doğrudan kararlı
+hâldeki 273 haberi döndürüyor. Üç bağımsız soğuk koşuda tekrarlandı — üçünde de 273.
+
+`unreachable` sayısı koşular arası 16-28 arasında geziniyor; o gürültü, güvenilir sinyal
+haber sayısı. (Bu ders 6.2'de de gerekmişti: aynı yapılandırmada 23 ve 31 ölçmüştüm.)
+
+**Sonuç:** varsayılan 20 → **40**. Ve kalan `unreachable` beslemeler yük kurbanı değil —
+onlarda başka bir şey var, bu düğme onu çözmüyor.
+
+Ayrıca: **soğuk-cache digest'inin yarım çıktı vermesi sorunu kapandı.** 4.2f'de açılan
+iki Faz 6 kaleminin ilkiydi (124 haber → 273), ikincisi 6.1/6.3 ile kapanmıştı.
+
+**Kalan:** ~17-28 `unreachable` besleme. `test:feeds` sağlıklı diyor, tek tek konteynerden
+200 dönüyorlar, eşzamanlılıkla ilgisi yok. Sıradaki adım artık tahmin değil gözlem olmalı:
+`[feed-fetch]` log satırı zaten relay yolunu ve gövde şeklini yazıyor; bir koşunun logu
+okunup bu 17'nin hangi aşamada düştüğüne bakılmalı.

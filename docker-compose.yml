@@ -21,6 +21,10 @@ services:
     ports:
       - "${WM_PORT:-3000}:8080"
     environment:
+      # Feeds fetched concurrently by the news digest (default 40, capped 64).
+      # Empirical per deployment — see resolveFeedConcurrency in
+      # server/worldmonitor/news/v1/list-feed-digest.ts.
+      NEWS_FEED_CONCURRENCY: "${NEWS_FEED_CONCURRENCY:-40}"
       UPSTASH_REDIS_REST_URL: "http://redis-rest:80"
       UPSTASH_REDIS_REST_TOKEN: "${REDIS_TOKEN:?REDIS_TOKEN required — generate with: openssl rand -hex 32}"
       # HMAC key for the anonymous browser session tokens minted by

@@ -89,7 +89,41 @@ const DIGEST_RESPONSE_TIMEOUT_MS = 14_000;
 const POST_FETCH_HEADROOM_MS = 15_000;
 const RESPONSE_GUARD_BAND_MS = 3_000;
 const OVERALL_DEADLINE_MS = VERCEL_INITIAL_RESPONSE_LIMIT_MS - POST_FETCH_HEADROOM_MS;
-const FEED_FETCH_CONCURRENCY = 20;
+const FEED_FETCH_CONCURRENCY_DEFAULT = 40;
+/**
+ * How many feed fetches are in flight at once (default 20, env override
+ * NEWS_FEED_CONCURRENCY). Same shape as resolveMaxAgeMs — out-of-range or
+ * unparseable values fall back silently.
+ *
+ * 40 is measured, not guessed, and it refuted the hypothesis it was meant to
+ * test. The suspicion was that the pool's sustained concurrency was what made
+ * healthy feeds come back `unreachable`, so lowering it should help. Sweeping
+ * 8 / 20 / 40 on the deployment target (own server + Docker), each from a fully
+ * cold cache:
+ *
+ *   8   cold 208 items, 50 timeout   steady 25 unreachable
+ *   20  cold 203 items, 35 timeout   steady 23 unreachable
+ *   40  cold 273 items,  0 timeout   steady 17 unreachable
+ *
+ * More concurrency gave FEWER failures, not more, and at 40 the first cold
+ * request already returns the full steady-state digest — the cold-start
+ * shortfall disappears rather than shrinking. Reproduced three times at 40:
+ * 273 items every run. The unreachable count wanders (16-28 across runs) and is
+ * noise; the item count is the stable signal.
+ *
+ * So the remaining unreachable feeds are not load casualties. Whatever is
+ * wrong with them is not something this number fixes.
+ *
+ * Still overridable, because this was measured in one environment and the next
+ * may answer differently.
+ *
+ * Capped at 64: past that the ceiling stops being ours and starts being the
+ * host's socket and DNS limits, which fail in less legible ways.
+ */
+function resolveFeedConcurrency(): number {
+  const raw = Number.parseInt(process.env.NEWS_FEED_CONCURRENCY ?? '', 10);
+  return Number.isInteger(raw) && raw > 0 && raw <= 64 ? raw : FEED_FETCH_CONCURRENCY_DEFAULT;
+}
 
 // U3 — hard freshness floor (default 96h, env override NEWS_MAX_AGE_HOURS).
 // Items older than this are dropped before scoring. The 24h `recencyScore`
@@ -1658,9 +1692,9 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
     //
     // With a pool, a slow feed occupies one worker instead of stalling twenty.
     // Cost becomes total work divided by workers, not the sum of per-batch
-    // maxima. Concurrency is deliberately unchanged so this measurement
-    // isolates the barrier; raising it is a separate knob with its own risks
-    // (socket pressure, upstream rate limits).
+    // maxima. Worker count is env-tunable (NEWS_FEED_CONCURRENCY) because the
+    // right value is empirical and differs per deployment — see
+    // resolveFeedConcurrency.
     let nextEntryIndex = 0;
     const runWorker = async (): Promise<void> => {
       while (!deadlineController.signal.aborted) {
@@ -1708,9 +1742,8 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
         }
       }
     };
-    await Promise.all(
-      Array.from({ length: Math.min(FEED_FETCH_CONCURRENCY, allEntries.length) }, runWorker),
-    );
+    const workerCount = Math.min(resolveFeedConcurrency(), allEntries.length);
+    await Promise.all(Array.from({ length: workerCount }, runWorker));
 
     // 'timeout' and 'cancelled' are both deadline casualties but not the same
     // event, and telling them apart is how you know which lever to pull.
@@ -1969,6 +2002,7 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
 export const __testing__ = {
   sliceCategoryWithNativeReserve,
   pickAcrossSources,
+  FEED_FETCH_CONCURRENCY_DEFAULT,
   fetchRssText,
   isAbortError,
   FEED_TIMEOUT_MS,
