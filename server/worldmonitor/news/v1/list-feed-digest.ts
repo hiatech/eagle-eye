@@ -89,7 +89,7 @@ const DIGEST_RESPONSE_TIMEOUT_MS = 14_000;
 const POST_FETCH_HEADROOM_MS = 15_000;
 const RESPONSE_GUARD_BAND_MS = 3_000;
 const OVERALL_DEADLINE_MS = VERCEL_INITIAL_RESPONSE_LIMIT_MS - POST_FETCH_HEADROOM_MS;
-const BATCH_CONCURRENCY = 20;
+const FEED_FETCH_CONCURRENCY = 20;
 
 // U3 — hard freshness floor (default 96h, env override NEWS_MAX_AGE_HOURS).
 // Items older than this are dropped before scoring. The 24h `recencyScore`
@@ -1596,12 +1596,29 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
     // distinguish a genuine timeout (never ran) from a successful empty fetch.
     const completedFeeds = new Set<string>();
 
-    for (let i = 0; i < allEntries.length; i += BATCH_CONCURRENCY) {
-      if (deadlineController.signal.aborted) break;
-
-      const batch = allEntries.slice(i, i + BATCH_CONCURRENCY);
-      const settled = await Promise.allSettled(
-        batch.map(async ({ category, feed }) => {
+    // Feeds are pulled from one shared queue by a fixed set of workers rather
+    // than marched through in fixed batches.
+    //
+    // The batched version awaited Promise.allSettled per batch, which made
+    // every batch cost its SLOWEST member. FEED_TIMEOUT_MS is 8s and
+    // OVERALL_DEADLINE_MS is 10s, so a single hung feed spent 80% of the whole
+    // build's budget while the other 19 slots in its batch sat idle and the
+    // ~440 feeds behind it never started. Measured cold, that is exactly what
+    // happened: 99 feeds reported 'timeout' — not slow, never begun — and the
+    // digest shipped 129 items against a warm-cache 272.
+    //
+    // With a pool, a slow feed occupies one worker instead of stalling twenty.
+    // Cost becomes total work divided by workers, not the sum of per-batch
+    // maxima. Concurrency is deliberately unchanged so this measurement
+    // isolates the barrier; raising it is a separate knob with its own risks
+    // (socket pressure, upstream rate limits).
+    let nextEntryIndex = 0;
+    const runWorker = async (): Promise<void> => {
+      while (!deadlineController.signal.aborted) {
+        const entry = allEntries[nextEntryIndex++];
+        if (!entry) return;
+        const { category, feed } = entry;
+        try {
           const result = await fetchAndParseRss(feed, variant, deadlineController.signal);
           completedFeeds.add(feed.name);
           // Classify per-feed status. Only problems are recorded — a healthy
@@ -1630,31 +1647,26 @@ async function buildDigest(variant: string, lang: string): Promise<ListFeedDiges
             // e.g. every item failed the freshness floor.
             feedStatuses[feed.name] = 'empty';
           }
-          return {
-            category,
-            items: result.items,
-            droppedUndated: result.droppedUndated,
-            droppedFeedCap: result.droppedFeedCap ?? 0,
-          };
-        }),
-      );
 
-      for (const result of settled) {
-        if (result.status === 'fulfilled') {
-          const { category, items, droppedUndated, droppedFeedCap } = result.value;
           const existing = results.get(category) ?? [];
-          existing.push(...items);
+          existing.push(...result.items);
           results.set(category, existing);
-          ledgerDrops.undated += droppedUndated;
-          ledgerDrops.perFeedCap += droppedFeedCap;
+          ledgerDrops.undated += result.droppedUndated;
+          ledgerDrops.perFeedCap += result.droppedFeedCap ?? 0;
+        } catch {
+          // One feed throwing must not take its worker down with it —
+          // Promise.allSettled used to absorb this per batch.
         }
       }
-    }
+    };
+    await Promise.all(
+      Array.from({ length: Math.min(FEED_FETCH_CONCURRENCY, allEntries.length) }, runWorker),
+    );
 
     // 'timeout' and 'cancelled' are both deadline casualties but not the same
     // event, and telling them apart is how you know which lever to pull.
-    // 'timeout' means the batch loop broke before this feed's turn — it never
-    // ran, so the fix is throughput (concurrency, budget, a warm cache).
+    // 'timeout' means the deadline fired before any worker reached this feed —
+    // it never ran, so the fix is throughput (concurrency, budget, warm cache).
     // 'cancelled' means it ran and was cut off mid-flight — the fix is the
     // per-feed timeout or that upstream is slow. Neither is a verdict on the
     // feed, and neither is cached.

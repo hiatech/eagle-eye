@@ -812,3 +812,48 @@ ettiğini ve haritanın sağlıklı beslemeyi kaydetmediğini bağlıyor.
 
 **Kalan:** tur 1 hâlâ 129 haber (kararlı 272'ye karşı) ve 99 `timeout`. Bu artık ayrı ve net
 bir sorun — beslemelerin sırası hiç gelmiyor, yani verim meselesi. 4.2f'nin ikinci kalemi.
+
+### ✅ Faz 6.2 — besleme çekimi parti bariyerinden işçi havuzuna (2026-08-08)
+
+4.2f'nin ikinci kalemi. 6.1 sınıflandırmayı düzelttikten sonra geriye net bir sorun kalmıştı:
+soğuk başlangıçta 99 besleme `timeout`, yani **sırası hiç gelmiyor.**
+
+**Kusur bariyerdi.** Döngü partiler hâlinde ilerliyor ve her partide
+`await Promise.allSettled(batch)` yapıyordu, yani **her parti en yavaş üyesi kadar
+sürüyordu.** `FEED_TIMEOUT_MS = 8s`, `OVERALL_DEADLINE_MS = 10s` — tek takılan besleme
+build'in bütçesinin %80'ini yiyor, partideki diğer 19 slot boşta bekliyor, arkadaki ~440
+besleme hiç başlamıyordu.
+
+**Yapılan:** sabit sayıda işçi ortak bir kuyruktan besleme çekiyor. Yavaş besleme yirmi slotu
+değil bir işçiyi meşgul ediyor. Maliyet "parti maksimumlarının toplamı" değil "toplam iş /
+işçi sayısı" oluyor. `BATCH_CONCURRENCY` → `FEED_FETCH_CONCURRENCY` (artık parti yok).
+
+**Eşzamanlılık bilerek 20'de bırakıldı.** Ölçümün tek değişkeni bariyerin kendisi olsun diye.
+Artırmak ayrı bir düğme ve kendi riskleri var.
+
+**Canlı ölçüm, `en` digesti, tam soğuk başlangıç:**
+
+| | Tur 1 (tam soğuk) | Kararlı hâl |
+|---|---|---|
+| Orijinal (bariyer) | 112 sorun, **124** haber | 39 sorun, 267 |
+| + 6.1 iptal düzeltmesi | 109 sorun, **129** haber | 27 sorun, 272 |
+| + 6.2 işçi havuzu | 66→23 sorun, **207–272** haber | 23 sorun, 272 |
+
+**Soğuk tur varyansı yüksek** — havuzla iki ayrı koşuda 207 ve 272 haber çıktı, bariyerle
+124 ve 129. Kazanç kesin, büyüklüğü ağ koşullarına bağlı. Kararlı hâl her üç sürümde de 272,
+beklendiği gibi: her şey cache'liyken verim sorunu yok.
+
+**Yanlış alarm ve nasıl elendiği.** Ara ölçümlerde 13 Asya beslemesi (`VnExpress`,
+`Yonhap News`, `Taipei Times`, `Jakarta Post`…) `empty` göründü ve havuzun yüklediği
+eşzamanlılığın kurbanı sanıldı. Konteynerden tek tek çekildiklerinde 200 + öğe dönüyorlardı.
+Cache incelendi: girdiler taze ve boştu, yani digest onları yeniden çekip boş almıştı. Ama
+`rss:feed:*` de dahil **tam** flush yapılıp koşulduğunda hepsi sorunsuz geldi. Yani geçici
+hatalar kısa cache tarafından büyütülüyor — havuza özgü değil, 6.1'in ayıkladığı mekanizmanın
+kalan hâli. Kısmî flush (`news:digest:*` ama `rss:feed:*` değil) ölçümü bu yüzden yanıltıyor.
+
+Kapı: `tests/news-feed-digest-cancellation-vs-empty.test.mts` 17 teste çıktı — bariyerin
+geri gelmediğini, işçilerin ortak imleç kullandığını, tek beslemenin işçisini düşürmediğini
+ve deadline'ın işçiler arasında kontrol edildiğini bağlıyor.
+
+**Kalan (Faz 6):** kararlı hâldeki 23 sorunlu besleme artık gerçek bir liste sayılabilir —
+ama yine de `npm run test:feeds` ile doğrulanmalı, `feedStatuses` ile değil (bkz. 4.2f).

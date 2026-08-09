@@ -168,3 +168,53 @@ describe('feedStatuses stays a problem-only map', () => {
     }
   });
 });
+
+/**
+ * Feed fetching must not use a barrier.
+ *
+ * Measured cold on 2026-08-08: 99 feeds reported `timeout` — never begun — and
+ * the digest shipped 129 items against a warm-cache 272. The cause was the
+ * batch loop awaiting Promise.allSettled per batch, so every batch cost its
+ * slowest member. With FEED_TIMEOUT_MS at 8s inside a 10s OVERALL_DEADLINE_MS,
+ * one hung feed spent 80% of the build's budget while the other 19 slots in
+ * its batch idled and everything behind it never started.
+ */
+describe('feed fetching runs as a pool, not synchronised batches', () => {
+  const buildDigest = DIGEST_SRC.slice(DIGEST_SRC.indexOf('async function buildDigest'));
+
+  it('does not await a barrier over a slice of feeds', () => {
+    assert.ok(
+      !/Promise\.allSettled\(\s*batch/.test(buildDigest),
+      'a per-batch barrier makes every batch cost its slowest feed',
+    );
+    assert.ok(
+      !/for \(let i = 0; i < allEntries\.length; i \+= /.test(buildDigest),
+      'stepping through allEntries in fixed strides is the batched shape',
+    );
+  });
+
+  it('pulls from one shared queue so a slow feed occupies one worker', () => {
+    assert.ok(buildDigest.includes('nextEntryIndex++'), 'workers must share a cursor');
+    assert.ok(
+      /Array\.from\(\{ length: Math\.min\(FEED_FETCH_CONCURRENCY, allEntries\.length\) \}, runWorker\)/
+        .test(buildDigest),
+      'worker count must be bounded by concurrency AND by how many feeds exist',
+    );
+  });
+
+  it('keeps a single feed failure from killing its worker', () => {
+    // Promise.allSettled absorbed this per batch; a worker loop has to catch.
+    const worker = buildDigest.slice(
+      buildDigest.indexOf('const runWorker'),
+      buildDigest.indexOf('await Promise.all('),
+    );
+    assert.ok(worker.includes('} catch {'), 'the worker body must swallow a per-feed throw');
+  });
+
+  it('still stops promptly when the build deadline fires', () => {
+    assert.ok(
+      /while \(!deadlineController\.signal\.aborted\)/.test(buildDigest),
+      'workers must check the deadline between feeds, not run the queue dry',
+    );
+  });
+});
