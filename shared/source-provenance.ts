@@ -99,6 +99,21 @@ export const SOURCE_TYPES: Record<string, SourceType> = {
   // the catalog carried no journalism written in Chinese at all.
   'BBC Chinese': 'mainstream', 'DW Chinese': 'mainstream', 'RFA Chinese': 'mainstream',
   'Ming Pao': 'mainstream', 'Xinhua Chinese': 'wire',
+  // Dutch (NL) native pack
+  'NU.nl': 'mainstream', 'Volkskrant': 'mainstream', 'AD': 'mainstream', 'Trouw': 'mainstream',
+  // Swedish (SV) native pack
+  'Sveriges Radio': 'mainstream', 'Aftonbladet': 'mainstream',
+  'Expressen': 'mainstream', 'Göteborgs-Posten': 'mainstream',
+  // Croatian (HR) native pack
+  'Večernji list': 'mainstream', '24sata': 'mainstream',
+  'tportal': 'mainstream', 'Telegram.hr': 'mainstream',
+  // Polish (PL) native pack — pl had exactly one pl-tagged source before this
+  'Onet': 'mainstream', 'Wirtualna Polska': 'mainstream', 'Gazeta Wyborcza': 'mainstream',
+  'Interia': 'mainstream', 'RMF24': 'mainstream',
+  // Turkish (TR) native pack. Anadolu Ajansı is the state wire, hence 'wire';
+  // see SOURCE_PROPAGANDA_RISK for it and for Sabah.
+  'Cumhuriyet': 'mainstream', 'Gazete Duvar': 'mainstream',
+  'Habertürk': 'mainstream', 'Sabah': 'mainstream', 'Anadolu Ajansı': 'wire',
   // Hindi (HI)
   'BBC Hindi': 'mainstream', 'Aaj Tak': 'mainstream', 'NDTV India': 'mainstream', 'Amar Ujala': 'mainstream',
   // Hungarian (HU)
@@ -386,6 +401,39 @@ export const SOURCE_PROPAGANDA_RISK: Record<string, SourceRiskProfile> = {
   'DW Chinese': { risk: 'medium', stateAffiliated: 'Germany', note: 'German state-funded, editorially independent — Chinese service' },
   'BBC Chinese': { risk: 'low', note: 'BBC World Service Chinese, editorial independence charter' },
   'Ming Pao': { risk: 'medium', knownBiases: ['Hong Kong establishment pressure'], note: 'Hong Kong daily; editorial latitude narrowed under the National Security Law' },
+  // NL native pack (#4.2)
+  'NU.nl': { risk: 'low', note: 'Dutch news portal, widest reach (DPG Media)' },
+  'Volkskrant': { risk: 'low', knownBiases: ['Centre-left'], note: 'Dutch quality daily' },
+  'AD': { risk: 'low', note: 'Algemeen Dagblad, Dutch popular national daily' },
+  'Trouw': { risk: 'low', knownBiases: ['Christian-democratic tradition'], note: 'Dutch quality daily' },
+  // SV native pack (#4.2)
+  'Sveriges Radio': { risk: 'medium', stateAffiliated: 'Sweden', note: 'Swedish public service radio (Ekot newsroom)' },
+  'Aftonbladet': { risk: 'low', knownBiases: ['Social-democratic'], note: 'Swedish tabloid, largest circulation' },
+  'Expressen': { risk: 'low', knownBiases: ['Liberal'], note: 'Swedish tabloid' },
+  'Göteborgs-Posten': { risk: 'low', knownBiases: ['Liberal'], note: 'Swedish regional daily of record (Gothenburg)' },
+  // HR native pack (#4.2)
+  'Večernji list': { risk: 'low', knownBiases: ['Conservative'], note: 'Croatian daily (Styria Media Group)' },
+  '24sata': { risk: 'low', knownBiases: ['Tabloid register'], note: 'Croatian mass-market daily' },
+  'tportal': { risk: 'low', note: 'Croatian news portal (Hrvatski Telekom)' },
+  'Telegram.hr': { risk: 'low', knownBiases: ['Liberal'], note: 'Croatian independent online magazine' },
+  // PL native pack (#4.2). TVN24 and Rzeczpospolita are Polish-language but
+  // deliberately untagged frontline coverage, so they cannot fill a pl reserve;
+  // before this pack, Polsat News was the only pl-tagged source in the catalog.
+  'Onet': { risk: 'low', note: 'Polish news portal, widest reach (Ringier Axel Springer)' },
+  'Wirtualna Polska': { risk: 'low', note: 'Polish news portal' },
+  'Gazeta Wyborcza': { risk: 'low', knownBiases: ['Liberal', 'Anti-PiS'], note: 'Polish daily of record (Agora)' },
+  'Interia': { risk: 'low', note: 'Polish news portal (Cyfrowy Polsat)' },
+  'RMF24': { risk: 'low', note: 'Polish commercial radio newsroom' },
+  // TR native pack (#4.2). Turkey's press is sharply polarised and largely
+  // consolidated under government-aligned ownership, so a reserve drawn from one
+  // side would be worse than none. These five are picked to span it, and the two
+  // government-aligned ones say so — Sabah matches the existing Daily Sabah
+  // declaration, which is the same publisher's English edition.
+  'Cumhuriyet': { risk: 'low', knownBiases: ['Kemalist', 'Opposition'], note: 'Turkish opposition daily, foundation-owned' },
+  'Gazete Duvar': { risk: 'low', knownBiases: ['Left-liberal'], note: 'Turkish independent online daily' },
+  'Habertürk': { risk: 'low', note: 'Turkish mainstream news channel and portal (Ciner Media)' },
+  'Sabah': { risk: 'medium', stateAffiliated: 'Turkey', knownBiases: ['Pro-government'], note: 'Turkish pro-government daily (Turkuvaz); Turkish edition of Daily Sabah' },
+  'Anadolu Ajansı': { risk: 'high', stateAffiliated: 'Turkey', note: 'Turkish state news agency' },
   'Reuters': { risk: 'low', note: 'Wire service, strict editorial standards' },
   'AP News': { risk: 'low', note: 'Wire service, nonprofit cooperative' },
   'AFP': { risk: 'low', note: 'Wire service, editorially independent' },

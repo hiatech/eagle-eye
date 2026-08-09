@@ -39,11 +39,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 100
+          "line": 112
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 175
+          "line": 206
         }
       ]
     },
@@ -73,11 +73,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 99
+          "line": 111
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 174
+          "line": 205
         }
       ]
     },
@@ -195,11 +195,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 323
+          "line": 360
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 400
+          "line": 437
         }
       ]
     },
@@ -1036,6 +1036,25 @@
       ]
     },
     {
+      "host": "api.sr.se",
+      "provider": "api.sr.se",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit api.sr.se and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 96
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 144
+        }
+      ]
+    },
+    {
       "host": "api.stlouisfed.org",
       "provider": "api.stlouisfed.org",
       "kind": "structured",
@@ -1514,11 +1533,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 244
+          "line": 281
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 309
+          "line": 346
         }
       ]
     },
@@ -1533,11 +1552,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 240
+          "line": 277
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 308
+          "line": 345
         }
       ]
     },
@@ -1552,11 +1571,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 425
+          "line": 462
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 522
+          "line": 559
         }
       ]
     },
@@ -1616,11 +1635,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 120
+          "line": 138
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 194
+          "line": 231
         }
       ]
     },
@@ -1711,11 +1730,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 587
+          "line": 624
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 811
+          "line": 848
         }
       ]
     },
@@ -1760,11 +1779,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 781
+          "line": 818
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1162
+          "line": 1199
         }
       ]
     },
@@ -1952,11 +1971,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 539
+          "line": 576
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 727
+          "line": 764
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -1975,11 +1994,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 157
+          "line": 175
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 262
+          "line": 299
         }
       ]
     },
@@ -2051,11 +2070,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 578
+          "line": 615
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 798
+          "line": 835
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -2162,11 +2181,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 764
+          "line": 801
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 902
+          "line": 939
         }
       ]
     },
@@ -2196,11 +2215,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 801
+          "line": 838
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1214
+          "line": 1251
         }
       ]
     },
@@ -2234,11 +2253,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 589
+          "line": 626
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 813
+          "line": 850
         }
       ]
     },
@@ -2253,11 +2272,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 110
+          "line": 122
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 184
+          "line": 215
         }
       ]
     },
@@ -2333,11 +2352,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 314
+          "line": 351
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 391
+          "line": 428
         }
       ]
     },
@@ -2352,11 +2371,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 398
+          "line": 435
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 499
+          "line": 536
         }
       ]
     },
@@ -2595,11 +2614,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 580
+          "line": 617
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 802
+          "line": 839
         }
       ]
     },
@@ -2614,11 +2633,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 115
+          "line": 127
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 189
+          "line": 220
         }
       ]
     },
@@ -2660,11 +2679,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 537
+          "line": 574
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 725
+          "line": 762
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -2683,7 +2702,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 722
+          "line": 759
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -2702,11 +2721,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 796
+          "line": 833
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1204
+          "line": 1241
         }
       ]
     },
@@ -2857,7 +2876,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 192
+          "line": 219
         },
         {
           "path": "src/config/feeds.ts",
@@ -2978,7 +2997,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 300
+          "line": 337
         }
       ]
     },
@@ -2993,7 +3012,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 301
+          "line": 338
         }
       ]
     },
@@ -3076,11 +3095,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 173
+          "line": 191
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 219
+          "line": 256
         }
       ]
     },
@@ -3159,11 +3178,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 423
+          "line": 460
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 520
+          "line": 557
         }
       ]
     },
@@ -3205,23 +3224,23 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 258
+          "line": 295
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 478
+          "line": 515
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 323
+          "line": 360
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 564
+          "line": 601
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 565
+          "line": 602
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3230,6 +3249,25 @@
         {
           "path": "src/config/variants/tech.ts",
           "line": 53
+        }
+      ]
+    },
+    {
+      "host": "fakty.interia.pl",
+      "provider": "fakty.interia.pl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit fakty.interia.pl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 205
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 193
         }
       ]
     },
@@ -3259,11 +3297,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 525
+          "line": 562
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 720
+          "line": 757
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3301,19 +3339,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 249
+          "line": 286
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 471
+          "line": 508
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 314
+          "line": 351
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 550
+          "line": 587
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3336,39 +3374,39 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 202
+          "line": 229
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 208
+          "line": 245
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 217
+          "line": 254
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 222
+          "line": 259
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 304
+          "line": 341
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 335
+          "line": 372
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 354
-        },
-        {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 381
+          "line": 391
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
           "line": 418
+        },
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 455
         },
         {
           "path": "src/config/feeds.ts",
@@ -3376,39 +3414,39 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 148
+          "line": 160
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 227
+          "line": 264
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 276
+          "line": 313
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 286
+          "line": 323
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 383
+          "line": 420
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 411
+          "line": 448
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 436
+          "line": 473
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 467
+          "line": 504
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 478
+          "line": 515
         }
       ]
     },
@@ -3442,11 +3480,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 191
+          "line": 218
         },
         {
           "path": "src/config/feeds.ts",
           "line": 118
+        }
+      ]
+    },
+    {
+      "host": "feeds.expressen.se",
+      "provider": "feeds.expressen.se",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit feeds.expressen.se and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 98
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 146
         }
       ]
     },
@@ -3461,27 +3518,27 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 361
+          "line": 398
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 420
+          "line": 457
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 464
+          "line": 501
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 469
+          "line": 506
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 556
+          "line": 593
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 667
+          "line": 704
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -3519,11 +3576,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 347
+          "line": 384
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 417
+          "line": 454
         }
       ]
     },
@@ -3538,7 +3595,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 756
+          "line": 793
         }
       ]
     },
@@ -3572,11 +3629,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 308
+          "line": 345
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 382
+          "line": 419
         }
       ]
     },
@@ -3663,43 +3720,43 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 263
+          "line": 300
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 534
+          "line": 571
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 563
+          "line": 600
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 735
+          "line": 772
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 743
+          "line": 780
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 328
+          "line": 365
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 711
+          "line": 748
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 774
+          "line": 811
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1020
+          "line": 1057
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1028
+          "line": 1065
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -3799,19 +3856,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 447
+          "line": 484
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 787
+          "line": 824
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 352
+          "line": 389
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1169
+          "line": 1206
         }
       ]
     },
@@ -3826,11 +3883,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 309
+          "line": 346
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 385
+          "line": 422
         }
       ]
     },
@@ -3921,11 +3978,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 785
+          "line": 822
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1152
+          "line": 1189
         }
       ]
     },
@@ -3978,11 +4035,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 519
+          "line": 556
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 640
+          "line": 677
         }
       ]
     },
@@ -4055,11 +4112,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 799
+          "line": 836
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1210
+          "line": 1247
         }
       ]
     },
@@ -4116,7 +4173,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 950
+          "line": 987
         }
       ]
     },
@@ -4161,7 +4218,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 896
+          "line": 933
         }
       ]
     },
@@ -4255,27 +4312,27 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 248
+          "line": 285
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 472
+          "line": 509
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 540
+          "line": 577
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 313
+          "line": 350
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 551
+          "line": 588
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 642
+          "line": 679
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4302,11 +4359,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 760
+          "line": 797
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 895
+          "line": 932
         }
       ]
     },
@@ -4321,11 +4378,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 98
+          "line": 110
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 173
+          "line": 204
         }
       ]
     },
@@ -4355,11 +4412,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 498
+          "line": 535
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 615
+          "line": 652
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4378,11 +4435,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 97
+          "line": 109
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 172
+          "line": 203
         }
       ]
     },
@@ -4397,7 +4454,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 463
+          "line": 500
         }
       ]
     },
@@ -4442,11 +4499,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 349
+          "line": 386
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 431
+          "line": 468
         }
       ]
     },
@@ -4495,11 +4552,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 439
+          "line": 476
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 518
+          "line": 555
         }
       ]
     },
@@ -4548,11 +4605,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 159
+          "line": 177
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 264
+          "line": 301
         }
       ]
     },
@@ -4567,7 +4624,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 369
+          "line": 406
         }
       ]
     },
@@ -4582,11 +4639,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 358
+          "line": 395
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 441
+          "line": 478
         }
       ]
     },
@@ -4680,19 +4737,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 510
+          "line": 547
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 791
+          "line": 828
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 666
+          "line": 703
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1193
+          "line": 1230
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -4726,11 +4783,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 328
+          "line": 365
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 405
+          "line": 442
         }
       ]
     },
@@ -4964,11 +5021,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 538
+          "line": 575
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 726
+          "line": 763
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -5078,11 +5135,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 373
+          "line": 410
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 451
+          "line": 488
         }
       ]
     },
@@ -5157,15 +5214,15 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 154
+          "line": 172
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 230
+          "line": 267
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 231
+          "line": 268
         }
       ]
     },
@@ -5195,7 +5252,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 427
+          "line": 464
         }
       ]
     },
@@ -5240,7 +5297,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 641
+          "line": 678
         }
       ]
     },
@@ -5289,11 +5346,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 117
+          "line": 129
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 191
+          "line": 222
         }
       ]
     },
@@ -5373,11 +5430,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 483
+          "line": 520
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 573
+          "line": 610
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -5396,11 +5453,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 171
+          "line": 189
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 217
+          "line": 254
         }
       ]
     },
@@ -5435,43 +5492,43 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 579
+          "line": 616
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 588
+          "line": 625
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 591
+          "line": 628
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 592
+          "line": 629
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 593
+          "line": 630
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 594
+          "line": 631
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 595
+          "line": 632
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 596
+          "line": 633
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 597
+          "line": 634
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 784
+          "line": 821
         },
         {
           "path": "src/config/feeds.ts",
@@ -5495,39 +5552,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 133
+          "line": 139
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 146
+          "line": 158
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 176
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 210
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 214
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 234
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 238
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 243
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 244
+          "line": 207
         },
         {
           "path": "src/config/feeds.ts",
@@ -5535,71 +5568,71 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 248
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 250
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 251
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 252
+          "line": 271
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 255
+          "line": 275
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 256
+          "line": 280
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 257
+          "line": 281
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 258
+          "line": 284
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 259
+          "line": 285
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 266
+          "line": 287
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 267
+          "line": 288
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 269
+          "line": 289
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 279
+          "line": 292
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 298
+          "line": 293
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 299
+          "line": 294
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 302
+          "line": 295
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 305
+          "line": 296
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 303
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 304
         },
         {
           "path": "src/config/feeds.ts",
@@ -5607,27 +5640,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 310
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 319
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 327
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 330
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 333
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 334
+          "line": 316
         },
         {
           "path": "src/config/feeds.ts",
@@ -5639,15 +5652,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 337
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 340
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 341
+          "line": 339
         },
         {
           "path": "src/config/feeds.ts",
@@ -5655,27 +5660,27 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 343
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 347
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 349
+          "line": 356
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 355
+          "line": 364
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 357
+          "line": 367
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 358
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 365
+          "line": 370
         },
         {
           "path": "src/config/feeds.ts",
@@ -5683,43 +5688,67 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 372
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 373
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 374
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 377
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 380
+          "line": 378
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 381
+          "line": 379
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 398
+          "line": 384
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 404
+          "line": 386
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 410
+          "line": 392
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 412
+          "line": 394
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 416
+          "line": 395
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 428
+          "line": 402
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 429
+          "line": 408
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 414
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 417
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 418
         },
         {
           "path": "src/config/feeds.ts",
@@ -5727,15 +5756,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 439
+          "line": 441
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 440
+          "line": 447
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 442
+          "line": 449
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 453
         },
         {
           "path": "src/config/feeds.ts",
@@ -5743,19 +5776,35 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 466
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 472
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 473
+          "line": 476
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 484
+          "line": 477
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 485
+          "line": 479
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 502
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 509
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 510
         },
         {
           "path": "src/config/feeds.ts",
@@ -5763,51 +5812,23 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 525
+          "line": 522
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 526
+          "line": 558
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 527
+          "line": 562
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 530
+          "line": 563
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 532
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 534
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 538
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 539
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 540
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 541
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 559
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 566
+          "line": 564
         },
         {
           "path": "src/config/feeds.ts",
@@ -5815,11 +5836,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 568
+          "line": 569
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 571
         },
         {
           "path": "src/config/feeds.ts",
           "line": 575
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 576
         },
         {
           "path": "src/config/feeds.ts",
@@ -5831,47 +5860,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 579
+          "line": 596
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 584
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 585
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 586
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 587
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 594
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 597
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 599
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 600
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 601
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 602
+          "line": 603
         },
         {
           "path": "src/config/feeds.ts",
@@ -5883,39 +5876,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 606
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 608
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 609
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 610
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 612
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 613
+          "line": 614
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 617
+          "line": 615
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 618
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 620
+          "line": 616
         },
         {
           "path": "src/config/feeds.ts",
@@ -5927,31 +5900,15 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 623
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 624
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 626
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 627
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 628
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 629
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 630
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 633
+          "line": 631
         },
         {
           "path": "src/config/feeds.ts",
@@ -5967,11 +5924,23 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 643
+          "line": 638
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 644
+          "line": 639
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 641
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 642
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 643
         },
         {
           "path": "src/config/feeds.ts",
@@ -5979,7 +5948,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 648
+          "line": 646
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 647
         },
         {
           "path": "src/config/feeds.ts",
@@ -5991,10 +5964,6 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 653
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 654
         },
         {
@@ -6003,11 +5972,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 656
+          "line": 657
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 662
+          "line": 658
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 659
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 661
         },
         {
           "path": "src/config/feeds.ts",
@@ -6015,23 +5992,35 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 664
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 665
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 666
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 667
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 670
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 671
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 673
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 674
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 675
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 676
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 678
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 679
         },
         {
           "path": "src/config/feeds.ts",
@@ -6039,15 +6028,23 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 681
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 682
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 684
+          "line": 685
         },
         {
           "path": "src/config/feeds.ts",
           "line": 686
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 687
         },
         {
           "path": "src/config/feeds.ts",
@@ -6067,19 +6064,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 694
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 696
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 697
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 698
+          "line": 699
         },
         {
           "path": "src/config/feeds.ts",
@@ -6087,27 +6072,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 701
+          "line": 711
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 702
+          "line": 712
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 703
+          "line": 713
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 705
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 706
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 710
+          "line": 715
         },
         {
           "path": "src/config/feeds.ts",
@@ -6119,7 +6096,39 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 719
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 721
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 723
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 727
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 728
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 729
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 730
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 731
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 733
         },
         {
           "path": "src/config/feeds.ts",
@@ -6131,19 +6140,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 736
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 737
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 740
+          "line": 738
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 741
+          "line": 739
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 740
         },
         {
           "path": "src/config/feeds.ts",
@@ -6159,19 +6168,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 748
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 749
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 750
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 752
+          "line": 753
         },
         {
           "path": "src/config/feeds.ts",
@@ -6179,23 +6176,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 755
+          "line": 767
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 758
+          "line": 771
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 760
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 761
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 763
+          "line": 772
         },
         {
           "path": "src/config/feeds.ts",
@@ -6203,7 +6192,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 776
+          "line": 774
         },
         {
           "path": "src/config/feeds.ts",
@@ -6215,15 +6204,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 781
+          "line": 779
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 782
+          "line": 780
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 783
+          "line": 784
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 785
         },
         {
           "path": "src/config/feeds.ts",
@@ -6235,7 +6228,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 788
+          "line": 789
         },
         {
           "path": "src/config/feeds.ts",
@@ -6247,15 +6240,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 793
+          "line": 795
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 794
+          "line": 797
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 799
+          "line": 798
         },
         {
           "path": "src/config/feeds.ts",
@@ -6263,23 +6256,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 801
+          "line": 810
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 812
+          "line": 813
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 814
         },
         {
           "path": "src/config/feeds.ts",
           "line": 815
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 816
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 817
         },
         {
           "path": "src/config/feeds.ts",
@@ -6295,6 +6284,10 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 823
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 824
         },
         {
@@ -6303,27 +6296,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 826
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 827
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 828
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 829
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 830
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 831
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 832
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 833
         },
         {
           "path": "src/config/feeds.ts",
@@ -6339,27 +6324,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 841
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 842
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 845
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 846
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 847
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 851
+          "line": 849
         },
         {
           "path": "src/config/feeds.ts",
@@ -6371,15 +6336,19 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 854
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 855
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 856
         },
         {
           "path": "src/config/feeds.ts",
           "line": 857
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 858
         },
         {
           "path": "src/config/feeds.ts",
@@ -6395,11 +6364,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 866
+          "line": 864
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 867
+          "line": 865
         },
         {
           "path": "src/config/feeds.ts",
@@ -6415,55 +6384,95 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 871
+          "line": 873
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 924
+          "line": 874
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 926
+          "line": 875
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 927
+          "line": 878
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 928
+          "line": 879
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 935
+          "line": 882
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 940
+          "line": 883
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 941
+          "line": 884
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 942
+          "line": 888
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 943
+          "line": 889
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 944
+          "line": 890
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 954
+          "line": 893
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 960
+          "line": 894
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 895
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 898
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 899
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 900
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 903
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 904
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 905
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 906
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 907
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 908
         },
         {
           "path": "src/config/feeds.ts",
@@ -6471,19 +6480,23 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 962
-        },
-        {
-          "path": "src/config/feeds.ts",
           "line": 963
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 969
+          "line": 964
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 975
+          "line": 965
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 972
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 977
         },
         {
           "path": "src/config/feeds.ts",
@@ -6495,31 +6508,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 982
+          "line": 980
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 983
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 984
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 985
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 986
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 987
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 988
+          "line": 981
         },
         {
           "path": "src/config/feeds.ts",
@@ -6527,23 +6520,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 992
+          "line": 997
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 993
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 994
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 995
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 996
+          "line": 998
         },
         {
           "path": "src/config/feeds.ts",
@@ -6555,43 +6536,11 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1001
+          "line": 1006
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1002
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1003
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1004
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1007
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1008
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1009
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1010
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1013
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1014
+          "line": 1012
         },
         {
           "path": "src/config/feeds.ts",
@@ -6603,7 +6552,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1017
+          "line": 1019
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1020
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1021
         },
         {
           "path": "src/config/feeds.ts",
@@ -6615,7 +6572,19 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1027
+          "line": 1024
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1025
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1028
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1029
         },
         {
           "path": "src/config/feeds.ts",
@@ -6623,11 +6592,39 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1042
+          "line": 1031
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1043
+          "line": 1032
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1033
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1036
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1037
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1038
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1039
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1040
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1041
         },
         {
           "path": "src/config/feeds.ts",
@@ -6643,6 +6640,18 @@
         },
         {
           "path": "src/config/feeds.ts",
+          "line": 1047
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1050
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1051
+        },
+        {
+          "path": "src/config/feeds.ts",
           "line": 1052
         },
         {
@@ -6655,15 +6664,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1055
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1056
-        },
-        {
-          "path": "src/config/feeds.ts",
-          "line": 1057
+          "line": 1059
         },
         {
           "path": "src/config/feeds.ts",
@@ -6671,71 +6672,71 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1061
+          "line": 1064
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1062
+          "line": 1067
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1063
+          "line": 1079
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1148
+          "line": 1080
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1151
+          "line": 1081
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1164
+          "line": 1082
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1167
+          "line": 1083
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1168
+          "line": 1089
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1172
+          "line": 1090
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1176
+          "line": 1091
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1177
+          "line": 1092
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1178
+          "line": 1093
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1179
+          "line": 1094
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1180
+          "line": 1097
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1181
+          "line": 1098
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1182
+          "line": 1099
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1184
+          "line": 1100
         },
         {
           "path": "src/config/feeds.ts",
@@ -6747,19 +6748,75 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1189
+          "line": 1201
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1192
+          "line": 1204
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1198
+          "line": 1205
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1209
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1213
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1214
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1215
         },
         {
           "path": "src/config/feeds.ts",
           "line": 1216
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1217
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1218
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1219
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1221
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1222
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1225
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1226
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1229
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1235
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 1253
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -7054,11 +7111,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 384
+          "line": 421
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 481
+          "line": 518
         }
       ]
     },
@@ -7073,7 +7130,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 563
+          "line": 600
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -7092,11 +7149,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 763
+          "line": 800
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 901
+          "line": 938
         }
       ]
     },
@@ -7111,11 +7168,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 298
+          "line": 335
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 343
+          "line": 380
         }
       ]
     },
@@ -7149,7 +7206,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 505
+          "line": 542
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -7168,7 +7225,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 196
+          "line": 223
         },
         {
           "path": "src/config/feeds.ts",
@@ -7187,11 +7244,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 167
+          "line": 185
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 272
+          "line": 309
         }
       ]
     },
@@ -7206,11 +7263,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 400
+          "line": 437
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 501
+          "line": 538
         }
       ]
     },
@@ -7278,11 +7335,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 209
+          "line": 246
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 233
+          "line": 270
         }
       ]
     },
@@ -7331,11 +7388,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 158
+          "line": 176
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 263
+          "line": 300
         }
       ]
     },
@@ -7354,19 +7411,19 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 679
+          "line": 716
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 957
+          "line": 994
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1040
+          "line": 1077
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1049
+          "line": 1086
         }
       ]
     },
@@ -7578,11 +7635,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 229
+          "line": 266
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 294
+          "line": 331
         }
       ]
     },
@@ -7710,11 +7767,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 102
+          "line": 114
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 177
+          "line": 208
         }
       ]
     },
@@ -7752,11 +7809,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 390
+          "line": 427
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 490
+          "line": 527
         }
       ]
     },
@@ -8185,11 +8242,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 753
+          "line": 790
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 879
+          "line": 916
         }
       ]
     },
@@ -8242,7 +8299,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 363
+          "line": 400
         }
       ]
     },
@@ -8291,7 +8348,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 488
+          "line": 525
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -8315,6 +8372,25 @@
       ]
     },
     {
+      "host": "rss.aftonbladet.se",
+      "provider": "rss.aftonbladet.se",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit rss.aftonbladet.se and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 97
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 145
+        }
+      ]
+    },
+    {
       "host": "rss.art19.com",
       "provider": "rss.art19.com",
       "kind": "feed",
@@ -8325,7 +8401,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 764
+          "line": 801
         }
       ]
     },
@@ -8340,11 +8416,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 404
+          "line": 441
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 509
+          "line": 546
         }
       ]
     },
@@ -8363,15 +8439,15 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 203
+          "line": 240
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 228
+          "line": 265
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 382
+          "line": 419
         },
         {
           "path": "src/config/feeds.ts",
@@ -8379,15 +8455,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 149
+          "line": 171
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 293
+          "line": 330
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 479
+          "line": 516
         }
       ]
     },
@@ -8402,7 +8478,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 751
+          "line": 788
         }
       ]
     },
@@ -8417,11 +8493,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 408
+          "line": 445
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 513
+          "line": 550
         }
       ]
     },
@@ -8440,7 +8516,7 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 514
+          "line": 551
         },
         {
           "path": "src/config/feeds.ts",
@@ -8448,7 +8524,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 673
+          "line": 710
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -8705,15 +8781,15 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 564
+          "line": 601
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 712
+          "line": 749
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 775
+          "line": 812
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -8805,11 +8881,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 113
+          "line": 125
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 187
+          "line": 218
         }
       ]
     },
@@ -8824,11 +8900,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 495
+          "line": 532
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 596
+          "line": 633
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -8866,11 +8942,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 759
+          "line": 796
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 894
+          "line": 931
         }
       ]
     },
@@ -9183,11 +9259,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 490
+          "line": 527
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 589
+          "line": 626
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9301,11 +9377,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 783
+          "line": 820
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1150
+          "line": 1187
         }
       ]
     },
@@ -9320,11 +9396,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 494
+          "line": 531
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 595
+          "line": 632
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9358,11 +9434,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 497
+          "line": 534
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 632
+          "line": 669
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9381,39 +9457,39 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 462
+          "line": 499
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 469
+          "line": 506
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 481
+          "line": 518
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 530
+          "line": 567
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 348
+          "line": 385
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 548
+          "line": 585
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 571
+          "line": 608
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 576
+          "line": 613
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 731
+          "line": 768
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9444,11 +9520,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 96
+          "line": 108
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 171
+          "line": 202
         }
       ]
     },
@@ -9512,11 +9588,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 397
+          "line": 434
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 498
+          "line": 535
         }
       ]
     },
@@ -9531,7 +9607,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 886
+          "line": 923
         }
       ]
     },
@@ -9546,11 +9622,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 586
+          "line": 623
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 810
+          "line": 847
         }
       ]
     },
@@ -9565,11 +9641,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 355
+          "line": 392
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 437
+          "line": 474
         }
       ]
     },
@@ -9603,11 +9679,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 526
+          "line": 563
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 721
+          "line": 758
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -9645,11 +9721,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 798
+          "line": 835
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1208
+          "line": 1245
         }
       ]
     },
@@ -9664,11 +9740,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 391
+          "line": 428
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 491
+          "line": 528
         }
       ]
     },
@@ -9702,11 +9778,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 399
+          "line": 436
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 500
+          "line": 537
         }
       ]
     },
@@ -9740,11 +9816,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 426
+          "line": 463
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 523
+          "line": 560
         }
       ]
     },
@@ -9774,11 +9850,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 374
+          "line": 411
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 452
+          "line": 489
         }
       ]
     },
@@ -9838,26 +9914,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 396
+          "line": 433
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 497
-        }
-      ]
-    },
-    {
-      "host": "tuoitrenews.vn",
-      "provider": "tuoitrenews.vn",
-      "kind": "feed",
-      "observed": false,
-      "license": "Provider terms for this feed publisher; verify before redistribution",
-      "attribution": "Credit tuoitrenews.vn and link to the original feed publisher.",
-      "status": "excluded",
-      "references": [
-        {
-          "path": "src/config/feeds.ts",
-          "line": 494
+          "line": 534
         }
       ]
     },
@@ -9902,15 +9963,15 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 152
+          "line": 170
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 160
+          "line": 182
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 161
+          "line": 183
         }
       ]
     },
@@ -9978,11 +10039,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 590
+          "line": 627
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 814
+          "line": 851
         }
       ]
     },
@@ -10043,27 +10104,27 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 255
+          "line": 292
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 476
+          "line": 513
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 482
+          "line": 519
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 320
+          "line": 357
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 560
+          "line": 597
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 572
+          "line": 609
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -10105,11 +10166,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 392
+          "line": 429
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 493
+          "line": 530
         }
       ]
     },
@@ -10139,11 +10200,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 800
+          "line": 837
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1212
+          "line": 1249
         }
       ]
     },
@@ -10192,11 +10253,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 450
+          "line": 487
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 361
+          "line": 398
         }
       ]
     },
@@ -10284,6 +10345,44 @@
         {
           "path": "server/worldmonitor/research/v1/list-tech-events.ts",
           "line": 148
+        }
+      ]
+    },
+    {
+      "host": "wiadomosci.onet.pl",
+      "provider": "wiadomosci.onet.pl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit wiadomosci.onet.pl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 202
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 190
+        }
+      ]
+    },
+    {
+      "host": "wiadomosci.wp.pl",
+      "provider": "wiadomosci.wp.pl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit wiadomosci.wp.pl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 203
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 191
         }
       ]
     },
@@ -10613,11 +10712,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 131
+          "line": 149
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 207
+          "line": 244
+        }
+      ]
+    },
+    {
+      "host": "www.24sata.hr",
+      "provider": "www.24sata.hr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.24sata.hr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 133
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 226
         }
       ]
     },
@@ -10632,11 +10750,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 487
+          "line": 524
         },
         {
           "path": "src/config/variants/tech.ts",
           "line": 75
+        }
+      ]
+    },
+    {
+      "host": "www.aa.com.tr",
+      "provider": "www.aa.com.tr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.aa.com.tr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 239
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 170
         }
       ]
     },
@@ -10674,11 +10811,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 419
+          "line": 456
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 468
+          "line": 505
         }
       ]
     },
@@ -10708,7 +10845,26 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 515
+          "line": 552
+        }
+      ]
+    },
+    {
+      "host": "www.ad.nl",
+      "provider": "www.ad.nl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.ad.nl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 91
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 136
         }
       ]
     },
@@ -10723,11 +10879,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 309
+          "line": 346
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 385
+          "line": 422
         }
       ]
     },
@@ -10757,11 +10913,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 92
+          "line": 104
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 143
+          "line": 155
         }
       ]
     },
@@ -10776,7 +10932,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 279
+          "line": 316
         }
       ]
     },
@@ -10791,11 +10947,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 218
+          "line": 255
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 277
+          "line": 314
         }
       ]
     },
@@ -10810,11 +10966,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 218
+          "line": 255
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 277
+          "line": 314
         }
       ]
     },
@@ -10860,11 +11016,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 421
+          "line": 458
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 470
+          "line": 507
         }
       ]
     },
@@ -10898,11 +11054,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 366
+          "line": 403
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 443
+          "line": 480
         }
       ]
     },
@@ -10917,19 +11073,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 448
+          "line": 485
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 789
+          "line": 826
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 353
+          "line": 390
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1171
+          "line": 1208
         }
       ]
     },
@@ -10944,11 +11100,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 103
+          "line": 115
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 178
+          "line": 209
         }
       ]
     },
@@ -10963,11 +11119,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 692
+          "line": 729
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 977
+          "line": 1014
         }
       ]
     },
@@ -11043,11 +11199,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 193
+          "line": 220
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 332
+          "line": 369
         },
         {
           "path": "src/config/feeds.ts",
@@ -11055,7 +11211,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 386
+          "line": 423
         }
       ]
     },
@@ -11070,7 +11226,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 194
+          "line": 221
         },
         {
           "path": "src/config/feeds.ts",
@@ -11104,11 +11260,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 348
+          "line": 385
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 420
+          "line": 457
         }
       ]
     },
@@ -11138,11 +11294,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 128
+          "line": 146
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 204
+          "line": 241
         }
       ]
     },
@@ -11191,7 +11347,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 580
+          "line": 617
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11267,11 +11423,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 360
+          "line": 397
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 471
+          "line": 508
         }
       ]
     },
@@ -11286,11 +11442,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 313
+          "line": 350
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 390
+          "line": 427
         }
       ]
     },
@@ -11324,11 +11480,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 415
+          "line": 452
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 504
+          "line": 541
         }
       ]
     },
@@ -11343,11 +11499,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 299
+          "line": 336
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 344
+          "line": 381
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11366,11 +11522,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 340
+          "line": 377
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 415
+          "line": 452
         }
       ]
     },
@@ -11415,43 +11571,43 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 261
+          "line": 298
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 533
+          "line": 570
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 562
+          "line": 599
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 736
+          "line": 773
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 741
+          "line": 778
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 326
+          "line": 363
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 709
+          "line": 746
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 771
+          "line": 808
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1021
+          "line": 1058
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1026
+          "line": 1063
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -11474,11 +11630,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 577
+          "line": 614
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 797
+          "line": 834
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -11512,7 +11668,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 197
+          "line": 224
         },
         {
           "path": "src/config/feeds.ts",
@@ -11531,11 +11687,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 456
+          "line": 493
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 374
+          "line": 411
         }
       ]
     },
@@ -11550,7 +11706,26 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 451
+          "line": 488
+        }
+      ]
+    },
+    {
+      "host": "www.cumhuriyet.com.tr",
+      "provider": "www.cumhuriyet.com.tr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.cumhuriyet.com.tr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 235
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 166
         }
       ]
     },
@@ -11565,11 +11740,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 320
+          "line": 357
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 397
+          "line": 434
         }
       ]
     },
@@ -11584,7 +11759,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 882
+          "line": 919
         }
       ]
     },
@@ -11599,11 +11774,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 175
+          "line": 193
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 153
+          "line": 175
         }
       ]
     },
@@ -11618,11 +11793,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 511
+          "line": 548
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 668
+          "line": 705
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11641,11 +11816,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 432
+          "line": 469
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 529
+          "line": 566
         }
       ]
     },
@@ -11660,11 +11835,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 780
+          "line": 817
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1147
+          "line": 1184
         }
       ]
     },
@@ -11679,11 +11854,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 778
+          "line": 815
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1145
+          "line": 1182
         }
       ]
     },
@@ -11698,11 +11873,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 122
+          "line": 140
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 196
+          "line": 233
         }
       ]
     },
@@ -11717,11 +11892,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 200
+          "line": 227
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 136
+          "line": 148
         }
       ]
     },
@@ -11736,11 +11911,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 126
+          "line": 144
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 200
+          "line": 237
         }
       ]
     },
@@ -11770,11 +11945,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 93
+          "line": 105
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 144
+          "line": 156
         }
       ]
     },
@@ -11835,11 +12010,11 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 959
+          "line": 996
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1051
+          "line": 1088
         }
       ]
     },
@@ -11854,11 +12029,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 351
+          "line": 388
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 421
+          "line": 458
         }
       ]
     },
@@ -11873,11 +12048,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 339
+          "line": 376
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 425
+          "line": 462
         }
       ]
     },
@@ -11892,7 +12067,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 555
+          "line": 592
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11911,11 +12086,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 319
+          "line": 356
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 396
+          "line": 433
         }
       ]
     },
@@ -11930,7 +12105,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 493
+          "line": 530
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -11995,11 +12170,11 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 794
+          "line": 831
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1197
+          "line": 1234
         }
       ]
     },
@@ -12037,19 +12212,19 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 296
+          "line": 333
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 600
+          "line": 637
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 338
+          "line": 375
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 823
+          "line": 860
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -12087,19 +12262,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 449
+          "line": 486
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 788
+          "line": 825
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 354
+          "line": 391
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1170
+          "line": 1207
         }
       ]
     },
@@ -12114,7 +12289,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 367
+          "line": 404
         }
       ]
     },
@@ -12149,7 +12324,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 432
+          "line": 469
         }
       ]
     },
@@ -12164,19 +12339,19 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 264
+          "line": 301
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 744
+          "line": 781
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 329
+          "line": 366
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1029
+          "line": 1066
         }
       ]
     },
@@ -12218,11 +12393,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 124
+          "line": 142
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 198
+          "line": 235
+        }
+      ]
+    },
+    {
+      "host": "www.gazeteduvar.com.tr",
+      "provider": "www.gazeteduvar.com.tr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.gazeteduvar.com.tr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 236
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 167
         }
       ]
     },
@@ -12305,7 +12499,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 948
+          "line": 985
         }
       ]
     },
@@ -12320,7 +12514,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 884
+          "line": 921
         }
       ]
     },
@@ -12335,7 +12529,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 883
+          "line": 920
         }
       ]
     },
@@ -12350,43 +12544,43 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 751
+          "line": 788
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 767
+          "line": 804
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 768
+          "line": 805
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 877
+          "line": 914
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 889
+          "line": 926
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 899
+          "line": 936
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 900
+          "line": 937
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 905
+          "line": 942
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 908
+          "line": 945
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 909
+          "line": 946
         }
       ]
     },
@@ -12459,7 +12653,45 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1163
+          "line": 1200
+        }
+      ]
+    },
+    {
+      "host": "www.gp.se",
+      "provider": "www.gp.se",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.gp.se and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 99
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 147
+        }
+      ]
+    },
+    {
+      "host": "www.haberturk.com",
+      "provider": "www.haberturk.com",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.haberturk.com and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 237
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 168
         }
       ]
     },
@@ -12489,11 +12721,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 405
+          "line": 442
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 510
+          "line": 547
         }
       ]
     },
@@ -12508,11 +12740,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 123
+          "line": 141
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 197
+          "line": 234
         }
       ]
     },
@@ -12527,11 +12759,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 178
+          "line": 196
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 150
+          "line": 172
         }
       ]
     },
@@ -12546,11 +12778,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 457
+          "line": 494
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 375
+          "line": 412
         }
       ]
     },
@@ -12584,11 +12816,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 206
+          "line": 243
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 213
+          "line": 250
         }
       ]
     },
@@ -12618,11 +12850,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 205
+          "line": 242
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 212
+          "line": 249
         }
       ]
     },
@@ -12637,11 +12869,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 118
+          "line": 136
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 192
+          "line": 229
         }
       ]
     },
@@ -12656,11 +12888,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 338
+          "line": 375
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 424
+          "line": 461
         }
       ]
     },
@@ -12675,11 +12907,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 230
+          "line": 267
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 295
+          "line": 332
         }
       ]
     },
@@ -12694,11 +12926,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 231
+          "line": 268
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 296
+          "line": 333
         }
       ]
     },
@@ -12713,11 +12945,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 111
+          "line": 123
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 185
+          "line": 216
         }
       ]
     },
@@ -12732,11 +12964,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 438
+          "line": 475
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 535
+          "line": 572
         }
       ]
     },
@@ -12751,11 +12983,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 232
+          "line": 269
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 297
+          "line": 334
         }
       ]
     },
@@ -12770,11 +13002,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 310
+          "line": 347
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 384
+          "line": 421
         }
       ]
     },
@@ -12789,11 +13021,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 372
+          "line": 409
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 450
+          "line": 487
         }
       ]
     },
@@ -12827,11 +13059,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 235
+          "line": 272
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 303
+          "line": 340
         }
       ]
     },
@@ -12846,11 +13078,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 119
+          "line": 137
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 193
+          "line": 230
         }
       ]
     },
@@ -12865,11 +13097,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 406
+          "line": 443
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 511
+          "line": 548
         }
       ]
     },
@@ -12884,11 +13116,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 388
+          "line": 425
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 488
+          "line": 525
         }
       ]
     },
@@ -12903,11 +13135,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 371
+          "line": 408
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 449
+          "line": 486
         }
       ]
     },
@@ -12922,7 +13154,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 422
+          "line": 459
         }
       ]
     },
@@ -12960,7 +13192,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 588
+          "line": 625
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -12979,11 +13211,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 797
+          "line": 834
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1206
+          "line": 1243
         }
       ]
     },
@@ -13017,7 +13249,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 892
+          "line": 929
         }
       ]
     },
@@ -13032,11 +13264,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 172
+          "line": 190
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 218
+          "line": 255
         }
       ]
     },
@@ -13051,11 +13283,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 389
+          "line": 426
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 489
+          "line": 526
         }
       ]
     },
@@ -13085,11 +13317,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 129
+          "line": 147
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 205
+          "line": 242
         }
       ]
     },
@@ -13119,11 +13351,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 782
+          "line": 819
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1149
+          "line": 1186
         }
       ]
     },
@@ -13138,11 +13370,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 691
+          "line": 728
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 976
+          "line": 1013
         }
       ]
     },
@@ -13157,11 +13389,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 656
+          "line": 693
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 925
+          "line": 962
         }
       ]
     },
@@ -13222,11 +13454,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 326
+          "line": 363
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 403
+          "line": 440
         }
       ]
     },
@@ -13241,11 +13473,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 204
+          "line": 241
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 211
+          "line": 248
         }
       ]
     },
@@ -13260,11 +13492,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 758
+          "line": 795
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 891
+          "line": 928
         }
       ]
     },
@@ -13317,7 +13549,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 893
+          "line": 930
         }
       ]
     },
@@ -13362,11 +13594,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 370
+          "line": 407
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 448
+          "line": 485
         }
       ]
     },
@@ -13381,7 +13613,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 970
+          "line": 1007
         }
       ]
     },
@@ -13411,11 +13643,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 112
+          "line": 124
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 186
+          "line": 217
         }
       ]
     },
@@ -13430,7 +13662,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 132
+          "line": 138
         }
       ]
     },
@@ -13445,11 +13677,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 91
+          "line": 103
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 142
+          "line": 154
+        }
+      ]
+    },
+    {
+      "host": "www.nu.nl",
+      "provider": "www.nu.nl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.nu.nl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 89
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 134
         }
       ]
     },
@@ -13464,11 +13715,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 795
+          "line": 832
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1202
+          "line": 1239
         }
       ]
     },
@@ -13483,11 +13734,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 239
+          "line": 276
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 307
+          "line": 344
         }
       ]
     },
@@ -13517,11 +13768,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 754
+          "line": 791
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 880
+          "line": 917
         }
       ]
     },
@@ -13559,11 +13810,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 786
+          "line": 823
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1153
+          "line": 1190
         }
       ]
     },
@@ -13639,11 +13890,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 179
+          "line": 197
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 163
+          "line": 185
         }
       ]
     },
@@ -13658,11 +13909,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 752
+          "line": 789
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 878
+          "line": 915
         }
       ]
     },
@@ -13677,11 +13928,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 311
+          "line": 348
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 388
+          "line": 425
         }
       ]
     },
@@ -13696,11 +13947,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 407
+          "line": 444
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 512
+          "line": 549
         }
       ]
     },
@@ -13715,11 +13966,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 337
+          "line": 374
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 423
+          "line": 460
         }
       ]
     },
@@ -13734,11 +13985,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 547
+          "line": 584
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 659
+          "line": 696
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -13757,11 +14008,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 324
+          "line": 361
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 401
+          "line": 438
         }
       ]
     },
@@ -13776,11 +14027,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 317
+          "line": 354
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 394
+          "line": 431
         }
       ]
     },
@@ -13795,11 +14046,11 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 356
+          "line": 393
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1175
+          "line": 1212
         }
       ]
     },
@@ -13814,7 +14065,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 1194
+          "line": 1231
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -13833,11 +14084,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 436
+          "line": 473
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 533
+          "line": 570
         }
       ]
     },
@@ -13886,7 +14137,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 198
+          "line": 225
         },
         {
           "path": "src/config/feeds.ts",
@@ -13905,11 +14156,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 383
+          "line": 420
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 480
+          "line": 517
         }
       ]
     },
@@ -13924,11 +14175,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 330
+          "line": 367
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 407
+          "line": 444
         }
       ]
     },
@@ -13943,19 +14194,38 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 680
+          "line": 717
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 958
+          "line": 995
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1041
+          "line": 1078
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1050
+          "line": 1087
+        }
+      ]
+    },
+    {
+      "host": "www.rmf24.pl",
+      "provider": "www.rmf24.pl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.rmf24.pl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 206
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 194
         }
       ]
     },
@@ -13970,15 +14240,15 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 153
+          "line": 171
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 165
+          "line": 196
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 166
+          "line": 197
         }
       ]
     },
@@ -13993,11 +14263,11 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 235
+          "line": 272
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 236
+          "line": 273
         }
       ]
     },
@@ -14012,11 +14282,30 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 574
+          "line": 611
         },
         {
           "path": "src/config/variants/tech.ts",
           "line": 64
+        }
+      ]
+    },
+    {
+      "host": "www.sabah.com.tr",
+      "provider": "www.sabah.com.tr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.sabah.com.tr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 238
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 169
         }
       ]
     },
@@ -14065,7 +14354,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 669
+          "line": 706
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14084,11 +14373,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 757
+          "line": 794
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 890
+          "line": 927
         }
       ]
     },
@@ -14103,7 +14392,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 438
+          "line": 475
         }
       ]
     },
@@ -14138,19 +14427,19 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 297
+          "line": 334
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 627
+          "line": 664
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 339
+          "line": 376
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 850
+          "line": 887
         },
         {
           "path": "src/config/variants/finance.ts",
@@ -14169,11 +14458,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 130
+          "line": 148
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 206
+          "line": 243
         }
       ]
     },
@@ -14188,7 +14477,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 551
+          "line": 588
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14207,7 +14496,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 489
+          "line": 526
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14226,11 +14515,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 105
+          "line": 117
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 180
+          "line": 211
         }
       ]
     },
@@ -14245,11 +14534,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 772
+          "line": 809
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 912
+          "line": 949
         }
       ]
     },
@@ -14264,7 +14553,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 949
+          "line": 986
         }
       ]
     },
@@ -14309,7 +14598,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 195
+          "line": 222
         },
         {
           "path": "src/config/feeds.ts",
@@ -14355,7 +14644,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 1183
+          "line": 1220
         }
       ]
     },
@@ -14385,7 +14674,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 885
+          "line": 922
         }
       ]
     },
@@ -14400,11 +14689,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 201
+          "line": 228
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 137
+          "line": 149
         }
       ]
     },
@@ -14419,11 +14708,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 87
+          "line": 93
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 135
+          "line": 141
         }
       ]
     },
@@ -14495,7 +14784,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 496
+          "line": 533
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14526,7 +14815,7 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 554
+          "line": 591
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14545,27 +14834,27 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 251
+          "line": 288
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 257
+          "line": 294
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 316
+          "line": 353
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 322
+          "line": 359
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 552
+          "line": 589
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 562
+          "line": 599
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14589,6 +14878,25 @@
         {
           "path": "src/config/variants/tech.ts",
           "line": 179
+        }
+      ]
+    },
+    {
+      "host": "www.telegram.hr",
+      "provider": "www.telegram.hr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.telegram.hr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 135
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 228
         }
       ]
     },
@@ -14645,11 +14953,11 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 221
+          "line": 258
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 336
+          "line": 373
         },
         {
           "path": "src/config/feeds.ts",
@@ -14657,15 +14965,15 @@
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 281
+          "line": 318
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 413
+          "line": 450
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 516
+          "line": 553
         }
       ]
     },
@@ -14680,11 +14988,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 363
+          "line": 400
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 462
+          "line": 499
         }
       ]
     },
@@ -14699,11 +15007,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 155
+          "line": 173
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 260
+          "line": 297
         }
       ]
     },
@@ -14718,7 +15026,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 238
+          "line": 275
         }
       ]
     },
@@ -14733,11 +15041,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 318
+          "line": 355
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 395
+          "line": 432
         }
       ]
     },
@@ -14752,35 +15060,35 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 250
+          "line": 287
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 256
+          "line": 293
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 470
+          "line": 507
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 477
+          "line": 514
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 315
+          "line": 352
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 321
+          "line": 358
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 549
+          "line": 586
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 561
+          "line": 598
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -14803,11 +15111,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 315
+          "line": 352
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 392
+          "line": 429
         }
       ]
     },
@@ -14845,15 +15153,53 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 550
+          "line": 587
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 715
+          "line": 752
         },
         {
           "path": "src/config/variants/tech.ts",
           "line": 128
+        }
+      ]
+    },
+    {
+      "host": "www.tportal.hr",
+      "provider": "www.tportal.hr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.tportal.hr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 134
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 227
+        }
+      ]
+    },
+    {
+      "host": "www.trouw.nl",
+      "provider": "www.trouw.nl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.trouw.nl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 92
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 137
         }
       ]
     },
@@ -14868,11 +15214,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 779
+          "line": 816
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 1146
+          "line": 1183
         }
       ]
     },
@@ -14902,7 +15248,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 881
+          "line": 918
         }
       ]
     },
@@ -14917,11 +15263,30 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 312
+          "line": 349
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 389
+          "line": 426
+        }
+      ]
+    },
+    {
+      "host": "www.vecernji.hr",
+      "provider": "www.vecernji.hr",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.vecernji.hr and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 132
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 225
         }
       ]
     },
@@ -14951,11 +15316,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 132
+          "line": 150
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 208
+          "line": 245
         }
       ]
     },
@@ -14971,6 +15336,25 @@
         {
           "path": "scripts/seed-resilience-static.mjs",
           "line": 614
+        }
+      ]
+    },
+    {
+      "host": "www.volkskrant.nl",
+      "provider": "www.volkskrant.nl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit www.volkskrant.nl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 90
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 135
         }
       ]
     },
@@ -15000,7 +15384,7 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 295
+          "line": 332
         }
       ]
     },
@@ -15030,11 +15414,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 280
+          "line": 317
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 281
+          "line": 318
         }
       ]
     },
@@ -15057,11 +15441,11 @@
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 458
+          "line": 495
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 376
+          "line": 413
         }
       ]
     },
@@ -15234,11 +15618,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 385
+          "line": 422
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 482
+          "line": 519
         }
       ]
     },
@@ -15253,15 +15637,15 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 486
+          "line": 523
         },
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 506
+          "line": 543
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 583
+          "line": 620
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -15284,11 +15668,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 771
+          "line": 808
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 913
+          "line": 950
         }
       ]
     },
@@ -15303,11 +15687,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 236
+          "line": 273
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 304
+          "line": 341
         }
       ]
     },
@@ -15322,11 +15706,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 401
+          "line": 438
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 503
+          "line": 540
         }
       ]
     },
@@ -15420,11 +15804,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 168
+          "line": 186
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 273
+          "line": 310
         }
       ]
     },
@@ -15439,7 +15823,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 553
+          "line": 590
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -15474,6 +15858,25 @@
         {
           "path": "scripts/seed-security-advisories.mjs",
           "line": 31
+        }
+      ]
+    },
+    {
+      "host": "wyborcza.pl",
+      "provider": "wyborcza.pl",
+      "kind": "feed",
+      "observed": true,
+      "license": "Provider terms for this feed publisher; verify before redistribution",
+      "attribution": "Credit wyborcza.pl and link to the original feed publisher.",
+      "status": "terms-review",
+      "references": [
+        {
+          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "line": 204
+        },
+        {
+          "path": "src/config/feeds.ts",
+          "line": 192
         }
       ]
     },
@@ -15518,11 +15921,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 90
+          "line": 102
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 141
+          "line": 153
         }
       ]
     },
@@ -15552,7 +15955,7 @@
       "references": [
         {
           "path": "src/config/feeds.ts",
-          "line": 616
+          "line": 653
         },
         {
           "path": "src/config/variants/tech.ts",
@@ -15590,11 +15993,11 @@
       "references": [
         {
           "path": "server/worldmonitor/news/v1/_feeds.ts",
-          "line": 114
+          "line": 126
         },
         {
           "path": "src/config/feeds.ts",
-          "line": 188
+          "line": 219
         }
       ]
     }

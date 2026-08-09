@@ -542,10 +542,47 @@ korunduğunu bağlıyor.
 
 Faz 4 artık gerçekten kapalı: katalog **ve** onu görünür kılan sıralama. Kalanlar:
 
-1. **`hr`/`nl`/`pl`/`sv`/`tr` paketleri** (3'er kaynakta). Artık anlamlı — kota sayesinde
-   eklenen kaynak brief'e giriyor. Öncekilerle aynı yöntem.
+1. ~~**`hr`/`nl`/`pl`/`sv`/`tr` paketleri.**~~ ✅ Yapıldı — ama aşağıdaki uyarıyla.
 2. **B2 — fork'u yayınla**, sonra linkleri çevir + `NOTICE`. Deploy'dan ÖNCE. Sahibinde.
 3. **Faz 5** (Wikinews / Mastodon / Bluesky).
+
+### ⚠️ Faz 4.2c — son beş paket, ve azalan getirinin nerede başladığı (2026-08-08)
+
+`hr`, `nl`, `pl`, `sv`, `tr` 3'er kaynaktan çıkarıldı. 22 kaynak:
+
+| Dil | Önce | Sonra | Paket |
+|---|---:|---:|---|
+| pl | 3 | **8** | Onet, Wirtualna Polska, Gazeta Wyborcza, Interia, RMF24 |
+| tr | 3 | **8** | Cumhuriyet, Gazete Duvar, Habertürk, Sabah, Anadolu Ajansı |
+| hr | 3 | **7** | Večernji list, 24sata, tportal, Telegram.hr |
+| nl | 3 | **7** | NU.nl, Volkskrant, AD, Trouw |
+| sv | 3 | **7** | Sveriges Radio, Aftonbladet, Expressen, Göteborgs-Posten |
+
+**Ama canlı ölçüm bu paketlerin bugün neredeyse hiçbir şey değiştirmediğini gösteriyor.**
+13 dilin hepsi kotayı dolduruyor (8/8), fakat kotayı dolduran kaynaklara bakınca:
+
+| Dil | Kotayı dolduranlar | Bu paketten gelen |
+|---|---|---:|
+| hr | Index.hr, Jutarnji list, N1 Croatia | **0** |
+| nl | De Telegraaf, NOS Nieuws | **0** |
+| sv | Dagens Nyheter, Svenska Dagbladet | **0** |
+| tr | BBC Turkce, DW Turkish, Hurriyet | **0** |
+| pl | Polsat News, **Wirtualna Polska** | 1 |
+
+Sebep basit: `ITEMS_PER_FEED = 5`, kota 8. **Üç kaynak zaten 15 öğe üretiyor**, yani kotayı
+doldurmaya iki kaynak yetiyor. Bu beş dil kota geldiği anda zaten düzelmişti; paketler
+kotanın *dolup dolmadığını* değil, *kimin doldurduğunu* değiştiriyor.
+
+**Doğru okuma:** 3 kaynağın altındaki diller için paket zorunluydu (bg/cs/fa/ja 1'er,
+ko/th/vi/zh 2'şerdi — kotayı dolduramazlardı). 3 ve üstü için paketin getirisi farklı ve
+daha küçük: dayanıklılık (bir besleme susarsa kota yine dolar) ve editoryal çeşitlilik
+(kota, siyasi olarak yayılmış bir havuzdan seçiyor — `tr`'de muhalefetten devlet ajansına).
+İkisi de gerçek ama ölçümde bugün görünmüyor.
+
+**Sonuç — kalan diller için:** `ar`, `hi`, `it`, `pt`, `ro` 4'er kaynakta ve aynı hesapla
+kotayı zaten dolduruyorlar. Onlara paket eklemek katalog büyütür, brief'i bugün
+değiştirmez. Faz 4'ün kaynak-ekleme kısmı burada bitmeli; sıradaki kazanç kaynak sayısında
+değil, `ITEMS_PER_FEED`/kota ayarında ya da Faz 5'in yeni kaynak sınıflarında.
 
 
 Faz 5 (Wikinews / Mastodon / Bluesky) Faz 4'ten sonra gelmeli: aynı 6 dosyalık disiplin

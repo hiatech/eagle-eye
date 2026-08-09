@@ -84,7 +84,19 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Tagesschau', url: 'https://www.tagesschau.de/xml/rss2/', lang: 'de' },
       { name: 'ANSA', url: 'https://www.ansa.it/sito/ansait_rss.xml', lang: 'it' },
       { name: 'NOS Nieuws', url: 'https://feeds.nos.nl/nosnieuwsalgemeen', lang: 'nl' },
+      // NL pack. NRC is in this catalog but not the digest one — nrc.nl/rss/ does
+      // not answer — so before this the nl brief drew on one live native source.
+      { name: 'NU.nl', url: 'https://www.nu.nl/rss/Algemeen', lang: 'nl' },
+      { name: 'Volkskrant', url: 'https://www.volkskrant.nl/voorpagina/rss.xml', lang: 'nl' },
+      { name: 'AD', url: 'https://www.ad.nl/home/rss.xml', lang: 'nl' },
+      { name: 'Trouw', url: 'https://www.trouw.nl/voorpagina/rss.xml', lang: 'nl' },
       { name: 'SVT Nyheter', url: 'https://www.svt.se/nyheter/rss.xml', lang: 'sv' },
+      // SV pack — public radio plus the two national tabloids and a regional
+      // daily, so the sv reserve is not filled by one editorial line.
+      { name: 'Sveriges Radio', url: 'https://api.sr.se/api/rss/program/83', lang: 'sv' },
+      { name: 'Aftonbladet', url: 'https://rss.aftonbladet.se/rss2/small/pages/sections/senastenytt/', lang: 'sv' },
+      { name: 'Expressen', url: 'https://feeds.expressen.se/nyheter/', lang: 'sv' },
+      { name: 'Göteborgs-Posten', url: 'https://www.gp.se/rss', lang: 'sv' },
       // Arctic / Nordic security pack (#5960). Unscoped so EN digests can include
       // them when enabled (no/da/fi are not UI locales). Yle + Arctic Today are EN.
       { name: 'Yle News', url: 'https://yle.fi/rss/news' },
@@ -115,6 +127,12 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Deník N', url: 'https://denikn.cz/feed/', lang: 'cs' },
       // Croatian (HR) — mainstream + investigative; Balkan Insight is English-language (no lang tag)
       { name: 'N1 Croatia', url: 'https://n1info.hr/feed/', lang: 'hr' },
+      // HR pack — a conservative daily, a mass-market tabloid, a portal and an
+      // independent, spanning the Croatian spectrum rather than one corner.
+      { name: 'Večernji list', url: 'https://www.vecernji.hr/feeds/latest', lang: 'hr' },
+      { name: '24sata', url: 'https://www.24sata.hr/feeds/najnovije.xml', lang: 'hr' },
+      { name: 'tportal', url: 'https://www.tportal.hr/rss', lang: 'hr' },
+      { name: 'Telegram.hr', url: 'https://www.telegram.hr/feed/', lang: 'hr' },
       { name: 'Index.hr', url: 'https://www.index.hr/rss', lang: 'hr' },
       { name: 'Jutarnji list', url: 'https://www.jutarnji.hr/feed', lang: 'hr' },
       { name: 'Balkan Insight', url: 'https://balkaninsight.com/feed/' },
@@ -177,6 +195,15 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       // language and protected from client-side source filtering.
       { name: 'Hurriyet', url: 'https://www.hurriyet.com.tr/rss/anasayfa', lang: 'tr', strategicDefault: true },
       { name: 'Polsat News', url: 'https://www.polsatnews.pl/rss/wszystkie.xml', lang: 'pl', strategicDefault: true },
+      // PL pack. pl needed this most: TVN24 and Rzeczpospolita are Polish-language
+      // but deliberately untagged frontline coverage, so they sit in the universal
+      // pool and cannot fill a pl reserve. Before this, Polsat News was the only
+      // pl-tagged source there was.
+      { name: 'Onet', url: 'https://wiadomosci.onet.pl/.feed', lang: 'pl' },
+      { name: 'Wirtualna Polska', url: 'https://wiadomosci.wp.pl/rss.xml', lang: 'pl' },
+      { name: 'Gazeta Wyborcza', url: 'https://wyborcza.pl/pub/rss/najnowsze_wyborcza.xml', lang: 'pl' },
+      { name: 'Interia', url: 'https://fakty.interia.pl/feed', lang: 'pl' },
+      { name: 'RMF24', url: 'https://www.rmf24.pl/fakty/feed', lang: 'pl' },
       { name: 'Kathimerini', url: gnLocale('site:kathimerini.gr when:2d', 'el', 'GR', 'GR:el'), lang: 'el', strategicDefault: true },
       // Native-language dailies that existed only in src/config/feeds.ts. The
       // pane rendered them in the reader's language while the brief beside it
@@ -200,6 +227,16 @@ export const VARIANT_FEEDS: Record<string, Record<string, ServerFeed[]>> = {
       { name: 'Dagens Nyheter', url: 'https://www.dn.se/rss/', lang: 'sv' },
       { name: 'Svenska Dagbladet', url: 'https://www.svd.se/feed/articles.rss', lang: 'sv' },
       { name: 'BBC Turkce', url: 'https://feeds.bbci.co.uk/turkce/rss.xml', lang: 'tr' },
+      // TR pack. The Turkish press is sharply polarised, so a reserve filled from
+      // one side would be worse than no reserve at all. Spread on purpose:
+      // Cumhuriyet opposition, Gazete Duvar independent, Habertürk mainstream,
+      // Sabah pro-government and Anadolu Ajansı the state wire — the last two
+      // declared as such in shared/source-provenance.ts.
+      { name: 'Cumhuriyet', url: 'https://www.cumhuriyet.com.tr/rss', lang: 'tr' },
+      { name: 'Gazete Duvar', url: 'https://www.gazeteduvar.com.tr/rss', lang: 'tr' },
+      { name: 'Habertürk', url: 'https://www.haberturk.com/rss', lang: 'tr' },
+      { name: 'Sabah', url: 'https://www.sabah.com.tr/rss/gundem.xml', lang: 'tr' },
+      { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=guncel', lang: 'tr' },
       { name: 'DW Turkish', url: 'https://rss.dw.com/xml/rss-tur-all', lang: 'tr' },
       { name: 'Naftemporiki', url: 'https://www.naftemporiki.gr/feed/', lang: 'el' },
       { name: 'in.gr', url: 'https://www.in.gr/feed/', lang: 'el' },
