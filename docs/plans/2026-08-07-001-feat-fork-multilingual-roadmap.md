@@ -857,3 +857,48 @@ ve deadline'ın işçiler arasında kontrol edildiğini bağlıyor.
 
 **Kalan (Faz 6):** kararlı hâldeki 23 sorunlu besleme artık gerçek bir liste sayılabilir —
 ama yine de `npm run test:feeds` ile doğrulanmalı, `feedStatuses` ile değil (bkz. 4.2f).
+
+### 📊 `npm run test:feeds` ile doğrulama — 4.2f'nin kuralı uygulandı (2026-08-08)
+
+4.2f "besleme sağlığı `feedStatuses` ile değil `test:feeds` ile ölçülmeli" diyordu. 6.1 ve 6.2
+sonrası kararlı hâlde kalan 23 sorunlu besleme bu kurala göre doğrulandı.
+
+**Genel durum:** `785 OK · 14 bayat · 13 ölü · 24 boş · 1 atlandı`
+(Faz 1 temeli: `728 OK · 12 · 15 · 20 · 1` — eklenen kaynaklarla +57 OK, ölü 15→13.)
+
+**Digest'in 23 sorunlusundan 10'u doğrulandı:**
+
+| Verdict | Besleme |
+|---|---|
+| ÖLÜ | `CISA` (403), `Channels TV` (parse), `Irrawaddy` (403), `News24` (403) |
+| BOŞ | `PBS NewsHour`, `ArXiv AI`, `Asharq Business`, `CrisisWatch`, `IAEA`, `Zerkalo` |
+
+**13'ü hâlâ yanlış pozitif** — `test:feeds` sağlıklı diyor, digest `empty` diyor:
+
+`ABC News`, `Atlantic Council`, `Civil.ge`, `Correctiv`, `DFRLab`, `Financial Times`,
+`Japan Today`, `The Hill`, `The Reporter Ethiopia`, `The Sentry`, `ThisDay`, `VSquare`,
+`VentureBeat AI`
+
+Yani 6.1 ve 6.2 sayıyı 39'dan 23'e indirdi ama **yanlış pozitif tamamen bitmedi.** Kalan 13
+için mekanizma henüz bilinmiyor; `test:feeds` 15s timeout kullanıyor, digest 8s
+(`FEED_TIMEOUT_MS`) — ilk bakılacak yer burası. Bu beslemeler ayıklanmamalı.
+
+### ⚠️ Eklediğim kaynakların 7'si çalışmıyor
+
+Dürüst kayıt: bu oturumda iki katalog birden eklenen **62 kaynaktan 55'i sağlıklı, 7'si
+değil.** Katalog sayıları paketlerin gerçek gücünü olduğundan yüksek gösteriyor.
+
+| Verdict | Besleme | Dil | Not |
+|---|---|---|---|
+| ÖLÜ | `Euronews Persian` | fa | **HTTP 406** — değiştirilmeli |
+| BOŞ | `Sega` | bg | |
+| BOŞ | `Xinhua Chinese` | zh | |
+| BOŞ | `Hankyoreh`, `Kyunghyang`, `Pressian`, `No Cut News` | ko | **paketin 5'inden 4'ü** |
+
+`ko` en kötüsü: paketten yalnızca `Donga Ilbo` sağlam. Ama dikkat — canlı digest ölçümünde
+`Kyunghyang` kotayı dolduranlar arasındaydı, yani `test:feeds` ile digest bu beslemede
+çelişiyor (muhtemelen tarih ayrıştırma ya da geçici durum). Silmeden önce ayrıca bakılmalı;
+4.2f'nin dersi tam olarak buydu.
+
+**Yapılacak:** `Euronews Persian` için çalışan bir Farsça URL, `ko` paketi için yeniden
+aday araması. İkisi de ölçülmüş, gerekçeli iş kalemleri.
