@@ -187,6 +187,31 @@ node scripts/seed-military-flights.mjs
 >   wired for `redis-rest` in `docker-compose.yml`) to opt into using the proxy from
 >   inside the relay container.
 
+> **⚠️ The news digest's RSS relay fallback is inert in Docker.**
+>
+> When a feed refuses a direct fetch — a 403, a bot-challenge page — `buildDigest` retries it
+> through the relay at `WS_RELAY_URL`. In a self-hosted stack that second attempt never happens.
+>
+> The container serves the API from `src-tauri/sidecar/local-api-server.mjs`, which replaces
+> `globalThis.fetch` with an SSRF guard that rejects private and reserved addresses.
+> `docker-compose.yml` points `WS_RELAY_URL` at `http://ais-relay:3004`, a Docker-internal name,
+> so every relay attempt fails immediately. Measured 2026-08-08: 36 of 36 relay retries in one
+> cold digest build failed this way (`[feed-fetch] … relay_fail=network/SSRF`). Feeds that need
+> the fallback simply return nothing.
+>
+> This is a design mismatch rather than a bug in either half. The sidecar assumes the relay is
+> reachable at a public address (as it is on Railway); compose wires an internal one. The guard is
+> working as intended — `local-api-server.mjs` deliberately provides **no env-var path** to widen
+> its allowlist, so this cannot be fixed by configuration alone.
+>
+> Nothing else is affected: the AIS/vessel relay routes use their own path and are unaffected, and
+> the digest still serves every feed whose direct fetch succeeds. To confirm the state on your own
+> stack, grep a cold build for `relay_fail`:
+>
+> ```bash
+> docker compose logs worldmonitor | grep -o '\[feed-fetch\].*relay_fail=[^ ]*'
+> ```
+
 ## 🔨 Building from Source
 
 ```bash

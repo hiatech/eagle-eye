@@ -1081,3 +1081,29 @@ Kalan 17'nin hepsi gerçek: 15 `http-error` (upstream reddediyor), 2 `not-rss` (
 **Ölçüm disiplini notu:** ara koşulardan biri 43 sorun / 248 haber verdi ve düzeltmeyi
 gerileme sanmama yol açtı. Değildi — koşu varyansıydı. Bu oturumda üçüncü kez: tek koşu
 karar vermeye yetmiyor, log ise yetiyor.
+
+### 📌 Faz 6.5 devamı — relay boşluğu belgelendi, sınır gevşetilmedi (2026-08-08)
+
+6.5 üç seçenek bırakmıştı. Üçü de araştırıldı ve ikisi elendi:
+
+**"Relay'i izin verilen bir adresten sun" — Docker'da uygulanabilir değil.** Konteynerler ayrı
+ağ ad alanlarında; app konteynerinin `127.0.0.1`'i relay'e ulaşmaz. Yayınlanmış port da host
+loopback'i, konteyner içinden görünmüyor.
+
+**"Programatik yol aç" — deponun açık kararına aykırı.** `local-api-server.mjs`'teki yorum
+env üzerinden genişletmeyi yasaklıyor ve gerekçesi yazılı.
+
+Ayrıca sidecar'ın tasarımı okundu: `ALLOW_PRIVATE_NETWORK_FETCH` opt-in'i **yalnızca** yerel LLM
+keşfi için kullanılıyor (Ollama/LLM uçları), ve relay URL'inin kendi **doğrulama probu bile**
+onu geçmiyor (`local-api-server.mjs:1243`). Yani sidecar relay'in **public** adreste olduğunu
+varsayıyor — Railway'de öyle. `docker-compose.yml` ise dahili ad veriyor. Bu bir tasarım
+uyuşmazlığı, iki tarafın da hatası değil.
+
+**Yapılan:** `SELF_HOSTING.md`'ye uyarı bloğu eklendi — operatör artık yedeğin çalışmadığını,
+neden çalışmadığını ve kendi yığınında nasıl doğrulayacağını (`relay_fail` grep'i) biliyor.
+Sınıra dokunulmadı.
+
+Bu, roadmap'in kaydettiği dördüncü "belgelenmiş ama self-host'ta sessizce çalışmayan" davranış
+(`RELAY_SHARED_SECRET`, `WM_SESSION_SECRET`, `UPSTASH_ALLOW_INSECURE_HTTP`, şimdi relay yedeği).
+Ortak desen: Vercel/Railway için yazılmış bir varsayım Docker'a taşınırken sessizce düşüyor ve
+dışarıdan sağlıklı görünüyor.
