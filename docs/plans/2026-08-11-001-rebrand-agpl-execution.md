@@ -91,8 +91,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 
 | # | Adım | Durum | Commit |
 |---|---|---|---|
-| C0 | Yol haritası durumunu gerçeğe eşitle + bu dosyayı yeniden yaz | DONE | *(bu commit)* |
-| C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | TODO | — |
+| C0 | Yol haritası durumunu gerçeğe eşitle + bu dosyayı yeniden yaz | DONE | `daf662063` |
+| C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | *(bu commit)* |
 | C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | TODO | — |
 | C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | TODO | — |
 | C4 | `middleware.ts:202,218` crawler stub + JSON-LD | TODO | — |
@@ -161,3 +161,33 @@ oysa bloke eden değerlerin çoğu (marka, domain) §13 için hiç gerekli deği
 test veya script referans vermiyor (grep: 0 eşleşme). Yine de ortak kapı koşuldu.
 
 **Sıradaki.** C1 — `NOTICE` + `LICENSE` telif satırı + `README` fork banner.
+
+---
+
+### 2026-08-11 · C1 · fork'un değişiklik bildirimi ve kaynak teklifi kaydedildi
+
+**Ne yapıldı.** AGPL §5(a) "değiştirdim + tarih" bildirimi hiçbir yerde yoktu ve kök dizinde
+`NOTICE` yoktu. Üçü de eklendi — hepsi **toplamsal**, hiçbir mevcut telif silinmedi.
+
+**Dokunulan dosyalar.**
+- `NOTICE` (yeni) — upstream telifi + AGPL-3.0-only, fork telifi (Hiatech), fork noktası
+  (`d9a65dd`) ve neyin değiştiği, §13 Corresponding Source adresi
+  (`https://github.com/hiatech/worldmonitor`), 4 MIT alt-lisansa işaret, veri kaynaklarının
+  kendi lisanslarına yönlendirme.
+- `LICENSE` — 2. satırın altına `Copyright (C) 2026 Hiatech (modifications — see NOTICE)`.
+  Diff saf ekleme; `Copyright (C) 2024-2026 Elie Habib` satırı context olarak geçti,
+  byte-identical.
+- `README.md` — H1'in altına fork banner'ı (upstream'e link, "not endorsed by", NOTICE'a
+  yönlendirme), telif bölümüne Hiatech satırı eklendi.
+
+**Doğrulama.** Ortak kapı yeşil. `npm run docs:check` → *150 doc claims match code* (README
+`docs-stats` iddia hedefi; banner sayısal regex'leri bozmadı). `markdownlint README.md` →
+0 hata. `npm run lint:public-docs` → geçti (README `docs/plans/`'a link vermiyor).
+
+**Not.** `NOTICE` hiçbir yerde paketlenmiyor, Docker'a kopyalanmıyor ve hiçbir test onu
+asserte etmiyor — denetimde doğrulandı. Yani dosya bugün yalnızca depoda duruyor; deploy
+edilen imajda görünmesi isteniyorsa ayrıca `Dockerfile`'a `COPY` gerekir. §13 yükümlülüğünü
+karşılayan şey zaten arayüzdeki kaynak linki (C2–C5), `NOTICE` değil.
+
+**Sıradaki.** C2 — `panel-layout.ts:946,1131` kaynak linki + `e2e:239`.
+**Hatırlatma:** C2 ön koşulu — `github.com/hiatech/worldmonitor` public olmalı.

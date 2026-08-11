@@ -1,0 +1,50 @@
+World Monitor
+=============
+
+Upstream work
+-------------
+World Monitor — Real-time global intelligence dashboard
+Copyright (C) 2024-2026 Elie Habib
+Upstream source: https://github.com/koala73/worldmonitor
+
+Licensed under the GNU Affero General Public License, version 3 only
+(AGPL-3.0-only). The complete license text is in LICENSE.
+
+
+This distribution
+-----------------
+Copyright (C) 2026 Hiatech
+
+This is a MODIFIED version of World Monitor, maintained by Hiatech. It is not
+endorsed by, affiliated with, or supported by the upstream project or its
+authors.
+
+Modifications since the fork point (upstream commit d9a65dd) include additional
+multilingual news feeds and ingestion sources, changes to digest assembly and
+feed-fetch behaviour, and deployment and operational configuration for this
+instance. CHANGELOG.md and the git commit history are the complete, dated
+record of what changed.
+
+
+Corresponding Source (AGPL-3.0-only, section 13)
+------------------------------------------------
+Section 13 requires that users interacting with a modified version over a
+network be offered the Corresponding Source of THAT version. For any network
+server running this distribution, that source is available to all users, free
+of charge, from:
+
+    https://github.com/hiatech/worldmonitor
+
+
+Other licenses
+--------------
+The client packages are licensed under the MIT License and carry their own
+copyright notices, which this file neither modifies nor supersedes:
+
+    cli/LICENSE
+    sdk/go/LICENSE
+    sdk/python/LICENSE
+    sdk/ruby/LICENSE
+
+Third-party data sources retain their own licenses and attribution
+requirements; see docs/data-sources.mdx for the audited source catalog.

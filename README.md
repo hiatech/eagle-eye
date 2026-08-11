@@ -1,5 +1,12 @@
 # World Monitor
 
+> **This is a modified fork.** Maintained by Hiatech at
+> [hiatech/worldmonitor](https://github.com/hiatech/worldmonitor), forked from
+> [koala73/worldmonitor](https://github.com/koala73/worldmonitor) at `d9a65dd`. It is not
+> endorsed by or affiliated with the upstream project. Changes since the fork point are
+> recorded in the git history; see [NOTICE](NOTICE) for attribution and the AGPL-3.0-only
+> section 13 source offer.
+
 [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
 **Real-time global intelligence dashboard** — AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface.
@@ -177,6 +184,7 @@ npm run build:full       # Production build
 See [LICENSE](LICENSE) for the full code license and [docs/license.mdx](docs/license.mdx) for a plain-language summary. Commercial licensing is available as an alternative option for teams that need non-AGPL terms.
 
 Copyright (C) 2024-2026 Elie Habib. All rights reserved.
+Copyright (C) 2026 Hiatech — modifications in this fork. See [NOTICE](NOTICE).
 
 ---
 
