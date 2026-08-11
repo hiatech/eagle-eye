@@ -199,7 +199,7 @@ export default function middleware(request: Request) {
               url: 'https://www.worldmonitor.app/',
             },
             sameAs: [
-              'https://github.com/koala73/worldmonitor',
+              'https://github.com/hiatech/worldmonitor',
               'https://x.com/worldmonitorai',
             ],
           })}</script>` : '';
@@ -215,7 +215,7 @@ export default function middleware(request: Request) {
 <li><a href="https://happy.worldmonitor.app/dashboard">Happy Monitor</a></li>
 <li><a href="https://www.worldmonitor.app/pro">World Monitor Pro</a></li>
 <li><a href="https://www.worldmonitor.app/blog/">Blog</a></li>
-<li><a href="https://github.com/koala73/worldmonitor">Open source on GitHub</a></li>
+<li><a href="https://github.com/hiatech/worldmonitor">Open source on GitHub</a></li>
 </ul>
 <h2>Sources</h2>
 <p>Data ingested live from 588+ observed upstream hosts, including <a href="https://acleddata.com/">ACLED</a>, <a href="https://ucdp.uu.se/">UCDP</a>, <a href="https://firms.modaps.eosdis.nasa.gov/">NASA FIRMS</a>, <a href="https://earthquake.usgs.gov/">USGS</a>, <a href="https://opensky-network.org/">OpenSky</a>, <a href="https://aisstream.io/">AISStream</a>, <a href="https://fred.stlouisfed.org/">FRED</a>, <a href="https://www.imf.org/en/Data">IMF</a>, and <a href="https://www.bis.org/">BIS</a>. See the <a href="https://www.worldmonitor.app/docs/data-sources">audited source catalog</a> for the complete inventory and license posture.</p>` : '';

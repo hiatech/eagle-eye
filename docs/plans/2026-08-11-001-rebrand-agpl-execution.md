@@ -94,8 +94,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | C0 | Yol haritası durumunu gerçeğe eşitle + bu dosyayı yeniden yaz | DONE | `daf662063` |
 | C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | `1cb066793` |
 | C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | `9f48cba3a` |
-| C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | *(bu commit)* |
-| C4 | `middleware.ts:202,218` crawler stub + JSON-LD | TODO | — |
+| C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | `382d26b5d` |
+| C4 | `middleware.ts:202,218` crawler stub + JSON-LD | DONE | *(bu commit)* |
 | C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | TODO | — |
 | C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | TODO | — |
 | C7 | Roadmap'te B2'yi ✅ yap | TODO | — |
@@ -255,3 +255,19 @@ etmek mevcut durumdan daha yanlış olurdu. Aynı hash'li bloklarda oldukları i
 değiştirilirlerse **bu commit'in yaptığı gibi** CSP güncellemesiyle aynı commit'te olmalı.
 
 **Sıradaki.** C4 — `middleware.ts:202,218` crawler stub + JSON-LD.
+
+---
+
+### 2026-08-11 · C4 · crawler ve AI ajanları fork kaynağını görüyor
+
+**Ne yapıldı.** `middleware.ts` bot/AI user-agent'lara ayrı bir HTML stub ve JSON-LD servis
+ediyor; ikisi de upstream'i gösteriyordu. Bu yüzey özellikle önemli çünkü LLM ajanlarının
+"bu ürünün kaynağı nerede" sorusuna aldığı cevap burası.
+- `middleware.ts:202` — crawler JSON-LD `sameAs[0]` → `hiatech/worldmonitor`
+- `middleware.ts:218` — `<li><a …>Open source on GitHub</a>` → `hiatech/worldmonitor`
+
+**Doğrulama.** Ortak kapı yeşil. `middleware-bot-gate` + `seo-landing-metadata` →
+**67/67 geçti**. `docs:check` → 150 iddia eşleşti; `:221`'deki `588+ observed upstream hosts`
+sayısı `docs-stats` iddia hedefi olduğu için ayrıca kontrol edildi, bozulmadı.
+
+**Sıradaki.** C5 — `/pro` yüzeyleri + tam `pro-test` rebuild.
