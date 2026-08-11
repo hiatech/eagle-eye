@@ -95,8 +95,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | `1cb066793` |
 | C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | `9f48cba3a` |
 | C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | `382d26b5d` |
-| C4 | `middleware.ts:202,218` crawler stub + JSON-LD | DONE | *(bu commit)* |
-| C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | TODO | — |
+| C4 | `middleware.ts:202,218` crawler stub + JSON-LD | DONE | `a208d6553` |
+| C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | DONE | *(bu commit)* |
 | C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | TODO | — |
 | C7 | Roadmap'te B2'yi ✅ yap | TODO | — |
 
@@ -271,3 +271,35 @@ ediyor; ikisi de upstream'i gösteriyordu. Bu yüzey özellikle önemli çünkü
 sayısı `docs-stats` iddia hedefi olduğu için ayrıca kontrol edildi, bozulmadı.
 
 **Sıradaki.** C5 — `/pro` yüzeyleri + tam `pro-test` rebuild.
+
+---
+
+### 2026-08-11 · C5 · /pro ve welcome sayfaları fork kaynağını gösteriyor
+
+**Ne yapıldı.** 6 kaynak dosyada 8 referans çevrildi: `pro-test/index.html` (2 — JSON-LD
+`sameAs[0]` ve noscript "full source on GitHub (AGPL-3.0)"), `pro-test/welcome.html` (2, aynı
+ikisi), `pro-test/src/App.tsx:1337`, `pro-test/prerender.mjs:20` (`WM_SAMEAS[0]`),
+`pro-test/src/welcome/Hero.tsx:151`, `pro-test/src/components/Footer.tsx:22`.
+
+**`pro-test/src/welcome/Agents.tsx:11` kasıtlı olarak bırakıldı** —
+`go get github.com/koala73/worldmonitor/sdk/go` yayınlanmış Go modül kimliği; değiştirmek
+modülü öksüz bırakır. `tests/sdk-packages.test.mjs:68` ve `tests/agent-mode-view.test.mjs:57`
+kilitliyor. Build sonrası `public/pro/`'da kalan tek `koala73` referansı bu — grep'le
+doğrulandı, hepsi `/sdk/go` ekli.
+
+**Üretilen çıktı.** CI sırası yerelde tekrarlandı: `npm run product:facts` (yeni bir şey
+yazmadı) → `cd pro-test && npm run build`. `public/pro/`: 2 değişen, 3 silinen, 3 yeni
+(içerik-hash'li asset adları döndü). Üçü de commit'e alındı — `pro-bundle-freshness.yml`
+hem `git diff --exit-code` hem `git ls-files --others` kontrolü yapıyor.
+
+**Testler aynı commit'te.** `tests/indexable-content-visibility.test.mjs:63` (pro welcome
+kök HTML'i), `e2e/prehydration-shell.spec.ts:384` ve `:478` (`#root footer` görünürlük
+assert'leri).
+
+**Doğrulama.** Ortak kapı yeşil. `indexable-content-visibility` + `deploy-config` +
+`public-product-facts` + `agent-mode-view` + `sdk-packages` → **202/202 geçti**.
+`product:facts:check` OK. `deploy-config` özellikle önemliydi: `public/pro/*.html`
+CSP hash kümesinde, rebuild'in her inline script'i nonce'lu bırakması gerekiyordu — bıraktı,
+token kümesi değişmedi.
+
+**Sıradaki.** C6 — `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image adı, airline User-Agent.

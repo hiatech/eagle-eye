@@ -17,7 +17,7 @@ const STATIC_SCRIPT_NONCE = 'wm-static-bootstrap';
 // /pro can't drift. Nonce'd to match the static-bootstrap CSP trust (otherwise
 // deploy-config.test.mjs would demand a script-src sha256 hash for it).
 const WM_SAMEAS = [
-  'https://github.com/koala73/worldmonitor',
+  'https://github.com/hiatech/worldmonitor',
   'https://www.npmjs.com/package/worldmonitor',
   'https://x.com/worldmonitorai',
   'https://x.com/eliehabib',

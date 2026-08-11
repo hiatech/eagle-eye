@@ -60,7 +60,7 @@ test('apex HTML exposes one visible SSR content hierarchy and all primary refere
     '/blog/',
     '/docs',
     '/pro#pricing',
-    'https://github.com/koala73/worldmonitor',
+    'https://github.com/hiatech/worldmonitor',
   ]) {
     assert.ok(root.includes(href), `visible welcome content should link to ${href}`);
   }
