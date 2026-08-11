@@ -25,7 +25,7 @@ gazetecilik olmayabiliyor.
 | 3 | GDELT çok dilli açılım | ✅ Tamam (plandan farklı rotayla) |
 | 4 | Yerel RSS kaynak genişletmesi | ✅ Tamam (4.0/4.1/4.1b/4.2/4.2b–4.2f) |
 | 5 | Yeni açık kaynak API'leri | ❌ Başlamadı |
-| 6 | Altyapı sağlamlaştırma | 🟡 6.1–6.5 tamam · **B2 (AGPL §13) açık** |
+| 6 | Altyapı sağlamlaştırma | ✅ Blokerler kapandı (6.1–6.5 · B2 · B3) |
 
 > Durum sütunu 2026-08-11'de yeniden doğrulandı. Faz 4 ve 6 satırları bayattı: 4.2b–4.2f ve
 > 6.1–6.5 aşağıda ✅ kayıtlıydı ama tabloya yansımamıştı. Aynı gün başlıklardaki
@@ -282,9 +282,9 @@ cache key + handler.
 
 ## Faz 6 — Altyapı 🟡 — **canlıya çıkışın gerçek blokerleri burada**
 
-> 6.1–6.5 tamamlandı (kayıtları aşağıda, "### ✅ Faz 6.1" başlığından itibaren). Açık kalan tek bloker
-> **B2 (AGPL §13)** — 2026-08-11'de yürütmeye alındı, kaydı
-> `2026-08-11-001-rebrand-agpl-execution.md` dosyasında.
+> 6.1–6.5 tamamlandı (kayıtları aşağıda, "### ✅ Faz 6.1" başlığından itibaren). Son bloker
+> **B2 (AGPL §13)** 2026-08-11'de kapandı — kaydı
+> `2026-08-11-001-rebrand-agpl-execution.md` dosyasında. Kalan maddeler bloker değil.
 
 Aşağıdaki ilk iki madde bilgi eksikliğinden bekliyor: **fork'un herkese açık repo adresi** ve
 **deploy edilecek domain**. İkisi bilinmeden doğru yapılamaz, tahminle yapılırsa yanlış olur.
@@ -317,7 +317,19 @@ localhost da düşer. Domain bilinince tek dosyada çözülür.
 `src/locales/`), ama işlevsel merkez `src/config/web-origin.ts:15` (`WEB_APP_ORIGIN`, 10
 tüketici). Marka sökme işi bundan çok daha büyük ve **canlıya çıkmak için zorunlu değil.**
 
-### B2 — AGPL §13: kaynak kodu linki upstream'i gösteriyor 🔴
+### B2 — AGPL §13: kaynak kodu linki upstream'i gösteriyor ✅ çözüldü (2026-08-11)
+
+> **Kapandı.** Aşağıdaki teşhis olduğu gibi doğruydu ve tarihsel kayıt olarak bırakıldı.
+> Yürütme `2026-08-11-001-rebrand-agpl-execution.md` dosyasında (C0–C7, yedi commit).
+> Aşağıda listelenen linklerden `panel-layout.ts:946/:1131`, `index.html:137/163/438` ve
+> `middleware.ts:202/218` fork'a çevrildi; `/pro` yüzeyleri de eklendi. Kök `NOTICE`
+> yazıldı, `LICENSE`'a Hiatech telif satırı **eklendi** (Elie Habib satırı byte-identical
+> korundu). Teşhisin saymadığı iki yüzey vardı: `/pro` + welcome sayfaları ve crawler/AI
+> stub'ı — ikisi de kullanıcıya görünen kaynak teklifi.
+>
+> `preferences-content.ts:33` ve `desktop-updater.ts:103` **bilinçli olarak** upstream'de
+> bırakıldı: onlar kaynak teklifi değil binary indirme yolu ve fork release yayınlamadan
+> çevirmek `/api/download`'ı kırar.
 
 Arayüzdeki tüm kaynak linkleri `koala73/worldmonitor`'a gidiyor:
 `src/app/panel-layout.ts:946` ve `:1131`, `index.html:137/163/438`,
@@ -1129,12 +1141,16 @@ Faz 4 ve 6.1–6.5 kapalı. Canlıya çıkışın önünde duran tek iş **B2 (A
 bilgi eksikliğinden beklemiyor: `origin` zaten `github.com/hiatech/worldmonitor`, yani
 B2'nin "fork'un repo adresi belli olsun" ön koşulu çözülmüş durumda.
 
-1. **B2 — AGPL §13 uyumu.** Yürütmeye alındı; adım tablosu ve checkpoint kaydı
-   `2026-08-11-001-rebrand-agpl-execution.md` dosyasında. Kapsam **sadece §13 + §5(a)**:
-   kaynak linkleri fork'a, kök `NOTICE`, `LICENSE`'a eklemeli telif satırı. Rebrand dahil
-   **değil**. Ön koşul: `hiatech/worldmonitor` public olmalı — deploy'dan önce.
+1. ~~**B2 — AGPL §13 uyumu.**~~ ✅ Kapandı (C0–C7, yedi commit; kaydı
+   `2026-08-11-001-rebrand-agpl-execution.md`). Kapsam §13 + §5(a) ile sınırlı tutuldu:
+   kaynak linkleri fork'a, kök `NOTICE`, `LICENSE`'a **eklemeli** telif satırı.
 2. **Faz 5** (Wikinews / Mastodon / Bluesky).
 3. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci gerekiyorsa.
+
+**B2 sonrası açık kalan, bilinçli ertelenmiş üç madde** (detayı yürütme kaydında):
+`scripts/railway-cli.mjs:19` `REPOSITORY` hâlâ upstream'i gösteriyor ve doğru değer
+Hiatech'in Railway projesine bağlı · `api/_github-release.js` upstream release'lerini
+sunuyor, fork release yayınlayana kadar çevrilemez · rebrand'ın tamamı.
 
 **Marka değişimi bilinçli olarak ertelendi.** 2026-08-11 denetimi ölçtü: 5.760 `worldmonitor.app`
 literali, 2.968 "World Monitor", 3.086 "WorldMonitor" (927'si dokunulmaması gereken

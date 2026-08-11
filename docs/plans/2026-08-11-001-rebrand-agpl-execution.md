@@ -97,8 +97,10 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | `382d26b5d` |
 | C4 | `middleware.ts:202,218` crawler stub + JSON-LD | DONE | `a208d6553` |
 | C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | DONE | `e953eb981` |
-| C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | DONE | *(bu commit)* |
-| C7 | Roadmap'te B2'yi ✅ yap | TODO | — |
+| C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | DONE | `55097414f` |
+| C7 | Roadmap'te B2'yi ✅ yap | DONE | *(bu commit)* |
+
+**Tüm adımlar tamamlandı.** Kalan iş `git push` — kullanıcı onayı gerektiriyor.
 
 ### Ertelenenler (bu plana dahil değil)
 
@@ -336,3 +338,32 @@ lisans sayfasında da korundu — yayınlanmış Go modül kimliği.
 bu link 404 verir; etkinleştirin veya o girdiyi silin.
 
 **Sıradaki.** C7 — roadmap'te B2'yi ✅ yap.
+
+---
+
+### 2026-08-11 · C7 · B2 kapandı, son doğrulama
+
+**Ne yapıldı.** `2026-08-07-001-feat-fork-multilingual-roadmap.md`: B2 başlığı 🔴 → ✅,
+altına kapanış notu (teşhisin saymadığı iki yüzey — `/pro` ve crawler stub'ı — kayda
+geçirildi); özet tabloda Faz 6 → ✅ blokerler kapandı; "Sıradaki adım (2026-08-11)"
+bölümünde B2 üstü çizildi ve ertelenen üç madde listelendi.
+
+**Son doğrulama.**
+- Ortak kapı yeşil.
+- Hedefli test kümesi (10 dosya): `deploy-config`, `variant-inline-bootstrap`,
+  `indexable-content-visibility`, `public-product-facts`, `middleware-bot-gate`,
+  `sdk-packages`, `agent-mode-view`, `generate-airline-codes`, `seo-landing-metadata`,
+  `blog-seo-contract` → **279/279 geçti, 0 hata**.
+- `docs:check` 150 iddia · `product:facts:check` OK.
+- `pro-test` rebuild idempotent (commit sonrası tekrar derlendi, diff boş).
+- Kullanıcıya görünen yüzeylerde `koala73/worldmonitor` kalmadı — grep'le doğrulandı.
+  Kalan iki referans (`desktop-updater.ts:103`, `preferences-content.ts:33`) bilinçli
+  ertelenen binary indirme yolları.
+- Korunması gereken telifler yerinde: `LICENSE:2` ve dört MIT alt-lisansı byte-identical.
+
+**Yapılmayan.** `git push` — ASLA listesi gereği kullanıcı onayı bekliyor. Dal:
+`rebrand/agpl-compliance`, 8 commit (`daf662063`…).
+
+**§13 için kalan tek gerçek koşul:** dağıtılan sürümün kaynağı fork deposunda **yayınlanmış**
+olmalı. Linkler artık doğru yeri gösteriyor; deploy'dan önce bu dalın push edilmiş olması
+şart, aksi halde link doğru ama içerik eksik olur.
