@@ -96,8 +96,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | `9f48cba3a` |
 | C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | `382d26b5d` |
 | C4 | `middleware.ts:202,218` crawler stub + JSON-LD | DONE | `a208d6553` |
-| C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | DONE | *(bu commit)* |
-| C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | TODO | — |
+| C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | DONE | `e953eb981` |
+| C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | DONE | *(bu commit)* |
 | C7 | Roadmap'te B2'yi ✅ yap | TODO | — |
 
 ### Ertelenenler (bu plana dahil değil)
@@ -303,3 +303,36 @@ CSP hash kümesinde, rebuild'in her inline script'i nonce'lu bırakması gerekiy
 token kümesi değişmedi.
 
 **Sıradaki.** C6 — `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image adı, airline User-Agent.
+
+---
+
+### 2026-08-11 · C6 · kamuya açık lisans ve altyapı kimlik referansları
+
+**Ne yapıldı.** §13'ün kendisi değil, ona bitişik doğruluk düzeltmeleri:
+- `docs/license.mdx:8` ve `docs/zh/license.mdx:8` — `/docs/license` canlı sayfası
+  upstream'in `LICENSE` dosyasına link veriyordu; artık fork'un (Hiatech telif satırını
+  taşıyan) LICENSE'ına gidiyor.
+- `docs/license.mdx:55`, `docs/zh/license.mdx:53` — "maintainer ile iletişim" linki fork'a.
+- `.github/ISSUE_TEMPLATE/config.yml` — fork kullanıcılarını upstream'in tracker'ına
+  yollamayı bıraktı.
+- `.github/workflows/docker-publish.yml:31` — `ghcr.io/koala73/worldmonitor` →
+  `ghcr.io/${{ github.repository }}`. Fork'un `GITHUB_TOKEN`'ı `koala73` ad alanına
+  yazamadığı için bu bir güvenlik açığı değildi; sessiz bir arıza idi — ilk Release'te
+  4 platformluk build CI dakikası yakıp 403 ile düşecekti. İfade artık kendi kendini
+  düzeltiyor, ayrıca `Dockerfile.umami:129` `image.source` label'ı da düzeltildi (GHCR paket
+  bağını o label kuruyor, yanlış beyan ediyordu).
+- `scripts/generate-airline-codes.mjs:8` + `tests/generate-airline-codes.test.mts:66` —
+  outbound `User-Agent`. Üçüncü taraf bir veri sağlayıcıya kendimizi upstream diye
+  tanıtıyorduk; bu bir nezaket sorunuydu.
+
+**Dokunulmayanlar.** `pkg.go.dev/github.com/koala73/worldmonitor/sdk/go` linkleri iki
+lisans sayfasında da korundu — yayınlanmış Go modül kimliği.
+
+**Doğrulama.** Ortak kapı yeşil · `lint:mintlify-slugs` geçti · `docs:check` 150 iddia ·
+`generate-airline-codes` 3/3 geçti.
+
+**Açık kalan küçük risk.** ISSUE_TEMPLATE'teki Discussions linki
+`hiatech/worldmonitor/discussions` adresini gösteriyor. Fork'ta Discussions **etkin değilse**
+bu link 404 verir; etkinleştirin veya o girdiyi silin.
+
+**Sıradaki.** C7 — roadmap'te B2'yi ✅ yap.
