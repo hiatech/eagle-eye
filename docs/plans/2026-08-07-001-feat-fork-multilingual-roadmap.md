@@ -23,9 +23,14 @@ gazetecilik olmayabiliyor.
 | 1 | Veriyi akıt, referans noktası oluştur | ✅ Tamam (2026-08-07) |
 | 2 | Ölç ve önceliklendir | ✅ Tamam (+ sertleştirildi) |
 | 3 | GDELT çok dilli açılım | ✅ Tamam (plandan farklı rotayla) |
-| 4 | Yerel RSS kaynak genişletmesi | 🟢 4.0/4.1/4.1b/4.2 tamam |
+| 4 | Yerel RSS kaynak genişletmesi | ✅ Tamam (4.0/4.1/4.1b/4.2/4.2b–4.2f) |
 | 5 | Yeni açık kaynak API'leri | ❌ Başlamadı |
-| 6 | Altyapı sağlamlaştırma | ❌ Başlamadı |
+| 6 | Altyapı sağlamlaştırma | 🟡 6.1–6.5 tamam · **B2 (AGPL §13) açık** |
+
+> Durum sütunu 2026-08-11'de yeniden doğrulandı. Faz 4 ve 6 satırları bayattı: 4.2b–4.2f ve
+> 6.1–6.5 aşağıda ✅ kayıtlıydı ama tabloya yansımamıştı. Aynı gün başlıklardaki
+> "Faz 4 🟡 ~%10" ve "Faz 6 ❌" etiketleri de düzeltildi. Bu dosyanın hiçbir testi yok —
+> durum kayıtları elle tutulur ve bu yüzden bayatlar.
 
 ---
 
@@ -103,7 +108,11 @@ Canlı doğrulama: **58 → 136 olay** (+78, 0 GlobalEventID çakışması).
 key'de dil boyutu yok. Sızıntı riski yok (istek parametresi değil), ama kullanıcıya "kaynak
 dili" filtresi de sunulamıyor. Dil boyutu isteniyorsa olay şemasına `sourceLang` eklenmeli.
 
-## Faz 4 — Yerel RSS kaynak genişletmesi 🟡 ~%10
+## Faz 4 — Yerel RSS kaynak genişletmesi ✅ Kapandı
+
+> Bu bölüm fazın **başlangıç** durumunu (~%10) anlatır ve tarihsel kayıt olarak bırakıldı.
+> Faz 4.0/4.1/4.1b/4.2/4.2b–4.2f ile kapandı; kapanış kaydı "Önerilen sıradaki adım
+> (2026-08-08 itibarıyla)" bölümünde.
 
 `2aa8798` yalnızca **3 boşluğu** kapattı: `fa` istemci etiketi, `ar` ve `pt` sunucu aynası.
 Bu bir genişletme değil, asimetri onarımıydı. Hedef dillerin bugünkü yerel kaynak sayısı:
@@ -271,7 +280,11 @@ Wikinews (30+ dil, CC-BY, anahtarsız) · Mastodon (federe, yerel dil toplulukla
 Bluesky/AT Protocol (ücretsiz firehose). Her biri: `scripts/seed-*.mjs` + `runSeed()` +
 cache key + handler.
 
-## Faz 6 — Altyapı ❌ — **canlıya çıkışın gerçek blokerleri burada**
+## Faz 6 — Altyapı 🟡 — **canlıya çıkışın gerçek blokerleri burada**
+
+> 6.1–6.5 tamamlandı (kayıtları aşağıda, "### ✅ Faz 6.1" başlığından itibaren). Açık kalan tek bloker
+> **B2 (AGPL §13)** — 2026-08-11'de yürütmeye alındı, kaydı
+> `2026-08-11-001-rebrand-agpl-execution.md` dosyasında.
 
 Aşağıdaki ilk iki madde bilgi eksikliğinden bekliyor: **fork'un herkese açık repo adresi** ve
 **deploy edilecek domain**. İkisi bilinmeden doğru yapılamaz, tahminle yapılırsa yanlış olur.
@@ -351,7 +364,7 @@ Düşman gözüyle inceleme 10 kusur çıkardı, hepsi düzeltildi. Fazlarla ilg
 - **Bütçe invariantı:** `seed-gdelt-bulk-materializer` `lockTtlMs` ayarlamıyor (120s varsayılan)
   ve hiçbir test bütçesini bağlamıyordu. Dördüncü bir akış eklenirse sessizce aşacaktı.
 
-## Önerilen sıradaki adım
+## Önerilen sıradaki adım (2026-08-07 itibarıyla — aşıldı)
 
 Faz 1 kapandı, referans noktası var, self-host blokerleri (B3) çözüldü. Canlıya çıkışın
 önünde artık **tek** iş kaldı ve o da sizin elinizde: fork'u yayınlamak (B2).
@@ -538,7 +551,7 @@ Kapı: `tests/digest-native-language-reserve.test.mts` (7 test) — doygun kateg
 dolduğunu, boş kotanın geri verildiğini, `en`'de kapalı olduğunu ve liyakat üstünlüğünün
 korunduğunu bağlıyor.
 
-## Önerilen sıradaki adım (güncel)
+## Önerilen sıradaki adım (2026-08-08 itibarıyla — aşıldı)
 
 Faz 4 artık gerçekten kapalı: katalog **ve** onu görünür kılan sıralama. Kalanlar:
 
@@ -1107,3 +1120,24 @@ Bu, roadmap'in kaydettiği dördüncü "belgelenmiş ama self-host'ta sessizce �
 (`RELAY_SHARED_SECRET`, `WM_SESSION_SECRET`, `UPSTASH_ALLOW_INSECURE_HTTP`, şimdi relay yedeği).
 Ortak desen: Vercel/Railway için yazılmış bir varsayım Docker'a taşınırken sessizce düşüyor ve
 dışarıdan sağlıklı görünüyor.
+
+---
+
+## Sıradaki adım (2026-08-11)
+
+Faz 4 ve 6.1–6.5 kapalı. Canlıya çıkışın önünde duran tek iş **B2 (AGPL §13)** ve artık
+bilgi eksikliğinden beklemiyor: `origin` zaten `github.com/hiatech/worldmonitor`, yani
+B2'nin "fork'un repo adresi belli olsun" ön koşulu çözülmüş durumda.
+
+1. **B2 — AGPL §13 uyumu.** Yürütmeye alındı; adım tablosu ve checkpoint kaydı
+   `2026-08-11-001-rebrand-agpl-execution.md` dosyasında. Kapsam **sadece §13 + §5(a)**:
+   kaynak linkleri fork'a, kök `NOTICE`, `LICENSE`'a eklemeli telif satırı. Rebrand dahil
+   **değil**. Ön koşul: `hiatech/worldmonitor` public olmalı — deploy'dan önce.
+2. **Faz 5** (Wikinews / Mastodon / Bluesky).
+3. **B1 — CORS**, yalnızca embed / ayrı `api.` alt alan adı / masaüstü istemci gerekiyorsa.
+
+**Marka değişimi bilinçli olarak ertelendi.** 2026-08-11 denetimi ölçtü: 5.760 `worldmonitor.app`
+literali, 2.968 "World Monitor", 3.086 "WorldMonitor" (927'si dokunulmaması gereken
+`X-WorldMonitor-*` HTTP başlığı). B1'in yukarıdaki "218 dosya" tahmini yalnızca domain'i ve
+yalnızca bir alt kümesini sayıyormuş. Rebrand §13 için **gerekli değil** ve ayrı bir plan
+olarak ele alınacak.
