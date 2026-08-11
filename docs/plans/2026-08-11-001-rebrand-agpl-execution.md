@@ -92,8 +92,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | # | Adım | Durum | Commit |
 |---|---|---|---|
 | C0 | Yol haritası durumunu gerçeğe eşitle + bu dosyayı yeniden yaz | DONE | `daf662063` |
-| C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | *(bu commit)* |
-| C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | TODO | — |
+| C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | `1cb066793` |
+| C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | *(bu commit)* |
 | C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | TODO | — |
 | C4 | `middleware.ts:202,218` crawler stub + JSON-LD | TODO | — |
 | C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | TODO | — |
@@ -191,3 +191,32 @@ karşılayan şey zaten arayüzdeki kaynak linki (C2–C5), `NOTICE` değil.
 
 **Sıradaki.** C2 — `panel-layout.ts:946,1131` kaynak linki + `e2e:239`.
 **Hatırlatma:** C2 ön koşulu — `github.com/hiatech/worldmonitor` public olmalı.
+
+---
+
+### 2026-08-11 · C2 · dashboard'un kaynak teklifi fork'u gösteriyor
+
+**Ön koşul.** Kullanıcı `hiatech/worldmonitor`'ın public olduğunu onayladı (2026-08-11).
+Depo görünürlüğü dış servise istek gerektirdiği için ASLA listesi gereği doğrulama
+kullanıcıya soruldu, tahmin edilmedi.
+
+**Ne yapıldı.** §13'ün asıl karşılandığı yer burası: JS çalıştıran her kullanıcının gördüğü
+iki kaynak linki artık çalıştırılan sürümün deposunu gösteriyor.
+- `src/app/panel-layout.ts:946` — header GitHub ikonu → `hiatech/worldmonitor`
+- `src/app/panel-layout.ts:1131` — site footer nav "GitHub" → `hiatech/worldmonitor`
+- `src/app/panel-layout.ts:1122` — footer alt satırına "modified fork by Hiatech" atfı
+  eklendi. `@eliehabib` kredisi **korundu** — §13'ün konusu değil ve §5/§7(b) atfı
+  korumaya işaret ediyor. Yaklaşım toplamsal.
+- `e2e/prehydration-shell.spec.ts:239` — footer href listesi aynı commit'te güncellendi.
+
+**Doğrulama.** Ortak kapı yeşil. Footer'ın tek üretildiği yer `panel-layout.ts:1117`
+olduğu doğrulandı (`index.html`'de statik kopya yok) — yani C2 ile C3 arasında kuplaj yok.
+Eklenen atıf linki `.site-footer-sub` içinde, `nav` dışında; e2e'nin `toHaveCount(1)`
+sayımını bozmuyor. `github-link`/`viewOnGitHub` için tests/ ve e2e/ içinde başka assert yok.
+
+**Kapsam dışı bırakılanlar (bilinçli).** `src/app/desktop-updater.ts:103` ve
+`src/services/preferences-content.ts:33` hâlâ upstream release'lerini gösteriyor. Bunlar
+kaynak teklifi değil binary indirme yolu; fork release yayınlamadan çevirmek indirmeyi
+kırar. Ertelenenler listesinde.
+
+**Sıradaki.** C3 — `index.html` + 3 CSP dosyası (bölünemez commit).
