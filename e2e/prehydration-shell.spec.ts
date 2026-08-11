@@ -495,7 +495,7 @@ test.describe('dashboard shell without JavaScript', () => {
       '/blog/',
       '/docs',
       '/pro#pricing',
-      'https://github.com/koala73/worldmonitor',
+      'https://github.com/hiatech/worldmonitor',
     ]) {
       await expect(page.locator(`#dashboard-noscript a[href="${href}"]`)).toHaveCount(1);
     }

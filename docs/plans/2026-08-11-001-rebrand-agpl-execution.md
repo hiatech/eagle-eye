@@ -93,8 +93,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 |---|---|---|---|
 | C0 | Yol haritası durumunu gerçeğe eşitle + bu dosyayı yeniden yaz | DONE | `daf662063` |
 | C1 | `NOTICE` + `LICENSE` telif satırı + `README` fork banner | DONE | `1cb066793` |
-| C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | *(bu commit)* |
-| C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | TODO | — |
+| C2 | `panel-layout.ts:946,1131` kaynak linki + `e2e:239` | DONE | `9f48cba3a` |
+| C3 | `index.html` (noscript/meta/2×sameAs) + 3 CSP dosyası + 2 test — **bölünemez** | DONE | *(bu commit)* |
 | C4 | `middleware.ts:202,218` crawler stub + JSON-LD | TODO | — |
 | C5 | `/pro` yüzeyleri + tam `pro-test` rebuild + `public/pro/` | TODO | — |
 | C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | TODO | — |
@@ -220,3 +220,38 @@ kaynak teklifi değil binary indirme yolu; fork release yayınlamadan çevirmek 
 kırar. Ertelenenler listesinde.
 
 **Sıradaki.** C3 — `index.html` + 3 CSP dosyası (bölünemez commit).
+
+---
+
+### 2026-08-11 · C3 · no-JS ve yapısal veri yüzeyleri + CSP hash zinciri
+
+**Ne yapıldı.**
+- `index.html:438` — `<noscript>` nav GitHub linki → `hiatech/worldmonitor`
+- `index.html:13` — `meta author` → `Elie Habib, Hiatech` (toplamsal)
+- `index.html:137` (WebApplication `sameAs[0]`) ve `:163` (Organization `sameAs[0]`) →
+  `hiatech/worldmonitor`. İkisi birebir aynı dizeydi, `replace_all` ile değiştirildi;
+  `:112` ve `:160`'taki `github.com/koala73` **kişisel profil** (author/founder Person)
+  olduğu için dokunulmadı.
+- `tests/indexable-content-visibility.test.mjs:96`, `e2e/prehydration-shell.spec.ts:498`
+
+**CSP hash zinciri.** Öngörü doğrulandı: `sameAs` düzenlemesi tam **2** token değiştirdi.
+- WebApplication: `13YxW7lX…` → `qtf+8ujC…`
+- Organization: `qFSeUweak…` → `7XVNmDdl…`
+
+Diğer 6 token (WebSite ld+json, iki prepaint, bare inline, settings/live-channels, offline)
+değişmedi — `meta author` ve noscript düzenlemelerinin script gövdesi dışında olduğu
+doğrulanmış oldu. Üç dosya (`vercel.json`, `docker/nginx.conf`,
+`docker/nginx-security-headers.conf`) tek işlemde güncellendi; base64 token'larda `/` ve `+`
+olduğu için sed yerine tam-dize değişimi kullanıldı.
+
+**Doğrulama.** `deploy-config` + `variant-inline-bootstrap` + `indexable-content-visibility`
+→ **174/174 geçti, 0 hata**. Ortak kapı yeşil. `product:facts:check` → OK (JSON-LD girinti
+bütünlüğü korundu; `rewriteApplicationJsonLd` blokları yeniden serileştirdiği için bu
+kontrol şart). `docs:check` → 150 iddia eşleşti.
+
+**Not.** `index.html:105-116` (author Person) ve `:156-161` (founder Person) bilinçli olarak
+değiştirilmedi. Bunlar §13'ün konusu değil ve değiştirilmiş sürümün yazarını Hiatech ilan
+etmek mevcut durumdan daha yanlış olurdu. Aynı hash'li bloklarda oldukları için ileride
+değiştirilirlerse **bu commit'in yaptığı gibi** CSP güncellemesiyle aynı commit'te olmalı.
+
+**Sıradaki.** C4 — `middleware.ts:202,218` crawler stub + JSON-LD.
