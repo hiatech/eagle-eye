@@ -35,7 +35,7 @@ describe('buildDuplicateSubscriptionBody', () => {
       isProBusinessUpgrade: false,
     });
     assert.ok(body.includes('API Starter'));
-    assert.ok(!body.includes('support@worldmonitor.app'));
+    assert.ok(!body.includes('support@eagle-eye.app'));
   });
 
   it('uses guided upgrade copy for a Pro Business checkout', () => {
@@ -53,7 +53,7 @@ describe('buildDuplicateSubscriptionBody', () => {
     assert.ok(body.includes("already paid for"));
     assert.ok(body.includes('new billing cycle'));
     // Support contact.
-    assert.ok(body.includes('support@worldmonitor.app'));
+    assert.ok(body.includes('support@eagle-eye.app'));
   });
 
   it('still produces a coherent sentence with the fallback plan name', () => {
@@ -75,7 +75,7 @@ describe('cross-app copy parity (dashboard dialog vs /pro dialog)', () => {
     'Pro Business is a separate plan, so the upgrade takes two steps',
     "you don't have to wait for your current term to end",
     'Pro Business starts a new billing cycle as soon as you buy it',
-    'support@worldmonitor.app',
+    'support@eagle-eye.app',
   ];
 
   it('both dialog sources carry the guided-upgrade sentences', async () => {

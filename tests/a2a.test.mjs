@@ -24,7 +24,7 @@ describe('a2a: agent card contract', () => {
     assert.equal(card.protocolVersion, '0.3.0');
     assert.ok(card.name && typeof card.name === 'string');
     assert.ok(card.description && card.description.length > 50, 'description must be substantive');
-    assert.equal(card.url, 'https://www.worldmonitor.app/a2a');
+    assert.equal(card.url, 'https://www.eagle-eye.app/a2a');
     assert.equal(card.preferredTransport, 'JSONRPC');
     assert.ok(card.version && typeof card.version === 'string');
     assert.ok(Array.isArray(card.defaultInputModes) && card.defaultInputModes.length > 0);
@@ -80,7 +80,7 @@ describe('a2a: JSON-RPC endpoint', () => {
 
   function post(body) {
     return handler(
-      new Request('https://worldmonitor.app/a2a', {
+      new Request('https://eagle-eye.app/a2a', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: typeof body === 'string' ? body : JSON.stringify(body),
@@ -175,10 +175,10 @@ describe('a2a: JSON-RPC endpoint', () => {
   });
 
   it('GET → 405 with Allow header; OPTIONS → 204 with CORS', async () => {
-    const get = await handler(new Request('https://worldmonitor.app/a2a', { method: 'GET' }));
+    const get = await handler(new Request('https://eagle-eye.app/a2a', { method: 'GET' }));
     assert.equal(get.status, 405);
     assert.equal(get.headers.get('Allow'), 'POST, OPTIONS');
-    const options = await handler(new Request('https://worldmonitor.app/a2a', { method: 'OPTIONS' }));
+    const options = await handler(new Request('https://eagle-eye.app/a2a', { method: 'OPTIONS' }));
     assert.equal(options.status, 204);
     assert.equal(options.headers.get('Access-Control-Allow-Origin'), '*');
   });

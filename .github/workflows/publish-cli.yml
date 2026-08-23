@@ -1,12 +1,12 @@
 name: Publish CLI to npm
 
-# Publishes the `worldmonitor` npm package from cli/ via npm OIDC trusted
+# Publishes the `eagleeye` npm package from cli/ via npm OIDC trusted
 # publishing — NO `NPM_TOKEN` secret required. Auth is a short-lived OIDC token
 # minted by GitHub Actions (`id-token: write`) and exchanged by npm (>= 11.5.1),
 # which also attaches a provenance attestation automatically.
 #
 # One-time prerequisite: a Trusted Publisher must be configured on npm
-# (npmjs.com -> worldmonitor -> Settings -> Trusted Publishing) pointing at this
+# (npmjs.com -> eagleeye -> Settings -> Trusted Publishing) pointing at this
 # repository and this workflow file (publish-cli.yml). Until that exists the
 # Publish step fails auth. The npm package must already exist to register it,
 # which is why v0.1.0 was published manually to bootstrap.

@@ -9,7 +9,7 @@ dependencies: []
 # `as any` on LLM response in `summarize-article.ts` bypasses type safety
 
 ## Problem Statement
-`server/worldmonitor/news/v1/summarize-article.ts` line 155 casts the JSON response to `any`:
+`server/eagleeye/news/v1/summarize-article.ts` line 155 casts the JSON response to `any`:
 ```ts
 const data = await response.json() as any;
 ```
@@ -25,7 +25,7 @@ const data = await response.json() as {
 ```
 
 ## Technical Details
-- File: `server/worldmonitor/news/v1/summarize-article.ts:155`
+- File: `server/eagleeye/news/v1/summarize-article.ts:155`
 - Effort: Small | Risk: Low
 
 ## Acceptance Criteria

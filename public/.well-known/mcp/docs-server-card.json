@@ -1,11 +1,11 @@
 {
-  "name": "worldmonitor-docs",
+  "name": "eagleeye-docs",
   "kind": "docs",
-  "description": "World Monitor documentation as an MCP server: search and read the developer docs, API references, and guides. Use it for 'how do I…' questions about the platform; use the product MCP at /mcp for live intelligence data.",
-  "icon": "https://www.worldmonitor.app/favico/apple-touch-icon.png",
+  "description": "Eagle Eye documentation as an MCP server: search and read the developer docs, API references, and guides. Use it for 'how do I…' questions about the platform; use the product MCP at /mcp for live intelligence data.",
+  "icon": "https://www.eagle-eye.app/favico/apple-touch-icon.png",
   "version": "1.0.0",
-  "url": "https://www.worldmonitor.app/docs/mcp",
-  "serverUrl": "https://www.worldmonitor.app/docs/mcp",
+  "url": "https://www.eagle-eye.app/docs/mcp",
+  "serverUrl": "https://www.eagle-eye.app/docs/mcp",
   "protocolVersion": "2025-06-18",
   "transport": "http",
   "capabilities": {
@@ -15,17 +15,17 @@
   "authentication": "none",
   "tools": [
     {
-      "name": "search_world_monitor",
-      "description": "Search the World Monitor documentation knowledge base for relevant pages, API references, and guides; returns contextual snippets with titles and links."
+      "name": "search_eagle_eye",
+      "description": "Search the Eagle Eye documentation knowledge base for relevant pages, API references, and guides; returns contextual snippets with titles and links."
     },
     {
-      "name": "query_docs_filesystem_world_monitor",
-      "description": "Run read-only shell-like queries (rg, ls, tree, cat, head) against a virtualized in-memory filesystem containing only the World Monitor documentation and OpenAPI specs."
+      "name": "query_docs_filesystem_eagle_eye",
+      "description": "Run read-only shell-like queries (rg, ls, tree, cat, head) against a virtualized in-memory filesystem containing only the Eagle Eye documentation and OpenAPI specs."
     }
   ],
-  "documentation": "https://www.worldmonitor.app/docs/documentation",
+  "documentation": "https://www.eagle-eye.app/docs/documentation",
   "tags": ["docs", "search", "mcp"],
   "metadata": {
-    "note": "First-party server card for the documentation MCP. The endpoint (url/serverUrl) is the worldmonitor.app facade, which is the address agents should connect to; it is proxied to Mintlify. Advertised via rel=\"mcp-server-card\" anchor=\"/docs/mcp\" alongside the product MCP card at /.well-known/mcp/server-card.json."
+    "note": "First-party server card for the documentation MCP. The endpoint (url/serverUrl) is the eagle-eye.app facade, which is the address agents should connect to; it is proxied to Mintlify. Advertised via rel=\"mcp-server-card\" anchor=\"/docs/mcp\" alongside the product MCP card at /.well-known/mcp/server-card.json."
   }
 }

@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { getGivingSummary } from '../server/worldmonitor/giving/v1/get-giving-summary.ts';
+import { getGivingSummary } from '../server/eagleeye/giving/v1/get-giving-summary.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -22,7 +22,7 @@ function assertFieldNumbers(body: string, expected: Record<string, number>): voi
 
 describe('Giving published-estimate contract', () => {
   it('keeps existing field numbers and adds the exact provenance contract', () => {
-    const source = readFileSync(resolve(root, 'proto/worldmonitor/giving/v1/giving.proto'), 'utf8');
+    const source = readFileSync(resolve(root, 'proto/eagleeye/giving/v1/giving.proto'), 'utf8');
     const summary = protoMessage(source, 'GivingSummary');
     const provenance = protoMessage(source, 'GivingProvenance');
 
@@ -180,7 +180,7 @@ describe('Giving published-estimate contract', () => {
       PUBLISHED_ESTIMATE_CLAIMS,
       buildPublishedEstimateSummary,
       normalizeGivingStatus,
-    } = await import('../server/worldmonitor/giving/v1/published-estimates.ts');
+    } = await import('../server/eagleeye/giving/v1/published-estimates.ts');
 
     assert.equal(normalizeGivingStatus('future_status'), 'unverified');
 
@@ -202,8 +202,8 @@ describe('Giving published-estimate contract', () => {
     assert.equal(summary.estimatedDailyFlowUsd, 84_000_000 / 365);
 
     const implementation = [
-      readFileSync(resolve(root, 'server/worldmonitor/giving/v1/get-giving-summary.ts'), 'utf8'),
-      readFileSync(resolve(root, 'server/worldmonitor/giving/v1/published-estimates.ts'), 'utf8'),
+      readFileSync(resolve(root, 'server/eagleeye/giving/v1/get-giving-summary.ts'), 'utf8'),
+      readFileSync(resolve(root, 'server/eagleeye/giving/v1/published-estimates.ts'), 'utf8'),
     ].join('\n');
     assert.doesNotMatch(implementation, /computeActivityIndex|computeTrend/);
   });

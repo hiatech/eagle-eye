@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { AirQualityStation, ListAirQualityDataResponse } from '@/generated/client/worldmonitor/climate/v1/service_client';
+import type { AirQualityStation, ListAirQualityDataResponse } from '@/generated/client/eagleeye/climate/v1/service_client';
 import { ClimateServiceClient } from '@/services/generated-rpc-clients';
 
 export type { AirQualityStation, ListAirQualityDataResponse };

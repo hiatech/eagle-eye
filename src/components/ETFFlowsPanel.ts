@@ -3,7 +3,7 @@ import { getRpcBaseUrl } from '@/services/rpc-client';
 import { t } from '@/services/i18n';
 import { escapeHtml, unsafeRawHtml } from '@/utils/sanitize';
 
-import type { ListEtfFlowsResponse } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { ListEtfFlowsResponse } from '@/generated/client/eagleeye/market/v1/service_client';
 import { getHydratedData } from '@/services/bootstrap';
 import { MarketServiceClient } from '@/services/generated-rpc-clients';
 

@@ -1,7 +1,7 @@
 # Unify the CII — one engine, server-canonical
 
 Origin: Issue #3738 ("Security dimension is 100% GPS jamming"). Investigation showed the
-mislabel is a symptom, not the bug. The bug: **WorldMonitor runs two CII engines that
+mislabel is a symptom, not the bug. The bug: **EagleEye runs two CII engines that
 diverge in formula, inputs, and output shape.** This plan unifies them.
 
 > Reviewed 2026-05-22 by three parallel reviewers (feasibility / adversarial / coherence).
@@ -11,7 +11,7 @@ diverge in formula, inputs, and output shape.** This plan unifies them.
 
 | | Frontend engine | Server engine |
 |---|---|---|
-| File | `src/services/country-instability.ts` | `server/worldmonitor/intelligence/v1/get-risk-scores.ts` |
+| File | `src/services/country-instability.ts` | `server/eagleeye/intelligence/v1/get-risk-scores.ts` |
 | Scoring fns | `calcUnrestScore`, `calcConflictScore`, `calcSecurityScore`, `calcInformationScore`, `calcNewsConflictFloor` | 4 inline component blocks in `computeCIIScores` |
 | Inputs | ~20 `ingest*ForCII` functions | ~12 `AuxiliarySources` (post-Phase-1: ~17) |
 | Output consumers | `calculateCII()` / `getCountryScore()` | RPC `getRiskScores` → MCP `get_country_risk`, API, panels |
@@ -231,8 +231,8 @@ Folded into the Phase 3b PR (same cache-key bump); the keep-vs-rename choice is 
 Phase 3a. Decide: keep abusing the positional
 aliases (`militaryActivity`≡`security`, …), or rename the `.proto` fields to
 `unrest/conflict/security/information` and regenerate
-`src/generated/server/worldmonitor/intelligence/v1/service_server.ts` +
-`src/generated/client/worldmonitor/intelligence/v1/service_client.ts`. Either way the
+`src/generated/server/eagleeye/intelligence/v1/service_server.ts` +
+`src/generated/client/eagleeye/intelligence/v1/service_client.ts`. Either way the
 `CiiScore` shape changes → **mandatory** bump of
 `RISK_CACHE_KEY` (`v2`→`v3`) propagated to every reader listed at `get-risk-scores.ts:626-631`.
 

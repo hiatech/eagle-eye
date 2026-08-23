@@ -75,7 +75,7 @@ describe('story CII unavailable state', () => {
     const source = readFileSync(resolve(root, 'src/services/story-share.ts'), 'utf8')
       .replace("import type { StoryData } from './story-data';", '')
       .replace("import { toFlagEmoji } from '@/utils/country-flag';", "const toFlagEmoji = () => '';" )
-      .replace("import { getCanonicalApiOrigin } from '@/services/runtime';", "const getCanonicalApiOrigin = () => 'https://worldmonitor.app';");
+      .replace("import { getCanonicalApiOrigin } from '@/services/runtime';", "const getCanonicalApiOrigin = () => 'https://eagle-eye.app';");
     const { shareTexts } = await importSource(source) as {
       shareTexts: Record<string, (data: ReturnType<typeof emptyStory>) => string>;
     };

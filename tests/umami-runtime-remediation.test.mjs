@@ -29,7 +29,7 @@ describe('Umami runtime remediation (#6024)', () => {
     assert.match(dockerfile, new RegExp(`git fetch --depth=2 origin ${UMAMI_FIX_COMMIT}`));
     assert.match(dockerfile, new RegExp(`git checkout --detach ${UMAMI_RELEASE_COMMIT}`));
     assert.match(dockerfile, new RegExp(`org\\.opencontainers\\.image\\.revision=${UMAMI_RELEASE_COMMIT}`));
-    assert.match(dockerfile, new RegExp(`worldmonitor\\.umami\\.fix-commit=${UMAMI_FIX_COMMIT}`));
+    assert.match(dockerfile, new RegExp(`eagleeye\\.umami\\.fix-commit=${UMAMI_FIX_COMMIT}`));
     assert.match(dockerfile, /COPY docker\/umami\/session-data-upsert\.patch/);
     assert.match(dockerfile, /git apply --check/);
     assert.match(dockerfile, /COPY docker\/umami\/21_update_session_data\/migration\.sql/);
@@ -263,10 +263,10 @@ describe('Umami runtime remediation (#6024)', () => {
       /image: postgres:17-alpine@sha256:[a-f0-9]{64}/,
     );
     assert.match(umamiJob, /^\s{4}timeout-minutes: 20$/m);
-    assert.match(umamiJob, /docker build --file Dockerfile\.umami --tag worldmonitor\/umami:ci \./);
+    assert.match(umamiJob, /docker build --file Dockerfile\.umami --tag eagleeye\/umami:ci \./);
     assert.match(
       umamiJob,
-      /docker build --file Dockerfile\.umami-retention --tag worldmonitor\/umami-retention:ci \./,
+      /docker build --file Dockerfile\.umami-retention --tag eagleeye\/umami-retention:ci \./,
     );
     assert.match(umamiJob, /node tests\/umami-postgres-integration\.mjs/);
     assert.match(deployGate, /required='\[[^\n]*"umami-postgres"[^\n]*\]'/);

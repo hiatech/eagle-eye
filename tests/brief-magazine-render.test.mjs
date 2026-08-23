@@ -189,7 +189,7 @@ describe('renderBriefMagazine — chrome invariants', () => {
     assert.equal(useRefs.length, expected);
 
     // Every reference still carries the aria label for a11y.
-    const ariaLabels = html.match(/aria-label="WorldMonitor"/g) || [];
+    const ariaLabels = html.match(/aria-label="EagleEye"/g) || [];
     assert.equal(ariaLabels.length, expected);
   });
 
@@ -693,7 +693,7 @@ describe('renderBriefMagazine — source link (v2)', () => {
     assert.ok(html.includes('target="_blank" rel="noopener noreferrer"'));
     // UTM params on every tracked href — check by presence of the
     // four params at least once, plus the issueDate as utm_campaign.
-    assert.ok(html.includes('utm_source=worldmonitor'));
+    assert.ok(html.includes('utm_source=eagleeye'));
     assert.ok(html.includes('utm_medium=brief'));
     assert.ok(html.includes(`utm_campaign=${env.data.date}`));
     assert.ok(html.includes('utm_content=story-01'));
@@ -771,7 +771,7 @@ describe('renderBriefMagazine — source link (v2)', () => {
 });
 
 describe('renderBriefMagazine — Share button (non-public views)', () => {
-  const SHARE_URL = 'https://worldmonitor.app/api/brief/public/abcDEF012345';
+  const SHARE_URL = 'https://eagle-eye.app/api/brief/public/abcDEF012345';
 
   it('renders a Share button with data-share-url and issue date', () => {
     const env = envelope();
@@ -833,7 +833,7 @@ describe('renderBriefMagazine — publicMode', () => {
     const env = envelope();
     const html = renderBriefMagazine(env, {
       publicMode: true,
-      shareUrl: 'https://worldmonitor.app/api/brief/public/abcDEF012345',
+      shareUrl: 'https://eagle-eye.app/api/brief/public/abcDEF012345',
     });
     assert.ok(!html.includes('class="wm-share"'), 'share button absent on public');
     assert.ok(
@@ -852,7 +852,7 @@ describe('renderBriefMagazine — publicMode', () => {
     const publicHtml = renderBriefMagazine(env, { publicMode: true });
     assert.ok(!publicHtml.includes('Hormuz is roughly a fifth'), 'whyMatters stripped on public');
     assert.ok(
-      publicHtml.includes('Subscribe to WorldMonitor Brief to see the full editorial'),
+      publicHtml.includes('Subscribe to EagleEye Brief to see the full editorial'),
       'generic placeholder callout rendered',
     );
   });
@@ -869,14 +869,14 @@ describe('renderBriefMagazine — publicMode', () => {
     const env = envelope();
     const html = renderBriefMagazine(env, { publicMode: true });
     assert.ok(html.includes('class="wm-public-strip"'), 'subscribe strip element emitted');
-    assert.ok(html.includes('worldmonitor.app/pro'), 'strip links to /pro');
+    assert.ok(html.includes('eagle-eye.app/pro'), 'strip links to /pro');
     assert.ok(html.includes('Subscribe'), 'strip CTA text present');
   });
 
   it('attaches ?ref= to public CTAs when refCode is provided', () => {
     const env = envelope();
     const html = renderBriefMagazine(env, { publicMode: true, refCode: 'ABC123' });
-    assert.ok(html.includes('worldmonitor.app/pro?ref=ABC123'), 'refCode appended to /pro URL');
+    assert.ok(html.includes('eagle-eye.app/pro?ref=ABC123'), 'refCode appended to /pro URL');
   });
 
   it('HTML-escapes a hostile refCode before interpolation', () => {

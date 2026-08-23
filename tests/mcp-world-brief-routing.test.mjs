@@ -16,7 +16,7 @@ import {
   makePipelineMock,
 } from './helpers/mcp-pro-deps.mjs';
 
-const CANONICAL_API_ORIGIN = 'https://api.worldmonitor.app';
+const CANONICAL_API_ORIGIN = 'https://api.eagle-eye.app';
 const ENV_KEY = 'operator_test_key_world_brief';
 const USER_KEY = 'wm_test_user_key_world_brief';
 const USER_ID = 'user_key_world_brief';
@@ -26,24 +26,24 @@ const SECRET_GEO_CONTEXT = 'SECRET_GEO_CONTEXT_SENTINEL_5514';
 const SECRET_RESPONSE_DETAIL = 'SECRET_RESPONSE_DETAIL_SENTINEL_5514';
 
 const HOSTS = [
-  { url: 'https://worldmonitor.app/mcp', hostClass: 'apex' },
-  { url: 'https://www.worldmonitor.app/mcp', hostClass: 'www' },
-  { url: 'https://api.worldmonitor.app/api/mcp', hostClass: 'canonical_api' },
-  { url: 'https://tech.worldmonitor.app/mcp', hostClass: 'variant' },
-  { url: 'https://finance.worldmonitor.app/mcp', hostClass: 'variant' },
-  { url: 'https://commodity.worldmonitor.app/mcp', hostClass: 'variant' },
-  { url: 'https://happy.worldmonitor.app/mcp', hostClass: 'variant' },
-  { url: 'https://energy.worldmonitor.app/mcp', hostClass: 'variant' },
+  { url: 'https://eagle-eye.app/mcp', hostClass: 'apex' },
+  { url: 'https://www.eagle-eye.app/mcp', hostClass: 'www' },
+  { url: 'https://api.eagle-eye.app/api/mcp', hostClass: 'canonical_api' },
+  { url: 'https://tech.eagle-eye.app/mcp', hostClass: 'variant' },
+  { url: 'https://finance.eagle-eye.app/mcp', hostClass: 'variant' },
+  { url: 'https://commodity.eagle-eye.app/mcp', hostClass: 'variant' },
+  { url: 'https://happy.eagle-eye.app/mcp', hostClass: 'variant' },
+  { url: 'https://energy.eagle-eye.app/mcp', hostClass: 'variant' },
 ];
 
 const AUTH_CASES = [
   {
     kind: 'env_key',
-    headers: { 'X-WorldMonitor-Key': ENV_KEY },
+    headers: { 'X-EagleEye-Key': ENV_KEY },
   },
   {
     kind: 'user_key',
-    headers: { 'X-WorldMonitor-Key': USER_KEY },
+    headers: { 'X-EagleEye-Key': USER_KEY },
   },
   {
     kind: 'pro',
@@ -134,7 +134,7 @@ function downstreamEvents(captured) {
 }
 
 beforeEach(() => {
-  process.env.WORLDMONITOR_VALID_KEYS = ENV_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = ENV_KEY;
   process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;
   process.env.MCP_TELEMETRY = 'true';
   delete process.env.UPSTASH_REDIS_REST_URL;
@@ -161,9 +161,9 @@ describe('get_world_brief seeded brief routing', () => {
         origin: 'http://localhost:4173',
       },
       {
-        url: 'https://worldmonitor-feature.vercel.app/mcp',
+        url: 'https://eagleeye-feature.vercel.app/mcp',
         hostClass: 'vercel_preview',
-        origin: 'https://worldmonitor-feature.vercel.app',
+        origin: 'https://eagleeye-feature.vercel.app',
       },
       {
         url: 'https://self-hosted.example/mcp',
@@ -257,7 +257,7 @@ describe('get_world_brief seeded brief routing', () => {
         } else {
           for (const call of calls) {
             const expectedKey = auth.kind === 'env_key' ? ENV_KEY : USER_KEY;
-            assert.equal(call.headers.get('x-worldmonitor-key'), expectedKey);
+            assert.equal(call.headers.get('x-eagleeye-key'), expectedKey);
           }
         }
       }
@@ -332,7 +332,7 @@ describe('get_world_brief seeded brief routing', () => {
       };
 
       const response = await mcpHandler(
-        requestFor('https://tech.worldmonitor.app/mcp', scenario.auth.headers, 200 + index),
+        requestFor('https://tech.eagle-eye.app/mcp', scenario.auth.headers, 200 + index),
         makeDeps(),
       );
       assert.equal(response.status, 200, `${scenario.name}: JSON-RPC tool failure status`);
@@ -382,7 +382,7 @@ describe('get_world_brief seeded brief routing', () => {
     };
 
     const response = await mcpHandler(
-      requestFor('https://www.worldmonitor.app/mcp', AUTH_CASES[1].headers, 300),
+      requestFor('https://www.eagle-eye.app/mcp', AUTH_CASES[1].headers, 300),
       makeDeps(),
     );
     assert.equal(response.status, 503);

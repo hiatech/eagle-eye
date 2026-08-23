@@ -10,19 +10,19 @@ Use this skill when the user asks for live visual context near an event, infrast
 
 ## Authentication
 
-Server-to-server callers (agents, scripts, SDKs) MUST present an API key in the `X-WorldMonitor-Key` header. `Authorization: Bearer ...` is for MCP/OAuth or Clerk JWTs - **not** raw API keys.
+Server-to-server callers (agents, scripts, SDKs) MUST present an API key in the `X-EagleEye-Key` header. `Authorization: Bearer ...` is for MCP/OAuth or Clerk JWTs - **not** raw API keys.
 
 ```
-X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567
+X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567
 ```
 
-Issue a key at https://www.worldmonitor.app/pro.
+Issue a key at https://www.eagle-eye.app/pro.
 
 ## Endpoints
 
 ```
-GET https://api.worldmonitor.app/api/webcam/v1/list-webcams
-GET https://api.worldmonitor.app/api/webcam/v1/get-webcam-image
+GET https://api.eagle-eye.app/api/webcam/v1/list-webcams
+GET https://api.eagle-eye.app/api/webcam/v1/get-webcam-image
 ```
 
 ## Parameters
@@ -83,9 +83,9 @@ Find cameras around the Strait of Hormuz, then resolve the first camera's media 
 
 ```bash
 WEBCAM_ID=$(curl -s --get \
-  -H "X-WorldMonitor-Key: $WM_API_KEY" \
-  -H "User-Agent: worldmonitor-agent-skill/1.0" \
-  'https://api.worldmonitor.app/api/webcam/v1/list-webcams' \
+  -H "X-EagleEye-Key: $WM_API_KEY" \
+  -H "User-Agent: eagleeye-agent-skill/1.0" \
+  'https://api.eagle-eye.app/api/webcam/v1/list-webcams' \
   --data-urlencode 'zoom=8' \
   --data-urlencode 'bound_w=55.5' --data-urlencode 'bound_s=25.5' \
   --data-urlencode 'bound_e=57.5' --data-urlencode 'bound_n=27.2' \
@@ -97,9 +97,9 @@ if [ -z "$WEBCAM_ID" ]; then
 fi
 
 curl -s --get \
-  -H "X-WorldMonitor-Key: $WM_API_KEY" \
-  -H "User-Agent: worldmonitor-agent-skill/1.0" \
-  'https://api.worldmonitor.app/api/webcam/v1/get-webcam-image' \
+  -H "X-EagleEye-Key: $WM_API_KEY" \
+  -H "User-Agent: eagleeye-agent-skill/1.0" \
+  'https://api.eagle-eye.app/api/webcam/v1/get-webcam-image' \
   --data-urlencode "webcam_id=$WEBCAM_ID" \
   | jq '{title, thumbnailUrl, playerUrl, lastUpdated}'
 ```
@@ -112,7 +112,7 @@ Only fetch or render returned media when the user explicitly asked for visual co
 
 ## Errors
 
-- `401` - missing `X-WorldMonitor-Key`.
+- `401` - missing `X-EagleEye-Key`.
 - `429` - rate limited; retry with backoff.
 - Webcam/provider misses are reported in the `200` response through empty URL fields or `error`; retry later when media is unavailable.
 
@@ -121,9 +121,9 @@ Only fetch or render returned media when the user explicitly asked for visual co
 - For authoritative satellite imagery search, use `GET /api/imagery/v1/search-imagery`.
 - For vessel positions or AIS disruption candidates, use `track-vessel-traffic`.
 - For airport operational delays, use `check-airport-delays`.
-- Via MCP, use the visual/infrastructure context tools on `https://worldmonitor.app/mcp`.
+- Via MCP, use the visual/infrastructure context tools on `https://eagle-eye.app/mcp`.
 
 ## References
 
-- OpenAPI: https://worldmonitor.app/openapi.json - operations `ListWebcams` and `GetWebcamImage`.
-- Auth matrix: https://www.worldmonitor.app/docs/usage-auth
+- OpenAPI: https://eagle-eye.app/openapi.json - operations `ListWebcams` and `GetWebcamImage`.
+- Auth matrix: https://www.eagle-eye.app/docs/usage-auth

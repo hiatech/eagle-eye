@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Capabilities for the primary World Monitor window",
+  "description": "Capabilities for the primary Eagle Eye window",
   "windows": ["main"],
   "permissions": ["core:default"]
 }

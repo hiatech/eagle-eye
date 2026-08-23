@@ -9,14 +9,14 @@ import { GENERATED_REQUEST_TYPES } from '../src/generated/server/request_validat
 import {
   createMarketServiceRoutes,
   type MarketServiceHandler,
-} from '../src/generated/server/worldmonitor/market/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/market/v1/service_server.ts';
 import {
   createBatchServiceRoutes,
   type BatchServiceHandler,
-} from '../src/generated/server/worldmonitor/batch/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/batch/v1/service_server.ts';
 
 const ROOT = join(import.meta.dirname, '..');
-const GENERATED_SERVER_ROOT = join(ROOT, 'src/generated/server/worldmonitor');
+const GENERATED_SERVER_ROOT = join(ROOT, 'src/generated/server/eagleeye');
 
 function walkFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -48,7 +48,7 @@ describe('generated request validation', () => {
 
     assert.ok(route);
     const response = await route.handler(new Request(
-      'https://worldmonitor.app/api/market/v1/analyze-stock?symbol=AAPL&name=Apple',
+      'https://eagle-eye.app/api/market/v1/analyze-stock?symbol=AAPL&name=Apple',
     ));
 
     assert.equal(response.status, 200);
@@ -69,7 +69,7 @@ describe('generated request validation', () => {
 
     assert.ok(route);
     const missing = await route.handler(new Request(
-      'https://worldmonitor.app/api/market/v1/analyze-stock',
+      'https://eagle-eye.app/api/market/v1/analyze-stock',
     ));
     assert.equal(missing.status, 400);
     assert.deepEqual(await missing.json(), {
@@ -79,7 +79,7 @@ describe('generated request validation', () => {
     });
 
     const oversized = await route.handler(new Request(
-      `https://worldmonitor.app/api/market/v1/analyze-stock?symbol=AAPL&name=${'x'.repeat(121)}`,
+      `https://eagle-eye.app/api/market/v1/analyze-stock?symbol=AAPL&name=${'x'.repeat(121)}`,
     ));
     assert.equal(oversized.status, 400);
     assert.deepEqual(await oversized.json(), {
@@ -103,7 +103,7 @@ describe('generated request validation', () => {
 
     assert.ok(route);
     const response = await route.handler(new Request(
-      'https://worldmonitor.app/api/batch/v1/execute',
+      'https://eagle-eye.app/api/batch/v1/execute',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

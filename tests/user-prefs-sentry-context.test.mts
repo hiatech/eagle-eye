@@ -117,7 +117,7 @@ describe('buildSentryContext — level downgrade for expected-but-trackable cond
   it('passes through level: warning when caller specifies it', () => {
     // CONFLICT capture (handleConflictResponse) uses this so the high-volume
     // optimistic-concurrency events stay queryable without polluting error
-    // totals or alerting (WORLDMONITOR-PX 2026-04-30: 316 events / 59 users).
+    // totals or alerting (EAGLEEYE-PX 2026-04-30: 316 events / 59 users).
     const err = new Error('[Request ID: abc] Server Error');
     const ctx = buildSentryContext(err, err.message, {
       ...baseOpts,
@@ -148,7 +148,7 @@ describe('buildSentryContext — backwards-compat for non-CONFLICT callers', () 
   });
 
   it('JSON-shape "code":"InternalServerError" classifies as convex_internal_error', () => {
-    // WORLDMONITOR-PG/PH: Convex runtime 500 was previously bucketed as
+    // EAGLEEYE-PG/PH: Convex runtime 500 was previously bucketed as
     // 'unknown' in the dashboard, conflating a transient platform failure
     // with genuinely-novel error shapes. Its own bucket + the
     // SERVICE_UNAVAILABLE mapping in `_convex-error.js` mean on-call sees
@@ -159,7 +159,7 @@ describe('buildSentryContext — backwards-compat for non-CONFLICT callers', () 
   });
 
   it('JSON-shape "code":"WorkerOverloaded" classifies as convex_worker_overloaded', () => {
-    // WORLDMONITOR-PG: Convex runtime worker saturation
+    // EAGLEEYE-PG: Convex runtime worker saturation
     //   `{"code":"WorkerOverloaded","message":"There are no available workers
     //     to process the request"}`
     // was previously bucketed as 'unknown' at error level (11 events / 9 users),
@@ -183,7 +183,7 @@ describe('buildSentryContext — backwards-compat for non-CONFLICT callers', () 
   });
 
   it('JSON-shape "code":"Unauthenticated" classifies as convex_auth_drift (mixed-case OIDC failure)', () => {
-    // WORLDMONITOR-PG: Convex platform-level 401 ships a JSON body
+    // EAGLEEYE-PG: Convex platform-level 401 ships a JSON body
     //   `{"code":"Unauthenticated","message":"Could not verify OIDC token claim..."}`
     // The mixed-case `"Unauthenticated"` doesn't match the uppercase
     // `/UNAUTHENTICATED/` regex, so prior to the fix this fell through
@@ -195,7 +195,7 @@ describe('buildSentryContext — backwards-compat for non-CONFLICT callers', () 
   });
 
   it('Cloudflare edge body "error code: 52x" classifies as transport_cloudflare', () => {
-    // WORLDMONITOR-PG: a Cloudflare 520-527 fronting the Convex deployment
+    // EAGLEEYE-PG: a Cloudflare 520-527 fronting the Convex deployment
     // produced a body `error code: 520`. No classifier matched it, so it fell
     // to `error_shape: 'unknown'` at error level (10 events / 8 users). Now
     // _convex-error.js maps it to SERVICE_UNAVAILABLE (503 + Retry-After,

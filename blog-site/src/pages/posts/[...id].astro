@@ -8,7 +8,7 @@ type RelatedPost = { title: string; description: string; href: string };
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  const stopWords = new Set(['and', 'for', 'the', 'with', 'worldmonitor', 'world', 'monitor']);
+  const stopWords = new Set(['and', 'for', 'the', 'with', 'eagleeye', 'world', 'monitor']);
   const tokenize = (value: string | undefined): Set<string> => new Set((value || '')
     .toLowerCase()
     .split(/[^a-z0-9]+/)

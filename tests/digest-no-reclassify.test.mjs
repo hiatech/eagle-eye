@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const src = readFileSync(resolve(__dirname, '..', 'src', 'app', 'data-loader.ts'), 'utf-8');
 const serverSrc = readFileSync(
-  resolve(__dirname, '..', 'server', 'worldmonitor', 'news', 'v1', 'list-feed-digest.ts'),
+  resolve(__dirname, '..', 'server', 'eagleeye', 'news', 'v1', 'list-feed-digest.ts'),
   'utf-8',
 );
 

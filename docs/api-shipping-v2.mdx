@@ -3,10 +3,10 @@ title: "Shipping v2 API"
 description: "Chokepoint route-intelligence queries and webhook subscription management for supply-chain disruption alerts in the Shipping v2 API surface."
 ---
 
-The v2 shipping API is a **PRO-gated** read + webhook-subscription surface on top of WorldMonitor's chokepoint registry and AIS tracking data.
+The v2 shipping API is a **PRO-gated** read + webhook-subscription surface on top of EagleEye's chokepoint registry and AIS tracking data.
 
 <Info>
-All v2 shipping endpoints require `X-WorldMonitor-Key` (server-to-server). Browser origins are **not** trusted here — `validateApiKey` runs with `forceKey: true`.
+All v2 shipping endpoints require `X-EagleEye-Key` (server-to-server). Browser origins are **not** trusted here — `validateApiKey` runs with `forceKey: true`.
 </Info>
 
 ## Route intelligence
@@ -104,7 +104,7 @@ Registers a webhook for chokepoint disruption alerts. Returns `200 OK`.
 - **TTL**: 30 days on both the subscriber record and the per-owner index set. Only **re-registration** refreshes both, via an atomic pipeline (`SET` record with `EX`, `SADD` + `EXPIRE` on the owner index). `rotate-secret` and `reactivate` refresh the record's TTL only — they do not touch the owner-index set's expiry, so the owner index can expire independently if a caller only ever rotates or reactivates within a 30-day window. Re-register to keep both alive.
 - Ownership is tracked via SHA-256 of the caller's API key (never secret — stored as `ownerTag`).
 
-Auth: `X-WorldMonitor-Key` (forceKey: true) + PRO. Returns `401` / `403` otherwise.
+Auth: `X-EagleEye-Key` (forceKey: true) + PRO. Returns `401` / `403` otherwise.
 
 ### `GET /api/v2/shipping/webhooks`
 
@@ -171,7 +171,7 @@ The delivery worker re-resolves `callbackUrl` before each send and re-checks aga
 
 ### Verifying deliveries
 
-Every delivery is signed so you can confirm it genuinely came from WorldMonitor. `X-WM-Signature` is `sha256=<hex>`, where `<hex>` is the lowercase-hex **HMAC-SHA256 of the exact raw request body**, keyed by the `secret` returned at registration.
+Every delivery is signed so you can confirm it genuinely came from EagleEye. `X-WM-Signature` is `sha256=<hex>`, where `<hex>` is the lowercase-hex **HMAC-SHA256 of the exact raw request body**, keyed by the `secret` returned at registration.
 
 To verify: recompute `sha256=` + `hex(HMAC_SHA256(key=secret, message=rawBody))` over the bytes **exactly as received** (do not re-serialize the JSON), and compare against `X-WM-Signature` in constant time. Use the `secret` string **verbatim** as the HMAC key — do not hex-decode it. Reject the delivery if the signatures differ.
 
@@ -180,7 +180,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 
 // rawBody: the exact request body bytes; header: the X-WM-Signature value;
 // secret: the value returned by RegisterWebhook (used verbatim as the key).
-function verifyWorldMonitorWebhook(rawBody, header, secret) {
+function verifyEagleEyeWebhook(rawBody, header, secret) {
   const expected = 'sha256=' + createHmac('sha256', secret).update(rawBody).digest('hex');
   const a = Buffer.from(header ?? '');
   const b = Buffer.from(expected);
@@ -188,13 +188,13 @@ function verifyWorldMonitorWebhook(rawBody, header, secret) {
 }
 ```
 
-The signature contract is also published machine-readably as the `chokepoint.disruption` entry under `webhooks` in the [OpenAPI spec](https://worldmonitor.app/openapi.json).
+The signature contract is also published machine-readably as the `chokepoint.disruption` entry under `webhooks` in the [OpenAPI spec](https://eagle-eye.app/openapi.json).
 
 #### Test your verification against a signed sample
 
-A ready-to-verify sample delivery is published at [`/.well-known/webhook-sample.json`](https://www.worldmonitor.app/.well-known/webhook-sample.json). It carries a fixed sample `secret`, the exact raw `body` string, and the resulting `signature`. Recompute `sha256=` + `hex(HMAC_SHA256(key=secret, message=body))` over the exact bytes of `body` and confirm it equals `signature` — if it matches, your verification will accept real deliveries. (The sample `secret` is a fixture; each live subscription gets its own `secret` from RegisterWebhook.)
+A ready-to-verify sample delivery is published at [`/.well-known/webhook-sample.json`](https://www.eagle-eye.app/.well-known/webhook-sample.json). It carries a fixed sample `secret`, the exact raw `body` string, and the resulting `signature`. Recompute `sha256=` + `hex(HMAC_SHA256(key=secret, message=body))` over the exact bytes of `body` and confirm it equals `signature` — if it matches, your verification will accept real deliveries. (The sample `secret` is a fixture; each live subscription gets its own `secret` from RegisterWebhook.)
 
 ```js
-const s = await (await fetch('https://www.worldmonitor.app/.well-known/webhook-sample.json')).json();
-verifyWorldMonitorWebhook(s.body, s.signature, s.secret); // → true
+const s = await (await fetch('https://www.eagle-eye.app/.well-known/webhook-sample.json')).json();
+verifyEagleEyeWebhook(s.body, s.signature, s.secret); // → true
 ```

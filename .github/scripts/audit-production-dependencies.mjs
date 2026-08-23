@@ -183,7 +183,7 @@ function resolveAuditWorkspace({ workspace, packageJson, lockfile }) {
     };
   }
 
-  const auditDir = mkdtempSync(join(tmpdir(), 'worldmonitor-security-audit-'));
+  const auditDir = mkdtempSync(join(tmpdir(), 'eagleeye-security-audit-'));
   copyFileSync(packageJson, join(auditDir, 'package.json'));
   copyFileSync(lockfile, join(auditDir, 'package-lock.json'));
 

@@ -22,7 +22,7 @@ const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
 
 function makeCtx(headers = {}) {
-  const req = new Request('https://worldmonitor.app/api/scenario/v1/run-scenario', {
+  const req = new Request('https://eagle-eye.app/api/scenario/v1/run-scenario', {
     method: 'POST',
     headers,
   });
@@ -30,7 +30,7 @@ function makeCtx(headers = {}) {
 }
 
 function proCtx() {
-  return makeCtx({ 'X-WorldMonitor-Key': 'pro-test-key' });
+  return makeCtx({ 'X-EagleEye-Key': 'pro-test-key' });
 }
 
 let runScenario;
@@ -41,17 +41,17 @@ let ApiError;
 
 describe('ScenarioService handlers', () => {
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'pro-test-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'pro-test-key';
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
 
-    const runMod = await import('../server/worldmonitor/scenario/v1/run-scenario.ts');
-    const statusMod = await import('../server/worldmonitor/scenario/v1/get-scenario-status.ts');
-    const templatesMod = await import('../server/worldmonitor/scenario/v1/list-scenario-templates.ts');
+    const runMod = await import('../server/eagleeye/scenario/v1/run-scenario.ts');
+    const statusMod = await import('../server/eagleeye/scenario/v1/get-scenario-status.ts');
+    const templatesMod = await import('../server/eagleeye/scenario/v1/list-scenario-templates.ts');
     runScenario = runMod.runScenario;
     getScenarioStatus = statusMod.getScenarioStatus;
     listScenarioTemplates = templatesMod.listScenarioTemplates;
-    const gen = await import('../src/generated/server/worldmonitor/scenario/v1/service_server.ts');
+    const gen = await import('../src/generated/server/eagleeye/scenario/v1/service_server.ts');
     ValidationError = gen.ValidationError;
     ApiError = gen.ApiError;
   });

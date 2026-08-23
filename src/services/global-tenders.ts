@@ -1,4 +1,4 @@
-import type { ListGlobalTendersRequest, ListGlobalTendersResponse } from '@/generated/client/worldmonitor/economic/v1/service_client';
+import type { ListGlobalTendersRequest, ListGlobalTendersResponse } from '@/generated/client/eagleeye/economic/v1/service_client';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 import { premiumFetch } from '@/services/premium-fetch';
 import { EconomicServiceClient } from '@/services/generated-rpc-clients';

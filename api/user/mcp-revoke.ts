@@ -94,7 +94,7 @@ async function callConvexRevoke(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-gateway/1.0',
+        'User-Agent': 'eagleeye-gateway/1.0',
         'x-convex-shared-secret': sharedSecret,
       },
       body: JSON.stringify({ userId, tokenId }),

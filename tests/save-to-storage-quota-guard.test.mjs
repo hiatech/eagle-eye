@@ -25,7 +25,7 @@ describe('saveToStorage quota handling', () => {
     assert.equal(
       /if\s*\(\s*isStorageQuotaExceeded\(\)\s*\)\s*return;?/.test(body),
       false,
-      'cache quota backoff must not silently disable user preference writes such as worldmonitor-panels',
+      'cache quota backoff must not silently disable user preference writes such as eagleeye-panels',
     );
   });
 

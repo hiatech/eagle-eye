@@ -26,7 +26,7 @@ export interface TabsState {
 
 // Per-variant key: each variant has its own default panel set, so tabs
 // built on one variant must not leak into another.
-const TABS_STORAGE_KEY = `worldmonitor-tabs-v1:${SITE_VARIANT}`;
+const TABS_STORAGE_KEY = `eagleeye-tabs-v1:${SITE_VARIANT}`;
 
 export function generateTabId(): string {
   return `tab-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;

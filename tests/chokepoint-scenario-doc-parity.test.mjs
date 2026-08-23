@@ -80,14 +80,14 @@ function warRiskEnumForThreat(threatLevel) {
 }
 
 describe('chokepoint methodology docs match scoring code', () => {
-  const scoring = readRepo('server/worldmonitor/supply-chain/v1/_scoring.mjs');
-  const statusHandler = readRepo('server/worldmonitor/supply-chain/v1/get-chokepoint-status.ts');
+  const scoring = readRepo('server/eagleeye/supply-chain/v1/_scoring.mjs');
+  const statusHandler = readRepo('server/eagleeye/supply-chain/v1/get-chokepoint-status.ts');
   const flowSeeder = readRepo('scripts/seed-chokepoint-flows.mjs');
   const methodology = readRepo('docs/methodology/chokepoints.mdx');
-  const supplyChainProto = readRepo('proto/worldmonitor/supply_chain/v1/supply_chain_data.proto');
-  const exposureProto = readRepo('proto/worldmonitor/supply_chain/v1/get_country_chokepoint_index.proto');
+  const supplyChainProto = readRepo('proto/eagleeye/supply_chain/v1/supply_chain_data.proto');
+  const exposureProto = readRepo('proto/eagleeye/supply_chain/v1/get_country_chokepoint_index.proto');
   const supplyChainOpenApi = readRepo('docs/api/SupplyChainService.openapi.yaml');
-  const bundledOpenApi = readRepo('docs/api/worldmonitor.openapi.yaml');
+  const bundledOpenApi = readRepo('docs/api/eagleeye.openapi.yaml');
 
   it('publishes the exact threat weights and per-chokepoint assignments', () => {
     const weights = parseThreatLevels(scoring);
@@ -189,7 +189,7 @@ describe('chokepoint methodology docs match scoring code', () => {
     ]) {
       const flowEstimateContract = label === 'supply-chain proto'
         ? extractProtoMessage(text, 'FlowEstimate')
-        : extractYamlSchema(text, label === 'bundled OpenAPI' ? 'worldmonitor_supply_chain_v1_FlowEstimate' : 'FlowEstimate');
+        : extractYamlSchema(text, label === 'bundled OpenAPI' ? 'eagleeye_supply_chain_v1_FlowEstimate' : 'FlowEstimate');
       assert.match(flowEstimateContract, /portwatch-dwt/i, `${label} must document the DWT-backed flow source`);
       assert.match(flowEstimateContract, /portwatch-counts/i, `${label} must document the count-backed flow source`);
       assert.match(flowEstimateContract, /GDACS/i, `${label} must document GDACS hazard enrichment`);
@@ -206,10 +206,10 @@ describe('scenario docs match worker scope and impact math', () => {
   const scenarioDoc = readRepo('docs/scenario-engine.mdx');
   const apiDoc = readRepo('docs/api-scenarios.mdx');
   const panelDoc = readRepo('docs/panels/supply-chain.mdx');
-  const runProto = readRepo('proto/worldmonitor/scenario/v1/run_scenario.proto');
-  const statusProto = readRepo('proto/worldmonitor/scenario/v1/get_scenario_status.proto');
+  const runProto = readRepo('proto/eagleeye/scenario/v1/run_scenario.proto');
+  const statusProto = readRepo('proto/eagleeye/scenario/v1/get_scenario_status.proto');
   const scenarioOpenApi = readRepo('docs/api/ScenarioService.openapi.yaml');
-  const bundledOpenApi = readRepo('docs/api/worldmonitor.openapi.yaml');
+  const bundledOpenApi = readRepo('docs/api/eagleeye.openapi.yaml');
 
   it('discloses the seeded reporter scope wherever scope-all is documented', () => {
     const seededReporters = parseSeededReporters(worker);
@@ -258,7 +258,7 @@ describe('scenario docs match worker scope and impact math', () => {
       ['API scenario doc template.name note', extractBetween(apiDoc, 'In the status payload, `template.name` is the worker-derived key', '`totalImpact` is a relative', 'API scenario template.name note')],
       ['GetScenarioStatus proto ScenarioResultTemplate message', extractProtoMessage(statusProto, 'ScenarioResultTemplate')],
       ['ScenarioService OpenAPI ScenarioResultTemplate schema', extractYamlSchema(scenarioOpenApi, 'ScenarioResultTemplate')],
-      ['bundled OpenAPI ScenarioResultTemplate schema', extractYamlSchema(bundledOpenApi, 'worldmonitor_scenario_v1_ScenarioResultTemplate')],
+      ['bundled OpenAPI ScenarioResultTemplate schema', extractYamlSchema(bundledOpenApi, 'eagleeye_scenario_v1_ScenarioResultTemplate')],
     ]) {
       assert.match(section, /worker-derived template key|worker-derived key/i, `${label} must call template.name worker-derived`);
       assert.match(section, /affectedChokepointIds|affected_chokepoint_ids|affected chokepoint ids/i, `${label} must tie template.name to affected chokepoint ids`);

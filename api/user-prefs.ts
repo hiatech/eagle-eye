@@ -217,7 +217,7 @@ export default async function handler(
       // expected-by-design: a token our edge accepted only via the bounded
       // clockTolerance (already past `exp` on our clock) can age past Convex's
       // own leeway during the round trip. That is near-expiry traffic, not
-      // drift — skip the drift capture for it so the WORLDMONITOR-QK bucket
+      // drift — skip the drift capture for it so the EAGLEEYE-QK bucket
       // keeps meaning what its comment says.
       //
       // Every other UNAUTHENTICATED here is genuine auth/audience/issuer
@@ -229,7 +229,7 @@ export default async function handler(
       // a stable Sentry bucket instead of silently 401'ing every request.
       //
       // `level: 'warning'` because the observed pattern is one transient
-      // event per user (5ev/5u over a week — WORLDMONITOR-QK), which a
+      // event per user (5ev/5u over a week — EAGLEEYE-QK), which a
       // client retry recovers cleanly. Keeping the capture at error
       // drowned real bugs in the dashboard while delivering no operational
       // signal beyond "drift happened" (already evident from the warning
@@ -256,7 +256,7 @@ export default async function handler(
         // it as a permanent 500. Still capture so we can spot regressions /
         // sustained outages, but use `level: 'warning'` so this expected
         // transient external-system event doesn't drown the error
-        // dashboard or page on-call (WORLDMONITOR-QA).
+        // dashboard or page on-call (EAGLEEYE-QA).
         console.warn('[user-prefs] GET convex service unavailable:', msg);
         captureSilentError(err, buildSentryContext(err, msg, {
           method: 'GET', convexFn: 'userPreferences:getPreferences',
@@ -360,7 +360,7 @@ export default async function handler(
       // UNAUTHENTICATED here means Clerk-vs-Convex auth drift (token already
       // passed validateBearerToken). Capture at `warning` for visibility
       // without paging — the observed pattern is transient
-      // single-event-per-user that recovers on client retry (WORLDMONITOR-QK).
+      // single-event-per-user that recovers on client retry (EAGLEEYE-QK).
       if (session.acceptedWithinClockTolerance) {
         console.warn(
           '[user-prefs] POST 401 for token accepted within edge clock tolerance (expected near-expiry, not drift)',
@@ -382,7 +382,7 @@ export default async function handler(
       // See GET branch above — Convex 503, transient. 503 + Retry-After
       // so the client backs off rather than burning a 500-failed-write.
       // `level: 'warning'` so the expected transient external-system
-      // event stays queryable but doesn't page on-call (WORLDMONITOR-QA).
+      // event stays queryable but doesn't page on-call (EAGLEEYE-QA).
       console.warn('[user-prefs] POST convex service unavailable:', msg);
       captureSilentError(err, buildSentryContext(err, msg, {
         method: 'POST', convexFn: 'userPreferences:setPreferences',
@@ -422,7 +422,7 @@ export default async function handler(
  * stuck client looping (constant actualSyncVersion across timestamps) vs.
  * real concurrency (broadly-distributed user_ids). At level=error it
  * drowned real bugs; level=warning keeps it queryable but out of error
- * totals and alerting (per WORLDMONITOR-PX 2026-04-30 triage).
+ * totals and alerting (per EAGLEEYE-PX 2026-04-30 triage).
  *
  * Echoes `actualSyncVersion` from the structured ConvexError when present
  * and numeric so the client can refresh its local sync state without a
@@ -446,7 +446,7 @@ function handleConflictResponse(
   // CONFLICT is an EXPECTED outcome of optimistic concurrency (multi-tab
   // / multi-device sync, or a stuck-bundle user retrying with an old
   // expectedSyncVersion). The capture exists to surface stuck-bundle
-  // users via user_id distribution (see WORLDMONITOR-PX 2026-04-30:
+  // users via user_id distribution (see EAGLEEYE-PX 2026-04-30:
   // 316 events / 59 users at 18 distinct actualSyncVersions). At
   // level=error it drowned real bugs; level=warning keeps it queryable
   // in Sentry but drops it out of error totals and alerting.
@@ -533,7 +533,7 @@ export function buildSentryContext(
     // `ConvexError({kind:'UNAUTHENTICATED'})`) AND the platform-level JSON-
     // shape `"code":"Unauthenticated"` (mixed case, from Convex's runtime
     // when Clerk OIDC token verification fails). Both are auth drift —
-    // WORLDMONITOR-PG: the JSON-cased variant was previously falling
+    // EAGLEEYE-PG: the JSON-cased variant was previously falling
     // through to 'unknown' because the `/UNAUTHENTICATED/` regex is
     // case-sensitive.
     // The `"code":\s*"X"` forms tolerate the optional post-colon whitespace a
@@ -546,20 +546,20 @@ export function buildSentryContext(
       // 503-with-Retry-After remediation as ServiceUnavailable in
       // _convex-error.js, but kept as its own Sentry bucket so on-call can
       // tell internal-500s apart from genuine 503s when triaging
-      // (WORLDMONITOR-PG/PH).
+      // (EAGLEEYE-PG/PH).
       : /"code":\s*"InternalServerError"/.test(msg) ? 'convex_internal_error'
       // Convex platform worker saturation: `{"code":"WorkerOverloaded",
       // "message":"There are no available workers to process the request"}`.
       // Mapped to SERVICE_UNAVAILABLE (503 + Retry-After) in _convex-error.js,
       // same as InternalServerError/ServiceUnavailable; kept as its own Sentry
       // bucket so on-call can tell worker-saturation apart from internal-500s
-      // and genuine 503s when triaging (WORLDMONITOR-PG).
+      // and genuine 503s when triaging (EAGLEEYE-PG).
       : /"code":\s*"WorkerOverloaded"/.test(msg) ? 'convex_worker_overloaded'
       : isOpaqueConvexServerError(msg) ? 'convex_server_error'
       // Cloudflare edge error (520-527) fronting the Convex deployment — see
       // _convex-error.js. Mapped to SERVICE_UNAVAILABLE (503 + Retry-After)
       // there; kept as its own Sentry bucket so on-call can tell CDN-layer
-      // transients apart from genuine Convex platform 5xx (WORLDMONITOR-PG).
+      // transients apart from genuine Convex platform 5xx (EAGLEEYE-PG).
       // Checked BEFORE the /timeout/ branch: Cloudflare 524's error page body
       // is literally "A timeout occurred", so a 524 whose message carries the
       // CF body text would otherwise be mis-bucketed as transport_timeout.

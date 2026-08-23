@@ -21,7 +21,7 @@ tags: [upstash, redis, rest-api, lrange, pagination, silent-failure, http-200, l
 
 ## Problem
 
-An Upstash alert reported the `worldmonitor` database hitting its 50MB max-request-size limit repeatedly. Two independent wrong assumptions in the codebase — about *what the limit measures* and *how the rejection is delivered* — meant the offending call had been failing silently for weeks, and the diagnostic harness built on top of it had been reporting a misleading cause.
+An Upstash alert reported the `eagleeye` database hitting its 50MB max-request-size limit repeatedly. Two independent wrong assumptions in the codebase — about *what the limit measures* and *how the rejection is delivered* — meant the offending call had been failing silently for weeks, and the diagnostic harness built on top of it had been reporting a misleading cause.
 
 ## Symptoms
 

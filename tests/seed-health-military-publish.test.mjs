@@ -7,12 +7,12 @@ const originalFetch = globalThis.fetch;
 const originalEnv = {
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  WORLDMONITOR_VALID_KEYS: process.env.WORLDMONITOR_VALID_KEYS,
+  EAGLEEYE_VALID_KEYS: process.env.EAGLEEYE_VALID_KEYS,
 };
 
 process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'token';
-process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+process.env.EAGLEEYE_VALID_KEYS = 'test-key';
 
 const { default: handler } = await import('../api/seed-health.js');
 
@@ -28,7 +28,7 @@ const healthSource = readFileSync(resolve(import.meta.dirname, '../api/health.js
 before(() => {
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'token';
-  process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+  process.env.EAGLEEYE_VALID_KEYS = 'test-key';
 });
 
 after(() => {
@@ -80,8 +80,8 @@ function installSeedHealthPipelineMock({ missingMetaKeys = MISSING_META_KEYS } =
 test('seed-health does not let a fresh military headline hide stale late-stage outputs', async () => {
   installSeedHealthPipelineMock();
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/seed-health', {
-    headers: { 'X-WorldMonitor-Key': 'test-key' },
+  const response = await handler(new Request('https://api.eagle-eye.app/api/seed-health', {
+    headers: { 'X-EagleEye-Key': 'test-key' },
   }));
   const body = await response.json();
 
@@ -123,8 +123,8 @@ test('military health registries keep early seed-health warning coverage', () =>
 test('seed-health reports a missing late-stage write as degraded', async () => {
   installSeedHealthPipelineMock({ missingMetaKeys: STALE_META_KEYS });
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/seed-health', {
-    headers: { 'X-WorldMonitor-Key': 'test-key' },
+  const response = await handler(new Request('https://api.eagle-eye.app/api/seed-health', {
+    headers: { 'X-EagleEye-Key': 'test-key' },
   }));
   const body = await response.json();
 

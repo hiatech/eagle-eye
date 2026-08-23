@@ -15,16 +15,16 @@ import {
   TRUSTED_USER_ID_HEADER,
   getInternalMcpVerifiedNonce,
 } from '../server/_shared/mcp-internal-hmac.ts';
-import { triggerSimulation } from '../server/worldmonitor/forecast/v1/trigger-simulation.ts';
-import { summarizeArticle } from '../server/worldmonitor/news/v1/summarize-article.ts';
-import { getScenarioStatus } from '../server/worldmonitor/scenario/v1/get-scenario-status.ts';
-import { runScenario } from '../server/worldmonitor/scenario/v1/run-scenario.ts';
-import { listWebhooks } from '../server/worldmonitor/shipping/v2/list-webhooks.ts';
-import { registerWebhook } from '../server/worldmonitor/shipping/v2/register-webhook.ts';
-import { routeIntelligence } from '../server/worldmonitor/shipping/v2/route-intelligence.ts';
-import { ApiError as ForecastApiError } from '../src/generated/server/worldmonitor/forecast/v1/service_server.ts';
-import { ApiError as ScenarioApiError } from '../src/generated/server/worldmonitor/scenario/v1/service_server.ts';
-import { ApiError as ShippingApiError } from '../src/generated/server/worldmonitor/shipping/v2/service_server.ts';
+import { triggerSimulation } from '../server/eagleeye/forecast/v1/trigger-simulation.ts';
+import { summarizeArticle } from '../server/eagleeye/news/v1/summarize-article.ts';
+import { getScenarioStatus } from '../server/eagleeye/scenario/v1/get-scenario-status.ts';
+import { runScenario } from '../server/eagleeye/scenario/v1/run-scenario.ts';
+import { listWebhooks } from '../server/eagleeye/shipping/v2/list-webhooks.ts';
+import { registerWebhook } from '../server/eagleeye/shipping/v2/register-webhook.ts';
+import { routeIntelligence } from '../server/eagleeye/shipping/v2/route-intelligence.ts';
+import { ApiError as ForecastApiError } from '../src/generated/server/eagleeye/forecast/v1/service_server.ts';
+import { ApiError as ScenarioApiError } from '../src/generated/server/eagleeye/scenario/v1/service_server.ts';
+import { ApiError as ShippingApiError } from '../src/generated/server/eagleeye/shipping/v2/service_server.ts';
 
 const ORIGINAL_FETCH = globalThis.fetch;
 const ORIGINAL_ENV = { ...process.env };
@@ -97,12 +97,12 @@ function markerRequest(
   path = '/api/scenario/v1/run-scenario',
   options: { apiKey?: string; method?: string } = {},
 ): Request {
-  return new Request(`https://api.worldmonitor.app${path}`, {
+  return new Request(`https://api.eagle-eye.app${path}`, {
     method: options.method ?? 'POST',
     headers: {
       [INTERNAL_MCP_VERIFIED_HEADER]: getInternalMcpVerifiedNonce(),
       [TRUSTED_USER_ID_HEADER]: userId,
-      ...(options.apiKey ? { 'X-WorldMonitor-Key': options.apiKey } : {}),
+      ...(options.apiKey ? { 'X-EagleEye-Key': options.apiKey } : {}),
     },
   });
 }
@@ -138,7 +138,7 @@ beforeEach(() => {
   process.env.CONVEX_SERVER_SHARED_SECRET = 'fake-secret';
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-test-token';
-  process.env.WORLDMONITOR_VALID_KEYS = ENTERPRISE_TEST_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = ENTERPRISE_TEST_KEY;
   __resetEntitlementNegativeCacheForTests();
 });
 
@@ -207,7 +207,7 @@ describe('premium RPC billing-denial representation (#5652)', () => {
 
     const response = mapErrorToResponse(
       error,
-      new Request('https://api.worldmonitor.app/api/scenario/v1/run-scenario'),
+      new Request('https://api.eagle-eye.app/api/scenario/v1/run-scenario'),
     );
 
     assert.equal(response.status, 503);
@@ -264,7 +264,7 @@ describe('premium RPC billing-denial representation (#5652)', () => {
 
     const response = mapErrorToResponse(
       error,
-      new Request('https://api.worldmonitor.app/api/scenario/v1/run-scenario'),
+      new Request('https://api.eagle-eye.app/api/scenario/v1/run-scenario'),
     );
     assert.equal(response.headers.get('X-Billing-Verification'), null);
     assert.deepEqual(await response.json(), { message: 'Forbidden' });

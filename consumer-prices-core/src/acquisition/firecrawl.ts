@@ -53,7 +53,7 @@ export class FirecrawlProvider implements AcquisitionProvider {
     return {
       Authorization: `Bearer ${this.apiKey}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'worldmonitor-consumer-prices/1.0',
+      'User-Agent': 'eagleeye-consumer-prices/1.0',
     };
   }
 

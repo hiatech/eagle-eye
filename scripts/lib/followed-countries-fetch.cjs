@@ -51,7 +51,7 @@ async function fetchFollowedCountries(userId) {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${RELAY_SECRET}`,
-        'User-Agent': 'worldmonitor-relay/1.0',
+        'User-Agent': 'eagleeye-relay/1.0',
       },
       body: JSON.stringify({ userId }),
       signal: AbortSignal.timeout(10_000),

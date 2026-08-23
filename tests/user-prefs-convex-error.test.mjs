@@ -68,7 +68,7 @@ describe('extractConvexErrorKind — Convex client error → kind', () => {
 
   describe('Convex platform 401 — Unauthenticated JSON body (OIDC token verification failure)', () => {
     it('detects UNAUTHENTICATED from the {"code":"Unauthenticated"} JSON shape', () => {
-      // WORLDMONITOR-PG: when Clerk's OIDC token fails Convex's own
+      // EAGLEEYE-PG: when Clerk's OIDC token fails Convex's own
       // verification (token expired between our edge's
       // `validateBearerToken` and Convex's check, or Clerk JWKS rotated),
       // the SDK surfaces a JSON body
@@ -104,7 +104,7 @@ describe('extractConvexErrorKind — Convex client error → kind', () => {
 
   describe('Convex platform 500 — InternalServerError JSON body (transient runtime failure)', () => {
     it('detects SERVICE_UNAVAILABLE from the {"code":"InternalServerError"} JSON shape', () => {
-      // WORLDMONITOR-PG/PH: Convex runtime occasionally surfaces
+      // EAGLEEYE-PG/PH: Convex runtime occasionally surfaces
       //   `{"code":"InternalServerError","message":"Your request couldn't
       //     be completed. Try again later."}`
       // when an action / mutation fails internally. Same retry-with-backoff
@@ -131,7 +131,7 @@ describe('extractConvexErrorKind — Convex client error → kind', () => {
     });
   });
 
-  describe('Convex platform worker saturation — WorkerOverloaded JSON body (WORLDMONITOR-PG)', () => {
+  describe('Convex platform worker saturation — WorkerOverloaded JSON body (EAGLEEYE-PG)', () => {
     it('detects SERVICE_UNAVAILABLE from the {"code":"WorkerOverloaded"} JSON shape', () => {
       // Convex runtime surfaces
       //   `{"code":"WorkerOverloaded","message":"There are no available
@@ -165,13 +165,13 @@ describe('extractConvexErrorKind — Convex client error → kind', () => {
     });
   });
 
-  describe('Vercel edge transient — "Network connection lost." (WORLDMONITOR-QE)', () => {
+  describe('Vercel edge transient — "Network connection lost." (EAGLEEYE-QE)', () => {
     it('detects SERVICE_UNAVAILABLE from the exact "Network connection lost." shape', () => {
       // Vercel/Cloudflare edge runtime surface this when the upstream socket
       // is reset mid-request from inside `ConvexHttpClient`'s inner fetch.
       // Same retry-with-backoff remediation as ServiceUnavailable — without
       // this match, the catch falls to the 'unknown' bucket at error level
-      // instead of 503 + Retry-After (WORLDMONITOR-QE: 2 events / 2 users).
+      // instead of 503 + Retry-After (EAGLEEYE-QE: 2 events / 2 users).
       const err = new Error('Network connection lost.');
       assert.equal(extractConvexErrorKind(err, err.message), 'SERVICE_UNAVAILABLE');
     });
@@ -196,13 +196,13 @@ describe('extractConvexErrorKind — Convex client error → kind', () => {
     });
   });
 
-  describe('Cloudflare edge error 520-527 fronting Convex (WORLDMONITOR-PG)', () => {
+  describe('Cloudflare edge error 520-527 fronting Convex (EAGLEEYE-PG)', () => {
     it('detects SERVICE_UNAVAILABLE from the "error code: 520" Cloudflare body', () => {
       // Cloudflare returns a text/HTML body containing `error code: 52x` when
       // the origin misbehaves; the Convex HTTP client surfaces it as
       // `Error('error code: 520...')` with `.data === undefined`. Without this
       // match it fell to the 'unknown' bucket at error level instead of
-      // 503 + Retry-After (WORLDMONITOR-PG: 10 events / 8 users).
+      // 503 + Retry-After (EAGLEEYE-PG: 10 events / 8 users).
       const err = new Error('error code: 520');
       assert.equal(extractConvexErrorKind(err, err.message), 'SERVICE_UNAVAILABLE');
     });

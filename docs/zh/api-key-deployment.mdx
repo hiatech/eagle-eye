@@ -1,10 +1,10 @@
 ---
 title: "API 密钥门控与注册 — 部署指南"
-description: "桌面端云回退由 WORLDMONITOR_API_KEY 门控的部署与配置指南：无密钥时应用自动切换至本地 sidecar 模式仅使用离线数据，注册表单则通过 Convex 数据库收集邮箱以便密钥分发、灰度发布、使用度量、后续 Pro 订阅转化跟踪与用户沟通。"
+description: "桌面端云回退由 EAGLEEYE_API_KEY 门控的部署与配置指南：无密钥时应用自动切换至本地 sidecar 模式仅使用离线数据，注册表单则通过 Convex 数据库收集邮箱以便密钥分发、灰度发布、使用度量、后续 Pro 订阅转化跟踪与用户沟通。"
 ---
 ## 概述
 
-桌面端云回退受 `WORLDMONITOR_API_KEY` 门控。没有有效密钥时，桌面应用以仅本地模式（sidecar）运行。注册表单通过 Convex DB 收集邮箱，用于未来的密钥分发。
+桌面端云回退受 `EAGLEEYE_API_KEY` 门控。没有有效密钥时，桌面应用以仅本地模式（sidecar）运行。注册表单通过 Convex DB 收集邮箱，用于未来的密钥分发。
 
 ## 架构
 
@@ -31,7 +31,7 @@ Desktop App                          Cloud (Vercel)
 
 | 变量 | 描述 | 示例 |
 |----------|-------------|---------|
-| `WORLDMONITOR_VALID_KEYS` | 逗号分隔的有效 API 密钥列表 | `wm_abc123def456,wm_xyz789` |
+| `EAGLEEYE_VALID_KEYS` | 逗号分隔的有效 API 密钥列表 | `wm_abc123def456,wm_xyz789` |
 | `CONVEX_URL` | Convex 部署 URL（来自 `npx convex deploy`） | `https://xyz-123.convex.cloud` |
 
 ### 生成 API 密钥
@@ -44,7 +44,7 @@ openssl rand -hex 24 | sed 's/^/wm_/'
 # 示例输出: wm_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6
 ```
 
-在 Vercel 仪表盘中添加到 `WORLDMONITOR_VALID_KEYS`（逗号分隔，无空格）。
+在 Vercel 仪表盘中添加到 `EAGLEEYE_VALID_KEYS`（逗号分隔，无空格）。
 
 ## Convex 设置
 
@@ -95,22 +95,22 @@ npx convex dashboard
 
 ### 客户端（桌面应用）
 
-- `installRuntimeFetchPatch()` 在允许云回退之前检查 `WORLDMONITOR_API_KEY`
+- `installRuntimeFetchPatch()` 在允许云回退之前检查 `EAGLEEYE_API_KEY`
 - 密钥必须存在且有效（最少 16 个字符）
 - `secretsReady` promise 确保在首次 fetch 之前加载密钥（2 秒超时）
 - 故障关闭：密钥检查中的任何错误都会阻止云回退
 
 ### 服务端（Vercel edge）
 
-- `api/_api-key.js` 在 sebuf 路由上验证 `X-WorldMonitor-Key` 头
+- `api/_api-key.js` 在 sebuf 路由上验证 `X-EagleEye-Key` 头
 - **源感知**：桌面端来源（`tauri.localhost`、`tauri://`、`asset://`）需要密钥
-- Web 来源（`worldmonitor.app`）无需密钥即可通过
+- Web 来源（`eagle-eye.app`）无需密钥即可通过
 - 非桌面端来源带密钥头：密钥仍会验证
 - 无效密钥返回 `401 { error: "Invalid API key" }`
 
 ### CORS
 
-`X-WorldMonitor-Key` 在 `server/cors.ts` 和 `api/_cors.js` 中均被允许。
+`X-EagleEye-Key` 在 `server/cors.ts` 和 `api/_cors.js` 中均被允许。
 
 ### 本地 Vercel 环境导出
 
@@ -129,7 +129,7 @@ npx convex dashboard
 
 部署后：
 
-- [ ] 在 Vercel 中设置 `WORLDMONITOR_VALID_KEYS`
+- [ ] 在 Vercel 中设置 `EAGLEEYE_VALID_KEYS`
 - [ ] 在 Vercel 中设置 `CONVEX_URL`
 - [ ] 运行 `npx convex deploy` 推送 schema
 - [ ] 无密钥的桌面端：云回退被阻止（控制台显示 `cloud fallback blocked`）
@@ -145,11 +145,11 @@ npx convex dashboard
 | 文件 | 角色 |
 |------|------|
 | `src/services/runtime.ts` | 客户端密钥门控 + 头附加 |
-| `src/services/runtime-config.ts` | `WORLDMONITOR_API_KEY` 类型、验证、`secretsReady` |
+| `src/services/runtime-config.ts` | `EAGLEEYE_API_KEY` 类型、验证、`secretsReady` |
 | `api/_api-key.js` | 服务端密钥验证（源感知） |
 | `api/[domain]/v1/[rpc].ts` | Sebuf 网关 — 调用 `validateApiKey` |
 | `api/register-interest.js` | 注册端点 → Convex |
-| `server/cors.ts` / `api/_cors.js` | 带 `X-WorldMonitor-Key` 的 CORS 头 |
-| `src/components/WorldMonitorTab.ts` | 密钥 + 注册的设置 UI |
+| `server/cors.ts` / `api/_cors.js` | 带 `X-EagleEye-Key` 的 CORS 头 |
+| `src/components/EagleEyeTab.ts` | 密钥 + 注册的设置 UI |
 | `convex/schema.ts` | Convex DB schema |
 | `convex/registerInterest.ts` | Convex mutation |

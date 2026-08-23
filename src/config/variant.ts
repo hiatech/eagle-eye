@@ -22,7 +22,7 @@ const buildVariant = (() => {
 
 function loadStoredVariant(): string | null {
   try {
-    return localStorage.getItem('worldmonitor-variant');
+    return localStorage.getItem('eagleeye-variant');
   } catch {
     return null;
   }

@@ -90,7 +90,7 @@ enforcement remains blocked.
 OpenRouter states that its own prompts are not retained unless prompt logging is
 enabled, supports request-level zero-data-retention routing, and conservatively
 marks endpoints with unknown policy as retaining and training. The current shared
-WorldMonitor OpenRouter route does not enforce `provider.zdr: true`, so Company
+EagleEye OpenRouter route does not enforce `provider.zdr: true`, so Company
 Monitoring may not reuse it for portfolio-derived content until that dark contract
 lands and passes its own tests.
 

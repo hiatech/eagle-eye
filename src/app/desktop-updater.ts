@@ -66,7 +66,7 @@ export class DesktopUpdater implements AppModule {
 
   private async checkForUpdate(): Promise<void> {
     try {
-      const res = await fetch('https://api.worldmonitor.app/api/version', {
+      const res = await fetch('https://api.eagle-eye.app/api/version', {
         signal: AbortSignal.timeout(8000),
       });
       if (!res.ok) {
@@ -100,7 +100,7 @@ export class DesktopUpdater implements AppModule {
 
       const releaseUrl = typeof data.url === 'string' && data.url
         ? data.url
-        : 'https://github.com/koala73/worldmonitor/releases/latest';
+        : 'https://github.com/hiatech/eagle-eye/releases/latest';
       this.logUpdaterOutcome('update_available', { current, remote, dismissed: false });
       trackUpdateShown(current, remote);
       await this.showUpdateToast(remote, releaseUrl);
@@ -146,7 +146,7 @@ export class DesktopUpdater implements AppModule {
         // download is chosen by OS/arch alone. There is no per-variant asset to
         // disambiguate, and asking for one only ever produced a 302 to the
         // releases page.
-        return `https://api.worldmonitor.app/api/download?platform=${platform}`;
+        return `https://api.eagle-eye.app/api/download?platform=${platform}`;
       }
     } catch (error) {
       // Falls back to the release page, but says so: this is the same silent

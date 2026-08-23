@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { CyberThreat as ProtoCyberThreat, ListCyberThreatsResponse } from '@/generated/client/worldmonitor/cyber/v1/service_client';
+import type { CyberThreat as ProtoCyberThreat, ListCyberThreatsResponse } from '@/generated/client/eagleeye/cyber/v1/service_client';
 import type {
   CyberThreat,
   CyberThreatType,

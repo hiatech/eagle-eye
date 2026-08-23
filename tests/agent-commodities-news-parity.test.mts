@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { INTEL_SOURCES, VARIANT_FEEDS } from '../server/worldmonitor/news/v1/_feeds.ts';
+import { INTEL_SOURCES, VARIANT_FEEDS } from '../server/eagleeye/news/v1/_feeds.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 

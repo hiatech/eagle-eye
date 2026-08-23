@@ -106,7 +106,7 @@ function getConvexEnv(): ConvexEnv | null {
 function convexHeaders(sharedSecret: string): HeadersInit {
   return {
     'Content-Type': 'application/json',
-    'User-Agent': 'worldmonitor-gateway/1.0',
+    'User-Agent': 'eagleeye-gateway/1.0',
     'x-convex-shared-secret': sharedSecret,
   };
 }

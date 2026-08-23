@@ -1,5 +1,5 @@
 {
-  "name": "worldmonitor-docker-runtime",
+  "name": "eagleeye-docker-runtime",
   "private": true,
   "type": "module",
   "dependencies": {

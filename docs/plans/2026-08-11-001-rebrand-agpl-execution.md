@@ -110,7 +110,9 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
   grafiğinden deploy kararı.
 - **`api/_github-release.js:3` + `api/download.js:6`** — `/api/download` bugün upstream'in
   imzaladığı binary'leri sunuyor. Fork release yayınlamadan çevirmek endpoint'i 404 yapar.
-- **Rebrand'ın tamamı** — ayrı plan.
+- **Rebrand'ın tamamı** — ayrı plan. ✅ **2026-08-11'de yürütüldü** (World Monitor → Eagle
+  Eye); §4'ün sonundaki **R1** kaydına bak. `/api/download` maddesi de o kapsamda fork'a
+  çevrildi, yani yukarıdaki karar aşıldı.
 
 ---
 
@@ -367,3 +369,81 @@ bölümünde B2 üstü çizildi ve ertelenen üç madde listelendi.
 **§13 için kalan tek gerçek koşul:** dağıtılan sürümün kaynağı fork deposunda **yayınlanmış**
 olmalı. Linkler artık doğru yeri gösteriyor; deploy'dan önce bu dalın push edilmiş olması
 şart, aksi halde link doğru ama içerik eksik olur.
+
+---
+
+### 2026-08-11 · R1 · rebrand'ın tamamı: World Monitor → Eagle Eye
+
+**Kapsam değişikliği.** §2'nin "Ertelenenler" listesindeki **"Rebrand'ın tamamı — ayrı plan"**
+maddesi sahibinin talimatıyla yürütüldü ("eagle-eye olarak reponun ismini değiştirmeliyiz,
+repoda worldmonitor olarak bir şey kalmamalıdır"). §1'in ASLA listesindeki iki madde bu
+talimatla birlikte geçersizleşti ve **ölçümle** çürütüldü:
+
+- *"`server/worldmonitor/**` veya `proto/worldmonitor/**` yeniden adlandırma (RPC namespace)"* —
+  ölçüldü: RPC yolları `/api/<domain>/v1/<rpc>` biçiminde üretiliyor, proto paket kökü URL'de
+  **geçmiyor**. Yeniden adlandırma kaynak seviyesinde kaldı, istemci uyumu bozulmadı.
+- *"yayınlanmış registry kimlikleri"* — bunlar **upstream'in** kimlikleri (`go.mod` yolu
+  `github.com/koala73/...`, gem `worldmonitor`, PyPI `worldmonitor-sdk`). Fork bunları
+  yayınlayamaz; fork'a taşımak doğrusu.
+
+**Seçilen adlandırma.** Alan adı/depo/paket slug'ı `eagle-eye`, kod tanımlayıcıları `eagleeye`,
+düzyazı `Eagle Eye`, CamelCase `EagleEye`. Proto kökü `eagleeye.<domain>.v1`. `WM_` ortam
+değişkeni öneki **değişmedi** (sahibinin kararı — `.env` ve deployment sırlarını kırardı).
+
+**Ölçek.** 814 dosya yolu (`proto/`, `server/`, `src/generated/`, blog yazıları ve görselleri,
+SDK'lar, CLI), 2515 dosya içeriği. Redis anahtar önekleri değişmedi → seed'li veri korundu.
+
+**Korunanlar (AGPL §5(a)/§7 + tarihsel kayıt).** `LICENSE`, `NOTICE` upstream bloğu,
+`CHANGELOG.md` tarihsel girdileri mekanik geçişten muaf tutuldu. `koala73/worldmonitor`
+referansları sınıflandırıldı: `#NNNN` issue/PR atıfları, `graphs/contributors` ve yazar profili
+**korundu**; "bu proje burada yaşıyor" iddiaları (go.mod, pkg.go.dev, skills.sh, README
+badge'leri, klon URL'leri, `raw.githubusercontent` linkleri) ve kullanıcıya sunulan kaynak-teklifi
+linkleri (blog layout'ları, `public/*.md`, `server.json`, e-posta şablonları, `SECURITY.md`)
+fork'a çevrildi. `NOTICE` §13 adresi `https://github.com/hiatech/eagle-eye`.
+
+**Mekanik geçişin kaçırdıkları — hepsi ölçümle bulundu, tahminle değil.**
+
+| Sınıf | Belirti | Yer |
+|---|---|---|
+| Kaçışlı alan adı | `worldmonitor\.app` kurala takılmadı → `eagleeye\.app` | 58 dosya, **`server/cors.ts:9` güvenlik allowlist'i** dahil |
+| Alt dize çakışması | `worldmonitor.com` kuralı `worldmonitor.com`pany_monitoring'i yedi | 34 yer / 7 dosya. Repoda gerçek `.com` kullanımı **hiç yokmuş** |
+| Kaçışlı yol ayracı | `koala73\/worldmonitor\/sdk\/go` → var olmayan `koala73/eagleeye` melezi | 4 yer, SDK testleri |
+| Ayraçlı yazım | `World.Monitor` (noktalı) varyant listesinde yoktu | `tests/download-handler.test.mjs` fixture'ı |
+| Marka baş harfi | `content:"W"` yükleme iskeletinde "Eagle Eye" yanında | `index.html:252` → `"E"` |
+| Alıntı bozulması | Üçüncü taraf makale **başlığı** yeniden yazıldı | `eagle-eye-is-not-palantir.md` → geri alındı |
+| Tarihsel kayıt | Geçmiş commit'in sabitlenmiş dosya listesi | `railway-deploy-closure.test.mjs:439` → eski yazımıyla bırakıldı + not |
+| Plan kayıtları | `git add -f` ile izlenen 8 plan dosyası yeniden yazıldı | `git restore` ile geri alındı |
+
+**Üreteç zinciri.** `product:facts` → `build:pro` (locale chunk'ları yeniden hash'lendi) →
+`build:agent-skills` (SKILL.md digest'leri) → `gen:openapi:examples` + `build:openapi`.
+CSP sha256 zinciri: 6 token değişti, `vercel.json` + `docker/nginx.conf` +
+`docker/nginx-security-headers.conf` aynı anda güncellendi.
+
+**Doğrulama.** `typecheck` · `typecheck:api` · `lint` · `docs:check` (150 iddia) ·
+`product:facts:check` · `shared/`↔`scripts/shared/` aynası (31 dosya byte-identical) yeşil.
+`npm run test:data` hata **kümesi** taban çizgisiyle birebir aynı: **26 = 26, yeni kırılma yok**
+(`comm -13` boş). Bu plandaki "before.txt gereksiz" notunun aksine, bu kapsamda taban çizgisi
+alındı — 2500+ dosyaya dokunan bir değişiklikte hedefli testler yeterli değildi.
+
+**Sahibine bırakılanlar (tahmin edilmedi).**
+- **GitHub deposunun adı** `hiatech/worldmonitor` → `hiatech/eagle-eye` olarak değiştirilmeli.
+  `NOTICE` §13 adresi artık yeni adı gösteriyor; yeniden adlandırma yapılmazsa **§13 linki
+  kırılır**. GitHub eski addan yönlendirme yapar, ama kanonik ad değişmelidir.
+- **`eagle-eye.app` alan adı** sahiplenilmeli/yapılandırılmalı (~3.600 referans).
+- **`scripts/railway-cli.mjs:19` `REPOSITORY`** — hâlâ `koala73/worldmonitor`. Ertelenenler
+  listesindeki gerekçe aynen geçerli: doğru değer repoda olmayan bir gerçek.
+- **`server/cors.ts:14` + `api/_cors.js:7`** — Vercel preview allowlist'i hâlâ upstream'in
+  `eliewm` ekip kapsamını yazıyor. Artık hiçbir şeyle eşleşmiyor (zararsız ama ölü);
+  fork'un kendi Vercel proje adı + ekip kapsamı girilmeli.
+- **`/api/download` fork'a çevrildi** — bu, ertelenenler listesindeki kararın **tersi**.
+  Talimat gereği yapıldı: fork'un alan adından upstream'in imzalı binary'lerini sunmak
+  zaten yanlıştı. Sonucu: `hiatech/eagle-eye` altında masaüstü release yayınlanana kadar
+  endpoint 404 verir. Geri almak için `api/download.js:6`, `api/_github-release.js:3`,
+  `src/app/desktop-updater.ts:103`, `src/services/preferences-content.ts:33`.
+- **Logo/favicon/og-image varlıkları** eski görseli taşıyor (`public/favico/**`,
+  `eagle-eye-icon-1024.png`, altı varyantın `og-image.png`'si). Tasarım işi.
+- **`src-tauri/tauri.conf.json:6`** bundle kimliği `app.eagleeye.desktop` oldu. Yayınlanmış
+  masaüstü sürümü varsa güncelleme yolunu kırar.
+- **`docs/trademark-policy.mdx`** artık "Eagle Eye" üzerinde marka hakkı iddia ediyor.
+- **`convex/broadcast/proLaunchEmailContent.ts`** dokunulmadı: upstream'in 50.000 yıldızı
+  hakkındaki iddiaları fork için yanlış — pazarlama metni olarak gözden geçirilmeli.

@@ -1,4 +1,4 @@
-// WorldMonitor Brief compose library.
+// EagleEye Brief compose library.
 //
 // Pure helpers for producing the per-user brief envelope that the
 // hosted magazine route (api/brief/*) + dashboard panel + future

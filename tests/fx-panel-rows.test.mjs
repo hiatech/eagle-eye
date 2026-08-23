@@ -280,7 +280,7 @@ test('stress rows can disagree on asOf — the mapper preserves each row date', 
 // ─── economic:ecb-fx-rates:v1 ──────────────────────────────────────────────────
 //
 // Reaches the client already typed, through the existing getEcbFxRatesData()
-// RPC (server/worldmonitor/economic/v1/get-ecb-fx-rates.ts). `pair` is EURXXX
+// RPC (server/eagleeye/economic/v1/get-ecb-fx-rates.ts). `pair` is EURXXX
 // and `rate` is XXX per ONE euro — the opposite base from both keys above,
 // which is why these rows are a separate list and never merged with them.
 

@@ -33,7 +33,7 @@
     "and the entry is not removed (stale allowlist). Shrink this list as coverage lands.",
     "",
     "digestBlindAllowlist: UI languages whose native sources exist client-side but",
-    "never reach the server digest catalog (server/worldmonitor/news/v1/_feeds.ts),",
+    "never reach the server digest catalog (server/eagleeye/news/v1/_feeds.ts),",
     "so no AI brief is ever built from journalism in that language. Same two-way",
     "ratchet as zeroNativeAllowlist."
   ],

@@ -310,7 +310,7 @@ describe('alerts confirm classification (#5609)', () => {
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         onEvent: (event, stepId) => events.push({ event, stepId }),
       },
@@ -422,7 +422,7 @@ describe('activation interstitial blocked transition (#5609)', () => {
     const exits: Array<Array<{ id: string; outcome: string }>> = [];
     mod.openProActivationInterstitial({
       steps: [{ id: 'alerts', state }],
-      accountEmail: 'pro@worldmonitor.test',
+      accountEmail: 'pro@eagleeye.test',
       onConfirmStep: onConfirmStep as never,
       onSkipStep: (stepId) => skips.push(stepId),
       onBlockStep: (stepId) => blocks.push(stepId),
@@ -543,7 +543,7 @@ describe('activation interstitial blocked transition (#5609)', () => {
     const progress: Array<Array<{ id: string; outcome: string }>> = [];
     mod.openProActivationInterstitial({
       steps: [{ id: 'alerts', state: 'confirmable' }],
-      accountEmail: 'pro@worldmonitor.test',
+      accountEmail: 'pro@eagleeye.test',
       onConfirmStep: (async () => 'blocked') as never,
       onSkipStep: () => {},
       onBlockStep: () => {},
@@ -583,7 +583,7 @@ describe('activation interstitial blocked transition (#5609)', () => {
         { id: 'alerts', state: 'blocked' },
         { id: 'power', state: 'confirmable' },
       ],
-      accountEmail: 'pro@worldmonitor.test',
+      accountEmail: 'pro@eagleeye.test',
       onConfirmStep: (async () => 'verified') as never,
       onSkipStep: () => {},
       onBlockStep: () => {},
@@ -682,7 +682,7 @@ describe('activation interstitial blocked transition (#5609)', () => {
         { id: 'alerts', state: 'blocked' },
         { id: 'power', state: 'confirmable' },
       ],
-      accountEmail: 'pro@worldmonitor.test',
+      accountEmail: 'pro@eagleeye.test',
       onConfirmStep: (async () => 'verified') as never,
       onSkipStep: () => {},
       onExit: (results) => exits.push(results as never),
@@ -798,7 +798,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         // The durable snapshot is written only for the markerless cohort, which
         // is the one holding a server-side presentation row to write it onto.
@@ -869,7 +869,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         onlyIfUnactivated: true,
         expectedActivationKey: 'sub_activation_key',
@@ -915,7 +915,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         onlyIfUnactivated: false,
         expectedActivationKey: 'sub_activation_key',
@@ -969,7 +969,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         onlyIfUnactivated: false,
         expectedActivationKey: 'sub_activation_key',
@@ -1022,7 +1022,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
       const opened = await mod.openProActivationFlow(
         {
           accountUserId: 'user_alerts',
-          accountEmail: 'pro@worldmonitor.test',
+          accountEmail: 'pro@eagleeye.test',
           isAccountCurrent: () => true,
           onlyIfUnactivated: false,
           expectedActivationKey: 'sub_activation_key',
@@ -1067,7 +1067,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => true,
         onlyIfUnactivated: false,
         expectedActivationKey: 'sub_activation_key',
@@ -1110,7 +1110,7 @@ describe('durable activation outcome carries the blocked bucket (#5617)', () => 
     const opened = await mod.openProActivationFlow(
       {
         accountUserId: 'user_alerts',
-        accountEmail: 'pro@worldmonitor.test',
+        accountEmail: 'pro@eagleeye.test',
         isAccountCurrent: () => {
           accountChecks += 1;
           return accountChecks < 4;

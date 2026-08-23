@@ -5,13 +5,13 @@
 // produced by scripts/freeze-resilience-ranking.mjs with live credentials.
 //
 // Usage:
-//   API_BASE=https://www.worldmonitor.app \
+//   API_BASE=https://www.eagle-eye.app \
 //     node --import tsx/esm scripts/capture-resilience-energy-v2-acceptance.mjs
 //
 // Optional:
 //   BASELINE_RANKING_SNAPSHOT=docs/snapshots/resilience-ranking-live-pre-repair-2026-04-22.json
 //   POST_FLIP_RANKING_SNAPSHOT=docs/snapshots/resilience-ranking-live-post-pr1-YYYY-MM-DD.json
-//   WORLDMONITOR_API_KEY=<pro-api-key> # adds sampled score-endpoint evidence
+//   EAGLEEYE_API_KEY=<pro-api-key> # adds sampled score-endpoint evidence
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -23,7 +23,7 @@ import {
   EXTRACTION_RULES,
   buildIndicatorExtractionPlan,
 } from './compare-resilience-current-vs-proposed.mjs';
-import { INDICATOR_REGISTRY } from '../server/worldmonitor/resilience/v1/_indicator-registry.ts';
+import { INDICATOR_REGISTRY } from '../server/eagleeye/resilience/v1/_indicator-registry.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,7 +48,7 @@ const GATE_THRESHOLDS = {
   CORE_EXTRACTION_COVERAGE_MIN: 0.80,
 };
 
-const API_BASE = (process.env.API_BASE || 'https://www.worldmonitor.app').replace(/\/$/, '');
+const API_BASE = (process.env.API_BASE || 'https://www.eagle-eye.app').replace(/\/$/, '');
 const API_ORIGIN = new URL(API_BASE).origin;
 const USER_AGENT = process.env.USER_AGENT
   || 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
@@ -154,17 +154,17 @@ async function fetchRuntimeEvidence(baseUrl = API_BASE) {
 }
 
 async function fetchSampledCountryEvidence(baseUrl, postFlipScores) {
-  if (!process.env.WORLDMONITOR_API_KEY) {
+  if (!process.env.EAGLEEYE_API_KEY) {
     return {
       status: 'skipped',
-      reason: 'WORLDMONITOR_API_KEY not set; sampled score-endpoint evidence was not fetched.',
+      reason: 'EAGLEEYE_API_KEY not set; sampled score-endpoint evidence was not fetched.',
       countries: [],
     };
   }
 
   const headers = {
     ...baseHeaders(),
-    'X-WorldMonitor-Key': process.env.WORLDMONITOR_API_KEY,
+    'X-EagleEye-Key': process.env.EAGLEEYE_API_KEY,
   };
   const countries = [];
   for (const countryCode of SAMPLE_COUNTRIES) {
@@ -232,16 +232,16 @@ function formatMissingPostFlipRankingSnapshotMessage() {
     '  docs/snapshots/resilience-ranking-live-post-pr1-YYYY-MM-DD.json',
     '',
     'Capture it with production credentials; the freeze script verifies score anchors through get-resilience-score:',
-    '  API_BASE=https://www.worldmonitor.app \\',
-    '    WORLDMONITOR_API_KEY=<pro-api-key> \\',
+    '  API_BASE=https://www.eagle-eye.app \\',
+    '    EAGLEEYE_API_KEY=<pro-api-key> \\',
     '    RESILIENCE_RANKING_OUTPUT_BASENAME=resilience-ranking-live-post-pr1-YYYY-MM-DD.json \\',
     '    node scripts/freeze-resilience-ranking.mjs',
     '  # The script must print:',
     '  #   [freeze-resilience-ranking] wrote .../docs/snapshots/resilience-ranking-live-post-pr1-YYYY-MM-DD.json',
     '',
     'Then rerun this harness:',
-    '  API_BASE=https://www.worldmonitor.app \\',
-    '    WORLDMONITOR_API_KEY=<pro-api-key> \\',
+    '  API_BASE=https://www.eagle-eye.app \\',
+    '    EAGLEEYE_API_KEY=<pro-api-key> \\',
     '    node --import tsx/esm scripts/capture-resilience-energy-v2-acceptance.mjs',
     '',
     'Expected unauthenticated failure mode:',

@@ -6,8 +6,8 @@ import { escapeHtml, sanitizeUrl } from '../src/utils/sanitize.ts';
 describe('sanitize utility contracts', () => {
   it('escapeHtml escapes every HTML delimiter while preserving safe text', () => {
     assert.deepEqual(
-      [escapeHtml(`<>&"'`), escapeHtml('World Monitor 123')],
-      ['&lt;&gt;&amp;&quot;&#39;', 'World Monitor 123'],
+      [escapeHtml(`<>&"'`), escapeHtml('Eagle Eye 123')],
+      ['&lt;&gt;&amp;&quot;&#39;', 'Eagle Eye 123'],
     );
   });
 

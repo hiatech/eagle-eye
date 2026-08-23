@@ -102,7 +102,7 @@ describe('scheduled analytics collector monitor', () => {
     assert.equal(new Set(payloads.map((body) => body.payload.website)).size, 1);
     assert.equal(new Set(payloads.map((body) => body.payload.id)).size, 1);
     assert.equal(payloads[0].payload.website, ANALYTICS_CANARY_WEBSITE_ID);
-    assert.equal(payloads[0].payload.hostname, 'analytics-canary.worldmonitor.app');
+    assert.equal(payloads[0].payload.hostname, 'analytics-canary.eagle-eye.app');
     assert.notEqual(
       ANALYTICS_CANARY_WEBSITE_ID,
       'e8800335-c853-46a8-8497-c993ed2f58bc',

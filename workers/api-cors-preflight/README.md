@@ -1,13 +1,13 @@
 # api-cors-preflight
 
-Cloudflare Worker bound to `api.worldmonitor.app/*`. Owns CORS at the edge:
+Cloudflare Worker bound to `api.eagle-eye.app/*`. Owns CORS at the edge:
 short-circuits OPTIONS preflights (without forwarding to Vercel) and stamps
 matching CORS headers onto every non-OPTIONS response on the way back to the
 browser.
 
 ## Why this exists separately from `api/_cors.js`
 
-Three CORS surfaces sit in front of every browser request to `api.worldmonitor.app`:
+Three CORS surfaces sit in front of every browser request to `api.eagle-eye.app`:
 
 1. **Cloudflare Worker (this directory)** — sees the request first; the
    preflight response the browser actually checks comes from here.
@@ -38,7 +38,7 @@ automatically when `workers/api-cors-preflight/**` changes. Requires repo
 secrets:
 
 - `CLOUDFLARE_API_TOKEN` — token with `Workers Scripts:Edit` + `Workers
-  Routes:Edit` for the `worldmonitor.app` zone.
+  Routes:Edit` for the `eagle-eye.app` zone.
 - `CLOUDFLARE_ACCOUNT_ID` — the CF account that owns the Worker.
 
 ### From your laptop (fallback)
@@ -72,6 +72,6 @@ package exists to make visible. Update both files together.
 
 ## Related learning
 
-`~/.claude/skills/worldmonitor-architecture-gotchas/reference/cloudflare-worker-overrides-vercel-cors-for-preflight.md`
+`~/.claude/skills/eagleeye-architecture-gotchas/reference/cloudflare-worker-overrides-vercel-cors-for-preflight.md`
 captures the full post-mortem of the 2026-05-27 CORS outage that motivated
 pulling the Worker into the repo. Read it before touching this Worker.

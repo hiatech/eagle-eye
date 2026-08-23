@@ -1,4 +1,4 @@
-import type { GetResilienceRankingResponse, GetResilienceScoreResponse, ResilienceDomain, ResilienceDimension, ResilienceRankingItem, ScoreInterval } from '@/generated/client/worldmonitor/resilience/v1/service_client';
+import type { GetResilienceRankingResponse, GetResilienceScoreResponse, ResilienceDomain, ResilienceDimension, ResilienceRankingItem, ScoreInterval } from '@/generated/client/eagleeye/resilience/v1/service_client';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 import { ResilienceServiceClient } from '@/services/generated-rpc-clients';
 

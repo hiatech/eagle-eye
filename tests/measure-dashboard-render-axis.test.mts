@@ -459,7 +459,7 @@ describe('measure-dashboard-render-axis reporting', () => {
 describe('measure-dashboard-render-axis parseArgs', () => {
   it('uses desktop dashboard defaults', () => {
     const args = parseArgs(['node', 'script']);
-    assert.equal(args.url, 'https://www.worldmonitor.app/dashboard');
+    assert.equal(args.url, 'https://www.eagle-eye.app/dashboard');
     assert.equal(args.settle, 10000);
     assert.equal(args.width, 1365);
     assert.equal(args.height, 768);

@@ -9,7 +9,7 @@ import {
   projectChinaActivityNowcastWireResponse,
   resolveChinaActivityNowcastSnapshot,
   type ChinaActivityNowcastCache,
-} from '../server/worldmonitor/economic/v1/get-china-activity-nowcast';
+} from '../server/eagleeye/economic/v1/get-china-activity-nowcast';
 import {
   evaluateChinaActivityNowcast,
   parseChinaActivityNowcastWirePayload,
@@ -22,7 +22,7 @@ import type {
 } from '../shared/china-corridor-control-towers';
 import type {
   ChinaCorridorDirectionalSnapshot,
-} from '../server/worldmonitor/economic/v1/china-corridor-breadth-history';
+} from '../server/eagleeye/economic/v1/china-corridor-breadth-history';
 
 const EVALUATED_AT = '2026-07-25T12:00:00.000Z';
 

@@ -50,29 +50,29 @@ describe('getReferralCodeForUser', () => {
 describe('buildShareUrl', () => {
   it('appends /pro?ref={code} to the base URL', () => {
     assert.equal(
-      buildShareUrl('https://worldmonitor.app', 'abc12345'),
-      'https://worldmonitor.app/pro?ref=abc12345',
+      buildShareUrl('https://eagle-eye.app', 'abc12345'),
+      'https://eagle-eye.app/pro?ref=abc12345',
     );
   });
 
   it('trims a trailing slash on the base URL', () => {
     assert.equal(
-      buildShareUrl('https://worldmonitor.app/', 'abc12345'),
-      'https://worldmonitor.app/pro?ref=abc12345',
+      buildShareUrl('https://eagle-eye.app/', 'abc12345'),
+      'https://eagle-eye.app/pro?ref=abc12345',
     );
   });
 
   it('trims multiple trailing slashes', () => {
     assert.equal(
-      buildShareUrl('https://worldmonitor.app////', 'abc12345'),
-      'https://worldmonitor.app/pro?ref=abc12345',
+      buildShareUrl('https://eagle-eye.app////', 'abc12345'),
+      'https://eagle-eye.app/pro?ref=abc12345',
     );
   });
 
   it('URL-encodes the code (defensive — code is always hex in practice)', () => {
     assert.equal(
-      buildShareUrl('https://worldmonitor.app', 'a b'),
-      'https://worldmonitor.app/pro?ref=a%20b',
+      buildShareUrl('https://eagle-eye.app', 'a b'),
+      'https://eagle-eye.app/pro?ref=a%20b',
     );
   });
 });

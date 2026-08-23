@@ -5,7 +5,7 @@
  * The sebuf OpenAPI generator currently preserves request-schema `required`
  * arrays, but many matching query parameter objects are still emitted as
  * `required: false`. It also cannot infer runtime-required fields that are
- * expressed with WorldMonitor's local `(sebuf.http.query).required` annotation
+ * expressed with EagleEye's local `(sebuf.http.query).required` annotation
  * until the generated artifacts have been post-processed.
  *
  * This step is intentionally formatting-preserving for YAML artifacts and uses
@@ -18,8 +18,8 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
-const bundlePath = resolve(apiDir, 'worldmonitor.openapi.yaml');
-const protoWorldmonitorDir = resolve(root, 'proto/worldmonitor');
+const bundlePath = resolve(apiDir, 'eagleeye.openapi.yaml');
+const protoEagleeyeDir = resolve(root, 'proto/eagleeye');
 const CHECK = process.argv.includes('--check');
 const HTTP_METHODS = new Set(['get', 'post', 'put', 'delete', 'patch', 'options', 'head']);
 
@@ -94,7 +94,7 @@ function toSnakeName(jsonName) {
 function readProtoRequiredFields() {
   const messages = new Map();
   const requiredMessageOrigins = new Map();
-  for (const file of listProtoFiles(protoWorldmonitorDir)) {
+  for (const file of listProtoFiles(protoEagleeyeDir)) {
     const src = readFileSync(file, 'utf8');
     const messageRe = /\bmessage\s+(\w+)\s*\{/g;
     let msgMatch;
@@ -501,10 +501,10 @@ try {
   const { text, changed } = injectYaml(bundleRaw, bundleContracts);
   if (changed) {
     wouldChange++;
-    touched.push('worldmonitor.openapi.yaml');
+    touched.push('eagleeye.openapi.yaml');
     if (!CHECK) writeFileSync(bundlePath, text);
   }
-  const failures = yamlContractFailures(text, bundleContracts, 'worldmonitor.openapi.yaml');
+  const failures = yamlContractFailures(text, bundleContracts, 'eagleeye.openapi.yaml');
   contractFailures.push(...failures);
   if (!CHECK) failYamlContracts(failures);
 } catch (err) {

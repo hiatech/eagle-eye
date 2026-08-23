@@ -12,7 +12,7 @@ const RSS_DIRECT_TO_RELAY = import.meta.env.VITE_RSS_DIRECT_TO_RELAY === 'true';
 const RSS_PROXY_BASE = isDev
   ? '' // Dev uses Vite's rssProxyPlugin
   : RSS_DIRECT_TO_RELAY
-    ? 'https://proxy.worldmonitor.app'
+    ? 'https://proxy.eagle-eye.app'
     : '';
 
 // Widget agent proxy:
@@ -20,7 +20,7 @@ const RSS_PROXY_BASE = isDev
 //   desktop   → relay directly (sidecar buffers arrayBuffer() which destroys SSE streaming)
 //   prod web  → /api/widget-agent (Vercel edge) → validates Clerk JWT or tester keys
 //               then proxies SSE to relay with real server-side keys
-const WIDGET_RELAY_BASE = 'https://proxy.worldmonitor.app';
+const WIDGET_RELAY_BASE = 'https://proxy.eagle-eye.app';
 export function widgetAgentUrl(): string {
   if (isDev) return '/widget-agent';
   if (isDesktopRuntime()) return `${WIDGET_RELAY_BASE}/widget-agent`;

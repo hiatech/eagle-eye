@@ -218,12 +218,12 @@ const REQUEST_HEADERS = Object.freeze({
   sse: Object.freeze({
     Accept: 'application/json',
     Referer: 'https://www.sse.com.cn/',
-    'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+    'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
   }),
   szse: Object.freeze({
     Accept: 'application/json',
     Referer: 'https://www.szse.cn/',
-    'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+    'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
   }),
 });
 

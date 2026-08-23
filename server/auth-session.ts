@@ -182,7 +182,7 @@ async function lookupPlanFromClerk(userId: string): Promise<'free' | 'pro'> {
         Authorization: `Bearer ${CLERK_SECRET_KEY}`,
         // AGENTS.md: always set User-Agent on server-side fetches. Matches the
         // sibling auth lookups (entitlement-check.ts, _shared/user-api-key.ts).
-        'User-Agent': 'worldmonitor-gateway/1.0',
+        'User-Agent': 'eagleeye-gateway/1.0',
       },
       signal: AbortSignal.timeout(PLAN_LOOKUP_TIMEOUT_MS),
     });

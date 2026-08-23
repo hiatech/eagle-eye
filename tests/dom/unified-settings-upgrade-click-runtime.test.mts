@@ -148,7 +148,7 @@ type SettingsInternals = {
   handleUpgradeClick(): void;
 };
 
-const PRO_URL = 'https://worldmonitor.app/pro';
+const PRO_URL = 'https://eagle-eye.app/pro';
 
 let invocations: Array<{ command: string; payload?: Record<string, unknown> }>;
 let settings: InstanceType<typeof UnifiedSettings>;

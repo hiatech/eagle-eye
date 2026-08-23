@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { ArxivPaper, GithubRepo, HackernewsItem } from '@/generated/client/worldmonitor/research/v1/service_client';
+import type { ArxivPaper, GithubRepo, HackernewsItem } from '@/generated/client/eagleeye/research/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { ResearchServiceClient } from '@/services/generated-rpc-clients';
 

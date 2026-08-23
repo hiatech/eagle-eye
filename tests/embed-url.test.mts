@@ -87,7 +87,7 @@ describe('embed URL contract', () => {
     layers.conflicts = true;
     layers.ais = true;
     layers.weather = true;
-    const url = buildEmbedMapUrl('https://www.worldmonitor.app/embed?country=US&expanded=true', {
+    const url = buildEmbedMapUrl('https://www.eagle-eye.app/embed?country=US&expanded=true', {
       layers,
       center: { lat: 25.12345, lon: 55.98765 },
       zoom: 4.567,
@@ -118,8 +118,8 @@ describe('embed URL contract', () => {
   });
 
   it('escapes iframe snippet attributes', () => {
-    const snippet = buildEmbedIframeSnippet('https://www.worldmonitor.app/embed?layers=weather&x="><script>');
-    assert.ok(snippet.includes('title="World Monitor live map"'));
+    const snippet = buildEmbedIframeSnippet('https://www.eagle-eye.app/embed?layers=weather&x="><script>');
+    assert.ok(snippet.includes('title="Eagle Eye live map"'));
     assert.ok(snippet.includes('loading="lazy"'));
     assert.ok(snippet.includes('referrerpolicy="strict-origin-when-cross-origin"'));
     assert.ok(snippet.includes('&quot;&gt;&lt;script&gt;'));

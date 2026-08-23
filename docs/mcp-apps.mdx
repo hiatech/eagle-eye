@@ -1,9 +1,9 @@
 ---
-title: "MCP Apps: interactive ui:// widgets for WorldMonitor"
-description: "Complete contract for WorldMonitor's MCP Apps interactive ui:// resources, tool links, host flow, security posture, and drift checks."
+title: "MCP Apps: interactive ui:// widgets for EagleEye"
+description: "Complete contract for EagleEye's MCP Apps interactive ui:// resources, tool links, host flow, security posture, and drift checks."
 ---
 
-WorldMonitor supports [MCP Apps](https://modelcontextprotocol.io/extensions/apps/build) through the `io.modelcontextprotocol/ui` extension. The current fleet ships 10 MCP Apps: self-contained `ui://` HTML resources that an MCP Apps host can render inline after a linked tool call.
+EagleEye supports [MCP Apps](https://modelcontextprotocol.io/extensions/apps/build) through the `io.modelcontextprotocol/ui` extension. The current fleet ships 10 MCP Apps: self-contained `ui://` HTML resources that an MCP Apps host can render inline after a linked tool call.
 
 This page is the source-of-truth guide for the interactive surface. Use it with the [MCP Server overview](/mcp-overview) for auth, quota, transport, and general JSON-RPC behavior.
 
@@ -14,8 +14,8 @@ This page is the source-of-truth guide for the interactive surface. Use it with 
 | Extension | `io.modelcontextprotocol/ui` |
 | Spec version | `2026-01-26` |
 | UI resource MIME type | `text/html;profile=mcp-app` |
-| Transport endpoint | `https://worldmonitor.app/mcp` |
-| UI resource scheme | `ui://worldmonitor/...` |
+| Transport endpoint | `https://eagle-eye.app/mcp` |
+| UI resource scheme | `ui://eagleeye/...` |
 | Data path | normal gated `tools/call`, then host `postMessage` into the iframe |
 | Template path | `resources/read` of `ui://...`, public and quota-exempt |
 
@@ -31,21 +31,21 @@ Three discovery signals must stay aligned:
 
 | UI resource URI | Linked tool | App | Renders |
 |---|---|---|---|
-| `ui://worldmonitor/country-risk.html` | `get_country_risk` | Country Risk (interactive) | Composite Instability Index score, component breakdown, travel advisory, and sanctions exposure. |
-| `ui://worldmonitor/world-brief.html` | `get_world_brief` | World Brief (interactive) | Precomputed citation-grounded global brief, grounding headlines, and source feed articles. |
-| `ui://worldmonitor/country-brief.html` | `get_country_brief` | Country Brief (interactive) | Per-country intelligence brief, analytical framework lens, and grounding sources. |
-| `ui://worldmonitor/market-radar.html` | `get_market_data` | Market Radar (interactive) | Fear & Greed composite plus equity, commodity, crypto, Gulf, and sector quote tables with signed, colour-coded change. |
-| `ui://worldmonitor/chokepoint-monitor.html` | `get_chokepoint_status` | Chokepoint Monitor (interactive) | Per-chokepoint transit summaries, week-over-week change, tanker split, and risk-level badge. |
-| `ui://worldmonitor/news-intelligence.html` | `get_news_intelligence` | News Intelligence (interactive) | AI-classified top stories with category, alert flag, country, and source. |
-| `ui://worldmonitor/conflict-events.html` | `get_conflict_events` | Conflict Events (interactive) | Active armed-conflict events (belligerents, violence type, country, fatalities, date) from UCDP. |
-| `ui://worldmonitor/natural-disasters.html` | `get_natural_disasters` | Natural Disasters (interactive) | Recent earthquakes (USGS magnitude, place, time) and active wildfires (NASA FIRMS), grouped. |
-| `ui://worldmonitor/prediction-markets.html` | `get_prediction_markets` | Prediction Markets (interactive) | Event-contract odds grouped by category (geopolitical, tech, finance) with a probability bar per market. |
-| `ui://worldmonitor/forecasts.html` | `get_forecast_predictions` | Forecasts (interactive) | AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). |
+| `ui://eagleeye/country-risk.html` | `get_country_risk` | Country Risk (interactive) | Composite Instability Index score, component breakdown, travel advisory, and sanctions exposure. |
+| `ui://eagleeye/world-brief.html` | `get_world_brief` | World Brief (interactive) | Precomputed citation-grounded global brief, grounding headlines, and source feed articles. |
+| `ui://eagleeye/country-brief.html` | `get_country_brief` | Country Brief (interactive) | Per-country intelligence brief, analytical framework lens, and grounding sources. |
+| `ui://eagleeye/market-radar.html` | `get_market_data` | Market Radar (interactive) | Fear & Greed composite plus equity, commodity, crypto, Gulf, and sector quote tables with signed, colour-coded change. |
+| `ui://eagleeye/chokepoint-monitor.html` | `get_chokepoint_status` | Chokepoint Monitor (interactive) | Per-chokepoint transit summaries, week-over-week change, tanker split, and risk-level badge. |
+| `ui://eagleeye/news-intelligence.html` | `get_news_intelligence` | News Intelligence (interactive) | AI-classified top stories with category, alert flag, country, and source. |
+| `ui://eagleeye/conflict-events.html` | `get_conflict_events` | Conflict Events (interactive) | Active armed-conflict events (belligerents, violence type, country, fatalities, date) from UCDP. |
+| `ui://eagleeye/natural-disasters.html` | `get_natural_disasters` | Natural Disasters (interactive) | Recent earthquakes (USGS magnitude, place, time) and active wildfires (NASA FIRMS), grouped. |
+| `ui://eagleeye/prediction-markets.html` | `get_prediction_markets` | Prediction Markets (interactive) | Event-contract odds grouped by category (geopolitical, tech, finance) with a probability bar per market. |
+| `ui://eagleeye/forecasts.html` | `get_forecast_predictions` | Forecasts (interactive) | AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). |
 
 ## Runtime Flow
 
-1. The host calls `initialize` on `https://worldmonitor.app/mcp`.
-2. WorldMonitor returns the normal MCP capabilities plus `capabilities.extensions["io.modelcontextprotocol/ui"]`.
+1. The host calls `initialize` on `https://eagle-eye.app/mcp`.
+2. EagleEye returns the normal MCP capabilities plus `capabilities.extensions["io.modelcontextprotocol/ui"]`.
 3. The host calls `tools/list`. UI-linked tools carry `_meta.ui.resourceUri` and the deprecated flat `_meta["ui/resourceUri"]` alias.
 4. The host calls `resources/list` and sees the `ui://` app resources. Each UI entry includes `mimeType: text/html;profile=mcp-app` and `_meta.ui.csp`.
 5. The host calls `resources/read` for the chosen `ui://` URI. This read is public and quota-exempt because it returns only a static, data-free template.
@@ -60,7 +60,7 @@ Host -> View: ui/notifications/tool-result
 View -> Host: ui/notifications/size-changed
 ```
 
-The view never fetches live WorldMonitor data itself. Live data always reaches the app through the host after a normal tool call.
+The view never fetches live EagleEye data itself. Live data always reaches the app through the host after a normal tool call.
 
 ## Resource Reads And Quota
 
@@ -68,9 +68,9 @@ The view never fetches live WorldMonitor data itself. Live data always reaches t
 
 | Read kind | Example | Auth | Pro daily quota | Why |
 |---|---|---|---|---|
-| UI template | `resources/read` `ui://worldmonitor/market-radar.html` | No | No | Static HTML shell, no data and no upstream fetch. |
-| Public metadata | `resources/read` `worldmonitor://seed-meta/freshness` | No | No | Metadata-only health/freshness probe. |
-| Data template instantiation | `resources/read` `worldmonitor://countries/de/risk` | Yes | Yes | Routes through the same dispatcher as the equivalent `tools/call`. |
+| UI template | `resources/read` `ui://eagleeye/market-radar.html` | No | No | Static HTML shell, no data and no upstream fetch. |
+| Public metadata | `resources/read` `eagleeye://seed-meta/freshness` | No | No | Metadata-only health/freshness probe. |
+| Data template instantiation | `resources/read` `eagleeye://countries/de/risk` | Yes | Yes | Routes through the same dispatcher as the equivalent `tools/call`. |
 | Tool data | `tools/call` `get_market_data` | Yes | Yes for OAuth/Pro contexts | Fetches live or cached data. |
 
 All methods still count toward the 60/minute per-key, per-user, or anonymous-IP rate limiter.

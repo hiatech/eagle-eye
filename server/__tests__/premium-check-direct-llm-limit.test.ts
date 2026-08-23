@@ -73,7 +73,7 @@ function entitlement(
 }
 
 function bearerRequest() {
-  return new Request("https://www.worldmonitor.app/api/chat-analyst", {
+  return new Request("https://www.eagle-eye.app/api/chat-analyst", {
     method: "POST",
     headers: { Authorization: "Bearer token" },
   });
@@ -153,9 +153,9 @@ describe("premium identity carries a direct-LLM limit for every arm", () => {
     getEntitlements.mockResolvedValue(entitlement(2, 10_000, LAPSED()));
 
     const identity = await resolvePremiumCallerIdentity(
-      new Request("https://www.worldmonitor.app/api/chat-analyst", {
+      new Request("https://www.eagle-eye.app/api/chat-analyst", {
         method: "POST",
-        headers: { "X-WorldMonitor-Key": "wm_key" },
+        headers: { "X-EagleEye-Key": "wm_key" },
       }),
     );
 
@@ -170,9 +170,9 @@ describe("premium identity carries a direct-LLM limit for every arm", () => {
     getEntitlements.mockResolvedValue(entitlement(2, 10_000, ACTIVE()));
 
     const identity = await resolvePremiumCallerIdentity(
-      new Request("https://www.worldmonitor.app/api/chat-analyst", {
+      new Request("https://www.eagle-eye.app/api/chat-analyst", {
         method: "POST",
-        headers: { "X-WorldMonitor-Key": "wm_key" },
+        headers: { "X-EagleEye-Key": "wm_key" },
       }),
     );
 

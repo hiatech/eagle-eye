@@ -53,7 +53,7 @@ describe('Company Monitoring RPC contract', () => {
     });
 
     const service = readFileSync(
-      resolve(root, 'proto/worldmonitor/company_monitoring/v1/service.proto'),
+      resolve(root, 'proto/eagleeye/company_monitoring/v1/service.proto'),
       'utf8',
     );
     const rpcNames = [...service.matchAll(/\brpc\s+(\w+)\s*\(/g)].map((match) => match[1]);
@@ -62,7 +62,7 @@ describe('Company Monitoring RPC contract', () => {
 
     const generatedCallbacks = rpcNames.map((rpc) => `${rpc[0].toLowerCase()}${rpc.slice(1)}`);
     const generatedServer = readFileSync(
-      resolve(root, 'src/generated/server/worldmonitor/company_monitoring/v1/service_server.ts'),
+      resolve(root, 'src/generated/server/eagleeye/company_monitoring/v1/service_server.ts'),
       'utf8',
     );
     for (const callback of generatedCallbacks) {
@@ -75,7 +75,7 @@ describe('Company Monitoring RPC contract', () => {
     for (const callback of generatedCallbacks.filter((name) => name !== 'getCompanyMonitoringStatus')) {
       assert.match(
         GENERATED_REQUEST_TYPES[callback as keyof typeof GENERATED_REQUEST_TYPES] ?? '',
-        /^worldmonitor\.company_monitoring\.v1\./,
+        /^eagleeye\.company_monitoring\.v1\./,
         `${callback} must be recognized by the generated gateway request validator`,
       );
     }
@@ -83,7 +83,7 @@ describe('Company Monitoring RPC contract', () => {
 
   it('keeps deferred product surfaces out of the service and generated OpenAPI', () => {
     const service = readFileSync(
-      resolve(root, 'proto/worldmonitor/company_monitoring/v1/service.proto'),
+      resolve(root, 'proto/eagleeye/company_monitoring/v1/service.proto'),
       'utf8',
     );
     const openapi = JSON.parse(readFileSync(
@@ -159,7 +159,7 @@ describe('Company Monitoring limits and rollout controls', () => {
       { fields: Record<string, { stringMaxBytes?: number; stringMinLen?: number; repeatedMaxItems?: number; numberLte?: number }> }
     >;
     const field = (message: string, name: string) => {
-      const rule = rules[`worldmonitor.company_monitoring.v1.${message}`]?.fields?.[name];
+      const rule = rules[`eagleeye.company_monitoring.v1.${message}`]?.fields?.[name];
       assert.ok(rule, `${message}.${name} missing from the generated validation table`);
       return rule;
     };
@@ -212,7 +212,7 @@ describe('Company Monitoring limits and rollout controls', () => {
     for (const [schemaName, propertyName, contract] of COMPANY_MONITORING_OPENAPI_ITEM_CONTRACTS as Array<
       [string, string, Record<string, unknown>]
     >) {
-      const rule = rules[`worldmonitor.company_monitoring.v1.${schemaName}`]?.fields?.[propertyName];
+      const rule = rules[`eagleeye.company_monitoring.v1.${schemaName}`]?.fields?.[propertyName];
       if (!rule) continue; // query-only shapes are covered by the injector's own suite
       checked += 1;
       if (contract.pattern !== undefined) {
@@ -591,8 +591,8 @@ describe('Company Monitoring identity, confidence, and lifecycle invariants', ()
       { type: 'domain', value: 'example.com' },
     );
     assert.deepEqual(
-      normalizeCompanyClaimInput({ type: 'x_handle', value: '@WorldMonitor' }),
-      { type: 'x_handle', value: 'worldmonitor' },
+      normalizeCompanyClaimInput({ type: 'x_handle', value: '@EagleEye' }),
+      { type: 'x_handle', value: 'eagleeye' },
     );
     assert.throws(
       () => normalizeCompanyClaimInput({ type: 'COMPANY_CLAIM_TYPE_UNSPECIFIED', value: 'x' }),

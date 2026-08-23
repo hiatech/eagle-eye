@@ -68,12 +68,12 @@ function renderErrorPage(heading: string, body: string): string {
   return (
     '<!DOCTYPE html><html lang="en"><head>'
     + '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-    + `<title>${heading} · WorldMonitor</title>`
+    + `<title>${heading} · EagleEye</title>`
     + `<style>${ERROR_PAGE_STYLES}</style>`
     + '</head><body><div>'
     + `<h1>${heading}</h1>`
     + `<p>${body}</p>`
-    + '<p><a href="https://worldmonitor.app">Return to WorldMonitor</a></p>'
+    + '<p><a href="https://eagle-eye.app">Return to EagleEye</a></p>'
     + '</div></body></html>'
   );
 }
@@ -85,7 +85,7 @@ const EXPIRED_PAGE = renderErrorPage(
 
 const FORBIDDEN_PAGE = renderErrorPage(
   'This link is no longer valid.',
-  "The brief link you followed is incomplete or has been tampered with. Open the most recent notification from WorldMonitor to read today's brief.",
+  "The brief link you followed is incomplete or has been tampered with. Open the most recent notification from EagleEye to read today's brief.",
 );
 
 const UNAVAILABLE_PAGE = renderErrorPage(
@@ -122,7 +122,7 @@ async function fetchFollowedCountriesEdge(
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${relaySecret}`,
-        'User-Agent': 'worldmonitor-brief-render/1.0',
+        'User-Agent': 'eagleeye-brief-render/1.0',
       },
       body: JSON.stringify({ userId }),
       signal: AbortSignal.timeout(FOLLOWED_COUNTRIES_TIMEOUT_MS),

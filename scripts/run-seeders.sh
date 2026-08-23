@@ -2,7 +2,7 @@
 # Run all seed scripts against the local Redis REST proxy.
 # Usage: ./scripts/run-seeders.sh
 #
-# Requires the worldmonitor stack to be running (uvx podman-compose up -d).
+# Requires the eagleeye stack to be running (uvx podman-compose up -d).
 # The Redis REST proxy listens on localhost:8079 by default.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

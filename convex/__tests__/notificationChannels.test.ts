@@ -213,7 +213,7 @@ describe("notificationChannels — durable first-connect welcome", () => {
         method: "POST",
         headers: {
           Authorization: "Bearer upstash-token",
-          "User-Agent": "worldmonitor-convex/1.0",
+          "User-Agent": "eagleeye-convex/1.0",
           "Content-Type": "application/json",
         },
       },

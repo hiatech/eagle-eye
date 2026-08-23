@@ -349,9 +349,9 @@ export function getClerk(): ClerkInstance | null {
 
 // Chinese in-app browsers (WeChat/Weibo/QQ/UC/Baidu) routinely block or
 // time out script loads from Cloudflare-fronted third-party hosts like
-// clerk.worldmonitor.app — a `clerk-load-failed` there is environmental
+// clerk.eagle-eye.app — a `clerk-load-failed` there is environmental
 // (Great-Firewall-class), not actionable, and not a Clerk-CDN-outage
-// signal (WORLDMONITOR-T7). A real CDN outage still alarms via every
+// signal (EAGLEEYE-T7). A real CDN outage still alarms via every
 // other browser, so the load-failure capture keeps its value.
 const CN_INAPP_BROWSER_RE = /MicroMessenger|Weibo|QQBrowser|UCBrowser|baiduboxapp/i;
 
@@ -381,7 +381,7 @@ function scheduleNextFrame(cb: () => void): void {
  * controller never attached — a `load()`-resolved-before-components-mounted
  * race, or the component bundle being blocked by an ad-blocker / CSP. Left
  * unguarded that throw escaped as an uncaught error on every Sign In /
- * Create Account click (WORLDMONITOR-SC / -SD: ~2.3k events / ~1k users).
+ * Create Account click (EAGLEEYE-SC / -SD: ~2.3k events / ~1k users).
  *
  * Retry once on the next frame to absorb the mount race; if it still fails,
  * report a single handled event so a genuine regression still alarms without
@@ -603,7 +603,7 @@ function shouldReuseCachedClerkTokenWithExpiry(
 /**
  * Whether the cached token can still sign a request. Both bounds must hold.
  *
- * The TTL alone was the bug (Sentry WORLDMONITOR-XR/XQ): Clerk's `getToken()`
+ * The TTL alone was the bug (Sentry EAGLEEYE-XR/XQ): Clerk's `getToken()`
  * is stale-while-revalidate — within 15s of expiry it returns the CACHED token
  * immediately and refreshes in the background — so the premise this cache was
  * built on ("Clerk tokens expire at 60s", i.e. every token arrives fresh) does

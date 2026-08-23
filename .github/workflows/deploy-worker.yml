@@ -1,13 +1,13 @@
 name: Deploy api-cors-preflight Worker
 
-# Deploys the Cloudflare Worker that owns CORS for api.worldmonitor.app.
+# Deploys the Cloudflare Worker that owns CORS for api.eagle-eye.app.
 # Triggers on push to main when workers/api-cors-preflight/** changes, OR on
 # manual dispatch. The path filter is the only thing keeping unrelated PRs
 # from re-deploying the Worker on every merge.
 #
 # Required repo secrets:
 #   CLOUDFLARE_API_TOKEN  — token scoped to Workers Scripts:Edit + Workers
-#                           Routes:Edit on the worldmonitor.app zone.
+#                           Routes:Edit on the eagle-eye.app zone.
 #   CLOUDFLARE_ACCOUNT_ID — CF account that owns the Worker.
 
 on:

@@ -17,14 +17,14 @@ import {
 // Guards the outbound webhook-delivery contract injected into the OpenAPI bundle
 // by scripts/openapi-inject-webhooks.mjs (orank Access — "webhook signing
 // referenced but no branded signature header identified"). The published spec
-// (public/openapi.json ← docs/api/worldmonitor.openapi.yaml) must name the
+// (public/openapi.json ← docs/api/eagleeye.openapi.yaml) must name the
 // branded X-WM-Signature header and describe how to verify it, and that
 // documented contract must not drift from what the delivery worker actually
-// sends (server/worldmonitor/shipping/v2/deliver-webhook.ts).
+// sends (server/eagleeye/shipping/v2/deliver-webhook.ts).
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const bundlePath = resolve(root, 'docs/api/worldmonitor.openapi.yaml');
-const deliverPath = resolve(root, 'server/worldmonitor/shipping/v2/deliver-webhook.ts');
+const bundlePath = resolve(root, 'docs/api/eagleeye.openapi.yaml');
+const deliverPath = resolve(root, 'server/eagleeye/shipping/v2/deliver-webhook.ts');
 
 const bundleRaw = readFileSync(bundlePath, 'utf8');
 const bundle = loadYaml(bundleRaw);

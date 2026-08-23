@@ -1157,3 +1157,9 @@ literali, 2.968 "World Monitor", 3.086 "WorldMonitor" (927'si dokunulmaması ger
 `X-WorldMonitor-*` HTTP başlığı). B1'in yukarıdaki "218 dosya" tahmini yalnızca domain'i ve
 yalnızca bir alt kümesini sayıyormuş. Rebrand §13 için **gerekli değil** ve ayrı bir plan
 olarak ele alınacak.
+
+> **Güncelleme (2026-08-11, aynı gün): rebrand yürütüldü.** Sahibi projeyi **Eagle Eye**
+> olarak yeniden adlandırmaya karar verdi. 814 dosya yolu + 2.515 dosya içeriği değişti;
+> `test:data` hata kümesi taban çizgisiyle birebir aynı kaldı (26 = 26). Yürütme kaydı ve
+> sahibine bırakılan maddeler `2026-08-11-001-rebrand-agpl-execution.md` §4 **R1**'de.
+> Yukarıdaki "ertelendi" paragrafı tarihsel kayıt olarak bırakıldı.

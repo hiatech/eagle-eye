@@ -97,7 +97,7 @@ test('custom news rotation persists, accumulates, survives lazy mount, and repor
       { key: 'custom-rotation', feeds: rotationFeeds, isCustom: true },
     ];
     ctx.newsCategoryPanelKeys.set('custom-rotation', 'custom-rotation-panel');
-    localStorage.removeItem('worldmonitor-news-feed-rotation');
+    localStorage.removeItem('eagleeye-news-feed-rotation');
 
     const loadOptions = { allowDigestPendingFallback: false, recordBaselineSample: false };
     await internals.loadNewsCategory('custom-rotation', rotationFeeds, null, true, loadOptions);
@@ -126,7 +126,7 @@ test('custom news rotation persists, accumulates, survives lazy mount, and repor
     )].sort();
     const secondCoverage = coverageEvents.at(-1);
     const persistedCycles = JSON.parse(
-      localStorage.getItem('worldmonitor-news-feed-rotation') ?? '{}',
+      localStorage.getItem('eagleeye-news-feed-rotation') ?? '{}',
     ) as Record<string, number>;
 
     ctx.currentTimeRange = 'all';

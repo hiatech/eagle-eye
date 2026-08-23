@@ -28,7 +28,7 @@ interface ServiceWorkerContainerLike {
  * property from 'Navigator': Service worker is disabled because the context is
  * sandboxed and lacks the 'allow-same-origin' flag.` So an existence check
  * passes and the first real READ throws, which at module scope takes the rest
- * of the entry module's top-level statements down with it (WORLDMONITOR-Y5).
+ * of the entry module's top-level statements down with it (EAGLEEYE-Y5).
  *
  * Returns null whenever the container is unreadable or absent, so every caller
  * can treat "no service worker here" as one ordinary branch.

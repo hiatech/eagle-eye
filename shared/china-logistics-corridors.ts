@@ -100,9 +100,9 @@ const yrdNodes = [
   node('yrd-port-taicang', 'Suzhou Taicang', 'port', 31.65, 121.2, 'IMF PortWatch', { family: 'port', id: 'port1253' }),
   node('yrd-port-nanjing', 'Nanjing', 'port', 32.08, 118.77, 'IMF PortWatch', { family: 'port', id: 'port2020' }),
   node('yrd-airport-pvg', 'Shanghai Pudong International', 'airport', 31.1443, 121.8083, 'AviationStack', { family: 'aviation', id: 'PVG' }),
-  node('yrd-industry-shanghai', 'Shanghai advanced manufacturing cluster', 'industrial', 31.2304, 121.4737, 'Reviewed WorldMonitor configuration'),
-  node('yrd-industry-suzhou', 'Suzhou industrial cluster', 'industrial', 31.2989, 120.5853, 'Reviewed WorldMonitor configuration'),
-  node('yrd-industry-ningbo', 'Ningbo-Zhoushan industrial cluster', 'industrial', 29.8683, 121.5440, 'Reviewed WorldMonitor configuration'),
+  node('yrd-industry-shanghai', 'Shanghai advanced manufacturing cluster', 'industrial', 31.2304, 121.4737, 'Reviewed EagleEye configuration'),
+  node('yrd-industry-suzhou', 'Suzhou industrial cluster', 'industrial', 31.2989, 120.5853, 'Reviewed EagleEye configuration'),
+  node('yrd-industry-ningbo', 'Ningbo-Zhoushan industrial cluster', 'industrial', 29.8683, 121.5440, 'Reviewed EagleEye configuration'),
 ] as const;
 
 const gbaNodes = [
@@ -118,9 +118,9 @@ const gbaNodes = [
   node('gba-airport-can', 'Guangzhou Baiyun International', 'airport', 23.3924, 113.2988, 'AviationStack', { family: 'aviation', id: 'CAN' }),
   node('gba-airport-szx', 'Shenzhen Bao’an International', 'airport', 22.6393, 113.8107, 'AviationStack', { family: 'aviation', id: 'SZX' }),
   node('gba-airport-hkg', 'Hong Kong International', 'airport', 22.3080, 113.9185, 'AviationStack', { family: 'aviation', id: 'HKG' }),
-  node('gba-industry-shenzhen', 'Shenzhen technology manufacturing cluster', 'industrial', 22.5431, 114.0579, 'Reviewed WorldMonitor configuration'),
-  node('gba-industry-guangzhou', 'Guangzhou-Foshan industrial cluster', 'industrial', 23.1291, 113.2644, 'Reviewed WorldMonitor configuration'),
-  node('gba-industry-hong-kong', 'Hong Kong trade and finance gateway', 'industrial', 22.3193, 114.1694, 'Reviewed WorldMonitor configuration'),
+  node('gba-industry-shenzhen', 'Shenzhen technology manufacturing cluster', 'industrial', 22.5431, 114.0579, 'Reviewed EagleEye configuration'),
+  node('gba-industry-guangzhou', 'Guangzhou-Foshan industrial cluster', 'industrial', 23.1291, 113.2644, 'Reviewed EagleEye configuration'),
+  node('gba-industry-hong-kong', 'Hong Kong trade and finance gateway', 'industrial', 22.3193, 114.1694, 'Reviewed EagleEye configuration'),
 ] as const;
 
 const bohaiNodes = [
@@ -132,9 +132,9 @@ const bohaiNodes = [
   node('bohai-port-dalian', 'Dalian', 'port', 38.92, 121.64, 'IMF PortWatch', { family: 'port', id: 'port273' }),
   node('bohai-port-huanghua', 'Huanghua', 'port', 38.32, 117.87, 'IMF PortWatch', { family: 'port', id: 'port154' }),
   node('bohai-airport-pek', 'Beijing Capital International', 'airport', 40.0799, 116.6031, 'AviationStack', { family: 'aviation', id: 'PEK' }),
-  node('bohai-industry-beijing-tianjin', 'Beijing-Tianjin industrial cluster', 'industrial', 39.50, 117.20, 'Reviewed WorldMonitor configuration'),
-  node('bohai-industry-shandong', 'Shandong manufacturing cluster', 'industrial', 36.6512, 117.1201, 'Reviewed WorldMonitor configuration'),
-  node('bohai-industry-liaoning', 'Liaoning heavy-industry cluster', 'industrial', 41.8057, 123.4315, 'Reviewed WorldMonitor configuration'),
+  node('bohai-industry-beijing-tianjin', 'Beijing-Tianjin industrial cluster', 'industrial', 39.50, 117.20, 'Reviewed EagleEye configuration'),
+  node('bohai-industry-shandong', 'Shandong manufacturing cluster', 'industrial', 36.6512, 117.1201, 'Reviewed EagleEye configuration'),
+  node('bohai-industry-liaoning', 'Liaoning heavy-industry cluster', 'industrial', 41.8057, 123.4315, 'Reviewed EagleEye configuration'),
 ] as const;
 
 const westernNodes = [
@@ -144,12 +144,12 @@ const westernNodes = [
   node('western-airport-ctu', 'Chengdu Shuangliu International', 'airport', 30.5785, 103.9471, 'AviationStack', { family: 'aviation', id: 'CTU' }),
   node('western-airport-kmg', 'Kunming Changshui International', 'airport', 25.1019, 102.9292, 'AviationStack', { family: 'aviation', id: 'KMG' }),
   node('western-airport-urc', 'Ürümqi Diwopu International', 'airport', 43.9071, 87.4742, 'AviationStack', { family: 'aviation', id: 'URC' }),
-  node('western-crossing-khorgos', 'Khorgos land crossing', 'crossing', 44.2140, 80.4100, 'Reviewed WorldMonitor configuration'),
-  node('western-crossing-alashankou', 'Alashankou land crossing', 'crossing', 45.1700, 82.5700, 'Reviewed WorldMonitor configuration'),
-  node('western-crossing-pingxiang', 'Pingxiang land crossing', 'crossing', 22.1080, 106.7560, 'Reviewed WorldMonitor configuration'),
-  node('western-industry-chengdu', 'Chengdu manufacturing cluster', 'industrial', 30.5728, 104.0668, 'Reviewed WorldMonitor configuration'),
-  node('western-industry-chongqing', 'Chongqing manufacturing cluster', 'industrial', 29.5630, 106.5516, 'Reviewed WorldMonitor configuration'),
-  node('western-industry-urumqi', 'Ürümqi western logistics hub', 'industrial', 43.8256, 87.6168, 'Reviewed WorldMonitor configuration'),
+  node('western-crossing-khorgos', 'Khorgos land crossing', 'crossing', 44.2140, 80.4100, 'Reviewed EagleEye configuration'),
+  node('western-crossing-alashankou', 'Alashankou land crossing', 'crossing', 45.1700, 82.5700, 'Reviewed EagleEye configuration'),
+  node('western-crossing-pingxiang', 'Pingxiang land crossing', 'crossing', 22.1080, 106.7560, 'Reviewed EagleEye configuration'),
+  node('western-industry-chengdu', 'Chengdu manufacturing cluster', 'industrial', 30.5728, 104.0668, 'Reviewed EagleEye configuration'),
+  node('western-industry-chongqing', 'Chongqing manufacturing cluster', 'industrial', 29.5630, 106.5516, 'Reviewed EagleEye configuration'),
+  node('western-industry-urumqi', 'Ürümqi western logistics hub', 'industrial', 43.8256, 87.6168, 'Reviewed EagleEye configuration'),
 ] as const;
 
 export const CHINA_LOGISTICS_CORRIDORS: readonly ChinaLogisticsCorridor[] = Object.freeze([

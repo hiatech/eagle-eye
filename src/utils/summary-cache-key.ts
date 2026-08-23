@@ -80,7 +80,7 @@ export function canonicalizeSummaryInputs(
 
 /**
  * Canonical cache-key builder for SummarizeArticle results. Shared by both
- * client (src/services/summarization.ts) and server (server/worldmonitor/
+ * client (src/services/summarization.ts) and server (server/eagleeye/
  * news/v1/_shared.ts re-export as getCacheKey). Client and server MUST call
  * with identical inputs for the cache to align — sanitise any adversarial
  * text (bodies, geoContext) the same way on both sides before calling.

@@ -134,7 +134,7 @@ function givingResponse() {
         },
         {
           subject: 'Legacy giving category shares',
-          sourceName: 'WorldMonitor issue #5504',
+          sourceName: 'EagleEye issue #5504',
           sourceUrl: 'https://github.com/koala73/worldmonitor/issues/5504',
           referencePeriod: 'Legacy snapshot; reference period not verified',
           sourcePublishedAt: '',
@@ -167,7 +167,7 @@ async function setupGivingPage(
   await page.addInitScript(() => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('worldmonitor-variant', 'happy');
+    localStorage.setItem('eagleeye-variant', 'happy');
   });
   await page.route(/^https?:\/\/(?!(127\.0\.0\.1:4173|localhost:4173)(?:\/|$)).*/i, (route) => {
     return route.abort('blockedbyclient');

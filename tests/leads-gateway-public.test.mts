@@ -31,11 +31,11 @@ afterEach(() => {
 async function loadLeadsGateway() {
   const [{ createDomainGateway, PUBLIC_NO_AUTH_RPC_PATHS, serverOptions }, generated, { leadsHandler }, { PREMIUM_RPC_PATHS }] = await Promise.all([
     import('../server/gateway.ts'),
-    import('../src/generated/server/worldmonitor/leads/v1/service_server.ts'),
-    import('../server/worldmonitor/leads/v1/handler.ts'),
+    import('../src/generated/server/eagleeye/leads/v1/service_server.ts'),
+    import('../server/eagleeye/leads/v1/handler.ts'),
     import('../src/shared/premium-paths.ts'),
   ]);
-  delete process.env.WORLDMONITOR_VALID_KEYS;
+  delete process.env.EAGLEEYE_VALID_KEYS;
   // The endpoint rate limiter fails closed (503) when Redis is unconfigured;
   // install the fake so the request reaches the handler like in production.
   installRedis({});
@@ -61,11 +61,11 @@ describe('leads gateway public access', { concurrency: 1 }, () => {
     // Honeypot-filled body: the handler short-circuits to a silent success
     // without touching Turnstile/Convex/Resend, so this exercises ONLY the
     // gateway auth pipeline — exactly the layer that regressed.
-    const res = await gateway(new Request('https://api.worldmonitor.app/api/leads/v1/submit-contact', {
+    const res = await gateway(new Request('https://api.eagle-eye.app/api/leads/v1/submit-contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Origin: 'https://worldmonitor.app',
+        Origin: 'https://eagle-eye.app',
       },
       body: JSON.stringify({
         email: 'lead@example-corp.com',
@@ -94,11 +94,11 @@ describe('leads gateway public access', { concurrency: 1 }, () => {
     // Same honeypot short-circuit as submit-contact: registerInterest returns
     // a silent success before Turnstile/desktop-HMAC/Convex, isolating the
     // gateway auth layer for the waitlist path too.
-    const res = await gateway(new Request('https://api.worldmonitor.app/api/leads/v1/register-interest', {
+    const res = await gateway(new Request('https://api.eagle-eye.app/api/leads/v1/register-interest', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Origin: 'https://worldmonitor.app',
+        Origin: 'https://eagle-eye.app',
       },
       body: JSON.stringify({
         email: 'lead@example-corp.com',

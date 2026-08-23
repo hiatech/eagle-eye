@@ -1,7 +1,7 @@
 import { beforeEach, afterEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { listTelegramFeed } from '../server/worldmonitor/intelligence/v1/list-telegram-feed.ts';
+import { listTelegramFeed } from '../server/eagleeye/intelligence/v1/list-telegram-feed.ts';
 
 const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
@@ -14,9 +14,9 @@ function restoreEnv() {
 }
 
 function makeRequest(path = '/api/telegram-feed?limit=50') {
-  return new Request(`https://worldmonitor.app${path}`, {
+  return new Request(`https://eagle-eye.app${path}`, {
     method: 'GET',
-    headers: { origin: 'https://worldmonitor.app' },
+    headers: { origin: 'https://eagle-eye.app' },
   });
 }
 

@@ -222,7 +222,7 @@ export async function setCachedJson(key: string, value: unknown, ttlSeconds: num
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-server/1.0 (redis)',
+        'User-Agent': 'eagleeye-server/1.0 (redis)',
       },
       body: JSON.stringify(['SET', finalKey, JSON.stringify(value), 'EX', String(ttlSeconds)]),
       signal: AbortSignal.timeout(REDIS_PIPELINE_TIMEOUT_MS),
@@ -273,7 +273,7 @@ export async function readCachedJsonList(
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-server/1.0 (redis)',
+        'User-Agent': 'eagleeye-server/1.0 (redis)',
       },
       body: JSON.stringify(['LRANGE', finalKey, '0', String(boundedLimit - 1)]),
       signal: AbortSignal.timeout(REDIS_PIPELINE_TIMEOUT_MS),
@@ -371,7 +371,7 @@ export async function prependCachedJsonList(
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-server/1.0 (redis)',
+        'User-Agent': 'eagleeye-server/1.0 (redis)',
       },
       body: JSON.stringify(commands),
       signal: AbortSignal.timeout(REDIS_PIPELINE_TIMEOUT_MS),

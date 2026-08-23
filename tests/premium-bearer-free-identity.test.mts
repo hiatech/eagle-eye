@@ -50,7 +50,7 @@ before(async () => {
   process.env.CONVEX_SERVER_SHARED_SECRET = 'fake-secret';
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-test-token';
-  delete process.env.WORLDMONITOR_VALID_KEYS;
+  delete process.env.EAGLEEYE_VALID_KEYS;
 
   const { publicKey, privateKey } = await generateKeyPair('RS256', { extractable: true });
   const jwk = { ...(await exportJWK(publicKey)), kid: 'test-key', alg: 'RS256', use: 'sig' };
@@ -101,11 +101,11 @@ after(() => {
 });
 
 function bearerRequest(token: string): Request {
-  return new Request('https://api.worldmonitor.app/api/chat-analyst', {
+  return new Request('https://api.eagle-eye.app/api/chat-analyst', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ query: 'what is happening in the strait of hormuz' }),

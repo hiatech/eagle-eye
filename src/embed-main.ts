@@ -5,7 +5,7 @@ import { MapContainer, type MapContainerState } from '@/components/MapContainer'
 import { initI18n } from '@/services/i18n';
 import { EmbedDataLoader } from '@/embed/embed-data-loader';
 import {
-  buildWorldMonitorAttributionUrl,
+  buildEagleEyeAttributionUrl,
   parseEmbedParams,
 } from '@/embed/embed-url';
 
@@ -57,10 +57,10 @@ async function bootEmbed(): Promise<void> {
 
     const attribution = document.createElement('a');
     attribution.className = 'wm-embed-attribution';
-    attribution.href = buildWorldMonitorAttributionUrl(new URL('/dashboard', window.location.origin).toString(), getReferrerHost());
+    attribution.href = buildEagleEyeAttributionUrl(new URL('/dashboard', window.location.origin).toString(), getReferrerHost());
     attribution.target = '_blank';
     attribution.rel = 'noopener noreferrer';
-    attribution.textContent = 'Live map by World Monitor';
+    attribution.textContent = 'Live map by Eagle Eye';
     root.appendChild(attribution);
 
     const loader = new EmbedDataLoader(map, params.layerIds);
@@ -72,7 +72,7 @@ async function bootEmbed(): Promise<void> {
     }, { once: true });
   } catch (error) {
     console.error('[embed] Failed to boot map:', error);
-    mountError(root, 'World Monitor map embed could not load.');
+    mountError(root, 'Eagle Eye map embed could not load.');
     document.body.dataset.embedReady = 'error';
   }
 }

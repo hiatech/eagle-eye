@@ -44,7 +44,7 @@ export async function readJsonBatchFromUpstashWithStatus(keys, timeoutMs = 3_000
       headers: {
         Authorization: `Bearer ${creds.token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-edge/1.0',
+        'User-Agent': 'eagleeye-edge/1.0',
       },
       body: JSON.stringify(keys.map((key) => ['GET', key])),
       signal: AbortSignal.timeout(timeoutMs),
@@ -207,7 +207,7 @@ export async function redisPipeline(commands, timeoutMs = 5_000) {
       headers: {
         Authorization: `Bearer ${creds.token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-edge/1.0',
+        'User-Agent': 'eagleeye-edge/1.0',
       },
       body: JSON.stringify(commands),
       signal: AbortSignal.timeout(timeoutMs),

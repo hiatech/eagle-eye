@@ -31,14 +31,14 @@ async function loadUtils(): Promise<LoadedUtils> {
   return import(dataUrl);
 }
 
-// Reproduces WORLDMONITOR-SH: a commodity/stock record whose `price` is
+// Reproduces EAGLEEYE-SH: a commodity/stock record whose `price` is
 // `undefined` (the live feed omits the field rather than sending `null`)
 // reached `formatPrice`, which unconditionally called `price.toLocaleString()`.
 // `undefined >= 1000` is false, so the else branch ran `undefined.toLocaleString()`
 // → "TypeError: Cannot read properties of undefined (reading 'toLocaleString')".
 // MarketPanel's `validData` filter only excluded `null` (`d.price !== null`),
 // so `undefined` slipped through to `formatPrice(c.price!)`.
-describe('formatPrice null-safety (WORLDMONITOR-SH)', () => {
+describe('formatPrice null-safety (EAGLEEYE-SH)', () => {
   it('does not throw on undefined and returns the unavailable placeholder', async () => {
     const { formatPrice } = await loadUtils();
     assert.doesNotThrow(() => formatPrice(undefined));

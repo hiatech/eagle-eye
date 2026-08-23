@@ -1,9 +1,9 @@
 ---
 title: "WM Analyst"
-description: "WM Analyst 是 WorldMonitor 的对话式 AI 分析师，直接调用平台实时缓存的地缘政治、金融市场、军事部署、区域情报与预测数据，即时回答用户关于当前形势、事件影响、传导路径与情景推演的临时问题，支持自然语言追问、来源溯源与跨面板上下文串联。"
+description: "WM Analyst 是 EagleEye 的对话式 AI 分析师，直接调用平台实时缓存的地缘政治、金融市场、军事部署、区域情报与预测数据，即时回答用户关于当前形势、事件影响、传导路径与情景推演的临时问题，支持自然语言追问、来源溯源与跨面板上下文串联。"
 ---
 
-**WM Analyst** 面板（内部 id `chat-analyst`）是仪表盘的对话式情报界面：一个聊天界面，你可以直接输入问题——"红海今天发生了什么？"、"哪些经济体对霍尔木兹海峡关闭最为脆弱？"——并获得基于实时 WorldMonitor 缓存的、具有来源感知的结构化回答。
+**WM Analyst** 面板（内部 id `chat-analyst`）是仪表盘的对话式情报界面：一个聊天界面，你可以直接输入问题——"红海今天发生了什么？"、"哪些经济体对霍尔木兹海峡关闭最为脆弱？"——并获得基于实时 EagleEye 缓存的、具有来源感知的结构化回答。
 
 ## 面板显示内容
 
@@ -25,7 +25,7 @@ description: "WM Analyst 是 WorldMonitor 的对话式 AI 分析师，直接调�
 
 ## 数据来源
 
-面板通过 `premiumFetch()` 向 `/api/chat-analyst`（由 `api/chat-analyst.ts` 支持的边缘函数）发送 POST 请求，该函数注入调用者的凭据（桌面端使用 `WORLDMONITOR_API_KEY`，浏览器端使用 Clerk bearer + PRO）。边缘函数从情报、冲突、市场、预测和风险缓存（限定在所选领域范围内）组合上下文，流式返回 token，面板增量渲染。
+面板通过 `premiumFetch()` 向 `/api/chat-analyst`（由 `api/chat-analyst.ts` 支持的边缘函数）发送 POST 请求，该函数注入调用者的凭据（桌面端使用 `EAGLEEYE_API_KEY`，浏览器端使用 Clerk bearer + PRO）。边缘函数从情报、冲突、市场、预测和风险缓存（限定在所选领域范围内）组合上下文，流式返回 token，面板增量渲染。
 
 没有独立的 `/chat-analyst/v1/*` RPC 接口 — 这是一个一等边缘端点，而非 proto 生成的 RPC。
 
@@ -41,7 +41,7 @@ description: "WM Analyst 是 WorldMonitor 的对话式 AI 分析师，直接调�
 
 ## 层级与门控
 
-**PRO（硬锁定）。** `src/config/panels.ts:52` 中的 `premium: 'locked'`。当存在有效的 `WORLDMONITOR_API_KEY` **或** `isPro` 为 true 时，`isPanelEntitled` 解锁该面板（`src/config/panels.ts:973` — `apiKeyPanels` 允许列表包含 `chat-analyst`）。
+**PRO（硬锁定）。** `src/config/panels.ts:52` 中的 `premium: 'locked'`。当存在有效的 `EAGLEEYE_API_KEY` **或** `isPro` 为 true 时，`isPanelEntitled` 解锁该面板（`src/config/panels.ts:973` — `apiKeyPanels` 允许列表包含 `chat-analyst`）。
 
 ## API 参考
 

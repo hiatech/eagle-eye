@@ -66,7 +66,7 @@ function readCookie(req, name) {
  * worth a re-mint, the second makes every re-mint useless because no route can
  * ever succeed. Reporting it back lets the client stop after one wasted mint
  * instead of spending one per route and blaming the API for a browser-side
- * storage failure (WORLDMONITOR-WG/XP).
+ * storage failure (EAGLEEYE-WG/XP).
  *
  * Computed from the INCOMING request, before this response's Set-Cookie.
  */
@@ -78,11 +78,11 @@ async function hadValidSessionCookie(req) {
 
 function shouldUseSharedCookieDomain(req) {
   const host = (req.headers.get('host') || new URL(req.url).hostname).toLowerCase();
-  return host === 'worldmonitor.app' || host.endsWith('.worldmonitor.app');
+  return host === 'eagle-eye.app' || host.endsWith('.eagle-eye.app');
 }
 
 function cookieDomainAttribute(req) {
-  return shouldUseSharedCookieDomain(req) ? '; Domain=.worldmonitor.app' : '';
+  return shouldUseSharedCookieDomain(req) ? '; Domain=.eagle-eye.app' : '';
 }
 
 function sessionCookie(req, name, value) {
@@ -90,7 +90,7 @@ function sessionCookie(req, name, value) {
 }
 
 function clearReadableCookie(name) {
-  return `${name}=; Domain=.worldmonitor.app; Path=/; Max-Age=0; Secure; SameSite=Lax`;
+  return `${name}=; Domain=.eagle-eye.app; Path=/; Max-Age=0; Secure; SameSite=Lax`;
 }
 
 function normalizeLegacyKey(value) {
@@ -117,7 +117,7 @@ async function matchesEnvSecret(key, name) {
 }
 
 async function isValidEnterpriseKey(key) {
-  return timingSafeIncludes(key, envList('WORLDMONITOR_VALID_KEYS'));
+  return timingSafeIncludes(key, envList('EAGLEEYE_VALID_KEYS'));
 }
 
 async function isValidWidgetKey(key) {
@@ -232,7 +232,7 @@ export default async function handler(req, ctx) {
 
   // The HttpOnly cookie remains the primary transport. The anonymous token is
   // also returned so browsers that demonstrably refuse the shared-domain
-  // cookie can use the existing X-WorldMonitor-Key validation path. This does
+  // cookie can use the existing X-EagleEye-Key validation path. This does
   // not expose user or premium authority: wms_ tokens are freely mintable,
   // anonymous-only, and forceKey routes reject them.
   return respond({

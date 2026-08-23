@@ -180,7 +180,7 @@ export async function subscribeToPush(expectedUserId?: string): Promise<Subscrip
  * Every rejection on that route answers with a distinct `error` code —
  * `endpoint host is not a recognised push service`, `pro_required`,
  * `Invalid JSON body`, `MISSING_USER_ID`, … — but the throw used to carry only
- * the HTTP status. That made WORLDMONITOR-XR (3 events / 2 users, Chrome on
+ * the HTTP status. That made EAGLEEYE-XR (3 events / 2 users, Chrome on
  * macOS) permanently undiagnosable: a bare "(400)" cannot distinguish an
  * unrecognised push host from a malformed body from an entitlement denial, and
  * the response was already discarded by the time Sentry saw it.

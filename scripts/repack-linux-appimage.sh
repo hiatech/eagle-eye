@@ -30,7 +30,7 @@ if [ ! -f "$APPIMAGE" ]; then
   exit 1
 fi
 
-WORK_DIR=$(mktemp -d "${RUNNER_TEMP:-/tmp}/worldmonitor-appimage-repack.XXXXXX")
+WORK_DIR=$(mktemp -d "${RUNNER_TEMP:-/tmp}/eagleeye-appimage-repack.XXXXXX")
 cleanup() {
   rm -rf "$WORK_DIR"
 }

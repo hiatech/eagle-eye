@@ -76,7 +76,7 @@ describe('putKvJsonValue', () => {
     assert.equal(seen.init.method, 'PUT');
     assert.equal(seen.url, 'https://api.cloudflare.com/client/v4/accounts/A/storage/kv/namespaces/N/values/fast');
     assert.equal(seen.init.headers.Authorization, 'Bearer T');
-    assert.equal(seen.init.headers['User-Agent'], 'WorldMonitor Bootstrap Publisher/1.0');
+    assert.equal(seen.init.headers['User-Agent'], 'EagleEye Bootstrap Publisher/1.0');
     assert.equal(seen.init.body, JSON.stringify(value), 'writes the exact serialized envelope');
     assert.equal(out.bytes, Buffer.byteLength(JSON.stringify(value), 'utf8'));
   });

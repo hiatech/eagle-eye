@@ -16,7 +16,7 @@ test('Giving uses v2 across server, bootstrap, and health without a v1 migration
   assert.equal(healthTesting.STANDALONE_KEYS.giving, 'giving:summary:v2');
 
   const correctedFiles = [
-    'server/worldmonitor/giving/v1/get-giving-summary.ts',
+    'server/eagleeye/giving/v1/get-giving-summary.ts',
     'shared/bootstrap-tier-keys.js',
     'api/_bootstrap-tier-keys.js',
     'api/health.js',

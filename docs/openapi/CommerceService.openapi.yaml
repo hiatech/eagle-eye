@@ -9,9 +9,9 @@ openapi: 3.1.0
 info:
     title: CommerceService API
     version: 1.0.0
-    description: Public pricing catalog for World Monitor plans. The catalog endpoint is keyless and read-only; agents evaluating the product should prefer it over scraping pricing prose.
+    description: Public pricing catalog for Eagle Eye plans. The catalog endpoint is keyless and read-only; agents evaluating the product should prefer it over scraping pricing prose.
 servers:
-    - url: https://www.worldmonitor.app
+    - url: https://www.eagle-eye.app
 paths:
     /api/product-catalog:
         get:
@@ -27,7 +27,7 @@ paths:
                 cache miss, prices are fetched live from Dodo Payments with a static
                 fallback if Dodo is unreachable. The X-Product-Catalog-Source response
                 header distinguishes cache hits ("cache") from live fetches ("dodo") and
-                fallback pricing ("fallback"). Markdown twin: https://worldmonitor.app/pricing.md
+                fallback pricing ("fallback"). Markdown twin: https://eagle-eye.app/pricing.md
             responses:
                 "200":
                     description: Successful response

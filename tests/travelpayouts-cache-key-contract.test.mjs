@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const src = readFileSync(
-  new URL('../server/worldmonitor/aviation/v1/_providers/travelpayouts_data.ts', import.meta.url),
+  new URL('../server/eagleeye/aviation/v1/_providers/travelpayouts_data.ts', import.meta.url),
   'utf8',
 );
 

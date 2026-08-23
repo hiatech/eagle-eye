@@ -64,7 +64,7 @@ describe('classifyHttpCheckoutError', () => {
   // Convex relay — it's Vercel firewall / edge bot-protection. "Temporarily
   // unavailable" copy is honest and retryable; the generic 4xx copy ("That
   // product isn't available") is misleading and tells the user to refresh
-  // forever. Originally surfaced as Sentry WORLDMONITOR-RN.
+  // forever. Originally surfaced as Sentry EAGLEEYE-RN.
   it('maps 403 to service_unavailable (infra block, retryable)', () => {
     const err = classifyHttpCheckoutError(403);
     assert.equal(err.code, 'service_unavailable');

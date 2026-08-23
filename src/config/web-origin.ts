@@ -1,5 +1,5 @@
 /**
- * Canonical https origin of the WorldMonitor web app.
+ * Canonical https origin of the EagleEye web app.
  *
  * The desktop WebView serves the dashboard from `tauri://localhost` (or
  * `https://localhost:<port>` under `desktop:dev`), so a relative link to a
@@ -12,4 +12,4 @@
  * `components` and `utils`, and the checkout-return builders are unit-tested
  * without the browser service graph.
  */
-export const WEB_APP_ORIGIN = 'https://worldmonitor.app';
+export const WEB_APP_ORIGIN = 'https://eagle-eye.app';

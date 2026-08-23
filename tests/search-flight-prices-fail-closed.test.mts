@@ -31,8 +31,8 @@ import assert from 'node:assert/strict';
 import type {
   ServerContext,
   SearchFlightPricesRequest,
-} from '../src/generated/server/worldmonitor/aviation/v1/service_server.ts';
-import { searchFlightPrices } from '../server/worldmonitor/aviation/v1/search-flight-prices.ts';
+} from '../src/generated/server/eagleeye/aviation/v1/service_server.ts';
+import { searchFlightPrices } from '../server/eagleeye/aviation/v1/search-flight-prices.ts';
 
 type FetchFn = typeof fetch;
 const originalFetch: FetchFn | undefined = globalThis.fetch;

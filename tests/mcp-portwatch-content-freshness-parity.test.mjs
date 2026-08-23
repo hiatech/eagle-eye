@@ -32,7 +32,7 @@ import { TOOL_REGISTRY } from '../api/mcp/registry/index.ts';
 const SEED_HEALTH_OPERATOR_KEY = 'test-parity-operator-key';
 process.env.UPSTASH_REDIS_REST_URL ??= 'https://redis.test';
 process.env.UPSTASH_REDIS_REST_TOKEN ??= 'token';
-process.env.WORLDMONITOR_VALID_KEYS = SEED_HEALTH_OPERATOR_KEY;
+process.env.EAGLEEYE_VALID_KEYS = SEED_HEALTH_OPERATOR_KEY;
 const { handleSeedHealth } = await import('../api/seed-health.js');
 
 const { classifyKey, SEED_META, ACTIVATION_MARKERS } = __testing__;
@@ -834,8 +834,8 @@ describe('#6095 — health, seed-health, and MCP agree on every marker outcome',
       return new Response(JSON.stringify(results), { status: 200 });
     };
     try {
-      const res = await handleSeedHealth(new Request('https://api.worldmonitor.app/api/seed-health', {
-        headers: { 'X-WorldMonitor-Key': SEED_HEALTH_OPERATOR_KEY },
+      const res = await handleSeedHealth(new Request('https://api.eagle-eye.app/api/seed-health', {
+        headers: { 'X-EagleEye-Key': SEED_HEALTH_OPERATOR_KEY },
       }), { now });
       const entry = (await res.json()).seeds?.[PORTWATCH_SEED_DOMAIN];
       assert.ok(entry, 'seed-health must publish the PortWatch entry');

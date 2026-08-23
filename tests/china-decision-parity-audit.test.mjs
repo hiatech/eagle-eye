@@ -318,7 +318,7 @@ describe('China decision-signal static and staging audit (#5580)', () => {
     });
     assert.equal(seen.length, 1);
     assert.equal(seen[0].userAgent, CHINA_DECISION_PARITY_USER_AGENT);
-    assert.match(CHINA_DECISION_PARITY_USER_AGENT, /^worldmonitor-[\w-]+\/\d/);
+    assert.match(CHINA_DECISION_PARITY_USER_AGENT, /^eagleeye-[\w-]+\/\d/);
   });
 });
 
@@ -578,7 +578,7 @@ describe('China decision-signal audit CLI (#5643)', () => {
 
   it('refuses probe targets that are not public https endpoints', () => {
     for (const url of [
-      'http://www.worldmonitor.app',
+      'http://www.eagle-eye.app',
       'https://localhost/api',
       'https://127.0.0.1',
       'https://[::1]',
@@ -596,7 +596,7 @@ describe('China decision-signal audit CLI (#5643)', () => {
   });
 
   it('accepts ordinary public probe targets', () => {
-    for (const url of ['https://www.worldmonitor.app', 'https://api-staging.example', 'https://staging.example:8443/base']) {
+    for (const url of ['https://www.eagle-eye.app', 'https://api-staging.example', 'https://staging.example:8443/base']) {
       const parsed = parseChinaParityAuditArgs(['--url', url]);
       assert.equal(parsed.error, null, `expected ${url} to be accepted`);
       assert.equal(parsed.url, url);

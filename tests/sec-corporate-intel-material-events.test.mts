@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { listMaterialEvents } from '../server/worldmonitor/intelligence/v1/list-material-events';
-import { ValidationError } from '../src/generated/server/worldmonitor/intelligence/v1/service_server';
+import { listMaterialEvents } from '../server/eagleeye/intelligence/v1/list-material-events';
+import { ValidationError } from '../src/generated/server/eagleeye/intelligence/v1/service_server';
 
 const ctx = { request: new Request('http://localhost/'), pathParams: {}, headers: {} } as never;
 const originalFetch = globalThis.fetch;

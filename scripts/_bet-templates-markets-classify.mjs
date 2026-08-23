@@ -1,5 +1,5 @@
 // Geopolitical classification for prediction-market titles (Phase 2 / #5525,
-// #5733). WorldMonitor's identity is geopolitical intelligence, so the market
+// #5733). EagleEye's identity is geopolitical intelligence, so the market
 // bet-family is split into a dedicated geopolitical slice (long horizon, top
 // ensemble priority) and a general slice — and the split is driven by the
 // market TEXT, deliberately NOT by the bootstrap feed's geopolitical/tech/

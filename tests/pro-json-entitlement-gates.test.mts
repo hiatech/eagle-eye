@@ -102,7 +102,7 @@ describe('checkProEntitlement', () => {
     const result = await checkProEntitlement(
       'user-convex-blip',
       'free',
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       async () => entitlements(0, { verificationUnavailable: true }),
     );
 
@@ -114,7 +114,7 @@ describe('checkProEntitlement', () => {
     );
     assert.equal(
       result.billingDenial?.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
     );
     assert.deepEqual(await result.billingDenial?.json(), {
       error: 'Unable to verify API access',

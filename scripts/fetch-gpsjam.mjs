@@ -25,7 +25,7 @@ const REDIS_KEY_V2 = 'intelligence:gpsjam:v2';
 const REDIS_KEY_V1 = 'intelligence:gpsjam:v1';
 const REDIS_TTL = 172800; // 48h
 const BASE_URL = 'https://gpsjam.org/data';
-const UA = 'Mozilla/5.0 (compatible; WorldMonitor/1.0)';
+const UA = 'Mozilla/5.0 (compatible; EagleEye/1.0)';
 
 const args = process.argv.slice(2);
 function getArg(name, fallback) {

@@ -104,7 +104,7 @@ const summary = {
       signals: [{
         label: 'Nowcast confidence',
         value: 'High confidence',
-        source: 'WorldMonitor China Activity Nowcast',
+        source: 'EagleEye China Activity Nowcast',
         stale: false,
       }],
     },

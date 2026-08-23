@@ -7,7 +7,7 @@ import { CountryImpactTab } from '../src/components/RouteExplorer/tabs/CountryIm
 import type {
   GetRouteExplorerLaneResponse,
   GetRouteImpactResponse,
-} from '../src/generated/server/worldmonitor/supply_chain/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/supply_chain/v1/service_server.ts';
 import type { ResilienceScoreResponse } from '../src/services/resilience.ts';
 
 function snapshotGlobal(name: string) {

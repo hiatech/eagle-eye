@@ -47,7 +47,7 @@ async function loadFont(): Promise<ArrayBuffer> {
   try {
     const res = await fetch(FONT_URL, {
       signal: AbortSignal.timeout(5_000),
-      headers: { 'User-Agent': 'worldmonitor-carousel/1.0' },
+      headers: { 'User-Agent': 'eagleeye-carousel/1.0' },
     });
     if (!res.ok) throw new Error(`font fetch ${res.status}`);
     _fontCache = await res.arrayBuffer();
@@ -121,7 +121,7 @@ function buildCover(env: Envelope): any {
           type: 'div',
           props: {
             style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: 0.75, fontSize: 18, letterSpacing: '0.2em', textTransform: 'uppercase' },
-            children: ['WORLDMONITOR', `ISSUE Nº ${data.issue}`],
+            children: ['EAGLEEYE', `ISSUE Nº ${data.issue}`],
           },
         },
         {
@@ -140,7 +140,7 @@ function buildCover(env: Envelope): any {
                 type: 'div',
                 props: {
                   style: { fontSize: 140, lineHeight: 0.92, fontWeight: 900, letterSpacing: '-0.02em' },
-                  children: 'WorldMonitor',
+                  children: 'EagleEye',
                 },
               },
               {
@@ -190,7 +190,7 @@ function buildThreads(env: Envelope): any {
           type: 'div',
           props: {
             style: { display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${COLORS.sienna}40`, paddingBottom: 14, fontSize: 16, letterSpacing: '0.2em', textTransform: 'uppercase', color: COLORS.sienna, fontWeight: 600 },
-            children: [`· WorldMonitor Brief · ${data.issue} ·`, 'Digest / On The Desk'],
+            children: [`· EagleEye Brief · ${data.issue} ·`, 'Digest / On The Desk'],
           },
         },
         {

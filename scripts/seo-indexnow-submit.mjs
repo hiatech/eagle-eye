@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Submit worldmonitor.app URLs to IndexNow after deploy.
+ * Submit eagle-eye.app URLs to IndexNow after deploy.
  *
  * The CLI verifies every host's ownership key before notifying search engines:
  *   node scripts/seo-indexnow-submit.mjs
- *   node scripts/seo-indexnow-submit.mjs --host worldmonitor.app
+ *   node scripts/seo-indexnow-submit.mjs --host eagle-eye.app
  *
  * IndexNow requires all URLs in one request to share the same host.
  * Submits separate batches per subdomain.
@@ -26,7 +26,7 @@ const BLOG_DIR = new URL('../blog-site/src/content/blog/', import.meta.url);
 const BLOG_AUTHORS_DIR = new URL('../blog-site/src/pages/authors/', import.meta.url);
 const GLOSSARY_SOURCE = new URL('../blog-site/src/data/glossary.ts', import.meta.url);
 const ROOT_SITEMAP = new URL('../public/sitemap.xml', import.meta.url);
-const USER_AGENT = 'WorldMonitor-IndexNow/1.0 (+https://www.worldmonitor.app)';
+const USER_AGENT = 'EagleEye-IndexNow/1.0 (+https://www.eagle-eye.app)';
 
 function decodeXml(value) {
   return String(value)
@@ -60,14 +60,14 @@ function getSitemapUrlsForHost(host) {
 function getBlogPostUrls() {
   return readdirSync(BLOG_DIR)
     .filter((file) => file.endsWith('.md'))
-    .map((file) => `https://www.worldmonitor.app/blog/posts/${basename(file, '.md')}/`)
+    .map((file) => `https://www.eagle-eye.app/blog/posts/${basename(file, '.md')}/`)
     .sort();
 }
 
 function getBlogAuthorUrls() {
   return readdirSync(BLOG_AUTHORS_DIR)
     .filter((file) => file.endsWith('.astro'))
-    .map((file) => `https://www.worldmonitor.app/blog/authors/${basename(file, '.astro')}/`)
+    .map((file) => `https://www.eagle-eye.app/blog/authors/${basename(file, '.astro')}/`)
     .sort();
 }
 
@@ -75,22 +75,22 @@ function getBlogGlossaryUrls() {
   const source = readFileSync(GLOSSARY_SOURCE, 'utf8');
   const slugs = [...source.matchAll(/^\s*slug:\s*'([^']+)'/gm)].map((match) => match[1]);
   if (slugs.length === 0) throw new Error(`${GLOSSARY_SOURCE.pathname} contains no glossary slugs`);
-  return slugs.map((slug) => `https://www.worldmonitor.app/blog/glossary/${slug}/`).sort();
+  return slugs.map((slug) => `https://www.eagle-eye.app/blog/glossary/${slug}/`).sort();
 }
 
 function getBlogUrls() {
   return [
-    'https://www.worldmonitor.app/blog/',
-    'https://www.worldmonitor.app/blog/glossary/',
+    'https://www.eagle-eye.app/blog/',
+    'https://www.eagle-eye.app/blog/glossary/',
     ...getBlogAuthorUrls(),
     ...getBlogGlossaryUrls(),
     ...getBlogPostUrls(),
   ];
 }
 
-const APEX_URLS = uniqueSorted(getSitemapUrlsForHost('worldmonitor.app'));
+const APEX_URLS = uniqueSorted(getSitemapUrlsForHost('eagle-eye.app'));
 const WWW_URLS = uniqueSorted([
-  ...getSitemapUrlsForHost('www.worldmonitor.app'),
+  ...getSitemapUrlsForHost('www.eagle-eye.app'),
   ...getBlogUrls(),
 ]);
 
@@ -108,11 +108,11 @@ function batch(host, urls, key = INDEXNOW_KEY) {
 }
 
 export const INDEXNOW_BATCHES = Object.freeze([
-  batch('worldmonitor.app', APEX_URLS, APEX_INDEXNOW_KEY),
-  batch('www.worldmonitor.app', WWW_URLS),
-  batch('tech.worldmonitor.app', urlsForHost('tech.worldmonitor.app', ['https://tech.worldmonitor.app/'])),
-  batch('finance.worldmonitor.app', urlsForHost('finance.worldmonitor.app', ['https://finance.worldmonitor.app/'])),
-  batch('happy.worldmonitor.app', urlsForHost('happy.worldmonitor.app', ['https://happy.worldmonitor.app/'])),
+  batch('eagle-eye.app', APEX_URLS, APEX_INDEXNOW_KEY),
+  batch('www.eagle-eye.app', WWW_URLS),
+  batch('tech.eagle-eye.app', urlsForHost('tech.eagle-eye.app', ['https://tech.eagle-eye.app/'])),
+  batch('finance.eagle-eye.app', urlsForHost('finance.eagle-eye.app', ['https://finance.eagle-eye.app/'])),
+  batch('happy.eagle-eye.app', urlsForHost('happy.eagle-eye.app', ['https://happy.eagle-eye.app/'])),
 ]);
 
 export const INDEXNOW_ENDPOINTS = Object.freeze([

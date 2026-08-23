@@ -88,7 +88,7 @@ describe('iran-events sunset — backend gates (source guards)', () => {
   });
 
   it('get-risk-scores.ts gates the iran-events fetch (no CII/risk contribution)', () => {
-    assert.match(read('server/worldmonitor/intelligence/v1/get-risk-scores.ts'), /IRAN_EVENTS_ENABLED \? getCachedJson\('conflict:iran-events:v1'/);
+    assert.match(read('server/eagleeye/intelligence/v1/get-risk-scores.ts'), /IRAN_EVENTS_ENABLED \? getCachedJson\('conflict:iran-events:v1'/);
   });
 
   it('seed-forecasts.mjs feeds empty iranEvents when disabled', () => {
@@ -103,11 +103,11 @@ describe('iran-events sunset — backend gates (source guards)', () => {
   // the shared cache key must be gated, not just api/bootstrap.js.
 
   it('get-bootstrap-data RPC drops iranEvents from the shared bootstrap registry', () => {
-    assert.match(read('server/worldmonitor/infrastructure/v1/get-bootstrap-data.ts'), /if \(!IRAN_EVENTS_ENABLED\) delete registry\.iranEvents/);
+    assert.match(read('server/eagleeye/infrastructure/v1/get-bootstrap-data.ts'), /if \(!IRAN_EVENTS_ENABLED\) delete registry\.iranEvents/);
   });
 
   it('list-iran-events RPC serves empty immediately when disabled (not the 14d-TTL snapshot)', () => {
-    assert.match(read('server/worldmonitor/conflict/v1/list-iran-events.ts'), /if \(!IRAN_EVENTS_ENABLED\) return \{ events: \[\], scrapedAt: '0' \}/);
+    assert.match(read('server/eagleeye/conflict/v1/list-iran-events.ts'), /if \(!IRAN_EVENTS_ENABLED\) return \{ events: \[\], scrapedAt: '0' \}/);
   });
 
   it('MCP get_conflict_events drops the iran-events cache key when disabled', () => {

@@ -26,7 +26,7 @@ import {
   ResilienceConfigurationError,
   scoreEnergy,
   type ResilienceSeedReader,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 
 const TEST_ISO2 = 'ZZ'; // fictional country so test coverage checks don't flag it
 

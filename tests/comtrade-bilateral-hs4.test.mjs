@@ -15,8 +15,8 @@ const root = join(import.meta.dirname, '..');
 
 // ─── sebuf handler ───────────────────────────────────────────────────────────
 
-describe('getCountryProducts sebuf handler (server/worldmonitor/supply-chain/v1/get-country-products.ts)', () => {
-  const filePath = join(root, 'server', 'worldmonitor', 'supply-chain', 'v1', 'get-country-products.ts');
+describe('getCountryProducts sebuf handler (server/eagleeye/supply-chain/v1/get-country-products.ts)', () => {
+  const filePath = join(root, 'server', 'eagleeye', 'supply-chain', 'v1', 'get-country-products.ts');
   const src = readFileSync(filePath, 'utf-8');
 
   it('exports getCountryProducts as the sebuf handler entry point', () => {
@@ -298,8 +298,8 @@ describe('Comtrade bilateral HS4 seeder (scripts/seed-comtrade-bilateral-hs4.mjs
 
 // ─── Lazy fallback reporter-code parity ─────────────────────────────────────
 
-describe('Comtrade bilateral HS4 lazy fallback (server/worldmonitor/supply-chain/v1/_bilateral-hs4-lazy.ts)', () => {
-  const filePath = join(root, 'server', 'worldmonitor', 'supply-chain', 'v1', '_bilateral-hs4-lazy.ts');
+describe('Comtrade bilateral HS4 lazy fallback (server/eagleeye/supply-chain/v1/_bilateral-hs4-lazy.ts)', () => {
+  const filePath = join(root, 'server', 'eagleeye', 'supply-chain', 'v1', '_bilateral-hs4-lazy.ts');
   const src = readFileSync(filePath, 'utf-8');
 
   it('reads the shared Comtrade reporter override file', () => {
@@ -472,7 +472,7 @@ describe('fetchCountryProducts service (src/services/supply-chain/index.ts)', ()
 
   it('CountryProduct generated interface has expected fields', () => {
     const generated = readFileSync(
-      join(root, 'src', 'generated', 'client', 'worldmonitor', 'supply_chain', 'v1', 'service_client.ts'),
+      join(root, 'src', 'generated', 'client', 'eagleeye', 'supply_chain', 'v1', 'service_client.ts'),
       'utf-8',
     );
     const ifaceStart = generated.indexOf('export interface CountryProduct');

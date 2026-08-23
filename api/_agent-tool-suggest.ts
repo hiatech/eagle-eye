@@ -15,7 +15,7 @@ const QUERY_STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'what', 'which', 'who', 'how', 'where', 'when',
   'need', 'want', 'give', 'gives', 'get', 'show', 'find', 'tool', 'tools',
   'data', 'live', 'about', 'from', 'that', 'this', 'can', 'you', 'your',
-  'right', 'now', 'best', 'please', 'worldmonitor', 'world', 'monitor',
+  'right', 'now', 'best', 'please', 'eagleeye', 'world', 'monitor',
 ]);
 
 function tokenize(text: string): string[] {

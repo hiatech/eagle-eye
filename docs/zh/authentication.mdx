@@ -1,9 +1,9 @@
 ---
 title: "身份验证与面板门控"
-description: "World Monitor 中用户身份验证、高级面板门控与服务端会话强制执行机制的完整技术说明：涵盖 Clerk 集成、加密 Cookie 会话、JWT 令牌校验、权益检查、多设备登录与 Pro 订阅门控逻辑，确保仪表盘、API 与桌面应用的访问控制稳固可靠。"
+description: "Eagle Eye 中用户身份验证、高级面板门控与服务端会话强制执行机制的完整技术说明：涵盖 Clerk 集成、加密 Cookie 会话、JWT 令牌校验、权益检查、多设备登录与 Pro 订阅门控逻辑，确保仪表盘、API 与桌面应用的访问控制稳固可靠。"
 ---
 
-WorldMonitor 使用 [Clerk](https://clerk.com) 进行身份验证。认证系统将高级面板置于登录与层级检查之后，并通过本地 JWT 验证在服务端 API 端点上强制执行基于会话的访问控制。
+EagleEye 使用 [Clerk](https://clerk.com) 进行身份验证。认证系统将高级面板置于登录与层级检查之后，并通过本地 JWT 验证在服务端 API 端点上强制执行基于会话的访问控制。
 
 ---
 
@@ -108,7 +108,7 @@ const PREMIUM_RPC_PATHS = new Set([
 
 ### 桌面端行为
 
-在 Tauri 钥匙串中拥有有效 `WORLDMONITOR_API_KEY` 的桌面端用户可绕过所有面板门控。现有的 API 密钥流程不受影响 — Bearer Token 是**第二条认证路径**，而非替代方案。
+在 Tauri 钥匙串中拥有有效 `EAGLEEYE_API_KEY` 的桌面端用户可绕过所有面板门控。现有的 API 密钥流程不受影响 — Bearer Token 是**第二条认证路径**，而非替代方案。
 
 ---
 
@@ -116,7 +116,7 @@ const PREMIUM_RPC_PATHS = new Set([
 
 Vercel API 网关为高级端点接受两种形式的身份验证：
 
-1. **静态 API 密钥** — `X-WorldMonitor-Key` 头（现有流程，未变更）
+1. **静态 API 密钥** — `X-EagleEye-Key` 头（现有流程，未变更）
 2. **Bearer Token** — `Authorization: Bearer <clerk_jwt>`（用于 Web 用户）
 
 网关首先尝试 API 密钥。如果在高级端点上失败，则回退到使用 `server/auth-session.ts` 进行本地 JWKS 验证的 Bearer Token 校验。JWT 验证依据：

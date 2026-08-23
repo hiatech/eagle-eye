@@ -32,16 +32,16 @@ import {
 // baseline we re-run the same registry through buildPublicTool with
 // compressDescriptions=false and filter out describe_tool (the v1.5.0
 // addition).
-process.env.WORLDMONITOR_VALID_KEYS = 'wm_measure_key';
+process.env.EAGLEEYE_VALID_KEYS = 'wm_measure_key';
 delete process.env.UPSTASH_REDIS_REST_URL;
 delete process.env.UPSTASH_REDIS_REST_TOKEN;
 
 const mcpMod = await import('../api/mcp.ts');
 
 async function fetchToolsList() {
-  const req = new Request('https://worldmonitor.app/mcp', {
+  const req = new Request('https://eagle-eye.app/mcp', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': 'wm_measure_key' },
+    headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': 'wm_measure_key' },
     body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }),
   });
   const res = await mcpMod.default(req);
@@ -55,9 +55,9 @@ const v15Tools = await fetchToolsList();
 // describe_tool (new in v1.5.0), AND replace each compressed description
 // with the full text by calling describe_tool({tool_name: t.name}).
 async function callDescribeTool(toolName) {
-  const req = new Request('https://worldmonitor.app/mcp', {
+  const req = new Request('https://eagle-eye.app/mcp', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': 'wm_measure_key' },
+    headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': 'wm_measure_key' },
     body: JSON.stringify({
       jsonrpc: '2.0', id: 1, method: 'tools/call',
       params: { name: 'describe_tool', arguments: { tool_name: toolName } },

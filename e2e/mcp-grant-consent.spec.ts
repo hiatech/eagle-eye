@@ -18,7 +18,7 @@ import { expect, test, type Page, type Route } from '@playwright/test';
  *   - The Clerk service module is intercepted to provide a minimal stub
  *     (signed-in user, no-op sign-in, stable token).
  *   - /api/internal/mcp-grant-{context,mint} are route-intercepted per test.
- *   - The api.worldmonitor.app redirect target is route-intercepted so the
+ *   - The api.eagle-eye.app redirect target is route-intercepted so the
  *     success path never performs a live cross-origin navigation out of CI.
  *     `window.location.assign` CANNOT be patched from page script — Location's
  *     members are [LegacyUnforgeable], so the assignment silently no-ops and the
@@ -27,20 +27,20 @@ import { expect, test, type Page, type Route } from '@playwright/test';
 
 const GRANT_PAGE = '/mcp-grant?nonce=test-nonce-e2e';
 const GRANT_REDIRECT =
-  'https://api.worldmonitor.app/oauth/authorize-pro?nonce=test-nonce-e2e&grant=signed-token';
+  'https://api.eagle-eye.app/oauth/authorize-pro?nonce=test-nonce-e2e&grant=signed-token';
 
 /** Redirects the apex page must refuse. Each one defeats a different weakening
- *  of the `target.origin !== 'https://api.worldmonitor.app'` guard: a bare
+ *  of the `target.origin !== 'https://api.eagle-eye.app'` guard: a bare
  *  hostname compare, an `endsWith` suffix match, an `includes`/`startsWith`
  *  substring match, and a missing scheme check. A single evil.example.com case
  *  is rejected by every one of those weakenings, so it cannot tell a correct
  *  guard from a broken one. */
 const HOSTILE_REDIRECTS: ReadonlyArray<[label: string, redirect: string]> = [
   ['unrelated host', 'https://evil.example.com/steal?grant=stolen'],
-  ['prefix lookalike', 'https://api.worldmonitor.app.evil.example/oauth/authorize-pro?grant=stolen'],
-  ['userinfo spoof', 'https://api.worldmonitor.app@evil.example/oauth/authorize-pro?grant=stolen'],
-  ['suffix lookalike', 'https://evilworldmonitor.app/oauth/authorize-pro?grant=stolen'],
-  ['scheme downgrade', 'http://api.worldmonitor.app/oauth/authorize-pro?grant=stolen'],
+  ['prefix lookalike', 'https://api.eagle-eye.app.evil.example/oauth/authorize-pro?grant=stolen'],
+  ['userinfo spoof', 'https://api.eagle-eye.app@evil.example/oauth/authorize-pro?grant=stolen'],
+  ['suffix lookalike', 'https://evileagle-eye.app/oauth/authorize-pro?grant=stolen'],
+  ['scheme downgrade', 'http://api.eagle-eye.app/oauth/authorize-pro?grant=stolen'],
   ['non-http scheme', 'javascript:alert(document.domain)'],
 ];
 
@@ -66,7 +66,7 @@ async function stubClerkModule(
       body: `
         export async function initClerk() {}
         export function getClerkToken() { return Promise.resolve('stub-jwt-token'); }
-        export function getCurrentClerkUser() { return { email: 'e2e@worldmonitor.app' }; }
+        export function getCurrentClerkUser() { return { email: 'e2e@eagle-eye.app' }; }
         export function openSignIn() { ${openSignInBody} }
         export function subscribeClerk(cb) {
           window.__emitClerkSubscription = cb;
@@ -153,7 +153,7 @@ async function expectConsentPreservedAcrossClerkRefresh(page: Page): Promise<voi
 }
 
 /**
- * Intercept the api.worldmonitor.app redirect target. Returns a getter for the
+ * Intercept the api.eagle-eye.app redirect target. Returns a getter for the
  * URLs the page actually tried to navigate to, so a test can assert both that
  * the success path navigates and that a refused redirect navigates nowhere.
  */
@@ -161,7 +161,7 @@ async function interceptGrantRedirect(
   page: Page,
 ): Promise<() => string[]> {
   const requested: string[] = [];
-  await page.route('https://api.worldmonitor.app/**', async (route) => {
+  await page.route('https://api.eagle-eye.app/**', async (route) => {
     requested.push(route.request().url());
     await route.fulfill({
       status: 200,
@@ -177,7 +177,7 @@ function stubContextSuccess(page: Page): Promise<void> {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ client_name: 'Claude Desktop', redirect_host: 'api.worldmonitor.app' }),
+      body: JSON.stringify({ client_name: 'Claude Desktop', redirect_host: 'api.eagle-eye.app' }),
     });
   });
 }
@@ -215,7 +215,7 @@ async function stubContextSuccessThenRetryable(
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ client_name: 'Claude Desktop', redirect_host: 'api.worldmonitor.app' }),
+      body: JSON.stringify({ client_name: 'Claude Desktop', redirect_host: 'api.eagle-eye.app' }),
     });
   });
   return { useRetryableDenial: () => { retryable = true; } };
@@ -301,7 +301,7 @@ test.describe('MCP grant consent page (#5654)', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           client_name: 'Claude Desktop',
-          redirect_host: 'api.worldmonitor.app',
+          redirect_host: 'api.eagle-eye.app',
         }),
       });
     });
@@ -310,8 +310,8 @@ test.describe('MCP grant consent page (#5654)', () => {
 
     await expect(page.locator('#consent')).toBeVisible();
     await expect(page.locator('#clientName')).toHaveText('Claude Desktop');
-    await expect(page.locator('#clientHost')).toHaveText('api.worldmonitor.app');
-    await expect(page.locator('#userEmail')).toHaveText('e2e@worldmonitor.app');
+    await expect(page.locator('#clientHost')).toHaveText('api.eagle-eye.app');
+    await expect(page.locator('#userEmail')).toHaveText('e2e@eagle-eye.app');
     await expect(page.locator('#loading')).toBeHidden();
     await expect(page.locator('#errorView')).toBeHidden();
     await expect(page.locator('#authorizeBtn')).toBeEnabled();
@@ -411,7 +411,7 @@ test.describe('MCP grant consent page (#5654)', () => {
         contentType: 'application/json',
         body: JSON.stringify({
           client_name: 'Claude Desktop',
-          redirect_host: 'api.worldmonitor.app',
+          redirect_host: 'api.eagle-eye.app',
         }),
       });
     });
@@ -473,7 +473,7 @@ test.describe('MCP grant consent page (#5654)', () => {
     // Returning here would leave a cross-origin request to the production host
     // racing page teardown.
     resolveMint();
-    await page.waitForURL(/^https:\/\/api\.worldmonitor\.app\//);
+    await page.waitForURL(/^https:\/\/api\.eagle-eye\.app\//);
     expect(requestedRedirects()).toHaveLength(1);
   });
 
@@ -509,11 +509,11 @@ test.describe('MCP grant consent page (#5654)', () => {
     await expect(page.locator('#authorizeBtn')).toHaveText('Authorizing…');
 
     resolveMint();
-    await page.waitForURL(/^https:\/\/api\.worldmonitor\.app\//);
+    await page.waitForURL(/^https:\/\/api\.eagle-eye\.app\//);
     expect(requestedRedirects()).toHaveLength(1);
   });
 
-  test('successful mint navigates to the api.worldmonitor.app redirect', async ({ page }) => {
+  test('successful mint navigates to the api.eagle-eye.app redirect', async ({ page }) => {
     await stubClerkModule(page);
     await stubContextSuccess(page);
     await stubMintSuccess(page);
@@ -523,12 +523,12 @@ test.describe('MCP grant consent page (#5654)', () => {
     await expect(page.locator('#consent')).toBeVisible();
 
     await page.locator('#authorizeBtn').click();
-    await page.waitForURL(/^https:\/\/api\.worldmonitor\.app\//);
+    await page.waitForURL(/^https:\/\/api\.eagle-eye\.app\//);
 
     // Assert the ORIGIN, not a substring: `toContain` would also be satisfied by
-    // https://api.worldmonitor.app.evil.example/...
+    // https://api.eagle-eye.app.evil.example/...
     const target = new URL(page.url());
-    expect(target.origin).toBe('https://api.worldmonitor.app');
+    expect(target.origin).toBe('https://api.eagle-eye.app');
     expect(target.pathname).toBe('/oauth/authorize-pro');
     expect(target.searchParams.get('grant')).toBe('signed-token');
     expect(requestedRedirects()).toHaveLength(1);

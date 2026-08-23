@@ -1,9 +1,9 @@
 ---
 title: "全球采购情报"
-description: "WorldMonitor 如何汇聚活跃公共招标机会、说明来源健康状态，并提供分页采购 API。"
+description: "EagleEye 如何汇聚活跃公共招标机会、说明来源健康状态，并提供分页采购 API。"
 ---
 
-WorldMonitor 将**开放机会**与历史**近期授标**分开处理。开放机会显示在独立的 **Global Procurement** 面板中，是面向未来、由定时种子任务维护的数据流；授标记录仍在 Economic 面板中来自 USASpending。
+EagleEye 将**开放机会**与历史**近期授标**分开处理。开放机会显示在独立的 **Global Procurement** 面板中，是面向未来、由定时种子任务维护的数据流；授标记录仍在 Economic 面板中来自 USASpending。
 
 Global Procurement 是 **Pro 功能**。免费用户会看到标准登录或升级门槛，RPC 还会在服务器端独立验证有效的一级订阅。浏览器仅在 Pro 权限有效时请求并保留招标数据；退出登录或降级会清除面板数据及其内存响应缓存。近期授标仍保留在免费的 Economic 面板中。
 
@@ -63,7 +63,7 @@ Railway 种子任务每小时运行一次，并把规范快照写入 `economic:g
 
 支持的排序方式为 `newest`、`closing_soon`、`estimated_value` 和 `relevance`。`page_size` 最大为 100。响应包含已应用的筛选条件、游标、快照时间、可用性和各来源健康摘要。
 
-每条记录都含有稳定的 WorldMonitor ID（`source:sourceNoticeId`）、官方公告链接、来源公告 ID、上游提供时的金额字段、时间戳、分类数据和可追溯的来源名称。缺失的上游字段保持缺失，不会被推断填补。
+每条记录都含有稳定的 EagleEye ID（`source:sourceNoticeId`）、官方公告链接、来源公告 ID、上游提供时的金额字段、时间戳、分类数据和可追溯的来源名称。缺失的上游字段保持缺失，不会被推断填补。
 
 ## MCP 工具
 

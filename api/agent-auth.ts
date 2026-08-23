@@ -6,9 +6,9 @@
  * 401 whose `WWW-Authenticate: Bearer … resource_metadata="…"` header points at
  * the OAuth Protected Resource Metadata (/.well-known/oauth-protected-resource),
  * from which it discovers the authorization server and completes an OAuth 2.1 +
- * PKCE flow — or it can pass an API key via `X-WorldMonitor-Key`.
+ * PKCE flow — or it can pass an API key via `X-EagleEye-Key`.
  *
- * Why a dedicated endpoint: WorldMonitor's real protected resource is /mcp, and
+ * Why a dedicated endpoint: EagleEye's real protected resource is /mcp, and
  * `POST /mcp` (tools/call) ALREADY emits this exact 401 + WWW-Authenticate. But a
  * bare `GET /mcp` must stay 405 for the Streamable-HTTP SSE handshake (an MCP SDK
  * client treats 405 as the graceful "no standalone stream" signal; 401 there
@@ -35,7 +35,7 @@ export default function handler(req: Request): Response {
       headers: {
         ...cors,
         'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Authorization, X-WorldMonitor-Key',
+        'Access-Control-Allow-Headers': 'Authorization, X-EagleEye-Key',
       },
     });
   }
@@ -46,7 +46,7 @@ export default function handler(req: Request): Response {
   const body = JSON.stringify({
     error: 'unauthorized',
     error_description:
-      'Authentication required. Discover the authorization server via the protected-resource metadata, then obtain a bearer token (OAuth 2.1 + PKCE) — or pass an API key via the X-WorldMonitor-Key header.',
+      'Authentication required. Discover the authorization server via the protected-resource metadata, then obtain a bearer token (OAuth 2.1 + PKCE) — or pass an API key via the X-EagleEye-Key header.',
     resource_metadata: resourceMetadataUrl,
     authorization_server: `${origin}/.well-known/oauth-authorization-server`,
     skill: `${origin}/auth.md`,
@@ -57,7 +57,7 @@ export default function handler(req: Request): Response {
     headers: {
       ...cors,
       'Content-Type': 'application/json',
-      'WWW-Authenticate': `Bearer realm="worldmonitor", resource_metadata="${resourceMetadataUrl}"`,
+      'WWW-Authenticate': `Bearer realm="eagleeye", resource_metadata="${resourceMetadataUrl}"`,
       'Cache-Control': 'no-store',
       // Body varies by Host (resource_metadata derived from it). Belt-and-braces
       // against a downstream cache keying on path alone.

@@ -44,7 +44,7 @@ vi.mock('@/services/billing', async (importOriginal) => ({
 
 const { PanelGateReason, resolveGateAction } = await import('@/services/panel-gating');
 
-const PRO_ORIGIN = 'https://worldmonitor.app';
+const PRO_ORIGIN = 'https://eagle-eye.app';
 
 let openSpy: MockInstance<typeof window.open>;
 let reloadSpy: MockInstance<() => void>;
@@ -110,7 +110,7 @@ describe('resolveGateAction — FREE_TIER', () => {
   it('opens the pricing page on an absolute origin, in a new tab, with noopener', () => {
     act(PanelGateReason.FREE_TIER)();
 
-    // Absolute, because the desktop webview has no worldmonitor.app origin —
+    // Absolute, because the desktop webview has no eagle-eye.app origin —
     // a relative href there resolves against tauri://localhost.
     expect(openSpy).toHaveBeenCalledWith(`${PRO_ORIGIN}/pro`, '_blank');
     expect(openAuthModal).not.toHaveBeenCalled();

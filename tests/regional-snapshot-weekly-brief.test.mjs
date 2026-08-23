@@ -18,12 +18,12 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
-const handlerSrc = readFileSync(resolve(root, 'server/worldmonitor/intelligence/v1/get-regional-brief.ts'), 'utf-8');
-const handlerIndexSrc = readFileSync(resolve(root, 'server/worldmonitor/intelligence/v1/handler.ts'), 'utf-8');
+const handlerSrc = readFileSync(resolve(root, 'server/eagleeye/intelligence/v1/get-regional-brief.ts'), 'utf-8');
+const handlerIndexSrc = readFileSync(resolve(root, 'server/eagleeye/intelligence/v1/handler.ts'), 'utf-8');
 const premiumPathsSrc = readFileSync(resolve(root, 'src/shared/premium-paths.ts'), 'utf-8');
 const gatewaySrc = readFileSync(resolve(root, 'server/gateway.ts'), 'utf-8');
-const protoSrc = readFileSync(resolve(root, 'proto/worldmonitor/intelligence/v1/get_regional_brief.proto'), 'utf-8');
-const serviceProtoSrc = readFileSync(resolve(root, 'proto/worldmonitor/intelligence/v1/service.proto'), 'utf-8');
+const protoSrc = readFileSync(resolve(root, 'proto/eagleeye/intelligence/v1/get_regional_brief.proto'), 'utf-8');
+const serviceProtoSrc = readFileSync(resolve(root, 'proto/eagleeye/intelligence/v1/service.proto'), 'utf-8');
 
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -229,7 +229,7 @@ describe('proto definition', () => {
   });
 
   it('imports the proto file from service.proto', () => {
-    assert.match(serviceProtoSrc, /import "worldmonitor\/intelligence\/v1\/get_regional_brief\.proto"/);
+    assert.match(serviceProtoSrc, /import "eagleeye\/intelligence\/v1\/get_regional_brief\.proto"/);
   });
 
   it('defines RegionalBrief with all fields', () => {

@@ -107,7 +107,7 @@ export const listApiKeys = query({
     // readiness wait, but the Convex WebSocket can still observe a brief
     // unauthenticated window during sign-out, initial auth, or token rotation.
     // Throwing AUTH_REQUIRED from that race pages through Convex auto-Sentry
-    // (WORLDMONITOR-XM). The UI already gates this query behind a signed-in
+    // (EAGLEEYE-XM). The UI already gates this query behind a signed-in
     // shell, so [] is the honest transient result and cannot expose another
     // user's keys.
     const userId = await resolveUserId(ctx);

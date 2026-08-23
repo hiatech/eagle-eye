@@ -57,7 +57,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '..');
 const SPECS_DIR = join(REPO_ROOT, 'docs', 'api');
-const HANDLERS_ROOT = join(REPO_ROOT, 'server', 'worldmonitor');
+const HANDLERS_ROOT = join(REPO_ROOT, 'server', 'eagleeye');
 const MCP_FILE = join(REPO_ROOT, 'api', 'mcp.ts');
 
 // -----------------------------------------------------------------------------
@@ -190,7 +190,7 @@ function specFilenameToService(filename) {
 
 // -----------------------------------------------------------------------------
 // PascalCase operationId -> camelCase function name (matches the export name
-// imported by `server/worldmonitor/<service>/<version>/handler.ts`).
+// imported by `server/eagleeye/<service>/<version>/handler.ts`).
 //   `ListInternetDdosAttacks` -> `listInternetDdosAttacks`
 //   `GetBisCredit`            -> `getBisCredit`
 // -----------------------------------------------------------------------------
@@ -452,7 +452,7 @@ function resolveHandlerFile(service, version, operationId) {
   return {
     handlerDir,
     handlerFile: candidate,
-    handlerRelPath: `server/worldmonitor/${service}/${version}/${basename}.ts`,
+    handlerRelPath: `server/eagleeye/${service}/${version}/${basename}.ts`,
     importedName: camelName,
   };
 }

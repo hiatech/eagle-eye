@@ -8,7 +8,7 @@
 // **Why scripts/shared/ and NOT server/.../cohorts/ or registries/:**
 // the seed-bundle-resilience Railway service runs with rootDirectory=scripts/
 // and ONLY ships files under scripts/ into the container (memory:
-// `worldmonitor-scripts-package-json-install-scope`). PR #3435 originally
+// `eagleeye-scripts-package-json-install-scope`). PR #3435 originally
 // put the JSON under `server/.../registries/` — that resolved fine
 // locally and on Vercel but ENOENT'd at Railway runtime, taking the
 // resilience cron down. `scripts/shared/` is the canonical location

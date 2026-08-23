@@ -24,27 +24,27 @@ const fixture = `<!doctype html>
     <link rel="canonical" href="${FULL.url}" />
     <link rel="alternate" hreflang="x-default" href="${FULL.url}" />
     <link rel="alternate" hreflang="en" href="${FULL.url}" />
-    <meta name="application-name" content="World Monitor" />
+    <meta name="application-name" content="Eagle Eye" />
     <meta name="subject" content="${FULL.subject}" />
     <meta name="classification" content="${FULL.classification}" />
     <meta property="og:url" content="${FULL.url}" />
     <meta property="og:title" content="${FULL.title}" />
     <meta property="og:description" content="${FULL.description}" />
-    <meta property="og:image" content="https://www.worldmonitor.app/favico/og-image.png" />
+    <meta property="og:image" content="https://www.eagle-eye.app/favico/og-image.png" />
     <meta property="og:image:width" content="1200" />
-    <meta property="og:site_name" content="World Monitor" />
+    <meta property="og:site_name" content="Eagle Eye" />
     <meta name="twitter:url" content="${FULL.url}" />
     <meta name="twitter:title" content="${FULL.title}" />
     <meta name="twitter:description" content="${FULL.description}" />
-    <meta name="twitter:image" content="https://www.worldmonitor.app/favico/og-image.png" />
+    <meta name="twitter:image" content="https://www.eagle-eye.app/favico/og-image.png" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "World Monitor",
-      "alternateName": ["WorldMonitor", "World Monitor App", "WM Intelligence"],
+      "name": "Eagle Eye",
+      "alternateName": ["EagleEye", "Eagle Eye App", "WM Intelligence"],
       "url": "${FULL.url}",
-      "screenshot": "https://www.worldmonitor.app/favico/og-image.png",
+      "screenshot": "https://www.eagle-eye.app/favico/og-image.png",
       "featureList": [
         "Real-time news aggregation",
         "Stock market tracking"
@@ -55,14 +55,14 @@ const fixture = `<!doctype html>
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "World Monitor",
-      "alternateName": "WorldMonitor",
-      "url": "https://www.worldmonitor.app/"
+      "name": "Eagle Eye",
+      "alternateName": "EagleEye",
+      "url": "https://www.eagle-eye.app/"
     }
     </script>
   </head>
   <body>
-    <h1 class="app-heading">World Monitor — Real-Time Global Intelligence Dashboard</h1>
+    <h1 class="app-heading">Eagle Eye — Real-Time Global Intelligence Dashboard</h1>
     <p>Link to <a href="${FULL.url}">the main dashboard</a> stays untouched.</p>
   </body>
 </html>`;
@@ -111,14 +111,14 @@ describe('renderVariantDashboardHtml (#4996)', () => {
     );
     assert.doesNotMatch(html, /hreflang="[^"]+"\s+href="[^"]*[?&]lang=/);
     assert.ok(
-      html.includes('content="https://tech.worldmonitor.app/favico/tech/og-image.png"'),
+      html.includes('content="https://tech.eagle-eye.app/favico/tech/og-image.png"'),
       'og/twitter image points at the variant OG asset',
     );
     assert.ok(html.includes('<meta property="og:image:width" content="1200" />'), 'og:image:width untouched');
     assert.ok(html.includes(`<h1 class="app-heading">${escHtml(tech.title)}</h1>`), 'h1');
   });
 
-  it('rewrites the WebApplication JSON-LD block but leaves the Organization block as World Monitor', () => {
+  it('rewrites the WebApplication JSON-LD block but leaves the Organization block as Eagle Eye', () => {
     const html = renderVariantDashboardHtml(fixture, 'finance');
     const finance = VARIANT_META.finance;
     const blocks = [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(
@@ -129,10 +129,10 @@ describe('renderVariantDashboardHtml (#4996)', () => {
     const org = blocks.find((b) => b['@type'] === 'Organization');
     assert.equal(webApp.name, 'Finance Monitor');
     assert.equal(webApp.url, finance.url);
-    assert.equal(webApp.screenshot, 'https://finance.worldmonitor.app/favico/finance/og-image.png');
+    assert.equal(webApp.screenshot, 'https://finance.eagle-eye.app/favico/finance/og-image.png');
     assert.deepEqual(webApp.featureList, finance.features);
-    assert.equal(org.name, 'World Monitor', 'variant isPartOf World Monitor — org identity stays');
-    assert.equal(org.url, 'https://www.worldmonitor.app/');
+    assert.equal(org.name, 'Eagle Eye', 'variant isPartOf Eagle Eye — org identity stays');
+    assert.equal(org.url, 'https://www.eagle-eye.app/');
   });
 
   it('leaves body links to the main dashboard untouched', () => {

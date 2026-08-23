@@ -38,16 +38,16 @@ const OPENAPI_NOOP_PARAMS = [
 
 function fixture() {
   const root = mkdtempSync(join(tmpdir(), 'wm-sebuf-query-'));
-  mkdirSync(join(root, 'proto/worldmonitor/demo/v1'), { recursive: true });
-  mkdirSync(join(root, 'server/worldmonitor/demo/v1'), { recursive: true });
+  mkdirSync(join(root, 'proto/eagleeye/demo/v1'), { recursive: true });
+  mkdirSync(join(root, 'server/eagleeye/demo/v1'), { recursive: true });
   return root;
 }
 
 function writeProto(root, fieldSource) {
-  writeFileSync(join(root, 'proto/worldmonitor/demo/v1/list_things.proto'), [
+  writeFileSync(join(root, 'proto/eagleeye/demo/v1/list_things.proto'), [
     'syntax = "proto3";',
     '',
-    'package worldmonitor.demo.v1;',
+    'package eagleeye.demo.v1;',
     '',
     'import "sebuf/http/annotations.proto";',
     '',
@@ -58,7 +58,7 @@ function writeProto(root, fieldSource) {
 }
 
 function writeHandler(root, body) {
-  writeFileSync(join(root, 'server/worldmonitor/demo/v1/list-things.ts'), body);
+  writeFileSync(join(root, 'server/eagleeye/demo/v1/list-things.ts'), body);
 }
 
 describe('sebuf query-param implementation contract', () => {
@@ -94,7 +94,7 @@ describe('sebuf query-param implementation contract', () => {
     const contractSource = readFileSync(resolve(root, 'scripts/lib/sebuf-query-param-contract.mjs'), 'utf8');
     assert.doesNotMatch(
       contractSource,
-      /worldmonitor\/military\/v1\/list_military_flights\.proto:cursor/,
+      /eagleeye\/military\/v1\/list_military_flights\.proto:cursor/,
       'implemented military cursor must be removed from the forced no-op registry',
     );
   });
@@ -107,7 +107,7 @@ describe('sebuf query-param implementation contract', () => {
     ].join('\n'));
     writeHandler(root, 'export async function listThings(_ctx, _req) { return {}; }\n');
 
-    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
+    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
     assert.equal(violations.length, 1);
     assert.match(violations[0].message, /declared but not referenced/);
   });
@@ -120,7 +120,7 @@ describe('sebuf query-param implementation contract', () => {
     ].join('\n'));
     writeHandler(root, 'export async function listThings(_ctx, req) { return { limit: req.pageSize }; }\n');
 
-    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
+    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
     assert.deepEqual(violations, []);
   });
 
@@ -138,7 +138,7 @@ describe('sebuf query-param implementation contract', () => {
       '',
     ].join('\n'));
 
-    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
+    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
     assert.equal(violations.length, 1);
     assert.match(violations[0].message, /declared but not referenced/);
   });
@@ -151,7 +151,7 @@ describe('sebuf query-param implementation contract', () => {
     ].join('\n'));
     writeHandler(root, 'export async function listThings(_ctx, _req) { return {}; }\n');
 
-    const { violations, stats } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
+    const { violations, stats } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
     assert.deepEqual(violations, []);
     assert.equal(stats.unimplementedFields, 1);
   });
@@ -165,8 +165,8 @@ describe('sebuf query-param implementation contract', () => {
     writeHandler(root, 'export async function listThings(_ctx, req) { return { cursor: req.cursor }; }\n');
 
     const { violations } = collectQueryParamContractViolations(root, {
-      scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']),
-      forcedNoopQueryParams: new Set(['worldmonitor/demo/v1/list_things.proto:cursor']),
+      scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']),
+      forcedNoopQueryParams: new Set(['eagleeye/demo/v1/list_things.proto:cursor']),
     });
     assert.equal(violations.length, 1);
     assert.match(violations[0].message, /no-op registry but is not marked unimplemented/);
@@ -180,7 +180,7 @@ describe('sebuf query-param implementation contract', () => {
     ].join('\n'));
     writeHandler(root, 'export async function listThings(_ctx, _req) { return {}; }\n');
 
-    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['worldmonitor/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
+    const { violations } = collectQueryParamContractViolations(root, { scopedProtoFiles: new Set(['eagleeye/demo/v1/list_things.proto']), forcedNoopQueryParams: new Set() });
     assert.equal(violations.length, 1);
     assert.match(violations[0].message, /does not disclose/);
   });

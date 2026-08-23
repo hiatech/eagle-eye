@@ -8,7 +8,7 @@ describe('Sentry build attribution', () => {
     const sha = 'aa74d8947a7cd59afef896078a606d31e0bd388b';
 
     assert.deepEqual(getSentryBuildMetadata('2.10.0', sha), {
-      release: 'worldmonitor@2.10.0',
+      release: 'eagleeye@2.10.0',
       dist: sha,
       initialScope: {
         tags: {
@@ -22,7 +22,7 @@ describe('Sentry build attribution', () => {
     for (const buildHash of ['dev', '', 'abc123', 'g'.repeat(40), 'a'.repeat(41)]) {
       assert.deepEqual(
         getSentryBuildMetadata('2.10.0', buildHash),
-        { release: 'worldmonitor@2.10.0' },
+        { release: 'eagleeye@2.10.0' },
       );
     }
   });

@@ -16,12 +16,12 @@ const STATS = { localeCodes: EXPECTED, locales: EXPECTED.length };
 
 function buildHtml({ canonical, xdefault, alternates, jsonld } = {}) {
   const parts = [];
-  parts.push(canonical ?? '<link rel="canonical" href="https://www.worldmonitor.app/dashboard" />');
+  parts.push(canonical ?? '<link rel="canonical" href="https://www.eagle-eye.app/dashboard" />');
   if (xdefault !== null) {
-    parts.push(xdefault ?? '<link rel="alternate" hreflang="x-default" href="https://www.worldmonitor.app/dashboard" />');
+    parts.push(xdefault ?? '<link rel="alternate" hreflang="x-default" href="https://www.eagle-eye.app/dashboard" />');
   }
   parts.push(...(alternates ?? [
-    '<link rel="alternate" hreflang="en" href="https://www.worldmonitor.app/dashboard" />',
+    '<link rel="alternate" hreflang="en" href="https://www.eagle-eye.app/dashboard" />',
   ]));
   parts.push(jsonld ?? '<script type="application/ld+json">\n{ "@type": "WebSite", "inLanguage": "en" }\n</script>');
   return parts.join('\n');
@@ -41,7 +41,7 @@ describe('validateIndexLanguageMetadata', () => {
 
   it('flags an x-default href that carries a ?lang param', () => {
     const failures = validateIndexLanguageMetadata(STATS, buildHtml({
-      xdefault: '<link rel="alternate" hreflang="x-default" href="https://www.worldmonitor.app/dashboard?lang=en" />',
+      xdefault: '<link rel="alternate" hreflang="x-default" href="https://www.eagle-eye.app/dashboard?lang=en" />',
     }));
     assert.ok(hit(failures, 'x-default hreflang href must not set ?lang'));
   });
@@ -57,8 +57,8 @@ describe('validateIndexLanguageMetadata', () => {
   it('flags a pseudo-localized query-string alternate', () => {
     const failures = validateIndexLanguageMetadata(STATS, buildHtml({
       alternates: [
-        '<link rel="alternate" hreflang="en" href="https://www.worldmonitor.app/dashboard" />',
-        '<link rel="alternate" hreflang="fr" href="https://www.worldmonitor.app/dashboard?lang=fr" />',
+        '<link rel="alternate" hreflang="en" href="https://www.eagle-eye.app/dashboard" />',
+        '<link rel="alternate" hreflang="fr" href="https://www.eagle-eye.app/dashboard?lang=fr" />',
       ],
     }));
     assert.ok(hit(failures, 'hreflang set must contain only x-default and en'));
@@ -79,8 +79,8 @@ describe('validateIndexLanguageMetadata', () => {
 
   it('flags x-default and English alternates that drift from the canonical', () => {
     const failures = validateIndexLanguageMetadata(STATS, buildHtml({
-      xdefault: '<link rel="alternate" hreflang="x-default" href="https://www.worldmonitor.app/" />',
-      alternates: ['<link rel="alternate" hreflang="en" href="https://www.worldmonitor.app/" />'],
+      xdefault: '<link rel="alternate" hreflang="x-default" href="https://www.eagle-eye.app/" />',
+      alternates: ['<link rel="alternate" hreflang="en" href="https://www.eagle-eye.app/" />'],
     }));
     assert.ok(hit(failures, 'x-default hreflang href must equal the canonical URL'));
     assert.ok(hit(failures, 'en hreflang href must equal the canonical URL'));

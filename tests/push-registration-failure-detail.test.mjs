@@ -8,7 +8,7 @@ import { describePushRegistrationFailure } from '../src/services/push-notificati
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pushSrc = readFileSync(join(root, 'src', 'services', 'push-notifications.ts'), 'utf-8');
 
-// WORLDMONITOR-XR: "Error: Failed to register push subscription (400)."
+// EAGLEEYE-XR: "Error: Failed to register push subscription (400)."
 // 3 events / 2 users, Chrome on macOS, thrown from the Pro-activation push
 // step. `/api/notification-channels` rejects with a DIFFERENT `error` code for
 // every failure mode — an unrecognised push host, a non-https endpoint, a
@@ -21,7 +21,7 @@ function jsonResponse(status, body) {
   return { status, text: async () => JSON.stringify(body) };
 }
 
-describe('push registration failure detail (WORLDMONITOR-XR)', () => {
+describe('push registration failure detail (EAGLEEYE-XR)', () => {
   it('names which 400 the route returned', async () => {
     const msg = await describePushRegistrationFailure(
       jsonResponse(400, { error: 'endpoint host is not a recognised push service' }),

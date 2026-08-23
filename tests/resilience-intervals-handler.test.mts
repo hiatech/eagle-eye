@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { getResilienceScore } from '../server/worldmonitor/resilience/v1/get-resilience-score.ts';
-import { RESILIENCE_INTERVAL_METHODOLOGY } from '../server/worldmonitor/resilience/v1/_shared.ts';
+import { getResilienceScore } from '../server/eagleeye/resilience/v1/get-resilience-score.ts';
+import { RESILIENCE_INTERVAL_METHODOLOGY } from '../server/eagleeye/resilience/v1/_shared.ts';
 import { createRedisFetch } from './helpers/fake-upstash-redis.mts';
 import { RESILIENCE_FIXTURES } from './helpers/resilience-fixtures.mts';
 

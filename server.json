@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "app.worldmonitor/mcp",
-  "title": "World Monitor",
+  "name": "app.eagleeye/mcp",
+  "title": "Eagle Eye",
   "description": "Live global intelligence: real-time markets, conflicts, country risk, chokepoints, energy, and China decision signals. 59 tools.",
-  "websiteUrl": "https://www.worldmonitor.app",
+  "websiteUrl": "https://www.eagle-eye.app",
   "repository": {
-    "url": "https://github.com/koala73/worldmonitor",
+    "url": "https://github.com/hiatech/eagle-eye",
     "source": "github"
   },
   "version": "1.15.0",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://worldmonitor.app/mcp"
+      "url": "https://eagle-eye.app/mcp"
     }
   ]
 }

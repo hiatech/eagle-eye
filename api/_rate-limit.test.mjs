@@ -27,7 +27,7 @@ function restoreEnv() {
 }
 
 function makeRequest(headers = {}) {
-  return new Request('https://worldmonitor.app/api/test', { headers });
+  return new Request('https://eagle-eye.app/api/test', { headers });
 }
 
 async function importFreshRateLimitModule() {
@@ -135,7 +135,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
   it('failClosed=true: returns 503 with the X-RateLimit-Mode degraded marker', async () => {
     const res = await checkRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       { failClosed: true },
     );
     assert.ok(res, 'expected a Response when fail-closed');
@@ -144,7 +144,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
     assert.equal(res.headers.get('Retry-After'), '5');
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
     );
   });
 
@@ -155,7 +155,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
 
     const res = await mod.checkRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       { failClosed: true },
     );
 
@@ -165,7 +165,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
     assert.equal(res.headers.get('Retry-After'), '5');
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
     );
   });
 
@@ -201,7 +201,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
 
     const res = await checkRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       { scope: 'wm-session', limit: 30, window: '60 s', failClosed: true },
     );
 
@@ -219,7 +219,7 @@ describe('api/_rate-limit checkRateLimit fail-open / fail-closed (#3531 M9)', ()
     assert.match(res.headers.get('Retry-After') ?? '', /^\d+$/);
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
     );
   });
 });

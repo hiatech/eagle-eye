@@ -1,7 +1,7 @@
 /**
  * The Clerk token cache must respect the token's OWN expiry, not just a flat TTL.
  *
- * Why this exists (Sentry WORLDMONITOR-XR / XQ, 2026-07-27): a Pro user's
+ * Why this exists (Sentry EAGLEEYE-XR / XQ, 2026-07-27): a Pro user's
  * session lost its identity on two unrelated endpoints inside the same second —
  * `/api/notification-channels` answered 401 and the gateway logged
  * `/api/intelligence/v1/classify-event` 401 with `customer_id` NULL — bracketed
@@ -216,7 +216,7 @@ describe('getClerkToken', () => {
   });
 
   /**
-   * Sentry WORLDMONITOR-Q9. A forced refresh that fails outright is not the same
+   * Sentry EAGLEEYE-Q9. A forced refresh that fails outright is not the same
    * event as one that succeeds and still hands back a near-expiry token (the case
    * above, which must stay null). When Clerk is unreachable the near-expiry token
    * already in hand is the only credential that exists, and seconds of remaining

@@ -173,7 +173,7 @@ describe('api/mcp.ts — transport conformance over real HTTP', () => {
     assert.equal(body.jsonrpc, '2.0');
     assert.equal(body.id, 1);
     assert.equal(body.result?.protocolVersion, '2025-03-26');
-    assert.equal(body.result?.serverInfo?.name, 'worldmonitor');
+    assert.equal(body.result?.serverInfo?.name, 'eagleeye');
 
     // Resuming after the only event yields an empty stream (nothing follows the
     // delivered response), but the replay channel still authenticates and stays
@@ -248,7 +248,7 @@ describe('api/mcp.ts — transport conformance over real HTTP', () => {
     const parsed = JSON.parse(first.data); // must not throw — this is the orank handshake invariant
     assert.equal(parsed.jsonrpc, '2.0');
     assert.equal(parsed.id, 30);
-    assert.equal(parsed.result?.serverInfo?.name, 'worldmonitor');
+    assert.equal(parsed.result?.serverInfo?.name, 'eagleeye');
   });
 
   it('uses replay-specific status codes for malformed GET replay requests', async () => {
@@ -380,7 +380,7 @@ describe('api/mcp.ts — transport conformance over real HTTP', () => {
       // reopen on a now-gateless endpoint — pin it closed.
       assert.equal(res.headers.get('access-control-allow-credentials'), null,
         '/mcp must not emit Access-Control-Allow-Credentials alongside wildcard ACAO');
-      assert.equal((await res.json()).result?.serverInfo?.name, 'worldmonitor',
+      assert.equal((await res.json()).result?.serverInfo?.name, 'eagleeye',
         'foreign-origin POST must complete a real initialize, not just return 200');
     }
   });
@@ -425,7 +425,7 @@ describe('api/mcp.ts — transport conformance over real HTTP', () => {
 
     const sessionId = initialize.headers.get('mcp-session-id');
     assert.ok(sessionId, 'JSON initialize response must still emit Mcp-Session-Id');
-    assert.equal((await initialize.json()).result?.serverInfo?.name, 'worldmonitor');
+    assert.equal((await initialize.json()).result?.serverInfo?.name, 'eagleeye');
 
     const error = await fetch(server.url, {
       method: 'POST',
@@ -513,16 +513,16 @@ describe('api/mcp.ts — /.well-known/mcp dual-role alias', () => {
     // Endpoint must be readable under EVERY manifest dialect scanners parse:
     // top-level `url` + `kind` (ora.ai /.well-known/mcp.json convention),
     // `serverUrl` (SEP-1649 server card), and registry-style `remotes`.
-    assert.equal(card.url, 'https://worldmonitor.app/mcp');
+    assert.equal(card.url, 'https://eagle-eye.app/mcp');
     assert.equal(card.kind, 'product');
-    assert.equal(card.serverUrl, 'https://worldmonitor.app/mcp');
-    assert.equal(card.remotes?.[0]?.url, 'https://worldmonitor.app/mcp');
+    assert.equal(card.serverUrl, 'https://eagle-eye.app/mcp');
+    assert.equal(card.remotes?.[0]?.url, 'https://eagle-eye.app/mcp');
     const cardFetch = staticFetchCalls.find(({ href }) => href.endsWith('/.well-known/mcp/server-card.json'));
     assert.ok(cardFetch, 'server card must be loaded through the deployment self-fetch');
     assert.equal(
       new Headers(cardFetch.init?.headers).get('user-agent'),
-      'WorldMonitor-MCP/1.0 (+https://worldmonitor.app)',
-      'server-side fetches must identify WorldMonitor to the deployment edge',
+      'EagleEye-MCP/1.0 (+https://eagle-eye.app)',
+      'server-side fetches must identify EagleEye to the deployment edge',
     );
     // The manifest is a static, immutable-per-deploy asset — it must stay
     // cacheable (it was `public, max-age=3600` as a static file). The MCP
@@ -537,7 +537,7 @@ describe('api/mcp.ts — /.well-known/mcp dual-role alias', () => {
     const res = await fetch(`${aliasUrl}.json`, { headers: { Accept: 'application/json' } });
     assert.equal(res.status, 200);
     const card = await res.json();
-    assert.equal(card.url, 'https://worldmonitor.app/mcp');
+    assert.equal(card.url, 'https://eagle-eye.app/mcp');
   });
 
   it('plain GET /mcp serves the human-readable server guide (crawler-accessible discovery)', async () => {
@@ -547,9 +547,9 @@ describe('api/mcp.ts — /.well-known/mcp dual-role alias', () => {
     assert.equal(res.status, 200, 'a plain GET /mcp must not be the transport 405 (Search Console reads it as "cannot access")');
     assert.match(res.headers.get('content-type') ?? '', /text\/markdown/i);
     const body = await res.text();
-    assert.match(body, /# World Monitor MCP Server/, 'must be the mcp-server.md guide, not the JSON card');
-    assert.match(body, /https:\/\/worldmonitor\.app\/mcp/, 'guide must advertise the apex transport URL');
-    assert.match(res.headers.get('link') ?? '', /<https:\/\/worldmonitor\.app\/mcp>;\s*rel="canonical"/,
+    assert.match(body, /# Eagle Eye MCP Server/, 'must be the mcp-server.md guide, not the JSON card');
+    assert.match(body, /https:\/\/eagle-eye\.app\/mcp/, 'guide must advertise the apex transport URL');
+    assert.match(res.headers.get('link') ?? '', /<https:\/\/eagle-eye\.app\/mcp>;\s*rel="canonical"/,
       'discovery representation must declare the apex endpoint canonical');
   });
 
@@ -666,7 +666,7 @@ describe('api/mcp.ts — /.well-known/mcp dual-role alias', () => {
     assert.match(discovery.headers.get('cache-control') ?? '', /\bno-store\b/i);
     assert.match(discovery.headers.get('vary') ?? '', /\bAccept\b(?!-)/i);
     assert.match(discovery.headers.get('vary') ?? '', /\bLast-Event-ID\b/i);
-    assert.match(discovery.headers.get('link') ?? '', /<https:\/\/worldmonitor\.app\/mcp>;\s*rel="canonical"/,
+    assert.match(discovery.headers.get('link') ?? '', /<https:\/\/eagle-eye\.app\/mcp>;\s*rel="canonical"/,
       'HEAD must retain the matching guide GET canonical link');
 
     const manifest = await fetch(aliasUrl, { method: 'HEAD', headers: { Accept: 'application/json' } });
@@ -717,7 +717,7 @@ describe('api/mcp.ts — /.well-known/mcp dual-role alias', () => {
     });
     assert.equal(res.status, 200);
     const body = await res.json();
-    assert.equal(body.result?.serverInfo?.name, 'worldmonitor');
+    assert.equal(body.result?.serverInfo?.name, 'eagleeye');
     assert.ok(res.headers.get('mcp-session-id'), 'well-known endpoint role must mint a session like /mcp');
   });
 

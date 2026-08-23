@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { GetDisplacementSummaryResponse as ProtoResponse, CountryDisplacement as ProtoCountry, DisplacementFlow as ProtoFlow } from '@/generated/client/worldmonitor/displacement/v1/service_client';
+import type { GetDisplacementSummaryResponse as ProtoResponse, CountryDisplacement as ProtoCountry, DisplacementFlow as ProtoFlow } from '@/generated/client/eagleeye/displacement/v1/service_client';
 import { createCircuitBreaker, getCSSColor } from '@/utils';
 import { DisplacementServiceClient } from '@/services/generated-rpc-clients';
 import { publicRpcFetch } from '@/services/public-rpc-fetch';

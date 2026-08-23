@@ -7,7 +7,7 @@ function makeRequest(origin) {
   if (origin !== null) {
     headers.set('origin', origin);
   }
-  return new Request('https://worldmonitor.app/api/test', { headers });
+  return new Request('https://eagle-eye.app/api/test', { headers });
 }
 
 test('allows desktop Tauri origins', () => {
@@ -32,7 +32,7 @@ test('rejects unrelated external origins', () => {
   const req = makeRequest('https://evil.example.com');
   assert.equal(isDisallowedOrigin(req), true);
   const cors = getCorsHeaders(req);
-  assert.equal(cors['Access-Control-Allow-Origin'], 'https://worldmonitor.app');
+  assert.equal(cors['Access-Control-Allow-Origin'], 'https://eagle-eye.app');
   assert.equal(cors['Access-Control-Allow-Credentials'], 'true');
 });
 
@@ -42,7 +42,7 @@ test('requests without origin remain allowed', () => {
 });
 
 test('CORS allow headers include MCP transport headers', () => {
-  const privateCors = getCorsHeaders(makeRequest('https://worldmonitor.app'));
+  const privateCors = getCorsHeaders(makeRequest('https://eagle-eye.app'));
   const publicCors = getPublicCorsHeaders('POST, GET, OPTIONS');
 
   for (const cors of [privateCors, publicCors]) {
@@ -66,9 +66,9 @@ test('CORS allow headers include MCP transport headers', () => {
     assert.match(exposed, /\bX-RateLimit-Limit\b/);
     assert.match(exposed, /\bX-RateLimit-Remaining\b/);
     assert.match(exposed, /\bX-RateLimit-Reset\b/);
-    assert.match(exposed, /\bX-WorldMonitor-Bbox\b/);
-    assert.match(exposed, /\bX-WorldMonitor-Bbox-Missing\b/);
-    assert.match(exposed, /\bX-WorldMonitor-Bbox-Invalid\b/);
+    assert.match(exposed, /\bX-EagleEye-Bbox\b/);
+    assert.match(exposed, /\bX-EagleEye-Bbox-Missing\b/);
+    assert.match(exposed, /\bX-EagleEye-Bbox-Invalid\b/);
     assert.match(exposed, /\bX-Military-Bbox\b/);
   }
 });

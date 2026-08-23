@@ -27,10 +27,10 @@ function overrideGlobal(name, value) {
 
 function installBrowserEnv() {
   const location = {
-    hostname: 'worldmonitor.app',
+    hostname: 'eagle-eye.app',
     protocol: 'https:',
-    host: 'worldmonitor.app',
-    origin: 'https://worldmonitor.app',
+    host: 'eagle-eye.app',
+    origin: 'https://eagle-eye.app',
   };
   const navigator = { userAgent: 'node-test', onLine: true };
   const window = { location, navigator };

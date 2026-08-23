@@ -21,7 +21,7 @@ This record makes the discovery result durable. It does not implement ranking, a
 
 ## User surface and failure
 
-The affected surface is the delayed WorldMonitor Brief/digest ranking that feeds the user's capped story cards and digest notifications. The ranking is supposed to keep high-importance, fresh developments visible while grouping related stories.
+The affected surface is the delayed EagleEye Brief/digest ranking that feeds the user's capped story cards and digest notifications. The ranking is supposed to keep high-importance, fresh developments visible while grouping related stories.
 
 The failure mode is **syndication being counted as independent corroboration**. In the fixed sample, a Spain–Morocco story has 18 hydrated feed labels and 42 merged title variants, but `entityCorroborationCount=0` because the configured entity-level heuristic did not fire. A raw source-label vote treats that breadth as ranking evidence and moves it from baseline position 12 to RRF position 3. The same candidate removes a fresh 2.26-hour-old score-63 story and a 5.17-hour-old score-69 story from the top 12. That is a user-visible freshness and quality regression, not evidence that the Spain–Morocco event deserves promotion.
 

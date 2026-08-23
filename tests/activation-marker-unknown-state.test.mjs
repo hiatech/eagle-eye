@@ -24,7 +24,7 @@ import assert from 'node:assert/strict';
 
 process.env.UPSTASH_REDIS_REST_URL = 'https://mock-upstash.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'mock-token';
-process.env.WORLDMONITOR_VALID_KEYS = 'test-health-admin-key';
+process.env.EAGLEEYE_VALID_KEYS = 'test-health-admin-key';
 
 const { handleHealth, __testing__ } = await import('../api/health.js');
 const { handleSeedHealth } = await import('../api/seed-health.js');
@@ -134,8 +134,8 @@ async function healthResponseFor(markerEntries, options) {
   installHealthPipelineMock(markerEntries, options);
   const now = options?.now ?? TEST_NOW;
   const handlerOptions = options?.useProductionClock ? undefined : { now };
-  const res = await handleHealth(new Request('https://api.worldmonitor.app/api/health', {
-    headers: { 'x-worldmonitor-key': 'test-health-admin-key' },
+  const res = await handleHealth(new Request('https://api.eagle-eye.app/api/health', {
+    headers: { 'x-eagleeye-key': 'test-health-admin-key' },
   }), undefined, handlerOptions);
   return { res, body: await res.json() };
 }
@@ -365,8 +365,8 @@ async function seedHealthResponseFor(markerEntries, options) {
   installSeedHealthPipelineMock(markerEntries, options);
   const now = options?.now ?? TEST_NOW;
   const handlerOptions = options?.useProductionClock ? undefined : { now };
-  const res = await handleSeedHealth(new Request('https://api.worldmonitor.app/api/seed-health', {
-    headers: { 'X-WorldMonitor-Key': 'test-health-admin-key' },
+  const res = await handleSeedHealth(new Request('https://api.eagle-eye.app/api/seed-health', {
+    headers: { 'X-EagleEye-Key': 'test-health-admin-key' },
   }), handlerOptions);
   return { res, body: await res.json() };
 }
@@ -626,8 +626,8 @@ describe('#6152 review — the verdict cache cannot outlive the deadline it publ
       }
       return inner(url, init);
     };
-    const res = await handleHealth(new Request('https://api.worldmonitor.app/api/health', {
-      headers: { 'x-worldmonitor-key': 'test-health-admin-key' },
+    const res = await handleHealth(new Request('https://api.eagle-eye.app/api/health', {
+      headers: { 'x-eagleeye-key': 'test-health-admin-key' },
     }), undefined, { now });
     const body = await res.json();
     return { sets, body };

@@ -291,7 +291,7 @@ export function loadEnvFile(metaUrl, { only } = {}) {
   const __dirname = metaUrl ? dirname(fileURLToPath(metaUrl)) : process.cwd();
   const candidates = [];
   // Explicit opt-in for checkouts that deliberately borrow another env file.
-  // Replaces the old hardcoded $HOME/Documents/GitHub/worldmonitor candidate,
+  // Replaces the old hardcoded $HOME/Documents/GitHub/eagleeye candidate,
   // which reached out of whichever worktree the seeder lived in and so made
   // worktree isolation ineffective by design.
   if (process.env.WM_SEED_ENV_FILE) {

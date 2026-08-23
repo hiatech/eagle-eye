@@ -12,8 +12,8 @@ import test from 'node:test';
 import worker from './src/index.js';
 import { TIER_MAX_AGE_MS } from './src/kv-shadow.js';
 
-const FAST_URL = 'https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1';
-const SLOW_URL = 'https://api.worldmonitor.app/api/bootstrap?tier=slow&public=1';
+const FAST_URL = 'https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1';
+const SLOW_URL = 'https://api.eagle-eye.app/api/bootstrap?tier=slow&public=1';
 
 const payloadFor = (tier) => ({ data: { [`${tier}-key`]: { v: 1 } }, missing: [`${tier}-missing`] });
 const envelopeFor = (tier, ageMs = 0) =>
@@ -50,7 +50,7 @@ function makeCtx() {
   const waits = [];
   return { ctx: { waitUntil: (p) => waits.push(p) }, waits };
 }
-const req = (url, method = 'GET') => new Request(url, { method, headers: { Origin: 'https://worldmonitor.app' } });
+const req = (url, method = 'GET') => new Request(url, { method, headers: { Origin: 'https://eagle-eye.app' } });
 const corsOf = (r) => Object.fromEntries([...r.headers].filter(([k]) => k.startsWith('access-control') || k === 'vary'));
 
 test('serve=all: public-tier GET is served from KV, not origin, with the payload body', async () => {
@@ -60,7 +60,7 @@ test('serve=all: public-tier GET is served from KV, not origin, with the payload
     const { ctx, waits } = makeCtx();
     const res = await worker.fetch(req(FAST_URL), env, ctx);
     assert.equal(res.status, 200);
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv');
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), 'kv');
     assert.equal(res.headers.get('X-Origin'), null, 'must not reach origin');
     assert.equal(res.headers.get('Content-Type'), 'application/json');
     assert.equal(res.headers.get('Cache-Control'), 'no-store');
@@ -74,7 +74,7 @@ test('served CORS headers are identical to the origin pass-through the Worker wo
   try {
     const passthru = await worker.fetch(req(FAST_URL), makeEnv({ serve: 'off', kvValue: envelopeFor('fast') }), makeCtx().ctx);
     const served = await worker.fetch(req(FAST_URL), makeEnv({ serve: 'all', kvValue: envelopeFor('fast') }), makeCtx().ctx);
-    assert.equal(served.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv');
+    assert.equal(served.headers.get('X-EagleEye-Bootstrap-Source'), 'kv');
     assert.equal(passthru.headers.get('X-Origin'), 'vercel');
     assert.deepEqual(corsOf(served), corsOf(passthru), 'CORS/Vary identical served vs pass-through');
     assert.equal(served.headers.get('Access-Control-Allow-Credentials'), 'true');
@@ -86,7 +86,7 @@ test('serve=off (the deployed default): public-tier GET falls through to origin 
   try {
     const res = await worker.fetch(req(FAST_URL), makeEnv({ serve: 'off', kvValue: envelopeFor('fast') }), makeCtx().ctx);
     assert.equal(res.headers.get('X-Origin'), 'vercel', 'reached origin');
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), null);
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), null);
   } finally { restore(); }
 });
 
@@ -95,11 +95,11 @@ test('serve=slow: slow tier served from KV, fast tier falls through to origin', 
   try {
     const env = makeEnv({ serve: 'slow', get: async (tier) => envelopeFor(tier) });
     const slow = await worker.fetch(req(SLOW_URL), env, makeCtx().ctx);
-    assert.equal(slow.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv');
+    assert.equal(slow.headers.get('X-EagleEye-Bootstrap-Source'), 'kv');
     assert.deepEqual(JSON.parse(await slow.text()), payloadFor('slow'));
     const fast = await worker.fetch(req(FAST_URL), env, makeCtx().ctx);
     assert.equal(fast.headers.get('X-Origin'), 'vercel', 'fast not served under serve=slow');
-    assert.equal(fast.headers.get('X-WorldMonitor-Bootstrap-Source'), null);
+    assert.equal(fast.headers.get('X-EagleEye-Bootstrap-Source'), null);
   } finally { restore(); }
 });
 
@@ -117,7 +117,7 @@ test('every KV failure mode falls through to origin (never a served 5xx)', async
       const res = await worker.fetch(req(FAST_URL), makeEnv({ serve: 'all', get }), makeCtx().ctx);
       assert.equal(res.status, 200, `${name}: still 200`);
       assert.equal(res.headers.get('X-Origin'), 'vercel', `${name}: reached origin`);
-      assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), null, `${name}: not served from KV`);
+      assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), null, `${name}: not served from KV`);
     } finally { restore(); }
   }
 });
@@ -128,13 +128,13 @@ test('non-servable requests never serve from KV (predicate + method gating)', as
     const env = makeEnv({ serve: 'all', get: async (tier) => envelopeFor(tier) });
     for (const [url, method, why] of [
       [FAST_URL, 'POST', 'non-GET'],
-      ['https://api.worldmonitor.app/api/bootstrap?tier=fast', 'GET', 'no public=1'],
-      ['https://api.worldmonitor.app/api/bootstrap?tier=bogus&public=1', 'GET', 'unknown tier'],
-      ['https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1&x=1', 'GET', 'extra param'],
-      ['https://api.worldmonitor.app/api/health', 'GET', 'wrong path'],
+      ['https://api.eagle-eye.app/api/bootstrap?tier=fast', 'GET', 'no public=1'],
+      ['https://api.eagle-eye.app/api/bootstrap?tier=bogus&public=1', 'GET', 'unknown tier'],
+      ['https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1&x=1', 'GET', 'extra param'],
+      ['https://api.eagle-eye.app/api/health', 'GET', 'wrong path'],
     ]) {
       const res = await worker.fetch(req(url, method), env, makeCtx().ctx);
-      assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), null, `${method} ${url} (${why})`);
+      assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), null, `${method} ${url} (${why})`);
     }
   } finally { restore(); }
 });
@@ -143,7 +143,7 @@ test('missing KV binding falls through', async () => {
   const restore = installFetch();
   try {
     const res = await worker.fetch(req(FAST_URL), makeEnv({ serve: 'all', binding: false }), makeCtx().ctx);
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), null);
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), null);
     assert.equal(res.headers.get('X-Origin'), 'vercel');
   } finally { restore(); }
 });
@@ -185,7 +185,7 @@ test('a fast KV read is served without ever enlisting origin (no hedge)', async 
     const env = makeEnv({ serve: 'all', get: async (tier) => envelopeFor(tier) });
     const { ctx, waits } = makeCtx();
     const res = await worker.fetch(req(FAST_URL), env, ctx);
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv');
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), 'kv');
     assert.equal(originCalls, 0, 'KV won inside the hedge window; origin never fetched');
     await Promise.all(waits);
   } finally { restore(); }
@@ -203,7 +203,7 @@ test('a hung KV read hedges to origin after the delay and records reason=hedged'
     t.mock.timers.tick(501); // fire the hedge; origin (immediate) wins the race vs the hung read
     const res = await pending;
     assert.equal(res.headers.get('X-Origin'), 'vercel', 'hedge falls back to origin');
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), null, 'not served from the hung KV');
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), null, 'not served from the hung KV');
     assert.equal(originCalls, 1, 'origin enlisted exactly once, at the hedge boundary');
     await Promise.all(waits);
     assert.equal(event.kv_outcome, 'fallback');
@@ -225,7 +225,7 @@ test('a slow-but-valid KV read still wins the hedge race and is served (not aban
     t.mock.timers.tick(500); // hedge fires -> origin enlisted (will resolve at 900ms)
     t.mock.timers.tick(100); // t=600 -> KV resolves first, wins the race
     const res = await pending;
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv', 'slow-but-valid KV is served');
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), 'kv', 'slow-but-valid KV is served');
     assert.deepEqual(JSON.parse(await res.text()), payloadFor('fast'));
     assert.equal(originCalls, 1, 'origin was enlisted by the hedge but lost the race');
     await Promise.all(waits);
@@ -248,7 +248,7 @@ test('a served tier skips the redundant shadow read during cutover', async () =>
     });
     const { ctx, waits } = makeCtx();
     const res = await worker.fetch(req(FAST_URL), env, ctx);
-    assert.equal(res.headers.get('X-WorldMonitor-Bootstrap-Source'), 'kv');
+    assert.equal(res.headers.get('X-EagleEye-Bootstrap-Source'), 'kv');
     await Promise.all(waits);
     assert.equal(reads, 1, 'serve telemetry replaces the same-tier shadow read');
     assert.deepEqual(events.map((event) => event.event_type), ['bootstrap_kv_serve']);

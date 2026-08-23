@@ -1,14 +1,14 @@
 ---
 title: "桌面版发布打包指南（本地、可复现）"
-description: "本指南提供 World Monitor 桌面二进制的可复现本地打包步骤，涵盖构建脚本、代码签名、公证、图标与安装包生成，帮助维护者与贡献者在 macOS、Windows 与 Linux 上产出与官方发布一致的桌面二进制，并对每一步进行确定性校验。"
+description: "本指南提供 Eagle Eye 桌面二进制的可复现本地打包步骤，涵盖构建脚本、代码签名、公证、图标与安装包生成，帮助维护者与贡献者在 macOS、Windows 与 Linux 上产出与官方发布一致的桌面二进制，并对每一步进行确定性校验。"
 ---
 本指南为桌面应用提供可复现的本地打包步骤。
 
-**只发布一个二进制文件。** `World Monitor` 是唯一的桌面制品，所有变体 —— tech、finance、commodity、energy、happy —— 均在安装后于应用内切换，并在重启后保持。不存在按变体划分的安装包、标签或下载。
+**只发布一个二进制文件。** `Eagle Eye` 是唯一的桌面制品，所有变体 —— tech、finance、commodity、energy、happy —— 均在安装后于应用内切换，并在重启后保持。不存在按变体划分的安装包、标签或下载。
 
 这是刻意的约束，而非疏漏：`/api/version` 和 `/api/download` 解析 `/releases/latest`，它最多只返回一个 release，因此第二条发布线永远无法送达用户（#5908）。
 
-包标识由单一的 Tauri 配置控制：`src-tauri/tauri.conf.json` → `World Monitor` / `world-monitor`。
+包标识由单一的 Tauri 配置控制：`src-tauri/tauri.conf.json` → `Eagle Eye` / `eagle-eye`。
 
 ## 前置条件
 
@@ -180,7 +180,7 @@ npm run desktop:package:windows:sign
 
 ## 包标识（名称/图标）
 
-`src-tauri/tauri.conf.json` → `World Monitor` / `world-monitor`，其中 `bundle.icon` 指向共享的图标集。无论用户之后切换到哪个变体，每个打包构建都带有该标识，因此窗口标题与已安装的应用名称始终为 `World Monitor`。
+`src-tauri/tauri.conf.json` → `Eagle Eye` / `eagle-eye`，其中 `bundle.icon` 指向共享的图标集。无论用户之后切换到哪个变体，每个打包构建都带有该标识，因此窗口标题与已安装的应用名称始终为 `Eagle Eye`。
 
 新增第二个 `tauri.*.conf.json` 来为某个变体做品牌化，会被 `tests/desktop-one-binary-model.test.mjs` 明确拒绝：没有任何流程会发布它，端点也无法提供它。如果确实需要按变体划分的品牌化二进制，请先在 #5902 中重新讨论打包模型。
 
@@ -211,7 +211,7 @@ src-tauri/target/release/bundle/
    - 地图视图正常渲染。
    - 初始数据加载路径不会出现致命错误。
 5. 验证包标识与应用内变体切换：
-   - 窗口标题和产品名称为 `World Monitor`。
+   - 窗口标题和产品名称为 `Eagle Eye`。
    - 切换到其他变体后会重新加载为该变体的面板/图层，并在重启后保持。
 6. 如果启用了签名：
    - 在 OS 对话框/属性中验证代码签名元数据。

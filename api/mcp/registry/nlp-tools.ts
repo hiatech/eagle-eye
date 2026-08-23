@@ -46,7 +46,7 @@ const CLASSIFY_SEVERITIES = [
 ];
 const EXTRACT_TEXT_MAX_CHARS = 2048; // issue #5697's 2 KB arbitrary-text cap
 const NLP_DIGEST_TIMEOUT_MS = 6_000;
-const NLP_UA = 'worldmonitor-mcp-edge/1.0';
+const NLP_UA = 'eagleeye-mcp-edge/1.0';
 const NLP_DIGEST_SOURCE_MAX_BYTES = 160;
 const NLP_DIGEST_TITLE_MAX_BYTES = 512;
 const NLP_DIGEST_LINK_MAX_BYTES = 2_048;
@@ -264,7 +264,7 @@ export const NLP_TOOLS: ToolDef[] = [
   {
     name: 'classify_event',
     _outputBudgetBytes: 4096,
-    description: 'Classify a supplied news headline or short text into a threat category and severity via the enum-validated WorldMonitor event classifier (temperature-0, 24h-cached per title, never free-form LLM output). Input is capped at 500 characters. classification is null when the classifier cannot produce an enum-valid result.',
+    description: 'Classify a supplied news headline or short text into a threat category and severity via the enum-validated EagleEye event classifier (temperature-0, 24h-cached per title, never free-form LLM output). Input is capped at 500 characters. classification is null when the classifier cannot produce an enum-valid result.',
     inputSchema: {
       type: 'object',
       properties: {

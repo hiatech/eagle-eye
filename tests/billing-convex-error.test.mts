@@ -6,7 +6,7 @@ import { extractBillingErrorKind } from '../src/services/_billing-error.ts';
 // extractBillingErrorKind — structured-error introspection for the
 // Convex action `payments/billing:getCustomerPortalUrl`.
 //
-// WORLDMONITOR-R5 surfaced as `ConvexError: [Request ID: X] Server Error`
+// EAGLEEYE-R5 surfaced as `ConvexError: [Request ID: X] Server Error`
 // because the action threw plain `Error("No Dodo customer found for this
 // user")`. Convex's HTTP runtime only forwards `errorData` for object-typed
 // throws, so the client received an opaque message with `err.data ===
@@ -40,7 +40,7 @@ describe('extractBillingErrorKind — structured-data path', () => {
   });
 
   it('reads DODO_PORTAL_ERROR from err.data.kind', () => {
-    // WORLDMONITOR-ST: the Dodo portal-create call used to throw a plain
+    // EAGLEEYE-ST: the Dodo portal-create call used to throw a plain
     // Error, which Convex masked as an opaque `[Request ID: X] Server
     // Error` (err.data === undefined → unclassified error-level capture).
     // The action now re-throws `new ConvexError({ kind: 'DODO_PORTAL_ERROR' })`

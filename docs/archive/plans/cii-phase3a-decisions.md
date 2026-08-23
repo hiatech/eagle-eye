@@ -6,7 +6,7 @@ decides; per the plan, Phase 3b makes **no** decisions of its own.
 Every row is a real divergence between the two engines, verified line-by-line:
 
 - **Engine A — frontend**: `src/services/country-instability.ts`
-- **Engine B — server**: `server/worldmonitor/intelligence/v1/get-risk-scores.ts`
+- **Engine B — server**: `server/eagleeye/intelligence/v1/get-risk-scores.ts`
 
 Default rule from the plan: *frontend wins, except where the server intentionally diverged.*
 

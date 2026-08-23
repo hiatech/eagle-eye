@@ -121,7 +121,7 @@ export class ExaProvider implements AcquisitionProvider {
       headers: {
         'x-api-key': this.apiKey,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-consumer-prices/1.0',
+        'User-Agent': 'eagleeye-consumer-prices/1.0',
       },
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(timeout),

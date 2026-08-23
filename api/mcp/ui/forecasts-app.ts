@@ -1,5 +1,5 @@
 // MCP Apps (extension `io.modelcontextprotocol/ui`, spec 2026-01-26) — the
-// interactive app shell for the `get_forecast_predictions` tool: WorldMonitor's
+// interactive app shell for the `get_forecast_predictions` tool: EagleEye's
 // AI-generated geopolitical/economic forecasts as probability cards (title,
 // domain + region, probability bar). Built on the shared shell foundation.
 //
@@ -32,7 +32,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title">Forecasts</div>
-    <div class="badge">WorldMonitor Forecasts</div>
+    <div class="badge">EagleEye Forecasts</div>
   </div>
   <div class="empty" id="empty">Waiting for forecasts…</div>
   <div id="card" style="display:none">
@@ -79,8 +79,8 @@ const RENDER = `
 `;
 
 export const FORECASTS_APP_HTML = buildAppHtml({
-  title: 'Forecasts — WorldMonitor',
-  appName: 'worldmonitor-forecasts',
+  title: 'Forecasts — EagleEye',
+  appName: 'eagleeye-forecasts',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

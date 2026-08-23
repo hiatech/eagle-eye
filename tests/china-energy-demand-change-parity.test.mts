@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
-import { buildChinaCorridorSourceBundle } from '../server/worldmonitor/supply-chain/v1/china-corridor-source-adapters';
-import { buildChinaActivityNowcastInputs } from '../server/worldmonitor/economic/v1/get-china-activity-nowcast';
+import { buildChinaCorridorSourceBundle } from '../server/eagleeye/supply-chain/v1/china-corridor-source-adapters';
+import { buildChinaActivityNowcastInputs } from '../server/eagleeye/economic/v1/get-china-activity-nowcast';
 import { evaluateChinaActivityNowcast } from '../shared/china-activity-nowcast';
 import { CHINA_ENERGY_DEMAND_METRIC_KEYS } from '../shared/china-corridor-control-towers';
 import { buildSpineEntry } from '../scripts/seed-energy-spine.mjs';
@@ -143,8 +143,8 @@ describe('China energy-demand change crosses every runtime seam (#6067)', () => 
     // change stops being recognised and the family goes quiet.
     const root = new URL('..', import.meta.url);
     const sources = [
-      'server/worldmonitor/economic/v1/get-china-activity-nowcast.ts',
-      'server/worldmonitor/supply-chain/v1/china-corridor-source-adapters.ts',
+      'server/eagleeye/economic/v1/get-china-activity-nowcast.ts',
+      'server/eagleeye/supply-chain/v1/china-corridor-source-adapters.ts',
     ].map((path) => readFileSync(new URL(path, root), 'utf8'));
 
     for (const source of sources) {

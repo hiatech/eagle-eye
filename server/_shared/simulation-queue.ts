@@ -40,7 +40,7 @@ async function redisGetThrowing(key: string): Promise<string | null> {
   const resp = await fetch(`${url}/get/${encodeURIComponent(key)}`, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'User-Agent': 'worldmonitor-server/1.0 (simulation-queue)',
+      'User-Agent': 'eagleeye-server/1.0 (simulation-queue)',
     },
     signal: AbortSignal.timeout(REDIS_READ_TIMEOUT_MS),
   });

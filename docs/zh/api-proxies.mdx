@@ -1,6 +1,6 @@
 ---
 title: "代理与原始数据直通"
-description: "面向上游第三方 API 的轻量级服务端代理端点完整参考，World Monitor 仪表盘借助它们规避浏览器 CORS 限制、隐藏敏感凭据与商业 API 密钥，并统一添加速率限制、边缘缓存、失败重试、熔断与降级策略，全面保障数据流的稳定性、安全性、成本控制与可观测性。"
+description: "面向上游第三方 API 的轻量级服务端代理端点完整参考，Eagle Eye 仪表盘借助它们规避浏览器 CORS 限制、隐藏敏感凭据与商业 API 密钥，并统一添加速率限制、边缘缓存、失败重试、熔断与降级策略，全面保障数据流的稳定性、安全性、成本控制与可观测性。"
 ---
 
 这些端点将调用者请求直通到上游数据源。它们的存在是为了：
@@ -39,7 +39,7 @@ description: "面向上游第三方 API 的轻量级服务端代理端点完整�
 
 ### `GET /api/skills/fetch-agentskills`
 
-返回 WorldMonitor 聊天分析师可调用的"技能"（agent 能力）目录。由 `chat-analyst.ts` 和 widget agent 内部使用。
+返回 EagleEye 聊天分析师可调用的"技能"（agent 能力）目录。由 `chat-analyst.ts` 和 widget agent 内部使用。
 
 ## 遗留/内部
 

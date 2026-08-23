@@ -339,7 +339,7 @@ describe("listApiKeys", () => {
   });
 
   test("returns empty during an unauthenticated query race", async () => {
-    // WORLDMONITOR-XM: the settings query can fire while Convex auth briefly
+    // EAGLEEYE-XM: the settings query can fire while Convex auth briefly
     // disappears during initial auth, sign-out, or token rotation. Seed a real
     // user's key to prove the unauthenticated result is empty rather than a
     // throw or an accidental cross-user read.

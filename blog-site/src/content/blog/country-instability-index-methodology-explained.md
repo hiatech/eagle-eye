@@ -1,7 +1,7 @@
 ---
 title: "Country Instability Index: How Real-Time Risk Scoring Works"
-description: "World Monitor explains CII signal weights, baseline blending, score floors, and what a 0-100 country instability score means for analysts."
-metaTitle: "Country Instability Index Methodology | World Monitor"
+description: "Eagle Eye explains CII signal weights, baseline blending, score floors, and what a 0-100 country instability score means for analysts."
+metaTitle: "Country Instability Index Methodology | Eagle Eye"
 keywords: "country instability index, political instability index methodology, country risk score calculation, geopolitical risk index, real-time risk scoring, how is country risk measured"
 audience: "Risk analysts, researchers, students of international relations, data journalists, quantitative analysts"
 heroImage: "/blog/images/blog/country-instability-index-methodology-explained.jpg"
@@ -11,7 +11,7 @@ modifiedDate: "2026-07-22"
 
 Every risk platform sells a number. A country is "72/100" or "high risk" or "amber." Almost none of them will tell you how the number is computed, which means you cannot challenge it, calibrate it, or defend it when a decision built on it goes wrong.
 
-World Monitor's Country Instability Index (CII) takes the opposite bet: the methodology is public, the data sources are public, and this post walks through the whole machine. Not because transparency is a marketing virtue, but because **a score you cannot decompose is a score you cannot use** for anything that matters.
+Eagle Eye's Country Instability Index (CII) takes the opposite bet: the methodology is public, the data sources are public, and this post walks through the whole machine. Not because transparency is a marketing virtue, but because **a score you cannot decompose is a score you cannot use** for anything that matters.
 
 ## What the CII Measures
 
@@ -80,7 +80,7 @@ Floors are the model's defense against its own optimism. A country in an active 
 
 **It does not measure structural fragility.** That is the job of the Country Resilience Index, a separate 196-country model of structural capacity across 20 dimensions, refreshed every six hours. CII is the fast clock (what is burning now); resilience is the slow clock (what breaks under fire). Reading them together is the [core of a sound country-risk workflow](/blog/posts/country-risk-monitoring-workflow-for-analysts/).
 
-**It does not predict.** The CII describes current pressure. For forward-looking signals, World Monitor pairs it with [prediction markets and AI forecasting](/blog/posts/prediction-markets-ai-forecasting-geopolitics/), different tools for a different question.
+**It does not predict.** The CII describes current pressure. For forward-looking signals, Eagle Eye pairs it with [prediction markets and AI forecasting](/blog/posts/prediction-markets-ai-forecasting-geopolitics/), different tools for a different question.
 
 **It does not cover every country at full depth.** Tier-1 fusion, the full pipeline above, runs on 31 countries. Pretending sensor-grade coverage exists everywhere would be exactly the kind of opacity this index is built against.
 
@@ -92,9 +92,9 @@ The decomposition is the analysis. The number is just the index into it.
 
 ## Using the CII
 
-- **Dashboard:** the CII panel at [worldmonitor.app](https://www.worldmonitor.app) shows all 31 countries with scores, bands, and 24-hour deltas; any country's brief decomposes its score.
-- **API:** `get-country-risk` returns the score and component breakdown as JSON for [your own models](/blog/posts/build-on-worldmonitor-developer-api-open-source/).
-- **AI agents:** the `get_country_risk` tool on the [MCP server](/blog/posts/worldmonitor-mcp-server-ai-agents-real-time-intelligence/) gives Claude and other assistants the same data, so "why did Egypt's risk score move?" becomes a question your agent can actually answer.
+- **Dashboard:** the CII panel at [eagle-eye.app](https://www.eagle-eye.app) shows all 31 countries with scores, bands, and 24-hour deltas; any country's brief decomposes its score.
+- **API:** `get-country-risk` returns the score and component breakdown as JSON for [your own models](/blog/posts/build-on-eagle-eye-developer-api-open-source/).
+- **AI agents:** the `get_country_risk` tool on the [MCP server](/blog/posts/eagle-eye-mcp-server-ai-agents-real-time-intelligence/) gives Claude and other assistants the same data, so "why did Egypt's risk score move?" becomes a question your agent can actually answer.
 
 ## Conflict Data References
 
@@ -116,4 +116,4 @@ Annual indices measure structural conditions with a 12-month cadence; the CII me
 
 ---
 
-**See every score, band, and delta live at [worldmonitor.app](https://www.worldmonitor.app). When a number surprises you, click into the country brief and take the score apart. That is what it is for.**
+**See every score, band, and delta live at [eagle-eye.app](https://www.eagle-eye.app). When a number surprises you, click into the country brief and take the score apart. That is what it is for.**

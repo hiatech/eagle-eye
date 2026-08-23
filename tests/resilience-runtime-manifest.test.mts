@@ -12,8 +12,8 @@ const originalSchemaV2 = process.env.RESILIENCE_SCHEMA_V2_ENABLED;
 const originalPillarCombine = process.env.RESILIENCE_PILLAR_COMBINE_ENABLED;
 const originalEnergyV2 = process.env.RESILIENCE_ENERGY_V2_ENABLED;
 const originalFinSysExposure = process.env.RESILIENCE_FIN_SYS_EXPOSURE_ENABLED;
-const originalValidKeys = process.env.WORLDMONITOR_VALID_KEYS;
-const originalApiKey = process.env.WORLDMONITOR_API_KEY;
+const originalValidKeys = process.env.EAGLEEYE_VALID_KEYS;
+const originalApiKey = process.env.EAGLEEYE_API_KEY;
 
 function restoreEnv(name: string, original: string | undefined): void {
   if (original == null) delete process.env[name];
@@ -30,8 +30,8 @@ afterEach(async () => {
   restoreEnv('RESILIENCE_PILLAR_COMBINE_ENABLED', originalPillarCombine);
   restoreEnv('RESILIENCE_ENERGY_V2_ENABLED', originalEnergyV2);
   restoreEnv('RESILIENCE_FIN_SYS_EXPOSURE_ENABLED', originalFinSysExposure);
-  restoreEnv('WORLDMONITOR_VALID_KEYS', originalValidKeys);
-  restoreEnv('WORLDMONITOR_API_KEY', originalApiKey);
+  restoreEnv('EAGLEEYE_VALID_KEYS', originalValidKeys);
+  restoreEnv('EAGLEEYE_API_KEY', originalApiKey);
   const { __resetKeyPrefixCacheForTests } = await import('../server/_shared/redis.ts');
   __resetKeyPrefixCacheForTests();
 });
@@ -39,8 +39,8 @@ afterEach(async () => {
 async function loadRuntimeManifestModules() {
   process.env.RESILIENCE_SCHEMA_V2_ENABLED = 'true';
   const [handler, shared, responseHeaders] = await Promise.all([
-    import('../server/worldmonitor/resilience/v1/get-resilience-runtime-manifest.ts'),
-    import('../server/worldmonitor/resilience/v1/_shared.ts'),
+    import('../server/eagleeye/resilience/v1/get-resilience-runtime-manifest.ts'),
+    import('../server/eagleeye/resilience/v1/_shared.ts'),
     import('../server/_shared/response-headers.ts'),
   ]);
   return { ...handler, ...shared, ...responseHeaders };
@@ -75,7 +75,7 @@ describe('resilience runtime manifest', () => {
       },
     }, { keepVercelEnv: true });
 
-    const request = new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest');
+    const request = new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest');
     const response = await modules.getResilienceRuntimeManifest({ request } as never);
 
     assert.equal(response.manifestVersion, 4);
@@ -116,7 +116,7 @@ describe('resilience runtime manifest', () => {
     installRedis({}, { keepVercelEnv: true });
 
     const response = await modules.getResilienceRuntimeManifest({
-      request: new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest'),
+      request: new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest'),
     } as never);
 
     assert.equal(response.deployedCommitSha, '');
@@ -150,7 +150,7 @@ describe('resilience runtime manifest', () => {
     }, { keepVercelEnv: true });
 
     const response = await modules.getResilienceRuntimeManifest({
-      request: new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest'),
+      request: new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest'),
     } as never);
 
     assert.deepEqual(response.intervals, {
@@ -178,7 +178,7 @@ describe('resilience runtime manifest', () => {
     }, { keepVercelEnv: true });
 
     const response = await modules.getResilienceRuntimeManifest({
-      request: new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest'),
+      request: new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest'),
     } as never);
 
     assert.deepEqual(response.intervals, {
@@ -196,13 +196,13 @@ describe('resilience runtime manifest', () => {
     process.env.RESILIENCE_FIN_SYS_EXPOSURE_ENABLED = 'true';
     process.env.VERCEL_GIT_COMMIT_SHA = '0123456789abcdef0123456789abcdef01234567';
     process.env.VERCEL_ENV = 'production';
-    process.env.WORLDMONITOR_VALID_KEYS = 'operator-secret-key';
-    process.env.WORLDMONITOR_API_KEY = 'legacy-secret-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'operator-secret-key';
+    process.env.EAGLEEYE_API_KEY = 'legacy-secret-key';
     installRedis({}, { keepVercelEnv: true });
     process.env.UPSTASH_REDIS_REST_TOKEN = 'super-secret-upstash-token';
 
     const response = await modules.getResilienceRuntimeManifest({
-      request: new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest'),
+      request: new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest'),
     } as never);
     const serialized = JSON.stringify(response);
 
@@ -217,8 +217,8 @@ describe('resilience runtime manifest', () => {
     assert.equal(serialized.includes('operator-secret-key'), false);
     assert.equal(serialized.includes('legacy-secret-key'), false);
     assert.equal(serialized.includes('UPSTASH_REDIS_REST_TOKEN'), false);
-    assert.equal(serialized.includes('WORLDMONITOR_VALID_KEYS'), false);
-    assert.equal(serialized.includes('WORLDMONITOR_API_KEY'), false);
+    assert.equal(serialized.includes('EAGLEEYE_VALID_KEYS'), false);
+    assert.equal(serialized.includes('EAGLEEYE_API_KEY'), false);
     assert.equal(serialized.includes('0123456789abcdef0123456789abcdef01234567'), false);
     assert.equal(serialized.includes('production'), false);
     assert.equal(serialized.includes('RESILIENCE_ENERGY_V2_ENABLED'), false);
@@ -239,13 +239,13 @@ describe('resilience runtime manifest gateway auth', () => {
   it('allows no-key manifest access while score and ranking remain premium gated', async () => {
     const [{ createDomainGateway, PUBLIC_NO_AUTH_RPC_PATHS, serverOptions }, generated, { resilienceHandler }, { PREMIUM_RPC_PATHS }] = await Promise.all([
       import('../server/gateway.ts'),
-      import('../src/generated/server/worldmonitor/resilience/v1/service_server.ts'),
-      import('../server/worldmonitor/resilience/v1/handler.ts'),
+      import('../src/generated/server/eagleeye/resilience/v1/service_server.ts'),
+      import('../server/eagleeye/resilience/v1/handler.ts'),
       import('../src/shared/premium-paths.ts'),
     ]);
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
-    delete process.env.WORLDMONITOR_VALID_KEYS;
+    delete process.env.EAGLEEYE_VALID_KEYS;
     process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'true';
 
     assert.deepEqual(
@@ -265,7 +265,7 @@ describe('resilience runtime manifest gateway auth', () => {
 
     const gateway = createDomainGateway(generated.createResilienceServiceRoutes(resilienceHandler, serverOptions));
 
-    const manifest = await gateway(new Request('https://worldmonitor.app/api/resilience/v1/get-runtime-manifest?_debug=1'));
+    const manifest = await gateway(new Request('https://eagle-eye.app/api/resilience/v1/get-runtime-manifest?_debug=1'));
     assert.equal(manifest.status, 200);
     assert.equal(manifest.headers.get('Cache-Control'), 'no-store');
     assert.equal(manifest.headers.get('X-Cache-Tier'), 'no-store');
@@ -285,10 +285,10 @@ describe('resilience runtime manifest gateway auth', () => {
       lastObservedAt: '',
     });
 
-    const score = await gateway(new Request('https://worldmonitor.app/api/resilience/v1/get-resilience-score?countryCode=US'));
+    const score = await gateway(new Request('https://eagle-eye.app/api/resilience/v1/get-resilience-score?countryCode=US'));
     assert.equal(score.status, 401);
 
-    const ranking = await gateway(new Request('https://worldmonitor.app/api/resilience/v1/get-resilience-ranking'));
+    const ranking = await gateway(new Request('https://eagle-eye.app/api/resilience/v1/get-resilience-ranking'));
     assert.equal(ranking.status, 401);
   });
 });

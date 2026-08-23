@@ -9,7 +9,7 @@ const root = join(__dirname, '..');
 
 describe('thermal escalation handler guardrails', () => {
   it('reads seeded Redis data instead of calling FIRMS directly', () => {
-    const src = readFileSync(join(root, 'server/worldmonitor/thermal/v1/list-thermal-escalations.ts'), 'utf8');
+    const src = readFileSync(join(root, 'server/eagleeye/thermal/v1/list-thermal-escalations.ts'), 'utf8');
     assert.match(src, /getCachedJson\(REDIS_CACHE_KEY, true\)/);
     assert.doesNotMatch(src, /firms\.modaps\.eosdis\.nasa\.gov/i);
     assert.doesNotMatch(src, /\bcachedFetchJson\b/);

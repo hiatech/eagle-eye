@@ -9,7 +9,7 @@ dependencies: []
 # `skipReasons` object rebuilt on every request in `summarize-article.ts`
 
 ## Problem Statement
-`server/worldmonitor/news/v1/summarize-article.ts` lines 65-69 builds a `skipReasons` object on every invocation including hot-path cache hits:
+`server/eagleeye/news/v1/summarize-article.ts` lines 65-69 builds a `skipReasons` object on every invocation including hot-path cache hits:
 ```ts
 const skipReasons: Record<string, string> = {
   ollama: 'OLLAMA_API_URL not configured',
@@ -31,7 +31,7 @@ if (headlines.length === 0)
 ```
 
 ## Technical Details
-- File: `server/worldmonitor/news/v1/summarize-article.ts:65-69, 89`
+- File: `server/eagleeye/news/v1/summarize-article.ts:65-69, 89`
 - Effort: Trivial | Risk: Low
 
 ## Work Log

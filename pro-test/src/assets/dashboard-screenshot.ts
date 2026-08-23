@@ -1,12 +1,12 @@
 // Shared dashboard screenshot sources so every page serves the compressed
 // AVIF/WebP variants instead of the full-resolution JPG (334KB vs 31-92KB).
-import dashboardScreenshotJpg from './worldmonitor-7-mar-2026.jpg';
-import avif640 from './worldmonitor-7-mar-2026-640.avif';
-import avif960 from './worldmonitor-7-mar-2026-960.avif';
-import avif1280 from './worldmonitor-7-mar-2026-1280.avif';
-import webp640 from './worldmonitor-7-mar-2026-640.webp';
-import webp960 from './worldmonitor-7-mar-2026-960.webp';
-import webp1280 from './worldmonitor-7-mar-2026-1280.webp';
+import dashboardScreenshotJpg from './eagle-eye-7-mar-2026.jpg';
+import avif640 from './eagle-eye-7-mar-2026-640.avif';
+import avif960 from './eagle-eye-7-mar-2026-960.avif';
+import avif1280 from './eagle-eye-7-mar-2026-1280.avif';
+import webp640 from './eagle-eye-7-mar-2026-640.webp';
+import webp960 from './eagle-eye-7-mar-2026-960.webp';
+import webp1280 from './eagle-eye-7-mar-2026-1280.webp';
 
 export const DASHBOARD_SCREENSHOT_JPG = dashboardScreenshotJpg;
 export const DASHBOARD_SCREENSHOT_WIDTH = 2940;

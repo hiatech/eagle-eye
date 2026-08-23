@@ -16,15 +16,15 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const UMAMI_SCRIPT_TAG =
-  '<script async defer src="https://abacus.worldmonitor.app/script.js" '
+  '<script async defer src="https://abacus.eagle-eye.app/script.js" '
   + 'data-website-id="e8800335-16bc-4241-a133-0eb28c07c832" '
-  + 'data-domains="worldmonitor.app,www.worldmonitor.app,happy.worldmonitor.app" '
+  + 'data-domains="eagle-eye.app,www.eagle-eye.app,happy.eagle-eye.app" '
   + 'nonce="wm-static-bootstrap"></script>';
 
 const DATASET_LICENSE = {
   '@type': 'CreativeWork',
-  name: 'World Monitor Terms of Service (27 July 2026)',
-  url: 'https://www.worldmonitor.app/docs/terms',
+  name: 'Eagle Eye Terms of Service (27 July 2026)',
+  url: 'https://www.eagle-eye.app/docs/terms',
 };
 
 const CHART_WIDTH = 720;
@@ -635,7 +635,7 @@ export function buildJsonDownload(snapshot, report, metrics, canonicalUrl) {
       dateModified: report.dateModified,
       canonicalUrl,
       license:
-        'Report text and derived figures: © World Monitor, citation welcome with attribution. Underlying transit data: IMF PortWatch (portwatch.imf.org); consult upstream terms.',
+        'Report text and derived figures: © Eagle Eye, citation welcome with attribution. Underlying transit data: IMF PortWatch (portwatch.imf.org); consult upstream terms.',
       source: snapshot.source,
       snapshotId: snapshot.snapshotId,
       snapshotCapturedAt: snapshot.capturedAt,
@@ -813,8 +813,8 @@ ${provenanceRows}
         break;
       case 'live-handoff': {
         const dashboardUrl = withUtmSource(absoluteUrl(baseUrl, `/?chokepoint=${report.focusChokepointId}`), 'research-report');
-        parts.push(`        <p>This report is a dated snapshot. For the current picture: the ${trackedLink(`/chokepoints/${chokepointSlug}/`, 'live Strait of Hormuz status page', 'chokepoint-page', escapeHtml)} shows today's disruption pulse, and the ${trackedLink(dashboardUrl, 'World Monitor dashboard', 'dashboard', escapeHtml)} adds map layers, alerts, and vessel context around it.</p>
-        <p>Programmatic access: the same chokepoint status and transit history are available through the ${trackedLink('/docs/api-reference', 'World Monitor REST API', 'developer', escapeHtml)} and the ${trackedLink('/docs/mcp-overview', 'MCP server', 'developer', escapeHtml)} for AI agents. Higher request limits and research briefings come with ${trackedLink(withUtmSource(absoluteUrl(baseUrl, '/pro'), 'research-report'), 'World Monitor Pro', 'pricing', escapeHtml)}. The research itself stays free and ungated.</p>`);
+        parts.push(`        <p>This report is a dated snapshot. For the current picture: the ${trackedLink(`/chokepoints/${chokepointSlug}/`, 'live Strait of Hormuz status page', 'chokepoint-page', escapeHtml)} shows today's disruption pulse, and the ${trackedLink(dashboardUrl, 'Eagle Eye dashboard', 'dashboard', escapeHtml)} adds map layers, alerts, and vessel context around it.</p>
+        <p>Programmatic access: the same chokepoint status and transit history are available through the ${trackedLink('/docs/api-reference', 'Eagle Eye REST API', 'developer', escapeHtml)} and the ${trackedLink('/docs/mcp-overview', 'MCP server', 'developer', escapeHtml)} for AI agents. Higher request limits and research briefings come with ${trackedLink(withUtmSource(absoluteUrl(baseUrl, '/pro'), 'research-report'), 'Eagle Eye Pro', 'pricing', escapeHtml)}. The research itself stays free and ungated.</p>`);
         break;
       }
       default:
@@ -862,7 +862,7 @@ ${justification}
     version: report.version,
     inLanguage: 'en-US',
     author: { '@type': 'Organization', name: report.author.name, url: report.author.url },
-    publisher: { '@type': 'Organization', name: 'World Monitor', url: 'https://www.worldmonitor.app/' },
+    publisher: { '@type': 'Organization', name: 'Eagle Eye', url: 'https://www.eagle-eye.app/' },
     isBasedOn: 'https://portwatch.imf.org/',
     temporalCoverage: `${focus.observationStart}/${focus.observationEnd}`,
     hasPart: {
@@ -892,7 +892,7 @@ ${justification}
   const html = pageDocument({
     baseUrl,
     path,
-    title: `${report.metaTitle} | World Monitor`,
+    title: `${report.metaTitle} | Eagle Eye`,
     description,
     lastmod,
     jsonLd,
@@ -903,7 +903,7 @@ ${justification}
     ]),
     body,
     ogImage: `/research-assets/${report.slug}-og.png`,
-    ogImageAlt: `Chart of daily Strait of Hormuz transit calls collapsing from about ${formatMetric(m('febAvgTotal'))} per day in February 2026 to single digits in March, partially recovering to about ${formatMetric(m('julToDateAvgTotal'))} in July — ${report.title}, World Monitor`,
+    ogImageAlt: `Chart of daily Strait of Hormuz transit calls collapsing from about ${formatMetric(m('febAvgTotal'))} per day in February 2026 to single digits in March, partially recovering to about ${formatMetric(m('julToDateAvgTotal'))} in July — ${report.title}, Eagle Eye`,
   });
   assertNoUnresolvedTokens(html);
   return html;
@@ -913,9 +913,9 @@ export function renderResearchIndex({ reports, tpl, baseUrl, lastmod }) {
   const { escapeHtml, absoluteUrl, breadcrumbLd, pageDocument } = tpl;
   const path = '/research/';
   const description =
-    'Original, source-backed World Monitor research: dated, versioned reports built from committed data snapshots, with downloadable data, explicit methodology, and declared gaps.';
+    'Original, source-backed Eagle Eye research: dated, versioned reports built from committed data snapshots, with downloadable data, explicit methodology, and declared gaps.';
   const body = `      <p class="eyebrow">Research corpus</p>
-      <h1>World Monitor research reports</h1>
+      <h1>Eagle Eye research reports</h1>
       <p class="lede">${escapeHtml(description)}</p>
       <div class="grid">
 ${reports.map((report) => `        <a class="card" href="/research/${escapeHtml(report.slug)}/"><strong>${escapeHtml(report.title)}</strong><br><span>Published ${escapeHtml(report.datePublished)} &middot; v${escapeHtml(report.version)}</span></a>`).join('\n')}
@@ -927,13 +927,13 @@ ${reports.map((report) => `        <a class="card" href="/research/${escapeHtml(
   const html = pageDocument({
     baseUrl,
     path,
-    title: 'Research Reports | World Monitor',
+    title: 'Research Reports | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: 'World Monitor research reports',
+      name: 'Eagle Eye research reports',
       description,
       url: absoluteUrl(baseUrl, path),
       inLanguage: 'en-US',

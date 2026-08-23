@@ -1,4 +1,4 @@
-// Static-analysis regression test for server/worldmonitor/news/v1/_feeds.ts.
+// Static-analysis regression test for server/eagleeye/news/v1/_feeds.ts.
 //
 // Every Google-News-backed feed (calls to `gn(...)`) MUST carry a `when:Nd`
 // time gate. Without one, Google News returns any indexed page on the target
@@ -19,7 +19,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
 
 const feedsSrc = readFileSync(
-  resolve(repoRoot, 'server/worldmonitor/news/v1/_feeds.ts'),
+  resolve(repoRoot, 'server/eagleeye/news/v1/_feeds.ts'),
   'utf-8',
 );
 

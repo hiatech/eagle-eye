@@ -9,7 +9,7 @@
  * succeeded AND the response doesn't flag itself degraded/stale/rate-limited.
  *
  * The response interfaces below are hand-copied subsets of the dashboard's
- * generated proto-JSON clients (src/generated/client/worldmonitor/...) —
+ * generated proto-JSON clients (src/generated/client/eagleeye/...) —
  * pro-test is an isolated package and must not import them directly.
  */
 

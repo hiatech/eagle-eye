@@ -456,7 +456,7 @@ describe('pre-paint reservation honors entitlement hint', () => {
         setItem: (key: string, value: string) => { storage.set(key, value); },
         removeItem: (key: string) => { storage.delete(key); },
       },
-      location: { hostname: 'www.worldmonitor.app' },
+      location: { hostname: 'www.eagle-eye.app' },
       window: windowObj,
       Date,
     });

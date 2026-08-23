@@ -508,8 +508,8 @@
         "publisher": {
           "status": "known",
           "value": {
-            "id": "publisher:worldmonitor-derived",
-            "name": "WorldMonitor derived output",
+            "id": "publisher:eagleeye-derived",
+            "name": "EagleEye derived output",
             "type": "derived_output",
             "registryReference": null
           }
@@ -612,7 +612,7 @@
         "derivation": {
           "status": "known",
           "value": {
-            "methodId": "worldmonitor:corridor-condition",
+            "methodId": "eagleeye:corridor-condition",
             "methodVersion": "1",
             "computedAt": "2026-07-24T10:01:00Z",
             "inputSignalIds": [
@@ -636,8 +636,8 @@
         "publisher": {
           "status": "known",
           "value": {
-            "id": "publisher:worldmonitor-derived",
-            "name": "WorldMonitor derived output",
+            "id": "publisher:eagleeye-derived",
+            "name": "EagleEye derived output",
             "type": "derived_output",
             "registryReference": null
           }
@@ -740,7 +740,7 @@
         "derivation": {
           "status": "known",
           "value": {
-            "methodId": "worldmonitor:agreement-comparison",
+            "methodId": "eagleeye:agreement-comparison",
             "methodVersion": "1",
             "computedAt": "2026-07-24T11:00:00Z",
             "inputSignalIds": [

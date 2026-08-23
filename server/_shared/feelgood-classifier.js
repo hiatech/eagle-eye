@@ -1,4 +1,4 @@
-// Feel-good / lifestyle classifier for the WorldMonitor brief pipeline.
+// Feel-good / lifestyle classifier for the EagleEye brief pipeline.
 //
 // The brief is event-driven intelligence — a vintage-warplane veterans'
 // reunion in Peru, Illinois (population 9,800) is not an event. On

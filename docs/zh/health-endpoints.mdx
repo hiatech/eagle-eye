@@ -1,6 +1,6 @@
 ---
 title: "健康检查端点"
-description: "World Monitor 提供两个健康检查端点用于持续监控数据管道完整性与实时性，服务在 Vercel Edge Runtime 上以低延迟运行并查询 Redis (Upstash) 评估各数据源状态，帮助 SRE 与运维团队快速定位新闻、市场、海事等采集任务的中断与滞后。"
+description: "Eagle Eye 提供两个健康检查端点用于持续监控数据管道完整性与实时性，服务在 Vercel Edge Runtime 上以低延迟运行并查询 Redis (Upstash) 评估各数据源状态，帮助 SRE 与运维团队快速定位新闻、市场、海事等采集任务的中断与滞后。"
 ---
 
 ## `/api/health`
@@ -267,14 +267,14 @@ MCP 调用方看到的仍是单一布尔值：`stale` 不会说明是*哪个*维
 
 ```bash
 # Full health check (requires an operator API key)
-curl -s https://api.worldmonitor.app/api/health \
-  -H "X-WorldMonitor-Key: $WORLDMONITOR_API_KEY" | jq .
+curl -s https://api.eagle-eye.app/api/health \
+  -H "X-EagleEye-Key: $EAGLEEYE_API_KEY" | jq .
 
 # Compact (problems only)
-curl -s "https://api.worldmonitor.app/api/health?compact=1" | jq .
+curl -s "https://api.eagle-eye.app/api/health?compact=1" | jq .
 
 # UptimeRobot / monitoring: check HTTP status code
-curl -o /dev/null -s -w "%{http_code}" "https://api.worldmonitor.app/api/health?compact=1"
+curl -o /dev/null -s -w "%{http_code}" "https://api.eagle-eye.app/api/health?compact=1"
 # Returns 503 only when Redis is unreachable (REDIS_DOWN); 200 for every other
 # state — the verdict (HEALTHY/WARNING/DEGRADED/UNHEALTHY) is in the body's `status`.
 ```
@@ -393,8 +393,8 @@ curl -o /dev/null -s -w "%{http_code}" "https://api.worldmonitor.app/api/health?
 ### 示例请求
 
 ```bash
-curl -s https://api.worldmonitor.app/api/seed-health \
-  -H "Origin: https://worldmonitor.app" | jq .
+curl -s https://api.eagle-eye.app/api/seed-health \
+  -H "Origin: https://eagle-eye.app" | jq .
 ```
 
 ## 与监控工具的集成
@@ -408,7 +408,7 @@ curl -s https://api.worldmonitor.app/api/seed-health \
 
 因此，仅基于 HTTP 状态的监控器能捕获完全的后端中断，但**不能**捕获降级/不健康的数据。对于这些情况，请添加关键字监控器。
 
-将关键字监控器指向 `https://api.worldmonitor.app/api/health?compact=1`，并在紧凑令牌 `"status":"HEALTHY"`（冒号后无空格）从响应体中**缺失**时告警。紧凑模式序列化时不带缩进，因此无论格式如何，此确切令牌都是稳定的。
+将关键字监控器指向 `https://api.eagle-eye.app/api/health?compact=1`，并在紧凑令牌 `"status":"HEALTHY"`（冒号后无空格）从响应体中**缺失**时告警。紧凑模式序列化时不带缩进，因此无论格式如何，此确切令牌都是稳定的。
 
 > 裸 `/api/health` URL 现在是运维视图，无 API 密钥时返回 `401`。公开监控应始终使用 `?compact=1`。
 
@@ -418,7 +418,7 @@ curl -s https://api.worldmonitor.app/api/seed-health \
 
 ```bash
 # 对任何关键键告警
-STATUS=$(curl -s "https://api.worldmonitor.app/api/health?compact=1")
+STATUS=$(curl -s "https://api.eagle-eye.app/api/health?compact=1")
 CRIT=$(echo "$STATUS" | jq '.summary.crit')
 if [ "$CRIT" -gt 0 ]; then
   echo "CRITICAL: $CRIT data keys empty"

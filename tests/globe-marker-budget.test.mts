@@ -16,7 +16,7 @@ import {
 } from '../src/utils/globe-marker-budget.ts';
 
 /**
- * Marker counts measured on www.worldmonitor.app/dashboard in globe mode,
+ * Marker counts measured on www.eagle-eye.app/dashboard in globe mode,
  * 2026-07-18. The DOM total at the moment of the census was 2,319; these
  * per-feed figures sum to 2,318 because the AIS vessel feed was still arriving
  * over its websocket while the layers were being counted. Treated as a band,

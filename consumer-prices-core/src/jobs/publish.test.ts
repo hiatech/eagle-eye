@@ -13,7 +13,7 @@ vi.mock('../config/loader.js', () => ({
 }));
 vi.mock('../db/client.js', () => ({ closePool: vi.fn() }));
 vi.mock('../snapshots/coverage.js', () => ({ buildCoverageSnapshot: mockBuildCoverageSnapshot }));
-vi.mock('../snapshots/worldmonitor.js', () => ({
+vi.mock('../snapshots/eagleeye.js', () => ({
   buildFreshnessSnapshot: mockBuildFreshnessSnapshot,
   buildOverviewSnapshot: mockBuildOverviewSnapshot,
   buildMoversSnapshot: mockBuildMoversSnapshot,
@@ -90,7 +90,7 @@ describe('consumer-price coverage publication', () => {
   });
 });
 
-// #6059 — WorldMonitor health softens the deploy-before-cron gap to a bounded
+// #6059 — EagleEye health softens the deploy-before-cron gap to a bounded
 // ROLLOUT_PENDING warn and revokes that softening permanently the instant this
 // marker appears. Writing it too eagerly re-arms the false critical; writing it
 // with a TTL lets an activated market read as pending-activation again.

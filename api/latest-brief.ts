@@ -52,7 +52,7 @@ export const FIRST_ATTEMPT_MS = 6_000;
 export const RETRY_ATTEMPT_MS = 3_000;
 
 // Re-run an Upstash read once if the first attempt aborts on
-// AbortSignal.timeout. Empirically (WORLDMONITOR-QJ — 4 events / 19 days,
+// AbortSignal.timeout. Empirically (EAGLEEYE-QJ — 4 events / 19 days,
 // including a 2026-05-13 same-minute double-fire across us-west + eu-central
 // = real Upstash regional incident) the timeouts come in short clusters
 // rather than sustained outages, so one retry converts the transient blip
@@ -154,13 +154,13 @@ async function readLatestPointer(userId: string, timeoutMs: number): Promise<str
 
 /**
  * Public base URL for signed magazine links. Pinned to
- * WORLDMONITOR_PUBLIC_BASE_URL in production to prevent host-header
+ * EAGLEEYE_PUBLIC_BASE_URL in production to prevent host-header
  * reflection from minting URLs pointing at preview deploys or other
  * non-canonical origins. Falls back to the request origin only in
  * dev-ish contexts where the env var is absent.
  */
 function publicBaseUrl(req: Request): string {
-  const pinned = process.env.WORLDMONITOR_PUBLIC_BASE_URL;
+  const pinned = process.env.EAGLEEYE_PUBLIC_BASE_URL;
   if (pinned) return pinned.replace(/\/+$/, '');
   return new URL(req.url).origin;
 }
@@ -209,7 +209,7 @@ export default async function handler(
       {
         error: 'pro_required',
         message: 'The Brief is available on the Pro plan.',
-        upgradeUrl: 'https://worldmonitor.app/pro',
+        upgradeUrl: 'https://eagle-eye.app/pro',
       },
       403,
       cors,

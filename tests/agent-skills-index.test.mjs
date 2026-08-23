@@ -101,11 +101,11 @@ describe('agent readiness: agent-skills index', () => {
 
     assert.match(page, /^title: "Agent Skills Catalog"$/m);
     assert.ok(
-      page.includes(`${index.skills.length} World Monitor agent skills`),
+      page.includes(`${index.skills.length} Eagle Eye agent skills`),
       'docs page must state the current catalog size',
     );
     assert.ok(
-      page.includes('https://worldmonitor.app/.well-known/agent-skills/index.json'),
+      page.includes('https://eagle-eye.app/.well-known/agent-skills/index.json'),
       'docs page must link to the machine-readable index',
     );
     for (const skill of index.skills) {
@@ -130,8 +130,8 @@ describe('agent readiness: agent-skills index', () => {
     assert.match(index.instructions, /when to use/i, 'instructions must include explicit when-to-use guidance');
     assert.match(index.instructions, /when not to use/i, 'instructions must state when NOT to use');
     // How an agent should call it — the MCP endpoint and the API-key header.
-    assert.match(index.instructions, /worldmonitor\.app\/mcp/, 'instructions must say how to call the MCP server');
-    assert.match(index.instructions, /X-WorldMonitor-Key/, 'instructions must name the API-key header');
+    assert.match(index.instructions, /eagle-eye\.app\/mcp/, 'instructions must say how to call the MCP server');
+    assert.match(index.instructions, /X-EagleEye-Key/, 'instructions must name the API-key header');
     // Forward sync: every advertised skill must be named in the guidance.
     for (const skill of index.skills) {
       assert.ok(
@@ -142,7 +142,7 @@ describe('agent readiness: agent-skills index', () => {
     // Reverse sync: any skill-shaped `backtick` token in the guidance must be a
     // real advertised skill, so a removed skill's name can't linger and mislead
     // agents. Skill names are lowercase-hyphenated (dir-name shape); other
-    // backtick tokens (`tools/list`, `scope=mcp`, `X-WorldMonitor-Key: …`) are
+    // backtick tokens (`tools/list`, `scope=mcp`, `X-EagleEye-Key: …`) are
     // excluded by shape and are not mistaken for skills.
     const skillNames = new Set(index.skills.map((s) => s.name));
     const skillShaped = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/;
@@ -164,7 +164,7 @@ describe('agent readiness: agent-skills index', () => {
       assert.ok(skill.description && skill.description.length > 0, `${skill.name} missing description`);
       assert.match(
         skill.url,
-        /^https:\/\/worldmonitor\.app\/\.well-known\/agent-skills\/[^/]+\/SKILL\.md$/,
+        /^https:\/\/eagle-eye\.app\/\.well-known\/agent-skills\/[^/]+\/SKILL\.md$/,
         `${skill.name} url must be the canonical absolute URL`,
       );
       const local = join(SKILLS_DIR, skill.name, 'SKILL.md');
@@ -255,11 +255,11 @@ describe('agent readiness: agent-skills index', () => {
     const example = parseResponseShapeExample(skill);
 
     const scorer = readFileSync(
-      join(ROOT, 'server/worldmonitor/resilience/v1/_dimension-scorers.ts'),
+      join(ROOT, 'server/eagleeye/resilience/v1/_dimension-scorers.ts'),
       'utf-8',
     );
     const pillars = readFileSync(
-      join(ROOT, 'server/worldmonitor/resilience/v1/_pillar-membership.ts'),
+      join(ROOT, 'server/eagleeye/resilience/v1/_pillar-membership.ts'),
       'utf-8',
     );
     const domainIds = readExportedStringArray(scorer, 'RESILIENCE_DOMAIN_ORDER');

@@ -1,11 +1,11 @@
 ---
 title: "咽喉要道方法论"
-description: "World Monitor 如何对全球 13 个受监控的海事咽喉要道进行评分，其中包括基于 EIA 能源基线通行量校准的七项实时流量子集：霍尔木兹、马六甲、苏伊士、曼德海峡、土耳其海峡、丹麦海峡与巴拿马运河，详解评分算法权重、数据来源、更新频率与全球油气航运态势的方法论。"
+description: "Eagle Eye 如何对全球 13 个受监控的海事咽喉要道进行评分，其中包括基于 EIA 能源基线通行量校准的七项实时流量子集：霍尔木兹、马六甲、苏伊士、曼德海峡、土耳其海峡、丹麦海峡与巴拿马运河，详解评分算法权重、数据来源、更新频率与全球油气航运态势的方法论。"
 ---
 
 ## 我们追踪什么
 
-WorldMonitor 在规范咽喉要道注册表和 `GetChokepointStatus` RPC 中拥有 **13 个受监测水道**。状态 RPC 为每个规范 id 返回一行：
+EagleEye 在规范咽喉要道注册表和 `GetChokepointStatus` RPC 中拥有 **13 个受监测水道**。状态 RPC 为每个规范 id 返回一行：
 `suez`、`malacca_strait`、`hormuz_strait`、`bab_el_mandeb`、`panama`、
 `taiwan_strait`、`cape_of_good_hope`、`gibraltar`、`bosphorus`、
 `korea_strait`、`dover_strait`、`kerch_strait` 和 `lombok_strait`。
@@ -88,8 +88,8 @@ disruptionScore = min(
 ## 威胁分类
 
 地缘政治威胁基线在
-`server/worldmonitor/supply-chain/v1/get-chokepoint-status.ts` 中按咽喉要道分配，并在
-`server/worldmonitor/supply-chain/v1/_scoring.mjs` 中加权。
+`server/eagleeye/supply-chain/v1/get-chokepoint-status.ts` 中按咽喉要道分配，并在
+`server/eagleeye/supply-chain/v1/_scoring.mjs` 中加权。
 
 | 威胁等级 | 权重 | 含义 |
 |---|---:|---|
@@ -180,7 +180,7 @@ top1 * 0.5 + top2 * 0.3 + top3 * 0.2
   水道尚未发布 mb/d 估算。
 - 多佛尔海峡实时流量行当前映射到 EIA `danish` 基线 id。
   请将 `baselineMbd` 视为来源参考，将 `id` 视为规范的
-  WorldMonitor 行 id。
+  EagleEye 行 id。
 - AIS 和 PortWatch 覆盖在严重干扰或冲突密集
   地区附近可能下降。缺失的上游覆盖以不可用数据呈现，而非
   被合成为零交通。
@@ -192,4 +192,4 @@ top1 * 0.5 + top2 * 0.3 + top3 * 0.2
 
 请参阅 [`/corrections`](/zh/corrections) 了解计划的修订日志格式。如果您
 今天发现一个错误的数字，请在
-[公开仓库](https://github.com/koala73/worldmonitor/issues) 提交一个 GitHub issue。
+[公开仓库](https://github.com/hiatech/eagle-eye/issues) 提交一个 GitHub issue。

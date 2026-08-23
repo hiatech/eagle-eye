@@ -17,7 +17,7 @@ import {
   webhookKey,
   callerFingerprint,
   type WebhookRecord,
-} from '../../../../server/worldmonitor/shipping/v2/webhook-shared';
+} from '../../../../server/eagleeye/shipping/v2/webhook-shared';
 
 export default async function handler(req: Request): Promise<Response> {
   const cors = getCorsHeaders(req);

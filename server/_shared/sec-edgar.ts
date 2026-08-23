@@ -14,7 +14,7 @@ import { unwrapEnvelope } from './seed-envelope';
 // SEC requires a declared User-Agent identifying the requester and rejects
 // browser-spoofing UAs on data.sec.gov/efts.sec.gov. Matches the precedent in
 // scripts/seed-regulatory-actions.mjs.
-export const SEC_USER_AGENT = 'WorldMonitor/2.0 (monitor@worldmonitor.app)';
+export const SEC_USER_AGENT = 'EagleEye/2.0 (monitor@eagle-eye.app)';
 
 // Seeded by scripts/seed-sec-cik-map.mjs (slim {TICKER: {cik, name}} map).
 export const SEC_CIK_MAP_KEY = 'intelligence:sec-cik-map:v1';

@@ -12,7 +12,7 @@
  * synchronous render path — the throw propagated through `renderClusterLayer` →
  * `renderDynamicLayers` → `render` and aborted the whole dynamic-layer pass, so
  * the user lost every overlay (earthquakes, alerts, markers), not just a canvas
- * clear that had nothing to draw anyway (WORLDMONITOR-YG/YH).
+ * clear that had nothing to draw anyway (EAGLEEYE-YG/YH).
  *
  * Validating the exact members `clearClusterCanvas()` touches — rather than the
  * mere presence of an object — leaves `clusterGl` null on such a device, which

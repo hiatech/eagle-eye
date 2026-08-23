@@ -7,7 +7,7 @@
  *     rotate/dolly/pan gesture
  * A concurrent mouse|pen + touch gesture (touchscreen laptops) therefore
  * crashes with `Cannot read properties of undefined (reading 'x')`
- * (Sentry WORLDMONITOR-QD).
+ * (Sentry EAGLEEYE-QD).
  *
  * The handlers are stored as bound instance fields that three re-reads at
  * dispatch time (`this._onTouchStart(...)`, and the document listeners are

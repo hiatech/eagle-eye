@@ -1,7 +1,7 @@
 /**
  * Locks the 200-response contract on POST /api/create-checkout.
  *
- * Regression scope: WORLDMONITOR-XV — a Safari client got HTTP 200 whose
+ * Regression scope: EAGLEEYE-XV — a Safari client got HTTP 200 whose
  * body was not valid JSON. The success path ran a bare `await resp.json()`,
  * so the parse threw a raw browser DOMException
  * (`SyntaxError: The string did not match the expected pattern.`, code 12)
@@ -12,7 +12,7 @@
  *   1. No upstream snapshot was captured, so there is zero evidence of what
  *      the 200 body actually was (HTML interstitial? empty? truncated?) —
  *      the exact blindness the `!resp.ok` branch already fixed for 403s
- *      (WORLDMONITOR-RN).
+ *      (EAGLEEYE-RN).
  *   2. The reported message is engine-specific, so one bug fragments across
  *      a Sentry fingerprint per browser (Safari / Chrome / Firefox each
  *      phrase a JSON parse failure differently).
@@ -49,7 +49,7 @@ describe('parseCheckoutSuccessBody', () => {
 
   it('reports an empty 200 body as empty, not as malformed JSON', () => {
     // A bare resp.json() on this input is what produced the Safari
-    // DOMException (WORLDMONITOR-XV). The arm matters because "sent zero
+    // DOMException (EAGLEEYE-XV). The arm matters because "sent zero
     // bytes" and "sent something unparseable" are different upstream faults.
     assert.equal(parseCheckoutSuccessBody('').kind, 'empty');
   });
@@ -190,7 +190,7 @@ describe('checkout.ts call-site pin', () => {
     assert.equal(
       matches.length,
       0,
-      'awaiting resp.json() throws an engine-specific DOMException on a non-JSON 200 (WORLDMONITOR-XV) — read text() and parse defensively',
+      'awaiting resp.json() throws an engine-specific DOMException on a non-JSON 200 (EAGLEEYE-XV) — read text() and parse defensively',
     );
   });
 

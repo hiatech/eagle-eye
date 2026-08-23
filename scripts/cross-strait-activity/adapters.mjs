@@ -28,7 +28,7 @@ export const CROSS_STRAIT_BLOCKED_SOURCE_REASONS = Object.freeze([
   'PROXY_TARGET_FORBIDDEN',
 ]);
 
-const USER_AGENT = 'WorldMonitor/2.10 (+https://worldmonitor.app)';
+const USER_AGENT = 'EagleEye/2.10 (+https://eagle-eye.app)';
 const MND_LIST_URL = 'https://www.mnd.gov.tw/en/news/plaactlist';
 /**
  * Discovery runs against the Japanese Joint Staff homepage because Japan MOD's
@@ -261,7 +261,7 @@ function buildProvenance({
         assessedAt: retrievalTime,
         contentAsOf: reportingTime,
       }),
-      derivation: notApplicable('Publisher activity records are not derived WorldMonitor outputs'),
+      derivation: notApplicable('Publisher activity records are not derived EagleEye outputs'),
     },
   };
 }

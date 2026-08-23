@@ -3,7 +3,7 @@
  * Sentry-coverage lint guard.
  *
  * Flags catch blocks in api/, convex/ and server/ that swallow the error —
- * the pattern that hid the canary OCC bug (Sentry issue WORLDMONITOR-PA)
+ * the pattern that hid the canary OCC bug (Sentry issue EAGLEEYE-PA)
  * for hours and made the post-mortem impossible. `server/` counts because
  * its code is bundled INTO the edge functions at deploy time, so a swallow
  * there is invisible in exactly the same way.

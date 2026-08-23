@@ -46,7 +46,7 @@ function installBrowserHarness(): void {
       removeItem: (key: string) => storage.delete(key),
     },
     location: {
-      href: 'https://www.worldmonitor.app/pro',
+      href: 'https://www.eagle-eye.app/pro',
       pathname: '/pro',
       search: '',
       hash: '',

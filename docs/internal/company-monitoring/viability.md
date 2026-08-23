@@ -2,7 +2,7 @@
 
 - Decision date: 2026-08-05
 - Protocol: `cm_eval_v1`
-- Owner: Elie Habib, WorldMonitor product owner
+- Owner: Elie Habib, EagleEye product owner
 - Machine-readable contract:
   `tests/fixtures/company-monitoring-evaluation/protocol.json`
 - Decision: **STOP**
@@ -73,7 +73,7 @@ can produce the frozen ten-impact set.
 - The set contains at least one positive, one negative, and one mixed impact.
 - Each customer must independently mark at least seven of ten useful.
 - Missing and unable-to-judge labels count against the denominator.
-- WorldMonitor staff and internal analysts cannot substitute for either customer.
+- EagleEye staff and internal analysts cannot substitute for either customer.
 - Customer identities and portfolio content remain outside the repository;
   labels use opaque impact and customer IDs, and external-target qualification
   is bound by an out-of-repository evidence digest.

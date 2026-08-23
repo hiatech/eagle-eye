@@ -33,7 +33,7 @@
     {
       "path": "api/mcp/auth.ts",
       "category": "external-protocol",
-      "reason": "MCP auth resolution (Bearer + X-WorldMonitor-Key), Pro pre-checks, rate-limiter init, and PRODUCTION_DEPS bundle for the MCP handler. Extracted from api/mcp.ts during the structural split; same external-protocol constraint as the parent shim.",
+      "reason": "MCP auth resolution (Bearer + X-EagleEye-Key), Pro pre-checks, rate-limiter init, and PRODUCTION_DEPS bundle for the MCP handler. Extracted from api/mcp.ts during the structural split; same external-protocol constraint as the parent shim.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
@@ -208,7 +208,7 @@
     {
       "path": "api/mcp/resources/slugs.ts",
       "category": "external-protocol",
-      "reason": "Hand-curated kebab-case slug → matcher table for the worldmonitor://chokepoints/{slug}/status MCP resource URI. The stability contract: bookmarked URIs survive cache refreshes / upstream renames. Same external-protocol constraint as the resources index it backs.",
+      "reason": "Hand-curated kebab-case slug → matcher table for the eagleeye://chokepoints/{slug}/status MCP resource URI. The stability contract: bookmarked URIs survive cache refreshes / upstream renames. Same external-protocol constraint as the resources index it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
@@ -222,7 +222,7 @@
     {
       "path": "api/mcp/ui/country-risk-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/country-risk.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/country-risk.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
@@ -236,63 +236,63 @@
     {
       "path": "api/mcp/ui/world-brief-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/world-brief.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/world-brief.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/country-brief-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/country-brief.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/country-brief.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/market-radar-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/market-radar.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/market-radar.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/chokepoint-monitor-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/chokepoint-monitor.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/chokepoint-monitor.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/news-intelligence-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/news-intelligence.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/news-intelligence.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/conflict-events-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/conflict-events.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/conflict-events.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/natural-disasters-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/natural-disasters.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/natural-disasters.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/prediction-markets-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/prediction-markets.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/prediction-markets.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
     {
       "path": "api/mcp/ui/forecasts-app.ts",
       "category": "external-protocol",
-      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://worldmonitor/forecasts.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
+      "reason": "MCP Apps (io.modelcontextprotocol/ui) self-contained HTML app shell served verbatim as the ui://eagleeye/forecasts.html resource. Exports an HTML string constant (no HTTP handler); the postMessage bridge protocol is dictated by the MCP Apps spec. Same external-protocol constraint as the ui/registry.ts it backs.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
@@ -306,7 +306,7 @@
     {
       "path": "api/docs-mcp.ts",
       "category": "external-protocol",
-      "reason": "First-party facade for the docs MCP server (served at /docs/mcp ahead of the Mintlify rewrite) — JSON-RPC 2.0 / MCP streamable-HTTP envelope dictated by the MCP spec. Proxies worldmonitor.mintlify.dev/docs/mcp verbatim, answering malformed bodies with -32700/-32600 locally and lifting the upstream's protocol-level tool-call failures (result.isError + code -32601/-32602) into proper top-level JSON-RPC error objects. Anonymous like the upstream; per-IP limit registered in ENDPOINT_RATE_POLICIES and enforced in-handler via checkScopedRateLimit.",
+      "reason": "First-party facade for the docs MCP server (served at /docs/mcp ahead of the Mintlify rewrite) — JSON-RPC 2.0 / MCP streamable-HTTP envelope dictated by the MCP spec. Proxies eagleeye.mintlify.dev/docs/mcp verbatim, answering malformed bodies with -32700/-32600 locally and lifting the upstream's protocol-level tool-call failures (result.isError + code -32601/-32602) into proper top-level JSON-RPC error objects. Anonymous like the upstream; per-IP limit registered in ENDPOINT_RATE_POLICIES and enforced in-handler via checkScopedRateLimit.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },
@@ -618,7 +618,7 @@
     {
       "path": "api/internal/mcp-grant-mint.ts",
       "category": "internal-helper",
-      "reason": "Apex-domain bridge endpoint for the cross-subdomain Pro MCP authorization flow (plan 2026-05-10-001 U3). POST {nonce} from the Clerk-protected /mcp-grant SPA on worldmonitor.app; returns a fixed-host redirect URL with a HMAC-signed grant token to api.worldmonitor.app/oauth/authorize-pro. Shape is an implementation detail of the bounce-via-apex consent flow — exposing it as a versioned product API would publish internal OAuth plumbing.",
+      "reason": "Apex-domain bridge endpoint for the cross-subdomain Pro MCP authorization flow (plan 2026-05-10-001 U3). POST {nonce} from the Clerk-protected /mcp-grant SPA on eagle-eye.app; returns a fixed-host redirect URL with a HMAC-signed grant token to api.eagle-eye.app/oauth/authorize-pro. Shape is an implementation detail of the bounce-via-apex consent flow — exposing it as a versioned product API would publish internal OAuth plumbing.",
       "owner": "@SebastienMelki",
       "removal_issue": null
     },

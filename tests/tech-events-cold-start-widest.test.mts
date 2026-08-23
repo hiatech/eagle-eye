@@ -4,7 +4,7 @@ import {
   fetchWidestTechEvents,
   listTechEvents,
   TECH_EVENTS_UNAVAILABLE_ERROR,
-} from '../server/worldmonitor/research/v1/list-tech-events.ts';
+} from '../server/eagleeye/research/v1/list-tech-events.ts';
 import { __resetKeyPrefixCacheForTests } from '../server/_shared/redis.ts';
 
 // #5427: the cold-start fallback writes to the SHARED, request-independent
@@ -145,7 +145,7 @@ describe('listTechEvents cold-start cache write', () => {
   const FIXTURE_ICS = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//worldmonitor//tech-events-fixture//EN',
+    'PRODID:-//eagleeye//tech-events-fixture//EN',
     vevent('wm-conf-day1', 'WM Fixture Conference Day One', 1, 'Paris, France'),
     vevent('wm-conf-day2', 'WM Fixture Conference Day Two', 2, 'Berlin, Germany'),
     vevent('wm-earnings-day3', 'Earnings: WM Fixture Corp', 3),
@@ -189,7 +189,7 @@ describe('listTechEvents cold-start cache write', () => {
   const EVENTLESS_ICS_200 = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//worldmonitor//tech-events-fixture//EN',
+    'PRODID:-//eagleeye//tech-events-fixture//EN',
     'X-WR-CALNAME:upstream returned a valid but empty calendar',
     'X-WR-CALDESC:padding so this body clears the 100-character floor',
     'END:VCALENDAR',
@@ -237,7 +237,7 @@ describe('listTechEvents cold-start cache write', () => {
   }
 
   function ctxFor(path: string) {
-    return { request: new Request(`https://worldmonitor.app${path}`), pathParams: {}, headers: {} } as never;
+    return { request: new Request(`https://eagle-eye.app${path}`), pathParams: {}, headers: {} } as never;
   }
 
   describe('is not narrowed by the warming request (#5427)', () => {

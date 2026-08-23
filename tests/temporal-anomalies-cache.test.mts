@@ -5,8 +5,8 @@ import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import { __testing__ } from '../api/health.js';
-import { TEMPORAL_ANOMALIES_TTL } from '../server/worldmonitor/infrastructure/v1/_shared.ts';
-import { listTemporalAnomalies } from '../server/worldmonitor/infrastructure/v1/list-temporal-anomalies.ts';
+import { TEMPORAL_ANOMALIES_TTL } from '../server/eagleeye/infrastructure/v1/_shared.ts';
+import { listTemporalAnomalies } from '../server/eagleeye/infrastructure/v1/list-temporal-anomalies.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,7 +22,7 @@ describe('temporal anomalies cache freshness', () => {
 
   it('refreshes the data key and seed-meta on fresh cache hits', () => {
     const src = readFileSync(
-      resolve(ROOT, 'server/worldmonitor/infrastructure/v1/list-temporal-anomalies.ts'),
+      resolve(ROOT, 'server/eagleeye/infrastructure/v1/list-temporal-anomalies.ts'),
       'utf8',
     );
 

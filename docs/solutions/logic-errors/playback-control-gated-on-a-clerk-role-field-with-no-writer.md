@@ -131,7 +131,7 @@ isEntitled: () => actual.isEntitlementActive(entitlement, Date.now()),
 
 ## Why This Works
 
-**The gate now reads a signal that is actually written.** `hasPremiumAccess()` (`src/services/panel-gating.ts:53-58`) unions the desktop `WORLDMONITOR_API_KEY` secret with `isProUser()`, which itself unions the widget-tester keys, the dead Clerk `role` field, and `isEntitled()` (`src/services/widget-store.ts:223-230`). Because `isEntitled()` is fed by the real Dodo-to-Convex webhook pipeline, a paying subscriber now has an actually-true path into the gate regardless of whether Clerk's `role` is ever populated.
+**The gate now reads a signal that is actually written.** `hasPremiumAccess()` (`src/services/panel-gating.ts:53-58`) unions the desktop `EAGLEEYE_API_KEY` secret with `isProUser()`, which itself unions the widget-tester keys, the dead Clerk `role` field, and `isEntitled()` (`src/services/widget-store.ts:223-230`). Because `isEntitled()` is fed by the real Dodo-to-Convex webhook pipeline, a paying subscriber now has an actually-true path into the gate regardless of whether Clerk's `role` is ever populated.
 
 **The two "unknown" states resolve asymmetrically on purpose, and the asymmetry is load-bearing:**
 

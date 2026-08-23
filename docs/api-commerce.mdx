@@ -1,9 +1,9 @@
 ---
 title: "Commerce Endpoints"
-description: "Checkout, customer portal, product catalog, and referral endpoints — thin edge proxies over Convex and Dodo Payments for World Monitor billing."
+description: "Checkout, customer portal, product catalog, and referral endpoints — thin edge proxies over Convex and Dodo Payments for Eagle Eye billing."
 ---
 
-WorldMonitor uses [Dodo Payments](https://dodopayments.com) for PRO subscriptions and [Convex](https://convex.dev) as the source-of-truth for entitlements. These edge endpoints are thin auth proxies — they validate the Clerk JWT, then forward to Convex HTTP actions via `RELAY_SHARED_SECRET`.
+EagleEye uses [Dodo Payments](https://dodopayments.com) for PRO subscriptions and [Convex](https://convex.dev) as the source-of-truth for entitlements. These edge endpoints are thin auth proxies — they validate the Clerk JWT, then forward to Convex HTTP actions via `RELAY_SHARED_SECRET`.
 
 ## Checkout
 
@@ -14,7 +14,7 @@ Creates a Dodo checkout session and returns the hosted-checkout URL.
 - **Auth**: Clerk bearer (required)
 - **Body**:
   ```json
-  { "productId": "pro-monthly", "returnUrl": "https://www.worldmonitor.app/pro/success" }
+  { "productId": "pro-monthly", "returnUrl": "https://www.eagle-eye.app/pro/success" }
   ```
 - **Response**: `{ "checkoutUrl": "https://checkout.dodopayments.com/..." }`
 - **Idempotency**: optional `Idempotency-Key` supported for 10 minutes after a successful response. Retrying the same key with an identical body replays the original checkout response instead of creating another checkout attempt.
@@ -45,7 +45,7 @@ Returns the tier view-model used by the `/pro` pricing page. Cached in Redis und
       "description": "Get started with the essentials",
       "features": ["Core dashboard panels", "..."],
       "cta": "Get Started",
-      "href": "https://worldmonitor.app",
+      "href": "https://eagle-eye.app",
       "highlighted": false,
       "price": 0,
       "period": "forever"
@@ -87,7 +87,7 @@ Returns the tier view-model used by the `/pro` pricing page. Cached in Redis und
     {
       "name": "API Business",
       "localeKey": "apiBusiness",
-      "description": "Launch your own product on WorldMonitor data",
+      "description": "Launch your own product on EagleEye data",
       "features": ["..."],
       "highlighted": false,
       "monthlyPrice": 299.99,
@@ -99,7 +99,7 @@ Returns the tier view-model used by the `/pro` pricing page. Cached in Redis und
       "description": "Custom solutions for organizations",
       "features": ["..."],
       "cta": "Contact Sales",
-      "href": "mailto:enterprise@worldmonitor.app",
+      "href": "mailto:enterprise@eagle-eye.app",
       "highlighted": false,
       "price": null
     }
@@ -129,7 +129,7 @@ Returns the caller's deterministic referral code (an 8-char HMAC of the Clerk us
 ```json
 {
   "code": "a1b2c3d4",
-  "shareUrl": "https://worldmonitor.app/pro?ref=a1b2c3d4"
+  "shareUrl": "https://eagle-eye.app/pro?ref=a1b2c3d4"
 }
 ```
 

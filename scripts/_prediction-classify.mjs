@@ -32,7 +32,7 @@
 // tests/prediction-market-classification.test.mjs, not merely documented here.
 //
 // WHY GEOPOLITICAL IS FIRST, AND WHY IT READS BOTH TITLE AND TAGS.
-// WorldMonitor's identity is geopolitical intelligence, so a genuine geo market
+// EagleEye's identity is geopolitical intelligence, so a genuine geo market
 // must never be filed elsewhere. The two signals cover each other's blind spots:
 //   - the TITLE matcher (isGeopoliticalMarket, shared with the bet families) is
 //     precision-first and deliberately misses e.g. "Berlin state elections",

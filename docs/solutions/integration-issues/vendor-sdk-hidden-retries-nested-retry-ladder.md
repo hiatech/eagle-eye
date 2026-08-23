@@ -6,7 +6,7 @@ problem_type: integration_issue
 component: payments
 severity: high
 symptoms:
-  - "Sentry: Uncaught Error: Failed to create checkout session: 429 status code (no body), thrown inside the @dodopayments/convex component action (WORLDMONITOR-WP)"
+  - "Sentry: Uncaught Error: Failed to create checkout session: 429 status code (no body), thrown inside the @dodopayments/convex component action (EAGLEEYE-WP)"
   - "Rate-limited checkouts bounce users to a retry screen even for short bursts the retry layers should absorb"
   - "Worst-case provider request count per checkout multiplies (outer ladder attempts x SDK internal retries)"
 root_cause: config_error
@@ -37,7 +37,7 @@ second retry layer.
 
 ## Symptoms
 
-- Sentry `WORLDMONITOR-WP`: `Uncaught Error: Failed to create checkout session:
+- Sentry `EAGLEEYE-WP`: `Uncaught Error: Failed to create checkout session:
   429 status code (no body)` with a stack entirely inside
   `@dodopayments/convex` / `@dodopayments/core` frames — no app frames.
 - The graceful client path (typed rate-limited outcome, HTTP 429 + Retry-After)

@@ -13,7 +13,7 @@ import {
   scoreEnergy,
   scoreInfrastructure,
   scoreTradePolicy,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 import { installRedis } from './helpers/fake-upstash-redis.mts';
 import { RESILIENCE_FIXTURES } from './helpers/resilience-fixtures.mts';
 
@@ -179,7 +179,7 @@ describe('resilience scorer contracts', () => {
 
     function round(v: number, d = 2) { return Number(v.toFixed(d)); }
     // Mirror of the production coverage-weighted mean (see
-    // server/worldmonitor/resilience/v1/_shared.ts). Must apply the
+    // server/eagleeye/resilience/v1/_shared.ts). Must apply the
     // per-dim weight from RESILIENCE_DIMENSION_WEIGHTS and the §U4
     // imputation half-weight factor so expected values track production.
     function coverageWeightedMean(dims: { id: string; score: number; coverage: number; imputationClass: string | null }[]) {
@@ -373,7 +373,7 @@ describe('resilience scorer contracts', () => {
     const scoreMap = await scoreAllDimensions('US');
     function round(v: number, d = 2) { return Number(v.toFixed(d)); }
     // Mirror of the production coverage-weighted mean (see
-    // server/worldmonitor/resilience/v1/_shared.ts). Must apply the
+    // server/eagleeye/resilience/v1/_shared.ts). Must apply the
     // per-dim weight from RESILIENCE_DIMENSION_WEIGHTS so the expected
     // values here track the production aggregation after the PR 2 §3.4
     // recovery-domain weight rebalance. Plan 2026-04-26-002 §U4 added

@@ -654,7 +654,7 @@
         "some": "कुछ फीचर API की चाहते हैं"
       },
       "reserveEarlyAccess": "जल्दी एक्सेस रिजर्व करें",
-      "skipSetup": "सेटअप छोड़ें — एक World Monitor लाइसेंस सब अनलॉक करता है। जल्दी एक्सेस के लिए इंतजार सूची में शामिल हों।",
+      "skipSetup": "सेटअप छोड़ें — एक Eagle Eye लाइसेंस सब अनलॉक करता है। जल्दी एक्सेस के लिए इंतजार सूची में शामिल हों।",
       "summary": {
         "desktop": "डेस्कटॉप मोड",
         "web": "वेब मोड (सिर्फ पढ़ने के लिए, सर्वर-प्रबंधित क्रेडेंशियल्स)",
@@ -685,7 +685,7 @@
       }
     },
     "settingsWindow": {
-      "shellTitle": "World Monitor सेटिंग्स",
+      "shellTitle": "Eagle Eye सेटिंग्स",
       "shellSearchPlaceholder": "सेटिंग्स खोजें...",
       "shellCancel": "रद्द करें",
       "shellSaveClose": "सहेजें और बंद करें",
@@ -704,7 +704,7 @@
       "noTraffic": "अभी तक कोई ट्रैफिक रिकॉर्ड नहीं हुआ।",
       "sidecarUnreachable": "साइडकार उपलब्ध नहीं है।",
       "logCleared": "लॉग साफ़ किया गया।",
-      "worldMonitor": {
+      "eagleEye": {
         "apiKey": {
           "title": "लाइसेंस / API कुंजी",
           "placeholder": "wm_xxxxxxxxxxxxxxxxxxxxxxxx",
@@ -713,7 +713,7 @@
         "dividerOr": "या",
         "register": {
           "title": "API कुंजी चाहिए?",
-          "description": "चरण-दर-चरण सहायता के लिए worldmonitor.app/docs/api-keys देखें। मैन्युअल API कुंजियों के लिए API Starter या API Business योजना आवश्यक है।",
+          "description": "चरण-दर-चरण सहायता के लिए eagle-eye.app/docs/api-keys देखें। मैन्युअल API कुंजियों के लिए API Starter या API Business योजना आवश्यक है।",
           "submitBtn": "API योजनाएँ देखें"
         }
       },

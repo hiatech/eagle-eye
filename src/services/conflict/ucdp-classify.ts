@@ -1,4 +1,4 @@
-import type { UcdpViolenceEvent as ProtoUcdpEvent } from '@/generated/client/worldmonitor/conflict/v1/service_client';
+import type { UcdpViolenceEvent as ProtoUcdpEvent } from '@/generated/client/eagleeye/conflict/v1/service_client';
 
 export type ConflictIntensity = 'none' | 'minor' | 'war';
 

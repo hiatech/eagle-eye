@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { UnrestEvent, ListUnrestEventsResponse } from '@/generated/client/worldmonitor/unrest/v1/service_client';
+import type { UnrestEvent, ListUnrestEventsResponse } from '@/generated/client/eagleeye/unrest/v1/service_client';
 import type { SocialUnrestEvent, ProtestSeverity, ProtestEventType, ProtestSource } from '@/types';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';

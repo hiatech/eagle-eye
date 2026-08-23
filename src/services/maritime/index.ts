@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { AisDensityZone as ProtoDensityZone, AisDisruption as ProtoDisruption, GetVesselSnapshotResponse, SnapshotCandidateReport as ProtoCandidateReport } from '@/generated/client/worldmonitor/maritime/v1/service_client';
+import type { AisDensityZone as ProtoDensityZone, AisDisruption as ProtoDisruption, GetVesselSnapshotResponse, SnapshotCandidateReport as ProtoCandidateReport } from '@/generated/client/eagleeye/maritime/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import type { AisDisruptionEvent, AisDensityZone, AisDisruptionType } from '@/types';
 import { dataFreshness } from '../data-freshness';

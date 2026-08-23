@@ -8,7 +8,7 @@ const originalEnv = { ...process.env };
 const REDIS_KEY = 'forecast:scorecard:v1';
 
 function makeCtx() {
-  const req = new Request('https://worldmonitor.app/api/forecast/v1/get-forecast-scorecard');
+  const req = new Request('https://eagle-eye.app/api/forecast/v1/get-forecast-scorecard');
   return { request: req, pathParams: {}, headers: {} };
 }
 
@@ -20,12 +20,12 @@ function restoreEnv() {
 }
 
 describe('getForecastScorecard backend status', () => {
-  let getForecastScorecard: typeof import('../server/worldmonitor/forecast/v1/get-forecast-scorecard').getForecastScorecard;
+  let getForecastScorecard: typeof import('../server/eagleeye/forecast/v1/get-forecast-scorecard').getForecastScorecard;
 
   beforeEach(async () => {
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
-    const mod = await import('../server/worldmonitor/forecast/v1/get-forecast-scorecard.ts');
+    const mod = await import('../server/eagleeye/forecast/v1/get-forecast-scorecard.ts');
     getForecastScorecard = mod.getForecastScorecard;
   });
 

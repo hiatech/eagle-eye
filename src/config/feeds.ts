@@ -479,7 +479,7 @@ export const FULL_FEEDS: Record<string, Feed[]> = {
     { name: 'Nikkei Asia', url: rss('https://news.google.com/rss/search?q=site:asia.nikkei.com+when:3d&hl=en-US&gl=US&ceid=US:en') },
     { name: 'Asahi Shimbun', url: rss('https://www.asahi.com/rss/asahi/newsheadlines.rdf'), lang: 'ja', strategicDefault: true },
     // JA pack. NHK's cat6 feed is the international desk rather than cat0's
-    // domestic headlines — this is a world monitor, so the foreign desk is the
+    // domestic headlines — this is a eagle eye, so the foreign desk is the
     // relevant one. Kyodo and Jiji are the two domestic wires; Toyo Keizai
     // covers the business beat the others under-serve.
     { name: 'NHK', url: rss('https://www.nhk.or.jp/rss/news/cat6.xml'), lang: 'ja' },
@@ -1068,7 +1068,7 @@ const COMMODITY_FEEDS: Record<string, Feed[]> = {
   ],
 };
 
-// Energy variant feeds — energy.worldmonitor.app
+// Energy variant feeds — energy.eagle-eye.app
 // Keys are matched against panel IDs in src/config/panels.ts ENERGY_PANELS +
 // brief news-category overrides in src/app/data-loader.ts. Keep in sync when
 // ENERGY_PANELS changes.
@@ -1123,7 +1123,7 @@ export const FEEDS = SITE_VARIANT === 'tech'
 // See src/config/feed-resolution.ts for the merge + resolution helpers.
 /**
  * Every variant's feed map, keyed by variant — the client mirror of the server's
- * `VARIANT_FEEDS` (server/worldmonitor/news/v1/_feeds.ts).
+ * `VARIANT_FEEDS` (server/eagleeye/news/v1/_feeds.ts).
  *
  * `CANONICAL_FEEDS` below is the flattened UNION and is what the runtime resolves
  * panels against, but the merge dedupes by URL and keeps the first map's object,
@@ -1193,7 +1193,7 @@ export const INTEL_SOURCES: Feed[] = [
   // in DECLARATION ORDER, and the intel bucket only gets a handful of slots — so
   // inserting a new name near the top silently evicts whichever default-enabled
   // source it pushes past the cap. That eviction is written back into
-  // worldmonitor-disabled-feeds and cloud-synced rather than recomputed, so it
+  // eagleeye-disabled-feeds and cloud-synced rather than recomputed, so it
   // never recovers. Appending makes a new source absorb its own cap cost instead
   // of deleting an existing one from every free-tier user (#5405 review).
   { name: 'Breaking Defense', url: rss('https://breakingdefense.com/feed/'), type: 'defense' },
@@ -1278,7 +1278,7 @@ export function getFeedProvenanceState(sourceName: string): SourceProvenanceStat
  * `protectedNames` so round-robin late-in-bucket ordering cannot drop the
  * dedicated UA primary / independent RU / PL frontline set for free EN users.
  * Keep in sync with DEFAULT_ENABLED_SOURCES.europe frontline additions and
- * the one-shot migration in App.ts (`worldmonitor-frontline-europe-enable-v1`).
+ * the one-shot migration in App.ts (`eagleeye-frontline-europe-enable-v1`).
  */
 export const FRONTLINE_EUROPE_PROTECTED_SOURCES = [
   'Kyiv Independent',

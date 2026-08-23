@@ -58,7 +58,7 @@ export default async function handler(req: Request): Promise<Response> {
     // window is bounded by NOT_APPLICABLE_VERIFICATION_TTL_SECONDS instead.
     const { billingDenial } = proAccess;
     if (billingDenial) return billingDenial;
-    return new Response(JSON.stringify({ error: 'pro_required', message: 'Discord notifications are available on the Pro plan.', upgradeUrl: 'https://worldmonitor.app/pro' }), { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+    return new Response(JSON.stringify({ error: 'pro_required', message: 'Discord notifications are available on the Pro plan.', upgradeUrl: 'https://eagle-eye.app/pro' }), { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
   }
 
   // Generate one-time state token (20 random bytes → base64url)

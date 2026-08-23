@@ -30,7 +30,7 @@ function mockUpstream(body, { contentType = 'text/event-stream', status = 200 } 
 }
 
 function post(body, headers = {}) {
-  return new Request('https://www.worldmonitor.app/api/docs-mcp', {
+  return new Request('https://www.eagle-eye.app/api/docs-mcp', {
     method: 'POST',
     headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream', ...headers },
     body,
@@ -206,7 +206,7 @@ describe('docs-mcp handler', () => {
     );
     assert.equal(res.status, 200);
     assert.equal(calls.length, 1);
-    assert.equal(calls[0].url, 'https://worldmonitor.mintlify.dev/docs/mcp');
+    assert.equal(calls[0].url, 'https://eagleeye.mintlify.dev/docs/mcp');
     const text = await res.text();
     const data = JSON.parse(text.split('\n').find((l) => l.startsWith('data: ')).slice('data: '.length));
     assert.deepEqual(data, buildJsonRpcError(1, -32602, 'Tool nope not found'));
@@ -217,7 +217,7 @@ describe('docs-mcp handler', () => {
     const sse = 'event: message\ndata: {"jsonrpc":"2.0","id":2,"result":{"content":[{"type":"text","text":"hit"}]}}\n\n';
     mockUpstream(sse);
     const res = await handler(
-      post('{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"search_world_monitor","arguments":{"query":"auth"}}}'),
+      post('{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"search_eagle_eye","arguments":{"query":"auth"}}}'),
     );
     assert.equal(res.status, 200);
     assert.equal(await res.text(), sse);
@@ -233,7 +233,7 @@ describe('docs-mcp handler', () => {
 
   it('answers OPTIONS preflight locally with permissive CORS', async () => {
     const res = await handler(
-      new Request('https://www.worldmonitor.app/api/docs-mcp', { method: 'OPTIONS' }),
+      new Request('https://www.eagle-eye.app/api/docs-mcp', { method: 'OPTIONS' }),
     );
     assert.equal(res.status, 204);
     assert.equal(res.headers.get('access-control-allow-origin'), '*');

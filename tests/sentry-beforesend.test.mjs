@@ -93,7 +93,7 @@ function extensionFrame(filename = 'blob:https://example.com/ext-1234', fn = 'in
 describe('ignoreErrors filters', () => {
   it('suppresses Clerk SDK UI chunk load failure', () => {
     assert.ok(
-      isIgnored('[clerk] failed to load https://clerk.worldmonitor.app/npm/@clerk/ui@1/dist/ui.browser.js'),
+      isIgnored('[clerk] failed to load https://clerk.eagle-eye.app/npm/@clerk/ui@1/dist/ui.browser.js'),
       'Clerk SDK load-failure message must be ignored',
     );
   });
@@ -181,14 +181,14 @@ describe('empty-stack network/timeout errors are NOT suppressed', () => {
   // Note: dynamic-module-import failures are intentionally suppressed even with empty
   // stacks — that exact phrase is emitted only by the runtime on stale-chunk-after-
   // deploy, which the chunk-reload guard already auto-recovers. See the dedicated
-  // suite below for that case (WORLDMONITOR-Q / WORLDMONITOR-15).
+  // suite below for that case (EAGLEEYE-Q / EAGLEEYE-15).
   // Note: Firefox's `NetworkError when attempting to fetch resource.` USED to
   // live here (preserved with empty stacks on a "could be our code" caution),
   // but that predated the `Failed to fetch` provenance refinement. It now lives
   // in the zero-frame suppression suite below — it is the engine-equivalent of
   // Chrome's bare `Failed to fetch` and is suppressed the same way (zero frames
   // → background/SW/extension; a real first-party failure keeps a .ts frame).
-  // WORLDMONITOR-RK / WORLDMONITOR-KM.
+  // EAGLEEYE-RK / EAGLEEYE-KM.
   const networkErrors = [
     'Could not connect to the server',
     'Operation timed out',
@@ -255,7 +255,7 @@ describe('empty-stack network/timeout errors are NOT suppressed', () => {
 // call site. The chunk-reload guard auto-reloads the page, so the user is unaffected
 // — but the Sentry event is still captured. We suppress these even with empty stacks
 // because the exact phrase is only emitted by the runtime, never by our shipped code
-// (WORLDMONITOR-Q / WORLDMONITOR-15).
+// (EAGLEEYE-Q / EAGLEEYE-15).
 
 describe('dynamic-module-import failures (stale chunk after deploy)', () => {
   // URL-bearing FETCH-failure phrasings whose message names one of our own
@@ -263,14 +263,14 @@ describe('dynamic-module-import failures (stale chunk after deploy)', () => {
   // first-party logic bug. The `import()` call site is ALWAYS first-party
   // (MapContainer.initDeck, lazy panel/video loaders), so these ride a
   // first-party frame; matching the asset URL suppresses them regardless of
-  // stack (WORLDMONITOR-TN: Map chunk, WORLDMONITOR-S1: hls chunk — both leaked
+  // stack (EAGLEEYE-TN: Map chunk, EAGLEEYE-S1: hls chunk — both leaked
   // because the old `!hasFirstParty`-only gate let first-party-framed ones
   // through).
   const assetUrlImportErrors = [
-    'Failed to fetch dynamically imported module: https://worldmonitor.app/assets/panels-abc.js',
-    'Failed to fetch dynamically imported module: https://www.worldmonitor.app/assets/index-DSkSc57y.js',
-    'error loading dynamically imported module: https://www.worldmonitor.app/assets/Map-eKJvyIxN.js',
-    'error loading dynamically imported module: https://www.worldmonitor.app/assets/hls-jw_vZdHi.js',
+    'Failed to fetch dynamically imported module: https://eagle-eye.app/assets/panels-abc.js',
+    'Failed to fetch dynamically imported module: https://www.eagle-eye.app/assets/index-DSkSc57y.js',
+    'error loading dynamically imported module: https://www.eagle-eye.app/assets/Map-eKJvyIxN.js',
+    'error loading dynamically imported module: https://www.eagle-eye.app/assets/hls-jw_vZdHi.js',
   ];
 
   for (const msg of assetUrlImportErrors) {
@@ -292,12 +292,12 @@ describe('dynamic-module-import failures (stale chunk after deploy)', () => {
       'TypeError',
       [firstPartyFrame()],
     );
-    assert.ok(beforeSend(event) !== null, 'off-origin asset URL must not be treated as WorldMonitor deploy skew');
+    assert.ok(beforeSend(event) !== null, 'off-origin asset URL must not be treated as EagleEye deploy skew');
   });
 
   it('lets through non-hashed /assets dynamic-import failures even on owned origins', () => {
     const event = makeEvent(
-      'Failed to fetch dynamically imported module: https://worldmonitor.app/assets/runtime.js',
+      'Failed to fetch dynamically imported module: https://eagle-eye.app/assets/runtime.js',
       'TypeError',
       [firstPartyFrame()],
     );
@@ -306,7 +306,7 @@ describe('dynamic-module-import failures (stale chunk after deploy)', () => {
 
   // No-URL phrasings (Safari `Importing a module script failed.`, bare Firefox
   // `error loading dynamically imported module`, and the module-LINK export
-  // mismatch `Importing binding name '<x>' is not found.` — WORLDMONITOR-TM)
+  // mismatch `Importing binding name '<x>' is not found.` — EAGLEEYE-TM)
   // throw at fetch/link time with no first-party call site, so they're gated on
   // `!hasFirstParty`: suppressed with an empty or third-party stack, preserved
   // when a genuine first-party frame is present.
@@ -342,15 +342,15 @@ describe('dynamic-module-import failures (stale chunk after deploy)', () => {
 // up via onunhandledrejection without first-party frames captured (browser
 // fires them from internal infra at the timer boundary). Both phrases are
 // runtime-emitted only — our shipped code cannot synthesize them
-// (WORLDMONITOR-66 / WORLDMONITOR-62).
+// (EAGLEEYE-66 / EAGLEEYE-62).
 
 describe('zero-frame async-rejection patterns (timeout / DOMException / OOM / DOM-walker / wrapper-injected timeout)', () => {
   const zeroFrameErrors = [
     ['signal timed out', 'TimeoutError'],
     ['NotSupportedError: The operation is not supported.', 'Error'],
-    // Firefox setInterval mechanism, no captured frames (WORLDMONITOR-KE)
+    // Firefox setInterval mechanism, no captured frames (EAGLEEYE-KE)
     ['out of memory', 'Error'],
-    // Apple Mail privacy proxy DOM walker (WORLDMONITOR-P2). Frames in
+    // Apple Mail privacy proxy DOM walker (EAGLEEYE-P2). Frames in
     // production are [sentry-chunk, [native code]] which fully filter out
     // of `nonInfraFrames` so empty-stack semantics apply.
     [".toLowerCase is not a function. (In 'el.className.toLowerCase()', 'el.className.toLowerCase' is undefined)", 'TypeError'],
@@ -358,20 +358,20 @@ describe('zero-frame async-rejection patterns (timeout / DOMException / OOM / DO
     ['.indexOf is not a function', 'TypeError'],
     ['.findIndex is not a function', 'TypeError'],
     // Third-party Electron wrapper polling endpoints we don't serve
-    // (WORLDMONITOR-PW: /api/setIsSelect from Electron 39.2.7).
+    // (EAGLEEYE-PW: /api/setIsSelect from Electron 39.2.7).
     ['Request timeout: /api/setIsSelect', 'Error'],
     ['Error: Request timeout: /api/whatever', 'Error'],
     // Bare `Failed to fetch` with zero frames = service worker /
     // extension / in-app webview / stale pre-deploy bundle. First-party
     // fetch failures surface with a source-mapped frame on the awaiting
-    // site (WORLDMONITOR-KM 10ev/8u). The host-suffixed variant
+    // site (EAGLEEYE-KM 10ev/8u). The host-suffixed variant
     // `Failed to fetch (<host>)` has its own first-party allowlist
     // earlier in beforeSend (isHostScopedFetchFailure), so doesn't go
     // through this gate.
     ['Failed to fetch', 'TypeError'],
     ['TypeError: Failed to fetch', 'TypeError'],
     // Safari module-loader abort / streaming-fetch interruption
-    // (WORLDMONITOR-RF). iOS Safari fires `SyntaxError: Unexpected EOF`
+    // (EAGLEEYE-RF). iOS Safari fires `SyntaxError: Unexpected EOF`
     // via `onunhandledrejection` with no captured frames when a dynamic
     // `import()` or service-worker-mediated fetch is truncated mid-stream
     // during PWA lifecycle transitions. Our own `JSON.parse` produces
@@ -388,7 +388,7 @@ describe('zero-frame async-rejection patterns (timeout / DOMException / OOM / DO
     ["Unexpected token 'for'", 'SyntaxError'],
     ['SyntaxError: Unexpected token \'else\'', 'SyntaxError'],
     ['SyntaxError: Unexpected token \'for\'', 'SyntaxError'],
-    // Firefox's wording for a failed `fetch()` (WORLDMONITOR-RK) — the
+    // Firefox's wording for a failed `fetch()` (EAGLEEYE-RK) — the
     // engine-equivalent of Chrome's bare `Failed to fetch` above. Zero frames
     // via `onunhandledrejection` = background / service-worker / extension /
     // stale-pre-deploy-bundle fetch. A genuine first-party fetch failure keeps
@@ -482,7 +482,7 @@ describe('existing beforeSend filters', () => {
   });
 
   it('suppresses OrbitControls setPointerCapture NotFoundError when frame context matches three.js signature', () => {
-    // Verbatim frame context slice from WORLDMONITOR-NC: minified three.js OrbitControls
+    // Verbatim frame context slice from EAGLEEYE-NC: minified three.js OrbitControls
     // onPointerDown body. The `_pointers` + `setPointerCapture` adjacency is a three.js-only
     // pattern (our own code doesn't use `_pointers` naming).
     const event = makeEvent(
@@ -542,15 +542,15 @@ describe('existing beforeSend filters', () => {
     assert.equal(beforeSend(event), null, 'Allowlisted AJAX host should be suppressed regardless of stack shape');
   });
 
-  it('suppresses Clerk SDK "Failed to fetch (clerk.worldmonitor.app)" even with a clerk first-party frame', () => {
-    // WORLDMONITOR-SA/SB: the bundled Clerk SDK fetches its Frontend API
-    // (clerk.worldmonitor.app, a CNAME to Clerk's auth infra) for token
+  it('suppresses Clerk SDK "Failed to fetch (clerk.eagle-eye.app)" even with a clerk first-party frame', () => {
+    // EAGLEEYE-SA/SB: the bundled Clerk SDK fetches its Frontend API
+    // (clerk.eagle-eye.app, a CNAME to Clerk's auth infra) for token
     // refresh and retries transient failures itself. A leaked
-    // `Failed to fetch (clerk.worldmonitor.app)` is a Clerk-SDK-internal
+    // `Failed to fetch (clerk.eagle-eye.app)` is a Clerk-SDK-internal
     // network blip, not our code — same disposition as `/ClerkJS: Network
     // error/`. The clerk-*.js chunk reads as first-party (not in the vendor
     // list), so the host allowlist — not hasFirstParty — must decide.
-    const event = makeEvent('Failed to fetch (clerk.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('Failed to fetch (clerk.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/clerk-DC7Q2aDh.js', lineno: 848, function: 'i' },
       { filename: 'chrome-extension://ebeglcfoffnnadgncmppkkohfcigngkj/js/injected/hook.js', lineno: 1, function: 'Object.apply' },
       { filename: '/assets/panels-CYSIkWVK.js', lineno: 45, function: 'window.fetch' },
@@ -565,8 +565,8 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'Plain first-party fetch failure should surface');
   });
 
-  it('suppresses bare "Failed to fetch" when an extension monkeypatched window.fetch (WORLDMONITOR-SG)', () => {
-    // Real WORLDMONITOR-SG stack: our runtime fetch interceptor + country-geometry
+  it('suppresses bare "Failed to fetch" when an extension monkeypatched window.fetch (EAGLEEYE-SG)', () => {
+    // Real EAGLEEYE-SG stack: our runtime fetch interceptor + country-geometry
     // loader are first-party frames, but the leaked rejection comes from an
     // extension (Adjust SDK injectScriptAdjust.js / page-inspector) that wrapped
     // window.fetch and chained an uncaught `.then()`. hasFirstParty is true, so
@@ -594,8 +594,8 @@ describe('existing beforeSend filters', () => {
     assert.equal(beforeSend(event), null, 'Extension chain-ending-in-window.fetch fetch failure should be suppressed');
   });
 
-  it('suppresses bare "Failed to fetch" when the extension fetch frame carries an alias annotation (WORLDMONITOR-Y8)', () => {
-    // Real WORLDMONITOR-Y8 stack (Adjust SDK injectScriptAdjust.js, the same
+  it('suppresses bare "Failed to fetch" when the extension fetch frame carries an alias annotation (EAGLEEYE-Y8)', () => {
+    // Real EAGLEEYE-Y8 stack (Adjust SDK injectScriptAdjust.js, the same
     // extension already named in the SG gate): Sentry renders the frame whose
     // function was reached through an alias as `<name> [<annotation>]`, so the
     // wrapper surfaces as `window.fetch [<annotation>]`. The SG function match
@@ -621,7 +621,7 @@ describe('existing beforeSend filters', () => {
   });
 
   it('does NOT suppress bare "Failed to fetch" with a first-party frame and a NON-fetch extension frame', () => {
-    // Precision guard for WORLDMONITOR-SG: an extension frame whose function is
+    // Precision guard for EAGLEEYE-SG: an extension frame whose function is
     // not a fetch wrapper is NOT evidence the extension owns the orphan fetch
     // promise, so a genuine first-party fetch failure must still surface.
     const event = makeEvent('Failed to fetch', 'TypeError', [
@@ -648,15 +648,15 @@ describe('existing beforeSend filters', () => {
   it('does NOT suppress "Failed to fetch (<hostname>)" when no maplibre frame is present', () => {
     // Guards against broad message-only suppression hiding a real first-party fetch
     // regression that happens to wrap host into the message.
-    const event = makeEvent('Failed to fetch (api.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('Failed to fetch (api.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/panels-wF5GXf0N.js', lineno: 100, function: 'MyApiCall' },
     ]);
     assert.ok(beforeSend(event) !== null, 'Non-maplibre Failed-to-fetch must reach Sentry');
   });
 
   it('does NOT suppress MapLibre AJAXError for a non-allowlisted host (mixed stack)', () => {
-    // Mirrors WORLDMONITOR-NE/NF real-world stack: maplibre + first-party fetch wrapper.
-    const event = makeEvent('Failed to fetch (pmtiles.worldmonitor.app)', 'TypeError', [
+    // Mirrors EAGLEEYE-NE/NF real-world stack: maplibre + first-party fetch wrapper.
+    const event = makeEvent('Failed to fetch (pmtiles.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/maplibre-A8Ca0ysS.js', lineno: 4, function: 'ajaxFetch' },
       { filename: '/assets/panels-wF5GXf0N.js', lineno: 24, function: 'window.fetch' },
     ]);
@@ -669,18 +669,18 @@ describe('existing beforeSend filters', () => {
     // AJAX errors must bypass that generic filter so the host allowlist is what decides,
     // otherwise a self-hosted R2 basemap regression whose stack happens to be vendor-only
     // would be silently dropped.
-    const event = makeEvent('Failed to fetch (pmtiles.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('Failed to fetch (pmtiles.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/maplibre-A8Ca0ysS.js', lineno: 4, function: 'ajaxFetch' },
     ]);
     assert.ok(beforeSend(event) !== null, 'All-maplibre first-party tile fetch failure must still reach Sentry');
   });
 
   it('suppresses "Failed to fetch (<host>)" when stack is extension-only (covered by generic extension rule)', () => {
-    // WORLDMONITOR-P5: AdBlock-class extensions wrap window.fetch and their
+    // EAGLEEYE-P5: AdBlock-class extensions wrap window.fetch and their
     // replacement can fail unrelated to our backend. The generic extension rule
     // (`!hasFirstParty && extension frame`) already drops this; the test locks
     // that property in for the `Failed to fetch (<host>)` message shape.
-    const event = makeEvent('Failed to fetch (abacus.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('Failed to fetch (abacus.eagle-eye.app)', 'TypeError', [
       { filename: 'chrome-extension://hoklmmgfnpapgjgcpechhaamimifchmp/frame_ant/frame_ant.js', lineno: 2, function: 'window.fetch' },
     ]);
     assert.equal(beforeSend(event), null, 'Extension-only fetch failure should be suppressed');
@@ -689,16 +689,16 @@ describe('existing beforeSend filters', () => {
   it('does NOT suppress "Failed to fetch (<host>)" when stack has both first-party and extension frames', () => {
     // Safety property: a first-party panels-*.js frame means our code initiated
     // the fetch — must surface even if an extension also wrapped it, so a real
-    // api.worldmonitor.app outage isn't silenced for users who happen to run
+    // api.eagle-eye.app outage isn't silenced for users who happen to run
     // fetch-wrapping extensions.
-    const event = makeEvent('Failed to fetch (api.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('Failed to fetch (api.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/panels-wF5GXf0N.js', lineno: 24, function: 'window.fetch' },
       { filename: 'chrome-extension://hoklmmgfnpapgjgcpechhaamimifchmp/frame_ant/frame_ant.js', lineno: 2, function: 'window.fetch' },
     ]);
     assert.ok(beforeSend(event) !== null, 'First-party + extension Failed-to-fetch must reach Sentry');
   });
 
-  it('suppresses Firefox "NetworkError ... (data.debugbear.com)" — embedded RUM beacon, zero frames (WORLDMONITOR-RP)', () => {
+  it('suppresses Firefox "NetworkError ... (data.debugbear.com)" — embedded RUM beacon, zero frames (EAGLEEYE-RP)', () => {
     // Firefox's host-suffixed phrasing for a failed fetch. The DebugBear RUM
     // script (src/bootstrap/debugbear-rum.ts) POSTs field metrics to
     // data.debugbear.com; a dropped beacon surfaces via onunhandledrejection
@@ -721,11 +721,11 @@ describe('existing beforeSend filters', () => {
   });
 
   it('does NOT suppress Firefox "NetworkError ... (<host>)" for a NON-allowlisted first-party host', () => {
-    // Safety mirror of the Chrome `Failed to fetch (api.worldmonitor.app)`
+    // Safety mirror of the Chrome `Failed to fetch (api.eagle-eye.app)`
     // guard: the Firefox host-suffixed shape must still surface for our own
     // API so a real outage isn't silenced just because Firefox phrases the
     // network error differently.
-    const event = makeEvent('NetworkError when attempting to fetch resource. (api.worldmonitor.app)', 'TypeError', [
+    const event = makeEvent('NetworkError when attempting to fetch resource. (api.eagle-eye.app)', 'TypeError', [
       { filename: '/assets/panels-wF5GXf0N.js', lineno: 100, function: 'MyApiCall' },
     ]);
     assert.ok(beforeSend(event) !== null, 'Non-allowlisted host Firefox NetworkError must reach Sentry');
@@ -734,7 +734,7 @@ describe('existing beforeSend filters', () => {
   it('suppresses iOS Safari WKWebView "Cannot inject key into script value" regardless of first-party frame', () => {
     // The native throw always lands in a first-party caller; the existing
     // !hasFirstParty gate missed it. `UnknownError` type name is WebKit-only
-    // so scoping on excType is safe (WORLDMONITOR-NM).
+    // so scoping on excType is safe (EAGLEEYE-NM).
     const event = makeEvent('Cannot inject key into script value', 'UnknownError', [
       { filename: '/assets/panels-Dt68xLlT.js', lineno: 20, function: 'bootstrap' },
     ]);
@@ -753,7 +753,7 @@ describe('existing beforeSend filters', () => {
   it('suppresses Convex re-auth race on fetchToken (stack has tryToReauthenticate)', () => {
     // Convex SDK BaseConvexClient.tryToReauthenticate reads authState.config.fetchToken
     // during WebSocket reconnect when authState.config is still undefined. Known SDK
-    // internal, not actionable in our code (WORLDMONITOR-NJ).
+    // internal, not actionable in our code (EAGLEEYE-NJ).
     const event = makeEvent(
       "Cannot read properties of undefined (reading 'fetchToken')",
       'TypeError',
@@ -815,7 +815,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null);
   });
 
-  // WORLDMONITOR-MK: Fireglass (Symantec/Broadcom CloudSOC) console-hook recursion.
+  // EAGLEEYE-MK: Fireglass (Symantec/Broadcom CloudSOC) console-hook recursion.
   it('suppresses Fireglass RangeError with FireglassUtils frame', () => {
     const event = makeEvent('Maximum call stack size exceeded', 'RangeError', [
       { filename: '<anonymous>', lineno: 1, function: 'FireglassUtils.logInternal' },
@@ -832,7 +832,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'RangeError gate must limit blast radius');
   });
 
-  // WORLDMONITOR-MH: Chrome Mobile WebView 105+ duplex requirement, Dodo SDK path.
+  // EAGLEEYE-MH: Chrome Mobile WebView 105+ duplex requirement, Dodo SDK path.
   it('suppresses duplex error ONLY when checkout-*.js chunk is in the stack', () => {
     const event = makeEvent(
       "Failed to construct 'Request': The `duplex` member must be specified for a request with a streaming body",
@@ -854,7 +854,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'first-party runtime regression must still surface');
   });
 
-  // WORLDMONITOR-MP: Chrome extension intercepting maplibre fetch — suppress only when no first-party frames.
+  // EAGLEEYE-MP: Chrome extension intercepting maplibre fetch — suppress only when no first-party frames.
   it('suppresses chrome-extension-frame errors when no first-party frames are present', () => {
     const event = makeEvent('Failed to fetch (pub-x.r2.dev)', 'TypeError', [
       { filename: '/assets/maplibre-WH5fAPRo.js', lineno: 1, function: 'FetchSource.load' }, // vendor chunk → not first-party
@@ -880,7 +880,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'first-party bug must surface even if an extension frame is on the stack');
   });
 
-  // WORLDMONITOR-MQ: Sentry SDK DOM breadcrumb null.contains crash — suppress only when no first-party frames.
+  // EAGLEEYE-MQ: Sentry SDK DOM breadcrumb null.contains crash — suppress only when no first-party frames.
   it("suppresses null 'contains' read on a sentry-*.js frame with no first-party frames", () => {
     const event = makeEvent("Cannot read properties of null (reading 'contains')", 'TypeError', [
       { filename: '/assets/sentry-C2sjIlLb.js', lineno: 1, function: 'HTMLDocument.r' },
@@ -903,7 +903,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'first-party null.contains must still surface');
   });
 
-  // WORLDMONITOR-MV: Convex WS onmessage JSON.parse truncation — suppress only when stack has no first-party frames.
+  // EAGLEEYE-MV: Convex WS onmessage JSON.parse truncation — suppress only when stack has no first-party frames.
   it('suppresses SyntaxError "is not valid JSON" with onmessage frame and no first-party frames', () => {
     const event = makeEvent(
       'Unexpected token \'p\', "pdated","Ping"}" is not valid JSON',
@@ -923,7 +923,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, 'first-party onmessage regression must surface');
   });
 
-  // WORLDMONITOR-RA: SnapTube (Android video-downloader in-app WebView) JS bridge
+  // EAGLEEYE-RA: SnapTube (Android video-downloader in-app WebView) JS bridge
   // parses its own `undefined` payload. `/SnapTube/` already sits in ignoreErrors,
   // but that layer matches the MESSAGE only — here the attribution lives purely in a
   // frame function, so it needs the stack-aware layer.
@@ -956,7 +956,7 @@ describe('existing beforeSend filters', () => {
     );
   });
 
-  // WORLDMONITOR-NR: deck.gl/maplibre internal null-access on Layer.isHidden
+  // EAGLEEYE-NR: deck.gl/maplibre internal null-access on Layer.isHidden
   // during render (Safari 26.4 beta, empty stacks preceded by DeckGLMap map-error
   // breadcrumbs). `\w{1,3}\.isHidden` is gated on !hasFirstParty so a genuine
   // SmartPollContext.isHidden regression in runtime.ts still surfaces.
@@ -990,7 +990,7 @@ describe('existing beforeSend filters', () => {
     assert.ok(beforeSend(event) !== null, '4+ char symbol accessing .isHidden must still surface');
   });
 
-  // WORLDMONITOR-NQ: Safari short-var ReferenceError ("Can't find variable: ss")
+  // EAGLEEYE-NQ: Safari short-var ReferenceError ("Can't find variable: ss")
   // from userscript/extension injection. Gated on empty stack + !hasFirstParty +
   // 1–2 char var name so a real "foo is not defined" from our code still surfaces.
   it("suppresses \"Can't find variable: ss\" with empty stack", () => {
@@ -1021,7 +1021,7 @@ describe('existing beforeSend filters', () => {
 
 });
 
-// ─── WORLDMONITOR-SQ: ProgressEvent rejection ignoreErrors entry ──────────
+// ─── EAGLEEYE-SQ: ProgressEvent rejection ignoreErrors entry ──────────
 //
 // A raw DOM `ProgressEvent` (type=error) from a failed resource/XHR load that
 // leaks via onunhandledrejection. Sentry synthesizes the message
@@ -1030,7 +1030,7 @@ describe('existing beforeSend filters', () => {
 // FileReader onerror handlers all reject wrapped Errors; the lone XHR caller is
 // fire-and-forget + Tauri-only where Sentry is disabled), so it goes in
 // ignoreErrors alongside the CustomEvent sibling.
-describe('ignoreErrors — ProgressEvent promise rejection (WORLDMONITOR-SQ)', () => {
+describe('ignoreErrors — ProgressEvent promise rejection (EAGLEEYE-SQ)', () => {
   const PROD_MSG = 'Event `ProgressEvent` (type=error) captured as promise rejection';
   const progressEventPattern = ignoreErrors.find(
     p => p instanceof RegExp && /ProgressEvent/.test(p.source));
@@ -1051,7 +1051,7 @@ describe('ignoreErrors — ProgressEvent promise rejection (WORLDMONITOR-SQ)', (
   });
 });
 
-// ─── WORLDMONITOR-SP: SyntaxError through the deck.gl/maplibre init path ───
+// ─── EAGLEEYE-SP: SyntaxError through the deck.gl/maplibre init path ───
 //
 // `SyntaxError: Invalid or unexpected token` (and the Unexpected token/EOF
 // family) surfacing through deck.gl/maplibre WebGL init. Our compiled bundle
@@ -1060,8 +1060,8 @@ describe('ignoreErrors — ProgressEvent promise rejection (WORLDMONITOR-SQ)', (
 // `new Function` shader builder, or a stale/corrupt lazy chunk). The pre-
 // existing `!hasFirstParty` token-parse gate misses it because `initDeck` rides
 // the stack as the caller, so this gate keys off a deck-stack/maplibre frame.
-describe('SyntaxError via deck.gl/maplibre init path (WORLDMONITOR-SP)', () => {
-  // Mirrors the real WORLDMONITOR-SP stack: deck-stack + maplibre vendor frames
+describe('SyntaxError via deck.gl/maplibre init path (EAGLEEYE-SP)', () => {
+  // Mirrors the real EAGLEEYE-SP stack: deck-stack + maplibre vendor frames
   // plus the first-party MapContainer.initDeck caller.
   const mapInitStack = [
     { filename: '/assets/deck-stack-Dq2qX5Bt.js', lineno: 1606, function: 'Go._getViews' },
@@ -1105,14 +1105,14 @@ describe('SyntaxError via deck.gl/maplibre init path (WORLDMONITOR-SP)', () => {
   });
 });
 
-// ─── WORLDMONITOR-TG: mainWorldSdk extension-global ReferenceError ─────────
+// ─── EAGLEEYE-TG: mainWorldSdk extension-global ReferenceError ─────────
 //
 // A browser-extension SDK injected into the page's main world references its
 // `mainWorldSdk` global before defining it (Edge 148 / Windows, anonymous-
 // frames-only stack). `mainWorldSdk` is nowhere in our bundle, so the message
 // can never originate from our own code — it goes in ignoreErrors alongside the
 // other named extension/webview globals (crusoe, vc_request_action, nmhCrx).
-describe('ignoreErrors — mainWorldSdk extension global (WORLDMONITOR-TG)', () => {
+describe('ignoreErrors — mainWorldSdk extension global (EAGLEEYE-TG)', () => {
   const PROD_MSG = 'mainWorldSdk is not defined';
   const pattern = ignoreErrors.find(p => p instanceof RegExp && /mainWorldSdk/.test(p.source));
 
@@ -1133,7 +1133,7 @@ describe('ignoreErrors — mainWorldSdk extension global (WORLDMONITOR-TG)', () 
   });
 });
 
-// ─── WORLDMONITOR-VR/VV/VW/VX/VY/VS/VT/VZ: injected browser-automation harness ─
+// ─── EAGLEEYE-VR/VV/VW/VX/VY/VS/VT/VZ: injected browser-automation harness ─
 //
 // An external browser-automation agent (Floot) drove the dashboard on 2026-07-09.
 // Its injected selector-resolution helpers (helperGetStyle et al., <anonymous>
@@ -1188,7 +1188,7 @@ describe('injected browser-automation harness errors (Floot)', () => {
   });
 });
 
-// ─── WORLDMONITOR-VC: bare "Failed to fetch" through DebugBear's fetch wrapper ─
+// ─── EAGLEEYE-VC: bare "Failed to fetch" through DebugBear's fetch wrapper ─
 //
 // DebugBear's RUM collector (cdn.debugbear.com/<id>.js → frame `/lpMwA9KpC6pf.js`)
 // monkeypatches window.fetch to time it. A transient network blip on any app
@@ -1199,8 +1199,8 @@ describe('injected browser-automation harness errors (Floot)', () => {
 // zero-frame and already suppressed. Suppress only when a DebugBear frame is
 // present AND every non-infra frame is that collector or a bare window.fetch
 // trampoline, so a genuine uncaught first-party fetch rejection still surfaces.
-describe('bare "Failed to fetch" via DebugBear RUM fetch wrapper (WORLDMONITOR-VC)', () => {
-  // Verbatim production stack from WORLDMONITOR-VC.
+describe('bare "Failed to fetch" via DebugBear RUM fetch wrapper (EAGLEEYE-VC)', () => {
+  // Verbatim production stack from EAGLEEYE-VC.
   const vcStack = [
     { filename: '/lpMwA9KpC6pf.js', lineno: 1, function: null },
     { filename: '/lpMwA9KpC6pf.js', lineno: 8, function: null },
@@ -1284,7 +1284,7 @@ describe('bare "Failed to fetch" via DebugBear RUM fetch wrapper (WORLDMONITOR-V
     assert.ok(beforeSend(event) !== null, 'gate is scoped to the bare Failed-to-fetch message');
   });
 
-  // WORLDMONITOR-VQ (20ev/12u, 2026-07-09+): the SAME DebugBear-wrapper class as
+  // EAGLEEYE-VQ (20ev/12u, 2026-07-09+): the SAME DebugBear-wrapper class as
   // VC, slipping the gate because a later Vite build emits the trampoline frame
   // with a minified receiver prefix — `Rt.window.fetch` instead of the bare
   // `window.fetch` VC carried. The anchored `^(?:window\.)?fetch$` function match
@@ -1335,17 +1335,17 @@ describe('bare "Failed to fetch" via DebugBear RUM fetch wrapper (WORLDMONITOR-V
   });
 });
 
-// ─── WORLDMONITOR-WH/WJ: `Failed to fetch (abacus.worldmonitor.app)` ──────────
+// ─── EAGLEEYE-WH/WJ: `Failed to fetch (abacus.eagle-eye.app)` ──────────
 //
-// abacus.worldmonitor.app is our SELF-HOSTED Umami analytics collector
-// (src/services/analytics.ts → `https://abacus.worldmonitor.app/script.js`, which
+// abacus.eagle-eye.app is our SELF-HOSTED Umami analytics collector
+// (src/services/analytics.ts → `https://abacus.eagle-eye.app/script.js`, which
 // POSTs events to `/api/send`). A dropped analytics beacon is invisible to the
 // user and unactionable — the same disposition as the `data.debugbear.com` RUM
 // collector above. It reaches Sentry because the leaked rejection carries our
 // Vite `window.fetch` trampolines (widget-store / panel-storage), which make
 // hasFirstParty true and so defeat the extension-only gate.
-describe('`Failed to fetch (abacus.worldmonitor.app)` — Umami beacon (WORLDMONITOR-WH/WJ)', () => {
-  // Verbatim production stack from WORLDMONITOR-WH.
+describe('`Failed to fetch (abacus.eagle-eye.app)` — Umami beacon (EAGLEEYE-WH/WJ)', () => {
+  // Verbatim production stack from EAGLEEYE-WH.
   const whStack = [
     { filename: '/script.js', lineno: 1, function: 'C' },
     { filename: '/assets/sentry-DMxp_zBn.js', lineno: 1, function: null },
@@ -1356,24 +1356,24 @@ describe('`Failed to fetch (abacus.worldmonitor.app)` — Umami beacon (WORLDMON
   ];
 
   it('suppresses the exact WH stack (Umami beacon through an extension fetch wrapper)', () => {
-    assert.equal(beforeSend(makeEvent('Failed to fetch (abacus.worldmonitor.app)', 'TypeError', whStack)), null,
+    assert.equal(beforeSend(makeEvent('Failed to fetch (abacus.eagle-eye.app)', 'TypeError', whStack)), null,
       'a dropped Umami analytics beacon is unactionable');
   });
 
   it('suppresses the Firefox host-suffixed phrasing for the same host', () => {
-    const event = makeEvent('NetworkError when attempting to fetch resource. (abacus.worldmonitor.app)', 'TypeError', []);
+    const event = makeEvent('NetworkError when attempting to fetch resource. (abacus.eagle-eye.app)', 'TypeError', []);
     assert.equal(beforeSend(event), null, 'host allowlist decides regardless of engine phrasing');
   });
 
-  it('still surfaces `Failed to fetch (api.worldmonitor.app)` with the same stack shape', () => {
+  it('still surfaces `Failed to fetch (api.eagle-eye.app)` with the same stack shape', () => {
     // The allowlist is host-scoped, so adding the beacon host must not widen the
     // gate for our data-serving API — a real outage still has to reach Sentry.
-    const event = makeEvent('Failed to fetch (api.worldmonitor.app)', 'TypeError', whStack);
+    const event = makeEvent('Failed to fetch (api.eagle-eye.app)', 'TypeError', whStack);
     assert.ok(beforeSend(event) !== null, 'API-outage canary must never be masked by the beacon allowlist');
   });
 });
 
-// ─── WORLDMONITOR-Y4: bare minified trampoline hop in a DebugBear stack ───────
+// ─── EAGLEEYE-Y4: bare minified trampoline hop in a DebugBear stack ───────
 //
 // Third build-rename of the VC/VQ wrapper. Vite emitted one hop of the
 // `window.fetch` trampoline as a bare minified `t`, which no fetch-anchored
@@ -1416,7 +1416,7 @@ describe('sentry beforeSend — Y4 bare minified trampoline hop', () => {
   });
 });
 
-// ─── WORLDMONITOR-WK: zero-frame RangeError confined to iOS ───────────────────
+// ─── EAGLEEYE-WK: zero-frame RangeError confined to iOS ───────────────────
 //
 // 23 events / 20 users, 100% iOS, 21 inside the Google app's in-app WebView.
 // A blown stack is exactly when the SDK cannot collect frames, so zero frames

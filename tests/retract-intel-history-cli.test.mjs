@@ -257,7 +257,7 @@ describe('runRetractCli', () => {
       assert.equal(calls[0].url, `https://example-deployment.convex.site${path}`);
       assert.equal(
         calls[0].init.headers['User-Agent'],
-        'worldmonitor-retract-intel-history/1.0',
+        'eagleeye-retract-intel-history/1.0',
       );
     }
   });

@@ -646,7 +646,7 @@ describe('installSwUpdateHandler', () => {
 });
 
 // ---------------------------------------------------------------------------
-// readServiceWorkerContainer — sandboxed-iframe SecurityError (WORLDMONITOR-Y5)
+// readServiceWorkerContainer — sandboxed-iframe SecurityError (EAGLEEYE-Y5)
 // ---------------------------------------------------------------------------
 
 describe('readServiceWorkerContainer', () => {

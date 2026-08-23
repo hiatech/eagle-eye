@@ -24,7 +24,7 @@ export type BootstrapR2RumResult =
 
 const SERVER_TIMING_RE = /(?:^|,)\s*wm_bootstrap_redis\s*;\s*dur\s*=\s*(\d+(?:\.\d+)?)\s*(?:,|$)/i;
 const REDIS_DURATION_RE = /^\d+(?:\.\d+)?$/;
-const REDIS_DURATION_HEADER = 'x-worldmonitor-bootstrap-redis-duration';
+const REDIS_DURATION_HEADER = 'x-eagleeye-bootstrap-redis-duration';
 const CLOUDFLARE_ORIGIN_STATES = new Set(['DYNAMIC', 'BYPASS', 'MISS']);
 
 export function selectBootstrapR2RumTier(rng: () => number = Math.random): BootstrapR2RumTier {

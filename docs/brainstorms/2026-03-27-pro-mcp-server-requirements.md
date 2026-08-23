@@ -3,16 +3,16 @@ date: 2026-03-27
 topic: pro-mcp-server
 ---
 
-# WorldMonitor PRO MCP Server
+# EagleEye PRO MCP Server
 
 ## Problem Frame
 
-WorldMonitor accumulates, curates, and caches real-time intelligence across 25+ domains. PRO users currently access this data only through the web UI or desktop app. They cannot query it from Claude Desktop, Cursor, Windsurf, or any MCP-compatible AI agent. This creates a hard wall between WorldMonitor's data layer and AI workflows. The MCP server removes that wall: PRO API key holders point their MCP client at `https://api.worldmonitor.app/mcp` and WorldMonitor data becomes natively queryable from any AI agent.
+EagleEye accumulates, curates, and caches real-time intelligence across 25+ domains. PRO users currently access this data only through the web UI or desktop app. They cannot query it from Claude Desktop, Cursor, Windsurf, or any MCP-compatible AI agent. This creates a hard wall between EagleEye's data layer and AI workflows. The MCP server removes that wall: PRO API key holders point their MCP client at `https://api.eagle-eye.app/mcp` and EagleEye data becomes natively queryable from any AI agent.
 
 ## Requirements
 
 - R1. A new Vercel edge function at `api/mcp.ts` implements the MCP Streamable HTTP transport (protocol version `2025-03-26`), handling `initialize`, `tools/list`, and `tools/call` JSON-RPC methods.
-- R2. All requests require a valid PRO API key via `X-WorldMonitor-Key` header, validated against `WORLDMONITOR_VALID_KEYS` using the existing `validateApiKey()` helper. Unauthenticated requests return a JSON-RPC error (code -32001).
+- R2. All requests require a valid PRO API key via `X-EagleEye-Key` header, validated against `EAGLEEYE_VALID_KEYS` using the existing `validateApiKey()` helper. Unauthenticated requests return a JSON-RPC error (code -32001).
 - R3. The server exposes one MCP tool per logical domain group. Tools read from the Redis bootstrap cache (Upstash) — no upstream API calls during tool execution.
 - R4. Rate limiting reuses the existing per-key Redis rate limiter (same mechanism as the widget agent), enforced before tool execution. Exceeded limit returns a JSON-RPC error (code -32029).
 - R5. `tools/list` returns all tools regardless of which domains have fresh cache data. Stale or empty cache is a tool-call concern, not a registration concern.
@@ -43,7 +43,7 @@ WorldMonitor accumulates, curates, and caches real-time intelligence across 25+ 
 
 ## Success Criteria
 
-- A PRO user can add WorldMonitor as an MCP server in Claude Desktop using only their API key and `https://api.worldmonitor.app/mcp` as the URL — no install, no CLI.
+- A PRO user can add EagleEye as an MCP server in Claude Desktop using only their API key and `https://api.eagle-eye.app/mcp` as the URL — no install, no CLI.
 - `tools/list` response is < 500ms (served from in-memory registry, no Redis calls).
 - Tool calls that hit warm Redis cache respond in < 800ms end-to-end.
 - All 17 tools return valid JSON-RPC responses (not 500s) even when cache is empty (return empty arrays with `stale: true`).
@@ -69,7 +69,7 @@ WorldMonitor accumulates, curates, and caches real-time intelligence across 25+ 
 ## Dependencies / Assumptions
 
 - All tool domains have active seed scripts or relay loops keeping Redis fresh (true as of 2026-03-27, per health.js BOOTSTRAP_KEYS).
-- `WORLDMONITOR_VALID_KEYS` env var is already set in Vercel production (it is — used by desktop auth).
+- `EAGLEEYE_VALID_KEYS` env var is already set in Vercel production (it is — used by desktop auth).
 - The Upstash Redis client (`@upstash/redis`) is already in package.json (it is).
 - MCP Streamable HTTP transport is supported by Claude Desktop as of protocol version 2025-03-26 (confirmed in `api/mcp-proxy.js`).
 

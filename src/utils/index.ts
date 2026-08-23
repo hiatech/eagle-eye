@@ -23,7 +23,7 @@ export function formatTime(date: Date): string {
 // null, and `null`/NaN/Infinity slip through call-site `!` assertions on
 // `number | null` fields. Shared guard so every formatter renders the
 // unavailable state instead of throwing or emitting misleading output
-// (WORLDMONITOR-SH).
+// (EAGLEEYE-SH).
 function isFiniteNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value);
 }

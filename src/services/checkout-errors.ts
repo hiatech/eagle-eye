@@ -187,7 +187,7 @@ export function classifySyntheticCheckoutError(
  * carries enough information to identify whether Cloudflare, Vercel,
  * or our own app emitted it.
  *
- * Originating triage: WORLDMONITOR-RN — a 403 on /api/create-checkout
+ * Originating triage: EAGLEEYE-RN — a 403 on /api/create-checkout
  * had no signal beyond status code because the old failure path called
  * `resp.json().catch(() => ({}))` and discarded both the response body
  * (Cloudflare 403 pages are HTML and silently became `{}`) AND the
@@ -274,7 +274,7 @@ export type CheckoutSuccessBodyOutcome =
  * code 12), which escaped past the "200 without a usable checkout_url"
  * contract-violation reporter into the generic catch — losing the
  * upstream snapshot and splitting one bug across a Sentry fingerprint per
- * browser engine. WORLDMONITOR-XV.
+ * browser engine. EAGLEEYE-XV.
  *
  * An unusable body stays distinct from a well-formed one missing
  * checkout_url, which the caller reports separately. Same plain-object-only

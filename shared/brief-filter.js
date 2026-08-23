@@ -1,4 +1,4 @@
-// Pure helpers for composing a WorldMonitor Brief envelope from
+// Pure helpers for composing a EagleEye Brief envelope from
 // upstream news:insights:v1 content + a user's alert-rule preferences.
 //
 // Split into its own module so Phase 3a (stubbed digest text) and

@@ -85,7 +85,7 @@ describe('public product facts generation contract', () => {
 
     assert.deepEqual(publicFacts, sharedFacts);
     assert.equal(sharedFacts.product.lifecycle, 'launched');
-    assert.equal(sharedFacts.product.pricingUrl, 'https://www.worldmonitor.app/pro#pricing');
+    assert.equal(sharedFacts.product.pricingUrl, 'https://www.eagle-eye.app/pro#pricing');
     assert.equal(sharedFacts.product.primaryCtaLabel, 'View Pro plans');
     assert.equal(sharedFacts.currency, 'USD');
     assert.equal(sharedFacts.capabilities.mcpTools, registryToolCount());

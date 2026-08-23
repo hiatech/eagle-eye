@@ -104,14 +104,14 @@ describe('consumer-price coverage summaries', () => {
   });
 });
 
-// #6059 — the marker that permanently revokes WorldMonitor health's bounded
+// #6059 — the marker that permanently revokes EagleEye health's bounded
 // deploy-before-cron softening for a market. It is irreversible, so the bar is
 // "this market really published coverage", not "the publisher ran".
 describe('coverage schema activation handshake', () => {
   const marketWith = (overrides: Partial<Parameters<typeof summarizeRetailerCoverage>[0]>[]) =>
     summarizeMarketCoverage('ae', '2026-08-01T00:00:00.000Z', overrides.map((o) => retailer(o)));
 
-  it('pins the versioned key shape WorldMonitor health probes with EXISTS', () => {
+  it('pins the versioned key shape EagleEye health probes with EXISTS', () => {
     expect(COVERAGE_ACTIVATION_SCHEMA_VERSION).toBe(1);
     expect(coverageActivationKey('us')).toBe('seed-activated:consumer-prices:coverage:v1:us');
     // The version lives IN the key so a future coverage shape cannot inherit

@@ -36,7 +36,7 @@ afterEach(() => {
 describe('content attribution contract', () => {
   it('parses direct handoffs into the closed reporting dimensions', () => {
     const attribution = parseContentAttribution(
-      '?wm_content_source=worldmonitor-blog'
+      '?wm_content_source=eagleeye-blog'
         + '&wm_content_medium=owned-content'
         + '&wm_content_campaign=country-risk'
         + '&wm_content_destination=dashboard'
@@ -45,7 +45,7 @@ describe('content attribution contract', () => {
     );
 
     assert.deepEqual(attribution, {
-      source: 'worldmonitor-blog',
+      source: 'eagleeye-blog',
       medium: 'owned-content',
       campaign: 'country-risk',
       destination: 'dashboard',
@@ -56,9 +56,9 @@ describe('content attribution contract', () => {
 
   it('keeps destination URLs bounded and preserves existing query fields', () => {
     const url = new URL(appendContentAttributionToUrl(
-      'https://www.worldmonitor.app/pro?ref=affiliate&utm_source=chatgpt.com#pricing',
+      'https://www.eagle-eye.app/pro?ref=affiliate&utm_source=chatgpt.com#pricing',
       {
-        source: 'worldmonitor-blog',
+        source: 'eagleeye-blog',
         medium: 'owned-content',
         campaign: 'country-risk',
         destination: 'pro',
@@ -75,7 +75,7 @@ describe('content attribution contract', () => {
 
   it('copies inbound UTMs without overwriting or copying affiliate parameters', () => {
     const url = new URL(appendInboundUtmParams(
-      'https://www.worldmonitor.app/pro?ref=affiliate&utm_campaign=existing',
+      'https://www.eagle-eye.app/pro?ref=affiliate&utm_campaign=existing',
       '?utm_source=chatgpt.com&utm_campaign=inbound&utm_medium=referral&wm_referral=partner',
     ));
 
@@ -108,7 +108,7 @@ describe('content attribution contract', () => {
 
   it('sends only content dimensions to product events', () => {
     const attribution = normalizeContentAttribution({
-      source: 'worldmonitor-blog',
+      source: 'eagleeye-blog',
       medium: 'owned-content',
       campaign: 'country-risk',
       destination: 'mcp',
@@ -119,7 +119,7 @@ describe('content attribution contract', () => {
 
     assert.deepEqual(withContentAttribution({ eventValue: 'safe' }, attribution), {
       eventValue: 'safe',
-      contentSource: 'worldmonitor-blog',
+      contentSource: 'eagleeye-blog',
       contentMedium: 'owned-content',
       contentCampaign: 'country-risk',
       contentDestination: 'mcp',
@@ -147,8 +147,8 @@ describe('content attribution contract', () => {
   it('captures a direct handoff once, cleans the URL, and persists the record', () => {
     const storage = new MemoryStorage();
     const location = {
-      href: 'https://www.worldmonitor.app/dashboard'
-        + '?wm_content_source=worldmonitor-blog'
+      href: 'https://www.eagle-eye.app/dashboard'
+        + '?wm_content_source=eagleeye-blog'
         + '&wm_content_medium=owned-content'
         + '&wm_content_campaign=country-risk'
         + '&wm_content_destination=dashboard'
@@ -171,7 +171,7 @@ describe('content attribution contract', () => {
     const captured = captureContentAttributionFromUrl();
     assert.ok(captured);
     assert.deepEqual({ ...captured, capturedAt: undefined }, {
-      source: 'worldmonitor-blog',
+      source: 'eagleeye-blog',
       medium: 'owned-content',
       campaign: 'country-risk',
       destination: 'dashboard',
@@ -183,7 +183,7 @@ describe('content attribution contract', () => {
     assert.equal(new URL(location.href).hash, '#overview');
 
     const stored = JSON.parse(storage.getItem(CONTENT_ATTRIBUTION_STORAGE_KEY)!);
-    assert.equal(stored.source, 'worldmonitor-blog');
+    assert.equal(stored.source, 'eagleeye-blog');
     assert.equal(stored.destination, 'dashboard');
     assert.equal(typeof stored.capturedAt, 'number');
     assert.equal(captureContentAttributionFromUrl(), null);

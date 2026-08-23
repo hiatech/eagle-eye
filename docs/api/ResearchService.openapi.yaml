@@ -3,10 +3,10 @@ info:
     title: ResearchService API
     version: 1.0.0
 security:
-    - WorldMonitorKey: []
+    - EagleEyeKey: []
     - ApiKeyHeader: []
 servers:
-    - url: https://api.worldmonitor.app
+    - url: https://api.eagle-eye.app
 paths:
     /api/research/v1/list-arxiv-papers:
         get:
@@ -52,7 +52,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -73,9 +73,9 @@ paths:
                                           - "example"
                                       "id": "example-id"
                                       "publishedAt": 1717200000000
-                                      "summary": "Example WorldMonitor observation."
+                                      "summary": "Example EagleEye observation."
                                       "title": "example"
-                                      "url": "https://example.com/worldmonitor"
+                                      "url": "https://example.com/eagleeye"
                             schema:
                                 $ref: '#/components/schemas/ListArxivPapersResponse'
                 "400":
@@ -171,7 +171,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -186,9 +186,9 @@ paths:
                                     "nextCursor": "next-page-token"
                                     "totalCount": 1
                                 "repos":
-                                    - "description": "Example WorldMonitor observation."
+                                    - "description": "Example EagleEye observation."
                                       "forks": 1
-                                      "fullName": "koala73/worldmonitor"
+                                      "fullName": "hiatech/eagle-eye"
                                       "language": "typescript"
                                       "stars": 1
                                       "starsToday": 1
@@ -287,7 +287,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -414,7 +414,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -435,7 +435,7 @@ paths:
                                         "lng": -74.006
                                         "original": "example"
                                         "virtual": true
-                                      "description": "Example WorldMonitor observation."
+                                      "description": "Example EagleEye observation."
                                       "endDate": "2026-01-15"
                                       "id": "example-id"
                                       "location": "example"
@@ -497,16 +497,16 @@ paths:
                                     - $ref: '#/components/schemas/GatewayError'
 components:
     securitySchemes:
-        WorldMonitorKey:
+        EagleEyeKey:
             type: apiKey
             in: header
-            name: X-WorldMonitor-Key
-            description: User-issued WorldMonitor API key.
+            name: X-EagleEye-Key
+            description: User-issued EagleEye API key.
         ApiKeyHeader:
             type: apiKey
             in: header
             name: X-Api-Key
-            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).
+            description: Alias header for the EagleEye API key (X-EagleEye-Key).
     schemas:
         JmespathProjectionError:
             description: Returned when a REST jmespath projection is invalid or exceeds the expression/output byte limits.

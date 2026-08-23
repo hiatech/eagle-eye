@@ -1,4 +1,4 @@
-// Deterministic renderer for the WorldMonitor Brief magazine.
+// Deterministic renderer for the EagleEye Brief magazine.
 //
 // Pure function: (BriefEnvelope) -> HTML string. No I/O, no LLM calls,
 // no network, no time-dependent output. The composer writes the
@@ -18,8 +18,8 @@
 //
 // Source references:
 //   - Visual prototype: .claude/worktrees/zany-chasing-boole/digest-magazine.html
-//   - Brainstorm: docs/brainstorms/2026-04-17-worldmonitor-brief-magazine-requirements.md
-//   - Plan: docs/plans/2026-04-17-003-feat-worldmonitor-brief-magazine-plan.md
+//   - Brainstorm: docs/brainstorms/2026-04-17-eagleeye-brief-magazine-requirements.md
+//   - Plan: docs/plans/2026-04-17-003-feat-eagleeye-brief-magazine-plan.md
 
 import { BRIEF_ENVELOPE_VERSION, SUPPORTED_ENVELOPE_VERSIONS } from '../../shared/brief-envelope.js';
 
@@ -423,7 +423,7 @@ function logoRef({ size, color }) {
   const styleAttr = color ? ` style="color: ${color};"` : '';
   return (
     `<svg class="wm-logo" width="${size}" height="${size}" viewBox="0 0 64 64" ` +
-    `aria-label="WorldMonitor"${styleAttr}>` +
+    `aria-label="EagleEye"${styleAttr}>` +
     '<use href="#wm-logo-core"/>' +
     '</svg>'
   );
@@ -437,7 +437,7 @@ function digestRunningHead(dateShort, label) {
     '<div class="running-head">' +
     '<span class="mono left">' +
     logoRef({ size: 22 }) +
-    ` · WorldMonitor Brief · ${escapeHtml(dateShort)} ·` +
+    ` · EagleEye Brief · ${escapeHtml(dateShort)} ·` +
     '</span>' +
     `<span class="mono">${escapeHtml(label)}</span>` +
     '</div>'
@@ -471,13 +471,13 @@ function renderCover({ dateLong, issue, storyCount, pageIndex, totalPages, greet
     '<div class="meta-top">' +
     '<span class="brand">' +
     logoRef({ size: 48 }) +
-    '<span class="mono">WorldMonitor</span>' +
+    '<span class="mono">EagleEye</span>' +
     '</span>' +
     `<span class="mono">Issue № ${escapeHtml(issue)}</span>` +
     '</div>' +
     '<div class="hero">' +
     `<div class="kicker">${escapeHtml(dateLong)}</div>` +
-    '<h1>WorldMonitor<br/>Brief.</h1>' +
+    '<h1>EagleEye<br/>Brief.</h1>' +
     `<p class="blurb">${escapeHtml(blurb)}</p>` +
     '</div>' +
     '<div class="meta-bottom">' +
@@ -622,7 +622,7 @@ function renderDigestSignals({ signals, dateShort, pageIndex, totalPages }) {
 function buildTrackedSourceUrl(raw, issueDate, rank) {
   try {
     const u = new URL(raw);
-    if (!u.searchParams.has('utm_source')) u.searchParams.set('utm_source', 'worldmonitor');
+    if (!u.searchParams.has('utm_source')) u.searchParams.set('utm_source', 'eagleeye');
     if (!u.searchParams.has('utm_medium')) u.searchParams.set('utm_medium', 'brief');
     if (!u.searchParams.has('utm_campaign')) u.searchParams.set('utm_campaign', issueDate);
     if (!u.searchParams.has('utm_content')) u.searchParams.set('utm_content', `story-${pad2(rank)}`);
@@ -705,7 +705,7 @@ function renderStoryPage({ story, rank, palette, pageIndex, totalPages, issueDat
     '</div>' +
     '<div class="logo-chrome">' +
     logoRef({ size: 28 }) +
-    '<span class="mono">WorldMonitor Brief</span>' +
+    '<span class="mono">EagleEye Brief</span>' +
     '</div>' +
     `<div class="page-number mono">${pad2(pageIndex)} / ${pad2(totalPages)}</div>` +
     '</section>'
@@ -723,8 +723,8 @@ function renderStoryPage({ story, rank, palette, pageIndex, totalPages, issueDat
  */
 function renderBackCover({ tz, pageIndex, totalPages, publicMode, refCode }) {
   const ctaHref = publicMode
-    ? `https://worldmonitor.app/pro${refCode ? `?ref=${encodeURIComponent(refCode)}` : ''}`
-    : 'https://worldmonitor.app';
+    ? `https://eagle-eye.app/pro${refCode ? `?ref=${encodeURIComponent(refCode)}` : ''}`
+    : 'https://eagle-eye.app';
   const kicker = publicMode
     ? 'You\u2019re reading a shared brief'
     : 'Thank you for reading';
@@ -733,9 +733,9 @@ function renderBackCover({ tz, pageIndex, totalPages, publicMode, refCode }) {
     : 'End of<br/>Transmission.';
   const metaLeft = publicMode
     ? `<a href="${escapeHtml(ctaHref)}" class="mono back-cta" target="_blank" rel="noopener">Subscribe \u2192</a>`
-    : '<span class="mono">worldmonitor.app</span>';
+    : '<span class="mono">eagle-eye.app</span>';
   const metaRight = publicMode
-    ? '<span class="mono">worldmonitor.app</span>'
+    ? '<span class="mono">eagle-eye.app</span>'
     : `<span class="mono">Next brief \u00b7 08:00 ${escapeHtml(tz)}</span>`;
   return (
     '<section class="page cover back">' +
@@ -759,7 +759,7 @@ function renderBackCover({ tz, pageIndex, totalPages, publicMode, refCode }) {
 
 const STYLE_BLOCK = `<style>
   :root {
-    /* WorldMonitor brand palette — aligned with /pro landing + dashboard.
+    /* EagleEye brand palette — aligned with /pro landing + dashboard.
        Previous sienna rust (#8b3a1f) was the only off-brand color in the
        product; swapped to WM mint at two strengths so the accent harmonises
        on both light and dark pages. Paper unified to a single crisp white
@@ -1189,8 +1189,8 @@ const SHARE_SCRIPT = `<script>
     if (btn.dataset.state === 'sharing') return;
     btn.dataset.state = 'sharing';
     try {
-      var shareTitle = 'WorldMonitor Brief';
-      var shareText = 'My WorldMonitor Brief for today:';
+      var shareTitle = 'EagleEye Brief';
+      var shareText = 'My EagleEye Brief for today:';
       if (navigator.share) {
         try {
           await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
@@ -1223,13 +1223,13 @@ const SHARE_SCRIPT = `<script>
 </script>`;
 
 // Umami analytics loader, mirroring the production snippet in
-// index.html. Hosted magazine pages are served from worldmonitor.app
+// index.html. Hosted magazine pages are served from eagle-eye.app
 // (the auth'd route) and the public-share hash mirror — both within
 // `data-domains`. The `async` script never blocks rendering; if it's
 // blocked by an extension, BRIEF_THREAD_OPEN_SCRIPT silently no-ops.
 // Same data-website-id as the dashboard so events land in the same
 // project — segmentation is via event properties, not website ids.
-const UMAMI_LOADER = '<script async src="https://abacus.worldmonitor.app/script.js" data-website-id="e8800335-c853-46a8-8497-c993ed2f58bc" data-domains="worldmonitor.app,tech.worldmonitor.app,finance.worldmonitor.app,commodity.worldmonitor.app,happy.worldmonitor.app"></script>';
+const UMAMI_LOADER = '<script async src="https://abacus.eagle-eye.app/script.js" data-website-id="e8800335-c853-46a8-8497-c993ed2f58bc" data-domains="eagle-eye.app,tech.eagle-eye.app,finance.eagle-eye.app,commodity.eagle-eye.app,happy.eagle-eye.app"></script>';
 
 /**
  * U11 telemetry: emit a `brief-thread-open` event whenever a story
@@ -1415,7 +1415,7 @@ function redactForPublic(data) {
     : derivePublicThreadsStub(data.stories);
   return {
     ...data,
-    user: { ...data.user, name: 'WorldMonitor' },
+    user: { ...data.user, name: 'EagleEye' },
     digest: {
       ...data.digest,
       lead: safeLead,
@@ -1424,7 +1424,7 @@ function redactForPublic(data) {
     },
     stories: data.stories.map((s) => ({
       ...s,
-      whyMatters: 'Subscribe to WorldMonitor Brief to see the full editorial on this story.',
+      whyMatters: 'Subscribe to EagleEye Brief to see the full editorial on this story.',
     })),
   };
 }
@@ -1610,15 +1610,15 @@ export function renderBriefMagazine(envelope, options = {}) {
     }),
   );
 
-  const title = `WorldMonitor Brief · ${escapeHtml(dateLong)}`;
+  const title = `EagleEye Brief · ${escapeHtml(dateLong)}`;
 
   // In public view: the per-hash mirror is noindexed via the HTTP
   // header AND a meta tag, and we prepend a subscribe strip pointing
   // at /pro (with optional referral attribution).
-  const publicStripHref = `https://worldmonitor.app/pro${refCode ? `?ref=${encodeURIComponent(refCode)}` : ''}`;
+  const publicStripHref = `https://eagle-eye.app/pro${refCode ? `?ref=${encodeURIComponent(refCode)}` : ''}`;
   const publicStripHtml = publicMode
     ? '<div class="wm-public-strip">'
-      + '<span>WorldMonitor Brief \u00b7 shared issue</span>'
+      + '<span>EagleEye Brief \u00b7 shared issue</span>'
       // Match renderBackCover's pattern: escapeHtml on the full href
       // even though encodeURIComponent already handles HTML-special
       // chars inside refCode — consistency for anyone auditing XSS

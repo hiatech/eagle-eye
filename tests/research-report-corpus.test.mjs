@@ -46,7 +46,7 @@ describe('research report corpus (#5668)', () => {
 
   before(async () => {
     outDir = mkdtempSync(join(tmpdir(), 'wm-research-corpus-'));
-    await buildCorpus({ rootDir: repoRoot, outDir, baseUrl: 'https://www.worldmonitor.app' });
+    await buildCorpus({ rootDir: repoRoot, outDir, baseUrl: 'https://www.eagle-eye.app' });
     html = readFileSync(join(outDir, 'research', report.slug, 'index.html'), 'utf8');
     hubHtml = readFileSync(join(outDir, 'research', 'index.html'), 'utf8');
     csv = readFileSync(join(outDir, 'research', report.slug, files.csv), 'utf8');
@@ -109,7 +109,7 @@ describe('research report corpus (#5668)', () => {
     assert.equal(dataJson.author, report.author.name);
     assert.equal(reportLd.version, report.version);
     assert.equal(dataJson.version, report.version);
-    assert.equal(reportLd.url, `https://www.worldmonitor.app/research/${report.slug}/`);
+    assert.equal(reportLd.url, `https://www.eagle-eye.app/research/${report.slug}/`);
     assert.equal(dataJson.canonicalUrl, reportLd.url);
     // Headline metric agreement: the decline percentage rendered on the page
     // matches the JSON download byte-for-value.
@@ -204,10 +204,10 @@ describe('research report corpus (#5668)', () => {
       existsSync(join(repoRoot, 'public', 'research-assets', `${report.slug}-og.png`)),
       'committed OG card missing',
     );
-    assert.match(html, new RegExp(`og:image" content="https://www\\.worldmonitor\\.app/research-assets/${report.slug}-og\\.png"`));
+    assert.match(html, new RegExp(`og:image" content="https://www\\.eagle-eye\\.app/research-assets/${report.slug}-og\\.png"`));
     assert.doesNotMatch(
       html.match(/og:image:alt" content="([^"]+)"/)[1],
-      /^World Monitor — real-time global intelligence dashboard/,
+      /^Eagle Eye — real-time global intelligence dashboard/,
       'report OG alt must describe the report, not the generic site card',
     );
   });
@@ -227,14 +227,14 @@ describe('research report corpus (#5668)', () => {
         `missing analytics funnel target: ${target}`,
       );
     }
-    assert.match(html, /abacus\.worldmonitor\.app\/script\.js/, 'research pages must load analytics');
+    assert.match(html, /abacus\.eagle-eye\.app\/script\.js/, 'research pages must load analytics');
     assert.match(html, /nonce="wm-static-bootstrap"/);
   });
 
   it('regenerates byte-identically from the committed snapshot', async () => {
     const secondDir = mkdtempSync(join(tmpdir(), 'wm-research-corpus-again-'));
     try {
-      await buildCorpus({ rootDir: repoRoot, outDir: secondDir, baseUrl: 'https://www.worldmonitor.app' });
+      await buildCorpus({ rootDir: repoRoot, outDir: secondDir, baseUrl: 'https://www.eagle-eye.app' });
       for (const path of [
         join('research', report.slug, 'index.html'),
         join('research', report.slug, files.csv),

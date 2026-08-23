@@ -9,19 +9,19 @@
      or a live route, so this file can never point at a 404. -->
 <schemamap xmlns="http://www.nlweb.ai/schemas/schemamap/0.1">
   <url>
-    <loc>https://www.worldmonitor.app/</loc>
+    <loc>https://www.eagle-eye.app/</loc>
     <schema>https://schema.org/SoftwareApplication</schema>
   </url>
   <url>
-    <loc>https://www.worldmonitor.app/blog/</loc>
+    <loc>https://www.eagle-eye.app/blog/</loc>
     <schema>https://schema.org/Blog</schema>
   </url>
   <url>
-    <loc>https://www.worldmonitor.app/blog/rss.xml</loc>
+    <loc>https://www.eagle-eye.app/blog/rss.xml</loc>
     <schema>https://schema.org/DataFeed</schema>
   </url>
   <url>
-    <loc>https://www.worldmonitor.app/blog/glossary/</loc>
+    <loc>https://www.eagle-eye.app/blog/glossary/</loc>
     <schema>https://schema.org/DefinedTermSet</schema>
   </url>
 </schemamap>

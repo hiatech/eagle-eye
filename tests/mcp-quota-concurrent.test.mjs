@@ -46,7 +46,7 @@ describe('api/mcp.ts — concurrent quota reservation (strict clamp)', () => {
   let mcpHandler;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'wm_test_key_quota_concurrent';
+    process.env.EAGLEEYE_VALID_KEYS = 'wm_test_key_quota_concurrent';
     process.env.UPSTASH_REDIS_REST_URL = 'https://stub.upstash';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'stub';
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;

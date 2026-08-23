@@ -11,7 +11,7 @@ function readRepoFile(path) {
 
 describe('UCDP retained window is intentionally smaller than CII classification window', () => {
   it('keeps the CII scorer on a two-year UCDP classification window', () => {
-    const scorer = readRepoFile('server/worldmonitor/intelligence/v1/get-risk-scores.ts');
+    const scorer = readRepoFile('server/eagleeye/intelligence/v1/get-risk-scores.ts');
 
     assert.match(
       scorer,

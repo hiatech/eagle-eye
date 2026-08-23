@@ -286,7 +286,7 @@ async function loadCountryDeepDivePanel(options = {}) {
     ['./ResilienceWidget', 'resilience-widget-stub'],
     ['@/components/ResilienceWidget', 'resilience-widget-stub'],
     ['@/services/runtime', 'runtime-stub'],
-    ['@/generated/client/worldmonitor/intelligence/v1/service_client', 'intelligence-client-stub'],
+    ['@/generated/client/eagleeye/intelligence/v1/service_client', 'intelligence-client-stub'],
     ['@/services/panel-gating', 'panel-gating-stub'],
     ['@/services/auth-state', 'auth-state-stub'],
     ['@/bootstrap/sentry-defer', 'sentry-defer-stub'],

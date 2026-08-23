@@ -91,10 +91,10 @@ function installWindow(kind: 'desktop' | 'web'): void {
   const desktop = kind === 'desktop';
   const location = {
     protocol: desktop ? 'tauri:' : 'https:',
-    host: desktop ? 'tauri.localhost' : 'worldmonitor.app',
-    hostname: desktop ? 'tauri.localhost' : 'worldmonitor.app',
-    origin: desktop ? 'tauri://localhost' : 'https://worldmonitor.app',
-    href: desktop ? 'tauri://localhost/index.html' : 'https://worldmonitor.app/dashboard',
+    host: desktop ? 'tauri.localhost' : 'eagle-eye.app',
+    hostname: desktop ? 'tauri.localhost' : 'eagle-eye.app',
+    origin: desktop ? 'tauri://localhost' : 'https://eagle-eye.app',
+    href: desktop ? 'tauri://localhost/index.html' : 'https://eagle-eye.app/dashboard',
     assign: (url: string) => {
       probe.assigned.push(url);
     },
@@ -197,10 +197,10 @@ describe('openExternalUrl — desktop', () => {
   it('hands the URL to the OS browser and never navigates the WebView', async () => {
     installWindow('desktop');
 
-    assert.equal(await openExternalUrl('https://worldmonitor.app/pro'), 'native');
+    assert.equal(await openExternalUrl('https://eagle-eye.app/pro'), 'native');
 
     assert.deepEqual(probe.invocations, [
-      { command: 'open_url', payload: { url: 'https://worldmonitor.app/pro' } },
+      { command: 'open_url', payload: { url: 'https://eagle-eye.app/pro' } },
     ]);
     // The whole point: neither of the two ways the WebView could be replaced.
     assert.deepEqual(probe.assigned, []);
@@ -211,7 +211,7 @@ describe('openExternalUrl — desktop', () => {
     installWindow('desktop');
     const stray = makeTab();
 
-    assert.equal(await openExternalUrl('https://worldmonitor.app/pro', stray), 'native');
+    assert.equal(await openExternalUrl('https://eagle-eye.app/pro', stray), 'native');
 
     assert.equal(stray.closed, true, 'a blank WebView window must not be left behind the browser');
     assert.equal(stray.location.href, '', 'the reserved tab must never be navigated on desktop');
@@ -228,7 +228,7 @@ describe('openExternalUrl — desktop', () => {
     probe.invokeHangs = true;
     mock.timers.enable({ apis: ['setTimeout'] });
     try {
-      const pending = openExternalUrl('https://worldmonitor.app/pro');
+      const pending = openExternalUrl('https://eagle-eye.app/pro');
       mock.timers.tick(5_000);
       assert.equal(await pending, 'failed', 'the timeout must resolve the caller, not strand it');
     } finally {
@@ -247,7 +247,7 @@ describe('openExternalUrl — desktop', () => {
     probe.invokeRejects = true;
     probe.popupBlocked = true;
 
-    assert.equal(await openExternalUrl('https://worldmonitor.app/pro'), 'failed');
+    assert.equal(await openExternalUrl('https://eagle-eye.app/pro'), 'failed');
 
     assert.equal(probe.invocations.length, 1, 'the native path must be tried first');
     assert.deepEqual(probe.assigned, [], 'and the WebView must still not be replaced');
@@ -266,11 +266,11 @@ describe('openExternalUrl — desktop', () => {
     installWindow('desktop');
     probe.invokeRejects = true;
 
-    assert.equal(await openExternalUrl('https://worldmonitor.app/pro'), 'popup');
+    assert.equal(await openExternalUrl('https://eagle-eye.app/pro'), 'popup');
 
     assert.equal(probe.invocations.length, 1, 'the native path must be tried first');
     assert.deepEqual(probe.opened, [
-      ['https://worldmonitor.app/pro', '_blank', undefined],
+      ['https://eagle-eye.app/pro', '_blank', undefined],
     ]);
     assert.deepEqual(probe.assigned, [], 'the fallback must still not replace the app');
   });
@@ -361,7 +361,7 @@ describe('openExternalUrl — web', () => {
 describe('isOpenableExternalUrl — the gate both the router and the interceptor use', () => {
   it('mirrors the native allowlist exactly (src-tauri/src/main.rs open_url)', () => {
     for (const ok of [
-      'https://worldmonitor.app/pro',
+      'https://eagle-eye.app/pro',
       'https://example.org/a?b=c#d',
       'http://localhost:5173/x',
       'http://127.0.0.1:46123/health',

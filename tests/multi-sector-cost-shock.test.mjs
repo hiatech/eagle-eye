@@ -33,7 +33,7 @@ import {
   clampClosureDays,
   computeMultiSectorShock,
   computeMultiSectorShocks,
-} from '../server/worldmonitor/supply-chain/v1/_multi-sector-shock.ts';
+} from '../server/eagleeye/supply-chain/v1/_multi-sector-shock.ts';
 
 describe('hs4ToHs2', () => {
   it('strips leading zeros for 4-digit HS codes', () => {
@@ -232,11 +232,11 @@ describe('computeMultiSectorShocks', () => {
 });
 
 // ========================================================================
-// 2. sebuf handler: server/worldmonitor/supply-chain/v1/get-multi-sector-cost-shock.ts
+// 2. sebuf handler: server/eagleeye/supply-chain/v1/get-multi-sector-cost-shock.ts
 // ========================================================================
 
 describe('getMultiSectorCostShock sebuf handler', () => {
-  const src = readSrc('server/worldmonitor/supply-chain/v1/get-multi-sector-cost-shock.ts');
+  const src = readSrc('server/eagleeye/supply-chain/v1/get-multi-sector-cost-shock.ts');
 
   it('exports getMultiSectorCostShock as the sebuf handler entry point', () => {
     assert.match(src, /export async function getMultiSectorCostShock/);

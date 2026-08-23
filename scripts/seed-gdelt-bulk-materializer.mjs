@@ -49,7 +49,7 @@ import {
 loadEnvFile(import.meta.url);
 
 const MASTER_TAIL_BYTES = 65_536;
-const USER_AGENT = 'WorldMonitor/1.0 (+https://www.worldmonitor.app)';
+const USER_AGENT = 'EagleEye/1.0 (+https://www.eagle-eye.app)';
 const REQUEST_TIMEOUT_MS = 30_000;
 // 6, not 4: the translingual export adds up to MAX_CATCHUP_FILES_PER_KIND more
 // downloads per run (16 -> 24 worst case). At 4 that is 6 rounds x

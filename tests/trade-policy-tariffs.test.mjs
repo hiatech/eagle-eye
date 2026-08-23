@@ -8,14 +8,14 @@ import { parseBudgetLabEffectiveTariffHtml, toIsoDate, htmlToPlainText, BUDGET_L
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
-const protoSrc = readFileSync(join(root, 'proto/worldmonitor/trade/v1/get_tariff_trends.proto'), 'utf-8');
-const tradeDataProtoSrc = readFileSync(join(root, 'proto/worldmonitor/trade/v1/trade_data.proto'), 'utf-8');
+const protoSrc = readFileSync(join(root, 'proto/eagleeye/trade/v1/get_tariff_trends.proto'), 'utf-8');
+const tradeDataProtoSrc = readFileSync(join(root, 'proto/eagleeye/trade/v1/trade_data.proto'), 'utf-8');
 const seedSrc = readFileSync(join(root, 'scripts/seed-supply-chain-trade.mjs'), 'utf-8');
 const healthSrc = readFileSync(join(root, 'api/health.js'), 'utf-8');
 const panelSrc = readFileSync(join(root, 'src/components/TradePolicyPanel.ts'), 'utf-8');
 const serviceSrc = readFileSync(join(root, 'src/services/trade/index.ts'), 'utf-8');
-const clientGeneratedSrc = readFileSync(join(root, 'src/generated/client/worldmonitor/trade/v1/service_client.ts'), 'utf-8');
-const serverGeneratedSrc = readFileSync(join(root, 'src/generated/server/worldmonitor/trade/v1/service_server.ts'), 'utf-8');
+const clientGeneratedSrc = readFileSync(join(root, 'src/generated/client/eagleeye/trade/v1/service_client.ts'), 'utf-8');
+const serverGeneratedSrc = readFileSync(join(root, 'src/generated/server/eagleeye/trade/v1/service_server.ts'), 'utf-8');
 
 describe('Trade tariff proto contract', () => {
   it('adds EffectiveTariffRate message to shared trade data', () => {

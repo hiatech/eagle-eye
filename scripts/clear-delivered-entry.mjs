@@ -193,7 +193,7 @@ async function scanKeys(pattern, creds, maxKeys = 200) {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${creds.token}`,
-          'User-Agent': 'worldmonitor-clear-delivered/1.0',
+          'User-Agent': 'eagleeye-clear-delivered/1.0',
         },
         signal: AbortSignal.timeout(10_000),
       });

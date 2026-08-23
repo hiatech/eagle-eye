@@ -7,11 +7,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const handlerSrc = readFileSync(
-  resolve(root, 'server/worldmonitor/supply-chain/v1/get-chokepoint-history.ts'),
+  resolve(root, 'server/eagleeye/supply-chain/v1/get-chokepoint-history.ts'),
   'utf-8',
 );
 const handlerMapSrc = readFileSync(
-  resolve(root, 'server/worldmonitor/supply-chain/v1/handler.ts'),
+  resolve(root, 'server/eagleeye/supply-chain/v1/handler.ts'),
   'utf-8',
 );
 
@@ -47,16 +47,16 @@ describe('get-chokepoint-history handler (source analysis)', () => {
 
 describe('proto wiring', () => {
   const protoSrc = readFileSync(
-    resolve(root, 'proto/worldmonitor/supply_chain/v1/service.proto'),
+    resolve(root, 'proto/eagleeye/supply_chain/v1/service.proto'),
     'utf-8',
   );
   const historyProto = readFileSync(
-    resolve(root, 'proto/worldmonitor/supply_chain/v1/get_chokepoint_history.proto'),
+    resolve(root, 'proto/eagleeye/supply_chain/v1/get_chokepoint_history.proto'),
     'utf-8',
   );
 
   it('service.proto imports and registers GetChokepointHistory', () => {
-    assert.match(protoSrc, /import "worldmonitor\/supply_chain\/v1\/get_chokepoint_history\.proto"/);
+    assert.match(protoSrc, /import "eagleeye\/supply_chain\/v1\/get_chokepoint_history\.proto"/);
     assert.match(protoSrc, /rpc GetChokepointHistory\(GetChokepointHistoryRequest\) returns \(GetChokepointHistoryResponse\)/);
     assert.match(protoSrc, /path:\s*"\/get-chokepoint-history",\s*method:\s*HTTP_METHOD_GET/);
   });

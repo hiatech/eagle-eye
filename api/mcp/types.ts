@@ -7,7 +7,7 @@ import type { BillingVerificationStatus } from '../../server/_shared/entitlement
 // ---------------------------------------------------------------------------
 // Auth-context shape passed into tool _execute. U7 widened the previous
 // `apiKey: string` to a discriminated union so per-tool fetches can branch
-// header construction (`X-WorldMonitor-Key` for env_key, internal-HMAC for
+// header construction (`X-EagleEye-Key` for env_key, internal-HMAC for
 // Pro) from a single point.
 // ---------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ export type McpAuthContext =
   | { kind: 'pro'; userId: string; mcpTokenId: string }
   // Customer-issued dashboard key (Convex userApiKeys, #4859). Carries BOTH
   // the raw key (downstream _execute fetches authenticate as the owner via
-  // X-WorldMonitor-Key, so REST metering/limits attribute to them) AND the
+  // X-EagleEye-Key, so REST metering/limits attribute to them) AND the
   // resolved owner userId (per-user rate limit + daily quota + the mcpAccess
   // entitlement pre-check — a user_key context must NEVER skip that gate the
   // way env_key does).
@@ -27,7 +27,7 @@ export type McpInboundHostClass =
   | 'apex'
   | 'www'
   | 'variant'
-  | 'worldmonitor_subdomain'
+  | 'eagleeye_subdomain'
   | 'local'
   | 'vercel_preview'
   | 'other';

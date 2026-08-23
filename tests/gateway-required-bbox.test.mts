@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { MilitaryServiceClient } from '../src/generated/client/worldmonitor/military/v1/service_client.ts';
+import { MilitaryServiceClient } from '../src/generated/client/eagleeye/military/v1/service_client.ts';
 import {
   createDomainGateway,
   REQUIRED_BBOX_QUERY_PARAMS,
@@ -10,7 +10,7 @@ import {
 import { ENDPOINT_RATE_POLICIES } from '../server/_shared/rate-limit.ts';
 import type { RouteDescriptor } from '../server/router.ts';
 
-const originalValidKeys = process.env.WORLDMONITOR_VALID_KEYS;
+const originalValidKeys = process.env.EAGLEEYE_VALID_KEYS;
 const TEST_KEY = 'bbox-test-key';
 const REQUIRED_BBOX_QUERY = REQUIRED_BBOX_QUERY_PARAMS.join(',');
 const MARITIME_OPTIONAL_BBOX_PATH = '/api/maritime/v1/get-vessel-snapshot';
@@ -24,8 +24,8 @@ const OPTIONAL_BBOX_RPC_PATHS = [
 ] as const;
 
 afterEach(() => {
-  if (originalValidKeys == null) delete process.env.WORLDMONITOR_VALID_KEYS;
-  else process.env.WORLDMONITOR_VALID_KEYS = originalValidKeys;
+  if (originalValidKeys == null) delete process.env.EAGLEEYE_VALID_KEYS;
+  else process.env.EAGLEEYE_VALID_KEYS = originalValidKeys;
 
   if (originalMaritimeRatePolicy == null) delete ENDPOINT_RATE_POLICIES[MARITIME_OPTIONAL_BBOX_PATH];
   else ENDPOINT_RATE_POLICIES[MARITIME_OPTIONAL_BBOX_PATH] = originalMaritimeRatePolicy;
@@ -59,21 +59,21 @@ function bypassMaritimeRateLimitForLocalGatewayTest(pathAndQuery: string): void 
 
 function makeRequest(pathAndQuery: string): Request {
   bypassMaritimeRateLimitForLocalGatewayTest(pathAndQuery);
-  process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
   return new Request(
-    'https://worldmonitor.app' + pathAndQuery,
-    { headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': TEST_KEY } },
+    'https://eagle-eye.app' + pathAndQuery,
+    { headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': TEST_KEY } },
   );
 }
 
 function makeJsonPostRequest(path: string, bodyObject: Record<string, unknown>): Request {
-  process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
   const body = JSON.stringify(bodyObject);
-  return new Request('https://worldmonitor.app' + path, {
+  return new Request('https://eagle-eye.app' + path, {
     method: 'POST',
     headers: {
-      Origin: 'https://worldmonitor.app',
-      'X-WorldMonitor-Key': TEST_KEY,
+      Origin: 'https://eagle-eye.app',
+      'X-EagleEye-Key': TEST_KEY,
       'Content-Type': 'application/json',
       'Content-Length': String(new TextEncoder().encode(body).byteLength),
     },
@@ -83,7 +83,7 @@ function makeJsonPostRequest(path: string, bodyObject: Record<string, unknown>):
 
 async function getGeneratedMilitaryFlightsPathAndQuery(req: Parameters<MilitaryServiceClient['listMilitaryFlights']>[0]): Promise<string> {
   let requestedUrl = '';
-  const client = new MilitaryServiceClient('https://worldmonitor.app', {
+  const client = new MilitaryServiceClient('https://eagle-eye.app', {
     fetch: async (input) => {
       requestedUrl = String(input);
       return new Response(JSON.stringify({ flights: [], clusters: [] }), {
@@ -99,9 +99,9 @@ async function getGeneratedMilitaryFlightsPathAndQuery(req: Parameters<MilitaryS
 }
 
 function assertNoBboxDiagnostic(res: Response): void {
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox'), null);
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox-Missing'), null);
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox-Invalid'), null);
+  assert.equal(res.headers.get('X-EagleEye-Bbox'), null);
+  assert.equal(res.headers.get('X-EagleEye-Bbox-Missing'), null);
+  assert.equal(res.headers.get('X-EagleEye-Bbox-Invalid'), null);
   assert.equal(res.headers.get('X-Military-Bbox'), null);
 }
 
@@ -110,13 +110,13 @@ function assertBboxDiagnostic(
   status: 'missing' | 'invalid',
   options: { missing?: string; invalid?: string; military?: boolean } = {},
 ): void {
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox'), status);
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox-Missing'), options.missing ?? null);
-  assert.equal(res.headers.get('X-WorldMonitor-Bbox-Invalid'), options.invalid ?? null);
+  assert.equal(res.headers.get('X-EagleEye-Bbox'), status);
+  assert.equal(res.headers.get('X-EagleEye-Bbox-Missing'), options.missing ?? null);
+  assert.equal(res.headers.get('X-EagleEye-Bbox-Invalid'), options.invalid ?? null);
   const exposedHeaders = res.headers.get('Access-Control-Expose-Headers') ?? '';
-  assert.match(exposedHeaders, /X-WorldMonitor-Bbox/);
-  assert.match(exposedHeaders, /X-WorldMonitor-Bbox-Missing/);
-  assert.match(exposedHeaders, /X-WorldMonitor-Bbox-Invalid/);
+  assert.match(exposedHeaders, /X-EagleEye-Bbox/);
+  assert.match(exposedHeaders, /X-EagleEye-Bbox-Missing/);
+  assert.match(exposedHeaders, /X-EagleEye-Bbox-Invalid/);
   assert.match(exposedHeaders, /X-Military-Bbox/);
   if (options.military) assert.equal(res.headers.get('X-Military-Bbox'), status);
   else assert.equal(res.headers.get('X-Military-Bbox'), null);

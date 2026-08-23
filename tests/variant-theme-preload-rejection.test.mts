@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 /**
- * WORLDMONITOR-XT — `Error: Unable to preload CSS for /assets/happy-theme-DInLuQYM.css`,
+ * EAGLEEYE-XT — `Error: Unable to preload CSS for /assets/happy-theme-DInLuQYM.css`,
  * onunhandledrejection, error level, 2026-07-28.
  *
  * `main.ts` loaded the happy variant stylesheet with a bare
@@ -54,7 +54,7 @@ describe('loadVariantThemeStylesheet', () => {
     assert.deepEqual(
       leaked,
       [],
-      'the CSS preload rejection reached process unhandledRejection — this is exactly WORLDMONITOR-XT',
+      'the CSS preload rejection reached process unhandledRejection — this is exactly EAGLEEYE-XT',
     );
     assert.deepEqual(reported, [['happy', REJECTION]], 'the failure must be reported exactly once');
   });

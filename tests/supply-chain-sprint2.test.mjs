@@ -25,7 +25,7 @@ const readSrc = (relPath) => readFileSync(resolve(root, relPath), 'utf-8');
 // 1. _insurance-tier.ts pure function
 // ========================================================================
 
-import { threatLevelToInsurancePremiumBps } from '../server/worldmonitor/supply-chain/v1/_insurance-tier.ts';
+import { threatLevelToInsurancePremiumBps } from '../server/eagleeye/supply-chain/v1/_insurance-tier.ts';
 
 describe('threatLevelToInsurancePremiumBps', () => {
   it('war_zone returns 300 bps', () => {
@@ -164,7 +164,7 @@ describe('BYPASS_CORRIDORS_BY_CHOKEPOINT index', () => {
 // ========================================================================
 
 describe('get-bypass-options handler source code', () => {
-  const src = readSrc('server/worldmonitor/supply-chain/v1/get-bypass-options.ts');
+  const src = readSrc('server/eagleeye/supply-chain/v1/get-bypass-options.ts');
 
   it('calls isCallerPremium and returns empty when not PRO', () => {
     assert.match(src, /isCallerPremium/);
@@ -197,7 +197,7 @@ describe('get-bypass-options handler source code', () => {
 // ========================================================================
 
 describe('get-country-cost-shock handler source code', () => {
-  const src = readSrc('server/worldmonitor/supply-chain/v1/get-country-cost-shock.ts');
+  const src = readSrc('server/eagleeye/supply-chain/v1/get-country-cost-shock.ts');
 
   it('calls isCallerPremium and returns empty when not PRO', () => {
     assert.match(src, /isCallerPremium/);
@@ -286,7 +286,7 @@ describe('Premium paths registration', () => {
 // ========================================================================
 
 describe('GetBypassOptions proto definition', () => {
-  const proto = readSrc('proto/worldmonitor/supply_chain/v1/get_bypass_options.proto');
+  const proto = readSrc('proto/eagleeye/supply_chain/v1/get_bypass_options.proto');
 
   it('has GetBypassOptionsRequest message', () => {
     assert.match(proto, /message GetBypassOptionsRequest/);
@@ -314,7 +314,7 @@ describe('GetBypassOptions proto definition', () => {
 });
 
 describe('GetCountryCostShock proto definition', () => {
-  const proto = readSrc('proto/worldmonitor/supply_chain/v1/get_country_cost_shock.proto');
+  const proto = readSrc('proto/eagleeye/supply_chain/v1/get_country_cost_shock.proto');
 
   it('has GetCountryCostShockRequest message', () => {
     assert.match(proto, /message GetCountryCostShockRequest/);
@@ -342,7 +342,7 @@ describe('GetCountryCostShock proto definition', () => {
 // ========================================================================
 
 describe('Generated server types include Sprint 2 interfaces', () => {
-  const serverSrc = readSrc('src/generated/server/worldmonitor/supply_chain/v1/service_server.ts');
+  const serverSrc = readSrc('src/generated/server/eagleeye/supply_chain/v1/service_server.ts');
 
   it('BypassOption interface is generated', () => {
     assert.match(serverSrc, /interface BypassOption/);
@@ -402,7 +402,7 @@ describe('Supply chain client service: Sprint 2 methods', () => {
 // ========================================================================
 
 describe('Service proto registers Sprint 2 RPCs', () => {
-  const proto = readSrc('proto/worldmonitor/supply_chain/v1/service.proto');
+  const proto = readSrc('proto/eagleeye/supply_chain/v1/service.proto');
 
   it('imports get_bypass_options.proto', () => {
     assert.match(proto, /import.*get_bypass_options\.proto/);

@@ -22,9 +22,9 @@ authoritative absolutes from PageSpeed/Calibre):
 
 ```bash
 # unthrottled desktop (matches Lighthouse desktop, cpuSlowdown 1x)
-node scripts/measure-desktop-mainthread.mjs https://www.worldmonitor.app/dashboard --cpu 1 --settle 15000 --json
+node scripts/measure-desktop-mainthread.mjs https://www.eagle-eye.app/dashboard --cpu 1 --settle 15000 --json
 # throttled cross-check (surfaces long-task structure; relative shares should hold)
-node scripts/measure-desktop-mainthread.mjs https://www.worldmonitor.app/dashboard --cpu 4 --settle 15000 --json
+node scripts/measure-desktop-mainthread.mjs https://www.eagle-eye.app/dashboard --cpu 4 --settle 15000 --json
 ```
 
 > The pure attribution functions (`normalizeCompleteEvents`, `pickRendererMainThread`,
@@ -34,7 +34,7 @@ node scripts/measure-desktop-mainthread.mjs https://www.worldmonitor.app/dashboa
 
 ## Harness capture — 2026-07-02 (prod, post #4556/#4558/#4561/#4600)
 
-`scripts/measure-desktop-mainthread.mjs` vs `https://www.worldmonitor.app/dashboard`, 1350×940
+`scripts/measure-desktop-mainthread.mjs` vs `https://www.eagle-eye.app/dashboard`, 1350×940
 desktop, 15 s settle. Self-time total is **not** the same metric as Lighthouse's ~21 s wall
 `mainthread-work` (which includes idle-thread wall time); it is the summed attributed self-time.
 

@@ -42,25 +42,25 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
   };
 
   it('returns blob unchanged when disabledFeeds key is missing', () => {
-    const blob = { 'worldmonitor-panels': '{"foo":1}' };
+    const blob = { 'eagleeye-panels': '{"foo":1}' };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.equal(result, blob, 'unchanged blob must be returned by reference (no copy)');
   });
 
   it('returns blob unchanged when disabledFeeds is not a string', () => {
-    const blob = { 'worldmonitor-disabled-feeds': 42 as unknown as string };
+    const blob = { 'eagleeye-disabled-feeds': 42 as unknown as string };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.equal(result, blob);
   });
 
   it('returns blob unchanged when disabledFeeds is malformed JSON', () => {
-    const blob = { 'worldmonitor-disabled-feeds': 'not json {' };
+    const blob = { 'eagleeye-disabled-feeds': 'not json {' };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.equal(result, blob);
   });
 
   it('returns blob unchanged when disabledFeeds is an empty array', () => {
-    const blob = { 'worldmonitor-disabled-feeds': '[]' };
+    const blob = { 'eagleeye-disabled-feeds': '[]' };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.equal(result, blob);
   });
@@ -68,7 +68,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
   it('returns blob unchanged when no category is 100% disabled', () => {
     // Partial disable in two categories — explicit user prefs, must be preserved.
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify(['Layoffs.fyi', 'IPO News']),
+      'eagleeye-disabled-feeds': JSON.stringify(['Layoffs.fyi', 'IPO News']),
     };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.equal(result, blob, 'partial disabling is a real user pref — must not be touched');
@@ -79,13 +79,13 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     // which alphabetically lands after position 80 → got disabled by v1
     // cap → now the entire panel reads "All sources disabled".
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify(['Product Hunt']),
-      'worldmonitor-panels': '{"keep":"this"}',
+      'eagleeye-disabled-feeds': JSON.stringify(['Product Hunt']),
+      'eagleeye-panels': '{"keep":"this"}',
     };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
-    const newDisabled = JSON.parse(result['worldmonitor-disabled-feeds'] as string);
+    const newDisabled = JSON.parse(result['eagleeye-disabled-feeds'] as string);
     assert.deepEqual(newDisabled, [], 'Product Hunt must be removed from disabled');
-    assert.equal(result['worldmonitor-panels'], '{"keep":"this"}', 'other blob keys must be preserved');
+    assert.equal(result['eagleeye-panels'], '{"keep":"this"}', 'other blob keys must be preserved');
   });
 
   it('REGRESSION: production-shape — multiple late-alphabet categories all recovered at once', () => {
@@ -97,9 +97,9 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
       'SEC Filings', 'VC News', 'Seed & Pre-Seed', 'Startup Funding',
       'Product Hunt',
     ];
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify(allDisabled) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify(allDisabled) };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
-    const newDisabled = JSON.parse(result['worldmonitor-disabled-feeds'] as string);
+    const newDisabled = JSON.parse(result['eagleeye-disabled-feeds'] as string);
     assert.deepEqual(newDisabled, [], 'all 11 entries must be recovered');
   });
 
@@ -107,13 +107,13 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     // User explicitly disabled CNN. Migration must NOT undo this — a real
     // pref (single source, not a 100%-disabled category).
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([
+      'eagleeye-disabled-feeds': JSON.stringify([
         'BBC World',  // 1 of 3 in `politics` → not 100%
         'Layoffs.fyi', 'TechCrunch Layoffs', 'Layoffs News',  // 100% of layoffs → recover
       ]),
     };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
-    const newDisabled = new Set(JSON.parse(result['worldmonitor-disabled-feeds'] as string));
+    const newDisabled = new Set(JSON.parse(result['eagleeye-disabled-feeds'] as string));
     assert.ok(newDisabled.has('BBC World'), 'explicit single disable must be preserved');
     assert.equal(newDisabled.has('Layoffs.fyi'), false);
     assert.equal(newDisabled.has('TechCrunch Layoffs'), false);
@@ -122,28 +122,28 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
 
   it('returns a NEW object on mutation (does not mutate input)', () => {
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify(['Product Hunt']),
+      'eagleeye-disabled-feeds': JSON.stringify(['Product Hunt']),
     };
-    const inputJson = blob['worldmonitor-disabled-feeds'];
+    const inputJson = blob['eagleeye-disabled-feeds'];
     const result = migrateDisabledFeedsV2(blob, FEEDS);
     assert.notEqual(result, blob, 'result must be a new object on mutation');
-    assert.equal(blob['worldmonitor-disabled-feeds'], inputJson, 'input blob must not be mutated');
+    assert.equal(blob['eagleeye-disabled-feeds'], inputJson, 'input blob must not be mutated');
   });
 
   it('REGRESSION (#5963): migrates only an untouched legacy default set', () => {
     const legacy = new Set(['legacy-default-a', 'legacy-default-b', ...FRONTLINE]);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...legacy]),
+      'eagleeye-disabled-feeds': JSON.stringify([...legacy]),
     };
     const result = migrateFrontlineEuropeDefaultsV3(blob, legacy, new Set(FRONTLINE));
-    const disabled = JSON.parse(result['worldmonitor-disabled-feeds'] as string) as string[];
+    const disabled = JSON.parse(result['eagleeye-disabled-feeds'] as string) as string[];
     assert.deepEqual(disabled, ['legacy-default-a', 'legacy-default-b']);
   });
 
   it('REGRESSION (#5963): preserves customized disabled source sets', () => {
     const legacy = new Set(['legacy-default-a', 'legacy-default-b', ...FRONTLINE]);
     const customized = ['legacy-default-a', 'legacy-default-b', ...FRONTLINE, 'user-choice'];
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify(customized) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify(customized) };
     const result = migrateFrontlineEuropeDefaultsV3(blob, legacy, new Set(FRONTLINE));
     assert.equal(result, blob, 'customized source preferences must not be rewritten');
   });
@@ -152,7 +152,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     const legacy = new Set(['legacy-default-a', ...FRONTLINE]);
     const legacyCap = new Set([...legacy, 'auto-disabled-by-cap']);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...legacyCap]),
+      'eagleeye-disabled-feeds': JSON.stringify([...legacyCap]),
     };
     const result = migrateFrontlineEuropeDefaultsV3(
       blob,
@@ -161,7 +161,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
       legacyCap,
     );
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['legacy-default-a', 'auto-disabled-by-cap'],
     );
   });
@@ -169,11 +169,11 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
   it('REGRESSION (#6000): re-enables strategic defaults from an untouched legacy default set', () => {
     const legacy = new Set(['legacy-default-a', ...STRATEGIC]);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...legacy]),
+      'eagleeye-disabled-feeds': JSON.stringify([...legacy]),
     };
     const result = migrateStrategicDefaultsV4(blob, legacy, new Set(STRATEGIC));
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['legacy-default-a'],
     );
   });
@@ -182,7 +182,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     const legacyDefault = new Set(['legacy-default-a', ...STRATEGIC]);
     const legacyCap = new Set([...legacyDefault, 'auto-disabled-by-cap']);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...legacyCap]),
+      'eagleeye-disabled-feeds': JSON.stringify([...legacyCap]),
     };
     const result = migrateStrategicDefaultsV4(
       blob,
@@ -191,7 +191,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
       legacyCap,
     );
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['legacy-default-a', 'auto-disabled-by-cap'],
     );
   });
@@ -200,7 +200,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     const legacy = new Set(['legacy-default-a', ...STRATEGIC]);
     const customized = [...legacy, 'user-choice'];
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify(customized),
+      'eagleeye-disabled-feeds': JSON.stringify(customized),
     };
     const result = migrateStrategicDefaultsV4(blob, legacy, new Set(STRATEGIC));
     assert.equal(result, blob, 'customized source preferences must not be rewritten');
@@ -215,23 +215,23 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
     // sites) clears the same poisoning regardless of which side (cloud
     // or local) it originated from.
     const poisonedLocalBlob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([
+      'eagleeye-disabled-feeds': JSON.stringify([
         'Layoffs.fyi', 'TechCrunch Layoffs', 'Layoffs News', // 100% of layoffs
         'BBC World',                                          // explicit single-source pref
       ]),
-      'worldmonitor-panels': '{"some":"panel-state"}',
+      'eagleeye-panels': '{"some":"panel-state"}',
     };
     const result = migrateDisabledFeedsV2(poisonedLocalBlob, FEEDS);
-    const cleaned = JSON.parse(result['worldmonitor-disabled-feeds'] as string);
+    const cleaned = JSON.parse(result['eagleeye-disabled-feeds'] as string);
     assert.deepEqual(cleaned, ['BBC World'], 'layoffs sources recovered, BBC World preserved as explicit pref');
-    assert.equal(result['worldmonitor-panels'], '{"some":"panel-state"}', 'unrelated blob keys preserved');
+    assert.equal(result['eagleeye-panels'], '{"some":"panel-state"}', 'unrelated blob keys preserved');
   });
 
   it('handles non-string entries in the disabledFeeds array defensively', () => {
     // Malformed cloud data — an entry that's not a string. Skip it instead
     // of throwing; recover whatever else is recoverable.
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([
+      'eagleeye-disabled-feeds': JSON.stringify([
         null,
         42,
         'Product Hunt',
@@ -239,7 +239,7 @@ describe('cloud-prefs schema-2 migration: re-enable fully-disabled categories', 
       ]),
     };
     const result = migrateDisabledFeedsV2(blob, FEEDS);
-    const newDisabled = JSON.parse(result['worldmonitor-disabled-feeds'] as string);
+    const newDisabled = JSON.parse(result['eagleeye-disabled-feeds'] as string);
     // Product Hunt is recovered; the malformed entries pass through untouched.
     // (We don't try to clean them — that's not this migration's job.)
     assert.equal(newDisabled.includes('Product Hunt'), false);
@@ -261,25 +261,25 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
 
   it('disables new opt-ins and enables declared defaults for an untouched pre-rollout profile', () => {
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...untouchedDefault]),
-      'worldmonitor-panels': '{"keep":true}',
+      'eagleeye-disabled-feeds': JSON.stringify([...untouchedDefault]),
+      'eagleeye-panels': '{"keep":true}',
     };
     const result = migrateRegionalFeedRolloutDefaultsV5(
       blob,
       recognizedTargets,
     );
-    const disabled = new Set(JSON.parse(result['worldmonitor-disabled-feeds'] as string));
+    const disabled = new Set(JSON.parse(result['eagleeye-disabled-feeds'] as string));
 
     assert.deepEqual(
       disabled,
       new Set(['old-opt-in-a', 'old-opt-in-b', ...REGIONAL_OPT_INS]),
     );
-    assert.equal(result['worldmonitor-panels'], '{"keep":true}');
+    assert.equal(result['eagleeye-panels'], '{"keep":true}');
   });
 
   it('recovers defaults stripped by the cap while retaining unrelated cap disables', () => {
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...untouchedCap, 'old-auto-disabled']),
+      'eagleeye-disabled-feeds': JSON.stringify([...untouchedCap, 'old-auto-disabled']),
     };
     const targets = [
       ...recognizedTargets,
@@ -290,14 +290,14 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
       targets,
     );
     assert.deepEqual(
-      new Set(JSON.parse(result['worldmonitor-disabled-feeds'] as string)),
+      new Set(JSON.parse(result['eagleeye-disabled-feeds'] as string)),
       new Set(['old-opt-in-a', 'old-opt-in-b', 'old-auto-disabled', ...REGIONAL_OPT_INS]),
     );
   });
 
   it('preserves any customized set, including an explicit post-rollout default disable', () => {
     const customized = new Set([...untouchedDefault, 'Civil.ge']);
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify([...customized]) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify([...customized]) };
     const result = migrateRegionalFeedRolloutDefaultsV5(
       blob,
       recognizedTargets,
@@ -312,10 +312,10 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
       new Set(REGIONAL_OPT_INS),
     );
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...untouchedDefault]),
+      'eagleeye-disabled-feeds': JSON.stringify([...untouchedDefault]),
     };
     const result = migrateRegionalFeedRolloutDefaultsV5(blob, [localeTarget]);
-    const disabled = new Set(JSON.parse(result['worldmonitor-disabled-feeds'] as string));
+    const disabled = new Set(JSON.parse(result['eagleeye-disabled-feeds'] as string));
 
     assert.equal(disabled.has('NewsMaker'), false, 'the RU rollout default must remain enabled');
     assert.ok(disabled.has('JAMnews'), 'unrelated regional opt-ins remain disabled');
@@ -324,7 +324,7 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
   it('preserves a locale-less cloud row when one exact fingerprint has conflicting outcomes', () => {
     const ambiguousLegacy = new Set([...untouchedDefault, 'NewsMaker']);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...ambiguousLegacy]),
+      'eagleeye-disabled-feeds': JSON.stringify([...ambiguousLegacy]),
     };
     const targets = [
       migrationTarget(
@@ -378,7 +378,7 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
       'independent later migrations must not mark the blocked schema-5 step complete',
     );
     assert.deepEqual(
-      JSON.parse(independentlyApplied.data['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(independentlyApplied.data['eagleeye-disabled-feeds'] as string),
       [...ambiguousLegacy, ...CANADA_ARCTIC_OPT_INS],
       'schema 6 must still protect opt-ins while schema 5 remains retryable',
     );
@@ -390,7 +390,7 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
       JSON.stringify(['old-opt-in-a', 'old-opt-in-a']),
       JSON.stringify(['old-opt-in-a', 42]),
     ]) {
-      const blob = { 'worldmonitor-disabled-feeds': raw };
+      const blob = { 'eagleeye-disabled-feeds': raw };
       assert.equal(
         migrateRegionalFeedRolloutDefaultsV5(
           blob,
@@ -405,15 +405,15 @@ describe('cloud-prefs schema-5 migration: regional feed rollout intent', () => {
 describe('cloud-prefs schema-6 migration: Canada/Arctic opt-in boundary', () => {
   it('adds each companion source once while preserving the existing order', () => {
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify(['user-choice', 'Globe and Mail']),
-      'worldmonitor-panels': '{"keep":true}',
+      'eagleeye-disabled-feeds': JSON.stringify(['user-choice', 'Globe and Mail']),
+      'eagleeye-panels': '{"keep":true}',
     };
     const result = migrateCanadaArcticOptInsV6(blob, CANADA_ARCTIC_OPT_INS);
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['user-choice', 'Globe and Mail', 'Global News', 'Yle News', 'NRK', 'Aftenposten', 'DR Nyheder', 'Arctic Today'],
     );
-    assert.equal(result['worldmonitor-panels'], '{"keep":true}');
+    assert.equal(result['eagleeye-panels'], '{"keep":true}');
     assert.equal(
       migrateCanadaArcticOptInsV6(result, CANADA_ARCTIC_OPT_INS),
       result,
@@ -427,7 +427,7 @@ describe('cloud-prefs schema-6 migration: Canada/Arctic opt-in boundary', () => 
       'not-json',
       JSON.stringify(['user-choice', 42]),
     ]) {
-      const blob = { 'worldmonitor-disabled-feeds': raw };
+      const blob = { 'eagleeye-disabled-feeds': raw };
       assert.equal(migrateCanadaArcticOptInsV6(blob, CANADA_ARCTIC_OPT_INS), blob);
     }
   });
@@ -478,13 +478,13 @@ describe('applyMigrationChain', () => {
     };
     const migrations = buildMigrations(productionLikeFeeds);
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([
+      'eagleeye-disabled-feeds': JSON.stringify([
         'Layoffs.fyi', 'TechCrunch Layoffs', 'Layoffs News', // 100% layoffs
         'BBC World',                                           // 50% politics
       ]),
     };
     const result = applyMigrationChain(blob, 1, 2, migrations);
-    const cleaned = JSON.parse(result['worldmonitor-disabled-feeds'] as string);
+    const cleaned = JSON.parse(result['eagleeye-disabled-feeds'] as string);
     // Layoffs sources recovered; BBC World preserved (partial-disable safety)
     assert.deepEqual(cleaned, ['BBC World']);
   });
@@ -494,10 +494,10 @@ describe('applyMigrationChain', () => {
     const migrations = buildMigrations({}, {
       frontline: { legacyDefaultDisabled: legacy, names: new Set(FRONTLINE) },
     });
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify([...legacy]) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify([...legacy]) };
     const result = applyMigrationChain(blob, 2, 3, migrations);
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['legacy-default-a'],
     );
   });
@@ -507,10 +507,10 @@ describe('applyMigrationChain', () => {
     const migrations = buildMigrations({}, {
       strategic: { legacyDefaultDisabled: legacy, names: new Set(STRATEGIC) },
     });
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify([...legacy]) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify([...legacy]) };
     const result = applyMigrationChain(blob, 3, 4, migrations);
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['legacy-default-a'],
     );
   });
@@ -526,21 +526,21 @@ describe('applyMigrationChain', () => {
         }],
       },
     });
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify([...legacy]) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify([...legacy]) };
     const result = applyMigrationChain(blob, 4, 5, migrations);
     assert.deepEqual(
-      new Set(JSON.parse(result['worldmonitor-disabled-feeds'] as string)),
+      new Set(JSON.parse(result['eagleeye-disabled-feeds'] as string)),
       new Set(['old-opt-in', ...REGIONAL_OPT_INS]),
     );
   });
 
   it('integrates the Canada/Arctic opt-in migration as schema 6', () => {
-    const blob = { 'worldmonitor-disabled-feeds': JSON.stringify(['user-choice']) };
+    const blob = { 'eagleeye-disabled-feeds': JSON.stringify(['user-choice']) };
     const result = applyMigrationChain(blob, 5, 6, buildMigrations({}, {
       canadaArctic: { optInSources: CANADA_ARCTIC_OPT_INS },
     }));
     assert.deepEqual(
-      JSON.parse(result['worldmonitor-disabled-feeds'] as string),
+      JSON.parse(result['eagleeye-disabled-feeds'] as string),
       ['user-choice', ...CANADA_ARCTIC_OPT_INS],
     );
   });

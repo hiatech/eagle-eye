@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 // Request budget for the news load on a default anonymous dashboard load (#5376).
 //
 // What went wrong in production, measured on a live anonymous
-// www.worldmonitor.app/dashboard session via Resource Timing:
+// www.eagle-eye.app/dashboard session via Resource Timing:
 //
 //   rss-proxy         20   window 1,347 → 2,319 ms
 //   list-feed-digest   2   at 994 ms and 2,162 ms          ← news loaded twice
@@ -151,7 +151,7 @@ async function readPersistedDigest(
       // Deliberately versionless: opening at a pinned version throws VersionError
       // the day persistent-cache.ts bumps CACHE_DB_VERSION, which would red this
       // spec for a reason that has nothing to do with what it asserts.
-      const request = indexedDB.open('worldmonitor_persistent_cache');
+      const request = indexedDB.open('eagleeye_persistent_cache');
       request.onupgradeneeded = () => {
         // Only fires when the app has not created the database yet. Mirror
         // persistent-cache.ts so this read leaves a usable database behind
@@ -195,15 +195,15 @@ async function seedFreshAnonymousFullVariant(
     if (sessionStorage.getItem('__news_request_budget_e2e_init__')) return;
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('worldmonitor-variant', 'full');
+    localStorage.setItem('eagleeye-variant', 'full');
     // Overlays that would otherwise steal focus/paint during the load window.
     localStorage.setItem('wm-layer-warning-dismissed', 'true');
     localStorage.setItem('wm-pro-banner-launched-dismissed', String(Date.now()));
-    localStorage.setItem('worldmonitor-mission-preset-dismissed-v1', '1');
+    localStorage.setItem('eagleeye-mission-preset-dismissed-v1', '1');
     // Partial panel settings: App.ts merges every other ALL_PANELS key in at its
     // variant default, so this only overrides the panels named here.
     if (Object.keys(panels).length > 0) {
-      localStorage.setItem('worldmonitor-panels', JSON.stringify(panels));
+      localStorage.setItem('eagleeye-panels', JSON.stringify(panels));
     }
     sessionStorage.setItem('__news_request_budget_e2e_init__', '1');
   }, extraPanels as Record<string, unknown>);
@@ -783,9 +783,9 @@ async function seedScrollableDashboard(page: Page): Promise<void> {
   });
   await page.addInitScript((panelOrder: string[]) => {
     localStorage.setItem('wm_lcp_debug', '1');
-    localStorage.setItem('worldmonitor-panel-order-v1.9', 'done');
-    localStorage.setItem('worldmonitor-panel-prune-v1', 'done');
-    localStorage.setItem('worldmonitor-layout-reset-v2.5', 'done');
+    localStorage.setItem('eagleeye-panel-order-v1.9', 'done');
+    localStorage.setItem('eagleeye-panel-prune-v1', 'done');
+    localStorage.setItem('eagleeye-layout-reset-v2.5', 'done');
     localStorage.setItem('panel-order', JSON.stringify(panelOrder));
   }, SCROLL_HYDRATION_PANEL_ORDER);
 }

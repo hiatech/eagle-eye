@@ -87,16 +87,16 @@ const MAX_ECHO_CHARS = 160;
 
 const HOW_TO_CALL = {
   mcp: {
-    endpoint: 'https://worldmonitor.app/mcp',
+    endpoint: 'https://eagle-eye.app/mcp',
     transport: 'streamable-http',
-    note: "Issue tools/list for the live inventory (anonymous). Data calls need OAuth2 (scope=mcp) or an API key header 'X-WorldMonitor-Key: wm_<40-hex>' — issue one at https://worldmonitor.app/pro.",
+    note: "Issue tools/list for the live inventory (anonymous). Data calls need OAuth2 (scope=mcp) or an API key header 'X-EagleEye-Key: wm_<40-hex>' — issue one at https://eagle-eye.app/pro.",
   },
   rest: {
-    base: 'https://api.worldmonitor.app',
-    openapi: 'https://worldmonitor.app/openapi.json',
+    base: 'https://api.eagle-eye.app',
+    openapi: 'https://eagle-eye.app/openapi.json',
   },
-  docs: 'https://www.worldmonitor.app/docs/documentation',
-  agentGuidance: 'https://worldmonitor.app/llms.txt',
+  docs: 'https://www.eagle-eye.app/docs/documentation',
+  agentGuidance: 'https://eagle-eye.app/llms.txt',
 } as const;
 
 interface MessagePart {
@@ -135,7 +135,7 @@ async function handleMessageSend(id: JsonRpcId, params: unknown): Promise<Respon
   let freshness: unknown;
   if (wantsFreshness || suggestions.length === 0) {
     const freshnessResource = PUBLIC_RESOURCE_REGISTRY.find(
-      (r) => r.uri === 'worldmonitor://seed-meta/freshness',
+      (r) => r.uri === 'eagleeye://seed-meta/freshness',
     );
     try {
       // Documented robust (never throws meaningfully; degrades to
@@ -153,13 +153,13 @@ async function handleMessageSend(id: JsonRpcId, params: unknown): Promise<Respon
   const lines: string[] = [];
   if (suggestions.length > 0) {
     lines.push(
-      `Best-fit WorldMonitor tools for "${echoedQuery}": ${suggestions.map((s) => s.name).join(', ')}.`,
+      `Best-fit EagleEye tools for "${echoedQuery}": ${suggestions.map((s) => s.name).join(', ')}.`,
       `Call them on the MCP server at ${HOW_TO_CALL.mcp.endpoint} (${HOW_TO_CALL.mcp.note})`,
       `REST equivalents are documented in the OpenAPI spec at ${HOW_TO_CALL.rest.openapi}.`,
     );
   } else {
     lines.push(
-      'No specific tool matched that request. WorldMonitor covers conflicts, sanctions, country risk, markets, commodities, energy, maritime/aviation activity, chokepoints, cyber threats, natural disasters, forecasts and prediction markets.',
+      'No specific tool matched that request. EagleEye covers conflicts, sanctions, country risk, markets, commodities, energy, maritime/aviation activity, chokepoints, cyber threats, natural disasters, forecasts and prediction markets.',
       `Issue tools/list on ${HOW_TO_CALL.mcp.endpoint} for the full catalog, or start from ${HOW_TO_CALL.agentGuidance}.`,
     );
   }

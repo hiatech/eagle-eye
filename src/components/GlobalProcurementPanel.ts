@@ -1,5 +1,5 @@
 import { Panel } from './Panel';
-import type { GlobalTender, ListGlobalTendersResponse } from '@/generated/client/worldmonitor/economic/v1/service_client';
+import type { GlobalTender, ListGlobalTendersResponse } from '@/generated/client/eagleeye/economic/v1/service_client';
 import type { GlobalTenderFilters } from '@/services/global-tenders';
 import { escapeHtml, sanitizeUrl, unsafeRawHtml } from '@/utils/sanitize';
 

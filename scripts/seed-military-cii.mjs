@@ -3,7 +3,7 @@
 // seed-military-cii.mjs — Phase 2 of the CII unification (docs/archive/plans/unify-cii-single-source.md).
 //
 // Aggregates military activity per country into a single Redis key the CII engine
-// (server/worldmonitor/intelligence/v1/get-risk-scores.ts) reads as one auxiliary source:
+// (server/eagleeye/intelligence/v1/get-risk-scores.ts) reads as one auxiliary source:
 //
 //   - military FLIGHTS  — read from `military:flights:v1` (already operator-classified
 //                         by seed-military-flights.mjs)

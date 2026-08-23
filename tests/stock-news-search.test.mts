@@ -5,8 +5,8 @@ import {
   buildStockNewsSearchQuery,
   resetStockNewsSearchStateForTests,
   searchRecentStockHeadlines,
-} from '../server/worldmonitor/market/v1/stock-news-search.ts';
-import { fetchCompanyNewsMentions } from '../server/worldmonitor/intelligence/v1/_company-shared.ts';
+} from '../server/eagleeye/market/v1/stock-news-search.ts';
+import { fetchCompanyNewsMentions } from '../server/eagleeye/intelligence/v1/_company-shared.ts';
 
 const originalFetch = globalThis.fetch;
 

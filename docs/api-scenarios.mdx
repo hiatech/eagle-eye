@@ -3,10 +3,10 @@ title: "Scenarios API"
 description: "Run pre-defined supply-chain disruption scenarios against a scoped country or the v1 seeded reporter set, then poll for worker-computed results."
 ---
 
-The **scenarios** API is a PRO-only, job-queued surface on top of the WorldMonitor chokepoint + trade dataset. Callers enqueue a named scenario template against an optional country, then poll a job-id until the worker completes. If no country is supplied, v1 computes across the seeded reporter set only: `US`, `CN`, `RU`, `IR`, `IN`, and `TW`.
+The **scenarios** API is a PRO-only, job-queued surface on top of the EagleEye chokepoint + trade dataset. Callers enqueue a named scenario template against an optional country, then poll a job-id until the worker completes. If no country is supplied, v1 computes across the seeded reporter set only: `US`, `CN`, `RU`, `IR`, `IN`, and `TW`.
 
 <Info>
-This service is proto-backed and included in the published OpenAPI bundle — see `proto/worldmonitor/scenario/v1/service.proto` and `/api/ScenarioService.openapi.yaml`. This page adds migration notes and examples on top of the generated reference.
+This service is proto-backed and included in the published OpenAPI bundle — see `proto/eagleeye/scenario/v1/service.proto` and `/api/ScenarioService.openapi.yaml`. This page adds migration notes and examples on top of the generated reference.
 </Info>
 
 <Note>
@@ -27,7 +27,7 @@ Prefer the canonical URLs in new code — the aliases will retire at the next v1
 
 Returns the catalog of pre-defined scenario templates. Cached `public, max-age=3600`.
 
-**Response** — abbreviated example using one of the live shipped templates (`server/worldmonitor/supply-chain/v1/scenario-templates.ts`):
+**Response** — abbreviated example using one of the live shipped templates (`server/eagleeye/supply-chain/v1/scenario-templates.ts`):
 ```json
 {
   "templates": [
@@ -52,7 +52,7 @@ Other shipped templates at the time of writing: `taiwan-strait-full-closure`, `s
 
 Enqueues a job. Returns the assigned `jobId` the caller must poll.
 
-- **Auth**: PRO entitlement required. Granted by either (a) a valid `X-WorldMonitor-Key` (env key from `WORLDMONITOR_VALID_KEYS`, or a user-owned `wm_`-prefixed key whose owner has the `apiAccess` entitlement), **or** (b) a Clerk bearer token whose user has role `pro` or Dodo entitlement tier ≥ 1. A trusted browser Origin alone is **not** sufficient — `isCallerPremium()` in `server/_shared/premium-check.ts` only counts explicit credentials. Browser calls work because `premiumFetch()` (`src/services/premium-fetch.ts`) injects one of the two credential forms on the caller's behalf.
+- **Auth**: PRO entitlement required. Granted by either (a) a valid `X-EagleEye-Key` (env key from `EAGLEEYE_VALID_KEYS`, or a user-owned `wm_`-prefixed key whose owner has the `apiAccess` entitlement), **or** (b) a Clerk bearer token whose user has role `pro` or Dodo entitlement tier ≥ 1. A trusted browser Origin alone is **not** sufficient — `isCallerPremium()` in `server/_shared/premium-check.ts` only counts explicit credentials. Browser calls work because `premiumFetch()` (`src/services/premium-fetch.ts`) injects one of the two credential forms on the caller's behalf.
 - **Rate limits**:
   - 10 jobs / minute / IP (enforced at the gateway via `ENDPOINT_RATE_POLICIES` in `server/_shared/rate-limit.ts`)
   - Queue backpressure checks the pending Redis list before enqueue; depth `> 100` is rejected with `429`, so depth `100` can still accept one more job.

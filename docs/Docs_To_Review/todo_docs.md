@@ -1,4 +1,4 @@
-# Documentation Roadmap — World Monitor
+# Documentation Roadmap — Eagle Eye
 
 > **Purpose**: Comprehensive task list to bring project documentation to production-grade quality for AI agent-assisted development. Each task is scoped, self-contained, and AI-actionable.
 >
@@ -178,7 +178,7 @@
 - [ ] **Threat Classification** (`threat-classifier.ts`): hybrid keyword + LLM pipeline
 - [ ] **Signal Correlation** (`correlation.ts`): cross-source pattern matching logic
 - [ ] **Hotspot Escalation** (`hotspot-escalation.ts`): 4-signal scoring methodology
-- [ ] **Country Instability Index** (`server/worldmonitor/intelligence/v1/get-risk-scores.ts`, `shared/cii-weights.ts`): server-authoritative CII v8 scoring for 31 Tier-1 countries, with frontend cached risk-score ingestion and `country-instability.ts` retained as the local fallback renderer path
+- [ ] **Country Instability Index** (`server/eagleeye/intelligence/v1/get-risk-scores.ts`, `shared/cii-weights.ts`): server-authoritative CII v8 scoring for 31 Tier-1 countries, with frontend cached risk-score ingestion and `country-instability.ts` retained as the local fallback renderer path
 - [ ] **Temporal Baseline** (`temporal-baseline.ts`): Welford's online algorithm for anomaly detection
 - [ ] **Trending Keywords** (`trending-keywords.ts`): 2h vs 7d window spike detection
 - [ ] **Infrastructure Cascade** (`infrastructure-cascade.ts`): BFS propagation model
@@ -251,8 +251,8 @@
 
 - [ ] Full self-hosting guide (non-Vercel deployment)
 - [ ] Docker setup (if applicable, or document creating one)
-- [ ] Nginx configuration (reference `deploy/nginx-worldmonitor.conf`)
-- [ ] SystemD service setup (reference `deploy/worldmonitor-api.service`)
+- [ ] Nginx configuration (reference `deploy/nginx-eagleeye.conf`)
+- [ ] SystemD service setup (reference `deploy/eagleeye-api.service`)
 - [ ] Environment variable configuration for self-hosted
 - [ ] SSL/TLS setup
 - [ ] Performance tuning recommendations
@@ -389,7 +389,7 @@
 ### 13.2 Update `CHANGELOG.md`
 
 - [ ] Ensure all changes since v2.4.0 are documented
-- [ ] Add entries for UI customizations on `feat/ui-customizations-worldmonitor` branch
+- [ ] Add entries for UI customizations on `feat/ui-customizations-eagleeye` branch
 - [ ] Standardize changelog format (Keep a Changelog)
 - [ ] Add links to relevant PRs/commits
 

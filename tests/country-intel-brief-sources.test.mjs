@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { parseCountryBriefSources } from '../server/worldmonitor/intelligence/v1/get-country-intel-brief.ts';
+import { parseCountryBriefSources } from '../server/eagleeye/intelligence/v1/get-country-intel-brief.ts';
 
 describe('country intel brief source parsing', () => {
   it('parses bounded structured source lines from the context snapshot', () => {

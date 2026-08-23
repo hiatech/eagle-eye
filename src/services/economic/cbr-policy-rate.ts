@@ -1,4 +1,4 @@
-import type { BisPolicyRate } from '@/generated/client/worldmonitor/economic/v1/service_client';
+import type { BisPolicyRate } from '@/generated/client/eagleeye/economic/v1/service_client';
 
 /**
  * Project the Bank of Russia key rate onto the BIS policy-rate row shape.

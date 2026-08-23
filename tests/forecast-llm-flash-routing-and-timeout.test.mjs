@@ -129,7 +129,7 @@ test('Flash is pinned to fast backends — the timeout policy assumes routing th
     'openrouter must request throughput-sorted routing so the latency tail is bounded',
   );
   // The seeder MUST carry the same China-hosted-provider blocklist as the server
-  // client. Throughput-sorting WITHOUT it routes WorldMonitor's geopolitical
+  // client. Throughput-sorting WITHOUT it routes EagleEye's geopolitical
   // prompts straight onto the blocked providers, because they are the fastest —
   // the policy and the speed fix pull in opposite directions, so they must ship
   // together. This is the regression that nearly shipped.

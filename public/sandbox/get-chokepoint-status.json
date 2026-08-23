@@ -1,12 +1,12 @@
 {
-  "$comment": "Sandbox fixture — a deterministic, schema-valid sample response derived from the published OpenAPI contract. No auth, no quota. Do not treat the payload as live data; call the production endpoint for real values. Guide: https://www.worldmonitor.app/docs/sandbox",
+  "$comment": "Sandbox fixture — a deterministic, schema-valid sample response derived from the published OpenAPI contract. No auth, no quota. Do not treat the payload as live data; call the production endpoint for real values. Guide: https://www.eagle-eye.app/docs/sandbox",
   "sandbox": true,
   "operation": {
     "operationId": "GetChokepointStatus",
     "method": "GET",
     "path": "/api/supply-chain/v1/get-chokepoint-status",
     "summary": "GetChokepointStatus",
-    "productionUrl": "https://api.worldmonitor.app/api/supply-chain/v1/get-chokepoint-status",
+    "productionUrl": "https://api.eagle-eye.app/api/supply-chain/v1/get-chokepoint-status",
     "service": "SupplyChainService"
   },
   "request": {
@@ -25,7 +25,7 @@
           ],
           "aisDisruptions": 1,
           "congestionLevel": "example",
-          "description": "Example WorldMonitor observation."
+          "description": "Example EagleEye observation."
         }
       ],
       "fetchedAt": "2026-01-15T12:00:00Z",

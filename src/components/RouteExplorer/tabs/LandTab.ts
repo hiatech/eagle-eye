@@ -8,7 +8,7 @@
 import type {
   BypassCorridorOption,
   GetRouteExplorerLaneResponse,
-} from '@/generated/server/worldmonitor/supply_chain/v1/service_server';
+} from '@/generated/server/eagleeye/supply_chain/v1/service_server';
 import { renderRouteCard } from '../components/RouteCard';
 import { setTrustedHtml, trustedHtml } from '@/utils/dom-utils';
 

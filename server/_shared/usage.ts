@@ -432,7 +432,7 @@ export async function deriveUaHash(req: Request): Promise<string | null> {
 export function deriveOriginKind(req: Request): OriginKind | null {
   const origin = req.headers.get('origin') ?? '';
   const hasApiKey =
-    req.headers.has('x-worldmonitor-key') || req.headers.has('x-api-key');
+    req.headers.has('x-eagleeye-key') || req.headers.has('x-api-key');
   const hasBearer = (req.headers.get('authorization') ?? '').startsWith('Bearer ');
   if (hasApiKey) return 'api-key';
   if (hasBearer) return 'oauth';

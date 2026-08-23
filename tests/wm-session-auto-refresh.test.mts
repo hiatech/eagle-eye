@@ -106,11 +106,11 @@ const stubLocalStorage: Storage = {
 // transitively via runtime.ts → wm-session.ts) reads `location.hostname` at
 // module-eval time and calls `.startsWith(...)` on it.
 (globalThis as unknown as { location: Location }).location = {
-  href: 'https://worldmonitor.app/',
-  origin: 'https://worldmonitor.app',
-  hostname: 'worldmonitor.app',
+  href: 'https://eagle-eye.app/',
+  origin: 'https://eagle-eye.app',
+  hostname: 'eagle-eye.app',
   protocol: 'https:',
-  host: 'worldmonitor.app',
+  host: 'eagle-eye.app',
 } as Location;
 
 // ---------------------------------------------------------------------------
@@ -305,7 +305,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
       return Promise.resolve(new Response('unhandled', { status: 500 }));
     };
 
-    const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+    const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
     assert.equal(resp.status, 200, 'final response should be the retried 200');
     assert.equal(bootstrapAttempts, 2, 'bootstrap should be called twice (initial 401 + retry)');
     assert.equal(mintCalls, 1, 'one mint between the 401 and the retry');
@@ -331,7 +331,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     };
 
     // Pick any premium path — analyze-stock is one.
-    const resp = await wrappedFetch('https://api.worldmonitor.app/api/market/v1/analyze-stock');
+    const resp = await wrappedFetch('https://api.eagle-eye.app/api/market/v1/analyze-stock');
     assert.equal(resp.status, 401);
     assert.equal(attempts, 1, 'premium path must NOT trigger a retry inside this interceptor');
     assert.equal(mintCalls, 0, 'premium path must NOT mint a wms_ token (the dedicated injector handles it)');
@@ -368,7 +368,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     let resp: Response;
     try {
       resp = await wrappedFetch(
-        'https://api.worldmonitor.app/api/news/v1/summarize-article',
+        'https://api.eagle-eye.app/api/news/v1/summarize-article',
         withPremiumIntent({ method: 'POST', body: JSON.stringify({ mode: 'summarize' }) }),
       );
     } finally {
@@ -416,7 +416,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     // Unmarked is what premiumFetch must produce for a pro-fresh target; the
     // producer side of that contract is pinned in tests/premium-fetch.test.mts.
     const resp = await wrappedFetch(
-      'https://api.worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL',
+      'https://api.eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL',
       { credentials: 'include' },
     );
 
@@ -450,7 +450,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     };
 
     const resp = await wrappedFetch(
-      'https://api.worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL',
+      'https://api.eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL',
       withPremiumIntent({}),
     );
 
@@ -485,7 +485,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     };
 
     const resp = await wrappedFetch(
-      'https://api.worldmonitor.app/api/news/v1/summarize-article',
+      'https://api.eagle-eye.app/api/news/v1/summarize-article',
       { method: 'POST', body: JSON.stringify({ mode: 'translate' }) },
     );
 
@@ -516,7 +516,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
       return Promise.resolve(new Response('unauthorized', { status: 401 }));
     };
 
-    const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap', {
+    const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap', {
       headers: { Authorization: 'Bearer caller-supplied-jwt' },
     });
     assert.equal(resp.status, 401);
@@ -557,13 +557,13 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = (...args: unknown[]) => { warnings.push(args.map(String).join(' ')); };
     try {
-      const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+      const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
       assert.equal(resp.status, 401, 'the failed recovery returns the server response');
 
-      const corroborating = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health');
+      const corroborating = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health');
       assert.equal(corroborating.status, 401, 'the second distinct route also returns the server response');
 
-      const suppressed = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
+      const suppressed = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
       assert.equal(suppressed.status, 503, 'the dead session suppresses later gated calls during the cooldown');
       assert.equal(suppressed.headers.get('x-wm-session-degraded'), '1');
     } finally {
@@ -597,24 +597,24 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const failed = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
+      const failed = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
       assert.equal(failed.status, 401, 'failed recovery returns the server response');
       // Two distinct routes must fail before the global cooldown engages (#5674).
-      const corroborating = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health');
+      const corroborating = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health');
       assert.equal(corroborating.status, 401, 'the corroborating failure enters the dead-session cooldown');
 
-      const fast = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1', {
+      const fast = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1', {
         credentials: 'omit',
       });
       assert.equal(fast.status, 200, 'string input should reach the public tier while the session is dead');
 
-      const slowRequest = new Request('https://api.worldmonitor.app/api/bootstrap?public=1&tier=slow', {
+      const slowRequest = new Request('https://api.eagle-eye.app/api/bootstrap?public=1&tier=slow', {
         credentials: 'omit',
       });
       const slow = await wrappedFetch(slowRequest);
       assert.equal(slow.status, 200, 'Request input should preserve its effective omit credentials');
 
-      const onDemandRequest = new Request('https://api.worldmonitor.app/api/bootstrap?keys=chinaPolicyEvents&public=1', {
+      const onDemandRequest = new Request('https://api.eagle-eye.app/api/bootstrap?keys=chinaPolicyEvents&public=1', {
         credentials: 'omit',
       });
       const onDemand = await wrappedFetch(onDemandRequest);
@@ -622,44 +622,44 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
 
       // weatherAlerts rides the fast tier but has its own public URL (#5386),
       // so it is a single-key public read like the on-demand keys above.
-      const publicWeather = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1', {
+      const publicWeather = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1', {
         credentials: 'omit',
       });
       assert.equal(publicWeather.status, 200, 'public weather hydration must not participate in wm-session state');
 
-      const digest = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest?variant=full&lang=en&public=1', {
+      const digest = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest?variant=full&lang=en&public=1', {
         credentials: 'omit',
       });
       assert.equal(digest.status, 200, 'public digest should bypass dead-session suppression');
 
-      const displacement = await wrappedFetch('https://api.worldmonitor.app/api/displacement/v1/get-displacement-summary?flow_limit=50&public=1', {
+      const displacement = await wrappedFetch('https://api.eagle-eye.app/api/displacement/v1/get-displacement-summary?flow_limit=50&public=1', {
         credentials: 'omit',
       });
       assert.equal(displacement.status, 200, 'public displacement should bypass dead-session suppression');
 
-      const missingPublicFlag = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?tier=fast', {
+      const missingPublicFlag = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?tier=fast', {
         credentials: 'omit',
       });
       assert.equal(missingPublicFlag.status, 503, 'ordinary tier reads must remain session-gated');
 
-      const credentialed = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1', {
+      const credentialed = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1', {
         credentials: 'include',
       });
       assert.equal(credentialed.status, 503, 'credentialed tier reads must remain session-gated');
 
-      const multipleKeys = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?keys=a,b&public=1', {
+      const multipleKeys = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?keys=a,b&public=1', {
         credentials: 'omit',
       });
       assert.equal(multipleKeys.status, 503, 'multi-key bootstrap reads must remain session-gated');
 
-      const nonPublicKey = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?keys=marketQuotes&public=1', {
+      const nonPublicKey = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?keys=marketQuotes&public=1', {
         credentials: 'omit',
       });
       assert.equal(nonPublicKey.status, 503, 'a single key outside the public single-key registry must remain session-gated');
 
       // The marker is what makes the read public. Without it the same key is the
       // credentialed URL, where a 401 IS ordinary session evidence (#5386).
-      const unmarkedWeather = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts', {
+      const unmarkedWeather = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts', {
         credentials: 'omit',
       });
       assert.equal(unmarkedWeather.status, 503, 'the unmarked weather URL must remain session-gated');
@@ -670,12 +670,12 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     assert.deepEqual(
       forwarded.slice(-6),
       [
-        { url: 'https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1', credentials: 'omit' },
-        { url: 'https://api.worldmonitor.app/api/bootstrap?public=1&tier=slow', credentials: 'omit' },
-        { url: 'https://api.worldmonitor.app/api/bootstrap?keys=chinaPolicyEvents&public=1', credentials: 'omit' },
-        { url: 'https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1', credentials: 'omit' },
-        { url: 'https://api.worldmonitor.app/api/news/v1/list-feed-digest?variant=full&lang=en&public=1', credentials: 'omit' },
-        { url: 'https://api.worldmonitor.app/api/displacement/v1/get-displacement-summary?flow_limit=50&public=1', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/bootstrap?public=1&tier=slow', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/bootstrap?keys=chinaPolicyEvents&public=1', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/news/v1/list-feed-digest?variant=full&lang=en&public=1', credentials: 'omit' },
+        { url: 'https://api.eagle-eye.app/api/displacement/v1/get-displacement-summary?flow_limit=50&public=1', credentials: 'omit' },
       ],
       'only exact credential-less public data requests should reach native fetch during cooldown',
     );
@@ -704,11 +704,11 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     console.warn = () => {};
     try {
       // Two distinct routes must fail before the episode starts (#5674).
-      await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
-      await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health');
+      await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
+      await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health');
       // Later calls are suppressed by the cooldown — no additional captures.
-      const s1 = await wrappedFetch('https://api.worldmonitor.app/api/economic/v1/get-bls-series');
-      const s2 = await wrappedFetch('https://api.worldmonitor.app/api/supply-chain/v1/get-shipping-stress');
+      const s1 = await wrappedFetch('https://api.eagle-eye.app/api/economic/v1/get-bls-series');
+      const s2 = await wrappedFetch('https://api.eagle-eye.app/api/supply-chain/v1/get-shipping-stress');
       assert.equal(s1.status, 503);
       assert.equal(s2.status, 503);
     } finally {
@@ -744,7 +744,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+      const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
       assert.equal(resp.status, 401, 'failed recovery returns the original server response');
     } finally {
       console.warn = originalWarn;
@@ -791,7 +791,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+      const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
       assert.equal(resp.status, 401, 'the recovery return must not become a rejection');
     } finally {
       console.warn = originalWarn;
@@ -831,7 +831,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch('https://api.worldmonitor.app/api/v2/shipping/webhooks/sub_9f8a7b6c5d4e3f21/pause');
+      await wrappedFetch('https://api.eagle-eye.app/api/v2/shipping/webhooks/sub_9f8a7b6c5d4e3f21/pause');
     } finally {
       console.warn = originalWarn;
     }
@@ -873,7 +873,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch(`https://api.worldmonitor.app/api/news/v1/${longPath}?q=1`);
+      await wrappedFetch(`https://api.eagle-eye.app/api/news/v1/${longPath}?q=1`);
     } finally {
       console.warn = originalWarn;
     }
@@ -913,7 +913,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch('https://api.worldmonitor.app/api/news/v1/summarize-article?lang=en', { method: 'POST' });
+      await wrappedFetch('https://api.eagle-eye.app/api/news/v1/summarize-article?lang=en', { method: 'POST' });
     } finally {
       console.warn = originalWarn;
     }
@@ -961,11 +961,11 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const resp = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+      const resp = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
       assert.equal(resp.status, 401, 'recovery must return the server 401, not reject');
       // A throwing enqueue must not break the per-route report either, and the
       // corroborating route is what reaches the degraded-event dispatch (#5674).
-      const corroborating = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health');
+      const corroborating = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health');
       assert.equal(corroborating.status, 401, 'the corroborating recovery must also return, not reject');
     } finally {
       console.warn = originalWarn;
@@ -1008,9 +1008,9 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
     console.warn = () => {};
     try {
       const responses = await Promise.all([
-        wrappedFetch('https://api.worldmonitor.app/api/bootstrap'),
-        wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses'),
-        wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health'),
+        wrappedFetch('https://api.eagle-eye.app/api/bootstrap'),
+        wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses'),
+        wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health'),
       ]);
       assert.deepEqual(responses.map((response) => response.status), [401, 401, 401]);
     } finally {
@@ -1033,8 +1033,8 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
   it('records a follower 401 after the recovery leader succeeds', async () => {
     memoryStorage.clear();
     const { captures } = collectSentry();
-    const leaderUrl = 'https://api.worldmonitor.app/api/news/v1/list-feed-digest';
-    const followerUrl = 'https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health';
+    const leaderUrl = 'https://api.eagle-eye.app/api/news/v1/list-feed-digest';
+    const followerUrl = 'https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health';
     let mintCalls = 0;
     let releaseRecoveryMint: (() => void) | null = null;
     const attempts = new Map<string, number>();
@@ -1093,9 +1093,9 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
   it('lets a late healthy follower lift a retry_401 cooldown from the same burst', async () => {
     memoryStorage.clear();
     collectSentry();
-    const leaderUrl = 'https://api.worldmonitor.app/api/bootstrap';
-    const deniedFollowerUrl = 'https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health';
-    const healthyFollowerUrl = 'https://api.worldmonitor.app/api/news/v1/list-feed-digest';
+    const leaderUrl = 'https://api.eagle-eye.app/api/bootstrap';
+    const deniedFollowerUrl = 'https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health';
+    const healthyFollowerUrl = 'https://api.eagle-eye.app/api/news/v1/list-feed-digest';
     let mintCalls = 0;
     let releaseRecoveryMint: (() => void) | null = null;
     let releaseDeniedFollower: (() => void) | null = null;
@@ -1169,8 +1169,8 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
   it('does not let an in-flight success lift a mint_failed cooldown', async () => {
     memoryStorage.clear();
     collectSentry();
-    const failedUrl = 'https://api.worldmonitor.app/api/bootstrap';
-    const healthyUrl = 'https://api.worldmonitor.app/api/news/v1/list-feed-digest';
+    const failedUrl = 'https://api.eagle-eye.app/api/bootstrap';
+    const healthyUrl = 'https://api.eagle-eye.app/api/news/v1/list-feed-digest';
     let releaseHealthy: (() => void) | null = null;
 
     currentFetchHandler = (input) => {
@@ -1236,8 +1236,8 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
       return Promise.resolve(new Response('recovered', { status: 200 }));
     };
 
-    const first = wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
-    const delayed = wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health');
+    const first = wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
+    const delayed = wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health');
     await new Promise((resolve) => setImmediate(resolve));
     assert.ok(releaseDelayed401, 'the second request should already be awaiting its stale response');
     releaseDelayed401?.();
@@ -1255,7 +1255,7 @@ describe('wm-session refresh-on-401 (Layer 2)', () => {
 // #5674 — one route's denial must not black out the whole anonymous session
 // ---------------------------------------------------------------------------
 //
-// WORLDMONITOR-WG regrew 34x (traffic-normalized) after #5516 with 97% of
+// EAGLEEYE-WG regrew 34x (traffic-normalized) after #5516 with 97% of
 // episodes tagged `retry_401`. Server-side telemetry (wm_api_usage, Axiom)
 // for 12 sampled affected browsers showed 11 of them emitting ZERO 401s for
 // the entire episode, and sibling routes on the same tab returning 200 in the
@@ -1388,13 +1388,13 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const warnings: string[] = [];
     console.warn = (...args: unknown[]) => { warnings.push(args.map(String).join(' ')); };
     try {
-      const denied = await wrappedFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores');
+      const denied = await wrappedFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores');
       assert.equal(denied.status, 401, "the caller still receives the server's own verdict");
 
       // The exact scenario Axiom proved: sibling routes are healthy and must
       // keep working. Today's code returns 503 for both of these.
-      const sibling = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
-      const sibling2 = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest');
+      const sibling = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
+      const sibling2 = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest');
       assert.equal(sibling.status, 200, 'a healthy sibling route must NOT be blacked out by another route’s 401');
       assert.equal(sibling2.status, 200, 'the anonymous session is alive — every other panel keeps loading');
     } finally {
@@ -1407,7 +1407,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     assert.equal(mod.isWmSessionDead(), false, 'the global cooldown must NOT engage on one route');
 
     assert.equal(captures.length, 1, 'the offending route is still reported exactly once');
-    // A distinct `kind` keeps WORLDMONITOR-WG the blackout counter it was
+    // A distinct `kind` keeps EAGLEEYE-WG the blackout counter it was
     // designed to be (#5245) while this becomes the route census (#5674).
     assert.equal(captures[0].ctx.tags?.kind, 'wm_session_route_401');
     assert.equal(captures[0].ctx.tags?.route, '/api/intelligence/v1/get-risk-scores');
@@ -1421,7 +1421,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const counters = { mints: 0, hits: new Map<string, number>() };
     currentFetchHandler = handlerRejecting(['/api/intelligence/v1/get-risk-scores'], counters);
 
-    const url = 'https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores';
+    const url = 'https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores';
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
@@ -1466,15 +1466,15 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const first = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
+      const first = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
       assert.equal(first.status, 401);
       assert.equal(mod.isWmSessionDead(), false, 'one route is not yet proof');
 
-      const second = await wrappedFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores');
+      const second = await wrappedFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores');
       assert.equal(second.status, 401, 'the corroborating route returns the server response');
       assert.equal(mod.isWmSessionDead(), true, 'two distinct routes DO prove the cookie is not being delivered');
 
-      const suppressed = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest');
+      const suppressed = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest');
       assert.equal(suppressed.status, 503, 'the global cooldown engages exactly as before');
       assert.equal(suppressed.headers.get('x-wm-session-degraded'), '1');
     } finally {
@@ -1521,13 +1521,13 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
+      await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
       assert.equal(mod.isWmSessionDead(), false, 'one route is not yet proof');
 
       // Well past SESSION_DEAD_CORROBORATION_MS but well inside the 15-minute
       // per-route suppression window.
       clock += 5 * 60 * 1000;
-      await wrappedFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores');
+      await wrappedFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores');
       assert.equal(
         mod.isWmSessionDead(), false,
         'a denial 5 minutes later is not corroborating evidence of a session-wide failure',
@@ -1554,28 +1554,28 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores');
+      await wrappedFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores');
       assert.equal(mod.isWmSessionDead(), false, 'one broken endpoint is not a dead session');
 
-      const healthy = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest');
+      const healthy = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest');
       assert.equal(healthy.status, 200, 'the sibling is fine, which is the whole point');
 
       // A second, unrelated broken endpoint. Two failures — but a success in
       // between proved the cookie is being delivered, so this is two endpoint
       // bugs, not a session failure.
-      await wrappedFetch('https://api.worldmonitor.app/api/economic/v1/get-bls-series');
+      await wrappedFetch('https://api.eagle-eye.app/api/economic/v1/get-bls-series');
       assert.equal(
         mod.isWmSessionDead(), false,
         'a proven-live session must not be blacked out by two unrelated endpoint denials',
       );
 
-      const stillWorking = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest');
+      const stillWorking = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest');
       assert.equal(stillWorking.status, 200, 'every healthy panel keeps loading');
 
       // The mint guard for the broken route must survive the sibling's success,
       // or it would remint on every poll (~120/hr instead of ~4/hr).
       const mintsBefore = counters.mints;
-      await wrappedFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores');
+      await wrappedFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores');
       assert.equal(
         counters.mints, mintsBefore,
         'a sibling’s success must NOT release the struck route’s mint guard (#5219)',
@@ -1613,13 +1613,13 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      await wrappedFetch(`https://api.worldmonitor.app${firstDenied}`);
+      await wrappedFetch(`https://api.eagle-eye.app${firstDenied}`);
       assert.equal(mod.isWmSessionDead(), false, 'the first failed route contributes one quorum vote');
 
-      const recovered = await wrappedFetch(`https://api.worldmonitor.app${recovering}`);
+      const recovered = await wrappedFetch(`https://api.eagle-eye.app${recovering}`);
       assert.equal(recovered.status, 200, 'the second route succeeds after its fresh mint');
 
-      await wrappedFetch(`https://api.worldmonitor.app${laterDenied}`);
+      await wrappedFetch(`https://api.eagle-eye.app${laterDenied}`);
       assert.equal(
         mod.isWmSessionDead(), false,
         'the successful recovery must clear the earlier vote before a later route fails',
@@ -1652,7 +1652,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
       return Promise.resolve(new Response(denied ? 'denied' : 'ok', { status: denied ? 401 : 200 }));
     };
 
-    const url = `https://api.worldmonitor.app${gated}`;
+    const url = `https://api.eagle-eye.app${gated}`;
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
@@ -1688,7 +1688,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     memoryStorage.clear();
     memoryStorage.set('wm-session-exp', JSON.stringify({ exp: FAR_FUTURE }));
     const { captures } = collectSentry();
-    const gated = 'https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores';
+    const gated = 'https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores';
     let gatedAttempts = 0;
     let releaseAnonymousMint: (() => void) | null = null;
     const anonymousToken = 'wms_stale-anonymous-recovery';
@@ -1720,7 +1720,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
         }));
       }
 
-      fallbackHeaders.push(new Headers(init?.headers).get('X-WorldMonitor-Key'));
+      fallbackHeaders.push(new Headers(init?.headers).get('X-EagleEye-Key'));
       gatedAttempts += 1;
       if (gatedAttempts === 1) return Promise.resolve(new Response('stale', { status: 401 }));
       return Promise.resolve(new Response('key cookie accepted', { status: 200 }));
@@ -1766,7 +1766,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     // unrelated caller has already obtained a cookie that works.
     memoryStorage.clear();
     collectSentry();
-    const struck = 'https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores';
+    const struck = 'https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores';
     let mints = 0;
     let struckAttempts = 0;
     let bootstrapAttempts = 0;
@@ -1805,7 +1805,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
       assert.ok(releaseStale401, 'the struck route should be awaiting its stale 401');
 
       // An unrelated caller recovers the session, advancing sessionGeneration.
-      const other = await wrappedFetch('https://api.worldmonitor.app/api/bootstrap');
+      const other = await wrappedFetch('https://api.eagle-eye.app/api/bootstrap');
       assert.equal(other.status, 200, 'the unrelated caller recovers normally');
 
       releaseStale401?.();
@@ -1835,7 +1835,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const resp = await wrappedFetch('https://api.worldmonitor.app/api/infrastructure/v1/list-service-statuses');
+      const resp = await wrappedFetch('https://api.eagle-eye.app/api/infrastructure/v1/list-service-statuses');
       assert.equal(resp.status, 401);
       assert.equal(mod.isWmSessionDead(), true, 'a failed mint needs no second route');
     } finally {
@@ -1845,7 +1845,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     const dead = captures.filter((c) => c.ctx.tags?.kind === 'wm_session_dead');
     assert.equal(dead.length, 1);
     assert.equal(dead[0].ctx.tags?.reason, 'mint_failed');
-    // The `route` tag must name what FAILED, since grouping WORLDMONITOR-WG by it
+    // The `route` tag must name what FAILED, since grouping EAGLEEYE-WG by it
     // to find the offending endpoint is the tag's whole purpose. On mint_failed
     // the mint is what failed; the in-flight route is a bystander and tagging it
     // would seed the route census with innocent endpoints.
@@ -1863,7 +1863,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
     // recovery again for the life of the tab.
     memoryStorage.clear();
     collectSentry();
-    const url = 'https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores';
+    const url = 'https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores';
     const counters = { mints: 0, hits: new Map<string, number>() };
     currentFetchHandler = handlerRejecting(['/api/intelligence/v1/get-risk-scores'], counters);
 
@@ -1895,7 +1895,7 @@ describe('wm-session route-scoped recovery failures (#5674)', () => {
 // ---------------------------------------------------------------------------
 // Layer 3 — cookie-persistence detection
 //
-// The failure mode WORLDMONITOR-WG/XP actually describes: the mint succeeds
+// The failure mode EAGLEEYE-WG/XP actually describes: the mint succeeds
 // (200 + Set-Cookie) but the browser never sends the cookie back, so every
 // credentialed route 401s no matter how many times we re-mint. The client
 // cannot read the HttpOnly cookie to check, so it used to assume the SERVER
@@ -1986,13 +1986,13 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
       }
       const headers = new Headers(init?.headers);
       if (url.includes('/api/market/v1/analyze-stock')) {
-        premiumFallbackHeader = headers.get('X-WorldMonitor-Key');
+        premiumFallbackHeader = headers.get('X-EagleEye-Key');
         return Promise.resolve(new Response('premium auth remains separate', { status: 401 }));
       }
-      if (headers.get('X-WorldMonitor-Key') === 'wm_explicit-user-key') {
+      if (headers.get('X-EagleEye-Key') === 'wm_explicit-user-key') {
         return Promise.resolve(new Response('explicit user key preserved', { status: 200 }));
       }
-      return Promise.resolve(headers.get('X-WorldMonitor-Key') === fallbackToken
+      return Promise.resolve(headers.get('X-EagleEye-Key') === fallbackToken
         ? new Response('header session accepted', { status: 200 })
         : new Response('no cookie presented', { status: 401 }));
     };
@@ -2000,10 +2000,10 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
     const originalWarn = console.warn;
     console.warn = () => {};
     try {
-      const recovered = await wrappedFetch('https://api.worldmonitor.app/api/conflict/v1/get-humanitarian-summary-batch');
+      const recovered = await wrappedFetch('https://api.eagle-eye.app/api/conflict/v1/get-humanitarian-summary-batch');
       assert.equal(recovered.status, 200, 'the request that proves cookie loss must recover through the header');
       const afterFirstRoute = mints;
-      const next = await wrappedFetch('https://api.worldmonitor.app/api/military/v1/get-aircraft-details-batch');
+      const next = await wrappedFetch('https://api.eagle-eye.app/api/military/v1/get-aircraft-details-batch');
       assert.equal(next.status, 200, 'later requests must use the in-memory anonymous header token');
       assert.equal(
         mints,
@@ -2011,12 +2011,12 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
         'a cookie proven unstorable must not require another mint for the next route',
       );
       const explicit = await wrappedFetch(
-        'https://api.worldmonitor.app/api/infrastructure/v1/get-cable-health',
-        { headers: { 'X-WorldMonitor-Key': 'wm_explicit-user-key' } },
+        'https://api.eagle-eye.app/api/infrastructure/v1/get-cable-health',
+        { headers: { 'X-EagleEye-Key': 'wm_explicit-user-key' } },
       );
       assert.equal(explicit.status, 200, 'an explicit user key must outrank the anonymous fallback');
 
-      const premium = await wrappedFetch('https://api.worldmonitor.app/api/market/v1/analyze-stock');
+      const premium = await wrappedFetch('https://api.eagle-eye.app/api/market/v1/analyze-stock');
       assert.equal(premium.status, 401, 'premium auth remains owned by its dedicated injector');
       assert.equal(
         premiumFallbackHeader,
@@ -2057,7 +2057,7 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
       const attempts = (routeAttempts.get(url) ?? 0) + 1;
       routeAttempts.set(url, attempts);
       const headers = new Headers(init?.headers);
-      return headers.get('X-WorldMonitor-Key') === fallbackToken
+      return headers.get('X-EagleEye-Key') === fallbackToken
         ? new Response('header session accepted', { status: 200 })
         : new Response('cookie missing after reload', { status: 401 });
     };
@@ -2066,8 +2066,8 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
     console.warn = () => {};
     try {
       const [first, second] = await Promise.all([
-        wrappedFetch('https://api.worldmonitor.app/api/conflict/v1/get-humanitarian-summary-batch'),
-        wrappedFetch('https://api.worldmonitor.app/api/military/v1/get-aircraft-details-batch'),
+        wrappedFetch('https://api.eagle-eye.app/api/conflict/v1/get-humanitarian-summary-batch'),
+        wrappedFetch('https://api.eagle-eye.app/api/military/v1/get-aircraft-details-batch'),
       ]);
 
       assert.equal(first.status, 200, 'the recovery leader must replay with the minted fallback token');
@@ -2104,7 +2104,7 @@ describe('wm-session cookie-persistence detection (Layer 3)', () => {
       return Promise.resolve(new Response(JSON.stringify({ ok: true }), { status: 200 }));
     };
 
-    const resp = await wrappedFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest?variant=full&lang=en');
+    const resp = await wrappedFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest?variant=full&lang=en');
     assert.equal(resp.status, 200, 'a working first-visit session must be untouched');
     assert.equal(
       captures.filter((c) => c.ctx.tags?.kind === 'wm_session_dead').length,

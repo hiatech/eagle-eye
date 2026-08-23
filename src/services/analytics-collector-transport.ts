@@ -93,7 +93,7 @@ export class CollectorDeliveryError extends Error {
  * 25 against a 50-deep buffer, a full flush shed ~half its events as
  * `queue-overflow` before they ever reached the network: not backpressure
  * against a slow collector, but a self-inflicted drop from two limits that were
- * never reconciled (WORLDMONITOR-Y3, 2230 events / 1747 users). Raising the
+ * never reconciled (EAGLEEYE-Y3, 2230 events / 1747 users). Raising the
  * queue depth does NOT raise concurrency — writes still drain one at a time,
  * which is what keeps umami#4183 contention off the collector.
  * `tests/analytics-queue-capacity.test.mjs` fails if the two drift apart again.
@@ -387,7 +387,7 @@ export function isRetryableIdentityFailure(failure: CollectorFailure): boolean {
  * writes. The same holds for a non-bot-filtered receiptless 200: privacy
  * middleware that answers a faked 200 for a tracker endpoint, and a response
  * whose body cannot be read, both look exactly like a collector that accepted
- * and discarded the write. Verified in production 2026-08-01 (WORLDMONITOR-Y3):
+ * and discarded the write. Verified in production 2026-08-01 (EAGLEEYE-Y3):
  * receiptless-200 reports arrived at ~16/hour from diverse real browsers while
  * the Umami DB was ingesting 15-23k events/hour and every probe shape returned
  * a full receipt. Nothing computed on this page can separate them, so the
@@ -512,7 +512,7 @@ function emitCollectorFailureToSentry(
       // fixed message and folds all five `kind`s into one. That is how the
       // ad-blocker population (`network`, unactionable by design) buried a
       // `queue-overflow` count that was our own dropped writes, in a single
-      // 2230-event issue nobody could read a cause out of (WORLDMONITOR-Y3).
+      // 2230-event issue nobody could read a cause out of (EAGLEEYE-Y3).
       // Cardinality stays bounded: 5 kinds x the small status set.
       fingerprint: [
         'analytics-collector',

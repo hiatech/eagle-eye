@@ -163,8 +163,8 @@ function generatedQuerySpecs() {
   return [
     ...serviceJsonSpecs,
     {
-      file: 'worldmonitor.openapi.yaml',
-      spec: YAML.parse(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8')),
+      file: 'eagleeye.openapi.yaml',
+      spec: YAML.parse(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8')),
     },
   ];
 }

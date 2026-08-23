@@ -35,7 +35,7 @@ tags:
 
 ## Context
 
-Issue #5857 (PR #5884) swept a prompt-injection guard across `server/worldmonitor/intelligence/v1/chat-analyst-context.ts`. `sanitizeForPrompt` deliberately preserves a lone newline, so every `- ${x}`-joined-by-`\n` block in that file let one feed item forge an extra bullet the analyst reads as a real story. The fix adds `sanitizeForPromptLine` (`server/_shared/llm-sanitize.js:122`) and applies it at **32 call sites** (31 lines — `:318` carries two).
+Issue #5857 (PR #5884) swept a prompt-injection guard across `server/eagleeye/intelligence/v1/chat-analyst-context.ts`. `sanitizeForPrompt` deliberately preserves a lone newline, so every `- ${x}`-joined-by-`\n` block in that file let one feed item forge an extra bullet the analyst reads as a real story. The fix adds `sanitizeForPromptLine` (`server/_shared/llm-sanitize.js:122`) and applies it at **32 call sites** (31 lines — `:318` carries two).
 
 The issue's own acceptance criteria demanded proof of teeth: *"reverting it must turn the test red."* So the guard was mutation-tested. The mutation chosen was the obvious one — neuter the shared helper:
 

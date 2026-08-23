@@ -544,7 +544,7 @@ describe('readReplayListPaged', () => {
     await readReplayListPaged('https://u', 't', 'k', { fetchImpl: up.impl, pageSize: 1_000 });
     assert.ok(up.requests.length > 0);
     for (const { init } of up.requests) {
-      assert.equal(init.headers['User-Agent'], 'worldmonitor-digest/1.0');
+      assert.equal(init.headers['User-Agent'], 'eagleeye-digest/1.0');
       assert.ok(init.signal instanceof AbortSignal);
       assert.equal(init.signal.aborted, false);
     }

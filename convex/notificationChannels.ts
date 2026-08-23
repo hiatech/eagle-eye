@@ -16,7 +16,7 @@ import { channelTypeValidator } from "./constants";
 // Convex/Railway deployment order.
 const WELCOME_QUEUE_KEY = "wm:events:queue:welcome-v2";
 const WELCOME_FETCH_TIMEOUT_MS = 5_000;
-const WELCOME_USER_AGENT = "worldmonitor-convex/1.0";
+const WELCOME_USER_AGENT = "eagleeye-convex/1.0";
 const WELCOME_DEDUP_TTL_SECONDS = 24 * 60 * 60;
 const WELCOME_RETRY_DELAYS_MS = [
   10_000,

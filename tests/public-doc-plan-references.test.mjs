@@ -23,8 +23,8 @@ describe('public documentation plan-reference guard', () => {
       'See [details](../plans/internal-roadmap.md).',
       'See [root plan](plans/internal-roadmap.md).',
       'See [explicit root plan](./plans/internal-roadmap.md).',
-      'See https://github.com/koala73/worldmonitor/blob/main/docs/plans/internal-roadmap.md.',
-      'See https://github.com/koala73/worldmonitor/blob/main/docs/%70lans/internal-roadmap.md.',
+      'See https://github.com/hiatech/eagle-eye/blob/main/docs/plans/internal-roadmap.md.',
+      'See https://github.com/hiatech/eagle-eye/blob/main/docs/%70lans/internal-roadmap.md.',
       'Progress is 100% and %FF; see docs%2Fplans%2Finternal-roadmap.md.',
     ].join('\n'));
 

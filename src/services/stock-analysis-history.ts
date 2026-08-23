@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { AnalyzeStockResponse } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { AnalyzeStockResponse } from '@/generated/client/eagleeye/market/v1/service_client';
 import { premiumFetch } from '@/services/premium-fetch';
 import { MarketServiceClient } from '@/services/generated-rpc-clients';
 

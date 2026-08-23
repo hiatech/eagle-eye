@@ -66,10 +66,10 @@ const CHINA_COVERAGE_KEY = 'news:insights:v1:CN';
 const CHINA_NEWS_DIGEST_LANGUAGE = 'zh';
 
 // Defense-in-depth auth — see seed-infra.mjs for the same pattern + rationale.
-// Set WORLDMONITOR_RELAY_KEY on the Railway service (must match a value in
-// Vercel's WORLDMONITOR_VALID_KEYS). Origin alone is no longer reliable
+// Set EAGLEEYE_RELAY_KEY on the Railway service (must match a value in
+// Vercel's EAGLEEYE_VALID_KEYS). Origin alone is no longer reliable
 // because CF/Vercel intermediaries may strip it and CF can cache the 401.
-const RELAY_API_KEY = process.env.WORLDMONITOR_RELAY_KEY || '';
+const RELAY_API_KEY = process.env.EAGLEEYE_RELAY_KEY || '';
 
 // Digest items store proto enum strings (THREAT_LEVEL_HIGH etc.) from toProtoItem().
 // Normalize to client-side lowercase values before propagating into insights output.
@@ -111,7 +111,7 @@ export const INSIGHTS_SYNTHESIS_FAILURE_CODES = Object.freeze({
   PROVIDER: 'INSIGHTS_SYNTHESIS_PROVIDER',
 });
 const INSIGHTS_SYNTHESIS_FAILURE_CODE_SET = new Set(Object.values(INSIGHTS_SYNTHESIS_FAILURE_CODES));
-const INSIGHTS_RUN_META = Symbol('worldmonitor.insightsRunMeta');
+const INSIGHTS_RUN_META = Symbol('eagleeye.insightsRunMeta');
 
 function normalizeInsightsFailureCode(code) {
   return INSIGHTS_SYNTHESIS_FAILURE_CODE_SET.has(code)
@@ -391,7 +391,7 @@ const LLM_PROVIDERS = [
     envKey: 'OPENROUTER_API_KEY',
     apiUrl: 'https://openrouter.ai/api/v1/chat/completions',
     model: 'deepseek/deepseek-v4-flash',
-    headers: (key) => ({ 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://worldmonitor.app', 'X-Title': 'World Monitor', 'User-Agent': CHROME_UA }),
+    headers: (key) => ({ 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://eagle-eye.app', 'X-Title': 'Eagle Eye', 'User-Agent': CHROME_UA }),
     extraBody: { reasoning: { enabled: false } },
     timeout: 20_000,
   },
@@ -643,12 +643,12 @@ function buildImportanceObservability(clusters, topStories) {
 }
 
 async function warmDigestCache(language = 'en') {
-  const apiBase = process.env.API_BASE_URL || 'https://api.worldmonitor.app';
+  const apiBase = process.env.API_BASE_URL || 'https://api.eagle-eye.app';
   const headers = {
     'User-Agent': CHROME_UA,
-    Origin: 'https://worldmonitor.app',
+    Origin: 'https://eagle-eye.app',
   };
-  if (RELAY_API_KEY) headers['X-WorldMonitor-Key'] = RELAY_API_KEY;
+  if (RELAY_API_KEY) headers['X-EagleEye-Key'] = RELAY_API_KEY;
   try {
     const resp = await fetch(`${apiBase}/api/news/v1/list-feed-digest?variant=full&lang=${encodeURIComponent(language)}`, {
       headers,
@@ -656,7 +656,7 @@ async function warmDigestCache(language = 'en') {
     });
     if (resp.ok) console.log(`  ${language} digest cache warmed via RPC`);
     else {
-      const keyNote = RELAY_API_KEY ? '' : ' (WORLDMONITOR_RELAY_KEY not set — Origin-only auth)';
+      const keyNote = RELAY_API_KEY ? '' : ' (EAGLEEYE_RELAY_KEY not set — Origin-only auth)';
       console.warn(`  Digest warm failed: HTTP ${resp.status}${keyNote}`);
     }
   } catch (err) {

@@ -2,7 +2,7 @@
 
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { summarizeArticle } from "../worldmonitor/news/v1/summarize-article";
+import { summarizeArticle } from "../eagleeye/news/v1/summarize-article";
 
 const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
@@ -16,7 +16,7 @@ function restoreEnv() {
 
 function makeContext(headers: Record<string, string> = {}) {
   return {
-    request: new Request("https://www.worldmonitor.app/api/news/v1/summarize-article", { headers }),
+    request: new Request("https://www.eagle-eye.app/api/news/v1/summarize-article", { headers }),
     pathParams: {},
     headers,
   };
@@ -64,7 +64,7 @@ describe("summarizeArticle handler premium mode gate", () => {
   });
 
   test("anonymous analysis mode is rejected before provider fetch", async () => {
-    const result = await summarizeArticle(makeContext({ "X-WorldMonitor-Key": "wms_basic_session" }), request("analysis"));
+    const result = await summarizeArticle(makeContext({ "X-EagleEye-Key": "wms_basic_session" }), request("analysis"));
 
     expect(result.error).toBe("Pro subscription required");
     expect(globalThis.fetch).not.toHaveBeenCalled();
@@ -85,10 +85,10 @@ describe("summarizeArticle handler premium mode gate", () => {
 
   test("premium callers pass the summary gate", async () => {
     delete process.env.GROQ_API_KEY;
-    process.env.WORLDMONITOR_VALID_KEYS = "enterprise-test-key";
+    process.env.EAGLEEYE_VALID_KEYS = "enterprise-test-key";
 
     const result = await summarizeArticle(
-      makeContext({ "X-WorldMonitor-Key": "enterprise-test-key" }),
+      makeContext({ "X-EagleEye-Key": "enterprise-test-key" }),
       request("brief"),
     );
 

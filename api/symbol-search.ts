@@ -55,9 +55,9 @@ const FINNHUB_429_DEFAULT_RETRY_AFTER_SECONDS = 60;
 const FINNHUB_429_MAX_RETRY_AFTER_SECONDS = 120;
 // Honest UA identifying ourselves to Finnhub. The AGENTS.md Critical
 // Conventions section requires UA on server-side fetches; matches the
-// `worldmonitor-edge/1.0` convention used by api/notify.ts and
+// `eagleeye-edge/1.0` convention used by api/notify.ts and
 // api/notification-channels.ts.
-const FETCH_USER_AGENT = 'worldmonitor-edge/1.0';
+const FETCH_USER_AGENT = 'eagleeye-edge/1.0';
 
 // Finnhub `type` values worth offering in the watchlist editor. Finnhub also
 // returns crypto, FX, bonds, warrants, etc. — excluding those keeps the
@@ -230,7 +230,7 @@ export default async function handler(
       // junk symbols, scanner probes). This is USER-INPUT noise, not
       // upstream failure — return 400 to the client and SKIP the Sentry
       // capture entirely. Capturing 422 was paging at warning level
-      // (WORLDMONITOR-RE) on real users typing things like "$" or "< "
+      // (EAGLEEYE-RE) on real users typing things like "$" or "< "
       // in the symbol search box, which we can't act on. A spike in
       // 422s would suggest tightening our client-side input validation,
       // but the signal for that lives better in front-end analytics
@@ -258,7 +258,7 @@ export default async function handler(
       // Upstream gateway transients (502/503/504) are Finnhub-side infra blips —
       // not our bug, not our quota, not our auth. Like the 422 skip above, the
       // client already receives a 502/503 and backs off, so capturing each one
-      // only pages at warning on an unactionable transient (WORLDMONITOR-RE). A
+      // only pages at warning on an unactionable transient (EAGLEEYE-RE). A
       // sustained Finnhub outage surfaces via uptime monitoring on the 5xx the
       // client sees. Auth failures (401/403 = our API key broke / Finnhub-side
       // misconfig) and 429 (quota — actionable: bump the plan) still capture so a

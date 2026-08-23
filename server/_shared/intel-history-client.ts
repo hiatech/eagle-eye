@@ -2,7 +2,7 @@
  * Convex transport for the historical intelligence memory (#5694).
  *
  * Shared by the three Pro-gated RPCs in
- * server/worldmonitor/intelligence/v1/{search-intel-history,get-intel-timeline,
+ * server/eagleeye/intelligence/v1/{search-intel-history,get-intel-timeline,
  * get-similar-events}.ts. Owns one concern: reading convex/intelHistory.ts
  * through its two secret-guarded internal HTTP routes, and adapting stored
  * records to the wire shape. Query embedding lives in
@@ -200,7 +200,7 @@ async function readIntelHistory(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-gateway/1.0',
+        'User-Agent': 'eagleeye-gateway/1.0',
         'x-convex-shared-secret': sharedSecret,
       },
       body: JSON.stringify(payload),

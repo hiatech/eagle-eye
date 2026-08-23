@@ -2,7 +2,7 @@
  * Feed parity test — client vs server (PR #3715 review follow-up).
  *
  * The client feed config (`src/config/feeds.ts`) and the server-side digest
- * feed config (`server/worldmonitor/news/v1/_feeds.ts`) are independent files
+ * feed config (`server/eagleeye/news/v1/_feeds.ts`) are independent files
  * that frequently share feed NAMES. When a publisher dies and we fall back
  * to Google News on one side but forget to mirror the change on the other,
  * the digest path keeps fetching the dead URL while the direct-RSS path is
@@ -31,7 +31,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 
 const CLIENT_PATH = resolve(ROOT, 'src/config/feeds.ts');
-const SERVER_PATH = resolve(ROOT, 'server/worldmonitor/news/v1/_feeds.ts');
+const SERVER_PATH = resolve(ROOT, 'server/eagleeye/news/v1/_feeds.ts');
 
 /**
  * Extract feed name + a routing hint from a source file.

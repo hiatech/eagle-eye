@@ -51,13 +51,13 @@ describe('blog SEO and GEO corpus contract', () => {
       assert.match(post.body, /^## Frequently Asked Questions$/m, `${post.file}: missing FAQ section`);
       assert.match(
         post.body,
-        /\[[^\]]+\]\((?:https:\/\/www\.worldmonitor\.app)?\/blog\/posts\//,
+        /\[[^\]]+\]\((?:https:\/\/www\.eagle-eye\.app)?\/blog\/posts\//,
         `${post.file}: missing contextual internal link`,
       );
 
       const offsiteLinks = [...post.body.matchAll(/\[[^\]]+\]\((https?:\/\/[^\s)]+)/g)]
         .map((match) => new URL(match[1]))
-        .filter((url) => !/(^|\.)worldmonitor\.app$/.test(url.hostname));
+        .filter((url) => !/(^|\.)eagle-eye\.app$/.test(url.hostname));
       assert.ok(offsiteLinks.length > 0, `${post.file}: add an authoritative external citation`);
 
       const published = new Date(post.field('pubDate'));
@@ -92,8 +92,8 @@ describe('blog SEO and GEO corpus contract', () => {
   // This delegates instead of restating, so there is one contract, checked in
   // the always-on docs-stats job and exercised again by the unit suite.
   it('keeps the first-party category explainer answer-first and fact-consistent', () => {
-    const explainer = posts.find((post) => post.file === 'what-is-worldmonitor-real-time-global-intelligence.md');
-    assert.ok(explainer, 'missing first-party World Monitor category explainer');
+    const explainer = posts.find((post) => post.file === 'what-is-eagle-eye-real-time-global-intelligence.md');
+    assert.ok(explainer, 'missing first-party Eagle Eye category explainer');
     assert.deepEqual(validateCategoryExplainerCopy(computeStats()), []);
   });
 

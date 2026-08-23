@@ -3,7 +3,7 @@ title: "Scenario Engine"
 description: "运行预构建的供应链中断情景 — 覆盖武装冲突、制裁升级、关税冲击与极端天气事件 — 直接在交互式地图上查看哪些咽喉要道、行业板块与国家将受影响，Scenario Engine 帮助分析师、风控团队与政策研究人员在真实事件发生前完成压力测试、暴露度评估与情景对冲规划。"
 ---
 
-Scenario Engine 将 WorldMonitor 的实时供应链图转化为交互式 what-if 工具。你不再问"今天这条航线状态如何"，而是选择一个命名的中断场景 — 霍尔木兹海峡关闭、巴拿马干旱、半导体关税冲击 — 引擎解析对咽喉要道、HS2 板块和当前已种子化的报告国的下游影响，然后将结果绘制到现有地图上。
+Scenario Engine 将 EagleEye 的实时供应链图转化为交互式 what-if 工具。你不再问"今天这条航线状态如何"，而是选择一个命名的中断场景 — 霍尔木兹海峡关闭、巴拿马干旱、半导体关税冲击 — 引擎解析对咽喉要道、HS2 板块和当前已种子化的报告国的下游影响，然后将结果绘制到现有地图上。
 
 ## 适用人群
 
@@ -19,7 +19,7 @@ Scenario Engine 位于主仪表盘的 **Supply Chain** 面板内。每个预构�
 
 ## 场景模板
 
-模板在 `server/worldmonitor/supply-chain/v1/scenario-templates.ts` 中定义。每个模板有一个 `type`，取自一个小的精选集合，使场景可按类别浏览而非自由列表。
+模板在 `server/eagleeye/supply-chain/v1/scenario-templates.ts` 中定义。每个模板有一个 `type`，取自一个小的精选集合，使场景可按类别浏览而非自由列表。
 
 当前发布的类型：
 
@@ -45,7 +45,7 @@ UI 是状态驱动而非模态 — 激活场景在每个地图渲染器（deck.g
 
 ## 层级与门控
 
-Scenario Engine 是 **PRO**。免费用户看到触发按钮但在激活时被阻止：记录 `scenario-engine` 门控命中事件，地图不重绘。`ScenarioService.RunScenario` 处理器也在边缘强制执行 PRO（`server/worldmonitor/scenario/v1/run-scenario.ts`）。
+Scenario Engine 是 **PRO**。免费用户看到触发按钮但在激活时被阻止：记录 `scenario-engine` 门控命中事件，地图不重绘。`ScenarioService.RunScenario` 处理器也在边缘强制执行 PRO（`server/eagleeye/scenario/v1/run-scenario.ts`）。
 
 API 侧的速率限制 — 10 个作业/分钟/IP，一旦待处理队列已超过 100 个作业即施加队列背压 — 记录在 [Scenarios API](/zh/api-scenarios#run-a-scenario) 中。
 
@@ -63,7 +63,7 @@ API 侧的速率限制 — 10 个作业/分钟/IP，一旦待处理队列已超�
 
 ## Scenario Engine 背后的数据
 
-- **场景模板** — `server/worldmonitor/supply-chain/v1/scenario-templates.ts`。添加需要 proto 侧变更；目前不可由用户配置。
+- **场景模板** — `server/eagleeye/supply-chain/v1/scenario-templates.ts`。添加需要 proto 侧变更；目前不可由用户配置。
 - **作业队列** — Redis 列表 `scenario-queue:pending`；worker 结果落在 `scenario-result:{jobId}`。
 - **咽喉要道注册表** — 支持实时咽喉要道状态和 Route Explorer 的同一注册表，确保场景结果与产品其余部分视觉一致。
 - **贸易/影响数据** — 从 `supply-chain:exposure:{ISO2}:{HS2}:v1` 读取的 HS2 暴露缓存条目。如果省略 `iso2`，v1 仅计算已种子化的报告国集合：`US`、`CN`、`RU`、`IR`、`IN` 和 `TW`。提供 `iso2` 会将作业限定到该单个国家键。

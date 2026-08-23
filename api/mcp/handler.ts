@@ -78,7 +78,7 @@ const PUBLIC_MCP_METHODS: ReadonlySet<string> = new Set([
 // (a present-but-invalid key is rejected, never silently downgraded to anon).
 function hasCredentials(req: Request): boolean {
   if ((req.headers.get('Authorization') ?? '').startsWith('Bearer ')) return true;
-  return (req.headers.get('X-WorldMonitor-Key') ?? '') !== '';
+  return (req.headers.get('X-EagleEye-Key') ?? '') !== '';
 }
 
 // Spec-correct 401 for the fail-closed guards on data methods. These guards are
@@ -365,7 +365,7 @@ const MCP_TRANSPORT_PATH = '/mcp';
 // without this Vary.
 const DISCOVERY_VARY = 'Accept, Last-Event-ID';
 const STATIC_ASSET_FETCH_TIMEOUT_MS = 5_000;
-const STATIC_ASSET_USER_AGENT = 'WorldMonitor-MCP/1.0 (+https://worldmonitor.app)';
+const STATIC_ASSET_USER_AGENT = 'EagleEye-MCP/1.0 (+https://eagle-eye.app)';
 
 // Module-scope caches: both documents are static assets, immutable per deployment.
 let serverCardCache: string | null = null;
@@ -453,7 +453,7 @@ async function serveMcpGuide(req: Request, corsHeaders: Record<string, string>, 
       'Content-Type': 'text/markdown; charset=utf-8',
       ...corsHeaders,
       Vary: DISCOVERY_VARY,
-      Link: '<https://worldmonitor.app/mcp>; rel="canonical"',
+      Link: '<https://eagle-eye.app/mcp>; rel="canonical"',
     },
   });
 }
@@ -623,7 +623,7 @@ async function mcpHandlerInner(
   //   2. PUBLIC data resources: a concrete, metadata-only freshness/health
   //      probe (see PUBLIC_RESOURCE_REGISTRY) — exact-matched, so a data-
   //      bearing template instantiation never qualifies.
-  // DATA reads (a `worldmonitor://…` template instantiation) stay fully gated +
+  // DATA reads (a `eagleeye://…` template instantiation) stay fully gated +
   // Pro-quota-symmetric via the protected branch below.
   const resourceReadUri = method === 'resources/read'
     ? ((body.params as { uri?: unknown } | null)?.uri)
@@ -782,7 +782,7 @@ async function mcpHandlerInner(
     // resources (metadata-only, anon-readable); resources/templates/list
     // surfaces the data-bearing URI templates.
     case 'resources/list':
-      // Concrete DATA resources (worldmonitor://…, the metadata-only PUBLIC
+      // Concrete DATA resources (eagleeye://…, the metadata-only PUBLIC
       // freshness probe) lead; the MCP Apps `ui://` app-shell resources follow.
       // Both are metadata-class (URIs/names/descriptions, no data) and read
       // cleanly for an anonymous scanner reading the `resources` capability —

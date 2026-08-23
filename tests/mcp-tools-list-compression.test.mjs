@@ -16,7 +16,7 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
   let mod;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = VALID_KEY;
+    process.env.EAGLEEYE_VALID_KEYS = VALID_KEY;
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     mod = await freshMod();
@@ -129,9 +129,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
       // export TOOL_REGISTRY-like access by calling buildPublicTool indirectly.
       // We need TOOL_REGISTRY here for tests; export it temporarily via
       // module internals.
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }),
       }));
       const body = await res.json();
@@ -283,9 +283,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
       const t = tools.find(t => t.name === 'get_country_risk');
       assert.ok(t, 'get_country_risk must be registered');
       assert.ok(t._meta && typeof t._meta === 'object', 'UI-linked tool must carry a _meta object');
-      assert.equal(t._meta.ui?.resourceUri, 'ui://worldmonitor/country-risk.html',
+      assert.equal(t._meta.ui?.resourceUri, 'ui://eagleeye/country-risk.html',
         'nested _meta.ui.resourceUri must point at the registered ui:// resource');
-      assert.equal(t._meta['ui/resourceUri'], 'ui://worldmonitor/country-risk.html',
+      assert.equal(t._meta['ui/resourceUri'], 'ui://eagleeye/country-risk.html',
         'the deprecated flat ui/resourceUri alias must mirror the nested form');
     });
 
@@ -297,9 +297,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
     });
 
     it('describe_tool(get_country_risk) carries the same _meta.ui linkage (uncompressed path)', async () => {
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({
           jsonrpc: '2.0', id: 1, method: 'tools/call',
           params: { name: 'describe_tool', arguments: { tool_name: 'get_country_risk' } },
@@ -307,8 +307,8 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
       }));
       const body = await res.json();
       const full = JSON.parse(body.result.content[0].text);
-      assert.equal(full._meta?.ui?.resourceUri, 'ui://worldmonitor/country-risk.html');
-      assert.equal(full._meta?.['ui/resourceUri'], 'ui://worldmonitor/country-risk.html');
+      assert.equal(full._meta?.ui?.resourceUri, 'ui://eagleeye/country-risk.html');
+      assert.equal(full._meta?.['ui/resourceUri'], 'ui://eagleeye/country-risk.html');
     });
   });
 
@@ -317,9 +317,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
   // ============================================================
   describe('tools/list compression + describe_tool RPC', () => {
     async function getToolsList() {
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }),
       }));
       const body = await res.json();
@@ -327,9 +327,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
     }
 
     async function callDescribeTool(tool_name) {
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({
           jsonrpc: '2.0', id: 1, method: 'tools/call',
           params: { name: 'describe_tool', arguments: tool_name === undefined ? {} : { tool_name } },
@@ -410,9 +410,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
     // U4: Version bump + SERVER_INSTRUCTIONS + server-card sync
     // ============================================================
     it('serverInfo.version === "1.15.0"', async () => {
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 't', version: '1' } } }),
       }));
       const body = await res.json();
@@ -420,9 +420,9 @@ describe('api/mcp.ts — tools/list description compression (v1.7.0)', () => {
     });
 
     it('initialize.result.instructions mentions describe_tool AND the TOOL_DESCRIPTION_MAX_BYTES cap value', async () => {
-      const res = await mod.default(new Request('https://worldmonitor.app/mcp', {
+      const res = await mod.default(new Request('https://eagle-eye.app/mcp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': VALID_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': VALID_KEY },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 't', version: '1' } } }),
       }));
       const body = await res.json();

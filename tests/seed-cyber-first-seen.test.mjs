@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 import { mergeObservedFirstSeen } from '../scripts/seed-cyber-threats.mjs';
 
-// Issue #4008: WorldMonitor-observed first-seen merge. The cyber feed's bulk
+// Issue #4008: EagleEye-observed first-seen merge. The cyber feed's bulk
 // sources (AbuseIPDB blacklist, C2Intel plaintext) carry no upstream first-seen,
 // so firstSeenAt was 0 for ~80% of records. mergeObservedFirstSeen stamps a
 // stable per-indicator discovery timestamp across runs.

@@ -14,7 +14,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 
-import { getResilienceRanking } from '../server/worldmonitor/resilience/v1/get-resilience-ranking.ts';
+import { getResilienceRanking } from '../server/eagleeye/resilience/v1/get-resilience-ranking.ts';
 import {
   RESILIENCE_INTERVAL_METHODOLOGY,
   RESILIENCE_RANKING_CACHE_KEY,
@@ -22,7 +22,7 @@ import {
   HEADLINE_ELIGIBLE_HIGH_COVERAGE,
   HEADLINE_ELIGIBLE_MIN_COVERAGE,
   HEADLINE_ELIGIBLE_MIN_POPULATION_MILLIONS,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
 import { installRedis } from './helpers/fake-upstash-redis.mts';
 import { RESILIENCE_FIXTURES } from './helpers/resilience-fixtures.mts';
 

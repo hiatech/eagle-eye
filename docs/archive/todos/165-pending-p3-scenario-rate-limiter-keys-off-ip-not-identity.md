@@ -15,7 +15,7 @@ dependencies: []
 - **File:** `api/scenario/v1/run.ts`
 - Rate limit key: likely `getClientIp(req)` (standard pattern in codebase)
 - PRO endpoints in the codebase that handle multiple users per IP should key by API key identity
-- See MEMORY: `feedback_is_caller_premium_trusted_origin.md` — the API key is extractable from `X-WorldMonitor-Key`
+- See MEMORY: `feedback_is_caller_premium_trusted_origin.md` — the API key is extractable from `X-EagleEye-Key`
 - Minor issue: scenario endpoint is PRO-only, low traffic volume — not urgent
 - Identified by security-sentinel during PR #2910 review
 
@@ -23,7 +23,7 @@ dependencies: []
 
 ### Option A: Key rate limit by API key when present, fall back to IP
 ```ts
-const apiKey = req.headers.get('x-worldmonitor-key');
+const apiKey = req.headers.get('x-eagleeye-key');
 const rateLimitKey = apiKey ? `scenario:key:${apiKey}` : `scenario:ip:${getClientIp(req)}`;
 ```
 **Pros:** Per-identity limiting for authenticated users, IP fallback for unauth
@@ -37,7 +37,7 @@ _Apply Option A in a follow-up. Not blocking — scenario endpoint is PRO-only a
 - **Affected files:** `api/scenario/v1/run.ts`
 
 ## Acceptance Criteria
-- [ ] Rate limit key uses `X-WorldMonitor-Key` when present
+- [ ] Rate limit key uses `X-EagleEye-Key` when present
 - [ ] Falls back to IP for requests without a key
 - [ ] Existing rate limit tests pass
 

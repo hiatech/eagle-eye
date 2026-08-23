@@ -44,14 +44,14 @@ jobs:
           APEX_KEY_PATH="$(
             node --input-type=module -e "
               import { INDEXNOW_BATCHES } from './scripts/seo-indexnow-submit.mjs';
-              const batch = INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
+              const batch = INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
               process.stdout.write(new URL(batch.keyLocation).pathname.slice(1));
             "
           )"
           WWW_KEY_PATH="$(
             node --input-type=module -e "
               import { INDEXNOW_BATCHES } from './scripts/seo-indexnow-submit.mjs';
-              const batch = INDEXNOW_BATCHES.find(({ host }) => host === 'www.worldmonitor.app');
+              const batch = INDEXNOW_BATCHES.find(({ host }) => host === 'www.eagle-eye.app');
               process.stdout.write(new URL(batch.keyLocation).pathname.slice(1));
             "
           )"
@@ -78,7 +78,7 @@ jobs:
           fi
       - name: Submit the canonical MCP URL
         if: steps.relevant.outputs.submit_apex == 'true'
-        run: node scripts/seo-indexnow-submit.mjs --host worldmonitor.app
+        run: node scripts/seo-indexnow-submit.mjs --host eagle-eye.app
       - name: Submit canonical www product and blog URLs
         if: steps.relevant.outputs.submit_www == 'true'
-        run: node scripts/seo-indexnow-submit.mjs --host www.worldmonitor.app
+        run: node scripts/seo-indexnow-submit.mjs --host www.eagle-eye.app

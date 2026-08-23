@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 process.env.UPSTASH_REDIS_REST_URL = 'https://mock-upstash.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'mock-token';
-process.env.WORLDMONITOR_VALID_KEYS = 'test-health-admin-key';
+process.env.EAGLEEYE_VALID_KEYS = 'test-health-admin-key';
 
 const { default: handler, handleHealth, __testing__ } = await import('../api/health.js');
 
@@ -85,13 +85,13 @@ test('one sweep serves both callers, each from its own snapshot', async () => {
   };
 
   const compactResponse = await handler(
-    new Request('https://api.worldmonitor.app/api/health?compact=1'),
+    new Request('https://api.eagle-eye.app/api/health?compact=1'),
   );
   const compactBody = await compactResponse.json();
 
   const detailedResponse = await handler(
-    new Request('https://api.worldmonitor.app/api/health', {
-      headers: { 'x-worldmonitor-key': 'test-health-admin-key' },
+    new Request('https://api.eagle-eye.app/api/health', {
+      headers: { 'x-eagleeye-key': 'test-health-admin-key' },
     }),
   );
   const detailedBody = await detailedResponse.json();
@@ -200,8 +200,8 @@ test('coalesces concurrent cache misses into one full sweep', async () => {
   };
 
   const [first, second] = await Promise.all([
-    handler(new Request('https://api.worldmonitor.app/api/health?compact=1')),
-    handler(new Request('https://api.worldmonitor.app/api/health?compact=1')),
+    handler(new Request('https://api.eagle-eye.app/api/health?compact=1')),
+    handler(new Request('https://api.eagle-eye.app/api/health?compact=1')),
   ]);
   const [firstBody, secondBody] = await Promise.all([first.json(), second.json()]);
 
@@ -233,7 +233,7 @@ test('projects only failing checks from a cached compact snapshot', async () => 
     return new Response(JSON.stringify([{ result: JSON.stringify(compactSnapshot) }]), { status: 200 });
   };
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const response = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
   const body = await response.json();
 
   assert.equal(response.status, 200);
@@ -270,7 +270,7 @@ test('takes over refresh after the prior lock owner disappears', async () => {
     return new Response(JSON.stringify(results), { status: 200 });
   };
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const response = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
 
   assert.equal(response.status, 200);
   assert.equal(lockAttempts, 2);
@@ -298,7 +298,7 @@ test('does not report REDIS_DOWN when a healthy Redis lock stays contended', asy
     return new Response(JSON.stringify(results), { status: 200 });
   };
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const response = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
   const body = await response.json();
 
   assert.equal(response.status, 200);
@@ -337,7 +337,7 @@ test('does not start a doomed Redis request at the contention deadline', async (
     return new Response(JSON.stringify(results), { status: 200 });
   };
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const response = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
   const body = await response.json();
 
   assert.equal(response.status, 200);
@@ -393,8 +393,8 @@ test('releases its refresh lock when snapshot persistence fails', async () => {
     return new Response(JSON.stringify(results), { status: 200 });
   };
 
-  const first = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
-  const second = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const first = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
+  const second = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
 
   assert.equal(first.status, 200, 'a live verdict remains usable when only memoization fails');
   assert.equal(second.status, 200);
@@ -424,7 +424,7 @@ test('validates snapshot age after the Redis read completes', async () => {
     return new Response(JSON.stringify(results), { status: 200 });
   };
 
-  const response = await handler(new Request('https://api.worldmonitor.app/api/health?compact=1'));
+  const response = await handler(new Request('https://api.eagle-eye.app/api/health?compact=1'));
   const body = await response.json();
 
   assert.equal(response.status, 200);
@@ -455,7 +455,7 @@ test('serves the auditable content-freshness deadline from full and compact snap
 
   for (const [query, key, headers] of [
     ['?compact=1', HEALTH_COMPACT_SNAPSHOT_KEY, {}],
-    ['', HEALTH_SNAPSHOT_KEY, { 'x-worldmonitor-key': 'test-health-admin-key' }],
+    ['', HEALTH_SNAPSHOT_KEY, { 'x-eagleeye-key': 'test-health-admin-key' }],
   ]) {
     globalThis.fetch = async (_url, init) => {
       assert.deepEqual(JSON.parse(init.body), [['GET', key]]);
@@ -464,7 +464,7 @@ test('serves the auditable content-freshness deadline from full and compact snap
       ) }]), { status: 200 });
     };
 
-    const response = await handleHealth(new Request(`https://api.worldmonitor.app/api/health${query}`, { headers }), undefined, { now });
+    const response = await handleHealth(new Request(`https://api.eagle-eye.app/api/health${query}`, { headers }), undefined, { now });
     const body = await response.json();
 
     assert.equal(response.status, 200);
@@ -499,7 +499,7 @@ test('does not serve a full or compact snapshot after content-freshness grace ex
 
   for (const [query, key, headers] of [
     ['?compact=1', HEALTH_COMPACT_SNAPSHOT_KEY, {}],
-    ['', HEALTH_SNAPSHOT_KEY, { 'x-worldmonitor-key': 'test-health-admin-key' }],
+    ['', HEALTH_SNAPSHOT_KEY, { 'x-eagleeye-key': 'test-health-admin-key' }],
   ]) {
     const calls = [];
     globalThis.fetch = async (_url, init) => {
@@ -515,7 +515,7 @@ test('does not serve a full or compact snapshot after content-freshness grace ex
       throw new Error('stop after proving the expired snapshot was not served');
     };
 
-    const response = await handleHealth(new Request(`https://api.worldmonitor.app/api/health${query}`, { headers }), undefined, { now });
+    const response = await handleHealth(new Request(`https://api.eagle-eye.app/api/health${query}`, { headers }), undefined, { now });
     const body = await response.json();
 
     assert.equal(response.status, 503);

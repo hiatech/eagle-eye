@@ -2,7 +2,7 @@
 
 /**
  * Seed script: fetches compact snapshot payloads from consumer-prices-core
- * and writes them to Upstash Redis for WorldMonitor bootstrap hydration.
+ * and writes them to Upstash Redis for EagleEye bootstrap hydration.
  *
  * Run manually: node scripts/seed-consumer-prices.mjs --force
  *

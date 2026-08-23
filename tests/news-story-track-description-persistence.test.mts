@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { __testing__ } from '../server/worldmonitor/news/v1/list-feed-digest';
+import { __testing__ } from '../server/eagleeye/news/v1/list-feed-digest';
 import { shouldDropOpinionTrack } from '../scripts/lib/digest-opinion-track-filter.mjs';
 
 const {
@@ -410,7 +410,7 @@ describe('fetchAndParseRss — cache prefix invalidation contract', () => {
     // refactor cannot silently revert to v4.
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const src = readFileSync(
-      resolve(__dirname, '..', 'server', 'worldmonitor', 'news', 'v1', 'list-feed-digest.ts'),
+      resolve(__dirname, '..', 'server', 'eagleeye', 'news', 'v1', 'list-feed-digest.ts'),
       'utf-8',
     );
     // v7→v8: duration-led historical explainers now receive the same stable

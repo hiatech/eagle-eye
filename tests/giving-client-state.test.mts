@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import type { GetGivingSummaryResponse } from '../src/generated/client/worldmonitor/giving/v1/service_client.ts';
+import type { GetGivingSummaryResponse } from '../src/generated/client/eagleeye/giving/v1/service_client.ts';
 import { __testing__ } from '../src/services/giving/model.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');

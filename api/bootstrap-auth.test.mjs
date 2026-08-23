@@ -31,7 +31,7 @@ async function withMockedBootstrapAuth({
     'UPSTASH_REDIS_REST_URL',
     'UPSTASH_REDIS_REST_TOKEN',
     'WM_SESSION_SECRET',
-    'WORLDMONITOR_VALID_KEYS',
+    'EAGLEEYE_VALID_KEYS',
   ]);
   const originalFetch = globalThis.fetch;
   const calls = [];
@@ -41,7 +41,7 @@ async function withMockedBootstrapAuth({
   process.env.UPSTASH_REDIS_REST_URL = 'https://upstash.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-token';
   process.env.WM_SESSION_SECRET = 'test-secret-for-bootstrap-auth-cache-matrix';
-  process.env.WORLDMONITOR_VALID_KEYS = ENTERPRISE_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = ENTERPRISE_KEY;
 
   globalThis.fetch = async (input, init) => {
     const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
@@ -157,7 +157,7 @@ const proOnlyEntitlement = () => ({
 });
 
 function makeBootstrapRequest(headers = {}) {
-  return new Request('https://api.worldmonitor.app/api/bootstrap?keys=marketQuotes', {
+  return new Request('https://api.eagle-eye.app/api/bootstrap?keys=marketQuotes', {
     method: 'GET',
     headers,
   });
@@ -165,34 +165,34 @@ function makeBootstrapRequest(headers = {}) {
 
 function makeBootstrapRequestWithAllowedOrigin(headers = {}) {
   return makeBootstrapRequest({
-    Origin: 'https://worldmonitor.app',
+    Origin: 'https://eagle-eye.app',
     ...headers,
   });
 }
 
 function makeWeatherBootstrapRequest(headers = {}) {
-  return new Request('https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts', {
+  return new Request('https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts', {
     method: 'GET',
     headers,
   });
 }
 
 function makePublicWeatherBootstrapRequest(headers = {}) {
-  return new Request('https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1', {
+  return new Request('https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1', {
     method: 'GET',
     headers,
   });
 }
 
 function makeTierBootstrapRequest(tier = 'fast', headers = {}) {
-  return new Request(`https://api.worldmonitor.app/api/bootstrap?tier=${tier}`, {
+  return new Request(`https://api.eagle-eye.app/api/bootstrap?tier=${tier}`, {
     method: 'GET',
     headers,
   });
 }
 
 function makePublicTierBootstrapRequest(tier = 'fast', headers = {}) {
-  return new Request(`https://api.worldmonitor.app/api/bootstrap?tier=${tier}&public=1`, {
+  return new Request(`https://api.eagle-eye.app/api/bootstrap?tier=${tier}&public=1`, {
     method: 'GET',
     headers,
   });
@@ -200,7 +200,7 @@ function makePublicTierBootstrapRequest(tier = 'fast', headers = {}) {
 
 function assertSharedCacheHeaders(resp) {
   // Tier responses intentionally avoid public/s-maxage in Cache-Control (CF in
-  // front of api.worldmonitor.app would mispin ACAO) and shield via Vercel's
+  // front of api.eagle-eye.app would mispin ACAO) and shield via Vercel's
   // CDN-Cache-Control instead.
   assert.ok(resp.headers.get('cdn-cache-control'));
   assert.match(resp.headers.get('cdn-cache-control') || '', /\b(public|s-maxage)\b/i);
@@ -222,7 +222,7 @@ function assertNonSharedCacheHeaders(resp) {
 
 test('no-Origin enterprise key keeps bootstrap shape but is not shared-cacheable', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': ENTERPRISE_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': ENTERPRISE_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -232,7 +232,7 @@ test('no-Origin enterprise key keeps bootstrap shape but is not shared-cacheable
 
 test('allowed-Origin enterprise key keeps bootstrap shape but is not shared-cacheable', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeBootstrapRequestWithAllowedOrigin({ 'X-WorldMonitor-Key': ENTERPRISE_KEY }));
+    const resp = await handler(makeBootstrapRequestWithAllowedOrigin({ 'X-EagleEye-Key': ENTERPRISE_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -242,7 +242,7 @@ test('allowed-Origin enterprise key keeps bootstrap shape but is not shared-cach
 
 test('weather-only bootstrap with enterprise key uses key auth cache posture', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeWeatherBootstrapRequest({ 'X-WorldMonitor-Key': ENTERPRISE_KEY }));
+    const resp = await handler(makeWeatherBootstrapRequest({ 'X-EagleEye-Key': ENTERPRISE_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -250,9 +250,9 @@ test('weather-only bootstrap with enterprise key uses key auth cache posture', a
   });
 });
 
-test('no-Origin valid wm_ user key in X-WorldMonitor-Key returns bootstrap data without shared cache headers', async () => {
+test('no-Origin valid wm_ user key in X-EagleEye-Key returns bootstrap data without shared cache headers', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -264,7 +264,7 @@ test('no-Origin valid wm_ user key in X-WorldMonitor-Key returns bootstrap data 
 
 test('weather-only bootstrap with wm_ user key validates user auth before returning data', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makeWeatherBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeWeatherBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -276,7 +276,7 @@ test('weather-only bootstrap with wm_ user key validates user auth before return
 
 test('allowed-Origin valid wm_ user key returns bootstrap data without shared cache headers', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeBootstrapRequestWithAllowedOrigin({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequestWithAllowedOrigin({ 'X-EagleEye-Key': USER_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -308,7 +308,7 @@ test('session-authenticated weather-only bootstrap is not shared-cacheable', asy
 
 test('weather-only bootstrap with malformed wm_ header is rejected instead of anonymous bypass', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makeWeatherBootstrapRequest({ 'X-WorldMonitor-Key': 'wm_notcanonical' }));
+    const resp = await handler(makeWeatherBootstrapRequest({ 'X-EagleEye-Key': 'wm_notcanonical' }));
     const body = await resp.json();
 
     assert.equal(resp.status, 401);
@@ -330,7 +330,7 @@ test('no-Origin valid wm_ user key in X-Api-Key alias returns bootstrap data', a
 
 test('revoked wm_ user key returns generic non-cacheable 401 without leaking gateway sentinel', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement(), userKeyResponse: 'revoked' }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 401);
@@ -349,7 +349,7 @@ test('billing-verification lapse on a wm_ user key exposes a machine-readable co
       billingStatus: 'subscription_lapsed',
     },
   }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 403);
@@ -370,7 +370,7 @@ test('retryable billing verification on a wm_ user key keeps Retry-After and cod
       retryAfterSeconds: 19,
     },
   }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 503);
@@ -387,7 +387,7 @@ test('current API access keeps wm_ bootstrap usable while a stronger renewal is 
       retryAfterSeconds: 19,
     },
   }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
 
     assert.equal(resp.status, 200);
     assert.deepEqual(Object.keys(await resp.json()).sort(), ['data', 'missing']);
@@ -397,7 +397,7 @@ test('current API access keeps wm_ bootstrap usable while a stronger renewal is 
 
 test('malformed wm_ user key is rejected before Redis or Convex validation', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': 'wm_notcanonical' }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': 'wm_notcanonical' }));
     const body = await resp.json();
 
     assert.equal(resp.status, 401);
@@ -409,7 +409,7 @@ test('malformed wm_ user key is rejected before Redis or Convex validation', asy
 
 test('rate-limit Redis outage returns non-cacheable 503 before Convex validation', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement(), rateLimitStatus: 500 }, async (calls) => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 503);
@@ -426,7 +426,7 @@ test('over-limit wm_ user key returns non-cacheable 429 before Convex validation
     entitlement: activeApiEntitlement(),
     rateLimitResults: [{ result: 601 }, { result: 0 }, { result: 12 }],
   }, async (calls) => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 429);
@@ -452,7 +452,7 @@ test('wm_ credential outside the supported header fallback never leaks the gatew
 
 test('valid wm_ user key without current API access returns non-cacheable 403', async () => {
   await withMockedBootstrapAuth({ entitlement: proOnlyEntitlement() }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 403);
@@ -472,7 +472,7 @@ test('missing credentials remain a non-cacheable 401', async () => {
 
 test('Convex validation outage returns a retryable non-cacheable 503, not a misleading 401', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement(), userKeyResponse: 'error' }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 503);
@@ -491,7 +491,7 @@ test('key-auth response with an empty cache batch stays no-store (never shared-c
   // all-missing bundle. Under key auth that empty 200 must be no-store and emit
   // no CDN cache headers, or a CDN could cache an authenticated empty response.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makeBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
     const body = await resp.json();
 
     assert.equal(resp.status, 200);
@@ -552,7 +552,7 @@ test('explicit public weather bootstrap ignores attached credentials by design',
   // dependent answer here could never be honored. Callers that need their key
   // validated use the bare URL, which is no-store and always reaches the origin.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makePublicWeatherBootstrapRequest({ 'X-WorldMonitor-Key': 'wm_notcanonical' }));
+    const resp = await handler(makePublicWeatherBootstrapRequest({ 'X-EagleEye-Key': 'wm_notcanonical' }));
 
     assert.equal(resp.status, 200);
     assertPublicCorsHeaders(resp);
@@ -568,7 +568,7 @@ test('explicit public weather bootstrap answers a VALID entitled key identically
   // difference to everyone. The invalid-key case above is only half the proof;
   // this is the half that would actually leak if the short-circuit regressed.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
-    const resp = await handler(makePublicWeatherBootstrapRequest({ 'X-WorldMonitor-Key': USER_KEY }));
+    const resp = await handler(makePublicWeatherBootstrapRequest({ 'X-EagleEye-Key': USER_KEY }));
 
     assert.equal(resp.status, 200);
     assertPublicCorsHeaders(resp);
@@ -617,7 +617,7 @@ test('HEAD on the public weather URL is not the public path', async () => {
   // through to credentialed validation rather than minting a cacheable entry.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
     const resp = await handler(
-      new Request('https://api.worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1', { method: 'HEAD' }),
+      new Request('https://api.eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1', { method: 'HEAD' }),
     );
 
     assert.equal(resp.status, 401);
@@ -652,7 +652,7 @@ test('HEAD tier bootstrap is not the public path (no unshielded Redis read)', as
   // run the full registry Redis pipeline to build a body it cannot return.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
     const resp = await handler(
-      new Request('https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1', { method: 'HEAD' }),
+      new Request('https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1', { method: 'HEAD' }),
     );
 
     assert.equal(resp.status, 401);
@@ -685,7 +685,7 @@ test('legacy anonymous tier URL remains credentialed and non-cacheable', async (
 test('explicit public tier URL keeps public semantics even when credentials are attached', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async (calls) => {
     const resp = await handler(makePublicTierBootstrapRequest('fast', {
-      'X-WorldMonitor-Key': ENTERPRISE_KEY,
+      'X-EagleEye-Key': ENTERPRISE_KEY,
     }));
 
     assert.equal(resp.status, 200);
@@ -746,7 +746,7 @@ test('session-cookie legacy tier bootstrap stays no-store', async () => {
 
 test('enterprise-key legacy tier bootstrap stays no-store (key auth is never shared-cacheable)', async () => {
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
-    const resp = await handler(makeTierBootstrapRequest('fast', { 'X-WorldMonitor-Key': ENTERPRISE_KEY }));
+    const resp = await handler(makeTierBootstrapRequest('fast', { 'X-EagleEye-Key': ENTERPRISE_KEY }));
 
     assert.equal(resp.status, 200);
     assertNonSharedCacheHeaders(resp);
@@ -758,7 +758,7 @@ test('tier bootstrap with extra params is not treated as the public path', async
   // back to key auth (401 here) so we never widen the cacheable key space.
   await withMockedBootstrapAuth({ entitlement: activeApiEntitlement() }, async () => {
     const resp = await handler(
-      new Request('https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1&keys=marketQuotes', { method: 'GET' }),
+      new Request('https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1&keys=marketQuotes', { method: 'GET' }),
     );
 
     assert.equal(resp.status, 401);
@@ -782,7 +782,7 @@ test('unknown tier value does not qualify for the public path', async () => {
 // fetched only by the clients that actually turn the layer on.
 
 function makePublicOnDemandRequest(keys = 'cyberThreats', headers = {}) {
-  return new Request(`https://api.worldmonitor.app/api/bootstrap?keys=${keys}&public=1`, {
+  return new Request(`https://api.eagle-eye.app/api/bootstrap?keys=${keys}&public=1`, {
     method: 'GET',
     headers,
   });

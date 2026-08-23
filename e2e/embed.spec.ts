@@ -86,7 +86,7 @@ async function serveThirdPartyHostPage(html: string): Promise<{ url: string; clo
   }
 
   return {
-    url: `http://127.0.0.1:${address.port}/worldmonitor-host`,
+    url: `http://127.0.0.1:${address.port}/eagleeye-host`,
     close: () => new Promise<void>((resolve, reject) => {
       server.close((error) => {
         if (error) reject(error);
@@ -127,7 +127,7 @@ test.describe('public map embed', () => {
 
     await page.goto(embedPath);
 
-    await expect(page.locator('.wm-embed-attribution')).toHaveText('Live map by World Monitor');
+    await expect(page.locator('.wm-embed-attribution')).toHaveText('Live map by Eagle Eye');
     await expectCurrentMapRenderer(page);
     await expect(page.locator('.map-controls, .time-slider, .layer-toggles, .map-legend')).toHaveCount(0);
     await expect(page.locator('body')).toHaveAttribute('data-embed-ready', 'true');
@@ -159,7 +159,7 @@ test.describe('public map embed', () => {
       if (!trackedPublicEmbedApiPaths.includes(key)) return;
       statuses.set(key, [...(statuses.get(key) ?? []), response.status()]);
     });
-    await page.route('https://api.worldmonitor.app/api/**', async (route) => {
+    await page.route('https://api.eagle-eye.app/api/**', async (route) => {
       const request = route.request();
       const url = new URL(request.url());
       const localUrl = new URL(`${url.pathname}${url.search}`, localBaseUrl).toString();
@@ -190,7 +190,7 @@ test.describe('public map embed', () => {
         <body style="margin:0;background:#f7f7f7">
           <main style="max-width:860px;margin:24px auto;font-family:sans-serif">
             <h1>Host page</h1>
-            <iframe id="wm" src="${embedUrl}" title="World Monitor live map" style="width:100%;height:420px;border:0;display:block"></iframe>
+            <iframe id="wm" src="${embedUrl}" title="Eagle Eye live map" style="width:100%;height:420px;border:0;display:block"></iframe>
           </main>
         </body>
       </html>
@@ -200,7 +200,7 @@ test.describe('public map embed', () => {
       await page.goto(host.url);
 
       const frame = page.frameLocator('#wm');
-      await expect(frame.locator('.wm-embed-attribution')).toHaveText('Live map by World Monitor');
+      await expect(frame.locator('.wm-embed-attribution')).toHaveText('Live map by Eagle Eye');
       await expectCurrentMapRendererInFrame(frame, page);
       await expect(frame.locator('.map-controls, .time-slider, .layer-toggles, .map-legend')).toHaveCount(0);
       await expect(frame.locator('body')).toHaveAttribute('data-embed-ready', 'true');

@@ -7,7 +7,7 @@ vi.mock("../_shared/redis", () => ({
   getCachedJson: (...a: unknown[]) => getCachedJson(...a),
 }));
 
-import { getSummarizeArticleCache } from "../worldmonitor/news/v1/get-summarize-article-cache";
+import { getSummarizeArticleCache } from "../eagleeye/news/v1/get-summarize-article-cache";
 import { CACHE_VERSION } from "../../src/utils/summary-cache-key";
 
 const originalFetch = globalThis.fetch;
@@ -20,7 +20,7 @@ const RETIRED_KEY = "summary:v1:test-key";
 
 function makeContext() {
   return {
-    request: new Request(`https://www.worldmonitor.app/api/news/v1/summarize-article-cache?cache_key=${CURRENT_KEY}`),
+    request: new Request(`https://www.eagle-eye.app/api/news/v1/summarize-article-cache?cache_key=${CURRENT_KEY}`),
     pathParams: {},
     headers: {},
   };

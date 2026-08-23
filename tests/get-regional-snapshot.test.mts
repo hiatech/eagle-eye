@@ -4,18 +4,18 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { adaptSnapshot } from '../server/worldmonitor/intelligence/v1/get-regional-snapshot';
+import { adaptSnapshot } from '../server/eagleeye/intelligence/v1/get-regional-snapshot';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
 const handlerSrc = readFileSync(
-  resolve(root, 'server/worldmonitor/intelligence/v1/get-regional-snapshot.ts'),
+  resolve(root, 'server/eagleeye/intelligence/v1/get-regional-snapshot.ts'),
   'utf-8',
 );
 
 const handlerIndexSrc = readFileSync(
-  resolve(root, 'server/worldmonitor/intelligence/v1/handler.ts'),
+  resolve(root, 'server/eagleeye/intelligence/v1/handler.ts'),
   'utf-8',
 );
 
@@ -30,7 +30,7 @@ const gatewaySrc = readFileSync(
 );
 
 const protoSrc = readFileSync(
-  resolve(root, 'proto/worldmonitor/intelligence/v1/get_regional_snapshot.proto'),
+  resolve(root, 'proto/eagleeye/intelligence/v1/get_regional_snapshot.proto'),
   'utf-8',
 );
 
@@ -461,7 +461,7 @@ describe('security wiring', () => {
 describe('proto definition', () => {
   it('declares the GetRegionalSnapshot RPC method', () => {
     const serviceProtoSrc = readFileSync(
-      resolve(root, 'proto/worldmonitor/intelligence/v1/service.proto'),
+      resolve(root, 'proto/eagleeye/intelligence/v1/service.proto'),
       'utf-8',
     );
     assert.match(serviceProtoSrc, /rpc GetRegionalSnapshot\(GetRegionalSnapshotRequest\) returns \(GetRegionalSnapshotResponse\)/);

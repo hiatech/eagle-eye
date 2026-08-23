@@ -6,11 +6,11 @@ const LIVE_MEDIA_REQUEST = /(?:youtube\.com\/embed|youtube\.com\/iframe_api|goog
 async function installCleanLiveMediaPrefs(page: Page, webcamPrefs?: Record<string, unknown>): Promise<void> {
   await page.addInitScript((prefs) => {
     localStorage.removeItem('wm-live-streams-always-on');
-    localStorage.removeItem('worldmonitor-active-channel');
+    localStorage.removeItem('eagleeye-active-channel');
     if (prefs) {
-      localStorage.setItem('worldmonitor-webcam-prefs', JSON.stringify(prefs));
+      localStorage.setItem('eagleeye-webcam-prefs', JSON.stringify(prefs));
     } else {
-      localStorage.removeItem('worldmonitor-webcam-prefs');
+      localStorage.removeItem('eagleeye-webcam-prefs');
     }
   }, webcamPrefs ?? null);
 }
@@ -18,11 +18,11 @@ async function installCleanLiveMediaPrefs(page: Page, webcamPrefs?: Record<strin
 async function installAlwaysOnLiveMediaPrefs(page: Page, webcamPrefs?: Record<string, unknown>): Promise<void> {
   await page.addInitScript((prefs) => {
     localStorage.setItem('wm-live-streams-always-on', 'true');
-    localStorage.removeItem('worldmonitor-active-channel');
+    localStorage.removeItem('eagleeye-active-channel');
     if (prefs) {
-      localStorage.setItem('worldmonitor-webcam-prefs', JSON.stringify(prefs));
+      localStorage.setItem('eagleeye-webcam-prefs', JSON.stringify(prefs));
     } else {
-      localStorage.removeItem('worldmonitor-webcam-prefs');
+      localStorage.removeItem('eagleeye-webcam-prefs');
     }
   }, webcamPrefs ?? null);
 }
@@ -49,7 +49,7 @@ async function disablePanelViaStoredSettings(page: Page, panelId: string): Promi
 
 async function setPanelEnabledViaStoredSettings(page: Page, panelId: string, enabled: boolean): Promise<void> {
   await page.evaluate(({ targetPanelId, enabled }) => {
-    const key = 'worldmonitor-panels';
+    const key = 'eagleeye-panels';
     const oldValue = localStorage.getItem(key);
     const panels = oldValue
       ? JSON.parse(oldValue) as Record<string, { enabled?: boolean; name?: string; priority?: number }>

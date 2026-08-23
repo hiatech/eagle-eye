@@ -56,7 +56,7 @@ test('buildCountryStockIndexSnapshotFromCloses filters malformed closes before c
 
 test('the Railway market seed maintains every country cache alongside its public stock bootstrap contract', () => {
   const source = readFileSync(new URL('../scripts/seed-market-quotes.mjs', import.meta.url), 'utf8');
-  const handlerSource = readFileSync(new URL('../server/worldmonitor/market/v1/get-country-stock-index.ts', import.meta.url), 'utf8');
+  const handlerSource = readFileSync(new URL('../server/eagleeye/market/v1/get-country-stock-index.ts', import.meta.url), 'utf8');
 
   // #6235: the seed covers the whole enum, not just CN. These assertions pin
   // the wiring; the behavioural coverage lives in

@@ -3,7 +3,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import { __testing__ as llmHealth, isModelUsable } from "../_shared/llm-health";
-import { summarizeArticle } from "../worldmonitor/news/v1/summarize-article";
+import { summarizeArticle } from "../eagleeye/news/v1/summarize-article";
 
 const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
@@ -16,9 +16,9 @@ function restoreEnv() {
 }
 
 function makeContext() {
-  const headers = { "X-WorldMonitor-Key": "enterprise-test-key" };
+  const headers = { "X-EagleEye-Key": "enterprise-test-key" };
   return {
-    request: new Request("https://www.worldmonitor.app/api/news/v1/summarize-article", { headers }),
+    request: new Request("https://www.eagle-eye.app/api/news/v1/summarize-article", { headers }),
     pathParams: {},
     headers,
   };
@@ -42,7 +42,7 @@ beforeEach(() => {
   llmHealth.reset();
   process.env.OPENROUTER_API_KEY = "or-test-key";
   process.env.GROQ_API_KEY = "groq-test-key";
-  process.env.WORLDMONITOR_VALID_KEYS = "enterprise-test-key";
+  process.env.EAGLEEYE_VALID_KEYS = "enterprise-test-key";
   process.env.UPSTASH_REDIS_REST_URL = "https://redis.test";
   process.env.UPSTASH_REDIS_REST_TOKEN = "redis-token";
 });

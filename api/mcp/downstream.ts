@@ -5,14 +5,14 @@ import type {
   McpToolExecutionContext,
 } from './types';
 
-export const MCP_CANONICAL_API_ORIGIN = 'https://api.worldmonitor.app';
+export const MCP_CANONICAL_API_ORIGIN = 'https://api.eagle-eye.app';
 
 const VARIANT_HOSTS: ReadonlySet<string> = new Set([
-  'tech.worldmonitor.app',
-  'finance.worldmonitor.app',
-  'commodity.worldmonitor.app',
-  'happy.worldmonitor.app',
-  'energy.worldmonitor.app',
+  'tech.eagle-eye.app',
+  'finance.eagle-eye.app',
+  'commodity.eagle-eye.app',
+  'happy.eagle-eye.app',
+  'energy.eagle-eye.app',
 ]);
 
 const SAFE_GATEWAY_ERROR_CODES: ReadonlySet<string> = new Set([
@@ -85,11 +85,11 @@ type DownstreamObservation = {
 
 function classifyMcpInboundHost(hostname: string): McpToolExecutionContext['inboundHostClass'] {
   hostname = hostname.toLowerCase();
-  if (hostname === 'api.worldmonitor.app') return 'canonical_api';
-  if (hostname === 'worldmonitor.app') return 'apex';
-  if (hostname === 'www.worldmonitor.app') return 'www';
+  if (hostname === 'api.eagle-eye.app') return 'canonical_api';
+  if (hostname === 'eagle-eye.app') return 'apex';
+  if (hostname === 'www.eagle-eye.app') return 'www';
   if (VARIANT_HOSTS.has(hostname)) return 'variant';
-  if (hostname.endsWith('.worldmonitor.app')) return 'worldmonitor_subdomain';
+  if (hostname.endsWith('.eagle-eye.app')) return 'eagleeye_subdomain';
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') return 'local';
   if (hostname.endsWith('.vercel.app')) return 'vercel_preview';
   return 'other';
@@ -98,11 +98,11 @@ function classifyMcpInboundHost(hostname: string): McpToolExecutionContext['inbo
 export function createMcpToolExecutionContext(requestUrl: string): McpToolExecutionContext {
   const inbound = new URL(requestUrl);
   const inboundHostClass = classifyMcpInboundHost(inbound.hostname);
-  const isProductionWorldMonitorHost = (
-    inbound.hostname === 'worldmonitor.app'
-    || inbound.hostname.endsWith('.worldmonitor.app')
+  const isProductionEagleEyeHost = (
+    inbound.hostname === 'eagle-eye.app'
+    || inbound.hostname.endsWith('.eagle-eye.app')
   );
-  const downstreamOrigin = isProductionWorldMonitorHost
+  const downstreamOrigin = isProductionEagleEyeHost
     ? MCP_CANONICAL_API_ORIGIN
     : inbound.origin;
   return {

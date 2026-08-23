@@ -22,7 +22,7 @@ tags: [git-hooks, husky, core-hookspath, worktree, pre-push, incremental-tsc, es
 
 ## Problem
 
-`git push` from any WorldMonitor worktree took roughly 4 minutes and usually hit the tool timeout ("pushing to PR takes a lot of time and mostly times out"). This should have been impossible: PR #4800 (merged 2026-07-05) replaced the old unconditional pre-push gate with a diff-scoped tiered gate plus a green-tree cache, so the common push should complete in seconds. The gate on origin/main was fine. The gate that was actually *executing* was not the gate on origin/main.
+`git push` from any EagleEye worktree took roughly 4 minutes and usually hit the tool timeout ("pushing to PR takes a lot of time and mostly times out"). This should have been impossible: PR #4800 (merged 2026-07-05) replaced the old unconditional pre-push gate with a diff-scoped tiered gate plus a green-tree cache, so the common push should complete in seconds. The gate on origin/main was fine. The gate that was actually *executing* was not the gate on origin/main.
 
 The root cause had three layers, and each layer independently kept the symptom alive:
 

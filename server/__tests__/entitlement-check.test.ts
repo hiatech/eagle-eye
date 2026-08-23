@@ -943,9 +943,9 @@ describe("getBillingVerificationDenial renders the classification (#5622)", () =
 
   test("cors headers are merged and cannot clobber the verification header", () => {
     const res = getBillingVerificationDenial({ verificationUnavailable: true }, {
-      "Access-Control-Allow-Origin": "https://worldmonitor.app",
+      "Access-Control-Allow-Origin": "https://eagle-eye.app",
     });
-    expect(res?.headers.get("Access-Control-Allow-Origin")).toBe("https://worldmonitor.app");
+    expect(res?.headers.get("Access-Control-Allow-Origin")).toBe("https://eagle-eye.app");
     expect(res?.headers.get("X-Billing-Verification")).toBe("entitlement_verification_unavailable");
     expect(res?.headers.get("Cache-Control")).toBe("no-store");
   });
@@ -961,7 +961,7 @@ describe("getBillingVerificationDenial renders the classification (#5622)", () =
     // helper in the repo emits either name, so it is inert today; pinned so it
     // stays that way rather than being rediscovered from a wrong header in prod.
     const res = getBillingVerificationDenial({ verificationUnavailable: true }, {
-      "Access-Control-Allow-Origin": "https://worldmonitor.app",
+      "Access-Control-Allow-Origin": "https://eagle-eye.app",
       "X-Billing-Verification": "spoofed",
       "Retry-After": "999",
       "Cache-Control": "public, max-age=600",
@@ -971,7 +971,7 @@ describe("getBillingVerificationDenial renders the classification (#5622)", () =
     // no-store is load-bearing: a cached denial is a wrongful denial for everyone
     // behind the same CDN entry.
     expect(res?.headers.get("Cache-Control")).toBe("no-store");
-    expect(res?.headers.get("Access-Control-Allow-Origin")).toBe("https://worldmonitor.app");
+    expect(res?.headers.get("Access-Control-Allow-Origin")).toBe("https://eagle-eye.app");
   });
 });
 

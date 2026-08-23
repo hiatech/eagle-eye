@@ -3,10 +3,10 @@ title: "航运 v2 API"
 description: "Shipping v2 API 提供全球咽喉要道路由情报查询、航运绕行成本估算、港口拥堵指标、AIS 船舶轨迹分析，以及供应链中断警报的 webhook 订阅管理端点，附带完整的请求与响应字段参考、认证要求、速率限制说明、错误处理、分页策略、示例代码与端到端集成场景。"
 ---
 
-v2 航运 API 是构建在 WorldMonitor 咽喉要道注册表和 AIS 跟踪数据之上的 **PRO 级权限控制** 读取 + webhook 订阅接口。
+v2 航运 API 是构建在 EagleEye 咽喉要道注册表和 AIS 跟踪数据之上的 **PRO 级权限控制** 读取 + webhook 订阅接口。
 
 <Info>
-所有 v2 航运端点都需要 `X-WorldMonitor-Key`（服务器到服务器）。此处**不**信任浏览器来源 —— `validateApiKey` 以 `forceKey: true` 运行。
+所有 v2 航运端点都需要 `X-EagleEye-Key`（服务器到服务器）。此处**不**信任浏览器来源 —— `validateApiKey` 以 `forceKey: true` 运行。
 </Info>
 
 ## 路由情报
@@ -104,7 +104,7 @@ GET /api/v2/shipping/route-intelligence?fromIso2=AE&toIso2=NL&cargoType=tanker&h
 - **TTL**：订阅者记录和每所有者索引集均为 30 天。只有**重新注册**会通过原子管道刷新两者（对记录执行带 `EX` 的 `SET`，对所有者索引执行 `SADD` + `EXPIRE`）。`rotate-secret` 和 `reactivate` 仅刷新记录的 TTL —— 它们不会更改所有者索引集的过期时间，因此如果调用者在 30 天窗口内仅进行轮换或重新激活，所有者索引可能会独立过期。请重新注册以保持两者有效。
 - 所有权通过调用者 API 密钥的 SHA-256 进行跟踪（绝非密钥 —— 以 `ownerTag` 形式存储）。
 
-认证：`X-WorldMonitor-Key`（forceKey: true）+ PRO。否则返回 `401` / `403`。
+认证：`X-EagleEye-Key`（forceKey: true）+ PRO。否则返回 `401` / `403`。
 
 ### `GET /api/v2/shipping/webhooks`
 
@@ -171,7 +171,7 @@ X-WM-Event: chokepoint.disruption
 
 ### 验证投递
 
-每次投递都已签名，因此你可以确认它确实来自 WorldMonitor。`X-WM-Signature` 为 `sha256=<hex>`，其中 `<hex>` 是以注册时返回的 `secret` 为密钥的**原始请求体的 HMAC-SHA256**的小写十六进制值。
+每次投递都已签名，因此你可以确认它确实来自 EagleEye。`X-WM-Signature` 为 `sha256=<hex>`，其中 `<hex>` 是以注册时返回的 `secret` 为密钥的**原始请求体的 HMAC-SHA256**的小写十六进制值。
 
 验证方法：对**完全按接收时的**字节重新计算 `sha256=` + `hex(HMAC_SHA256(key=secret, message=rawBody))`（不要重新序列化 JSON），并与 `X-WM-Signature` 在常数时间内比较。将 `secret` 字符串**原样**作为 HMAC 密钥使用 — 不要对其进行十六进制解码。若签名不同则拒绝该投递。
 
@@ -180,7 +180,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 
 // rawBody: the exact request body bytes; header: the X-WM-Signature value;
 // secret: the value returned by RegisterWebhook (used verbatim as the key).
-function verifyWorldMonitorWebhook(rawBody, header, secret) {
+function verifyEagleEyeWebhook(rawBody, header, secret) {
   const expected = 'sha256=' + createHmac('sha256', secret).update(rawBody).digest('hex');
   const a = Buffer.from(header ?? '');
   const b = Buffer.from(expected);
@@ -188,13 +188,13 @@ function verifyWorldMonitorWebhook(rawBody, header, secret) {
 }
 ```
 
-签名契约也以机器可读形式发布于 [OpenAPI spec](https://worldmonitor.app/openapi.json) 中 `webhooks` 下的 `chokepoint.disruption` 条目。
+签名契约也以机器可读形式发布于 [OpenAPI spec](https://eagle-eye.app/openapi.json) 中 `webhooks` 下的 `chokepoint.disruption` 条目。
 
 #### 用已签名样本测试你的验证
 
-一个可直接验证的样本投递发布于 [`/.well-known/webhook-sample.json`](https://www.worldmonitor.app/.well-known/webhook-sample.json)。它携带一个固定的样本 `secret`、确切的原始 `body` 字符串，以及所得的 `signature`。对 `body` 的确切字节重新计算 `sha256=` + `hex(HMAC_SHA256(key=secret, message=body))` 并确认它等于 `signature` — 如果匹配，你的验证将接受真实投递。（样本 `secret` 是固定值；每个正式订阅会从 RegisterWebhook 获得自己的 `secret`。）
+一个可直接验证的样本投递发布于 [`/.well-known/webhook-sample.json`](https://www.eagle-eye.app/.well-known/webhook-sample.json)。它携带一个固定的样本 `secret`、确切的原始 `body` 字符串，以及所得的 `signature`。对 `body` 的确切字节重新计算 `sha256=` + `hex(HMAC_SHA256(key=secret, message=body))` 并确认它等于 `signature` — 如果匹配，你的验证将接受真实投递。（样本 `secret` 是固定值；每个正式订阅会从 RegisterWebhook 获得自己的 `secret`。）
 
 ```js
-const s = await (await fetch('https://www.worldmonitor.app/.well-known/webhook-sample.json')).json();
-verifyWorldMonitorWebhook(s.body, s.signature, s.secret); // → true
+const s = await (await fetch('https://www.eagle-eye.app/.well-known/webhook-sample.json')).json();
+verifyEagleEyeWebhook(s.body, s.signature, s.secret); // → true
 ```

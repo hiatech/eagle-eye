@@ -28,11 +28,11 @@ describe('publicRpcFetch', () => {
       return new Response('{}', { status: 200 });
     }) as typeof fetch;
 
-    await publicRpcFetch('https://api.worldmonitor.app/api/news/v1/list-feed-digest?variant=full&lang=en', {
+    await publicRpcFetch('https://api.eagle-eye.app/api/news/v1/list-feed-digest?variant=full&lang=en', {
       credentials: 'include',
       headers: {
         Authorization: 'Bearer secret',
-        'X-WorldMonitor-Key': 'wm_secret',
+        'X-EagleEye-Key': 'wm_secret',
         'X-Api-Key': 'legacy-secret',
         Accept: 'application/json',
       },
@@ -43,7 +43,7 @@ describe('publicRpcFetch', () => {
     assert.equal(capturedInit?.credentials, 'omit');
     const headers = new Headers(capturedInit?.headers);
     assert.equal(headers.get('Authorization'), null);
-    assert.equal(headers.get('X-WorldMonitor-Key'), null);
+    assert.equal(headers.get('X-EagleEye-Key'), null);
     assert.equal(headers.get('X-Api-Key'), null);
     assert.equal(headers.get('Accept'), 'application/json');
   });
@@ -56,7 +56,7 @@ describe('publicRpcFetch', () => {
     }) as typeof fetch;
 
     await assert.rejects(
-      publicRpcFetch('https://api.worldmonitor.app/api/intelligence/v1/get-risk-scores'),
+      publicRpcFetch('https://api.eagle-eye.app/api/intelligence/v1/get-risk-scores'),
       /not an allowlisted public RPC/,
     );
     assert.equal(calls, 0);

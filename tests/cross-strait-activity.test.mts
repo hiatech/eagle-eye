@@ -1114,7 +1114,7 @@ describe('quantified cross-Strait activity (#5575)', () => {
     );
     assert.equal(calls.every((call) => call.init?.redirect === 'error'), true);
     assert.equal(
-      calls.every((call) => new Headers(call.init?.headers).get('User-Agent')?.includes('WorldMonitor')),
+      calls.every((call) => new Headers(call.init?.headers).get('User-Agent')?.includes('EagleEye')),
       true,
     );
     assert.ok(delays.length > 0);

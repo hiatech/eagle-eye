@@ -2103,7 +2103,7 @@ describe("payments stuck-pending reconciliation", () => {
 // `customers` row only when `data.customer?.customer_id` is present in the
 // webhook payload. Users whose `subscription.active` delivery omitted that
 // field end up entitled (active sub written) but with no portal-resolvable
-// customer row. WORLDMONITOR-R5 surfaced this for an active Pro Annual
+// customer row. EAGLEEYE-R5 surfaced this for an active Pro Annual
 // user — clicking "Manage Billing" threw `NO_CUSTOMER`. This repair runs
 // at portal-open time and recovers the dodoCustomerId from the
 // subscription's `rawPayload`.
@@ -2155,7 +2155,7 @@ describe("payments billing repairCustomerFromSubscriptionPayload", () => {
       status: "active",
       currentPeriodEnd: NOW + 30 * DAY_MS,
       suffix: "repair_no_payload",
-      // Empty payload — exactly the symptomatic case behind WORLDMONITOR-R5.
+      // Empty payload — exactly the symptomatic case behind EAGLEEYE-R5.
       rawPayload: {},
     });
 
@@ -2664,7 +2664,7 @@ describe("payments billing getDodoCustomerIdForUserPortal", () => {
     expect(result).toBeNull();
   });
 
-  test("returns the right dodoCustomerId for each Clerk user when SAME Dodo customer is shared across multiple Clerk accounts (the WORLDMONITOR-R5 scenario)", async () => {
+  test("returns the right dodoCustomerId for each Clerk user when SAME Dodo customer is shared across multiple Clerk accounts (the EAGLEEYE-R5 scenario)", async () => {
     // user_A and user_B both checked out with the same email; Dodo deduped
     // to one customer (cus_shared). Each has their OWN subscription row,
     // and the customers table's userId field may point at either one due

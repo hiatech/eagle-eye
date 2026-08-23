@@ -8,19 +8,19 @@ import type {
   ResilienceDimension,
   ResilienceDomain,
   ResiliencePillar,
-} from '../src/generated/server/worldmonitor/resilience/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/resilience/v1/service_server.ts';
 import { round } from '../server/_shared/resilience-stats.ts';
 import {
   buildDimensionList,
   buildDomainList,
   penalizedPillarScore,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
-import { buildPillarList } from '../server/worldmonitor/resilience/v1/_pillar-membership.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
+import { buildPillarList } from '../server/eagleeye/resilience/v1/_pillar-membership.ts';
 import {
   scoreAllDimensions,
   type ResilienceDimensionId,
   type ResilienceSeedReader,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 
 export type ReferenceFormula = 'd6' | 'pc';
 

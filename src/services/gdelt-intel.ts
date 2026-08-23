@@ -1,7 +1,7 @@
 import type { Hotspot } from '@/types';
 import { createLazyClient, getRpcBaseUrl } from '@/services/rpc-client';
 import { t } from '@/services/i18n';
-import type { GdeltArticle as ProtoGdeltArticle, SearchGdeltDocumentsResponse, GdeltTimelinePoint } from '@/generated/client/worldmonitor/intelligence/v1/service_client';
+import type { GdeltArticle as ProtoGdeltArticle, SearchGdeltDocumentsResponse, GdeltTimelinePoint } from '@/generated/client/eagleeye/intelligence/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';
 import { IntelligenceServiceClient } from '@/services/generated-rpc-clients';

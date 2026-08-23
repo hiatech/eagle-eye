@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const PRESET_KEY = 'worldmonitor-mission-preset-v1';
+const PRESET_KEY = 'eagleeye-mission-preset-v1';
 const STORAGE_READ_TIMEOUT_MS = 1_500;
 const STORAGE_READ_TIMEOUT = '__wm_storage_read_timeout__';
 
@@ -43,7 +43,7 @@ async function seedFreshFullVariant(page: Page): Promise<void> {
     if (sessionStorage.getItem('__mission_presets_e2e_init__')) return;
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('worldmonitor-variant', 'full');
+    localStorage.setItem('eagleeye-variant', 'full');
     sessionStorage.setItem('__mission_presets_e2e_init__', '1');
   });
 }
@@ -102,7 +102,7 @@ test.describe('mission presets', () => {
       .poll(() => readJsonLocalStorage<string[]>(page, 'panel-order').then((order) => order?.[0]))
       .toBe('supply-chain');
     await expect
-      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'worldmonitor-layers').then((layers) => layers?.tradeRoutes))
+      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'eagleeye-layers').then((layers) => layers?.tradeRoutes))
       .toBe(true);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
@@ -114,7 +114,7 @@ test.describe('mission presets', () => {
       .poll(() => readJsonLocalStorage<string[]>(page, 'panel-order').then((order) => order?.[0]))
       .toBe('supply-chain');
     await expect
-      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'worldmonitor-layers').then((layers) => layers?.tradeRoutes))
+      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'eagleeye-layers').then((layers) => layers?.tradeRoutes))
       .toBe(true);
   });
 
@@ -130,7 +130,7 @@ test.describe('mission presets', () => {
       .poll(() => readJsonLocalStorage<string[]>(page, 'panel-order').then((order) => order?.[0]))
       .toBe('markets');
     await expect
-      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'worldmonitor-layers').then((layers) => layers?.tradeRoutes))
+      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'eagleeye-layers').then((layers) => layers?.tradeRoutes))
       .toBe(true);
 
     await openMissionPopover(page);
@@ -142,7 +142,7 @@ test.describe('mission presets', () => {
       .poll(() => readJsonLocalStorage<string[]>(page, 'panel-order').then((order) => order?.[0]))
       .toBe('live-news');
     await expect
-      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'worldmonitor-layers').then((layers) => layers?.tradeRoutes))
+      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'eagleeye-layers').then((layers) => layers?.tradeRoutes))
       .toBe(false);
   });
 
@@ -176,7 +176,7 @@ test.describe('mission presets', () => {
     await page.locator('[data-mission-id="energy-security"]').click();
     await expect.poll(() => readLocalStorage(page, PRESET_KEY)).toBe('energy-security');
     await expect
-      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'worldmonitor-layers').then((layers) => layers?.pipelines ?? false))
+      .poll(() => readJsonLocalStorage<Record<string, boolean>>(page, 'eagleeye-layers').then((layers) => layers?.pipelines ?? false))
       .toBe(true);
     await expect
       .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1))

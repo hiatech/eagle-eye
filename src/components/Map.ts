@@ -39,11 +39,11 @@ import { STARTUP_HUBS, ACCELERATORS, TECH_HQS, CLOUD_REGIONS } from '@/config/te
 import { AI_DATA_CENTERS } from '@/config/ai-datacenters';
 import { worldTopologyUrl, UNDERSEA_CABLES, NUCLEAR_FACILITIES, SANCTIONED_COUNTRIES, ECONOMIC_CENTERS, SPACEPORTS, CRITICAL_MINERALS } from '@/config/geo-map';
 import { pinWebcam, isPinned } from '@/services/webcams/pinned-store';
-import type { WebcamEntry, WebcamCluster } from '@/generated/client/worldmonitor/webcam/v1/service_client';
+import type { WebcamEntry, WebcamCluster } from '@/generated/client/eagleeye/webcam/v1/service_client';
 import { tokenizeForMatch, matchKeyword, findMatchingKeywords } from '@/utils/keyword-match';
 import { MapPopup } from './MapPopup';
 import type { GetChokepointStatusResponse } from '@/services/supply-chain';
-import type { AcledConflictEvent } from '@/generated/client/worldmonitor/conflict/v1/service_client';
+import type { AcledConflictEvent } from '@/generated/client/eagleeye/conflict/v1/service_client';
 import {
   updateHotspotEscalation,
   getHotspotEscalation,
@@ -1131,7 +1131,7 @@ export class MapComponent {
     // WebGL clustering disabled - just get context for clearing canvas.
     // resolveClusterGlContext() rejects the truthy-but-method-less stub that
     // canvas fingerprint blockers return, which used to crash the whole
-    // dynamic-layer render pass from clearClusterCanvas() (WORLDMONITOR-YG/YH).
+    // dynamic-layer render pass from clearClusterCanvas() (EAGLEEYE-YG/YH).
     this.clusterGl = resolveClusterGlContext(this.clusterCanvas);
   }
 

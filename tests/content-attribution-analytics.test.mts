@@ -27,7 +27,7 @@ describe('dashboard content attribution analytics', () => {
   it('enriches sign-up, checkout, and MCP events without adding user-level data', async () => {
     const storage = new MemoryStorage();
     storage.setItem(CONTENT_ATTRIBUTION_STORAGE_KEY, JSON.stringify({
-      source: 'worldmonitor-blog',
+      source: 'eagleeye-blog',
       medium: 'owned-content',
       campaign: 'country-risk',
       destination: 'pro',
@@ -67,7 +67,7 @@ describe('dashboard content attribution analytics', () => {
       },
     })), [
       { name: 'sign-up', data: {
-        contentSource: 'worldmonitor-blog',
+        contentSource: 'eagleeye-blog',
         contentMedium: 'owned-content',
         contentCampaign: 'country-risk',
         contentDestination: 'pro',
@@ -75,7 +75,7 @@ describe('dashboard content attribution analytics', () => {
         landingPageFamily: 'pricing',
       } },
       { name: 'checkout-start', data: {
-        contentSource: 'worldmonitor-blog',
+        contentSource: 'eagleeye-blog',
         contentMedium: 'owned-content',
         contentCampaign: 'country-risk',
         contentDestination: 'pro',
@@ -83,7 +83,7 @@ describe('dashboard content attribution analytics', () => {
         landingPageFamily: 'pricing',
       } },
       { name: 'mcp-connect-success', data: {
-        contentSource: 'worldmonitor-blog',
+        contentSource: 'eagleeye-blog',
         contentMedium: 'owned-content',
         contentCampaign: 'country-risk',
         contentDestination: 'pro',
@@ -91,7 +91,7 @@ describe('dashboard content attribution analytics', () => {
         landingPageFamily: 'pricing',
       } },
       { name: 'content-handoff', data: {
-        contentSource: 'worldmonitor-blog',
+        contentSource: 'eagleeye-blog',
         contentMedium: 'owned-content',
         contentCampaign: 'country-risk',
         contentDestination: 'pro',

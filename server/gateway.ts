@@ -99,7 +99,7 @@ import {
   type RequestReason,
 } from './_shared/usage';
 import { timingSafeEqual } from './_shared/internal-auth';
-import type { ServerOptions } from '../src/generated/server/worldmonitor/seismology/v1/service_server';
+import type { ServerOptions } from '../src/generated/server/eagleeye/seismology/v1/service_server';
 import { validateGeneratedRequest } from './request-validator';
 
 export const serverOptions: ServerOptions = {
@@ -454,10 +454,10 @@ export const PUBLIC_NO_AUTH_RPC_PATHS = new Set<string>([
 // to keep their compute caches hot (so the first real user request isn't a cold
 // miss). These require a browser session token or an API key in normal traffic;
 // the relay is a trusted internal service with neither, so it authenticates as
-// itself via WORLDMONITOR_RELAY_KEY (validated below in isRelayWarmPingRequest).
+// itself via EAGLEEYE_RELAY_KEY (validated below in isRelayWarmPingRequest).
 //
-// Least privilege: WORLDMONITOR_RELAY_KEY is a DEDICATED relay↔gateway secret —
-// it does NOT need to be (and should not be) a WORLDMONITOR_VALID_KEYS enterprise
+// Least privilege: EAGLEEYE_RELAY_KEY is a DEDICATED relay↔gateway secret —
+// it does NOT need to be (and should not be) a EAGLEEYE_VALID_KEYS enterprise
 // key. It unlocks ONLY a cache-warm on these specific free endpoints — exactly
 // what any session holder could already trigger — so the blast radius of the
 // secret is a recompute on public data: no premium access, no entitlement bypass
@@ -559,9 +559,9 @@ function attachRequiredBboxDiagnosticHeaders(
   diagnostic: RequiredBboxDiagnostic | null,
 ): void {
   if (!diagnostic) return;
-  headers.set('X-WorldMonitor-Bbox', diagnostic.status);
-  if (diagnostic.missing.length > 0) headers.set('X-WorldMonitor-Bbox-Missing', diagnostic.missing.join(','));
-  if (diagnostic.invalid.length > 0) headers.set('X-WorldMonitor-Bbox-Invalid', diagnostic.invalid.join(','));
+  headers.set('X-EagleEye-Bbox', diagnostic.status);
+  if (diagnostic.missing.length > 0) headers.set('X-EagleEye-Bbox-Missing', diagnostic.missing.join(','));
+  if (diagnostic.invalid.length > 0) headers.set('X-EagleEye-Bbox-Invalid', diagnostic.invalid.join(','));
   if (MILITARY_BBOX_DIAGNOSTIC_PATH_SET.has(pathname)) {
     // Issue #4595 explicitly requested the military alias; keep it as a stable consumer affordance.
     headers.set('X-Military-Bbox', diagnostic.status);
@@ -685,7 +685,7 @@ function markAuthErrorNoStore(response: Response): Response {
 function hasCredentialBearingHeader(request: Request): boolean {
   return Boolean(
     request.headers.get('Authorization') ||
-    request.headers.get('X-WorldMonitor-Key') ||
+    request.headers.get('X-EagleEye-Key') ||
     request.headers.get('X-Api-Key') ||
     request.headers.get('Cookie'),
   );
@@ -693,7 +693,7 @@ function hasCredentialBearingHeader(request: Request): boolean {
 
 async function isResilienceRankingSeedRefreshRequest(request: Request, pathname: string): Promise<boolean> {
   if (pathname !== '/api/resilience/v1/get-resilience-ranking') return false;
-  const expected = process.env.WORLDMONITOR_SEED_REFRESH_KEY?.trim() ?? '';
+  const expected = process.env.EAGLEEYE_SEED_REFRESH_KEY?.trim() ?? '';
   if (!expected) return false;
   try {
     const url = new URL(request.url);
@@ -701,20 +701,20 @@ async function isResilienceRankingSeedRefreshRequest(request: Request, pathname:
   } catch {
     return false;
   }
-  const candidate = request.headers.get('X-WorldMonitor-Key') ?? '';
+  const candidate = request.headers.get('X-EagleEye-Key') ?? '';
   return timingSafeEqual(candidate, expected);
 }
 
 // Authenticate a relay warm-ping as a trusted internal caller. True only when
 // the path is an explicit warm-ping target AND the request carries the dedicated
-// relay secret in X-WorldMonitor-Key (timing-safe compared). Returns false when
+// relay secret in X-EagleEye-Key (timing-safe compared). Returns false when
 // the secret is unset so a misconfigured deploy fails CLOSED (no bypass) rather
 // than silently opening these paths. Mirrors isResilienceRankingSeedRefreshRequest.
 export async function isRelayWarmPingRequest(request: Request, pathname: string): Promise<boolean> {
   if (!RELAY_WARM_PING_PATHS.has(pathname)) return false;
-  const expected = process.env.WORLDMONITOR_RELAY_KEY?.trim() ?? '';
+  const expected = process.env.EAGLEEYE_RELAY_KEY?.trim() ?? '';
   if (!expected) return false;
-  const candidate = request.headers.get('X-WorldMonitor-Key') ?? '';
+  const candidate = request.headers.get('X-EagleEye-Key') ?? '';
   return timingSafeEqual(candidate, expected);
 }
 
@@ -972,7 +972,7 @@ export function createDomainGateway(
 
     // ----------------------------------------------------------------------
     // Internal-MCP HMAC pre-check — runs BEFORE `validateApiKey` so that a
-    // verified Pro tool fetch never needs an `X-WorldMonitor-Key`. If
+    // verified Pro tool fetch never needs an `X-EagleEye-Key`. If
     // `X-WM-MCP-Internal` is present, treat as a deliberate signed request:
     //   - verify ⇒ entitlement re-check ⇒ rebuild Request with trusted markers
     //   - verify FAILS ⇒ 401 immediately (do NOT fall through; present-but-
@@ -1203,7 +1203,7 @@ export function createDomainGateway(
           forceKey: (isTierGated && !sessionUserId) || needsLegacyProBearerGate,
         })) as { valid: boolean; required: boolean; error?: string; kind?: 'enterprise' | 'session' | 'user' });
 
-    // User-owned API keys (wm_ prefix): when the static WORLDMONITOR_VALID_KEYS
+    // User-owned API keys (wm_ prefix): when the static EAGLEEYE_VALID_KEYS
     // check fails, try async Convex-backed validation for user-issued keys.
     //
     // Run this before the Clerk-session override below. A request can carry both
@@ -1212,7 +1212,7 @@ export function createDomainGateway(
     // pass the #4611 apiAccess gate.
     let isUserApiKey = false;
     const wmKey =
-      request.headers.get('X-WorldMonitor-Key') ??
+      request.headers.get('X-EagleEye-Key') ??
       request.headers.get('X-Api-Key') ??
       '';
     if (keyCheck.required && !keyCheck.valid && wmKey.startsWith('wm_')) {
@@ -1304,7 +1304,7 @@ export function createDomainGateway(
       keyCheck = { valid: true, required: false };
     }
 
-    // Enterprise API key (WORLDMONITOR_VALID_KEYS): require kind === 'enterprise'.
+    // Enterprise API key (EAGLEEYE_VALID_KEYS): require kind === 'enterprise'.
     // Without this, anonymous wms_ tokens slipped through (validateApiKey marks
     // them valid, wmKey is set, !isUserApiKey, and 'wms_' doesn't startsWith
     // 'wm_'), so telemetry mislabelled them as enterprise_api_key with
@@ -1489,7 +1489,7 @@ export function createDomainGateway(
     }
 
     // Entitlement check — blocks tier-gated endpoints for users below required tier.
-    // Admin API-key holders (WORLDMONITOR_VALID_KEYS, kind: 'enterprise') bypass.
+    // Admin API-key holders (EAGLEEYE_VALID_KEYS, kind: 'enterprise') bypass.
     // User API keys do NOT bypass — the key owner's tier is checked normally.
     // Anonymous wms_ session tokens (kind: 'session') do NOT bypass — they are
     // freely mintable by any caller and are NOT user-bound (PR #3557 review).
@@ -1730,7 +1730,7 @@ export function createDomainGateway(
           usage.tier = 3; // enterprise tier — no entitlement row to read it from
           // (plan_key defaults to 'enterprise' in buildUsageIdentity)
           // Enterprise burst is keyed PER KEY (not per account) by design:
-          // these are operator-issued WORLDMONITOR_VALID_KEYS with no shared
+          // these are operator-issued EAGLEEYE_VALID_KEYS with no shared
           // userId, and unlimited daily — so there's no quota to multiply by
           // minting keys, and each operator key gets its own 1,000/min budget
           // rather than contending for one shared bucket. (User keys below key
@@ -1768,7 +1768,7 @@ export function createDomainGateway(
         if (perMinute > 0 && identity) {
           // #4635 — informative 429 upgrade link; omitted for enterprise/top tier.
           const upgradeUrl =
-            planKey && planKey !== 'enterprise' ? 'https://worldmonitor.app/' : undefined;
+            planKey && planKey !== 'enterprise' ? 'https://eagle-eye.app/' : undefined;
           // 1. Per-minute burst (hard limit).
           const burst = await checkBurst(perMinute, identity);
           if (!burst.ok) {
@@ -2006,7 +2006,7 @@ export function createDomainGateway(
           : (envOverride && envOverride in TIER_HEADERS ? envOverride : null) ?? RPC_CACHE_TIER[pathname] ?? 'medium';
         resolvedCacheTier = tier;
         mergedHeaders.set('Cache-Control', TIER_HEADERS[tier]);
-        // Only allow Vercel CDN caching for trusted origins (worldmonitor.app, Vercel previews,
+        // Only allow Vercel CDN caching for trusted origins (eagle-eye.app, Vercel previews,
         // Tauri). No-origin server-side requests (external scrapers) must always reach the edge
         // function so the auth check in validateApiKey() can run. Without this guard, a cached
         // 200 from a trusted-origin browser request could be served to a no-origin scraper,

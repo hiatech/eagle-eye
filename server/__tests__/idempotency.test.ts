@@ -23,7 +23,7 @@ const PATH = '/api/scenario/v1/run-scenario';
 const BODY = JSON.stringify({ scenario: 'x' });
 
 function makeRequest(body: string = BODY): Request {
-  return new Request(`https://www.worldmonitor.app${PATH}`, {
+  return new Request(`https://www.eagle-eye.app${PATH}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body,

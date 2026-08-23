@@ -88,7 +88,7 @@ function installFetchStub(convex: () => Promise<Response>) {
 }
 
 function markerRequest(userId: string): Request {
-  return new Request('https://api.worldmonitor.app/api/chat-analyst', {
+  return new Request('https://api.eagle-eye.app/api/chat-analyst', {
     method: 'POST',
     headers: {
       [INTERNAL_MCP_VERIFIED_HEADER]: VERIFIED_NONCE,
@@ -240,7 +240,7 @@ describe('resolvePremiumCallerIdentity marks an unverifiable entitlement (#5622)
     installFetchStub(async () => {
       throw new Error('getEntitlements must not run for a spoofed marker');
     });
-    const req = new Request('https://api.worldmonitor.app/api/chat-analyst', {
+    const req = new Request('https://api.eagle-eye.app/api/chat-analyst', {
       method: 'POST',
       headers: {
         [INTERNAL_MCP_VERIFIED_HEADER]: '1',
@@ -267,11 +267,11 @@ describe('resolvePremiumCallerIdentity marks an unverifiable entitlement (#5622)
  */
 describe('api/chat-analyst adopts the retryable posture (#5622)', () => {
   const analystRequest = (userId: string) =>
-    new Request('https://api.worldmonitor.app/api/chat-analyst', {
+    new Request('https://api.eagle-eye.app/api/chat-analyst', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Origin: 'https://worldmonitor.app',
+        Origin: 'https://eagle-eye.app',
         [INTERNAL_MCP_VERIFIED_HEADER]: VERIFIED_NONCE,
         [TRUSTED_USER_ID_HEADER]: userId,
       },
@@ -290,7 +290,7 @@ describe('api/chat-analyst adopts the retryable posture (#5622)', () => {
     assert.equal(res.headers.get('Cache-Control'), 'no-store');
     // CORS must survive — the panel is cross-origin and an opaque failure is
     // indistinguishable from a crash.
-    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
     assert.deepEqual(await res.json(), {
       error: 'Unable to verify API access',
       code: 'entitlement_verification_unavailable',

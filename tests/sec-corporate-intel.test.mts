@@ -24,7 +24,7 @@ import {
   parseItemCodes,
   sanitizeTicker,
 } from '../server/_shared/sec-edgar';
-import { safeHttpUrl } from '../server/worldmonitor/intelligence/v1/_company-shared';
+import { safeHttpUrl } from '../server/eagleeye/intelligence/v1/_company-shared';
 import {
   MATERIAL_ITEM_CODES,
   build8kStreamSnapshot,
@@ -35,10 +35,10 @@ import {
   validate8kStream,
 } from '../scripts/seed-sec-8k-stream.mjs';
 import { MIN_CIK_ENTRIES, slimCikMap, validateCikMap } from '../scripts/seed-sec-cik-map.mjs';
-import { getCompanyEnrichment } from '../server/worldmonitor/intelligence/v1/get-company-enrichment';
-import { listCompanySignals } from '../server/worldmonitor/intelligence/v1/list-company-signals';
-import { searchSecFilings } from '../server/worldmonitor/intelligence/v1/search-sec-filings';
-import { ValidationError } from '../src/generated/server/worldmonitor/intelligence/v1/service_server';
+import { getCompanyEnrichment } from '../server/eagleeye/intelligence/v1/get-company-enrichment';
+import { listCompanySignals } from '../server/eagleeye/intelligence/v1/list-company-signals';
+import { searchSecFilings } from '../server/eagleeye/intelligence/v1/search-sec-filings';
+import { ValidationError } from '../src/generated/server/eagleeye/intelligence/v1/service_server';
 
 const ctx = { request: new Request('http://localhost/'), pathParams: {}, headers: {} } as never;
 
@@ -580,7 +580,7 @@ describe('getCompanyEnrichment', () => {
     }) as typeof fetch;
 
     await getCompanyEnrichment(ctx, { ticker: 'TSTA', name: '', domain: '' });
-    assert.match(userAgent, /WorldMonitor/);
+    assert.match(userAgent, /EagleEye/);
   });
 
   it('degrades truthfully when SEC is down: no fabricated filings, no sec_edgar source', async () => {

@@ -32,10 +32,10 @@ async function importFreshNotificationChannels() {
 }
 
 function makeSetChannelRequest(): Request {
-  return new Request('https://worldmonitor.app/api/notification-channels', {
+  return new Request('https://eagle-eye.app/api/notification-channels', {
     method: 'POST',
     headers: {
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       Authorization: 'Bearer clerk-token',
       'Content-Type': 'application/json',
     },
@@ -185,7 +185,7 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     assert.equal(res.status, 503);
     assert.equal(res.headers.get('X-Billing-Verification'), 'entitlement_verification_unavailable');
     assert.equal(res.headers.get('Retry-After'), '5');
-    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
     assert.deepEqual(await res.json(), {
       error: 'Unable to verify API access',
       code: 'entitlement_verification_unavailable',
@@ -298,7 +298,7 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     assert.deepEqual(await res.json(), {
       error: 'pro_required',
       message: 'Real-time alerts are available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     });
   });
 
@@ -320,7 +320,7 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     assert.deepEqual(await res.json(), {
       error: 'pro_required',
       message: 'Real-time alerts are available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     });
   });
 
@@ -366,7 +366,7 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     assert.deepEqual(await res.json(), {
       error: 'pro_required',
       message: 'Real-time alerts are available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     });
   });
 
@@ -477,9 +477,9 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     mock.method(console, 'warn', () => {});
 
     const res = await mod.default(
-      new Request('https://worldmonitor.app/api/notification-channels', {
+      new Request('https://eagle-eye.app/api/notification-channels', {
         method: 'GET',
-        headers: { Origin: 'https://worldmonitor.app', Authorization: 'Bearer clerk-token' },
+        headers: { Origin: 'https://eagle-eye.app', Authorization: 'Bearer clerk-token' },
       }),
       ctx,
     );
@@ -510,7 +510,7 @@ describe('/api/notification-channels POST billing-verification contract', () => 
     assert.deepEqual(await res.json(), {
       error: 'pro_required',
       message: 'Real-time alerts are available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     });
   });
 });

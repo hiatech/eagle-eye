@@ -104,7 +104,7 @@ async function captureRpcFetches(toolName, params, opts = {}) {
     throw new Error(`Unexpected fetch in ${toolName}: ${url}`);
   };
 
-  const result = await rpcTool(toolName)._execute(params, 'https://worldmonitor.app', {
+  const result = await rpcTool(toolName)._execute(params, 'https://eagle-eye.app', {
     kind: 'env_key',
     apiKey: 'wm_test_key_mcp_news_contract',
   });
@@ -261,7 +261,7 @@ describe('MCP news/auth public contract', () => {
     }
 
     const quickstart = readRepoFile('docs/mcp-quickstart.mdx');
-    assert.match(quickstart, /X-WorldMonitor-Key/, 'quickstart must teach API keys via X-WorldMonitor-Key');
+    assert.match(quickstart, /X-EagleEye-Key/, 'quickstart must teach API keys via X-EagleEye-Key');
     assert.match(quickstart, /Authorization: Bearer \$TOKEN/, 'quickstart may teach Bearer only for OAuth tokens');
     assert.doesNotMatch(quickstart, /Authorization:\s*Bearer\s+\$WM_KEY/, 'quickstart must not show API keys as bearer tokens');
 

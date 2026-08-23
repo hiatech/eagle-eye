@@ -8,7 +8,7 @@
 import type {
   NumberRange,
   CorridorStatus,
-} from '@/generated/server/worldmonitor/supply_chain/v1/service_server';
+} from '@/generated/server/eagleeye/supply_chain/v1/service_server';
 
 export function formatTransitRange(range: NumberRange | undefined): string {
   if (!range) return '\u2014';

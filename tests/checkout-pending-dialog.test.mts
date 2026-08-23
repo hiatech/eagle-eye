@@ -77,8 +77,8 @@ function installBrowserGlobals(): void {
       setInterval: () => 1,
       clearInterval: () => {},
       location: {
-        href: 'https://worldmonitor.app/dashboard',
-        origin: 'https://worldmonitor.app',
+        href: 'https://eagle-eye.app/dashboard',
+        origin: 'https://eagle-eye.app',
         pathname: '/dashboard',
         search: '',
         hash: '',
@@ -100,7 +100,7 @@ function installBrowserGlobals(): void {
       if (body && body.bypassPendingGuard === true) {
         // Both json() and text() are modelled: a real Response exposes both,
         // and the success path reads text() so a non-JSON 200 cannot throw an
-        // engine-specific DOMException (WORLDMONITOR-XV).
+        // engine-specific DOMException (EAGLEEYE-XV).
         return {
           ok: true,
           status: 200,

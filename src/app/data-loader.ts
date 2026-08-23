@@ -125,8 +125,8 @@ import { getAiFlowSettings } from '@/services/ai-flow-settings';
 import { t, getCurrentLanguage } from '@/services/i18n';
 import { getHydratedData } from '@/services/bootstrap';
 import { publicRpcFetch } from '@/services/public-rpc-fetch';
-import type { ListFeedDigestResponse } from '@/generated/client/worldmonitor/news/v1/service_client';
-import type { GetSectorSummaryResponse, ListMarketQuotesResponse, ListCommodityQuotesResponse } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { ListFeedDigestResponse } from '@/generated/client/eagleeye/news/v1/service_client';
+import type { GetSectorSummaryResponse, ListMarketQuotesResponse, ListCommodityQuotesResponse } from '@/generated/client/eagleeye/market/v1/service_client';
 import type {
   AiTokensPanel,
   CommoditiesPanel,
@@ -189,7 +189,7 @@ import type {
 } from '@/services/daily-market-brief';
 import { fetchCachedRiskScores, getCachedScores, toCountryScore, type CachedRiskScores } from '@/services/cached-risk-scores';
 import type { ThreatLevel as ClientThreatLevel } from '@/types';
-import type { NewsItem as ProtoNewsItem } from '@/generated/client/worldmonitor/news/v1/service_client';
+import type { NewsItem as ProtoNewsItem } from '@/generated/client/eagleeye/news/v1/service_client';
 import { fetchMarketImplications } from '@/services/market-implications';
 import { fetchDiseaseOutbreaks } from '@/services/disease-outbreaks';
 import { fetchSocialVelocity } from '@/services/social-velocity';
@@ -2594,7 +2594,7 @@ export class DataLoaderManager implements AppModule {
           sentiment: cats.sentiment ? { score: Number(cats.sentiment.score ?? 0) } : undefined,
         };
       }
-      const { MarketServiceClient } = await import('@/generated/client/worldmonitor/market/v1/service_client');
+      const { MarketServiceClient } = await import('@/generated/client/eagleeye/market/v1/service_client');
       const { getRpcBaseUrl } = await import('@/services/rpc-client');
       const client = new MarketServiceClient(getRpcBaseUrl(), { fetch: (...args: Parameters<typeof fetch>) => globalThis.fetch(...args) });
       const resp = await client.getFearGreedIndex({});
@@ -2618,7 +2618,7 @@ export class DataLoaderManager implements AppModule {
 
   private async _collectYieldCurveContext(): Promise<YieldCurveContext | undefined> {
     try {
-      const { EconomicServiceClient } = await import('@/generated/client/worldmonitor/economic/v1/service_client');
+      const { EconomicServiceClient } = await import('@/generated/client/eagleeye/economic/v1/service_client');
       const { getRpcBaseUrl } = await import('@/services/rpc-client');
       const client = new EconomicServiceClient(getRpcBaseUrl(), { fetch: (...args: Parameters<typeof fetch>) => globalThis.fetch(...args) });
       const resp = await client.getFredSeriesBatch({ seriesIds: ['DGS2', 'DGS10', 'DGS30'], limit: 1 });
@@ -2666,7 +2666,7 @@ export class DataLoaderManager implements AppModule {
    * undefined — the brief simply omits the earnings block. */
   private async _collectEarningsContext(): Promise<import('@/services/daily-market-brief').EarningsBriefContext | undefined> {
     try {
-      const { MarketServiceClient } = await import('@/generated/client/worldmonitor/market/v1/service_client');
+      const { MarketServiceClient } = await import('@/generated/client/eagleeye/market/v1/service_client');
       const { getRpcBaseUrl } = await import('@/services/rpc-client');
       const client = new MarketServiceClient(getRpcBaseUrl(), { fetch: (...args: Parameters<typeof fetch>) => globalThis.fetch(...args) });
       const today = new Date();
@@ -2729,7 +2729,7 @@ export class DataLoaderManager implements AppModule {
 
   async loadForecasts(): Promise<void> {
     try {
-      const hydrated = getHydratedData('forecasts') as { predictions?: import('@/generated/client/worldmonitor/forecast/v1/service_client').Forecast[]; generatedAt?: number } | undefined;
+      const hydrated = getHydratedData('forecasts') as { predictions?: import('@/generated/client/eagleeye/forecast/v1/service_client').Forecast[]; generatedAt?: number } | undefined;
       if (hydrated?.predictions?.length) {
         this.callPanel('forecast', 'updateForecasts', hydrated.predictions, {
           generatedAt: hydrated.generatedAt || 0,
@@ -4000,13 +4000,13 @@ export class DataLoaderManager implements AppModule {
       const economicPanel = this.ctx.panels['economic'] as EconomicPanel | undefined;
       if (!economicPanel) return;
 
-      const hydrated = getHydratedData('economicStress') as import('@/generated/client/worldmonitor/economic/v1/service_client').GetEconomicStressResponse | undefined;
+      const hydrated = getHydratedData('economicStress') as import('@/generated/client/eagleeye/economic/v1/service_client').GetEconomicStressResponse | undefined;
       if (hydrated && !hydrated.unavailable && Number.isFinite(hydrated.compositeScore)) {
         economicPanel.updateStress(hydrated);
         return;
       }
 
-      const { EconomicServiceClient } = await import('@/generated/client/worldmonitor/economic/v1/service_client');
+      const { EconomicServiceClient } = await import('@/generated/client/eagleeye/economic/v1/service_client');
       const client = new EconomicServiceClient(getRpcBaseUrl(), { fetch: (...args: Parameters<typeof fetch>) => globalThis.fetch(...args) });
       const resp = await client.getEconomicStress({});
       if (!resp.unavailable && Number.isFinite(resp.compositeScore)) {

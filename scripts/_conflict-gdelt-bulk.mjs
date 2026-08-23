@@ -68,7 +68,7 @@ export const GDELT_ROLLING_WINDOW_MS = 24 * 60 * 60 * 1000;
 // than the stream count alone.
 export const GDELT_BULK_WORST_NETWORK_MS = REQUEST_TIMEOUT_MS
   * (1 + Math.ceil((RECENT_EXPORT_COUNT * GDELT_EXPORT_STREAMS.length) / EXPORT_FETCH_CONCURRENCY));
-const USER_AGENT = 'WorldMonitor/1.0 (+https://www.worldmonitor.app)';
+const USER_AGENT = 'EagleEye/1.0 (+https://www.eagle-eye.app)';
 const MATERIAL_VIOLENCE_ROOT_CODES = new Set(['18', '19', '20']);
 
 // GDELT ActionGeo_CountryCode uses FIPS 10-4 rather than ISO-2.

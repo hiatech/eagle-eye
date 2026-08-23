@@ -19,7 +19,7 @@ import { strict as assert } from 'node:assert';
 import { readFileSync } from 'node:fs';
 
 const VALID_KEY = 'wm_test_key_123';
-const BASE_URL = 'https://worldmonitor.app/mcp';
+const BASE_URL = 'https://eagle-eye.app/mcp';
 
 const originalEnv = { ...process.env };
 
@@ -28,7 +28,7 @@ function makeInitReq(protocolVersion) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-WorldMonitor-Key': VALID_KEY,
+      'X-EagleEye-Key': VALID_KEY,
     },
     body: JSON.stringify({
       jsonrpc: '2.0',
@@ -45,7 +45,7 @@ function makeInitReq(protocolVersion) {
 
 describe('api/mcp.ts — protocol-version floor', () => {
   before(() => {
-    process.env.WORLDMONITOR_VALID_KEYS = VALID_KEY;
+    process.env.EAGLEEYE_VALID_KEYS = VALID_KEY;
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     process.env.MCP_TELEMETRY = 'false';

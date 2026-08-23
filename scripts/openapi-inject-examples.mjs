@@ -14,7 +14,7 @@
  *   2. docs/api/<Service>.openapi.yaml - surgical example insertions so the
  *      Mintlify per-service docs carry request/response examples without
  *      reformatting the whole generated YAML file.
- *   3. docs/api/worldmonitor.openapi.yaml - same surgical insertion for the
+ *   3. docs/api/eagleeye.openapi.yaml - same surgical insertion for the
  *      unified bundle copied to /openapi.yaml at build time.
  */
 
@@ -25,7 +25,7 @@ import { sortRec, serialize, eq, normalizeKey } from './lib/openapi-codegen.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
-const bundlePath = resolve(apiDir, 'worldmonitor.openapi.yaml');
+const bundlePath = resolve(apiDir, 'eagleeye.openapi.yaml');
 const CHECK = process.argv.includes('--check');
 
 const JSON_MEDIA = 'application/json';
@@ -87,13 +87,13 @@ const CHOKEPOINT_EXAMPLE_ID = (() => {
 // extract its ids from source text. The `id: '...'` shape only appears on the
 // template literals (the interface uses `id: string;`, no quotes).
 const SCENARIO_EXAMPLE_ID = (() => {
-  const src = readRepoText('server/worldmonitor/supply-chain/v1/scenario-templates.ts');
+  const src = readRepoText('server/eagleeye/supply-chain/v1/scenario-templates.ts');
   const ids = [...src.matchAll(/\bid:\s*['"`]([a-z0-9-]+)['"`]/g)].map((m) => m[1]);
   return ids.includes('hormuz-tanker-blockade') ? 'hormuz-tanker-blockade' : (ids[0] ?? 'hormuz-tanker-blockade');
 })();
 
 const SCENARIO_RESULT_AFFECTED_CHOKEPOINT_IDS = (() => {
-  const src = readRepoText('server/worldmonitor/supply-chain/v1/scenario-templates.ts');
+  const src = readRepoText('server/eagleeye/supply-chain/v1/scenario-templates.ts');
   const idMatch = src.match(new RegExp(`\\bid:\\s*['"\`]${SCENARIO_EXAMPLE_ID}['"\`]`));
   const start = idMatch ? src.lastIndexOf('{', idMatch.index) : -1;
   const end = start >= 0 ? src.indexOf('\n  },', start) : -1;
@@ -136,13 +136,13 @@ const BASELINE_TYPE_EXAMPLE_ID = (() => {
 })();
 
 const CONSUMER_PRICE_BASKET_EXAMPLE_ID = (() => {
-  const src = readRepoText('server/worldmonitor/consumer-prices/v1/get-consumer-price-basket-series.ts');
+  const src = readRepoText('server/eagleeye/consumer-prices/v1/get-consumer-price-basket-series.ts');
   const match = src.match(/\bDEFAULT_BASKET\s*=\s*['"`]([^'"`]+)['"`]/);
   return match?.[1] ?? 'essentials-ae';
 })();
 
 const CONSUMER_PRICE_RANGE_EXAMPLE_ID = (() => {
-  const src = readRepoText('server/worldmonitor/consumer-prices/v1/get-consumer-price-basket-series.ts');
+  const src = readRepoText('server/eagleeye/consumer-prices/v1/get-consumer-price-basket-series.ts');
   const match = src.match(/VALID_RANGES\s*=\s*new Set\(\[([^\]]+)\]\)/);
   const ranges = match ? [...match[1].matchAll(/['"`]([^'"`]+)['"`]/g)].map((m) => m[1]) : [];
   return ranges.includes('7d') ? '7d' : (ranges[0] ?? '7d');
@@ -443,7 +443,7 @@ function resolveRef(schema, spec) {
 }
 
 // Honeypot fields are hidden anti-bot inputs: the handlers silently discard any
-// non-empty value (server/worldmonitor/leads/v1/{register-interest,submit-contact}.ts),
+// non-empty value (server/eagleeye/leads/v1/{register-interest,submit-contact}.ts),
 // so a populated example is a fake-success trap — a developer copying the sample
 // gets a 200 but nothing is registered/emailed, and the value contradicts the
 // field's own "real submissions leave it empty" description. They're detected by
@@ -533,16 +533,16 @@ function stringExample(name, schema = {}, context = {}) {
   const pattern = patternString(schema.pattern, key);
   if (pattern) return constrainedString(pattern, schema);
   if (key.includes('email')) return constrainedString('analyst@example.com', schema);
-  if (key.includes('callbackurl')) return constrainedString('https://example.com/worldmonitor-webhook', schema);
-  if (key.includes('url') || key.includes('link')) return constrainedString('https://example.com/worldmonitor', schema);
+  if (key.includes('callbackurl')) return constrainedString('https://example.com/eagleeye-webhook', schema);
+  if (key.includes('url') || key.includes('link')) return constrainedString('https://example.com/eagleeye', schema);
   if (key.includes('jobid')) return constrainedString('scenario:1717200000000:abcd1234', schema);
   if (key.includes('pipelineid')) return constrainedString('transmed-pipeline', schema);
   if (key.includes('facilityid')) return constrainedString('rough-storage', schema);
   if (key.includes('assetid')) return constrainedString('asset-example-1', schema);
   if (key.includes('vessel') || key.includes('mmsi')) return constrainedString('123456789', schema);
   if (key.includes('ticker') || key.includes('symbol')) return constrainedString('AAPL', schema);
-  if (key.includes('fullname')) return constrainedString('koala73/worldmonitor', schema);
-  if (key.includes('provider')) return constrainedString('worldmonitor', schema);
+  if (key.includes('fullname')) return constrainedString('hiatech/eagle-eye', schema);
+  if (key.includes('provider')) return constrainedString('eagleeye', schema);
   if (description.includes('iata')) return constrainedString(key.includes('destination') || key.includes('arrival') ? 'LHR' : 'JFK', schema);
   if (description.includes('iso 4217') || key.includes('currency')) return constrainedString('USD', schema);
   if (description.includes('iso 639') || key === 'lang' || key.includes('locale')) return constrainedString('en', schema);
@@ -578,9 +578,9 @@ function stringExample(name, schema = {}, context = {}) {
     if (description.includes('pipeline')) return constrainedString('pipeline', schema);
     return constrainedString('all', schema);
   }
-  if (key.includes('name')) return constrainedString('WorldMonitor Analyst', schema);
+  if (key.includes('name')) return constrainedString('EagleEye Analyst', schema);
   if (key.includes('message') || key.includes('summary') || key.includes('description')) {
-    return constrainedString('Example WorldMonitor observation.', schema);
+    return constrainedString('Example EagleEye observation.', schema);
   }
   if (key === 'id' || key.endsWith('id') || key.includes('identifier')) return constrainedString('example-id', schema);
   return constrainedString('example', schema);
@@ -1170,7 +1170,7 @@ function processBundle(serviceSpecs) {
   let text = readFileSync(bundlePath, 'utf8');
   const raw = text;
   for (const spec of serviceSpecs) {
-    text = patchYamlExamples(text, spec, 'worldmonitor.openapi.yaml');
+    text = patchYamlExamples(text, spec, 'eagleeye.openapi.yaml');
   }
   const changed = raw !== text;
   if (changed && !CHECK) writeFileSync(bundlePath, text);

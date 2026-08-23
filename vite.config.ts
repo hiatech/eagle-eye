@@ -237,9 +237,9 @@ function htmlVariantPlugin(activeMeta: VariantMeta, activeVariant: string, isDes
         .replace(/<meta name="twitter:url" content=".*?" \/>/, `<meta name="twitter:url" content="${activeMeta.url}" />`)
         .replace(/<meta name="twitter:title" content=".*?" \/>/, `<meta name="twitter:title" content="${activeMeta.title}" />`)
         .replace(/<meta name="twitter:description" content=".*?" \/>/, `<meta name="twitter:description" content="${activeMeta.description}" />`)
-        .replace(/"name": "World Monitor"/, `"name": "${activeMeta.siteName}"`)
-        .replace(/"alternateName": "WorldMonitor"/, `"alternateName": "${activeMeta.siteName.replace(' ', '')}"`)
-        .replace(/"url": "https:\/\/worldmonitor\.app\/"/, `"url": "${activeMeta.url}"`)
+        .replace(/"name": "Eagle Eye"/, `"name": "${activeMeta.siteName}"`)
+        .replace(/"alternateName": "EagleEye"/, `"alternateName": "${activeMeta.siteName.replace(' ', '')}"`)
+        .replace(/"url": "https:\/\/eagle-eye\.app\/"/, `"url": "${activeMeta.url}"`)
         .replace(/"description": "Real-time global intelligence dashboard with live news, markets, military tracking, infrastructure monitoring, and geopolitical data."/, `"description": "${activeMeta.description}"`)
         .replace(/"featureList": \[[\s\S]*?\]/, `"featureList": ${JSON.stringify(activeMeta.features, null, 8).replace(/\n/g, '\n      ')}`);
 
@@ -315,7 +315,7 @@ function dashboardHtmlOutputPlugin(): Plugin {
 
 // Emit dashboard-<variant>.html siblings of dashboard.html for the variant
 // subdomains (#4996). The web deployment serves the 'full' build to every
-// host, so tech/finance/commodity/happy/energy.worldmonitor.app/dashboard
+// host, so tech/finance/commodity/happy/energy.eagle-eye.app/dashboard
 // shipped full-brand meta and a cross-host canonical pointing at www —
 // crawlers saw five duplicate pages that all declared themselves NOT to be
 // the sitemap URL they were fetched from. vercel.json host-based rewrites
@@ -472,58 +472,58 @@ function sebufApiPlugin(): Plugin {
         import('./server/router'),
         import('./server/cors'),
         import('./server/error-mapper'),
-        import('./src/generated/server/worldmonitor/seismology/v1/service_server'),
-        import('./server/worldmonitor/seismology/v1/handler'),
-        import('./src/generated/server/worldmonitor/wildfire/v1/service_server'),
-        import('./server/worldmonitor/wildfire/v1/handler'),
-        import('./src/generated/server/worldmonitor/climate/v1/service_server'),
-        import('./server/worldmonitor/climate/v1/handler'),
-        import('./src/generated/server/worldmonitor/prediction/v1/service_server'),
-        import('./server/worldmonitor/prediction/v1/handler'),
-        import('./src/generated/server/worldmonitor/displacement/v1/service_server'),
-        import('./server/worldmonitor/displacement/v1/handler'),
-        import('./src/generated/server/worldmonitor/aviation/v1/service_server'),
-        import('./server/worldmonitor/aviation/v1/handler'),
-        import('./src/generated/server/worldmonitor/research/v1/service_server'),
-        import('./server/worldmonitor/research/v1/handler'),
-        import('./src/generated/server/worldmonitor/unrest/v1/service_server'),
-        import('./server/worldmonitor/unrest/v1/handler'),
-        import('./src/generated/server/worldmonitor/conflict/v1/service_server'),
-        import('./server/worldmonitor/conflict/v1/handler'),
-        import('./src/generated/server/worldmonitor/maritime/v1/service_server'),
-        import('./server/worldmonitor/maritime/v1/handler'),
-        import('./src/generated/server/worldmonitor/cyber/v1/service_server'),
-        import('./server/worldmonitor/cyber/v1/handler'),
-        import('./src/generated/server/worldmonitor/economic/v1/service_server'),
-        import('./server/worldmonitor/economic/v1/handler'),
-        import('./src/generated/server/worldmonitor/infrastructure/v1/service_server'),
-        import('./server/worldmonitor/infrastructure/v1/handler'),
-        import('./src/generated/server/worldmonitor/market/v1/service_server'),
-        import('./server/worldmonitor/market/v1/handler'),
-        import('./src/generated/server/worldmonitor/news/v1/service_server'),
-        import('./server/worldmonitor/news/v1/handler'),
-        import('./src/generated/server/worldmonitor/intelligence/v1/service_server'),
-        import('./server/worldmonitor/intelligence/v1/handler'),
-        import('./src/generated/server/worldmonitor/military/v1/service_server'),
-        import('./server/worldmonitor/military/v1/handler'),
-        import('./src/generated/server/worldmonitor/positive_events/v1/service_server'),
-        import('./server/worldmonitor/positive-events/v1/handler'),
-        import('./src/generated/server/worldmonitor/giving/v1/service_server'),
-        import('./server/worldmonitor/giving/v1/handler'),
-        import('./src/generated/server/worldmonitor/trade/v1/service_server'),
-        import('./server/worldmonitor/trade/v1/handler'),
-        import('./src/generated/server/worldmonitor/supply_chain/v1/service_server'),
-        import('./server/worldmonitor/supply-chain/v1/handler'),
-        import('./src/generated/server/worldmonitor/natural/v1/service_server'),
-        import('./server/worldmonitor/natural/v1/handler'),
-        import('./src/generated/server/worldmonitor/resilience/v1/service_server'),
-        import('./server/worldmonitor/resilience/v1/handler'),
-        import('./src/generated/server/worldmonitor/leads/v1/service_server'),
-        import('./server/worldmonitor/leads/v1/handler'),
-        import('./src/generated/server/worldmonitor/scenario/v1/service_server'),
-        import('./server/worldmonitor/scenario/v1/handler'),
-        import('./src/generated/server/worldmonitor/shipping/v2/service_server'),
-        import('./server/worldmonitor/shipping/v2/handler'),
+        import('./src/generated/server/eagleeye/seismology/v1/service_server'),
+        import('./server/eagleeye/seismology/v1/handler'),
+        import('./src/generated/server/eagleeye/wildfire/v1/service_server'),
+        import('./server/eagleeye/wildfire/v1/handler'),
+        import('./src/generated/server/eagleeye/climate/v1/service_server'),
+        import('./server/eagleeye/climate/v1/handler'),
+        import('./src/generated/server/eagleeye/prediction/v1/service_server'),
+        import('./server/eagleeye/prediction/v1/handler'),
+        import('./src/generated/server/eagleeye/displacement/v1/service_server'),
+        import('./server/eagleeye/displacement/v1/handler'),
+        import('./src/generated/server/eagleeye/aviation/v1/service_server'),
+        import('./server/eagleeye/aviation/v1/handler'),
+        import('./src/generated/server/eagleeye/research/v1/service_server'),
+        import('./server/eagleeye/research/v1/handler'),
+        import('./src/generated/server/eagleeye/unrest/v1/service_server'),
+        import('./server/eagleeye/unrest/v1/handler'),
+        import('./src/generated/server/eagleeye/conflict/v1/service_server'),
+        import('./server/eagleeye/conflict/v1/handler'),
+        import('./src/generated/server/eagleeye/maritime/v1/service_server'),
+        import('./server/eagleeye/maritime/v1/handler'),
+        import('./src/generated/server/eagleeye/cyber/v1/service_server'),
+        import('./server/eagleeye/cyber/v1/handler'),
+        import('./src/generated/server/eagleeye/economic/v1/service_server'),
+        import('./server/eagleeye/economic/v1/handler'),
+        import('./src/generated/server/eagleeye/infrastructure/v1/service_server'),
+        import('./server/eagleeye/infrastructure/v1/handler'),
+        import('./src/generated/server/eagleeye/market/v1/service_server'),
+        import('./server/eagleeye/market/v1/handler'),
+        import('./src/generated/server/eagleeye/news/v1/service_server'),
+        import('./server/eagleeye/news/v1/handler'),
+        import('./src/generated/server/eagleeye/intelligence/v1/service_server'),
+        import('./server/eagleeye/intelligence/v1/handler'),
+        import('./src/generated/server/eagleeye/military/v1/service_server'),
+        import('./server/eagleeye/military/v1/handler'),
+        import('./src/generated/server/eagleeye/positive_events/v1/service_server'),
+        import('./server/eagleeye/positive-events/v1/handler'),
+        import('./src/generated/server/eagleeye/giving/v1/service_server'),
+        import('./server/eagleeye/giving/v1/handler'),
+        import('./src/generated/server/eagleeye/trade/v1/service_server'),
+        import('./server/eagleeye/trade/v1/handler'),
+        import('./src/generated/server/eagleeye/supply_chain/v1/service_server'),
+        import('./server/eagleeye/supply-chain/v1/handler'),
+        import('./src/generated/server/eagleeye/natural/v1/service_server'),
+        import('./server/eagleeye/natural/v1/handler'),
+        import('./src/generated/server/eagleeye/resilience/v1/service_server'),
+        import('./server/eagleeye/resilience/v1/handler'),
+        import('./src/generated/server/eagleeye/leads/v1/service_server'),
+        import('./server/eagleeye/leads/v1/handler'),
+        import('./src/generated/server/eagleeye/scenario/v1/service_server'),
+        import('./server/eagleeye/scenario/v1/handler'),
+        import('./src/generated/server/eagleeye/shipping/v2/service_server'),
+        import('./server/eagleeye/shipping/v2/handler'),
       ]);
 
     const serverOptions = {
@@ -1246,7 +1246,7 @@ export default defineConfig(({ mode }) => {
             // src/services/generated-rpc-clients.ts so real constructors parse only
             // on first RPC use. Stable names let the eager-chunk guard prove they
             // stay out of the dashboard entry and HTML modulepreload list. (#4493)
-            const rpcClientMatch = id.match(/\/src\/generated\/client\/worldmonitor\/(.+)\/service_client\.ts$/);
+            const rpcClientMatch = id.match(/\/src\/generated\/client\/eagleeye\/(.+)\/service_client\.ts$/);
             if (rpcClientMatch) {
               return `rpc-client-${rpcClientMatch[1].replace(/_/g, '-').replace(/\//g, '-')}`;
             }
@@ -1262,7 +1262,7 @@ export default defineConfig(({ mode }) => {
             // import() was a second network hop on every deep-dive open, and
             // filtering middleboxes that stub the *Widget*-named chunk URL with
             // an empty 200 made the import resolve WITHOUT the export
-            // (Sentry WORLDMONITOR-T6). In-chunk resolution removes that
+            // (Sentry EAGLEEYE-T6). In-chunk resolution removes that
             // surface and the waterfall hop; shared deps (resilience-widget-
             // utils, services/resilience) already live in shared chunks.
             if (id.endsWith('/src/components/ResilienceWidget.ts')) {
@@ -1298,7 +1298,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         // Widget agent — forward to Railway relay for SSE streaming
         '/widget-agent': {
-          target: 'https://proxy.worldmonitor.app',
+          target: 'https://proxy.eagle-eye.app',
           changeOrigin: true,
         },
         // Yahoo Finance API

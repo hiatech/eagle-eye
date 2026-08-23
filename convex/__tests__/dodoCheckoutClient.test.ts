@@ -46,7 +46,7 @@ describe("Dodo checkout production client seam", () => {
     });
     const payload: CheckoutSessionPayload = {
       product_cart: [{ product_id: "prod_retry_owner", quantity: 1 }],
-      return_url: "https://worldmonitor.app/?wm_checkout=return",
+      return_url: "https://eagle-eye.app/?wm_checkout=return",
     };
 
     const result = await createDodoCheckoutSession(payload);

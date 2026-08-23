@@ -50,7 +50,7 @@ import { REPLAY_WINDOW_DAYS } from './lib/brief-replay-constants.mjs';
 export const DEFAULT_REPLAY_DAYS = REPLAY_WINDOW_DAYS;
 const REPLAY_KEY_PREFIX = 'digest:replay-log:v1';
 const SCAN_PAGE_SIZE = 200;
-const REPLAY_REST_USER_AGENT = 'worldmonitor-digest/1.0';
+const REPLAY_REST_USER_AGENT = 'eagleeye-digest/1.0';
 const REPLAY_REQUEST_TIMEOUT_MS = 10_000;
 // Exported so the tests assert the real value instead of re-hardcoding it —
 // a TTL that silently drifts to 0 or a day is exactly the regression the

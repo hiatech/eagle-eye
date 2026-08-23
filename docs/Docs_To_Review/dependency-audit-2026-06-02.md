@@ -102,8 +102,8 @@ Commands run for this check:
 
 - `npm audit --omit=dev --json`
 - `npm audit --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit fix --package-lock-only --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit fix --package-lock-only --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts`
 
 The targeted update reported the graph was up to date and still had 13 moderate findings. It produced only incidental optional-peer lockfile churn for `utf-8-validate`; that churn did not affect the audit result and was not kept.
 
@@ -143,15 +143,15 @@ Commands run for this check:
 - `git rev-parse HEAD origin/main`
 - `node --version`
 - `npm --version`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --omit=dev --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit fix --package-lock-only --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @clerk/clerk-js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/web3.js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view jayson version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view exceljs version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --omit=dev --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit fix --package-lock-only --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @clerk/clerk-js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/web3.js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view jayson version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view exceljs version dependencies --json`
 
 `npm audit fix --package-lock-only --dry-run --json` reported no lockfile changes: 0 added, 0 removed, 0 changed. Its force suggestions remain semver-major downgrades rather than compatible upgrades:
 
@@ -166,7 +166,7 @@ Recovery trigger: re-open dependency remediation when one of these lands and val
 
 Scope: CII review dependency-audit closeout against worktree HEAD `eaaa0c5fedeebd30f321b2e6e96e1d05f39cb3c8`. This pass checked whether the remaining moderate advisory count can be reduced by a minimal package-lock-only or compatible package refresh. No package or runtime code was changed.
 
-Current audit results with Node `v24.15.0` and npm `11.12.1` after `npm_config_cache=/tmp/worldmonitor-npm-cache npm ci --ignore-scripts`:
+Current audit results with Node `v24.15.0` and npm `11.12.1` after `npm_config_cache=/tmp/eagleeye-npm-cache npm ci --ignore-scripts`:
 
 - `npm audit --omit=dev --audit-level=moderate --json`: 0 critical, 0 high, 12 moderate.
 - `npm audit --audit-level=moderate --json`: 0 critical, 0 high, 13 moderate.
@@ -183,16 +183,16 @@ Current registry checks:
 
 Commands run for this check:
 
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm ci --ignore-scripts`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --audit-level=moderate --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --omit=dev --audit-level=moderate --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit fix --package-lock-only --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @clerk/clerk-js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/web3.js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view jayson version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view exceljs version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm ci --ignore-scripts`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --audit-level=moderate --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --omit=dev --audit-level=moderate --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit fix --package-lock-only --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @clerk/clerk-js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/web3.js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view jayson version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view exceljs version dependencies --json`
 
 `npm audit fix --package-lock-only --dry-run --json` reported no lockfile changes: 0 added, 0 removed, 0 changed. The targeted package-lock-only update dry run also reported 0 added, 0 removed, and 0 changed. The only npm-proposed fix paths remain semver-major downgrades rather than compatible upgrades:
 
@@ -211,8 +211,8 @@ Current audit results with Node `v26.0.0` and npm `11.12.1`:
 
 Runtime note: Round 9 was captured on Node `v24.15.0`; this follow-up used the active Codex workspace toolchain on 2026-06-06 (`v26.0.0`). The counts below are therefore recorded with the exact Node/npm runtime and should be compared as a point-in-time audit result, not as a runtime-invariant package metric.
 
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --omit=dev --audit-level=moderate --json`: 0 critical, 0 high, 12 moderate.
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --audit-level=moderate --json`: 0 critical, 0 high, 13 moderate.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --omit=dev --audit-level=moderate --json`: 0 critical, 0 high, 12 moderate.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --audit-level=moderate --json`: 0 critical, 0 high, 13 moderate.
 
 Production classification: all 12 production moderate findings are in the direct `@clerk/clerk-js@6.13.0` dependency path through Solana wallet packages, `@solana/web3.js@1.98.4`, `jayson@4.3.0`, and `uuid@8.3.2`.
 
@@ -230,18 +230,18 @@ Commands run for this check:
 
 - `node --version`
 - `npm --version`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm ci --ignore-scripts`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --omit=dev --audit-level=moderate --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --audit-level=moderate --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit fix --package-lock-only --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @clerk/clerk-js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/wallet-adapter-react version dependencies peerDependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/wallet-standard version dependencies peerDependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view @solana/web3.js version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view jayson version dependencies --json`
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm view exceljs version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm ci --ignore-scripts`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --omit=dev --audit-level=moderate --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --audit-level=moderate --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit fix --package-lock-only --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @clerk/clerk-js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/wallet-adapter-base version peerDependencies dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/wallet-adapter-react version dependencies peerDependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/wallet-standard version dependencies peerDependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view @solana/web3.js version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view jayson version dependencies --json`
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm view exceljs version dependencies --json`
 
 `npm audit fix --package-lock-only --dry-run --json` reported 0 added, 0 removed, and 0 changed, with the same 13 moderate all-dependency audit result. The only npm-proposed remediation paths remain semver-major or downgrade-shaped changes:
 
@@ -263,8 +263,8 @@ Current runtime for this check:
 
 Current audit results:
 
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --omit=dev --json`: 0 critical, 0 high, 12 moderate.
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit --json`: 0 critical, 0 high, 13 moderate.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --omit=dev --json`: 0 critical, 0 high, 12 moderate.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit --json`: 0 critical, 0 high, 13 moderate.
 
 Lockfile dependency graph evidence:
 
@@ -279,8 +279,8 @@ Current registry and dry-run checks:
 - Latest stable `@solana/web3.js` is `1.98.4` and still depends on `jayson@^4.1.1`. `@solana/web3.js@2.0.0` is published, but forcing that line would exceed the wallet adapter peer envelope.
 - Latest `jayson` is `4.3.0` and still depends on `uuid@^8.3.2`.
 - Latest `exceljs` is `4.4.0` and still depends on `uuid@^8.3.0`.
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm audit fix --package-lock-only --dry-run --json` reported 0 added, 0 removed, and 0 changed, with the same 13 moderate all-dependency audit result.
-- `npm_config_cache=/tmp/worldmonitor-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json` reported 0 added, 0 removed, and 0 changed.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm audit fix --package-lock-only --dry-run --json` reported 0 added, 0 removed, and 0 changed, with the same 13 moderate all-dependency audit result.
+- `npm_config_cache=/tmp/eagleeye-npm-cache npm update @clerk/clerk-js @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-standard @solana/wallet-standard-wallet-adapter @solana/wallet-standard-wallet-adapter-base @solana/wallet-standard-wallet-adapter-react @solana/web3.js jayson uuid exceljs --package-lock-only --ignore-scripts --dry-run --json` reported 0 added, 0 removed, and 0 changed.
 
 The only npm-reported fix paths remain semver-major or downgrade-shaped changes:
 

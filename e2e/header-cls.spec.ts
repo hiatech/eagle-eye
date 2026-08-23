@@ -21,7 +21,7 @@ test.describe('header CLS reservations', () => {
     await page.addInitScript(() => {
       localStorage.setItem('wm-layer-warning-dismissed', 'true');
       localStorage.setItem('wm-pro-banner-launched-dismissed', String(Date.now()));
-      localStorage.setItem('worldmonitor-mission-preset-dismissed-v1', '1');
+      localStorage.setItem('eagleeye-mission-preset-dismissed-v1', '1');
       window.__wmHeaderClsEntries = [];
       const selectorFor = (node: Node | null): string => {
         if (!(node instanceof Element)) return '';

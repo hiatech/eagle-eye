@@ -393,7 +393,7 @@ test('operator seed-health matches the fail-closed Japan blocked classification'
   const originalEnv = {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    WORLDMONITOR_VALID_KEYS: process.env.WORLDMONITOR_VALID_KEYS,
+    EAGLEEYE_VALID_KEYS: process.env.EAGLEEYE_VALID_KEYS,
     RESILIENCE_PILLAR_COMBINE_ENABLED: process.env.RESILIENCE_PILLAR_COMBINE_ENABLED,
     RESILIENCE_SCHEMA_V2_ENABLED: process.env.RESILIENCE_SCHEMA_V2_ENABLED,
   };
@@ -404,7 +404,7 @@ test('operator seed-health matches the fail-closed Japan blocked classification'
 
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-token';
-  process.env.WORLDMONITOR_VALID_KEYS = operatorKey;
+  process.env.EAGLEEYE_VALID_KEYS = operatorKey;
   process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'false';
   process.env.RESILIENCE_SCHEMA_V2_ENABLED = 'true';
 
@@ -454,8 +454,8 @@ test('operator seed-health matches the fail-closed Japan blocked classification'
     };
 
     const response = await seedHealthHandler(new Request(
-      'https://api.worldmonitor.app/api/seed-health',
-      { headers: { 'X-WorldMonitor-Key': operatorKey } },
+      'https://api.eagle-eye.app/api/seed-health',
+      { headers: { 'X-EagleEye-Key': operatorKey } },
     ));
     return {
       response,

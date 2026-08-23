@@ -61,7 +61,7 @@ function readJsonSpec(service) {
 }
 
 function readUnifiedSpec() {
-  return YAML.parse(readFileSync('docs/api/worldmonitor.openapi.yaml', 'utf8'));
+  return YAML.parse(readFileSync('docs/api/eagleeye.openapi.yaml', 'utf8'));
 }
 
 function getParam(spec, path, method, name) {

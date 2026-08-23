@@ -69,7 +69,7 @@ export async function readCorrelationRuntimeMode({
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
-        'User-Agent': 'worldmonitor-seeder/1.0',
+        'User-Agent': 'eagleeye-seeder/1.0',
       },
       signal: AbortSignal.timeout(timeoutMs),
     });

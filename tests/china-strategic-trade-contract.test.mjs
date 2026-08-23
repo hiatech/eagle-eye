@@ -101,7 +101,7 @@ describe('shared China strategic-product metadata', () => {
   it('is consumed by both seeders and the API default-key reader without inline commodity mirrors', () => {
     const tradeSeeder = read('../scripts/seed-trade-flows.mjs');
     const bilateralSeeder = read('../scripts/seed-comtrade-bilateral-hs4.mjs');
-    const handler = read('../server/worldmonitor/trade/v1/list-comtrade-flows.ts');
+    const handler = read('../server/eagleeye/trade/v1/list-comtrade-flows.ts');
 
     for (const [label, source] of [
       ['trade seeder', tradeSeeder],
@@ -165,7 +165,7 @@ describe('China reporter coverage gate', () => {
 
 describe('existing access and China freight paths', () => {
   it('keeps detailed bilateral data behind the current premium gate', () => {
-    const handler = read('../server/worldmonitor/supply-chain/v1/get-country-products.ts');
+    const handler = read('../server/eagleeye/supply-chain/v1/get-country-products.ts');
     assert.match(handler, /isCallerPremium\(ctx\.request\)/);
     assert.match(handler, /if \(!isPro\) return empty/);
   });

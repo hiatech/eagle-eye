@@ -24,7 +24,7 @@ The reviewed terms records are:
 
 SSE and SZSE are metadata-only because commercial reuse of document bodies can
 require written permission. `documentRetrieval` is `lazy-link-only`: consumers
-receive the official link but WorldMonitor does not ingest or redistribute the
+receive the official link but EagleEye does not ingest or redistribute the
 linked body. HKEX terms prohibit programmatic systematic retrieval without
 permission, so the source remains blocked even when its website is reachable.
 
@@ -93,7 +93,7 @@ ports within the selected proxy configuration.
 SSE uses up to four direct and four proxy requests with bounded concurrency.
 SZSE uses one direct attempt, up to two proxy attempts on distinct eligible
 gateway ports, and then the fixed
-`https://api.worldmonitor.app/api/internal/china-exchange-egress` edge hop.
+`https://api.eagle-eye.app/api/internal/china-exchange-egress` edge hop.
 The edge hop is authenticated with `RELAY_SHARED_SECRET`; the secret is never
 sent to the exchange.
 

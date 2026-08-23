@@ -1,6 +1,6 @@
 ---
 title: "每日市场简报"
-description: "每日市场简报是 WorldMonitor 为金融交易员与投资分析师定制的 AI 生成日报，围绕股票、债券、商品与外汇市场提炼态度化主题条目，附带清晰的来源归属、分析框架标签与数据新鲜度上下文，帮助读者快速把握当日宏观叙事、板块轮动信号与关键风险事件的方向性判断。"
+description: "每日市场简报是 EagleEye 为金融交易员与投资分析师定制的 AI 生成日报，围绕股票、债券、商品与外汇市场提炼态度化主题条目，附带清晰的来源归属、分析框架标签与数据新鲜度上下文，帮助读者快速把握当日宏观叙事、板块轮动信号与关键风险事件的方向性判断。"
 ---
 
 **Daily Market Brief** 面板（内部 id `daily-market-brief`）是 [Latest Brief](/zh/panels/latest-brief) 面板的市场聚焦兄弟面板。它不产出世界情报摘要，而是生成对当日市场的态度化、主题化解读 — 每个条目标记为 `Bullish`、`Defensive` 或 `Neutral`，附带来源归属和框架上下文。
@@ -27,7 +27,7 @@ description: "每日市场简报是 WorldMonitor 为金融交易员与投资分�
 
 由预测管道生成，通过 `@/services/daily-market-brief` 读取。底层信息源由当日的市场信号（报价、大宗商品价格、宏观信号、板块走势、预测市场）组合而成。发布时间戳通过 `formatGeneratedTime()` 在面板所有者的时区中渲染。
 
-关于相邻的 WorldMonitor Brief 的来源过滤、去重、LLM 接地与偏差立场，请参见 [News Digest and Briefing Methodology](/zh/methodology/news-digest-and-briefing)。
+关于相邻的 EagleEye Brief 的来源过滤、去重、LLM 接地与偏差立场，请参见 [News Digest and Briefing Methodology](/zh/methodology/news-digest-and-briefing)。
 
 ## 刷新频率
 
@@ -35,7 +35,7 @@ description: "每日市场简报是 WorldMonitor 为金融交易员与投资分�
 
 ## 层级与门控
 
-**PRO（硬锁定）。** `src/config/panels.ts:51` 中的 `premium: 'locked'`。当存在有效的 `WORLDMONITOR_API_KEY` **或** `isPro` 为 true 时，`isPanelEntitled` 解锁该面板（`daily-market-brief` 在 `src/config/panels.ts:973` 的 `apiKeyPanels` 允许列表中）。
+**PRO（硬锁定）。** `src/config/panels.ts:51` 中的 `premium: 'locked'`。当存在有效的 `EAGLEEYE_API_KEY` **或** `isPro` 为 true 时，`isPanelEntitled` 解锁该面板（`daily-market-brief` 在 `src/config/panels.ts:973` 的 `apiKeyPanels` 允许列表中）。
 
 ## API 参考
 

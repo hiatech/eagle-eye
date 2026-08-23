@@ -6,9 +6,9 @@ import {
   backtestStock,
   STOCK_BACKTEST_ENGINE_VERSION,
   STOCK_BACKTEST_RATING_BASIS,
-} from '../server/worldmonitor/market/v1/backtest-stock.ts';
-import { listStoredStockBacktests } from '../server/worldmonitor/market/v1/list-stored-stock-backtests.ts';
-import { MarketServiceClient } from '../src/generated/client/worldmonitor/market/v1/service_client.ts';
+} from '../server/eagleeye/market/v1/backtest-stock.ts';
+import { listStoredStockBacktests } from '../server/eagleeye/market/v1/list-stored-stock-backtests.ts';
+import { MarketServiceClient } from '../src/generated/client/eagleeye/market/v1/service_client.ts';
 
 const originalFetch = globalThis.fetch;
 const originalRedisUrl = process.env.UPSTASH_REDIS_REST_URL;
@@ -256,7 +256,7 @@ describe('technical-only backtest disclosure', () => {
       'utf8',
     );
     const storeSource = readFileSync(
-      new URL('../server/worldmonitor/market/v1/premium-stock-store.ts', import.meta.url),
+      new URL('../server/eagleeye/market/v1/premium-stock-store.ts', import.meta.url),
       'utf8',
     );
 

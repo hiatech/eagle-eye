@@ -117,7 +117,7 @@ function makeLLM(responder) {
 describe('buildWhyMattersPrompt', () => {
   it('includes all story fields in the user prompt', () => {
     const { system, user } = buildWhyMattersPrompt(story());
-    assert.match(system, /WorldMonitor Brief/);
+    assert.match(system, /EagleEye Brief/);
     assert.match(system, /One sentence only/);
     assert.match(user, /Headline: Iran threatens/);
     assert.match(user, /Source: Guardian/);
@@ -393,7 +393,7 @@ describe('generateWhyMatters', () => {
 describe('buildDigestPrompt', () => {
   it('includes reader sensitivity and ranked story lines', () => {
     const { system, user } = buildDigestPrompt([story(), story({ headline: 'Second', country: 'PS' })], 'critical');
-    assert.match(system, /chief editor of WorldMonitor Brief/);
+    assert.match(system, /chief editor of EagleEye Brief/);
     assert.match(user, /Reader sensitivity level: critical/);
     // v3 prompt format: "01. [h:XXXX] [SEVERITY] Headline" — includes
     // a short hash prefix for ranking and uppercases severity to
@@ -515,7 +515,7 @@ describe('buildDigestPrompt', () => {
     );
     assert.match(injected.system, /Today is 2026-05-14\. Do not state any year or date that contradicts/);
     // The base editorial contract is still intact ahead of the date line.
-    assert.match(injected.system, /chief editor of WorldMonitor Brief/);
+    assert.match(injected.system, /chief editor of EagleEye Brief/);
 
     // No ctx.todayIso → falls back to the current UTC date, never absent.
     // `before`/`after` bracket the call so a UTC-midnight rollover

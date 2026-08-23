@@ -1,7 +1,7 @@
 import type {
   ChinaMacroIndicator,
   GetChinaMacroSnapshotResponse,
-} from '@/generated/client/worldmonitor/economic/v1/service_client';
+} from '@/generated/client/eagleeye/economic/v1/service_client';
 import { escapeHtml } from '@/utils/sanitize';
 import {
   CHINA_MACRO_REQUIRED_SERIES,

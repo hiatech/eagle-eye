@@ -15,7 +15,7 @@ const CACHE_TTL = 10800; // 3h — survives 1 missed 2h cron cycle
 // Issue #4008: the bulk sources (AbuseIPDB blacklist, C2Intel plaintext) carry
 // no upstream first-seen, so `firstSeenAt` was 0 for the majority of records,
 // leaving downstream consumers (cyberDigital discovery-day grouping, #3971/#4009)
-// without a usable discovery timestamp. We persist a WorldMonitor-observed
+// without a usable discovery timestamp. We persist a EagleEye-observed
 // first-seen per indicator across runs: upstream first-seen wins when present,
 // otherwise the first run that observes an indicator stamps it. The map is
 // rebuilt from the current feed each run, so it self-prunes to ~feed size
@@ -524,7 +524,7 @@ function dedupeThreats(threats) {
   return Array.from(map.values());
 }
 
-// Issue #4008 — pure merge of WorldMonitor-observed first-seen. Resolves one
+// Issue #4008 — pure merge of EagleEye-observed first-seen. Resolves one
 // canonical first-seen per indicator = min(every upstream date present this run,
 // the prior persisted value); if no real date exists anywhere, stamps `nowMs`
 // (first sighting). Two passes so the value is order-independent: every
@@ -618,7 +618,7 @@ async function fetchAllThreats() {
   console.log(`  Combined (deduped): ${combined.length}`);
 
   // #4008: stamp a stable per-indicator first-seen (upstream when present, else
-  // WorldMonitor-observed) before sort/proto so `firstSeenAt` is populated for
+  // EagleEye-observed) before sort/proto so `firstSeenAt` is populated for
   // every source, including AbuseIPDB/C2Intel which carry no upstream date.
   await applyObservedFirstSeen(combined, now);
 

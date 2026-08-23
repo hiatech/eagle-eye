@@ -73,7 +73,7 @@ defineGlobal('requestAnimationFrame', browserEnvironment.requestAnimationFrame);
 defineGlobal('cancelAnimationFrame', browserEnvironment.cancelAnimationFrame);
 defineGlobal('location', {
   ...browserEnvironment.window.location,
-  hostname: 'worldmonitor.test',
+  hostname: 'eagleeye.test',
 });
 defineGlobal('navigator', browserEnvironment.window.navigator);
 defineGlobal('HTMLElement', browserEnvironment.HTMLElement);

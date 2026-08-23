@@ -1,43 +1,43 @@
-# worldmonitor
+# eagleeye
 
-[![npm version](https://img.shields.io/npm/v/worldmonitor?logo=npm)](https://www.npmjs.com/package/worldmonitor)
-[![npm downloads](https://img.shields.io/npm/dm/worldmonitor)](https://www.npmjs.com/package/worldmonitor)
-[![license](https://img.shields.io/npm/l/worldmonitor)](https://github.com/koala73/worldmonitor/blob/main/cli/LICENSE)
+[![npm version](https://img.shields.io/npm/v/eagleeye?logo=npm)](https://www.npmjs.com/package/eagleeye)
+[![npm downloads](https://img.shields.io/npm/dm/eagleeye)](https://www.npmjs.com/package/eagleeye)
+[![license](https://img.shields.io/npm/l/eagleeye)](https://github.com/hiatech/eagle-eye/blob/main/cli/LICENSE)
 
-Official command-line client for the [World Monitor](https://worldmonitor.app)
+Official command-line client for the [Eagle Eye](https://eagle-eye.app)
 global-intelligence API. Script country briefs, risk scores, and
 conflict / cyber / market / news feeds — plus any of the 59 MCP tools — from
 your shell or an agent, without writing an API integration.
 
 The CLI is a thin, dependency-free wrapper over the
-[MCP server](https://worldmonitor.app/mcp) (the recommended agent surface) with
+[MCP server](https://eagle-eye.app/mcp) (the recommended agent surface) with
 a REST escape hatch. It ships as ESM and runs on Node 18+.
 
-📖 **Full documentation:** [worldmonitor.app/docs/cli](https://worldmonitor.app/docs/cli)
+📖 **Full documentation:** [eagle-eye.app/docs/cli](https://eagle-eye.app/docs/cli)
 
 ## Install
 
 ```sh
-npm install -g worldmonitor   # installs the `worldmonitor` command (alias: `wm`)
+npm install -g eagleeye   # installs the `eagleeye` command (alias: `wm`)
 # or run without installing:
-npx worldmonitor tools
+npx eagleeye tools
 ```
 
 ## Quick start
 
 ```sh
 # Discover every tool — public, no key needed
-worldmonitor tools
+eagleeye tools
 
-# Data commands need a user API key (get one at https://worldmonitor.app/pro)
-export WORLDMONITOR_API_KEY=wm_xxxxxxxx
+# Data commands need a user API key (get one at https://eagle-eye.app/pro)
+export EAGLEEYE_API_KEY=wm_xxxxxxxx
 
-worldmonitor world                       # live global situation brief
-worldmonitor country IR                  # AI strategic brief for a country
-worldmonitor risk DE                      # country risk / resilience scores
-worldmonitor conflicts --country IR --limit 5
-worldmonitor markets --asset_class crypto
-worldmonitor call get_cyber_threats --min_severity 7
+eagleeye world                       # live global situation brief
+eagleeye country IR                  # AI strategic brief for a country
+eagleeye risk DE                      # country risk / resilience scores
+eagleeye conflicts --country IR --limit 5
+eagleeye markets --asset_class crypto
+eagleeye call get_cyber_threats --min_severity 7
 ```
 
 ## Commands
@@ -72,16 +72,16 @@ Every tool also accepts a `jmespath` argument that projects the response
 server-side before it crosses the wire — typically 80–95% smaller:
 
 ```sh
-worldmonitor markets --jmespath 'data."stocks-bootstrap".quotes[?symbol==`AAPL`].{s:symbol,p:price}'
+eagleeye markets --jmespath 'data."stocks-bootstrap".quotes[?symbol==`AAPL`].{s:symbol,p:price}'
 ```
 
-See the [JMESPath guide](https://worldmonitor.app/docs/mcp-jmespath) for worked examples.
+See the [JMESPath guide](https://eagle-eye.app/docs/mcp-jmespath) for worked examples.
 
 ## Flags
 
-- `--api-key <key>` — user API key (or env `WORLDMONITOR_API_KEY`)
-- `--mcp-url <url>` — MCP endpoint (default `https://worldmonitor.app/mcp`)
-- `--base-url <url>` — REST base (default `https://api.worldmonitor.app`)
+- `--api-key <key>` — user API key (or env `EAGLEEYE_API_KEY`)
+- `--mcp-url <url>` — MCP endpoint (default `https://eagle-eye.app/mcp`)
+- `--base-url <url>` — REST base (default `https://api.eagle-eye.app`)
 - `--args <json>` — typed arguments object for a tool call
 - `--timeout <ms>` — request timeout (default 30000)
 - `--raw` — print the response body verbatim
@@ -97,12 +97,12 @@ See the [JMESPath guide](https://worldmonitor.app/docs/mcp-jmespath) for worked 
 ## Programmatic use
 
 ```js
-import { run } from 'worldmonitor/run';
+import { run } from 'eagleeye/run';
 
 const code = await run(['risk', 'IR'], { env: process.env });
 ```
 
 ## License
 
-MIT-licensed thin client (the World Monitor platform itself remains AGPL-3.0). Part of the
-[World Monitor](https://github.com/koala73/worldmonitor) project.
+MIT-licensed thin client (the Eagle Eye platform itself remains AGPL-3.0). Part of the
+[Eagle Eye](https://github.com/hiatech/eagle-eye) project.

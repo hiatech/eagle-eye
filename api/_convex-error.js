@@ -92,7 +92,7 @@ export function extractConvexErrorKind(err, msg) {
   // (Cloudflare Workers / Vercel edge surface `TypeError: Network connection
   // lost.` from the inner `fetch` when the socket is reset during an in-flight
   // request). Same recovery profile as the platform 503 — transient, retry
-  // with back-off. WORLDMONITOR-QE: was previously falling through to the
+  // with back-off. EAGLEEYE-QE: was previously falling through to the
   // 'unknown' error_shape bucket at error level instead of 503 + Retry-After.
   // Sentry's classifier tags these as `transport_network` so they're queryable
   // separately from genuine Convex 503s.
@@ -102,7 +102,7 @@ export function extractConvexErrorKind(err, msg) {
   // body containing `error code: 52x` instead of a JSON Convex response. The
   // HTTP client surfaces this as `Error('error code: 520...')` — `.data` is
   // undefined (the request never reached Convex's runtime). Same transient
-  // retry-with-back-off remediation as the platform 503. WORLDMONITOR-PG: was
+  // retry-with-back-off remediation as the platform 503. EAGLEEYE-PG: was
   // falling through to the 'unknown' error_shape bucket at error level instead
   // of 503 + Retry-After. Sentry's classifier tags these `transport_cloudflare`
   // so they stay queryable apart from genuine Convex platform 5xx.
@@ -115,7 +115,7 @@ export function extractConvexErrorKind(err, msg) {
   // `UNAUTHENTICATED` kind, so the substring check below would miss it.
   // Map to the same UNAUTHENTICATED kind as the structured-data path so
   // the edge handler maps it to 401 and tags it as `convex_auth_drift`
-  // (WORLDMONITOR-PG).
+  // (EAGLEEYE-PG).
   if (hasConvexCode(msg, 'Unauthenticated')) return 'UNAUTHENTICATED';
   // Convex platform-level 500: `{"code":"InternalServerError","message":
   // "Your request couldn't be completed. Try again later."}` — runtime
@@ -124,7 +124,7 @@ export function extractConvexErrorKind(err, msg) {
   // back-off), so reuse SERVICE_UNAVAILABLE → 503 + Retry-After response.
   // Sentry `error_shape` discriminates via msg-pattern fallback so the
   // dashboard can tell internal-500s apart from genuine ServiceUnavailable
-  // 503s (WORLDMONITOR-PG / WORLDMONITOR-PH).
+  // 503s (EAGLEEYE-PG / EAGLEEYE-PH).
   if (hasConvexCode(msg, 'InternalServerError')) return 'SERVICE_UNAVAILABLE';
   // Convex platform-level worker saturation: `{"code":"WorkerOverloaded",
   // "message":"There are no available workers to process the request"}` —
@@ -132,7 +132,7 @@ export function extractConvexErrorKind(err, msg) {
   // retry-with-back-off remediation as the platform 503/500, so reuse
   // SERVICE_UNAVAILABLE → 503 + Retry-After rather than surfacing a 500.
   // Without this match the catch fell to the 'unknown' error_shape bucket
-  // at error level (WORLDMONITOR-PG: 11 events / 9 users). Sentry's
+  // at error level (EAGLEEYE-PG: 11 events / 9 users). Sentry's
   // classifier tags these `convex_worker_overloaded` so they stay queryable
   // apart from genuine ServiceUnavailable 503s and InternalServerError 500s.
   if (hasConvexCode(msg, 'WorkerOverloaded')) return 'SERVICE_UNAVAILABLE';

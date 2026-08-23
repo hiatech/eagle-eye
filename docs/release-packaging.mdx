@@ -1,10 +1,10 @@
 ---
 title: "Desktop Release Packaging Guide (Local, Reproducible)"
-description: "Reproducible local packaging steps for the World Monitor desktop binary, including signing and notarization."
+description: "Reproducible local packaging steps for the Eagle Eye desktop binary, including signing and notarization."
 ---
 This guide provides reproducible local packaging steps for the desktop app.
 
-**One binary ships.** `World Monitor` is the only desktop artifact, and every
+**One binary ships.** `Eagle Eye` is the only desktop artifact, and every
 variant — tech, finance, commodity, energy, happy — is selected in-app after
 install and persists across restarts. There is no per-variant package, no
 per-variant tag, and no per-variant download.
@@ -14,7 +14,7 @@ That is a deliberate constraint, not an omission: `/api/version` and
 so a second release line could never be served to users (#5908).
 
 Bundle identity is controlled by a single Tauri config,
-`src-tauri/tauri.conf.json` → `World Monitor` / `world-monitor`.
+`src-tauri/tauri.conf.json` → `Eagle Eye` / `eagle-eye`.
 
 ## Prerequisites
 
@@ -186,10 +186,10 @@ npm run desktop:package:windows:sign
 
 ## Bundle identity (names/icons)
 
-`src-tauri/tauri.conf.json` → `World Monitor` / `world-monitor`, with
+`src-tauri/tauri.conf.json` → `Eagle Eye` / `eagle-eye`, with
 `bundle.icon` pointing at the shared icon set. Every packaged build carries that
 identity regardless of which variant the user later switches to, so the window
-title and installed app name are always `World Monitor`.
+title and installed app name are always `Eagle Eye`.
 
 Adding a second `tauri.*.conf.json` to rebrand a variant is deliberately
 rejected by `tests/desktop-one-binary-model.test.mjs`: nothing publishes it, and
@@ -223,7 +223,7 @@ Common subfolders:
    - Map view renders.
    - Initial data loading path does not fatal-error.
 5. Validate bundle identity and in-app variant switching:
-   - Window title and product name are `World Monitor`.
+   - Window title and product name are `Eagle Eye`.
    - Switching to another variant reloads into that variant's panels/layers and
      survives a restart.
 6. If signing was enabled:

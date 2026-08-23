@@ -127,7 +127,7 @@ function writePremiumHint(premium: boolean): void {
 
 function hasLocalUnlockPremium(): boolean {
   return (
-    getSecretState('WORLDMONITOR_API_KEY').present ||
+    getSecretState('EAGLEEYE_API_KEY').present ||
     isProWidgetEnabled() ||
     isWidgetFeatureEnabled()
   );

@@ -20,7 +20,7 @@ throttling 4×-amplifies host-CPU contention; the same URL has scored 28/57/85):
 
 ```bash
 # deterministic harness (best-effort live capture)
-node scripts/measure-mobile-mainthread.mjs https://worldmonitor.app/dashboard --cpu 4 --settle 14000
+node scripts/measure-mobile-mainthread.mjs https://eagle-eye.app/dashboard --cpu 4 --settle 14000
 # or against a local preview: node scripts/measure-mobile-mainthread.mjs http://127.0.0.1:4173/dashboard
 ```
 
@@ -80,7 +80,7 @@ contention; the authoritative mobile TBT still needs a clean PSI run.
 Command:
 
 ```bash
-node scripts/measure-mobile-mainthread.mjs https://worldmonitor.app/dashboard --cpu 4 --settle 14000 --json
+node scripts/measure-mobile-mainthread.mjs https://eagle-eye.app/dashboard --cpu 4 --settle 14000 --json
 ```
 
 First local capture, iPhone 14 Pro Max emulation, CPU 4×, 14 s settle. As above, treat absolute
@@ -123,7 +123,7 @@ Findings from this run:
 
 ## Harness capture — 2026-06-27 (prod, post #4442/#4448)
 
-`scripts/measure-mobile-mainthread.mjs` vs `https://worldmonitor.app/dashboard`, iPhone 14 Pro Max
+`scripts/measure-mobile-mainthread.mjs` vs `https://eagle-eye.app/dashboard`, iPhone 14 Pro Max
 emulation, CPU 4×, 14 s settle, n=3:
 
 | Signal | Sample 1 | Sample 2 | Sample 3 | Notes |

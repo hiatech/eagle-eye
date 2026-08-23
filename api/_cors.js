@@ -1,10 +1,10 @@
 const ALLOWED_ORIGIN_PATTERNS = [
-  /^https:\/\/(.*\.)?worldmonitor\.app$/,
+  /^https:\/\/(.*\.)?eagle-eye\.app$/,
   // Vercel preview deployments under the "eliewm" team scope, e.g.
-  //   worldmonitor-git-<branch>-eliewm.vercel.app  (git-branch alias)
-  //   worldmonitor-<hash>-eliewm.vercel.app        (deployment URL)
+  //   eagleeye-git-<branch>-eliewm.vercel.app  (git-branch alias)
+  //   eagleeye-<hash>-eliewm.vercel.app        (deployment URL)
   // Tight on purpose: never a bare *.vercel.app (this is a security allowlist).
-  /^https:\/\/worldmonitor-[a-z0-9-]+-eliewm\.vercel\.app$/,
+  /^https:\/\/eagleeye-[a-z0-9-]+-eliewm\.vercel\.app$/,
   /^https?:\/\/tauri\.localhost(:\d+)?$/,
   /^https?:\/\/[a-z0-9-]+\.tauri\.localhost(:\d+)?$/i,
   /^tauri:\/\/localhost$/,
@@ -19,12 +19,12 @@ const ALLOWED_ORIGIN_PATTERNS = [
 const ALLOWED_HEADERS = [
   'Content-Type',
   'Authorization',
-  'X-WorldMonitor-Key',
+  'X-EagleEye-Key',
   'X-Api-Key',
   'X-Widget-Key',
   'X-Pro-Key',
-  'X-WorldMonitor-Desktop-Timestamp',
-  'X-WorldMonitor-Desktop-Signature',
+  'X-EagleEye-Desktop-Timestamp',
+  'X-EagleEye-Desktop-Signature',
   'Idempotency-Key',
   'Mcp-Session-Id',
   'MCP-Protocol-Version',
@@ -41,7 +41,7 @@ const EXPOSED_HEADERS = [
   // the reason here alongside `Retry-After`. Docs advertise the header
   // (docs/usage-errors.mdx) but it was not exposed, so a cross-origin browser
   // client — the Tauri desktop shell, widget embeds, anything on
-  // api.worldmonitor.app — could not read it and had to parse `code` from the
+  // api.eagle-eye.app — could not read it and had to parse `code` from the
   // body to tell a retryable verification blip from a terminal lapse (#5622).
   'X-Billing-Verification',
   // IETF RateLimit fields (draft-ietf-httpapi-ratelimit-headers): RateLimit-Policy
@@ -57,9 +57,9 @@ const EXPOSED_HEADERS = [
   'X-RateLimit-Limit',
   'X-RateLimit-Remaining',
   'X-RateLimit-Reset',
-  'X-WorldMonitor-Bbox',
-  'X-WorldMonitor-Bbox-Missing',
-  'X-WorldMonitor-Bbox-Invalid',
+  'X-EagleEye-Bbox',
+  'X-EagleEye-Bbox-Missing',
+  'X-EagleEye-Bbox-Invalid',
   'X-Military-Bbox',
 ].join(', ');
 
@@ -69,7 +69,7 @@ function isAllowedOrigin(origin) {
 
 export function getCorsHeaders(req, methods = 'GET, OPTIONS') {
   const origin = req.headers.get('origin') || '';
-  const allowOrigin = isAllowedOrigin(origin) ? origin : 'https://worldmonitor.app';
+  const allowOrigin = isAllowedOrigin(origin) ? origin : 'https://eagle-eye.app';
   return {
     'Access-Control-Allow-Origin': allowOrigin,
     'Access-Control-Allow-Credentials': 'true',

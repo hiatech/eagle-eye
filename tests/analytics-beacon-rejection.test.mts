@@ -2,7 +2,7 @@ import { describe, it, beforeEach, before, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 
 /**
- * WORLDMONITOR-WW/WX/WY — `TypeError: Failed to fetch`, onunhandledrejection,
+ * EAGLEEYE-WW/WX/WY — `TypeError: Failed to fetch`, onunhandledrejection,
  * 2026-07-20.
  *
  * Umami's native tracker catches fetch/JSON failures internally, including a
@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
  * its own delivery promise too.
  */
 
-const UMAMI_SEND_URL = 'https://abacus.worldmonitor.app/api/send';
+const UMAMI_SEND_URL = 'https://abacus.eagle-eye.app/api/send';
 
 const _store = new Map<string, string>();
 before(() => {
@@ -95,7 +95,7 @@ async function assertNoLeak(fire: () => void, label: string): Promise<void> {
   }
 }
 
-describe('umami beacon rejection is swallowed (WORLDMONITOR-WW/WX/WY)', () => {
+describe('umami beacon rejection is swallowed (EAGLEEYE-WW/WX/WY)', () => {
   beforeEach(() => {
     resetAnalyticsForTesting();
     stubFailingUmami();
@@ -839,7 +839,7 @@ describe('bot-filtered collector writes (#5964 alert-noise regression)', () => {
   });
 
   it('gates an unexplained receiptless 200 behind the aggregate floors', () => {
-    // 2026-08-01 (WORLDMONITOR-Y3): receiptless-200 reports arrived at ~16/hour
+    // 2026-08-01 (EAGLEEYE-Y3): receiptless-200 reports arrived at ~16/hour
     // from diverse real browsers while the Umami DB was ingesting 15-23k
     // events/hour and every probe shape returned a full receipt. From inside
     // one page, privacy middleware faking a 200 — or a body that cannot be

@@ -513,13 +513,13 @@ function computeStats() {
   const protoServices = protoFiles
     .map((f) => (read(f).match(/^service\s+\w+/gm) || []).length)
     .reduce((a, b) => a + b, 0);
-  const protoDomainFolders = dirsIn('proto/worldmonitor').length;
+  const protoDomainFolders = dirsIn('proto/eagleeye').length;
 
   // ---- Generated OpenAPI service specs (docs/api/*Service.openapi.yaml) ----
   const openapiServiceSpecs = filesIn('docs/api').filter((f) => /Service\.openapi\.yaml$/.test(f)).length;
 
-  // ---- Server domain handlers (server/worldmonitor/*/) ----
-  const serverDomains = dirsIn('server/worldmonitor').length;
+  // ---- Server domain handlers (server/eagleeye/*/) ----
+  const serverDomains = dirsIn('server/eagleeye').length;
 
   // ---- User-facing locales (src/locales/*.json, excluding shell fragments) ----
   const localeCodes = filesIn('src/locales')
@@ -796,7 +796,7 @@ function claims(s) {
     { file: 'public/llms-full.txt', re: /resilience scores for the (\d+)-country public rankable universe/, value: s.rankableUniverseCountries },
 
     { file: 'docs/mcp-apps.mdx', re: /current fleet ships (\d+)\s+MCP Apps/, value: s.mcpAppCount },
-    { file: 'docs/mcp-quickstart.mdx', re: /WorldMonitor exposes (\d+)\s+live tools/, value: s.mcpToolCount },
+    { file: 'docs/mcp-quickstart.mdx', re: /EagleEye exposes (\d+)\s+live tools/, value: s.mcpToolCount },
     { file: 'docs/mcp-quickstart.mdx', re: /receives (\d+)\s+compressed tool descriptions/, value: s.mcpToolCount },
     { file: 'public/mcp-server.md', re: /server ships \*\*(\d+)\s+tools\*\*/, value: s.mcpToolCount },
 
@@ -825,35 +825,35 @@ function claims(s) {
     { file: 'docs/algorithms.mdx', re: /and (\d+)\s+tracked world-leader names/, value: s.leaderNames },
 
     // ---- Blog posts (blog-site/) — capability counts quoted in evergreen developer/overview posts ----
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /typed API: (\d+)\s+services/, value: s.protoServices },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /typed API: \d+\s+services, (\d+)\s+proto files/, value: s.protoFiles },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /\*\*(\d+)\s+proto files\*\* defining/, value: s.protoFiles },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /\*\*(\d+)\s+typed service domains\*\*/, value: s.protoServices },
-    // Heading labels the table below it, which is enumerated from server/worldmonitor/* dirs → pin to serverDomains (not protoServices; the two equal 34 today but a domain with two `service` blocks would diverge them).
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /##\s+(\d+)\s+Service Domains/, value: s.serverDomains },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /Protocol Buffers \((\d+)\s+files\)/, value: s.protoFiles },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /worldmonitor\)\. (\d+)\s+services, \d+\s+proto files, and a global/, value: s.protoServices },
-    { file: 'blog-site/src/content/blog/build-on-worldmonitor-developer-api-open-source.md', re: /worldmonitor\)\. \d+\s+services, (\d+)\s+proto files, and a global/, value: s.protoFiles },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /generated from (\d+)\s+Protocol Buffer definitions into \d+\s+REST service specifications/, value: s.protoFiles },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /generated from \d+\s+Protocol Buffer definitions into (\d+)\s+REST service specifications/, value: s.protoServices },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /typed API: (\d+)\s+services/, value: s.protoServices },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /typed API: \d+\s+services, (\d+)\s+proto files/, value: s.protoFiles },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /\*\*(\d+)\s+proto files\*\* defining/, value: s.protoFiles },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /\*\*(\d+)\s+typed service domains\*\*/, value: s.protoServices },
+    // Heading labels the table below it, which is enumerated from server/eagleeye/* dirs → pin to serverDomains (not protoServices; the two equal 34 today but a domain with two `service` blocks would diverge them).
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /##\s+(\d+)\s+Service Domains/, value: s.serverDomains },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /Protocol Buffers \((\d+)\s+files\)/, value: s.protoFiles },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /eagle-eye\)\. (\d+)\s+services, \d+\s+proto files, and a global/, value: s.protoServices },
+    { file: 'blog-site/src/content/blog/build-on-eagle-eye-developer-api-open-source.md', re: /eagle-eye\)\. \d+\s+services, (\d+)\s+proto files, and a global/, value: s.protoFiles },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /generated from (\d+)\s+Protocol Buffer definitions into \d+\s+REST service specifications/, value: s.protoFiles },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /generated from \d+\s+Protocol Buffer definitions into (\d+)\s+REST service specifications/, value: s.protoServices },
     // The explainer's remaining capability counts. These live here rather than
     // in tests/blog-seo-contract.test.mjs because the `unit` job that runs it is
     // gated on changes.code, whose filter drops every .md path — the contract
     // guarding this markdown page skipped the markdown-only PRs most likely to
     // break it. docs-stats is always-on. Shape assertions that a numeric pin
     // cannot express live in validateCategoryExplainerCopy below.
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\+\s+curated news feeds/, value: s.feedDefinitions, min: true },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\+\s+observed upstream hosts/, value: s.sourceAttributionHosts },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\s+map-layer types/, value: s.layerDefinitions },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\s+Tier-1 countries/, value: s.tier1Countries },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /\*\*(\d+)-country\*\* public Country Resilience Index universe/, value: s.rankableUniverseCountries },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\s+stock exchanges/, value: s.stockExchangeCount },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\s+central-bank or supranational institutions/, value: s.centralBankInstitutionCount },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /(\d+)\s+interface languages/, value: s.locales },
-    { file: 'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md', re: /Model Context Protocol server with (\d+)\s+live tools/, value: s.mcpToolCount },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\+\s+curated news feeds/, value: s.feedDefinitions, min: true },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\+\s+observed upstream hosts/, value: s.sourceAttributionHosts },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\s+map-layer types/, value: s.layerDefinitions },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\s+Tier-1 countries/, value: s.tier1Countries },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /\*\*(\d+)-country\*\* public Country Resilience Index universe/, value: s.rankableUniverseCountries },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\s+stock exchanges/, value: s.stockExchangeCount },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\s+central-bank or supranational institutions/, value: s.centralBankInstitutionCount },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /(\d+)\s+interface languages/, value: s.locales },
+    { file: 'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md', re: /Model Context Protocol server with (\d+)\s+live tools/, value: s.mcpToolCount },
     { file: 'blog-site/src/content/blog/ai-powered-intelligence-without-the-cloud.md', re: /architecture \((\d+)\s+proto files, \d+\s+typed services\)/, value: s.protoFiles },
     { file: 'blog-site/src/content/blog/ai-powered-intelligence-without-the-cloud.md', re: /architecture \(\d+\s+proto files, (\d+)\s+typed services\)/, value: s.protoServices },
-    { file: 'blog-site/src/content/blog/worldmonitor-vs-traditional-intelligence-tools.md', re: /using the (\d+)\s+typed API services/, value: s.protoServices },
+    { file: 'blog-site/src/content/blog/eagle-eye-vs-traditional-intelligence-tools.md', re: /using the (\d+)\s+typed API services/, value: s.protoServices },
   ];
 }
 
@@ -1154,7 +1154,7 @@ export const PLAN_LAYER_COPY_SURFACES = [
   // The category explainer names the free-tier layer boundary too ("Every
   // layer except the Resilience layer is available on the free plan"), so it
   // has to be re-pointed alongside the pricing surfaces when the lock set moves.
-  'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md',
+  'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md',
 ];
 
 /** The single web-locked layer the copy above is written around. */
@@ -1206,17 +1206,17 @@ export function validatePlanLayerEntitlementCopy(stats, readFile = read) {
  * what a "doc says N, code says N" pin cannot express.
  */
 export const CATEGORY_EXPLAINER_PATH =
-  'blog-site/src/content/blog/what-is-worldmonitor-real-time-global-intelligence.md';
+  'blog-site/src/content/blog/what-is-eagle-eye-real-time-global-intelligence.md';
 
 const CATEGORY_EXPLAINER_OPENING =
-  /^World Monitor is a \*\*free, open-source, real-time global intelligence dashboard\*\*/;
+  /^Eagle Eye is a \*\*free, open-source, real-time global intelligence dashboard\*\*/;
 // Wide enough that ordinary copy edits pass; narrow enough that the definition
 // cannot decay into a one-liner or swell back into the old narrative lede.
 const CATEGORY_EXPLAINER_OPENING_WORDS = { min: 35, max: 80 };
 const COUNT_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const CATEGORY_EXPLAINER_REQUIRED_LINKS = [
-  'https://www.worldmonitor.app/docs/data-sources',
-  'https://www.worldmonitor.app/pricing.md',
+  'https://www.eagle-eye.app/docs/data-sources',
+  'https://www.eagle-eye.app/pricing.md',
   '/blog/glossary/',
 ];
 // The paid tiers must stay named. The page previously claimed there was no
@@ -1257,7 +1257,7 @@ export function validateCategoryExplainerCopy(stats, readFile = read) {
   } else {
     const opening = body.slice(0, firstHeading).trim();
     if (!CATEGORY_EXPLAINER_OPENING.test(opening)) {
-      failures.push(`${file}: must open with the self-contained "World Monitor is a **free, open-source, real-time global intelligence dashboard**" definition`);
+      failures.push(`${file}: must open with the self-contained "Eagle Eye is a **free, open-source, real-time global intelligence dashboard**" definition`);
     }
     const words = opening.split(/\s+/).filter(Boolean).length;
     const { min, max } = CATEGORY_EXPLAINER_OPENING_WORDS;

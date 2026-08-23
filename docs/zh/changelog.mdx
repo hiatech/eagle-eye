@@ -1,10 +1,10 @@
 ---
 title: "更新日志"
-description: "World Monitor 所有版本重要变更的完整发布记录：按语义化版本号有序组织，涵盖新增功能、错误修复、性能优化、UI 改进、API 新增与弃用端点、破坏性改动说明、安全公告及迁移指南，方便开发者、集成方与订阅用户跟踪产品演进、规划升级路径与查阅历史发布备注。"
+description: "Eagle Eye 所有版本重要变更的完整发布记录：按语义化版本号有序组织，涵盖新增功能、错误修复、性能优化、UI 改进、API 新增与弃用端点、破坏性改动说明、安全公告及迁移指南，方便开发者、集成方与订阅用户跟踪产品演进、规划升级路径与查阅历史发布备注。"
 rss: true
 ---
 
-World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.worldmonitor.app/docs/changelog/rss.xml) 订阅以获取最新动态。
+Eagle Eye 的所有重要变更均记录于此。通过 [RSS](https://www.eagle-eye.app/docs/changelog/rss.xml) 订阅以获取最新动态。
 
 <Update label="Unreleased" description="Unreleased" tags={["Trade", "Intelligence", "Search", "Supply Chain", "Maritime", "Security", "MCP"]}>
 
@@ -47,7 +47,7 @@ World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.wo
 
 ### 安全
 
-- **CDN 缓存绕过已修复**：`CDN-Cache-Control` 头现仅对受信任来源（worldmonitor.app、Vercel 预览、Tauri）发送。无来源的服务器端请求始终调用边缘函数以执行 `validateApiKey`，防止外部爬虫获得缓存的 200 响应。
+- **CDN 缓存绕过已修复**：`CDN-Cache-Control` 头现仅对受信任来源（eagle-eye.app、Vercel 预览、Tauri）发送。无来源的服务器端请求始终调用边缘函数以执行 `validateApiKey`，防止外部爬虫获得缓存的 200 响应。
 - **Shipping v2 webhook 租户隔离（#3242）**：`POST /api/v2/shipping/webhooks` 与 `GET /api/v2/shipping/webhooks` 现强制执行 `validateApiKey(req, { forceKey: true })`，与同级的 `[subscriberId]{,/[action]}` 路由保持一致。若无此门控，已通过 Clerk 认证但无 API 密钥的 Pro 用户将坍缩到共享的 `'anon'` 指纹桶，从而看到或覆盖其他 `'anon'` 桶租户拥有的 webhook。
 
 ### 修复
@@ -258,7 +258,7 @@ World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.wo
 - **运行时**：所有 /api/* 调用通过 CDN 边缘路由，而非直接访问 Vercel（#780）
 - **桌面**：从主机架构检测 Linux node 目标（#742）、加固 Windows 安装器更新路径 + 地图调整大小（#739）、点击下载后关闭更新提示（#738）、仅在外部打开有效的 http(s) 链接（#723）
 - **摄像头**：替换失效的特拉维夫直播流（#732）、替换陈旧的耶路撒冷源（#849）
-- Story 页头使用完整域名 WORLDMONITOR.APP（#799）
+- Story 页头使用完整域名 EAGLE-EYE.APP（#799）
 - 在同一窗口而非新标签页中打开变体导航链接（#721）
 - 在拖拽调整大小时抑制地图渲染（#728）
 - 异步导入解析后将推断面板附加到 DOM（#764）
@@ -365,7 +365,7 @@ World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.wo
 ### 新增
 
 - **边缘缓存**：完整的 Cloudflare 边缘缓存层覆盖，附带降级响应策略（#484）
-- **边缘缓存**：proxy.worldmonitor.app（#478）与 api.worldmonitor.app（#471）的 Cloudflare 边缘缓存
+- **边缘缓存**：proxy.eagle-eye.app（#478）与 api.eagle-eye.app（#471）的 Cloudflare 边缘缓存
 - **边缘缓存**：分层边缘 Cache-Control 对齐上游 TTL（#474）
 - **API 迁移**：将 52 个 API 端点从 POST 转换为 GET 以支持边缘缓存（#468）
 - **网关**：可配置的 VITE_WS_API_URL + 加固 POST 到 GET 的垫片（#480）
@@ -585,7 +585,7 @@ World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.wo
 
 ### 新增
 
-- **金融变体**：新增专用市场优先变体（`finance.worldmonitor.app`），附带以金融/交易为核心的数据源、面板与地图默认值
+- **金融变体**：新增专用市场优先变体（`finance.eagle-eye.app`），附带以金融/交易为核心的数据源、面板与地图默认值
 - **金融桌面配置**：新增面向金融的桌面配置与构建配置文件，用于 Tauri 打包
 
 ### 变更
@@ -676,7 +676,7 @@ World Monitor 的所有重要变更均记录于此。通过 [RSS](https://www.wo
 
 ### 安全
 
-- **CORS 加固**：收紧 Vercel 预览部署正则以阻断来源伪造（`worldmonitorEVIL.vercel.app`）
+- **CORS 加固**：收紧 Vercel 预览部署正则以阻断来源伪造（`eagleeyeEVIL.vercel.app`）
 - **Sidecar 认证绕过**：将 `/api/local-env-update` 置于 `LOCAL_API_TOKEN` 认证检查之后
 - **环境密钥白名单**：将 sidecar 环境变更限制为 18 个已知密钥（匹配 `SUPPORTED_SECRET_KEYS`）
 - **postMessage 校验**：在 LiveNewsPanel 中对传入消息添加 `origin` 与 `source` 检查

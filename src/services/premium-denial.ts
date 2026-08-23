@@ -115,7 +115,7 @@ const AUTHENTICATION_CODES = new Set([
 /**
  * Does the client affirmatively believe this user is Pro?
  *
- * Deliberately excludes the desktop `WORLDMONITOR_API_KEY` and the browser
+ * Deliberately excludes the desktop `EAGLEEYE_API_KEY` and the browser
  * tester keys that `hasPremiumAccess` also honours: those unlock panels
  * locally but say nothing about the signed-in Clerk account's plan, so an
  * API-key user with a free account should still get the upsell.

@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const SITE_ORIGIN = 'https://www.worldmonitor.app';
+export const SITE_ORIGIN = 'https://www.eagle-eye.app';
 export const CONTENT_CORPUS_PREFIXES = ['countries', 'chokepoints', 'crises', 'tools', 'research', 'reference', 'changelog'];
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');

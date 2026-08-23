@@ -20,7 +20,7 @@ import { showCheckoutConfirmDialog } from './checkout-dialog-factory';
 
 const DIALOG_ID = 'wm-duplicate-subscription-dialog';
 
-const SUPPORT_EMAIL = 'support@worldmonitor.app';
+const SUPPORT_EMAIL = 'support@eagle-eye.app';
 
 export interface DuplicateSubscriptionDialogOptions {
   /** Whitelisted display name for the already-active plan (e.g., "Pro Monthly"). */

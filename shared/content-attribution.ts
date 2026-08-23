@@ -57,7 +57,7 @@ export interface ContentAttributionInput {
 
 const UNKNOWN = 'unknown';
 const CONTENT_DESTINATIONS = ['dashboard', 'pro', 'api', 'mcp'] as const;
-const CONTENT_SOURCES = ['worldmonitor-blog'] as const;
+const CONTENT_SOURCES = ['eagleeye-blog'] as const;
 const CONTENT_MEDIA = ['owned-content'] as const;
 const CONTENT_PLACEMENTS = [
   'article-cta-dashboard',
@@ -187,7 +187,7 @@ export function appendContentAttributionToUrl(
   input: ContentAttributionInput,
 ): string {
   try {
-    const parsed = new URL(url, 'https://www.worldmonitor.app');
+    const parsed = new URL(url, 'https://www.eagle-eye.app');
     const attribution = normalizeContentAttribution(input);
     parsed.searchParams.set(CONTENT_ATTRIBUTION_PARAMS.source, attribution.source);
     parsed.searchParams.set(CONTENT_ATTRIBUTION_PARAMS.medium, attribution.medium);
@@ -207,7 +207,7 @@ export function appendContentAttributionToUrl(
  */
 export function appendInboundUtmParams(url: string, incomingSearch: string): string {
   try {
-    const parsed = new URL(url, 'https://www.worldmonitor.app');
+    const parsed = new URL(url, 'https://www.eagle-eye.app');
     const incoming = new URLSearchParams(incomingSearch);
     for (const name of INBOUND_UTM_PARAMS) {
       if (parsed.searchParams.has(name)) continue;

@@ -6,7 +6,7 @@
  * notice — each one going missing blinds a segment of the funnel without
  * breaking any runtime behavior.
  *
- *  1. UMAMI_DOMAINS must list www.worldmonitor.app — the apex 301s to www in
+ *  1. UMAMI_DOMAINS must list www.eagle-eye.app — the apex 301s to www in
  *     production and the Umami tracker's data-domains check is an EXACT
  *     hostname match; dropping www silently disables ALL dashboard analytics
  *     on the canonical host (the pre-#4931 state).
@@ -30,10 +30,10 @@ test('UMAMI_DOMAINS covers the canonical www host', () => {
   const m = src.match(/const UMAMI_DOMAINS = '([^']+)'/);
   assert.ok(m, 'UMAMI_DOMAINS constant not found');
   const domains = m[1].split(',');
-  assert.ok(domains.includes('www.worldmonitor.app'),
-    'www.worldmonitor.app missing from UMAMI_DOMAINS — analytics dead on the canonical host');
-  assert.ok(domains.includes('worldmonitor.app'),
-    'apex worldmonitor.app missing from UMAMI_DOMAINS');
+  assert.ok(domains.includes('www.eagle-eye.app'),
+    'www.eagle-eye.app missing from UMAMI_DOMAINS — analytics dead on the canonical host');
+  assert.ok(domains.includes('eagle-eye.app'),
+    'apex eagle-eye.app missing from UMAMI_DOMAINS');
 });
 
 test('funnel events exist in the typed catalog', () => {
@@ -107,12 +107,12 @@ test('checkout-return reconciliation fires success/failed events', () => {
 test('/pro and welcome pages load the Umami tracker (www + nonce)', () => {
   for (const page of ['pro-test/index.html', 'pro-test/welcome.html']) {
     const html = read(page);
-    const tag = html.match(/<script[^>]+abacus\.worldmonitor\.app\/script\.js[^>]*>/);
+    const tag = html.match(/<script[^>]+abacus\.eagle-eye\.app\/script\.js[^>]*>/);
     assert.ok(tag, `${page}: Umami tracker script tag missing`);
     assert.ok(tag[0].includes('data-website-id="e8800335-c853-46a8-8497-c993ed2f58bc"'),
       `${page}: tracker website id missing/changed`);
-    assert.ok(/data-domains="[^"]*www\.worldmonitor\.app/.test(tag[0]),
-      `${page}: www.worldmonitor.app missing from tracker data-domains`);
+    assert.ok(/data-domains="[^"]*www\.eagle-eye\.app/.test(tag[0]),
+      `${page}: www.eagle-eye.app missing from tracker data-domains`);
     assert.ok(tag[0].includes('nonce="wm-static-bootstrap"'),
       `${page}: static CSP nonce missing — strict-dynamic CSP will block the tracker`);
   }
@@ -144,7 +144,7 @@ test('/pro checkout service fires checkout-start on both paths', () => {
 
 test('tracker tags are async and the pro SPA excludes query strings', () => {
   for (const page of ['pro-test/index.html', 'pro-test/welcome.html']) {
-    const tag = read(page).match(/<script[^>]+abacus\.worldmonitor\.app\/script\.js[^>]*>/)[0];
+    const tag = read(page).match(/<script[^>]+abacus\.eagle-eye\.app\/script\.js[^>]*>/)[0];
     assert.ok(/\basync\b/.test(tag),
       `${page}: tracker must be async — a plain defer script delays DOMContentLoaded behind the analytics host`);
   }

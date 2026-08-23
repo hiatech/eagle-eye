@@ -114,7 +114,7 @@ const DENIED: DeniedIdentity = Object.freeze({
  * Reached by exactly two paths: a bearer token that failed validation, and the
  * fall-through at the end of the resolver — no bearer, plus whatever other
  * credential was tried (an unknown `wm_` key, a spoofed internal-MCP marker, a
- * rejected `X-WorldMonitor-Key`) having failed. Every one of those is a
+ * rejected `X-EagleEye-Key`) having failed. Every one of those is a
  * statement about the credential, never about a plan, so none of them may
  * produce an upsell.
  *
@@ -276,14 +276,14 @@ export async function resolvePremiumCallerIdentity(request: Request): Promise<Pr
   // Browser tester keys — validateApiKey returns required:false for trusted origins
   // even when a valid key is present, so we check the header directly first.
   const wmKey =
-    request.headers.get('X-WorldMonitor-Key') ??
+    request.headers.get('X-EagleEye-Key') ??
     request.headers.get('X-Api-Key') ??
     '';
   // Set when the wm_-key lookup could not COMPLETE (below). Read only at the
   // terminal fall-through, so a co-present bearer still wins if it resolves.
   let userKeyLookupUnavailable = false;
   if (wmKey) {
-    const validKeys = (process.env.WORLDMONITOR_VALID_KEYS ?? '')
+    const validKeys = (process.env.EAGLEEYE_VALID_KEYS ?? '')
       .split(',').map((k) => k.trim()).filter(Boolean);
     if (await timingSafeIncludes(wmKey, validKeys)) {
       return { isPremium: true, userId: null, kind: 'enterprise', quotaExempt: true };
@@ -392,7 +392,7 @@ export async function resolvePremiumCallerIdentity(request: Request): Promise<Pr
     return { ...DENIED, billingDenial: unverifiableEntitlementDenial() };
   }
   // No credential resolved an identity: no bearer at all, a bearer that carried
-  // no subject, an unknown `wm_` key, a rejected `X-WorldMonitor-Key`, or a
+  // no subject, an unknown `wm_` key, a rejected `X-EagleEye-Key`, or a
   // spoofed internal-MCP marker that fell through. Every arm that DID identify
   // someone, or that failed for a reason other than the credential, has already
   // returned above, so this is the credential denial (#5619).
@@ -420,7 +420,7 @@ export async function resolvePremiumCallerIdentity(request: Request): Promise<Pr
  * caller, which is why the identity API carries it instead.
  *
  * Known remaining hard-deniers on this boolean, tracked in #5652: the RPC
- * surfaces under server/worldmonitor/. They share this flattening, but NOT one
+ * surfaces under server/eagleeye/. They share this flattening, but NOT one
  * response shape — the #5652 fix has to handle both:
  *   - an in-body `errorType: 'AuthError'` (only summarize-article.ts does this)
  *   - a thrown `ApiError(403, ...)`, which server/error-mapper.ts renders as a

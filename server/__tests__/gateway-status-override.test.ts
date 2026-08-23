@@ -59,7 +59,7 @@ function makeGateway(method: 'GET' | 'POST' = 'POST', handler = enqueueHandler) 
 }
 
 function makeRequest(method: 'GET' | 'POST' = 'POST', headers: Record<string, string> = {}): Request {
-  return new Request(`https://www.worldmonitor.app${PATH}`, {
+  return new Request(`https://www.eagle-eye.app${PATH}`, {
     method,
     headers: { 'Content-Type': 'application/json', 'cf-connecting-ip': '203.0.113.7', ...headers },
     body: method === 'POST' ? JSON.stringify({ email: 'agent@example.com', message: 'hi' }) : undefined,

@@ -45,8 +45,8 @@ const SLOW_KEYS = new Set(bootstrapTierKeyNames('slow', { iranEventsEnabled: IRA
 const FAST_KEYS = new Set(bootstrapTierKeyNames('fast', { iranEventsEnabled: IRAN_EVENTS_ENABLED }));
 const ON_DEMAND_KEYS = new Set(bootstrapTierKeyNames('on-demand', { iranEventsEnabled: IRAN_EVENTS_ENABLED }));
 
-// No public/s-maxage: CF (in front of api.worldmonitor.app) ignores Vary: Origin and would
-// pin ACAO: worldmonitor.app on cached responses, breaking CORS for preview deployments.
+// No public/s-maxage: CF (in front of api.eagle-eye.app) ignores Vary: Origin and would
+// pin ACAO: eagle-eye.app on cached responses, breaking CORS for preview deployments.
 // Vercel CDN caching is handled by TIER_CDN_CACHE via CDN-Cache-Control below.
 const TIER_CACHE = {
   slow: 'max-age=300, stale-while-revalidate=600, stale-if-error=3600',
@@ -155,7 +155,7 @@ function finishBootstrapR2ShadowResponse(req, ctx, tier, response, redisDuration
   // Vercel strips user-authored Server-Timing from Edge responses. Keep it for
   // runtimes that preserve the standard header, but expose the same temporary
   // U3a diagnostic through a platform-safe header so browser RUM can observe it.
-  response.headers.set('X-WorldMonitor-Bootstrap-Redis-Duration', serializedRedisDurationMs);
+  response.headers.set('X-EagleEye-Bootstrap-Redis-Duration', serializedRedisDurationMs);
   // A browser cache replay preserves the origin-MISS headers and would make a
   // local response look like a fresh origin sample. Disable only browser
   // storage during U3a; CDN-Cache-Control continues to shield the Vercel origin.
@@ -166,7 +166,7 @@ function finishBootstrapR2ShadowResponse(req, ctx, tier, response, redisDuration
     [
       exposedHeaders,
       'Server-Timing',
-      'X-WorldMonitor-Bootstrap-Redis-Duration',
+      'X-EagleEye-Bootstrap-Redis-Duration',
       'Age',
       'X-Vercel-Cache',
       'CF-Cache-Status',

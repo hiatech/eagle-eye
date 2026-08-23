@@ -24,7 +24,7 @@ const originalEnv = {
   WM_SESSION_SECRET: process.env.WM_SESSION_SECRET,
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  WORLDMONITOR_VALID_KEYS: process.env.WORLDMONITOR_VALID_KEYS,
+  EAGLEEYE_VALID_KEYS: process.env.EAGLEEYE_VALID_KEYS,
   RESILIENCE_PILLAR_COMBINE_ENABLED: process.env.RESILIENCE_PILLAR_COMBINE_ENABLED,
   RESILIENCE_SCHEMA_V2_ENABLED: process.env.RESILIENCE_SCHEMA_V2_ENABLED,
 };
@@ -48,7 +48,7 @@ type ChinaMeta = {
 function installSeedHealthPipelineMock(chinaMeta: ChinaMeta) {
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-token';
-  process.env.WORLDMONITOR_VALID_KEYS = OPERATOR_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = OPERATOR_KEY;
   process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'false';
   process.env.RESILIENCE_SCHEMA_V2_ENABLED = 'true';
 
@@ -136,8 +136,8 @@ function classifyMainHealth(chinaMeta: ChinaMeta) {
 async function readSeedHealth(chinaMeta: ChinaMeta) {
   installSeedHealthPipelineMock(chinaMeta);
   const response = await seedHealthHandler(new Request(
-    'https://api.worldmonitor.app/api/seed-health',
-    { headers: { 'X-WorldMonitor-Key': OPERATOR_KEY } },
+    'https://api.eagle-eye.app/api/seed-health',
+    { headers: { 'X-EagleEye-Key': OPERATOR_KEY } },
   ));
   return {
     response,
@@ -157,8 +157,8 @@ describe('China decision-signal access tiers (#5580)', () => {
       }),
     }]);
 
-    const response = await gateway(new Request(`https://api.worldmonitor.app${PATH}`, {
-      headers: { Origin: 'https://worldmonitor.app' },
+    const response = await gateway(new Request(`https://api.eagle-eye.app${PATH}`, {
+      headers: { Origin: 'https://eagle-eye.app' },
     }));
 
     assert.equal(response.status, 200);
@@ -168,7 +168,7 @@ describe('China decision-signal access tiers (#5580)', () => {
     process.env.WM_SESSION_SECRET = 'china-decision-health-secret-at-least-32-chars';
     const { token } = await issueSessionToken();
     const response = await seedHealthHandler(new Request(
-      'https://api.worldmonitor.app/api/seed-health',
+      'https://api.eagle-eye.app/api/seed-health',
       { headers: { Cookie: `wm-session=${token}` } },
     ));
 

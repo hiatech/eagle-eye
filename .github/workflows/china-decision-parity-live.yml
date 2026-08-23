@@ -76,7 +76,7 @@ on:
       base_url:
         description: 'Public base URL to probe (defaults to production)'
         required: false
-        default: 'https://www.worldmonitor.app'
+        default: 'https://www.eagle-eye.app'
 
 permissions:
   contents: read
@@ -94,7 +94,7 @@ jobs:
 
       - name: Audit China decision-signal parity against the deployment
         env:
-          BASE_URL: ${{ github.event.inputs.base_url || 'https://www.worldmonitor.app' }}
+          BASE_URL: ${{ github.event.inputs.base_url || 'https://www.eagle-eye.app' }}
         run: |
           set -o pipefail
           node scripts/audit-china-decision-parity.mjs \

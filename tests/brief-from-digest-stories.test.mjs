@@ -1616,7 +1616,7 @@ describe('Sprint 1 U3 — materializeCluster determinism', () => {
 // catches it via the integration test against `assertBriefEnvelope`.
 //
 // Pragmatic note matching U2's source-text-guard precedent (test header in
-// `tests/digest-orchestration-helpers.test.mjs:574-589`): the worldmonitor
+// `tests/digest-orchestration-helpers.test.mjs:574-589`): the eagleeye
 // test suite has NO harness for mocking Upstash + Convex relay + Resend
 // together. A full integration test of the live cron's send loop would
 // require all three. Option (C) gives deterministic invariant coverage on

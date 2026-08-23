@@ -4,7 +4,7 @@ import { getRpcBaseUrl } from '@/services/rpc-client';
 import { h, replaceChildren } from '@/utils/dom-utils';
 import { sanitizeUrl } from '@/utils/sanitize';
 
-import type { DefensePatentFiling } from '@/generated/client/worldmonitor/military/v1/service_client';
+import type { DefensePatentFiling } from '@/generated/client/eagleeye/military/v1/service_client';
 import { MilitaryServiceClient } from '@/services/generated-rpc-clients';
 
 type ViewMode = 'all' | 'H04B' | 'H01L' | 'F42B' | 'G06N' | 'C12N';

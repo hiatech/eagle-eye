@@ -3,10 +3,10 @@ info:
     title: GivingService API
     version: 1.0.0
 security:
-    - WorldMonitorKey: []
+    - EagleEyeKey: []
     - ApiKeyHeader: []
 servers:
-    - url: https://api.worldmonitor.app
+    - url: https://api.eagle-eye.app
 paths:
     /api/giving/v1/get-giving-summary:
         get:
@@ -44,7 +44,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -261,7 +261,7 @@ paths:
                                           "reportedUnit": "USD"
                                           "reportedValue": 2000000000
                                           "sourceLocator": "Issue #5504, unsupported crypto estimate"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "unverified"
@@ -281,7 +281,7 @@ paths:
                                           "reportedUnit": "wallets"
                                           "reportedValue": 150
                                           "sourceLocator": "Issue #5504, unsupported wallet and receiver metrics"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "unverified"
@@ -300,7 +300,7 @@ paths:
                                           "reportedUnit": "index points"
                                           "reportedValue": 34
                                           "sourceLocator": "Issue #5504, unsupported CAF value"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "unverified"
@@ -321,7 +321,7 @@ paths:
                                           "reportedUnit": "distribution total"
                                           "reportedValue": 1
                                           "sourceLocator": "Issue #5504, unsupported category values and trending semantics"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "unverified"
@@ -345,7 +345,7 @@ paths:
                                           "reportedUnit": "compatibility sentinel"
                                           "reportedValue": 0
                                           "sourceLocator": "Issue #5504, collector audit"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "not_collected"
@@ -366,7 +366,7 @@ paths:
                                           "reportedUnit": "compatibility sentinel"
                                           "reportedValue": 0
                                           "sourceLocator": "Issue #5504, index and trend audit"
-                                          "sourceName": "WorldMonitor issue #5504"
+                                          "sourceName": "EagleEye issue #5504"
                                           "sourcePublishedAt": ""
                                           "sourceUrl": "https://github.com/koala73/worldmonitor/issues/5504"
                                           "status": "not_applicable"
@@ -431,16 +431,16 @@ paths:
                                     - $ref: '#/components/schemas/GatewayError'
 components:
     securitySchemes:
-        WorldMonitorKey:
+        EagleEyeKey:
             type: apiKey
             in: header
-            name: X-WorldMonitor-Key
-            description: User-issued WorldMonitor API key.
+            name: X-EagleEye-Key
+            description: User-issued EagleEye API key.
         ApiKeyHeader:
             type: apiKey
             in: header
             name: X-Api-Key
-            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).
+            description: Alias header for the EagleEye API key (X-EagleEye-Key).
     schemas:
         JmespathProjectionError:
             description: Returned when a REST jmespath projection is invalid or exceeds the expression/output byte limits.

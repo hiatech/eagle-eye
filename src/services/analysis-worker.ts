@@ -76,7 +76,7 @@ class AnalysisWorkerManager {
       // cleanup() nulls readyPromise in this same synchronous tick, so
       // waitForReady's `await this.readyPromise` would await `null` and the
       // rejection would be orphaned into an unhandled promise rejection
-      // (WORLDMONITOR-V2/V6). Instead latch `workerUnavailable`, resolve the
+      // (EAGLEEYE-V2/V6). Instead latch `workerUnavailable`, resolve the
       // ready gate, and let clusterNews/analyzeCorrelations degrade to an
       // empty result. Mirrors ml-worker's graceful `resolve(false)` path.
       console.error('[AnalysisWorker] Failed to create worker:', error);

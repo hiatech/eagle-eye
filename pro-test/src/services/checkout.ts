@@ -15,7 +15,7 @@ import type { CheckoutEvent } from 'dodopayments-checkout';
 import { ensureClerk, type LoadedClerk } from './clerk';
 export { ensureClerk } from './clerk';
 
-const API_BASE = 'https://api.worldmonitor.app/api';
+const API_BASE = 'https://api.eagle-eye.app/api';
 const DODO_PORTAL_FALLBACK_URL = 'https://customer.dodopayments.com';
 const ACTIVE_SUBSCRIPTION_EXISTS = 'ACTIVE_SUBSCRIPTION_EXISTS';
 const PAYMENT_IN_PROGRESS = 'PAYMENT_IN_PROGRESS';
@@ -556,7 +556,7 @@ async function doCheckout(
 
     // Transient CF/origin 502s on this POST are retried once with an
     // Idempotency-Key (server dedupes replays — api/_idempotency.ts).
-    // WORLDMONITOR-Q4: without this, every transient was a lost checkout.
+    // EAGLEEYE-Q4: without this, every transient was a lost checkout.
     const resp = await postCreateCheckout(createDefaultCheckoutTransportDeps(), {
       url: `${API_BASE}/create-checkout`,
       token,
@@ -943,7 +943,7 @@ interface ProDuplicateDialogOptions {
 function proDuplicateBodyHtml(options: ProDuplicateDialogOptions): string {
   const plan = escapeHtml(options.planDisplayName);
   if (options.targetProductId !== undefined && PRO_BUSINESS_PRODUCT_IDS.has(options.targetProductId)) {
-    return `Your account already has an active ${plan} subscription. Pro Business is a separate plan, so the upgrade takes two steps: cancel ${plan} in the billing portal, then start the Pro Business checkout again — you don't have to wait for your current term to end. Your ${plan} access continues until the term you've already paid for runs out, and Pro Business starts a new billing cycle as soon as you buy it. Need a hand? Email <a href="mailto:support@worldmonitor.app" style="color:#44ff88;">support@worldmonitor.app</a>.`;
+    return `Your account already has an active ${plan} subscription. Pro Business is a separate plan, so the upgrade takes two steps: cancel ${plan} in the billing portal, then start the Pro Business checkout again — you don't have to wait for your current term to end. Your ${plan} access continues until the term you've already paid for runs out, and Pro Business starts a new billing cycle as soon as you buy it. Need a hand? Email <a href="mailto:support@eagle-eye.app" style="color:#44ff88;">support@eagle-eye.app</a>.`;
   }
   return `Your account already has an active ${plan} subscription. Open the billing portal to manage it — you won't be charged twice.`;
 }

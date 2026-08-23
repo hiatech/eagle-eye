@@ -61,7 +61,7 @@ before(() => {
   Object.defineProperty(globalThis, 'window', {
     configurable: true,
     value: {
-      location: { href: 'https://worldmonitor.app/', pathname: '/', search: '', hash: '' },
+      location: { href: 'https://eagle-eye.app/', pathname: '/', search: '', hash: '' },
       history: { replaceState: () => {} },
     },
   });
@@ -88,7 +88,7 @@ describe('decideNoUserPathOutcome', () => {
     assert.equal(outcome.kind, 'redirect-pro');
     assert.equal(outcome.persist, false);
     if (outcome.kind === 'redirect-pro') {
-      assert.equal(outcome.redirectUrl, 'https://worldmonitor.app/pro');
+      assert.equal(outcome.redirectUrl, 'https://eagle-eye.app/pro');
     }
   });
 
@@ -140,11 +140,11 @@ describe('cross-page redirect leak regression', () => {
   it('redirect-pro outcome carries the canonical /pro URL (not relative)', () => {
     // Regression guard: an absolute URL is required because the
     // dashboard origin and /pro origin are the same in prod
-    // (worldmonitor.app) but the helper is also used from sub-origin
+    // (eagle-eye.app) but the helper is also used from sub-origin
     // contexts; relative would resolve unexpectedly.
     const outcome = decideNoUserPathOutcome(true);
     if (outcome.kind === 'redirect-pro') {
-      assert.match(outcome.redirectUrl, /^https:\/\/worldmonitor\.app\/pro$/);
+      assert.match(outcome.redirectUrl, /^https:\/\/eagle-eye\.app\/pro$/);
     } else {
       assert.fail('expected redirect-pro outcome');
     }
@@ -177,7 +177,7 @@ describe('runNoUserPath effect sequencing', () => {
   }
 
   it('redirect path navigates and performs NO persistence at all', () => {
-    assert.deepEqual(record(true), ['navigate:https://worldmonitor.app/pro']);
+    assert.deepEqual(record(true), ['navigate:https://eagle-eye.app/pro']);
   });
 
   it('inline path persists intent AND attempt BEFORE opening sign-in', () => {

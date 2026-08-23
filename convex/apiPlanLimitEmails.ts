@@ -5,8 +5,8 @@ import { PRODUCT_CATALOG } from "./config/productCatalog";
 import { MAX_EMAIL_ATTEMPTS } from "./apiPlanLimitNotices";
 
 const RESEND_URL = "https://api.resend.com/emails";
-const FROM = "World Monitor <noreply@worldmonitor.app>";
-const SUPPORT_EMAIL = "support@worldmonitor.app";
+const FROM = "Eagle Eye <noreply@eagle-eye.app>";
+const SUPPORT_EMAIL = "support@eagle-eye.app";
 const MAX_FAILURE_MESSAGES = 3;
 
 type NoticeEmailRow = {
@@ -95,9 +95,9 @@ function upgradeLine(notice: NoticeEmailRow): string {
 
 function noticeSubject(notice: NoticeEmailRow): string {
   const label = dimensionLabel(notice.dimension);
-  if (notice.state === "warning") return `World Monitor usage notice: ${label} nearing plan limit`;
-  if (notice.state === "sustained_burst") return `World Monitor usage notice: ${label} is above plan limit`;
-  return `World Monitor usage notice: ${label} exceeded plan limit`;
+  if (notice.state === "warning") return `Eagle Eye usage notice: ${label} nearing plan limit`;
+  if (notice.state === "sustained_burst") return `Eagle Eye usage notice: ${label} is above plan limit`;
+  return `Eagle Eye usage notice: ${label} exceeded plan limit`;
 }
 
 function noticeHtml(notice: NoticeEmailRow): string {
@@ -109,7 +109,7 @@ function noticeHtml(notice: NoticeEmailRow): string {
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #e0e0e0;">
   <div style="background: #facc15; height: 4px;"></div>
   <div style="padding: 32px;">
-    <h1 style="font-size: 20px; color: #fff; margin: 0 0 12px;">Your World Monitor usage is ${posture} a plan limit</h1>
+    <h1 style="font-size: 20px; color: #fff; margin: 0 0 12px;">Your Eagle Eye usage is ${posture} a plan limit</h1>
     <p style="font-size: 14px; color: #bbb; line-height: 1.6; margin: 0 0 20px;">This is a heads-up before stricter paid-plan enforcement. Nothing has been changed or charged automatically.</p>
     <div style="background: #111; border: 1px solid #242424; padding: 16px; margin-bottom: 20px;">
       <p style="margin: 0 0 8px; color: #fff;"><strong>Plan:</strong> ${escapeHtml(plan)}</p>

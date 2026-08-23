@@ -191,7 +191,7 @@ async function postConvexJson(path, body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-bootstrap/1.0',
+        'User-Agent': 'eagleeye-bootstrap/1.0',
         'x-convex-shared-secret': config.sharedSecret,
       },
       body: JSON.stringify(body),

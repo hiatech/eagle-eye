@@ -64,12 +64,12 @@ export function validateChinaDecisionSignalSnapshot(value) {
 
 export async function fetchChinaDecisionSignals({
   fetchImpl = fetch,
-  apiBaseUrl = process.env.API_BASE_URL || 'https://api.worldmonitor.app',
+  apiBaseUrl = process.env.API_BASE_URL || 'https://api.eagle-eye.app',
 } = {}) {
   const response = await fetchImpl(`${apiBaseUrl}${CHINA_DECISION_SIGNALS_ROUTE}`, {
     headers: {
       Accept: 'application/json',
-      'User-Agent': 'worldmonitor-china-decision-signals-seed/1.0',
+      'User-Agent': 'eagleeye-china-decision-signals-seed/1.0',
     },
     signal: AbortSignal.timeout(30_000),
   });

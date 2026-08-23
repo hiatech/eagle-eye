@@ -20,7 +20,7 @@ describe('blocked-storage event handlers', () => {
   it('reloads local variant navigation after a guarded storage write', () => {
     assert.match(
       eventHandlersSrc,
-      /if \(this\.ctx\.isDesktopApp \|\| options\.isLocalDev\) \{\s*writeStorageValue\('worldmonitor-variant', variant\);\s*window\.location\.reload\(\);/,
+      /if \(this\.ctx\.isDesktopApp \|\| options\.isLocalDev\) \{\s*writeStorageValue\('eagleeye-variant', variant\);\s*window\.location\.reload\(\);/,
     );
   });
 

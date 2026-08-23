@@ -191,7 +191,7 @@ describe('#5697 NLP MCP tools', () => {
   }
 
   it('lists all four tools with their caps in tools/list', async () => {
-    const listed = await mcpHandler(new Request('https://worldmonitor.app/mcp', {
+    const listed = await mcpHandler(new Request('https://eagle-eye.app/mcp', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }),
     }));

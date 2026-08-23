@@ -213,7 +213,7 @@ export class ResilienceWidget {
           return;
         }
         void this.openUpgradeFlow().catch(() => {
-          window.open('https://worldmonitor.app/pro', '_blank', 'noopener,noreferrer');
+          window.open('https://eagle-eye.app/pro', '_blank', 'noopener,noreferrer');
         });
       },
     }, cta) as HTMLButtonElement;
@@ -482,14 +482,14 @@ export class ResilienceWidget {
 
     if (isDesktopRuntime()) {
       const { openExternalUrl } = await import('@/services/external-navigation');
-      await openExternalUrl('https://worldmonitor.app/pro');
+      await openExternalUrl('https://eagle-eye.app/pro');
       return;
     }
 
     await import('@/services/checkout')
       .then((module) => module.startCheckout(DEFAULT_UPGRADE_PRODUCT))
       .catch(() => {
-        window.open('https://worldmonitor.app/pro', '_blank', 'noopener,noreferrer');
+        window.open('https://eagle-eye.app/pro', '_blank', 'noopener,noreferrer');
       });
   }
 }

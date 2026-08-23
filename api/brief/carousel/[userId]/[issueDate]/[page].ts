@@ -148,7 +148,7 @@ export default async function handler(
     // capture to `warning` so single transient timeouts don't drown real
     // render-pipeline regressions (font missing, image source broken, layout
     // bug). Non-timeout errors stay at default `error` level. Pattern mirrors
-    // PR #3660's MCP dispatcher gate. WORLDMONITOR-QJ.
+    // PR #3660's MCP dispatcher gate. EAGLEEYE-QJ.
     const errName = err instanceof Error ? err.name : '';
     const isTransientTimeout = errName === 'AbortError' || errName === 'TimeoutError';
     const log = isTransientTimeout ? console.warn : console.error;

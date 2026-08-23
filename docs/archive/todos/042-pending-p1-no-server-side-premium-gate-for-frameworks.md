@@ -12,11 +12,11 @@ dependencies: []
 The framework feature is premium-gated client-side via `hasPremiumAccess()` in `analysis-framework-store.ts`. However, neither `get-country-intel-brief.ts` nor `deduct-situation.ts` checks premium status on the server. A free user can craft a raw RPC request (or use the browser dev tools to bypass the locked `FrameworkSelector`) and pass any `framework` string directly to the API, getting framework-injected LLM responses without a PRO subscription. The client-side gate is trivially bypassable.
 
 ## Findings
-- **`server/worldmonitor/intelligence/v1/get-country-intel-brief.ts`** — reads `req.framework`, truncates to 2000 chars, passes to `callLlm` as `systemAppend`. No entitlement check.
-- **`server/worldmonitor/intelligence/v1/deduct-situation.ts`** — same pattern, no entitlement check.
-- **`server/worldmonitor/news/v1/summarize-article.ts`** — reads `req.systemAppend`, no entitlement check.
+- **`server/eagleeye/intelligence/v1/get-country-intel-brief.ts`** — reads `req.framework`, truncates to 2000 chars, passes to `callLlm` as `systemAppend`. No entitlement check.
+- **`server/eagleeye/intelligence/v1/deduct-situation.ts`** — same pattern, no entitlement check.
+- **`server/eagleeye/news/v1/summarize-article.ts`** — reads `req.systemAppend`, no entitlement check.
 - The gateway (`server/gateway.ts`) validates auth tokens but does not strip or block `framework`/`systemAppend` fields for free-tier callers.
-- Flagged by: security-sentinel, architecture-strategist, learnings-researcher (worldmonitor-pro-panel-gating skill)
+- Flagged by: security-sentinel, architecture-strategist, learnings-researcher (eagleeye-pro-panel-gating skill)
 
 ## Proposed Solutions
 
@@ -38,9 +38,9 @@ Premium gate is UI-only. The feature degrades gracefully (free users just don't 
 **Cons:** Paywall bypass, revenue impact, inconsistent with other gated features | **Risk:** High (billing abuse)
 
 ## Technical Details
-- Files: `server/worldmonitor/intelligence/v1/get-country-intel-brief.ts`, `server/worldmonitor/intelligence/v1/deduct-situation.ts`, `server/worldmonitor/news/v1/summarize-article.ts`
+- Files: `server/eagleeye/intelligence/v1/get-country-intel-brief.ts`, `server/eagleeye/intelligence/v1/deduct-situation.ts`, `server/eagleeye/news/v1/summarize-article.ts`
 - PR: koala73/worldmonitor#2380
-- Reference: worldmonitor-pro-panel-gating skill (4-layer checklist)
+- Reference: eagleeye-pro-panel-gating skill (4-layer checklist)
 
 ## Acceptance Criteria
 - [ ] `get-country-intel-brief.ts` ignores `framework` field for non-premium callers

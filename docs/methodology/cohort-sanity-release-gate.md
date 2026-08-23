@@ -55,8 +55,8 @@ Relevant public background:
 
 - **Pre-publication**: any time the published ranking is about to
   change externally (site, API consumers, newsletter, partner feed).
-- **Every merge touching a scorer file** in `server/worldmonitor/resilience/v1/_dimension-scorers.ts`,
-  `server/worldmonitor/resilience/v1/_shared.ts`, or a scorer-feeding
+- **Every merge touching a scorer file** in `server/eagleeye/resilience/v1/_dimension-scorers.ts`,
+  `server/eagleeye/resilience/v1/_shared.ts`, or a scorer-feeding
   seeder in `scripts/seed-recovery-*.mjs`, `scripts/seed-bundle-resilience-*.mjs`.
 - **Before activating a feature flag** that alters the scorer
   (`RESILIENCE_ENERGY_V2_ENABLED`, `RESILIENCE_PILLAR_COMBINE_ENABLED`,
@@ -69,9 +69,9 @@ Relevant public background:
 ## How to run
 
 ```bash
-# Online (hits the live API; requires WORLDMONITOR_API_KEY)
-WORLDMONITOR_API_KEY=wm_xxx \
-API_BASE=https://api.worldmonitor.app \
+# Online (hits the live API; requires EAGLEEYE_API_KEY)
+EAGLEEYE_API_KEY=wm_xxx \
+API_BASE=https://api.eagle-eye.app \
 BASELINE=docs/snapshots/resilience-ranking-live-pre-cohort-audit-2026-04-24.json \
 OUT=/tmp/cohort-audit-$(date +%Y-%m-%d).md \
 node scripts/audit-resilience-cohorts.mjs
@@ -86,8 +86,8 @@ Recommended environment variables:
 
 | Var | Default | Notes |
 |---|---|---|
-| `API_BASE` | (required unless FIXTURE set) | e.g. `https://api.worldmonitor.app` |
-| `WORLDMONITOR_API_KEY` | (required unless FIXTURE set) | resilience RPCs are in `PREMIUM_RPC_PATHS` |
+| `API_BASE` | (required unless FIXTURE set) | e.g. `https://api.eagle-eye.app` |
+| `EAGLEEYE_API_KEY` | (required unless FIXTURE set) | resilience RPCs are in `PREMIUM_RPC_PATHS` |
 | `FIXTURE` | (empty) | JSON fixture with `{ ranking, scores }` shape — skips all network calls |
 | `BASELINE` | (empty) | Path to a frozen ranking JSON for movers comparison |
 | `OUT` | (stdout) | Path for the Markdown report |

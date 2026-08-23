@@ -115,7 +115,7 @@ export const resendWebhookHandler = httpAction(async (ctx, request) => {
     // delivered events when an OCC contention bug threw inside the
     // mutation — Resend saw success and never retried, and the per-event
     // log row was lost with the failed mutation. Sentry caught the
-    // throws (issue WORLDMONITOR-PA, 54 events) but operationally we
+    // throws (issue EAGLEEYE-PA, 54 events) but operationally we
     // were blind. Now: throw → 5xx → Resend retries → eventual
     // consistency on the event log.
     //

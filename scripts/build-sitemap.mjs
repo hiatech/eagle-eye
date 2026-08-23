@@ -9,7 +9,7 @@ import {
   discoverContentCorpusPages,
 } from './discover-content-corpus-pages.mjs';
 
-export const SITE_ORIGIN = 'https://www.worldmonitor.app';
+export const SITE_ORIGIN = 'https://www.eagle-eye.app';
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -65,7 +65,7 @@ export const STATIC_ROUTE_MANIFEST = Object.freeze([
     'pro-test/src/locales',
     'src/config/products.ts',
   ]),
-  route('https://worldmonitor.app/mcp', 'mcp', [
+  route('https://eagle-eye.app/mcp', 'mcp', [
     'api/mcp.ts',
     'api/mcp',
     'public/mcp-server.md',
@@ -80,23 +80,23 @@ export const STATIC_ROUTE_MANIFEST = Object.freeze([
   route(`${SITE_ORIGIN}/llms.txt`, 'machine-readable-developer', ['public/llms.txt']),
   route(`${SITE_ORIGIN}/llms-full.txt`, 'machine-readable-developer', ['public/llms-full.txt']),
   route(`${SITE_ORIGIN}/api/llms.txt`, 'machine-readable-developer', ['public/api/llms.txt']),
-  route('https://tech.worldmonitor.app/dashboard', 'dashboard-variant', [
+  route('https://tech.eagle-eye.app/dashboard', 'dashboard-variant', [
     ...DASHBOARD_MATERIAL_SOURCES,
     'src/config/variants/tech.ts',
   ]),
-  route('https://finance.worldmonitor.app/dashboard', 'dashboard-variant', [
+  route('https://finance.eagle-eye.app/dashboard', 'dashboard-variant', [
     ...DASHBOARD_MATERIAL_SOURCES,
     'src/config/variants/finance.ts',
   ]),
-  route('https://commodity.worldmonitor.app/dashboard', 'dashboard-variant', [
+  route('https://commodity.eagle-eye.app/dashboard', 'dashboard-variant', [
     ...DASHBOARD_MATERIAL_SOURCES,
     'src/config/variants/commodity.ts',
   ]),
-  route('https://happy.worldmonitor.app/dashboard', 'dashboard-variant', [
+  route('https://happy.eagle-eye.app/dashboard', 'dashboard-variant', [
     ...DASHBOARD_MATERIAL_SOURCES,
     'src/config/variants/happy.ts',
   ]),
-  route('https://energy.worldmonitor.app/dashboard', 'dashboard-variant', [
+  route('https://energy.eagle-eye.app/dashboard', 'dashboard-variant', [
     ...DASHBOARD_MATERIAL_SOURCES,
     'src/config/variants/energy.ts',
   ]),

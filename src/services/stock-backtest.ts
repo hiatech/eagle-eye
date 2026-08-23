@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { BacktestStockResponse } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { BacktestStockResponse } from '@/generated/client/eagleeye/market/v1/service_client';
 import { runThrottledTargetRequests } from '@/services/throttled-target-requests';
 import { premiumFetch } from '@/services/premium-fetch';
 import { MarketServiceClient } from '@/services/generated-rpc-clients';

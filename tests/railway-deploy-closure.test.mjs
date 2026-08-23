@@ -430,6 +430,9 @@ const REPLAY = [
       build: { watchPatterns: ['scripts/process-deep-forecast-tasks.mjs', 'scripts/_seed-utils.mjs', 'shared/**'] },
     },
     commit: '89de2e6b0',
+    // Pinned lists are read back out of git, so they carry the paths as they
+    // were at that commit — before the Eagle Eye rename moved server/worldmonitor
+    // to server/eagleeye. These two must stay spelled the old way.
     commitFiles: [
       'docs/china-logistics-corridors.mdx',
       'docs/methodology/china-activity-nowcast.mdx',

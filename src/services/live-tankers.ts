@@ -10,7 +10,7 @@
 // - On per-zone failure, returns last successful response (graceful
 //   degradation; one outage doesn't blank the whole layer).
 //
-// The handler-side cache (server/worldmonitor/maritime/v1/get-vessel-snapshot.ts)
+// The handler-side cache (server/eagleeye/maritime/v1/get-vessel-snapshot.ts)
 // also caches by quantized bbox + tankers flag at 60s TTL, and the gateway
 // 'live' tier (server/gateway.ts) sets s-maxage=60 so concurrent identical
 // requests across users get absorbed at the CDN. This three-layer cache
@@ -20,7 +20,7 @@
 import { CHOKEPOINT_REGISTRY, type ChokepointRegistryEntry } from '@/config/chokepoint-registry';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 
-import type { SnapshotCandidateReport } from '@/generated/client/worldmonitor/maritime/v1/service_client';
+import type { SnapshotCandidateReport } from '@/generated/client/eagleeye/maritime/v1/service_client';
 import { MaritimeServiceClient } from '@/services/generated-rpc-clients';
 
 const client = new MaritimeServiceClient(getRpcBaseUrl(), {

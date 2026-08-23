@@ -81,7 +81,7 @@ The manifest is intentionally narrow:
   property IDs and tokens.
 - `bingWebmaster.aiPerformance` contains the same two windows plus provider-
   reported `totalCitations`, `averageCitedPages`, `groundingQueries`, and
-  `citedPages`. Cited pages must be HTTPS `worldmonitor.app` URLs. Citation
+  `citedPages`. Cited pages must be HTTPS `eagle-eye.app` URLs. Citation
   totals describe observed source usage, not ranking or authority.
 - `referrals` contains bounded aggregate `metrics` or event `rows` grouped only
   by the reviewed `referrerFamily` and `landingPageFamily`. Supported events are
@@ -160,7 +160,7 @@ For each observation record:
 - UTC date/time, country-level geography, locale, device, and signed-in state;
 - brand mention;
 - direct citation only when a visible answer link resolves to a
-  `worldmonitor.app` host;
+  `eagle-eye.app` host;
 - all visible cited URLs and competitors cited;
 - sentiment and an accuracy judgment;
 - platform limitations, personalization, and any claim that needs correction.

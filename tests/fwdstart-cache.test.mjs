@@ -59,7 +59,7 @@ function installStub({ redisAvailable = true } = {}) {
   return { scrapeCalls, store };
 }
 
-const request = () => new Request('https://worldmonitor.app/api/fwdstart');
+const request = () => new Request('https://eagle-eye.app/api/fwdstart');
 
 test('repeat fwdstart requests are served from Redis, not re-scraped', async (t) => {
   t.after(restoreEnvironment);

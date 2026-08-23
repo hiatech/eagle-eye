@@ -1,4 +1,4 @@
-import type { TransitDayCount } from '../generated/client/worldmonitor/supply_chain/v1/service_client';
+import type { TransitDayCount } from '../generated/client/eagleeye/supply_chain/v1/service_client';
 import { getCSSColor } from '@/utils';
 import { setTrustedHtml, trustedHtml } from '@/utils/dom-utils';
 

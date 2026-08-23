@@ -5,7 +5,7 @@
 A user enabled email notifications with **Real-time (immediate) × All events** and received **14 emails in 22 minutes** (Resend log, 2026‑04‑27). Four of those were `Severe Thunderstorm Warning` for adjacent NWS zones inside ~3 minutes. This is the worst kind of foot-gun:
 
 - The user opted in, so we deliver — but no reasonable person wants 14 alerts/22min in their inbox.
-- The bursty subset trains recipients to mark WorldMonitor as spam, which directly threatens the in-flight PRO launch broadcast warmup (kill threshold: complaint rate > 0.08%).
+- The bursty subset trains recipients to mark EagleEye as spam, which directly threatens the in-flight PRO launch broadcast warmup (kill threshold: complaint rate > 0.08%).
 - A rate cap or coalescer would *hide* the symptom; this plan **prevents the configuration**.
 
 The semantic claim: **real-time delivery means "interrupt me now."** That semantics is incompatible with `all` (which sweeps in market ticks, scheduled-event reminders, RSS chatter). Real-time should only ever pair with `high` or `critical`.
@@ -573,7 +573,7 @@ console.log(`[migrate] DONE: ${dryRun ? "[DRY-RUN] would migrate" : "migrated"} 
 
 ### 4d. Courtesy email — to migrated users only
 
-One-time transactional send to `userId`s in the migrated set who have a verified email channel. Subject: *"We changed your WorldMonitor delivery to a daily digest"*.
+One-time transactional send to `userId`s in the migrated set who have a verified email channel. Subject: *"We changed your EagleEye delivery to a daily digest"*.
 
 > **Why you got this email.** You had real-time alerts enabled with sensitivity set to "All events." That combination produced more notifications than anyone wants — for some users, dozens per hour during busy news days.
 >
@@ -585,7 +585,7 @@ One-time transactional send to `userId`s in the migrated set who have a verified
 >
 > Sorry for the inconvenience. We'd rather over-correct than continue training your inbox to hit "Mark as spam."
 >
-> — Elie, WorldMonitor
+> — Elie, EagleEye
 
 ## 5. Onboarding / tooltip copy
 

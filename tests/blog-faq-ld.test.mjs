@@ -33,7 +33,7 @@ describe('blog FAQPage JSON-LD extraction (#5001)', () => {
       '',
       '**Is the free tier usable?**',
       '',
-      'Yes — it ships [56 layers](https://www.worldmonitor.app/) with no signup.',
+      'Yes — it ships [56 layers](https://www.eagle-eye.app/) with no signup.',
       '',
       '**When is paid worth it?**',
       '',
@@ -43,7 +43,7 @@ describe('blog FAQPage JSON-LD extraction (#5001)', () => {
       '',
       '**Pick your variant and start exploring:**',
       '',
-      '- [worldmonitor.app](https://worldmonitor.app) for geopolitics',
+      '- [eagle-eye.app](https://eagle-eye.app) for geopolitics',
     ].join('\n');
     const ld = extractFaqLd(body);
     assert.ok(ld, 'FAQPage LD must be produced');

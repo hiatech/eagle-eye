@@ -1,7 +1,7 @@
 // MCP Apps (extension `io.modelcontextprotocol/ui`, spec 2026-01-26) — the
 // interactive app shell for the `get_news_intelligence` tool: a compact news
 // radar rendering AI-classified top stories (headline, category, alert flag,
-// country, source provenance) from WorldMonitor's intelligence layer. Built on the shared
+// country, source provenance) from EagleEye's intelligence layer. Built on the shared
 // shell foundation.
 //
 // Tool result shape (cache tool — content[0].text JSON, freshness envelope).
@@ -33,7 +33,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title">News Intelligence</div>
-    <div class="badge">WorldMonitor Intelligence</div>
+    <div class="badge">EagleEye Intelligence</div>
   </div>
   <div class="empty" id="empty">Waiting for news intelligence…</div>
   <div id="card" style="display:none">
@@ -96,8 +96,8 @@ const RENDER = `
 `;
 
 export const NEWS_INTELLIGENCE_APP_HTML = buildAppHtml({
-  title: 'News Intelligence — WorldMonitor',
-  appName: 'worldmonitor-news-intelligence',
+  title: 'News Intelligence — EagleEye',
+  appName: 'eagleeye-news-intelligence',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

@@ -7,7 +7,7 @@ name: Convex Deploy
 # `convex/<module>.ts` changes silently merged into main without ever running
 # in production. Surfaced concretely as PR #3460 / #3466: the structured-data
 # `ConvexError({ kind, ... })` fix sat in main for 30+ minutes while
-# `WORLDMONITOR-PD` kept growing because Convex prod was still running the old
+# `EAGLEEYE-PD` kept growing because Convex prod was still running the old
 # string-data throws.
 #
 # Setup required (one-time): add `CONVEX_DEPLOY_KEY` to the repo's GitHub

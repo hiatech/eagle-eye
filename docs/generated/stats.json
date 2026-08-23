@@ -117,86 +117,86 @@
     "apps": [
       {
         "uriConst": "COUNTRY_RISK_UI_URI",
-        "uri": "ui://worldmonitor/country-risk.html",
+        "uri": "ui://eagleeye/country-risk.html",
         "name": "Country Risk (interactive)",
         "description": "Interactive in-conversation app shell for get_country_risk: renders the Composite Instability Index (CII 0-100), the unrest/conflict/security/news component breakdown, travel-advisory level, and sanctions exposure. Linked from the get_country_risk tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_country_risk"
       },
       {
         "uriConst": "WORLD_BRIEF_UI_URI",
-        "uri": "ui://worldmonitor/world-brief.html",
+        "uri": "ui://eagleeye/world-brief.html",
         "name": "World Brief (interactive)",
         "description": "Interactive in-conversation app shell for get_world_brief: renders the AI-summarised global intelligence brief as readable paragraphs, the grounding headlines, and the source feed articles. Linked from the get_world_brief tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_world_brief"
       },
       {
         "uriConst": "COUNTRY_BRIEF_UI_URI",
-        "uri": "ui://worldmonitor/country-brief.html",
+        "uri": "ui://eagleeye/country-brief.html",
         "name": "Country Brief (interactive)",
         "description": "Interactive in-conversation app shell for get_country_brief: renders the AI-synthesised per-country intelligence brief as paragraphs, the analytical framework lens, and the grounding sources. Linked from the get_country_brief tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_country_brief"
       },
       {
         "uriConst": "MARKET_RADAR_UI_URI",
-        "uri": "ui://worldmonitor/market-radar.html",
+        "uri": "ui://eagleeye/market-radar.html",
         "name": "Market Radar (interactive)",
         "description": "Interactive in-conversation app shell for get_market_data: renders the Fear & Greed composite plus per-asset-class quote tables (equities, commodities, crypto, Gulf, sectors) with signed, colour-coded change. Linked from the get_market_data tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_market_data"
       },
       {
         "uriConst": "CHOKEPOINT_MONITOR_UI_URI",
-        "uri": "ui://worldmonitor/chokepoint-monitor.html",
+        "uri": "ui://eagleeye/chokepoint-monitor.html",
         "name": "Chokepoint Monitor (interactive)",
         "description": "Interactive in-conversation app shell for get_chokepoint_status: renders per-chokepoint rolling transit summaries (today's transit count, week-over-week change, tanker split) with a risk-level badge. Linked from the get_chokepoint_status tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_chokepoint_status"
       },
       {
         "uriConst": "NEWS_INTELLIGENCE_UI_URI",
-        "uri": "ui://worldmonitor/news-intelligence.html",
+        "uri": "ui://eagleeye/news-intelligence.html",
         "name": "News Intelligence (interactive)",
-        "description": "Interactive in-conversation app shell for get_news_intelligence: renders AI-classified top stories (title, category, alert flag, country, source) from WorldMonitor's intelligence layer. Linked from the get_news_intelligence tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
+        "description": "Interactive in-conversation app shell for get_news_intelligence: renders AI-classified top stories (title, category, alert flag, country, source) from EagleEye's intelligence layer. Linked from the get_news_intelligence tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_news_intelligence"
       },
       {
         "uriConst": "CONFLICT_EVENTS_UI_URI",
-        "uri": "ui://worldmonitor/conflict-events.html",
+        "uri": "ui://eagleeye/conflict-events.html",
         "name": "Conflict Events (interactive)",
         "description": "Interactive in-conversation app shell for get_conflict_events: renders active armed-conflict events (belligerents, violence type, country, fatalities, date) from the UCDP feed. Linked from the get_conflict_events tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_conflict_events"
       },
       {
         "uriConst": "NATURAL_DISASTERS_UI_URI",
-        "uri": "ui://worldmonitor/natural-disasters.html",
+        "uri": "ui://eagleeye/natural-disasters.html",
         "name": "Natural Disasters (interactive)",
         "description": "Interactive in-conversation app shell for get_natural_disasters: groups recent earthquakes (USGS magnitude, place, time) and active wildfires (NASA FIRMS). Linked from the get_natural_disasters tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_natural_disasters"
       },
       {
         "uriConst": "PREDICTION_MARKETS_UI_URI",
-        "uri": "ui://worldmonitor/prediction-markets.html",
+        "uri": "ui://eagleeye/prediction-markets.html",
         "name": "Prediction Markets (interactive)",
         "description": "Interactive in-conversation app shell for get_prediction_markets: renders active event-contract odds grouped by category (geopolitical, tech, finance) with a probability bar per market. Linked from the get_prediction_markets tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_prediction_markets"
       },
       {
         "uriConst": "FORECASTS_UI_URI",
-        "uri": "ui://worldmonitor/forecasts.html",
+        "uri": "ui://eagleeye/forecasts.html",
         "name": "Forecasts (interactive)",
-        "description": "Interactive in-conversation app shell for get_forecast_predictions: renders WorldMonitor's AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). Linked from the get_forecast_predictions tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
+        "description": "Interactive in-conversation app shell for get_forecast_predictions: renders EagleEye's AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). Linked from the get_forecast_predictions tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.",
         "tool": "get_forecast_predictions"
       }
     ],
     "uiResources": [
-      "ui://worldmonitor/country-risk.html",
-      "ui://worldmonitor/world-brief.html",
-      "ui://worldmonitor/country-brief.html",
-      "ui://worldmonitor/market-radar.html",
-      "ui://worldmonitor/chokepoint-monitor.html",
-      "ui://worldmonitor/news-intelligence.html",
-      "ui://worldmonitor/conflict-events.html",
-      "ui://worldmonitor/natural-disasters.html",
-      "ui://worldmonitor/prediction-markets.html",
-      "ui://worldmonitor/forecasts.html"
+      "ui://eagleeye/country-risk.html",
+      "ui://eagleeye/world-brief.html",
+      "ui://eagleeye/country-brief.html",
+      "ui://eagleeye/market-radar.html",
+      "ui://eagleeye/chokepoint-monitor.html",
+      "ui://eagleeye/news-intelligence.html",
+      "ui://eagleeye/conflict-events.html",
+      "ui://eagleeye/natural-disasters.html",
+      "ui://eagleeye/prediction-markets.html",
+      "ui://eagleeye/forecasts.html"
     ],
     "linkedTools": [
       "get_country_risk",
@@ -213,58 +213,58 @@
     "toolLinks": [
       {
         "tool": "get_country_risk",
-        "uri": "ui://worldmonitor/country-risk.html"
+        "uri": "ui://eagleeye/country-risk.html"
       },
       {
         "tool": "get_world_brief",
-        "uri": "ui://worldmonitor/world-brief.html"
+        "uri": "ui://eagleeye/world-brief.html"
       },
       {
         "tool": "get_country_brief",
-        "uri": "ui://worldmonitor/country-brief.html"
+        "uri": "ui://eagleeye/country-brief.html"
       },
       {
         "tool": "get_market_data",
-        "uri": "ui://worldmonitor/market-radar.html"
+        "uri": "ui://eagleeye/market-radar.html"
       },
       {
         "tool": "get_chokepoint_status",
-        "uri": "ui://worldmonitor/chokepoint-monitor.html"
+        "uri": "ui://eagleeye/chokepoint-monitor.html"
       },
       {
         "tool": "get_news_intelligence",
-        "uri": "ui://worldmonitor/news-intelligence.html"
+        "uri": "ui://eagleeye/news-intelligence.html"
       },
       {
         "tool": "get_conflict_events",
-        "uri": "ui://worldmonitor/conflict-events.html"
+        "uri": "ui://eagleeye/conflict-events.html"
       },
       {
         "tool": "get_natural_disasters",
-        "uri": "ui://worldmonitor/natural-disasters.html"
+        "uri": "ui://eagleeye/natural-disasters.html"
       },
       {
         "tool": "get_prediction_markets",
-        "uri": "ui://worldmonitor/prediction-markets.html"
+        "uri": "ui://eagleeye/prediction-markets.html"
       },
       {
         "tool": "get_forecast_predictions",
-        "uri": "ui://worldmonitor/forecasts.html"
+        "uri": "ui://eagleeye/forecasts.html"
       }
     ]
   },
   "mcpAppCount": 10,
   "mcpAppUiResources": [
-    "ui://worldmonitor/country-risk.html",
-    "ui://worldmonitor/world-brief.html",
-    "ui://worldmonitor/country-brief.html",
-    "ui://worldmonitor/market-radar.html",
-    "ui://worldmonitor/chokepoint-monitor.html",
-    "ui://worldmonitor/news-intelligence.html",
-    "ui://worldmonitor/conflict-events.html",
-    "ui://worldmonitor/natural-disasters.html",
-    "ui://worldmonitor/prediction-markets.html",
-    "ui://worldmonitor/forecasts.html"
+    "ui://eagleeye/country-risk.html",
+    "ui://eagleeye/world-brief.html",
+    "ui://eagleeye/country-brief.html",
+    "ui://eagleeye/market-radar.html",
+    "ui://eagleeye/chokepoint-monitor.html",
+    "ui://eagleeye/news-intelligence.html",
+    "ui://eagleeye/conflict-events.html",
+    "ui://eagleeye/natural-disasters.html",
+    "ui://eagleeye/prediction-markets.html",
+    "ui://eagleeye/forecasts.html"
   ],
   "mcpAppLinkedTools": [
     "get_country_risk",

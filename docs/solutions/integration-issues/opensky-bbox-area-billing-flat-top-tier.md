@@ -36,7 +36,7 @@ tags:
 
 ## Problem
 
-WorldMonitor's authenticated OpenSky account exhausts its entire 4,000 credit/day quota
+EagleEye's authenticated OpenSky account exhausts its entire 4,000 credit/day quota
 every day, so `/states/all` returns `429` for most of each day. The burn is invisible in
 normal operation because Wingbits carries the flight surface — the cost is a dead fallback
 and a permanently rate-limited account, not a broken panel.
@@ -62,7 +62,7 @@ and a permanently rate-limited account, not a broken panel.
   configured regions are far above that threshold, so shrinking them changes nothing until
   they cross a tier boundary.
 - **Assuming an anonymous fallback provides cover.** `seed-military-flights.mjs:744-746` and
-  `server/worldmonitor/aviation/v1/track-aircraft.ts:161` fall back to unauthenticated
+  `server/eagleeye/aviation/v1/track-aircraft.ts:161` fall back to unauthenticated
   OpenSky. Anonymous is 400 credits/day *per IP* on shared Railway/Vercel egress — it can
   essentially never succeed and only adds a full timeout to every failure path.
 

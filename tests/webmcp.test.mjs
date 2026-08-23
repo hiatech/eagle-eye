@@ -111,10 +111,10 @@ describe('homepage WebMCP registration (pro-test welcome)', () => {
     const script = findWebMcpScript(welcomeSrc);
     const toolNames = [...script.body.matchAll(/name: '([a-zA-Z]+)'/g)].map((m) => m[1]);
     assert.ok(toolNames.length >= 2, `expected >=2 homepage tools, found ${toolNames.length}`);
-    assert.ok(toolNames.includes('launchWorldMonitor'), 'must expose launchWorldMonitor (act)');
+    assert.ok(toolNames.includes('launchEagleEye'), 'must expose launchEagleEye (act)');
     assert.ok(
-      toolNames.includes('getWorldMonitorMcpEndpoint'),
-      'must expose getWorldMonitorMcpEndpoint (discovery bridge to the remote MCP transport)',
+      toolNames.includes('getEagleEyeMcpEndpoint'),
+      'must expose getEagleEyeMcpEndpoint (discovery bridge to the remote MCP transport)',
     );
   });
 
@@ -122,7 +122,7 @@ describe('homepage WebMCP registration (pro-test welcome)', () => {
     const script = findWebMcpScript(welcomeSrc);
     // The homepage WebMCP surface is a gateway to the full HTTP MCP server;
     // the discovery tool must hand agents the real /mcp endpoint.
-    assert.match(script.body, /https:\/\/worldmonitor\.app\/mcp/);
+    assert.match(script.body, /https:\/\/eagle-eye\.app\/mcp/);
   });
 
   it('the built homepage carries the WebMCP script under the static nonce (no CSP hash needed)', () => {
@@ -180,7 +180,7 @@ describe('homepage WebMCP registration — runtime behaviour', () => {
 
   it('registers both tools via registerTool when a provider is present', () => {
     const r = run(collectRegister);
-    assert.deepEqual(r.registered.map((t) => t.name), ['launchWorldMonitor', 'getWorldMonitorMcpEndpoint']);
+    assert.deepEqual(r.registered.map((t) => t.name), ['launchEagleEye', 'getEagleEyeMcpEndpoint']);
     for (const t of r.registered) {
       assert.equal(typeof t.description, 'string');
       assert.equal(t.inputSchema.type, 'object');
@@ -188,36 +188,36 @@ describe('homepage WebMCP registration — runtime behaviour', () => {
     }
   });
 
-  it('launchWorldMonitor navigates to the requested variant and defaults to world', async () => {
+  it('launchEagleEye navigates to the requested variant and defaults to world', async () => {
     const finance = run(collectRegister);
-    const res = await finance.registered.find((t) => t.name === 'launchWorldMonitor').execute({ monitor: 'finance' });
+    const res = await finance.registered.find((t) => t.name === 'launchEagleEye').execute({ monitor: 'finance' });
     assert.equal(res.isError, false);
-    assert.equal(finance.navigatedTo, 'https://finance.worldmonitor.app/dashboard');
+    assert.equal(finance.navigatedTo, 'https://finance.eagle-eye.app/dashboard');
 
     const dflt = run(collectRegister);
-    await dflt.registered.find((t) => t.name === 'launchWorldMonitor').execute({});
-    assert.equal(dflt.navigatedTo, 'https://www.worldmonitor.app/dashboard');
+    await dflt.registered.find((t) => t.name === 'launchEagleEye').execute({});
+    assert.equal(dflt.navigatedTo, 'https://www.eagle-eye.app/dashboard');
   });
 
-  it('launchWorldMonitor never resolves off-enum or prototype keys into navigation', async () => {
+  it('launchEagleEye never resolves off-enum or prototype keys into navigation', async () => {
     // "constructor"/"__proto__" are truthy on a plain object's prototype chain;
     // an own-property guard must keep them (and any unknown key) on the world map.
     for (const bad of ['xyz', 'constructor', '__proto__', 'toString', 'valueOf']) {
       const r = run(collectRegister);
-      await r.registered.find((t) => t.name === 'launchWorldMonitor').execute({ monitor: bad });
+      await r.registered.find((t) => t.name === 'launchEagleEye').execute({ monitor: bad });
       assert.equal(
         r.navigatedTo,
-        'https://www.worldmonitor.app/dashboard',
+        'https://www.eagle-eye.app/dashboard',
         `monitor="${bad}" must fall back to the world dashboard, not a prototype value`,
       );
     }
   });
 
-  it('getWorldMonitorMcpEndpoint returns the remote transport with no hardcoded tool count', async () => {
+  it('getEagleEyeMcpEndpoint returns the remote transport with no hardcoded tool count', async () => {
     const r = run(collectRegister);
-    const res = await r.registered.find((t) => t.name === 'getWorldMonitorMcpEndpoint').execute({});
+    const res = await r.registered.find((t) => t.name === 'getEagleEyeMcpEndpoint').execute({});
     const payload = JSON.parse(res.content[0].text);
-    assert.equal(payload.endpoint, 'https://worldmonitor.app/mcp');
+    assert.equal(payload.endpoint, 'https://eagle-eye.app/mcp');
     assert.equal(payload.transport, 'streamableHttp');
     assert.equal(payload.tools, undefined, 'must not hardcode a tool count that drifts from the server card');
   });
@@ -241,7 +241,7 @@ describe('homepage WebMCP registration — runtime behaviour', () => {
     const late = [];
     r.navigator.modelContext = { registerTool: (t) => late.push(t) }; // provider appears later
     r.domHandler(); // DOMContentLoaded fires
-    assert.deepEqual(late.map((t) => t.name), ['launchWorldMonitor', 'getWorldMonitorMcpEndpoint']);
+    assert.deepEqual(late.map((t) => t.name), ['launchEagleEye', 'getEagleEyeMcpEndpoint']);
   });
 });
 

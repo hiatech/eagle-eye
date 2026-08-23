@@ -18,12 +18,12 @@ import {
   getCurrentCacheFormula,
   scoreCacheKey,
   warmMissingResilienceScores,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
 import {
   scoreAllDimensions,
   type ResilienceDimensionId,
   type ResilienceSeedReader,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 import {
   compareReferenceResults,
   recomputeReferenceCountry,

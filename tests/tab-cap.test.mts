@@ -109,7 +109,7 @@ describe('resolveTabCap — KTD8 cap resolution', () => {
     );
   });
 
-  it('desktop WORLDMONITOR_API_KEY present → uncapped with no session and no snapshot', () => {
+  it('desktop EAGLEEYE_API_KEY present → uncapped with no session and no snapshot', () => {
     assert.deepEqual(
       resolveTabCap(inputs({ desktopKeyPresent: true, signedIn: false, features: null }), 99),
       { allowed: true, cap: null, pendingActivation: false },

@@ -66,7 +66,7 @@ function emitLlmEvents(events) {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-          'User-Agent': 'worldmonitor-seeder-telemetry/1.0',
+          'User-Agent': 'eagleeye-seeder-telemetry/1.0',
         },
         body: JSON.stringify(events),
         signal: AbortSignal.timeout(1_500),

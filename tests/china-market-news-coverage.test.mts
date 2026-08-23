@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { VARIANT_FEEDS } from '../server/worldmonitor/news/v1/_feeds.ts';
+import { VARIANT_FEEDS } from '../server/eagleeye/news/v1/_feeds.ts';
 import { SOURCE_PROPAGANDA_RISK } from '../shared/source-provenance.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -99,7 +99,7 @@ describe('China A/H-share market coverage (#5272)', () => {
   });
 
   it('keeps available quotes when one requested China symbol is unavailable', async () => {
-    const { filterMarketQuotes } = await import('../server/worldmonitor/market/v1/list-market-quotes.ts');
+    const { filterMarketQuotes } = await import('../server/eagleeye/market/v1/list-market-quotes.ts');
     const response = filterMarketQuotes({
       quotes: [
         { symbol: '600519.SS', name: 'Kweichow Moutai', display: 'MOUTAI', price: 1400, change: 1, sparkline: [] },

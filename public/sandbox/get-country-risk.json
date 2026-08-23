@@ -1,12 +1,12 @@
 {
-  "$comment": "Sandbox fixture — a deterministic, schema-valid sample response derived from the published OpenAPI contract. No auth, no quota. Do not treat the payload as live data; call the production endpoint for real values. Guide: https://www.worldmonitor.app/docs/sandbox",
+  "$comment": "Sandbox fixture — a deterministic, schema-valid sample response derived from the published OpenAPI contract. No auth, no quota. Do not treat the payload as live data; call the production endpoint for real values. Guide: https://www.eagle-eye.app/docs/sandbox",
   "sandbox": true,
   "operation": {
     "operationId": "GetCountryRisk",
     "method": "GET",
     "path": "/api/intelligence/v1/get-country-risk",
     "summary": "GetCountryRisk",
-    "productionUrl": "https://api.worldmonitor.app/api/intelligence/v1/get-country-risk",
+    "productionUrl": "https://api.eagle-eye.app/api/intelligence/v1/get-country-risk",
     "service": "IntelligenceService"
   },
   "request": {

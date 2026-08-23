@@ -8,7 +8,7 @@ import {
   RESILIENCE_DIMENSION_ORDER,
   RESILIENCE_DOMAIN_ORDER,
   RESILIENCE_RETIRED_DIMENSIONS,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 
 // Regression-verifies the frozen resilience-ranking snapshots under
 // docs/snapshots/. Two shapes are supported:

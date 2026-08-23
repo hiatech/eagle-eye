@@ -64,10 +64,10 @@
 // Usage: node scripts/mcp-live-smoke.mjs
 //   MCP_SMOKE_HOSTS=https://a,https://b  overrides the default host list.
 
-const HOSTS = (process.env.MCP_SMOKE_HOSTS ?? 'https://worldmonitor.app,https://www.worldmonitor.app')
+const HOSTS = (process.env.MCP_SMOKE_HOSTS ?? 'https://eagle-eye.app,https://www.eagle-eye.app')
   .split(',').map((h) => h.trim()).filter(Boolean);
 const TIMEOUT_MS = 15_000;
-const USER_AGENT = 'WorldMonitor-MCP-Smoke/1.0 (+https://worldmonitor.app; github-actions)';
+const USER_AGENT = 'EagleEye-MCP-Smoke/1.0 (+https://eagle-eye.app; github-actions)';
 // Fan-out caps: keep the walk inside the shared anon 60/min/IP bucket as the
 // catalogs grow. 6 covers today's full prompt registry and concrete resource
 // list; growth beyond a cap trims coverage (logged), never correctness.
@@ -309,7 +309,7 @@ async function probeDiscovery(host) {
       fail(host, 'GET /mcp (crawler)', `guide lacks "Vary: Accept" (got "${res.headers.get('vary')}")`);
     } else if (!/\bLast-Event-ID\b/i.test(res.headers.get('vary') ?? '')) {
       fail(host, 'GET /mcp (crawler)', `guide lacks "Vary: Last-Event-ID" (got "${res.headers.get('vary')}")`);
-    } else if (!text.includes('World Monitor MCP Server')) {
+    } else if (!text.includes('Eagle Eye MCP Server')) {
       fail(host, 'GET /mcp (crawler)', 'body is not the mcp-server.md guide');
     } else {
       ok(host, 'GET /mcp (crawler)', '200 markdown guide');
@@ -337,7 +337,7 @@ async function probeDiscovery(host) {
       fail(host, 'HEAD /mcp (crawler)', `guide lacks "Vary: Accept" (got "${res.headers.get('vary')}")`);
     } else if (!/\bLast-Event-ID\b/i.test(res.headers.get('vary') ?? '')) {
       fail(host, 'HEAD /mcp (crawler)', `guide lacks "Vary: Last-Event-ID" (got "${res.headers.get('vary')}")`);
-    } else if (!/<https:\/\/worldmonitor\.app\/mcp>;\s*rel="canonical"/i.test(res.headers.get('link') ?? '')) {
+    } else if (!/<https:\/\/eagle-eye\.app\/mcp>;\s*rel="canonical"/i.test(res.headers.get('link') ?? '')) {
       fail(host, 'HEAD /mcp (crawler)', `guide lacks the apex canonical Link (got "${res.headers.get('link')}")`);
     } else {
       ok(host, 'HEAD /mcp (crawler)', '200 markdown metadata');
@@ -419,15 +419,15 @@ async function probeDiscovery(host) {
 const VARIANT_HOSTS = (process.env.MCP_SMOKE_VARIANT_HOSTS
   ?? 'tech,finance,commodity,happy,energy')
   .split(',').map((v) => v.trim()).filter(Boolean)
-  .map((v) => `https://${v}.worldmonitor.app`);
+  .map((v) => `https://${v}.eagle-eye.app`);
 
 async function probeVariantCanonical(host) {
   checks += 1;
   try {
     const { res } = await timedFetch(`${host}/mcp`, { headers: { Accept: 'text/html,*/*' } });
     const location = res.headers.get('location');
-    if (res.status !== 308 || location !== 'https://worldmonitor.app/mcp') {
-      fail(host, 'GET /mcp → apex canonical', `expected 308 → https://worldmonitor.app/mcp, got ${res.status} → ${location}`);
+    if (res.status !== 308 || location !== 'https://eagle-eye.app/mcp') {
+      fail(host, 'GET /mcp → apex canonical', `expected 308 → https://eagle-eye.app/mcp, got ${res.status} → ${location}`);
     } else if (!/\bAccept\b(?!-)/i.test(res.headers.get('vary') ?? '')) {
       fail(host, 'GET /mcp → apex canonical', `cacheable 308 lacks "Vary: Accept" (got "${res.headers.get('vary')}")`);
     } else if (!/\bLast-Event-ID\b/i.test(res.headers.get('vary') ?? '')) {
@@ -446,8 +446,8 @@ async function probeVariantCanonical(host) {
       headers: { Accept: 'text/html,*/*' },
     });
     const location = res.headers.get('location');
-    if (res.status !== 308 || location !== 'https://worldmonitor.app/mcp') {
-      fail(host, 'HEAD /mcp → apex canonical', `expected 308 → https://worldmonitor.app/mcp, got ${res.status} → ${location}`);
+    if (res.status !== 308 || location !== 'https://eagle-eye.app/mcp') {
+      fail(host, 'HEAD /mcp → apex canonical', `expected 308 → https://eagle-eye.app/mcp, got ${res.status} → ${location}`);
     } else if (!/\bAccept\b(?!-)/i.test(res.headers.get('vary') ?? '')) {
       fail(host, 'HEAD /mcp → apex canonical', `cacheable 308 lacks "Vary: Accept" (got "${res.headers.get('vary')}")`);
     } else if (!/\bLast-Event-ID\b/i.test(res.headers.get('vary') ?? '')) {

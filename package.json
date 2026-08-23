@@ -1,5 +1,5 @@
 {
-  "name": "world-monitor",
+  "name": "eagle-eye",
   "private": true,
   "version": "2.10.0",
   "license": "AGPL-3.0-only",
@@ -53,7 +53,7 @@
     "verify:sitemaps": "node scripts/verify-sitemaps.mjs",
     "prebuild:pro": "npm run product:facts",
     "build:pro": "cd pro-test && npm ci && npm run build",
-    "build:openapi": "node -e \"require('fs').cpSync('docs/api/worldmonitor.openapi.yaml', 'public/openapi.yaml')\" && node scripts/build-openapi-json.mjs",
+    "build:openapi": "node -e \"require('fs').cpSync('docs/api/eagleeye.openapi.yaml', 'public/openapi.yaml')\" && node scripts/build-openapi-json.mjs",
     "gen:openapi:security": "node scripts/openapi-inject-security.mjs",
     "gen:openapi:examples": "node scripts/openapi-inject-examples.mjs",
     "gen:openapi:required": "node scripts/openapi-inject-required.mjs",

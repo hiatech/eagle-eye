@@ -200,10 +200,10 @@ const DEFAULT_VIEWPORT_MARGIN_PX = 400;
 import type { CorrelationPanel } from '@/components/CorrelationPanel';
 
 const CYBER_LAYER_ENABLED = import.meta.env.VITE_ENABLE_CYBER_LAYER === 'true';
-const FREE_MAP_PANEL_ACCESS_KEY = 'worldmonitor-free-map-panel-access-v1';
-const CW_PRO_GATE_RECOVERY_KEY = 'worldmonitor-cw-pro-gate-recovery-v1';
-const CW_PRO_GATE_CLOUD_RECOVERY_BASELINE_KEY = 'worldmonitor-cw-pro-gate-cloud-recovery-baseline-v1';
-const CW_PRO_GATE_CLOUD_RECOVERY_APPLIED_KEY = 'worldmonitor-cw-pro-gate-cloud-recovery-applied-v1';
+const FREE_MAP_PANEL_ACCESS_KEY = 'eagleeye-free-map-panel-access-v1';
+const CW_PRO_GATE_RECOVERY_KEY = 'eagleeye-cw-pro-gate-recovery-v1';
+const CW_PRO_GATE_CLOUD_RECOVERY_BASELINE_KEY = 'eagleeye-cw-pro-gate-cloud-recovery-baseline-v1';
+const CW_PRO_GATE_CLOUD_RECOVERY_APPLIED_KEY = 'eagleeye-cw-pro-gate-cloud-recovery-applied-v1';
 type SignalModalInstance = import('@/components/SignalModal').SignalModal;
 
 export type { CountryBriefSignals } from '@/app/app-context';
@@ -793,7 +793,7 @@ export class App {
     });
 
     const PANEL_ORDER_KEY = 'panel-order';
-    const PANEL_SPANS_KEY = 'worldmonitor-panel-spans';
+    const PANEL_SPANS_KEY = 'eagleeye-panel-spans';
 
     const isMobile = isMobileDevice();
     const isDesktopApp = isDesktopRuntime();
@@ -812,7 +812,7 @@ export class App {
     let storedVariant: string | null = null;
     let storageAvailable = true;
     try {
-      storedVariant = localStorage.getItem('worldmonitor-variant');
+      storedVariant = localStorage.getItem('eagleeye-variant');
       const probeKey = 'wm-storage-capability-probe';
       localStorage.setItem(probeKey, '1');
       localStorage.removeItem(probeKey);
@@ -832,7 +832,7 @@ export class App {
       console.log(`[App] Variant check: stored="${storedVariant}", current="${currentVariant}"`);
       // Variant changed — seed new variant's panels, disable panels not in the new variant
       console.log('[App] Variant changed - seeding new defaults, disabling cross-variant panels');
-      localStorage.setItem('worldmonitor-variant', currentVariant);
+      localStorage.setItem('eagleeye-variant', currentVariant);
       // Reset map layers for the new variant (map layers are not user-personalized the same way)
       localStorage.removeItem(STORAGE_KEYS.mapLayers);
       mapLayers = normalizeExclusiveChoropleths(
@@ -868,7 +868,7 @@ export class App {
       );
 
       // One-time migration: preserve user preferences across panel key renames.
-      const PANEL_KEY_RENAMES_MIGRATION_KEY = 'worldmonitor-panel-key-renames-v2.6.8';
+      const PANEL_KEY_RENAMES_MIGRATION_KEY = 'eagleeye-panel-key-renames-v2.6.8';
       if (!localStorage.getItem(PANEL_KEY_RENAMES_MIGRATION_KEY)) {
         let migrated = false;
         const keyRenames: Array<[string, string]> = [
@@ -918,7 +918,7 @@ export class App {
       }
 
       // One-time migration: expose all panels to existing users (previously variant-gated)
-      const UNIFIED_MIGRATION_KEY = 'worldmonitor-unified-panels-v1';
+      const UNIFIED_MIGRATION_KEY = 'eagleeye-unified-panels-v1';
       if (!localStorage.getItem(UNIFIED_MIGRATION_KEY)) {
         const variantDefaults = new Set(VARIANT_DEFAULTS[SITE_VARIANT] ?? []);
         for (const key of Object.keys(ALL_PANELS)) {
@@ -933,7 +933,7 @@ export class App {
 
       // One-time migration: fix happy variant sessions that got cross-variant panels enabled
       // (regression from #1911 unified panel registry which failed to disable non-variant panels on variant switch)
-      const HAPPY_PANEL_FIX_KEY = 'worldmonitor-happy-panel-fix-v1';
+      const HAPPY_PANEL_FIX_KEY = 'eagleeye-happy-panel-fix-v1';
       if (SITE_VARIANT === 'happy' && !localStorage.getItem(HAPPY_PANEL_FIX_KEY)) {
         const happyKeys = new Set(VARIANT_DEFAULTS['happy'] ?? []);
         let fixed = false;
@@ -950,7 +950,7 @@ export class App {
       console.log('[App] Loaded panel settings from storage:', Object.entries(panelSettings).filter(([_, v]) => !v.enabled).map(([k]) => k));
 
       // One-time migration: reorder panels for existing users (v1.9 panel layout)
-      const PANEL_ORDER_MIGRATION_KEY = 'worldmonitor-panel-order-v1.9';
+      const PANEL_ORDER_MIGRATION_KEY = 'eagleeye-panel-order-v1.9';
       if (!localStorage.getItem(PANEL_ORDER_MIGRATION_KEY)) {
         const savedOrder = localStorage.getItem(PANEL_ORDER_KEY);
         if (savedOrder) {
@@ -973,7 +973,7 @@ export class App {
 
       // Tech variant migration: move insights to top (after live-news)
       if (currentVariant === 'tech') {
-        const TECH_INSIGHTS_MIGRATION_KEY = 'worldmonitor-tech-insights-top-v1';
+        const TECH_INSIGHTS_MIGRATION_KEY = 'eagleeye-tech-insights-top-v1';
         if (!localStorage.getItem(TECH_INSIGHTS_MIGRATION_KEY)) {
           const savedOrder = localStorage.getItem(PANEL_ORDER_KEY);
           if (savedOrder) {
@@ -997,7 +997,7 @@ export class App {
 
     if (storageAvailable) {
       // One-time migration: prune removed panel keys from stored settings and order
-      const PANEL_PRUNE_KEY = 'worldmonitor-panel-prune-v1';
+      const PANEL_PRUNE_KEY = 'eagleeye-panel-prune-v1';
       if (!localStorage.getItem(PANEL_PRUNE_KEY)) {
         const validKeys = new Set(Object.keys(ALL_PANELS));
         let pruned = false;
@@ -1022,7 +1022,7 @@ export class App {
       }
 
       // One-time migration: clear stale panel ordering and sizing state
-      const LAYOUT_RESET_MIGRATION_KEY = 'worldmonitor-layout-reset-v2.5';
+      const LAYOUT_RESET_MIGRATION_KEY = 'eagleeye-layout-reset-v2.5';
       if (!localStorage.getItem(LAYOUT_RESET_MIGRATION_KEY)) {
         const hadSavedOrder = !!localStorage.getItem(PANEL_ORDER_KEY);
         const hadSavedSpans = !!localStorage.getItem(PANEL_SPANS_KEY);
@@ -1064,7 +1064,7 @@ export class App {
     }
     // One-time migration: reduce default-enabled sources (full variant only)
     if (currentVariant === 'full' && storageAvailable) {
-      const baseKey = 'worldmonitor-sources-reduction-v3';
+      const baseKey = 'eagleeye-sources-reduction-v3';
       if (!localStorage.getItem(baseKey)) {
         const defaultDisabled = computeDefaultDisabledSources();
         saveToStorage(STORAGE_KEYS.disabledFeeds, defaultDisabled);
@@ -1079,7 +1079,7 @@ export class App {
       // still have the untouched pre-#5949 default disabled set. An exact-set
       // guard is important here: a customized disabledFeeds set is user
       // intent, and must not be rewritten by the startup migration.
-      const frontlineKey = 'worldmonitor-frontline-europe-enable-v1';
+      const frontlineKey = 'eagleeye-frontline-europe-enable-v1';
       if (!localStorage.getItem(frontlineKey)) {
         const frontline = new Set<string>(FRONTLINE_EUROPE_PROTECTED_SOURCES);
         const legacyDefaultDisabled = new Set(computeLegacyDefaultDisabledSources());
@@ -1109,7 +1109,7 @@ export class App {
       // flag became part of the canonical default set. An exact-set guard is
       // required: a customized disabledFeeds set is user intent and must not
       // be rewritten by a startup migration.
-      const strategicKey = 'worldmonitor-strategic-defaults-enable-v1';
+      const strategicKey = 'eagleeye-strategic-defaults-enable-v1';
       if (!localStorage.getItem(strategicKey)) {
         const current = loadFromStorage<string[]>(STORAGE_KEYS.disabledFeeds, []);
         const migrated = migrateStrategicDefaultsV4(
@@ -1131,7 +1131,7 @@ export class App {
       // #5975/#5976/#5977/#5980 — reconcile the regional feed wave for
       // returning denylist profiles. Exact historical default/cap states are
       // the only eligible inputs; any source customization skips the migration.
-      const regionalRolloutKey = 'worldmonitor-regional-feed-rollout-reconcile-v1';
+      const regionalRolloutKey = 'eagleeye-regional-feed-rollout-reconcile-v1';
       if (!localStorage.getItem(regionalRolloutKey)) {
         const current = loadFromStorage<string[]>(STORAGE_KEYS.disabledFeeds, []);
         const migrated = migrateRegionalFeedRolloutDefaultsV5(
@@ -1149,7 +1149,7 @@ export class App {
       // cataloged opt-in names would be implicitly enabled for every returner.
       // Insert opt-ins into any existing denylist once. CBC is intentionally
       // omitted so default-on can enable it for returners (not in old denylist).
-      const canadaArcticKey = 'worldmonitor-canada-arctic-optin-v1';
+      const canadaArcticKey = 'eagleeye-canada-arctic-optin-v1';
       if (!localStorage.getItem(canadaArcticKey)) {
         const current = loadFromStorage<string[]>(STORAGE_KEYS.disabledFeeds, []);
         const migrated = migrateCanadaArcticOptInsV6({
@@ -1177,12 +1177,12 @@ export class App {
       // Language) before falling back to navigator. Mirrors the i18n.ts:99
       // `wmExplicit` detector — without this, a user whose browser is en-US who
       // picks Magyar in Settings never gets the locale boost (the migration's
-      // first run with `userLang='en'` sets `worldmonitor-locale-boost-en` and
+      // first run with `userLang='en'` sets `eagleeye-locale-boost-en` and
       // the `userLang !== 'en'` short-circuit means the boost block never re-fires
       // for any subsequent locale choice). Direct localStorage read because
       // i18next isn't initialized yet here in the constructor — `initI18n()` is
       // called later inside `init()`.
-      const localeKey = `worldmonitor-locale-boost-${userLang}`;
+      const localeKey = `eagleeye-locale-boost-${userLang}`;
       if (userLang !== 'en' && !localStorage.getItem(localeKey)) {
         const boosted = getLocaleBoostedSources(userLang);
         if (boosted.size > 0) {
@@ -1717,7 +1717,7 @@ export class App {
     // Pro-loader fan-out runs on EITHER Clerk auth changes OR Convex
     // entitlement changes — Pro can come from either signal (Clerk
     // user.role === 'pro' OR Convex tier >= 1 via Dodo). User-reported
-    // on commodity.worldmonitor.app: Trade Policy panel stuck at "Loading…"
+    // on commodity.eagle-eye.app: Trade Policy panel stuck at "Loading…"
     // for a Pro Monthly subscriber because the original listener only
     // watched subscribeAuthState (Clerk-only); Convex Free→Pro transitions
     // never re-fired loadTradePolicy. Same root cause as PR #3409 layer-unlock.

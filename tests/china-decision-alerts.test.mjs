@@ -419,7 +419,7 @@ describe('China decision-signal alert policy (#5580)', () => {
     assert.deepEqual(calls, [{
       url: `https://api-staging.example${CHINA_DECISION_SIGNALS_ROUTE}`,
       accept: 'application/json',
-      userAgent: 'worldmonitor-china-decision-signals-seed/1.0',
+      userAgent: 'eagleeye-china-decision-signals-seed/1.0',
     }]);
 
     const invalid = structuredClone(canonical);

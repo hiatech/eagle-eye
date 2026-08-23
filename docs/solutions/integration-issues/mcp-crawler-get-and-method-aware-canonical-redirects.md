@@ -7,7 +7,7 @@ problem_type: integration_issue
 component: assistant
 severity: high
 symptoms:
-  - "Google Search Console reported https://www.worldmonitor.app/mcp and the variant-subdomain /mcp URLs as inaccessible because a plain GET returned 405 Method Not Allowed"
+  - "Google Search Console reported https://www.eagle-eye.app/mcp and the variant-subdomain /mcp URLs as inaccessible because a plain GET returned 405 Method Not Allowed"
   - "A cacheable discovery 200 on /.well-known/mcp was served by the Vercel edge (x-vercel-cache: HIT) to a GET carrying Accept: text/event-stream, which the MCP transport contract requires to be 405"
 root_cause: wrong_api
 resolution_type: code_fix
@@ -33,8 +33,8 @@ Google Search Console could not access `/mcp` — on `www`, on the apex, and on 
 Baseline, confirmed by probing production before any change:
 
 ```
-GET https://worldmonitor.app/mcp        → 405, no-store
-GET https://happy.worldmonitor.app/mcp  → 405, no-store
+GET https://eagle-eye.app/mcp        → 405, no-store
+GET https://happy.eagle-eye.app/mcp  → 405, no-store
 ```
 
 The obvious fix — answer a plain `GET` with a document — is where the real hazard lives, and it is the reason this write-up exists.
@@ -61,7 +61,7 @@ GET /.well-known/mcp  Accept: application/json
 GET /.well-known/mcp  Accept: text/event-stream
   → 200, x-vercel-cache: HIT, age: 15
     content-type: application/json
-    {"name":"worldmonitor","kind":"product",...}
+    {"name":"eagleeye","kind":"product",...}
 ```
 
 The edge keys on URL alone unless the origin says otherwise. An MCP SDK client opening the optional standalone stream received a **200 JSON body where the transport contract requires 405**. That is the #4937 failure class — an uncorrelatable response that hangs a strict client to its 30s timeout — reintroduced through the cache layer rather than the handler.
@@ -106,7 +106,7 @@ The asymmetry is deliberate. `Vary` is the correct fix, but it only works if eve
 
 ### 3. Canonicalize variant hosts to the apex — apex, not www
 
-`ARCHITECTURE.md:72` documents the Cloudflare apex→www dynamic redirect whose exemption list is load-bearing: `/.well-known/*`, `/robots.txt`, `/security.txt`, `/mcp`, `/mcp/*`, `/oauth/*` are **served on the apex, never redirected**. The agent-discovery corpus is apex by design, and the server card advertises `https://worldmonitor.app/mcp`.
+`ARCHITECTURE.md:72` documents the Cloudflare apex→www dynamic redirect whose exemption list is load-bearing: `/.well-known/*`, `/robots.txt`, `/security.txt`, `/mcp`, `/mcp/*`, `/oauth/*` are **served on the apex, never redirected**. The agent-discovery corpus is apex by design, and the server card advertises `https://eagle-eye.app/mcp`.
 
 So variant-host canonicalization targets the apex, and only for retrieval methods:
 
@@ -121,7 +121,7 @@ if (
   return new Response(null, {
     status: 308,
     headers: {
-      Location: 'https://worldmonitor.app/mcp',
+      Location: 'https://eagle-eye.app/mcp',
       Vary: 'Accept, Last-Event-ID',
       'Cache-Control': 'public, max-age=3600',
     },
@@ -131,7 +131,7 @@ if (
 
 Built by hand rather than with `Response.redirect()` precisely so it can carry `Vary` — a `308` is cacheable by default (RFC 9110 §15.4.9), so the same cache-key discipline applies to the redirect. `POST` and `OPTIONS` fall through unchanged to the `/api/mcp` rewrite; redirecting them would convert the JSON-RPC handshake into a `GET` (the #4938 fingerprint).
 
-The guide response also declares `Link: <https://worldmonitor.app/mcp>; rel="canonical"`, so `www` and apex agree on one indexable URL.
+The guide response also declares `Link: <https://eagle-eye.app/mcp>; rel="canonical"`, so `www` and apex agree on one indexable URL.
 
 ## Why the tests could not have caught this
 

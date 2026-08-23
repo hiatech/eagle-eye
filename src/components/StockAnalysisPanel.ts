@@ -13,7 +13,7 @@ import {
   getStockAnalysisRatingWhyNow,
 } from '@/services/stock-analysis-rating';
 import { getMarketWatchlistEntries } from '@/services/market-watchlist';
-import type { AnalystConsensus, PriceTarget, UpgradeDowngrade } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { AnalystConsensus, PriceTarget, UpgradeDowngrade } from '@/generated/client/eagleeye/market/v1/service_client';
 import type { InsiderTransactionsResult } from '@/services/insider-transactions';
 import { buildFundamentalDisplayCells } from '@/services/stock-fundamentals-display';
 import { escapeHtml, sanitizeUrl, unsafeRawHtml } from '@/utils/sanitize';

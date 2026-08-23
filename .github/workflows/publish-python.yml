@@ -1,13 +1,13 @@
 name: Publish Python SDK to PyPI
 
-# Publishes the `worldmonitor-sdk` PyPI package from sdk/python/ via PyPI
+# Publishes the `eagleeye-sdk` PyPI package from sdk/python/ via PyPI
 # trusted publishing (OIDC) — NO API-token secret required. Auth is a
 # short-lived OIDC token minted by GitHub Actions (`id-token: write`) and
 # exchanged by pypa/gh-action-pypi-publish, which also attaches PEP 740
 # attestations automatically.
 #
 # One-time prerequisite: a (pending) Trusted Publisher must be configured on
-# PyPI (pypi.org -> account -> Publishing) for project `worldmonitor-sdk`
+# PyPI (pypi.org -> account -> Publishing) for project `eagleeye-sdk`
 # pointing at this repository and this workflow file (publish-python.yml).
 # Until that exists the Publish step fails auth.
 #
@@ -48,7 +48,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/py-v')
         run: |
           PKG_VERSION="$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")"
-          MOD_VERSION="$(python -c "import sys; sys.path.insert(0,'src'); import worldmonitor_sdk; print(worldmonitor_sdk.__version__)")"
+          MOD_VERSION="$(python -c "import sys; sys.path.insert(0,'src'); import eagleeye_sdk; print(eagleeye_sdk.__version__)")"
           TAG_VERSION="${GITHUB_REF_NAME#py-v}"
           if [ "$PKG_VERSION" != "$TAG_VERSION" ] || [ "$MOD_VERSION" != "$TAG_VERSION" ]; then
             echo "::error::pyproject ($PKG_VERSION) / __version__ ($MOD_VERSION) does not match tag ($TAG_VERSION)"

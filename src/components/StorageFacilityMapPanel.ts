@@ -9,7 +9,7 @@ import type {
   GetStorageFacilityDetailResponse,
   ListEnergyDisruptionsResponse,
   EnergyDisruptionEntry,
-} from '@/generated/client/worldmonitor/supply_chain/v1/service_client';
+} from '@/generated/client/eagleeye/supply_chain/v1/service_client';
 import { formatEventWindow, formatCapacityOffline } from '@/shared/disruption-timeline';
 import { deriveStoragePublicBadge } from '@/shared/storage-evidence';
 import {

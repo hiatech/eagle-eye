@@ -71,7 +71,7 @@ describe('FirecrawlProvider.extract', () => {
 
     await new FirecrawlProvider('test-key').extract('https://retailer.example/p/bread', schema);
     expect((fetchMock.mock.calls[0]?.[1] as RequestInit).headers).toMatchObject({
-      'User-Agent': 'worldmonitor-consumer-prices/1.0',
+      'User-Agent': 'eagleeye-consumer-prices/1.0',
     });
   });
 });

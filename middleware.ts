@@ -59,11 +59,11 @@ const BRIEF_CAROUSEL_PATH_RE =
   /^\/api\/brief\/carousel\/[^/]+\/\d{4}-\d{2}-\d{2}-\d{4}\/[0-2]\/?$/;
 
 const VARIANT_HOST_MAP: Record<string, string> = {
-  'tech.worldmonitor.app': 'tech',
-  'finance.worldmonitor.app': 'finance',
-  'commodity.worldmonitor.app': 'commodity',
-  'happy.worldmonitor.app': 'happy',
-  'energy.worldmonitor.app': 'energy',
+  'tech.eagle-eye.app': 'tech',
+  'finance.eagle-eye.app': 'finance',
+  'commodity.eagle-eye.app': 'commodity',
+  'happy.eagle-eye.app': 'happy',
+  'energy.eagle-eye.app': 'energy',
 };
 
 // Source of truth: src/config/variant-meta.ts — keep in sync when variant metadata changes.
@@ -75,41 +75,41 @@ const VARIANT_OG: Record<string, { name: string; title: string; description: str
     name: 'Tech Monitor',
     title: 'Tech Monitor - Real-Time AI & Tech Industry Dashboard',
     description: 'Real-time AI and tech industry dashboard tracking tech giants, AI labs, startup ecosystems, funding rounds, and technology events worldwide with live context.',
-    image: 'https://tech.worldmonitor.app/favico/tech/og-image.png',
-    url: 'https://tech.worldmonitor.app/dashboard',
+    image: 'https://tech.eagle-eye.app/favico/tech/og-image.png',
+    url: 'https://tech.eagle-eye.app/dashboard',
   },
   finance: {
     name: 'Finance Monitor',
     title: 'Finance Monitor - Real-Time Markets & Trading Dashboard',
     description: 'Real-time finance and trading dashboard tracking global markets, stock exchanges, central banks, commodities, forex, crypto, and economic indicators worldwide.',
-    image: 'https://finance.worldmonitor.app/favico/finance/og-image.png',
-    url: 'https://finance.worldmonitor.app/dashboard',
+    image: 'https://finance.eagle-eye.app/favico/finance/og-image.png',
+    url: 'https://finance.eagle-eye.app/dashboard',
   },
   commodity: {
     name: 'Commodity Monitor',
     title: 'Commodity Monitor - Real-Time Commodity Markets & Supply Chain Dashboard',
     description: 'Real-time commodity markets dashboard tracking mining sites, processing plants, commodity ports, supply chains, and global trade flows with live context.',
-    image: 'https://commodity.worldmonitor.app/favico/commodity/og-image.png',
-    url: 'https://commodity.worldmonitor.app/dashboard',
+    image: 'https://commodity.eagle-eye.app/favico/commodity/og-image.png',
+    url: 'https://commodity.eagle-eye.app/dashboard',
   },
   happy: {
     name: 'Happy Monitor',
     title: 'Happy Monitor - Good News & Global Progress',
     description: 'Curated positive news, global progress data, science breakthroughs, conservation wins, and uplifting stories from around the world with daily highlights.',
-    image: 'https://happy.worldmonitor.app/favico/happy/og-image.png',
-    url: 'https://happy.worldmonitor.app/dashboard',
+    image: 'https://happy.eagle-eye.app/favico/happy/og-image.png',
+    url: 'https://happy.eagle-eye.app/dashboard',
   },
   energy: {
     name: 'Energy Atlas',
     title: 'Energy Atlas - Real-Time Global Energy Intelligence Dashboard',
     description: 'Real-time global energy atlas tracking oil and gas pipelines, storage facilities, chokepoints, fuel shortages, tanker flows, and disruption events worldwide.',
-    image: 'https://energy.worldmonitor.app/favico/energy/og-image.png',
-    url: 'https://energy.worldmonitor.app/dashboard',
+    image: 'https://energy.eagle-eye.app/favico/energy/og-image.png',
+    url: 'https://energy.eagle-eye.app/dashboard',
   },
 };
 
 const ALLOWED_HOSTS = new Set([
-  'worldmonitor.app',
+  'eagle-eye.app',
   ...Object.keys(VARIANT_HOST_MAP),
 ]);
 const VERCEL_PREVIEW_RE = /^[a-z0-9-]+-[a-z0-9]{8,}\.vercel\.app$/;
@@ -195,12 +195,12 @@ export default function middleware(request: Request) {
             screenshot: og.image,
             isPartOf: {
               '@type': 'WebSite',
-              name: 'World Monitor',
-              url: 'https://www.worldmonitor.app/',
+              name: 'Eagle Eye',
+              url: 'https://www.eagle-eye.app/',
             },
             sameAs: [
-              'https://github.com/hiatech/worldmonitor',
-              'https://x.com/worldmonitorai',
+              'https://github.com/hiatech/eagle-eye',
+              'https://x.com/eagleeyeai',
             ],
           })}</script>` : '';
           const aiBody = isAI ? `
@@ -208,17 +208,17 @@ export default function middleware(request: Request) {
 <p>${eDesc}</p>
 <h2>Explore the platform</h2>
 <ul>
-<li><a href="https://www.worldmonitor.app/dashboard">World Monitor — geopolitics &amp; intelligence</a></li>
-<li><a href="https://tech.worldmonitor.app/dashboard">Tech Monitor</a></li>
-<li><a href="https://finance.worldmonitor.app/dashboard">Finance Monitor</a></li>
-<li><a href="https://commodity.worldmonitor.app/dashboard">Commodity Monitor</a></li>
-<li><a href="https://happy.worldmonitor.app/dashboard">Happy Monitor</a></li>
-<li><a href="https://www.worldmonitor.app/pro">World Monitor Pro</a></li>
-<li><a href="https://www.worldmonitor.app/blog/">Blog</a></li>
-<li><a href="https://github.com/hiatech/worldmonitor">Open source on GitHub</a></li>
+<li><a href="https://www.eagle-eye.app/dashboard">Eagle Eye — geopolitics &amp; intelligence</a></li>
+<li><a href="https://tech.eagle-eye.app/dashboard">Tech Monitor</a></li>
+<li><a href="https://finance.eagle-eye.app/dashboard">Finance Monitor</a></li>
+<li><a href="https://commodity.eagle-eye.app/dashboard">Commodity Monitor</a></li>
+<li><a href="https://happy.eagle-eye.app/dashboard">Happy Monitor</a></li>
+<li><a href="https://www.eagle-eye.app/pro">Eagle Eye Pro</a></li>
+<li><a href="https://www.eagle-eye.app/blog/">Blog</a></li>
+<li><a href="https://github.com/hiatech/eagle-eye">Open source on GitHub</a></li>
 </ul>
 <h2>Sources</h2>
-<p>Data ingested live from 588+ observed upstream hosts, including <a href="https://acleddata.com/">ACLED</a>, <a href="https://ucdp.uu.se/">UCDP</a>, <a href="https://firms.modaps.eosdis.nasa.gov/">NASA FIRMS</a>, <a href="https://earthquake.usgs.gov/">USGS</a>, <a href="https://opensky-network.org/">OpenSky</a>, <a href="https://aisstream.io/">AISStream</a>, <a href="https://fred.stlouisfed.org/">FRED</a>, <a href="https://www.imf.org/en/Data">IMF</a>, and <a href="https://www.bis.org/">BIS</a>. See the <a href="https://www.worldmonitor.app/docs/data-sources">audited source catalog</a> for the complete inventory and license posture.</p>` : '';
+<p>Data ingested live from 588+ observed upstream hosts, including <a href="https://acleddata.com/">ACLED</a>, <a href="https://ucdp.uu.se/">UCDP</a>, <a href="https://firms.modaps.eosdis.nasa.gov/">NASA FIRMS</a>, <a href="https://earthquake.usgs.gov/">USGS</a>, <a href="https://opensky-network.org/">OpenSky</a>, <a href="https://aisstream.io/">AISStream</a>, <a href="https://fred.stlouisfed.org/">FRED</a>, <a href="https://www.imf.org/en/Data">IMF</a>, and <a href="https://www.bis.org/">BIS</a>. See the <a href="https://www.eagle-eye.app/docs/data-sources">audited source catalog</a> for the complete inventory and license posture.</p>` : '';
           const html = `<!DOCTYPE html><html lang="en"><head>
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="${eTitle}"/>
@@ -246,7 +246,7 @@ export default function middleware(request: Request) {
   }
 
   // Variant subdomain MCP discovery canonicalization. The MCP endpoint's
-  // canonical URL is apex (`https://worldmonitor.app/mcp`), and the Cloudflare
+  // canonical URL is apex (`https://eagle-eye.app/mcp`), and the Cloudflare
   // apex→www redirect explicitly exempts `/mcp` so POST JSON-RPC calls aren't
   // converted to GET. Variant subdomains would otherwise serve the same `/mcp`
   // content as the apex, fragmenting discovery signals; redirect plain GET/HEAD
@@ -270,7 +270,7 @@ export default function middleware(request: Request) {
     return new Response(null, {
       status: 308,
       headers: {
-        Location: 'https://worldmonitor.app/mcp',
+        Location: 'https://eagle-eye.app/mcp',
         Vary: 'Accept, Last-Event-ID',
         'Cache-Control': 'public, max-age=3600',
       },
@@ -334,7 +334,7 @@ export default function middleware(request: Request) {
   // well-shaped keys still 401 at the gateway.
   const WM_KEY_SHAPE = /^wm_[a-f0-9]{40,64}$/;
   const apiKey =
-    request.headers.get('x-worldmonitor-key') ??
+    request.headers.get('x-eagleeye-key') ??
     request.headers.get('x-api-key') ??
     '';
   if (WM_KEY_SHAPE.test(apiKey)) {

@@ -38,11 +38,11 @@ test('built welcome page ships the real hero in #root before JavaScript', () => 
   assert.match(rootContent, /By the time it&#x27;s news,[\s\S]*you already knew\./);
   assert.match(rootContent, /Launch the dashboard/);
   assert.match(rootContent, /Open source · AGPL-3\.0/);
-  assert.match(rootContent, /href="\/blog\/posts\/worldmonitor-is-not-palantir\/"/);
-  assert.match(rootContent, /WorldMonitor is not an open-source Palantir/);
-  assert.match(rootContent, /Which World Monitor license do I need\?/);
-  assert.match(rootContent, /API Business lets that organization embed World Monitor data/);
-  assert.match(rootContent, /href="\/docs\/terms"[^>]*>worldmonitor\.app\/docs\/terms<\/a>/);
+  assert.match(rootContent, /href="\/blog\/posts\/eagle-eye-is-not-palantir\/"/);
+  assert.match(rootContent, /EagleEye is not an open-source Palantir/);
+  assert.match(rootContent, /Which Eagle Eye license do I need\?/);
+  assert.match(rootContent, /API Business lets that organization embed Eagle Eye data/);
+  assert.match(rootContent, /href="\/docs\/terms"[^>]*>eagle-eye\.app\/docs\/terms<\/a>/);
   assert.match(rootContent, /Map layers/);
   const navContent = rootContent.slice(
     rootContent.indexOf('<nav'),
@@ -56,5 +56,5 @@ test('built welcome page ships the real hero in #root before JavaScript', () => 
   assert.ok(headlineIndex > 0, 'welcome headline should be in the prerendered root');
   const heroSection = rootContent.slice(0, rootContent.indexOf('<section class="py-16'));
   assert.doesNotMatch(heroSection, /opacity:0/);
-  assert.match(rootContent, /<img[^>]+src="\/pro\/assets\/worldmonitor-7-mar-2026-[^"]+\.jpg"[^>]+fetchPriority="high"/);
+  assert.match(rootContent, /<img[^>]+src="\/pro\/assets\/eagle-eye-7-mar-2026-[^"]+\.jpg"[^>]+fetchPriority="high"/);
 });

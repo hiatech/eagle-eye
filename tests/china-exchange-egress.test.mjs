@@ -20,7 +20,7 @@ function request(body = validBody, {
   authorization = 'Bearer test-relay-secret',
   method = 'POST',
 } = {}) {
-  return new Request('https://api.worldmonitor.app/api/internal/china-exchange-egress', {
+  return new Request('https://api.eagle-eye.app/api/internal/china-exchange-egress', {
     method,
     headers: {
       Authorization: authorization,
@@ -164,7 +164,7 @@ describe('internal China exchange egress', () => {
       Accept: 'application/json',
       Referer: 'https://www.szse.cn/',
       'Content-Type': 'application/json',
-      'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+      'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
     });
   });
 

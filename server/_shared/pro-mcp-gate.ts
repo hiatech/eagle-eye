@@ -170,14 +170,14 @@ const NO_STORE_JSON: Record<string, string> = {
  */
 export function proMcpGateDenialResponse(gate: ProMcpGateDenial): Response {
   if (gate.kind === 'insufficient_tier') {
-    return jsonError('INSUFFICIENT_TIER', 'A WorldMonitor Pro subscription is required.', 403, {});
+    return jsonError('INSUFFICIENT_TIER', 'A EagleEye Pro subscription is required.', 403, {});
   }
 
   const { denial } = gate;
   if (!denial.retryable) {
     return jsonError(
       'INSUFFICIENT_TIER',
-      'Your WorldMonitor Pro subscription is no longer active. Renew it, then start the connection again.',
+      'Your EagleEye Pro subscription is no longer active. Renew it, then start the connection again.',
       403,
       { 'X-Billing-Verification': denial.code },
     );

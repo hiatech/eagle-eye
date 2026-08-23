@@ -70,7 +70,7 @@ export interface ExportGateFeatures {
 export interface ExportGateInputs {
   /** The served product catalog exposes a purchasable `pro_business` group. */
   gateActive: boolean;
-  /** Desktop runtime with WORLDMONITOR_API_KEY configured. */
+  /** Desktop runtime with EAGLEEYE_API_KEY configured. */
   desktopKeyPresent: boolean;
   /** Clerk auth still resolving (the boot default — auth-state.ts:19). */
   authPending: boolean;

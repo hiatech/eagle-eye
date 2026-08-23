@@ -28,7 +28,7 @@ tags:
 
 ## Context
 
-WorldMonitor's `get-company-enrichment` and `list-company-signals` RPCs were deliberately
+EagleEye's `get-company-enrichment` and `list-company-signals` RPCs were deliberately
 disabled in PR #3777 (issues #3754/#3755) because they **fabricated** company intelligence:
 they guessed a code-host org from a domain label and attributed whatever that guessed
 identity returned. Any domain whose label collapsed to an unrelated org slug was assigned

@@ -4,7 +4,7 @@
  * generated OpenAPI specs.
  *
  * RunScenario enqueues a background job and returns immediately; the runtime
- * (server/worldmonitor/scenario/v1/run-scenario.ts via the
+ * (server/eagleeye/scenario/v1/run-scenario.ts via the
  * setSuccessStatusOverride gateway side-channel) answers a successful enqueue
  * with 202 Accepted plus a Location header pointing at the GetScenarioStatus
  * poll endpoint — restoring the legacy pre-sebuf contract. The sebuf
@@ -245,7 +245,7 @@ function injectYaml(text) {
 // ── Run ──────────────────────────────────────────────────────────────────────
 const jsonFiles = readdirSync(apiDir).filter((f) => /Service\.openapi\.json$/.test(f)).sort();
 const yamlFiles = readdirSync(apiDir)
-  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'worldmonitor.openapi.yaml')
+  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'eagleeye.openapi.yaml')
   .sort();
 let wouldChange = 0;
 const touched = [];

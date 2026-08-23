@@ -6,7 +6,7 @@
  * Both derive their `resource`/`issuer` + endpoint origin from the request Host
  * so PRM and AS metadata stay self-consistent per host (apex, www, api, variant
  * subdomains). The Host header is client-controlled, so `resolveMetadataOrigin`
- * validates it against the worldmonitor.app apex + single-level subdomain
+ * validates it against the eagle-eye.app apex + single-level subdomain
  * allowlist and falls back to the apex for anything else. Without this, a
  * spoofed `Host: evil.com` would be reflected into `issuer`/`token_endpoint` —
  * metadata a non-Host-aware downstream cache could serve to an agent, pointing
@@ -14,10 +14,10 @@
  */
 
 // apex + exactly one DNS label (www, api, tech, finance, …). Rejects
-// `evil.com`, `worldmonitor.app.evil.com`, `evilworldmonitor.app`, and any
+// `evil.com`, `eagle-eye.app.evil.com`, `evileagle-eye.app`, and any
 // host carrying a port.
-const ALLOWED_HOST = /^(?:[a-z0-9-]+\.)?worldmonitor\.app$/;
-const FALLBACK_ORIGIN = 'https://worldmonitor.app';
+const ALLOWED_HOST = /^(?:[a-z0-9-]+\.)?eagle-eye\.app$/;
+const FALLBACK_ORIGIN = 'https://eagle-eye.app';
 
 export function resolveMetadataOrigin(req: Request): string {
   const url = new URL(req.url);

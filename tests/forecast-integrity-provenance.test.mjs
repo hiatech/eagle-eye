@@ -38,8 +38,8 @@ describe('forecast integrity and provenance surfaces', () => {
   });
 
   it('exposes degraded forecast backend state instead of empty success only', () => {
-    const handler = read('server/worldmonitor/forecast/v1/get-forecasts.ts');
-    const proto = read('proto/worldmonitor/forecast/v1/get_forecasts.proto');
+    const handler = read('server/eagleeye/forecast/v1/get-forecasts.ts');
+    const proto = read('proto/eagleeye/forecast/v1/get_forecasts.proto');
 
     assert.match(proto, /bool degraded = 3;/);
     assert.match(proto, /bool stale = 4;/);
@@ -68,7 +68,7 @@ describe('forecast integrity and provenance surfaces', () => {
   it('documents market calibration limits and projection clamp heuristics', () => {
     const docs = read('docs/panels/forecast.mdx');
     const seeder = read('scripts/seed-forecasts.mjs');
-    const forecastProto = read('proto/worldmonitor/forecast/v1/forecast.proto');
+    const forecastProto = read('proto/eagleeye/forecast/v1/forecast.proto');
     const forecastOpenapi = read('docs/api/ForecastService.openapi.yaml');
     const cyberProbMax = parseNumericConst(seeder, 'CYBER_PROB_MAX');
     const conflictBaseMax = parseNumericConst(seeder, 'CONFLICT_BASE_DETECTOR_PROB_MAX');

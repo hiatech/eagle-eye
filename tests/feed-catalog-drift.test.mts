@@ -247,7 +247,7 @@ before(async () => {
   feeds = await bundleFeedsModule<FeedsModule>({ repoRoot, tempDir });
 
   const serverResult = await build({
-    entryPoints: [join(repoRoot, 'server/worldmonitor/news/v1/_feeds.ts')],
+    entryPoints: [join(repoRoot, 'server/eagleeye/news/v1/_feeds.ts')],
     bundle: true,
     format: 'esm',
     platform: 'neutral',
@@ -339,7 +339,7 @@ describe('feed catalog drift', () => {
     }
 
     const blob = {
-      'worldmonitor-disabled-feeds': JSON.stringify([...plStates[0]!]),
+      'eagleeye-disabled-feeds': JSON.stringify([...plStates[0]!]),
     };
     const migrated = migrateStrategicDefaultsV4(
       blob,
@@ -349,7 +349,7 @@ describe('feed catalog drift', () => {
       plStates,
     );
     const disabled = new Set(
-      JSON.parse(migrated['worldmonitor-disabled-feeds'] as string) as string[],
+      JSON.parse(migrated['eagleeye-disabled-feeds'] as string) as string[],
     );
     for (const name of STRATEGIC_DEFAULTS) {
       assert.equal(disabled.has(name), false, `${name} must be enabled for the migrated PL profile`);
@@ -844,11 +844,11 @@ describe('feed catalog drift', () => {
     });
     for (const fromVersion of [1, 2]) {
       const blob = {
-        'worldmonitor-disabled-feeds': JSON.stringify([...preFrontlineDefault]),
+        'eagleeye-disabled-feeds': JSON.stringify([...preFrontlineDefault]),
       };
       const migrated = applyMigrationChain(blob, fromVersion, 6, migrations);
       const disabled = new Set(
-        JSON.parse(migrated['worldmonitor-disabled-feeds'] as string) as string[],
+        JSON.parse(migrated['eagleeye-disabled-feeds'] as string) as string[],
       );
 
       for (const name of RECONCILED_ROLLOUT_DEFAULTS) {
@@ -903,7 +903,7 @@ describe('feed catalog drift', () => {
       if (policies.size < 2) continue;
       ambiguousFingerprints += 1;
       const blob = {
-        'worldmonitor-disabled-feeds': JSON.stringify([...matching[0]!.legacyDisabled]),
+        'eagleeye-disabled-feeds': JSON.stringify([...matching[0]!.legacyDisabled]),
       };
       assert.equal(
         migrateRegionalFeedRolloutDefaultsV5(blob, targets),

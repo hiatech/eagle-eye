@@ -7,7 +7,7 @@ import { describe, it } from 'node:test';
 import {
   RESILIENCE_RETIRED_DIMENSIONS,
   RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers';
 
 // Keep the client-side mirror (`RESILIENCE_RETIRED_DIMENSION_IDS` in
 // src/components/resilience-widget-utils.ts) in lockstep with the
@@ -57,7 +57,7 @@ describe('retired-dimensions client/server parity', () => {
     assert.deepEqual(serverOnly, [],
       `Server-only retired dims: ${serverOnly.join(', ')}. Update RESILIENCE_RETIRED_DIMENSION_IDS in src/components/resilience-widget-utils.ts.`);
     assert.deepEqual(clientOnly, [],
-      `Client-only retired dims: ${clientOnly.join(', ')}. Update RESILIENCE_RETIRED_DIMENSIONS in server/worldmonitor/resilience/v1/_dimension-scorers.ts.`);
+      `Client-only retired dims: ${clientOnly.join(', ')}. Update RESILIENCE_RETIRED_DIMENSIONS in server/eagleeye/resilience/v1/_dimension-scorers.ts.`);
   });
 
   // Plan 2026-04-26-001 §U3 (+ review fixup): mirror parity for the
@@ -76,7 +76,7 @@ describe('retired-dimensions client/server parity', () => {
     assert.deepEqual(serverOnly, [],
       `Server-only not-applicable dims: ${serverOnly.join(', ')}. Update RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE_IDS in src/components/resilience-widget-utils.ts.`);
     assert.deepEqual(clientOnly, [],
-      `Client-only not-applicable dims: ${clientOnly.join(', ')}. Update RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE in server/worldmonitor/resilience/v1/_dimension-scorers.ts.`);
+      `Client-only not-applicable dims: ${clientOnly.join(', ')}. Update RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE in server/eagleeye/resilience/v1/_dimension-scorers.ts.`);
   });
 });
 
@@ -85,7 +85,7 @@ describe('retired-dimensions client/server parity', () => {
 // parity above) but kept in the same file so all "shape-of-data must
 // match the schema" gates live together.
 import { readdirSync } from 'node:fs';
-const COHORTS_DIR = resolve(here, '../server/worldmonitor/resilience/v1/cohorts');
+const COHORTS_DIR = resolve(here, '../server/eagleeye/resilience/v1/cohorts');
 const ISO2_RE = /^[A-Z]{2}$/;
 
 interface CohortShape {

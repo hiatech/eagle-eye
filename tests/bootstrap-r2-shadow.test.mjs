@@ -16,9 +16,9 @@ function restoreEnv() {
 }
 
 function makeRequest(query) {
-  return new Request(`https://api.worldmonitor.app/api/bootstrap?${query}`, {
+  return new Request(`https://api.eagle-eye.app/api/bootstrap?${query}`, {
     headers: {
-      origin: 'https://worldmonitor.app',
+      origin: 'https://eagle-eye.app',
       'x-vercel-id': 'iad1::abc-123',
     },
   });
@@ -72,7 +72,7 @@ function installFetchHarness({ r2Status = 200, redisFailure = null } = {}) {
 }
 
 function assertRedisDurationMatchesHeader(response, event) {
-  const header = response.headers.get('x-worldmonitor-bootstrap-redis-duration');
+  const header = response.headers.get('x-eagleeye-bootstrap-redis-duration');
   assert.match(header ?? '', /^\d+(?:\.\d+)?$/);
   assert.equal(typeof event.redis_duration_ms, 'number');
   assert.ok(event.redis_duration_ms >= 0);
@@ -107,7 +107,7 @@ test('flag-off public tier response performs no probe and preserves the normal r
 
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('server-timing'), null);
-  assert.equal(response.headers.get('x-worldmonitor-bootstrap-redis-duration'), null);
+  assert.equal(response.headers.get('x-eagleeye-bootstrap-redis-duration'), null);
   assert.equal(calls.redis, 1);
   assert.equal(calls.r2, 0);
   assert.equal(calls.axiom, 0);
@@ -135,7 +135,7 @@ test('shadow credentials are never exercised outside the production Vercel envir
   const response = await handler(makeRequest('tier=fast&public=1'), wait.ctx);
 
   assert.equal(response.headers.get('server-timing'), null);
-  assert.equal(response.headers.get('x-worldmonitor-bootstrap-redis-duration'), null);
+  assert.equal(response.headers.get('x-eagleeye-bootstrap-redis-duration'), null);
   assert.equal(calls.redis, 1);
   assert.equal(calls.r2, 0);
   assert.equal(calls.axiom, 0);
@@ -158,7 +158,7 @@ for (const [label, r2Status, expectedOutcome, expectedReason] of [
     assert.equal(response.status, 200);
     assert.match(response.headers.get('server-timing') ?? '', /^wm_bootstrap_redis;dur=\d+(?:\.\d+)?$/);
     assert.match(
-      response.headers.get('x-worldmonitor-bootstrap-redis-duration') ?? '',
+      response.headers.get('x-eagleeye-bootstrap-redis-duration') ?? '',
       /^\d+(?:\.\d+)?$/,
     );
     assert.equal(response.headers.get('cache-control'), 'no-store');
@@ -181,7 +181,7 @@ for (const [label, r2Status, expectedOutcome, expectedReason] of [
     );
     const exposed = response.headers.get('access-control-expose-headers') ?? '';
     assert.match(exposed, /Server-Timing/i);
-    assert.match(exposed, /X-WorldMonitor-Bootstrap-Redis-Duration/i);
+    assert.match(exposed, /X-EagleEye-Bootstrap-Redis-Duration/i);
     assert.match(exposed, /X-Vercel-Cache/i);
     assert.match(exposed, /CF-Cache-Status/i);
   });

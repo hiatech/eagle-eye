@@ -1,4 +1,4 @@
-"""Offline tests for the worldmonitor-sdk client (fake transport, no network)."""
+"""Offline tests for the eagleeye-sdk client (fake transport, no network)."""
 
 import json
 import sys
@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from worldmonitor_sdk import (  # noqa: E402
+from eagleeye_sdk import (  # noqa: E402
     API_KEY_HEADER,
     APIError,
     Client,
@@ -20,9 +20,9 @@ from worldmonitor_sdk import (  # noqa: E402
     parse_body,
 )
 
-WORLD_MONITOR_API_KEY_ENV = "WORLDMONITOR_" + "API_" + "KEY"
+EAGLE_EYE_API_KEY_ENV = "EAGLEEYE_" + "API_" + "KEY"
 WM_API_KEY_ENV = "WM_" + "API_" + "KEY"
-EXPECTED_API_KEY_HEADER = "X-" + "WorldMonitor-" + "Key"
+EXPECTED_API_KEY_HEADER = "X-" + "EagleEye-" + "Key"
 EXAMPLE_ENV_VALUE = "example-env-value"
 EXAMPLE_ARG_VALUE = "example-arg-value"
 EXAMPLE_CLIENT_VALUE = "example-client-value"
@@ -63,7 +63,7 @@ class TestParseBody(unittest.TestCase):
 
 class TestClientConfig(unittest.TestCase):
     def test_env_fallbacks(self):
-        env = {WORLD_MONITOR_API_KEY_ENV: EXAMPLE_ENV_VALUE, "WORLDMONITOR_BASE_URL": "https://self.example/"}
+        env = {EAGLE_EYE_API_KEY_ENV: EXAMPLE_ENV_VALUE, "EAGLEEYE_BASE_URL": "https://self.example/"}
         client = Client(env=env, transport=FakeTransport([]))
         self.assertEqual(client.api_key, EXAMPLE_ENV_VALUE)
         self.assertEqual(client.base_url, "https://self.example")
@@ -81,8 +81,8 @@ class TestClientConfig(unittest.TestCase):
 
     def test_user_agent_carries_version(self):
         self.assertIn(__version__, USER_AGENT)
-        self.assertTrue(USER_AGENT.startswith("worldmonitor-python/"))
-        self.assertIn("+https://worldmonitor.app", USER_AGENT)
+        self.assertTrue(USER_AGENT.startswith("eagleeye-python/"))
+        self.assertIn("+https://eagle-eye.app", USER_AGENT)
 
     def test_api_key_header_matches_wire_contract(self):
         self.assertEqual(API_KEY_HEADER, EXPECTED_API_KEY_HEADER)
@@ -136,7 +136,7 @@ class TestMCPCalls(unittest.TestCase):
         with self.assertRaises(MCPError) as ctx:
             Client(env={}, transport=transport).world_brief()
         self.assertEqual(ctx.exception.code, MCP_AUTH_ERROR_CODE)
-        self.assertIn("WORLDMONITOR_API_KEY", str(ctx.exception))
+        self.assertIn("EAGLEEYE_API_KEY", str(ctx.exception))
 
     def test_mcp_error_wins_over_http_200(self):
         transport = FakeTransport(
@@ -169,7 +169,7 @@ class TestRest(unittest.TestCase):
         with self.assertRaises(APIError) as ctx:
             Client(env={}, transport=transport).health()
         self.assertEqual(ctx.exception.status, 401)
-        self.assertIn("WORLDMONITOR_API_KEY", str(ctx.exception))
+        self.assertIn("EAGLEEYE_API_KEY", str(ctx.exception))
 
 
 if __name__ == "__main__":

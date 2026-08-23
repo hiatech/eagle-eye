@@ -1,5 +1,5 @@
 // NLWeb /ask endpoint (Microsoft NLWeb protocol, github.com/microsoft/NLWeb)
-// — natural-language queries over WorldMonitor's public agent surface.
+// — natural-language queries over EagleEye's public agent surface.
 //
 // Answers are the same honest, anonymous, quota-free material the A2A
 // concierge serves: the live MCP tool catalog (what tools/list publishes
@@ -31,9 +31,9 @@ const RATE_LIMIT_MAX = RATE_LIMIT_POLICY.limit;
 const RATE_LIMIT_WINDOW = RATE_LIMIT_POLICY.window;
 
 const NLWEB_VERSION = '0.1';
-const SITE = 'worldmonitor.app';
-const TOOLS_DOC_URL = 'https://www.worldmonitor.app/docs/mcp-tools-reference';
-const MCP_ENDPOINT = 'https://worldmonitor.app/mcp';
+const SITE = 'eagle-eye.app';
+const TOOLS_DOC_URL = 'https://www.eagle-eye.app/docs/mcp-tools-reference';
+const MCP_ENDPOINT = 'https://eagle-eye.app/mcp';
 const MAX_QUERY_CHARS = 2048;
 
 const CORS_HEADERS: Record<string, string> = {
@@ -79,24 +79,24 @@ export function buildResults(query: string): NlwebResult[] {
       documentation: TOOLS_DOC_URL,
       // The actionable endpoint: call the tool via MCP tools/call.
       url: MCP_ENDPOINT,
-      provider: { '@type': 'Organization', name: 'World Monitor', url: 'https://www.worldmonitor.app' },
+      provider: { '@type': 'Organization', name: 'Eagle Eye', url: 'https://www.eagle-eye.app' },
     },
   }));
   if (results.length === 0) {
     // Honest fallback: point the asker at the discovery surfaces instead of
     // fabricating a match.
     results.push({
-      url: 'https://worldmonitor.app/llms.txt',
-      name: 'World Monitor agent guidance (llms.txt)',
+      url: 'https://eagle-eye.app/llms.txt',
+      name: 'Eagle Eye agent guidance (llms.txt)',
       site: SITE,
       score: 0,
       description:
-        'No specific tool matched that query. World Monitor covers conflicts, sanctions, country risk, markets, commodities, energy, maritime/aviation activity, chokepoints, cyber threats, natural disasters, forecasts and prediction markets — start from the agent guidance, or issue tools/list on the MCP server for the full catalog.',
+        'No specific tool matched that query. Eagle Eye covers conflicts, sanctions, country risk, markets, commodities, energy, maritime/aviation activity, chokepoints, cyber threats, natural disasters, forecasts and prediction markets — start from the agent guidance, or issue tools/list on the MCP server for the full catalog.',
       schema_object: {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'World Monitor',
-        url: 'https://www.worldmonitor.app',
+        name: 'Eagle Eye',
+        url: 'https://www.eagle-eye.app',
       },
     });
   }

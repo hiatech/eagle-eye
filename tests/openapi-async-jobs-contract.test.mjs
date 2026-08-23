@@ -11,7 +11,7 @@ import { load as loadYaml } from 'js-yaml';
 // 202 Accepted job envelope with a Location header pointing at the
 // GetScenarioStatus poll endpoint. The runtime honors the contract via the
 // setSuccessStatusOverride gateway side-channel
-// (server/worldmonitor/scenario/v1/run-scenario.ts); this test keeps the
+// (server/eagleeye/scenario/v1/run-scenario.ts); this test keeps the
 // published spec in sync so agents (and the ora.ai / orank scanner, which
 // falls back to the spec for auth-gated routes — check `async-job-pattern`)
 // always see the documented pattern. A fresh `make generate` must re-run the
@@ -68,15 +68,15 @@ describe('OpenAPI async-job pattern contract (RunScenario 202)', () => {
     assertAsyncJobContract(spec.paths?.[RUN_PATH]?.post, 'ScenarioService.openapi.yaml run-scenario POST');
   });
 
-  it('bundle (worldmonitor.openapi.yaml → /openapi.json) documents the 202 + Location pattern', () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
+  it('bundle (eagleeye.openapi.yaml → /openapi.json) documents the 202 + Location pattern', () => {
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
     assertAsyncJobContract(bundle.paths?.[RUN_PATH]?.post, 'bundle run-scenario POST');
     assert.ok(bundle.paths?.[POLL_PATH]?.get, 'bundle must keep the poll endpoint published');
   });
 
   it('runtime honors the documented 202 (fail-closed source assertions)', () => {
     // The handler marks the request for the 202 upgrade + Location header…
-    const handler = readFileSync(resolve(root, 'server/worldmonitor/scenario/v1/run-scenario.ts'), 'utf8');
+    const handler = readFileSync(resolve(root, 'server/eagleeye/scenario/v1/run-scenario.ts'), 'utf8');
     assert.match(handler, /setSuccessStatusOverride\(ctx\.request,\s*202\)/, 'run-scenario.ts must set the 202 override');
     assert.match(handler, /setResponseHeader\(ctx\.request,\s*'Location'/, 'run-scenario.ts must set the Location header');
     // …and the gateway drains + applies it (POST-200 only).

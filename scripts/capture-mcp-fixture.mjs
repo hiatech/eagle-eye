@@ -24,10 +24,10 @@
  *     --name medium-get-conflict-events --arg limit=30
  *
  * Authentication:
- *   - WM_MCP_KEY sends X-WorldMonitor-Key: <key>
+ *   - WM_MCP_KEY sends X-EagleEye-Key: <key>
  *   - WM_MCP_OAUTH_TOKEN sends Authorization: Bearer <token>
  *
- * Endpoint defaults to https://worldmonitor.app/mcp; override with
+ * Endpoint defaults to https://eagle-eye.app/mcp; override with
  * WM_MCP_ENDPOINT for staging.
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -37,7 +37,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
 const FIXTURES_DIR = resolve(ROOT, 'tests/fixtures/jmespath-samples');
-const ENDPOINT = process.env.WM_MCP_ENDPOINT ?? 'https://worldmonitor.app/mcp';
+const ENDPOINT = process.env.WM_MCP_ENDPOINT ?? 'https://eagle-eye.app/mcp';
 const API_KEY = process.env.WM_MCP_KEY;
 const OAUTH_TOKEN = process.env.WM_MCP_OAUTH_TOKEN;
 
@@ -72,7 +72,7 @@ if (!API_KEY && !OAUTH_TOKEN) fail('WM_MCP_KEY or WM_MCP_OAUTH_TOKEN env var req
 
 const headers = { 'Content-Type': 'application/json' };
 if (OAUTH_TOKEN) headers['Authorization'] = `Bearer ${OAUTH_TOKEN}`;
-else headers['X-WorldMonitor-Key'] = API_KEY;
+else headers['X-EagleEye-Key'] = API_KEY;
 
 const body = JSON.stringify({
   jsonrpc: '2.0', id: 1,

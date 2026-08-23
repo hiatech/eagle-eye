@@ -356,7 +356,7 @@ describe("webhook processWebhookEvent", () => {
       });
 
     expect(subjects).toHaveLength(2);
-    expect(subjects.some((subject) => subject.startsWith("Welcome to World Monitor"))).toBe(true);
+    expect(subjects.some((subject) => subject.startsWith("Welcome to Eagle Eye"))).toBe(true);
     expect(subjects.some((subject) => subject.startsWith("[WM] New User Subscribed"))).toBe(true);
     expect(subjects.every((subject) => !subject.includes("Welcome back"))).toBe(true);
   });
@@ -394,9 +394,9 @@ describe("webhook processWebhookEvent", () => {
         html: string;
       });
 
-    const welcome = sends.find((send) => send.subject.startsWith("Welcome to World Monitor"));
+    const welcome = sends.find((send) => send.subject.startsWith("Welcome to Eagle Eye"));
     expect(welcome?.to).toEqual(["test@example.com"]);
-    expect(welcome?.subject).toBe("Welcome to World Monitor Pro Business (Monthly)");
+    expect(welcome?.subject).toBe("Welcome to Eagle Eye Pro Business (Monthly)");
     // Pro shell markers — headline, CTA, and a Pro-only feature card.
     expect(welcome?.html).toContain("your intel, delivered");
     expect(welcome?.html).toContain("Open My Brief");
@@ -699,7 +699,7 @@ describe("webhook processWebhookEvent", () => {
     expect(paymentEvents[0].status).toBe("failed");
   });
 
-  // WORLDMONITOR-YA — every other test in this file routes through `processEvent`,
+  // EAGLEEYE-YA — every other test in this file routes through `processEvent`,
   // which pre-seeds a `customers` row, so the production shape (no customer row,
   // unsigned metadata) was never exercised. These two dispatch the mutation
   // directly to cover it.

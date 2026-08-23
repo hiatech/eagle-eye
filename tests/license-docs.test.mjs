@@ -73,7 +73,7 @@ describe('project license docs', () => {
     );
     assert.match(
       license,
-      /does not grant rights to use the World Monitor name, logo, visual identity, or official project branding/i,
+      /does not grant rights to use the Eagle Eye name, logo, visual identity, or official project branding/i,
       'license docs must separate trademark rights from AGPL code rights',
     );
   });
@@ -114,8 +114,8 @@ describe('project license docs', () => {
     for (const { relativePath, sourceNoticePattern } of documents) {
       const text = readFileSync(join(root, relativePath), 'utf8');
 
-      assert.match(text, /(?:Attribution to World Monitor|World Monitor attribution) is optional/i);
-      assert.match(text, /"Source: World Monitor" or "via World Monitor" is sufficient/i);
+      assert.match(text, /(?:Attribution to Eagle Eye|Eagle Eye attribution) is optional/i);
+      assert.match(text, /"Source: Eagle Eye" or "via Eagle Eye" is sufficient/i);
       assert.match(text, sourceNoticePattern);
     }
   });

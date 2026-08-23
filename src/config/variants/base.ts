@@ -99,10 +99,10 @@ export const MONITOR_COLORS = [
 
 // Storage keys - shared
 export const STORAGE_KEYS = {
-  panels: 'worldmonitor-panels',
-  monitors: 'worldmonitor-monitors',
-  mapLayers: 'worldmonitor-layers',
-  disabledFeeds: 'worldmonitor-disabled-feeds',
+  panels: 'eagleeye-panels',
+  monitors: 'eagleeye-monitors',
+  mapLayers: 'eagleeye-layers',
+  disabledFeeds: 'eagleeye-disabled-feeds',
   // Schema version for the disabledFeeds set. Bumped on each migration that
   // mutates the set in a backwards-incompatible way. Currently:
   //   missing/0 → pre-2026-05-01 alphabetical-cap state. Eligible for
@@ -110,17 +110,17 @@ export const STORAGE_KEYS = {
   //   1 → recovery has run; the set is post-migration and must NOT be
   //       re-recovered on subsequent loads (otherwise user-explicit
   //       full-category disabling would be silently undone forever).
-  disabledFeedsSchema: 'worldmonitor-disabled-feeds-schema',
+  disabledFeedsSchema: 'eagleeye-disabled-feeds-schema',
   // `{ [customCategoryKey]: rotationCycle }`. A custom news category is never
   // in the per-variant server digest, so its capped per-feed fetch rotates
   // through its sources a window at a time (#5873). The cycle has to survive a
   // reload or short sessions would replay window 0 forever and the rotation
   // would never reach sources 4..N — the exact defect it exists to fix.
-  newsFeedRotation: 'worldmonitor-news-feed-rotation',
-  liveChannels: 'worldmonitor-live-channels',
-  mapMode: 'worldmonitor-map-mode',          // 'flat' | 'globe'
-  activeChannel: 'worldmonitor-active-channel',
-  webcamPrefs: 'worldmonitor-webcam-prefs',
+  newsFeedRotation: 'eagleeye-news-feed-rotation',
+  liveChannels: 'eagleeye-live-channels',
+  mapMode: 'eagleeye-map-mode',          // 'flat' | 'globe'
+  activeChannel: 'eagleeye-active-channel',
+  webcamPrefs: 'eagleeye-webcam-prefs',
 } as const;
 
 export type MapModePreference = 'flat' | 'globe';

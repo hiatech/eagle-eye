@@ -1,5 +1,5 @@
 /**
- * Regression tests for the create-checkout transport (WORLDMONITOR-Q4).
+ * Regression tests for the create-checkout transport (EAGLEEYE-Q4).
  *
  * 8 of 9 "Checkout error: service_unavailable" events were Cloudflare-
  * emitted 502s (origin transient) on POST /api/create-checkout. The edge

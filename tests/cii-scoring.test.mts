@@ -22,8 +22,8 @@ import {
   STRATEGIC_RISK_SCALE_FACTOR,
   STRATEGIC_RISK_SCALE_FLOOR,
   STRATEGIC_RISK_TOP_N,
-} from '../server/worldmonitor/intelligence/v1/_risk-config.ts';
-import { TIER1_COUNTRIES as SERVER_TIER1_COUNTRIES } from '../server/worldmonitor/intelligence/v1/_shared.ts';
+} from '../server/eagleeye/intelligence/v1/_risk-config.ts';
+import { TIER1_COUNTRIES as SERVER_TIER1_COUNTRIES } from '../server/eagleeye/intelligence/v1/_shared.ts';
 import {
   BASELINE_RISK,
   CII_REALTIME_REQUIRED_SIGNAL_FAMILY_COUNT,
@@ -45,7 +45,7 @@ import {
   normalizeCountryName,
   selectCiiTrendPriorSnapshot,
   ZONE_COUNTRY_MAP,
-} from '../server/worldmonitor/intelligence/v1/get-risk-scores.ts';
+} from '../server/eagleeye/intelligence/v1/get-risk-scores.ts';
 import {
   CII_BASELINE_RISK as SHARED_BASELINE_RISK,
   CII_COUNTRY_WEIGHTS,
@@ -1382,7 +1382,7 @@ describe('CII scoring', () => {
       fileURLToPath(new URL('.', import.meta.url)),
       '..',
       'server',
-      'worldmonitor',
+      'eagleeye',
       'intelligence',
       'v1',
       'get-risk-scores.ts',
@@ -1613,7 +1613,7 @@ describe('CII scoring', () => {
     );
 
     const cachedRiskSource = readRepoFile('src/services/cached-risk-scores.ts');
-    const getRiskScoresSource = readRepoFile('server/worldmonitor/intelligence/v1/get-risk-scores.ts');
+    const getRiskScoresSource = readRepoFile('server/eagleeye/intelligence/v1/get-risk-scores.ts');
     const scoreFormulaLiterals = extractScoreFormulaLiterals(getRiskScoresSource);
     const scoreHelperInputs = extractScoreHelperInputSnapshot(getRiskScoresSource);
     assertFormulaLiteralCovered(scoreFormulaLiterals, 'climateSeverityScore', 5, 'return 5');
@@ -2002,7 +2002,7 @@ describe('CII scoring', () => {
   it('handler marks stale-cache and cold-cache fallback responses as degraded', () => {
     const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
     const source = readFileSync(
-      resolve(root, 'server', 'worldmonitor', 'intelligence', 'v1', 'get-risk-scores.ts'),
+      resolve(root, 'server', 'eagleeye', 'intelligence', 'v1', 'get-risk-scores.ts'),
       'utf8',
     );
 
@@ -2021,7 +2021,7 @@ describe('CII scoring', () => {
   it('handler preserves live cached payloads if advisory backfill rebuild fails', () => {
     const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
     const source = readFileSync(
-      resolve(root, 'server', 'worldmonitor', 'intelligence', 'v1', 'get-risk-scores.ts'),
+      resolve(root, 'server', 'eagleeye', 'intelligence', 'v1', 'get-risk-scores.ts'),
       'utf8',
     );
 
@@ -2035,7 +2035,7 @@ describe('CII scoring', () => {
   it('proto schema constrains advisory_provenance vocabulary', () => {
     const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
     const proto = readFileSync(
-      resolve(root, 'proto', 'worldmonitor', 'intelligence', 'v1', 'intelligence.proto'),
+      resolve(root, 'proto', 'eagleeye', 'intelligence', 'v1', 'intelligence.proto'),
       'utf8',
     );
 
@@ -2051,7 +2051,7 @@ describe('CII scoring', () => {
     const expectedMilitary = 'Security-mobility contribution from military flights, military vessels, aviation disruption, and GPS interference (0-100).';
     const staleSourcePattern = /ACLED\/UCDP|AIS disruption/;
 
-    const proto = readRepoFile('proto/worldmonitor/intelligence/v1/intelligence.proto');
+    const proto = readRepoFile('proto/eagleeye/intelligence/v1/intelligence.proto');
     const protoBlock = proto.match(/message CiiComponents \{[\s\S]*?\n\}/)?.[0] ?? '';
     assert.ok(protoBlock, 'intelligence.proto must define CiiComponents.');
     assert.ok(protoBlock.includes(expectedGeo), 'intelligence.proto must describe geo_convergence with current ACLED-only sources.');
@@ -2065,7 +2065,7 @@ describe('CII scoring', () => {
     assert.equal(ciiProperties.geoConvergence?.description, expectedGeo);
     assert.equal(ciiProperties.militaryActivity?.description, expectedMilitary);
 
-    for (const path of ['docs/api/IntelligenceService.openapi.yaml', 'docs/api/worldmonitor.openapi.yaml']) {
+    for (const path of ['docs/api/IntelligenceService.openapi.yaml', 'docs/api/eagleeye.openapi.yaml']) {
       const openApi = readRepoFile(path);
       const block = openApi.match(/\n {8}[A-Za-z0-9_]*CiiComponents:\n[\s\S]*?(?=\n {8}[A-Za-z][A-Za-z0-9_]*:\n)/)?.[0] ?? '';
       assert.ok(block, `${path} must define CiiComponents.`);
@@ -2185,7 +2185,7 @@ describe('CII scoring', () => {
     const methodologyDoc = readRepoFile('docs/methodology/cii-risk-scores.mdx');
     const overviewDoc = readRepoFile('docs/country-instability-index.mdx');
     const dataSourcesDoc = readRepoFile('docs/data-sources.mdx');
-    const riskScoresSource = readRepoFile('server/worldmonitor/intelligence/v1/get-risk-scores.ts');
+    const riskScoresSource = readRepoFile('server/eagleeye/intelligence/v1/get-risk-scores.ts');
     const fallbackBlock = riskScoresSource.match(/const ADVISORY_LEVELS_FALLBACK[\s\S]*?\};/)?.[0] ?? '';
     assert.ok(fallbackBlock, 'get-risk-scores.ts must keep the advisory fallback table inspectable.');
 
@@ -2365,9 +2365,9 @@ describe('CII scoring', () => {
 
   it('CII dynamicScore contract allows signed 24-hour movement deltas', () => {
     const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-    const proto = readFileSync(resolve(root, 'proto', 'worldmonitor', 'intelligence', 'v1', 'intelligence.proto'), 'utf8');
+    const proto = readFileSync(resolve(root, 'proto', 'eagleeye', 'intelligence', 'v1', 'intelligence.proto'), 'utf8');
     const serviceOpenapi = readFileSync(resolve(root, 'docs', 'api', 'IntelligenceService.openapi.yaml'), 'utf8');
-    const unifiedOpenapi = readFileSync(resolve(root, 'docs', 'api', 'worldmonitor.openapi.yaml'), 'utf8');
+    const unifiedOpenapi = readFileSync(resolve(root, 'docs', 'api', 'eagleeye.openapi.yaml'), 'utf8');
 
     assert.match(
       proto,
@@ -2376,7 +2376,7 @@ describe('CII scoring', () => {
     );
     for (const [label, yaml] of [
       ['IntelligenceService.openapi.yaml', serviceOpenapi],
-      ['worldmonitor.openapi.yaml', unifiedOpenapi],
+      ['eagleeye.openapi.yaml', unifiedOpenapi],
     ] as const) {
       const dynamicScoreBlock = yaml.match(/dynamicScore:\n(?: {20}.+\n)+/);
       assert.ok(dynamicScoreBlock, `${label} must expose CiiScore.dynamicScore`);
@@ -2459,7 +2459,7 @@ describe('CII scoring', () => {
   it('risk-score Redis payload keys are derived from the CII formula version', () => {
     const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
     const source = readFileSync(
-      resolve(root, 'server', 'worldmonitor', 'intelligence', 'v1', 'get-risk-scores.ts'),
+      resolve(root, 'server', 'eagleeye', 'intelligence', 'v1', 'get-risk-scores.ts'),
       'utf8',
     );
     assert.match(
@@ -2506,9 +2506,9 @@ describe('CII scoring', () => {
       { relPath: 'api/bootstrap.js', expectedRefs: ['BOOTSTRAP_CACHE_KEYS'] },
       { relPath: 'api/health.js', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale', 'CII_RISK_SCORE_CACHE_KEYS.live'] },
       { relPath: 'api/mcp/registry/cache-tools.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
-      { relPath: 'server/worldmonitor/intelligence/v1/brief-story-context.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
-      { relPath: 'server/worldmonitor/intelligence/v1/chat-analyst-context.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
-      { relPath: 'server/worldmonitor/intelligence/v1/get-country-risk.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
+      { relPath: 'server/eagleeye/intelligence/v1/brief-story-context.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
+      { relPath: 'server/eagleeye/intelligence/v1/chat-analyst-context.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
+      { relPath: 'server/eagleeye/intelligence/v1/get-country-risk.ts', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
       { relPath: 'scripts/seed-cross-source-signals.mjs', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
       { relPath: 'scripts/seed-forecasts.mjs', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },
       { relPath: 'scripts/regional-snapshot/balance-vector.mjs', expectedRefs: ['CII_RISK_SCORE_CACHE_KEYS.stale'] },

@@ -14,8 +14,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { computeLane } from '../server/worldmonitor/supply-chain/v1/get-route-explorer-lane.ts';
-import type { GetRouteExplorerLaneRequest } from '../src/generated/server/worldmonitor/supply_chain/v1/service_server.ts';
+import { computeLane } from '../server/eagleeye/supply-chain/v1/get-route-explorer-lane.ts';
+import type { GetRouteExplorerLaneRequest } from '../src/generated/server/eagleeye/supply_chain/v1/service_server.ts';
 
 const PAIRS: Array<[string, string, string]> = [
   ['CN', 'DE', 'high-volume baseline'],

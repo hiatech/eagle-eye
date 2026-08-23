@@ -89,7 +89,7 @@ interface SearchableSource {
   items: { id: string; title: string; subtitle?: string; data: unknown }[];
 }
 
-const RECENT_SEARCHES_KEY = 'worldmonitor_recent_searches';
+const RECENT_SEARCHES_KEY = 'eagleeye_recent_searches';
 const MAX_RECENT = 8;
 const MAX_RESULTS = 24;
 const MAX_COMMANDS = 5;
@@ -351,7 +351,7 @@ export class SearchModal {
     this.overlay = document.createElement('div');
     this.overlay.setAttribute('role', 'dialog');
     this.overlay.setAttribute('aria-modal', 'true');
-    this.overlay.setAttribute('aria-label', 'World Monitor intelligence command deck');
+    this.overlay.setAttribute('aria-label', 'Eagle Eye intelligence command deck');
     this.overlay.dataset.searchScope = this.activeScope;
 
     if (this.isMobile) {

@@ -7,10 +7,10 @@ loadEnvFile(import.meta.url);
 const CANONICAL_KEY = 'resilience:recovery:import-hhi:v1';
 const SEED_META_KEY = 'seed-meta:resilience:recovery:import-hhi';
 const DEFAULT_REPORTERS = ['AE', 'RU', 'NO', 'CH'];
-const API_BASE = process.env.API_BASE_URL || 'https://api.worldmonitor.app';
+const API_BASE = process.env.API_BASE_URL || 'https://api.eagle-eye.app';
 const REDIS_ONLY = process.env.IMPORT_HHI_VERIFY_REDIS_ONLY === '1';
-const WM_KEY = process.env.WORLDMONITOR_API_KEY
-  || (process.env.WORLDMONITOR_VALID_KEYS ?? '').split(',').map(k => k.trim()).filter(Boolean)[0]
+const WM_KEY = process.env.EAGLEEYE_API_KEY
+  || (process.env.EAGLEEYE_VALID_KEYS ?? '').split(',').map(k => k.trim()).filter(Boolean)[0]
   || '';
 
 function parseReporters() {
@@ -30,10 +30,10 @@ function findImportConcentration(score) {
 
 async function fetchLiveScore(countryCode) {
   const headers = {
-    'User-Agent': 'WorldMonitor-ImportHHI-Verify/1.0',
+    'User-Agent': 'EagleEye-ImportHHI-Verify/1.0',
     Accept: 'application/json',
   };
-  if (WM_KEY) headers['X-WorldMonitor-Key'] = WM_KEY;
+  if (WM_KEY) headers['X-EagleEye-Key'] = WM_KEY;
   const url = `${API_BASE.replace(/\/$/, '')}/api/resilience/v1/get-resilience-score?countryCode=${encodeURIComponent(countryCode)}`;
   const resp = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
   const text = await resp.text();

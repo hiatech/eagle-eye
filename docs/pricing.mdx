@@ -3,12 +3,12 @@ title: "Plans & Pricing"
 description: "Free, Pro, Pro Business, API Starter, API Business, and Enterprise plans — prices, what each includes, and the machine-readable pricing surfaces for agents."
 ---
 
-World Monitor has a free public dashboard and paid tiers for analyst workflows, API access, and organization deployments.
+Eagle Eye has a free public dashboard and paid tiers for analyst workflows, API access, and organization deployments.
 
 <Info>
 **Machine-readable sources** (canonical for agents):
-- Markdown: [`/pricing.md`](https://worldmonitor.app/pricing.md)
-- Live JSON (tiers, prices, Dodo product IDs): [`GET /api/product-catalog`](https://www.worldmonitor.app/api/product-catalog) — public, no key required
+- Markdown: [`/pricing.md`](https://eagle-eye.app/pricing.md)
+- Live JSON (tiers, prices, Dodo product IDs): [`GET /api/product-catalog`](https://www.eagle-eye.app/api/product-catalog) — public, no key required
 </Info>
 
 ## Plans
@@ -20,25 +20,25 @@ World Monitor has a free public dashboard and paid tiers for analyst workflows, 
 | **Pro Business** | $49.99/month · $449.99/year | Everything in Pro for client work, internal tools and reporting — data export, 25 dashboards, 250 MCP calls/day, priority support |
 | **API Starter** | $99.99/month · $899.99/year | REST API + SDKs, license / API key included, 1,000 requests/day starter limit, webhooks — commercial license for your organization |
 | **API Business** | $299.99/month | Everything in API Starter, redistribution rights, 300 requests/minute, 10,000 requests/day, 5 Pro licenses included (same company email), priority support |
-| **Enterprise** | Custom — [enterprise@worldmonitor.app](mailto:enterprise@worldmonitor.app) | Team workspaces, SSO/MFA/RBAC, white-label, on-premises / air-gapped |
+| **Enterprise** | Custom — [enterprise@eagle-eye.app](mailto:enterprise@eagle-eye.app) | Team workspaces, SSO/MFA/RBAC, white-label, on-premises / air-gapped |
 
 Prices above mirror `convex/config/productCatalog.ts` (the source of truth behind `/api/product-catalog`); a drift guard test keeps this page honest.
 
 ## Which license do I need?
 
-Choose by who benefits from the work and where World Monitor data will appear:
+Choose by who benefits from the work and where Eagle Eye data will appear:
 
 | Your use | Plan license |
 | --- | --- |
-| You use World Monitor for your own research, learning, investing, or decisions | **Pro — Personal license** |
+| You use Eagle Eye for your own research, learning, investing, or decisions | **Pro — Personal license** |
 | One licensed user uses the dashboard, exports, MCP, or SDK for company work, client analysis, reports, presentations, or their own internal workflow | **Pro Business — Commercial license** |
 | Your organization calls the API from private systems, dashboards, automations, or internal tools | **API Starter — Commercial license for your organization** |
 | Your organization displays, embeds, or delivers API outputs inside a product or service used by customers | **API Business — Commercial license for your customers** |
 | You need higher-volume redistribution, additional seats, white-labeling, a standalone data feed, or a custom deployment | **Enterprise — Custom agreement** |
 
-Pro Business permits normal client deliverables such as analysis and reports; it does not permit a live customer-facing data product. API Starter crosses the programmatic boundary inside your organization; it does not cross the customer boundary. API Business crosses that customer boundary when World Monitor data is part of a product or service with its own material value, but it does not permit raw-data resale, shared API access, or a standalone substitute for World Monitor.
+Pro Business permits normal client deliverables such as analysis and reports; it does not permit a live customer-facing data product. API Starter crosses the programmatic boundary inside your organization; it does not cross the customer boundary. API Business crosses that customer boundary when Eagle Eye data is part of a product or service with its own material value, but it does not permit raw-data resale, shared API access, or a standalone substitute for Eagle Eye.
 
-World Monitor attribution is optional in reports, presentations, and derived analysis permitted by your plan. If you choose to credit us, "Source: World Monitor" or "via World Monitor" is sufficient. Source-specific notices supplied with an output still apply.
+Eagle Eye attribution is optional in reports, presentations, and derived analysis permitted by your plan. If you choose to credit us, "Source: Eagle Eye" or "via Eagle Eye" is sufficient. Source-specific notices supplied with an output still apply.
 
 These are subscription licenses for the hosted Service and its outputs. They are separate from the AGPL-3.0-only platform source-code license and the MIT licenses on the official thin clients. See the [Terms of Service](/terms#subscription-license-scope) for the full scope, restrictions, examples, and post-cancellation rules.
 
@@ -55,11 +55,11 @@ These are subscription licenses for the hosted Service and its outputs. They are
 
 Rate limits are hard limits by default: exceeding a plan quota returns HTTP `429` with `Retry-After` and `X-RateLimit-*` headers. Usage above quota is rejected — never silently charged. Per-endpoint budgets: [Rate Limits](/usage-rate-limits).
 
-Need a higher limit? Upgrade at [worldmonitor.app/pro](https://worldmonitor.app/pro) or contact [enterprise@worldmonitor.app](mailto:enterprise@worldmonitor.app).
+Need a higher limit? Upgrade at [eagle-eye.app/pro](https://eagle-eye.app/pro) or contact [enterprise@eagle-eye.app](mailto:enterprise@eagle-eye.app).
 
 ## Buying and managing a subscription
 
-Checkout runs on [Dodo Payments](https://dodopayments.com); entitlements live in Convex. Subscribe from [worldmonitor.app/pro](https://worldmonitor.app/pro); manage billing (invoices, cancel, renew) via the customer portal on the same page. Endpoint details: [Commerce Endpoints](/api-commerce).
+Checkout runs on [Dodo Payments](https://dodopayments.com); entitlements live in Convex. Subscribe from [eagle-eye.app/pro](https://eagle-eye.app/pro); manage billing (invoices, cancel, renew) via the customer portal on the same page. Endpoint details: [Commerce Endpoints](/api-commerce).
 
 ## Related
 

@@ -262,7 +262,7 @@ async function sendResendEmail(opts: {
       "User-Agent": USER_AGENT,
     },
     body: JSON.stringify({
-      from: "World Monitor <noreply@worldmonitor.app>",
+      from: "Eagle Eye <noreply@eagle-eye.app>",
       to: [opts.to],
       subject: opts.subject,
       html: opts.html,
@@ -291,21 +291,21 @@ export const sendTeamAccessEndedEmail = internalAction({
   <div style="padding: 40px 32px;">
     <p style="font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 12px;">Team access ended</p>
     <p style="font-size: 14px; color: #999; line-height: 1.5; margin: 0 0 24px;">
-      Your WorldMonitor Pro seat on a team Business plan has ended because the plan is no longer active.
+      Your EagleEye Pro seat on a team Business plan has ended because the plan is no longer active.
       Your account has returned to the free tier.
     </p>
     <div style="text-align: center;">
-      <a href="https://worldmonitor.app/pro" style="display: inline-block; background: #ef4444; color: #fff; padding: 14px 36px; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 2px;">View Plans</a>
+      <a href="https://eagle-eye.app/pro" style="display: inline-block; background: #ef4444; color: #fff; padding: 14px 36px; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 2px;">View Plans</a>
     </div>
     <p style="font-size: 11px; color: #666; text-align: center; margin: 24px 0 0;">
-      Questions? Reply to this email or contact support@worldmonitor.app.
+      Questions? Reply to this email or contact support@eagle-eye.app.
     </p>
   </div>
 </div>`;
 
     await sendResendEmail({
       to: args.inviteeEmail,
-      subject: "Your WorldMonitor team access has ended",
+      subject: "Your EagleEye team access has ended",
       html,
       skipLogContext: "team-access-ended email",
       failureLabel: "team-access-ended email",
@@ -326,14 +326,14 @@ export const sendBusinessInviteEmail = internalAction({
     token: v.string(),
   },
   handler: async (_ctx, args) => {
-    const acceptUrl = `https://worldmonitor.app/settings?accept-business-invite=${encodeURIComponent(args.grantId)}&token=${encodeURIComponent(args.token)}`;
+    const acceptUrl = `https://eagle-eye.app/settings?accept-business-invite=${encodeURIComponent(args.grantId)}&token=${encodeURIComponent(args.token)}`;
     const html = `
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #e0e0e0;">
   <div style="background: #4ade80; height: 4px;"></div>
   <div style="padding: 40px 32px;">
-    <p style="font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 12px;">You're invited to WorldMonitor Pro</p>
+    <p style="font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 12px;">You're invited to EagleEye Pro</p>
     <p style="font-size: 14px; color: #999; line-height: 1.5; margin: 0 0 24px;">
-      ${escapeHtml(args.ownerEmail)} has invited you to a Pro seat on their WorldMonitor API Business plan.
+      ${escapeHtml(args.ownerEmail)} has invited you to a Pro seat on their EagleEye API Business plan.
       Accept the invite to unlock all Pro features — no billing setup required.
     </p>
     <div style="text-align: center;">
@@ -347,7 +347,7 @@ export const sendBusinessInviteEmail = internalAction({
 
     await sendResendEmail({
       to: args.inviteeEmail,
-      subject: "You've been invited to WorldMonitor Pro",
+      subject: "You've been invited to EagleEye Pro",
       html,
       skipLogContext: "invite email",
       failureLabel: "invite email",

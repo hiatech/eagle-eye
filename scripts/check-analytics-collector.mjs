@@ -2,7 +2,7 @@
 
 /**
  * Scheduled liveness probe for the self-hosted Umami analytics collector
- * (`abacus.worldmonitor.app`).
+ * (`abacus.eagle-eye.app`).
  *
  * Why this exists: on 2026-07-20 the collector's Node process OOM-died and
  * Railway neither restarted it nor flipped the deployment off `SUCCESS`, so
@@ -25,9 +25,9 @@ import {
 
 export { extractCollectorFailureMetadata, isBotFilteredBody };
 
-const DEFAULT_COLLECTOR_ORIGIN = 'https://abacus.worldmonitor.app';
+const DEFAULT_COLLECTOR_ORIGIN = 'https://abacus.eagle-eye.app';
 export const ANALYTICS_CANARY_WEBSITE_ID = '373c80a2-1109-42a7-868b-565bcf7bf168';
-const ANALYTICS_CANARY_HOSTNAME = 'analytics-canary.worldmonitor.app';
+const ANALYTICS_CANARY_HOSTNAME = 'analytics-canary.eagle-eye.app';
 /**
  * Generated per run, not hard-coded. The repo is public, so a fixed session key
  * published alongside the (necessarily unauthenticated) `/api/send` endpoint is
@@ -43,7 +43,7 @@ const ANALYTICS_CANARY_SESSION_ID = randomUUID();
  * named agent alerts on a perfectly healthy collector, so this is required,
  * not cosmetic.
  */
-const USER_AGENT = 'worldmonitor-analytics-collector-monitor/1.0';
+const USER_AGENT = 'eagleeye-analytics-collector-monitor/1.0';
 const BROWSER_USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36';
 
@@ -65,7 +65,7 @@ const ANALYTICS_CANARY_PAYLOAD = Object.freeze({
   website: ANALYTICS_CANARY_WEBSITE_ID,
   hostname: ANALYTICS_CANARY_HOSTNAME,
   url: '/__monitor__/analytics-collector',
-  title: 'World Monitor analytics collector canary',
+  title: 'Eagle Eye analytics collector canary',
   referrer: '',
   screen: '1x1',
   language: 'en-US',

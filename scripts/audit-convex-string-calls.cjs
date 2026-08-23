@@ -7,7 +7,7 @@
  * `(api as any).X.Y`) compile cleanly even when `convex/X.ts` no longer
  * exports `Y`. The runtime then produces "Could not find public function
  * for 'X:Y'" — indistinguishable in Sentry from external scanner noise
- * (WORLDMONITOR-QN/QQ/QS/QT/QV/QW/QX/QY triage 2026-05-09 surfaced this
+ * (EAGLEEYE-QN/QQ/QS/QT/QV/QW/QX/QY triage 2026-05-09 surfaced this
  * risk: scanners probing non-existent function names look identical to
  * a real first-party rename bug).
  *

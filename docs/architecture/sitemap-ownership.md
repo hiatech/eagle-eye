@@ -1,6 +1,6 @@
 # Sitemap ownership and freshness
 
-World Monitor publishes three independent sitemap families. Each publisher owns
+Eagle Eye publishes three independent sitemap families. Each publisher owns
 its complete inventory so a second hand-maintained list cannot drift from it.
 
 | Sitemap | Owner | Inventory |
@@ -68,8 +68,8 @@ when two sitemap documents claim the same canonical URL:
 
 ```sh
 npm run verify:sitemaps -- \
-  --origin=https://www.worldmonitor.app \
-  --report=/tmp/worldmonitor-sitemap-verification.json
+  --origin=https://www.eagle-eye.app \
+  --report=/tmp/eagleeye-sitemap-verification.json
 ```
 
 The report is operational evidence, not a committed build input. Search Console

@@ -98,7 +98,7 @@ async function verifyDodoSignature(
  *
  * Without this, a botched secret rotation could 401 every Dodo webhook
  * silently for hours — same observability gap shape as the canary OCC
- * bug (WORLDMONITOR-PA), just on a different surface.
+ * bug (EAGLEEYE-PA), just on a different surface.
  */
 export const reportDodoSignatureFailure = internalMutation({
   args: {

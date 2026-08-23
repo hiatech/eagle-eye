@@ -9,11 +9,11 @@ section below to finish the acceptance artifact gap.
 
 2026-06-02 live audit evidence:
 
-- `https://www.worldmonitor.app/api/resilience/v1/get-runtime-manifest`
+- `https://www.eagle-eye.app/api/resilience/v1/get-runtime-manifest`
   returned HTTP 200 with `formulaTag: "pc"` and
   `constructVersions.energy: "v2"` when requested with a browser-like
   user agent.
-- `https://www.worldmonitor.app/api/health` returned HTTP 200. The overall
+- `https://www.eagle-eye.app/api/health` returned HTTP 200. The overall
   health status was `DEGRADED` due to unrelated checks, but all three
   energy v2 seed checks were green: `lowCarbonGeneration`,
   `fossilElectricityShare`, and `powerLosses`.
@@ -22,7 +22,7 @@ The post-flip ranking and acceptance snapshots are still not committed in
 `docs/snapshots/`. They cannot be generated from an unauthenticated shell:
 `scripts/freeze-resilience-ranking.mjs` verifies score anchors through
 `/api/resilience/v1/get-resilience-score`, which returns `401 Pro
-authentication required` without `WORLDMONITOR_API_KEY`. The dedicated
+authentication required` without `EAGLEEYE_API_KEY`. The dedicated
 energy-v2 acceptance generator now exists at
 `scripts/capture-resilience-energy-v2-acceptance.mjs`, but it requires a real
 post-flip PR1 ranking snapshot before it will write
@@ -58,7 +58,7 @@ The public runtime state can be rechecked without credentials, but that is not
 enough to create either acceptance artifact:
 
 ```bash
-node --input-type=module -e 'const ua="Mozilla/5.0"; const base="https://www.worldmonitor.app"; const read=async (p)=>(await fetch(base+p,{headers:{"user-agent":ua,accept:"application/json"}})).json(); const [manifest,health]=await Promise.all([read("/api/resilience/v1/get-runtime-manifest"),read("/api/health")]); console.log(JSON.stringify({formulaTag:manifest.formulaTag,constructEnergy:manifest.constructVersions?.energy,rankingCache:manifest.rankingCache,energyV2SeedChecks:{lowCarbonGeneration:health.checks?.lowCarbonGeneration?.status,fossilElectricityShare:health.checks?.fossilElectricityShare?.status,powerLosses:health.checks?.powerLosses?.status}},null,2));'
+node --input-type=module -e 'const ua="Mozilla/5.0"; const base="https://www.eagle-eye.app"; const read=async (p)=>(await fetch(base+p,{headers:{"user-agent":ua,accept:"application/json"}})).json(); const [manifest,health]=await Promise.all([read("/api/resilience/v1/get-runtime-manifest"),read("/api/health")]); console.log(JSON.stringify({formulaTag:manifest.formulaTag,constructEnergy:manifest.constructVersions?.energy,rankingCache:manifest.rankingCache,energyV2SeedChecks:{lowCarbonGeneration:health.checks?.lowCarbonGeneration?.status,fossilElectricityShare:health.checks?.fossilElectricityShare?.status,powerLosses:health.checks?.powerLosses?.status}},null,2));'
 ```
 
 Expected public evidence after the flip:
@@ -71,10 +71,10 @@ Expected public evidence after the flip:
 The ranking and formula-anchor endpoints still require Pro/API auth:
 
 ```bash
-API_BASE=https://www.worldmonitor.app \
+API_BASE=https://www.eagle-eye.app \
   RESILIENCE_RANKING_REFRESH=false \
   node scripts/freeze-resilience-ranking.mjs
-# Expected without WORLDMONITOR_API_KEY:
+# Expected without EAGLEEYE_API_KEY:
 # HTTP 401 from /api/resilience/v1/get-resilience-score?... Pro authentication required
 ```
 
@@ -86,8 +86,8 @@ into a ranking snapshot and do not use it as acceptance evidence.
 Run from the repo root with production credentials:
 
 ```bash
-export API_BASE=https://www.worldmonitor.app
-export WORLDMONITOR_API_KEY=<pro-api-key>
+export API_BASE=https://www.eagle-eye.app
+export EAGLEEYE_API_KEY=<pro-api-key>
 export CAPTURE_DATE=$(date -u +%Y-%m-%d)
 export RESILIENCE_RANKING_OUTPUT_BASENAME=resilience-ranking-live-post-pr1-${CAPTURE_DATE}.json
 # Defaults to FR,DE,SG,CH,NO,CA,AE,BH; set explicitly only to override.
@@ -171,7 +171,7 @@ rankingCache=196/196, and health is OK for lowCarbonGeneration,
 fossilElectricityShare, and powerLosses.
 
 Artifact status: BLOCKED. docs/snapshots/resilience-ranking-live-post-pr1-*.json
-requires WORLDMONITOR_API_KEY because freeze-resilience-ranking verifies score
+requires EAGLEEYE_API_KEY because freeze-resilience-ranking verifies score
 anchors through get-resilience-score. docs/snapshots/resilience-energy-v2-acceptance-*.json
 is also blocked until scripts/capture-resilience-energy-v2-acceptance.mjs can
 read that ranking snapshot and return PASS. No synthetic snapshots committed.
@@ -216,7 +216,7 @@ All must be green before flipping `RESILIENCE_ENERGY_V2_ENABLED=true`:
 1. **Capture a pre-flip snapshot.**
    ```bash
    API_BASE=<flag-off-deployment-url> \
-     WORLDMONITOR_API_KEY=<pro-api-key> \
+     EAGLEEYE_API_KEY=<pro-api-key> \
      node scripts/freeze-resilience-ranking.mjs
    mv "docs/snapshots/resilience-ranking-$(date +%Y-%m-%d).json" \
      "docs/snapshots/resilience-ranking-live-pre-pr1-flip-$(date +%Y-%m-%d).json"
@@ -235,7 +235,7 @@ All must be green before flipping `RESILIENCE_ENERGY_V2_ENABLED=true`:
 
 3. **Bump the score-cache prefix.** Add a new commit to this branch
    bumping `RESILIENCE_SCORE_CACHE_PREFIX` from `v10` to `v11` in
-   `server/worldmonitor/resilience/v1/_shared.ts`. This guarantees the
+   `server/eagleeye/resilience/v1/_shared.ts`. This guarantees the
    flag flip does not serve pre-flip cached scores from the 6h TTL
    window. Without this bump, the next 6h of readers would see stale
    d6-formula scores even with the flag on.
@@ -250,7 +250,7 @@ All must be green before flipping `RESILIENCE_ENERGY_V2_ENABLED=true`:
    After deploy, verify the public runtime manifest reports the derived
    construct state without exposing the raw env flag:
    ```bash
-   curl -s https://worldmonitor.app/api/resilience/v1/get-runtime-manifest \
+   curl -s https://eagle-eye.app/api/resilience/v1/get-runtime-manifest \
      | jq '.constructVersions.energy'
    # Expected: "v2"
    ```
@@ -260,8 +260,8 @@ All must be green before flipping `RESILIENCE_ENERGY_V2_ENABLED=true`:
    `GET resilience:ranking:v11` in Redis):
    ```bash
    CAPTURE_DATE=$(date -u +%Y-%m-%d)
-   API_BASE=https://www.worldmonitor.app \
-     WORLDMONITOR_API_KEY=<pro-api-key> \
+   API_BASE=https://www.eagle-eye.app \
+     EAGLEEYE_API_KEY=<pro-api-key> \
      RESILIENCE_RANKING_OUTPUT_BASENAME=resilience-ranking-live-post-pr1-${CAPTURE_DATE}.json \
      node scripts/freeze-resilience-ranking.mjs
    jq '.formulaVerification.declaredFormula' \
@@ -272,8 +272,8 @@ All must be green before flipping `RESILIENCE_ENERGY_V2_ENABLED=true`:
 
    Capture the matching acceptance verdict in the same closeout batch:
    ```bash
-   API_BASE=https://www.worldmonitor.app \
-     WORLDMONITOR_API_KEY=<pro-api-key> \
+   API_BASE=https://www.eagle-eye.app \
+     EAGLEEYE_API_KEY=<pro-api-key> \
      node --import tsx/esm scripts/capture-resilience-energy-v2-acceptance.mjs
    ```
 

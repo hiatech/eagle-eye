@@ -1305,7 +1305,7 @@ export class EventHandlerManager implements AppModule {
 
     const preview = document.createElement('iframe');
     preview.className = 'embed-preview-frame';
-    preview.title = 'World Monitor live map preview';
+    preview.title = 'Eagle Eye live map preview';
     preview.loading = 'lazy';
     preview.referrerPolicy = 'strict-origin-when-cross-origin';
     preview.src = embedUrl;
@@ -1531,7 +1531,7 @@ export class EventHandlerManager implements AppModule {
     await this.exitFullscreenForNavigation();
 
     if (this.ctx.isDesktopApp || options.isLocalDev) {
-      writeStorageValue('worldmonitor-variant', variant);
+      writeStorageValue('eagleeye-variant', variant);
       window.location.reload();
       return;
     }

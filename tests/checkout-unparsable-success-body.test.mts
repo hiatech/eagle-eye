@@ -1,5 +1,5 @@
 /**
- * End-to-end regression for WORLDMONITOR-XV: POST /api/create-checkout
+ * End-to-end regression for EAGLEEYE-XV: POST /api/create-checkout
  * answered HTTP 200 with a body that was not valid JSON.
  *
  * The old success path ran a bare `await resp.json()`, so the parse threw a
@@ -80,8 +80,8 @@ function installBrowserGlobals(): void {
       setInterval: () => 1,
       clearInterval: () => {},
       location: {
-        href: 'https://worldmonitor.app/dashboard',
-        origin: 'https://worldmonitor.app',
+        href: 'https://eagle-eye.app/dashboard',
+        origin: 'https://eagle-eye.app',
         pathname: '/dashboard',
         search: '',
         hash: '',
@@ -255,7 +255,7 @@ describe('signed-out checkout production wiring', () => {
 
     assert.equal(await checkout.startCheckout('prod_monthly'), false);
     assert.deepEqual(globalThis.__xvHarness.checkoutEffects, [
-      'navigate:https://worldmonitor.app/pro',
+      'navigate:https://eagle-eye.app/pro',
     ]);
   });
 
@@ -279,7 +279,7 @@ describe('signed-out checkout production wiring', () => {
   });
 });
 
-describe('create-checkout 200 with an unparsable body (WORLDMONITOR-XV)', () => {
+describe('create-checkout 200 with an unparsable body (EAGLEEYE-XV)', () => {
   it('reports the contract violation instead of letting the parse error escape', async () => {
     // An HTML interstitial served with 200 — the shape a middlebox or edge
     // challenge produces, and what a bare resp.json() choked on.
@@ -292,7 +292,7 @@ describe('create-checkout 200 with an unparsable body (WORLDMONITOR-XV)', () => 
     assert.equal(await checkout.startCheckout('prod_monthly'), false);
     // The graceful surface for this behavior is the pricing page; what must
     // never happen is navigating somewhere derived from the broken payload.
-    assert.deepEqual(globalThis.__xvHarness.assignedUrls, ['https://worldmonitor.app/pro']);
+    assert.deepEqual(globalThis.__xvHarness.assignedUrls, ['https://eagle-eye.app/pro']);
 
     const report = soleReport();
     // The decisive assertion: `exception` here means the DOMException escaped
@@ -327,7 +327,7 @@ describe('create-checkout 200 with an unparsable body (WORLDMONITOR-XV)', () => 
       'body snippet must show what the 200 actually contained',
     );
     // cf-ray and server are promoted to tags so the emitter is filterable
-    // without opening the event (WORLDMONITOR-RN).
+    // without opening the event (EAGLEEYE-RN).
     assert.equal(report.tags?.cfRay, 'a00d6f7b7b9bfb0a-IAD');
     assert.equal(report.tags?.upstreamServer, 'cloudflare');
   });

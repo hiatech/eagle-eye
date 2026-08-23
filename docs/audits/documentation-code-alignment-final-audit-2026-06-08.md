@@ -3,7 +3,7 @@
 ## Purpose
 
 This audit checks whether the merged code and documentation describe the same
-WorldMonitor product, API surface, MCP server, CII/CRI index methodology,
+EagleEye product, API surface, MCP server, CII/CRI index methodology,
 news/digest/briefing pipeline, and related public claims.
 
 The goal is not only to remove stale text. The stronger standard is that
@@ -16,14 +16,14 @@ controls, and have parity tests where drift would be dangerous.
 - Audit branch:
   `codex/final-doc-alignment-audit-20260608`
 - Audit worktree:
-  `/Users/eliehabib/tmp/worldmonitor-final-doc-alignment-20260608`
+  `/Users/eliehabib/tmp/eagleeye-final-doc-alignment-20260608`
 - Base commit:
   `49fef27b07ae09940a7e2fbf09426a27cac27405`
 - Base source:
   `origin/main`, fetched and audited after the prior documentation-fix PRs were
   merged.
 - Original checkout:
-  `/Users/eliehabib/Documents/GitHub/worldmonitor` was dirty and was not
+  `/Users/eliehabib/Documents/GitHub/eagleeye` was dirty and was not
   modified by this audit.
 
 Merged PRs verified on `main` before this audit:
@@ -78,15 +78,15 @@ server-authoritative methodology and guarded by an expanded CII drift test.
 
 | Area | Source of truth | Documentation | Guard rails | Result |
 | --- | --- | --- | --- | --- |
-| CII scorer | `server/worldmonitor/intelligence/v1/get-risk-scores.ts`, `shared/cii-weights.ts`, `server/worldmonitor/intelligence/v1/_risk-config.ts` | `docs/methodology/cii-risk-scores.mdx`, `docs/country-instability-index.mdx`, `docs/algorithms.mdx` | `tests/cii-docs-drift.test.mts`, `tests/cii-scoring.test.mts`, `tests/frontend-cii-source-of-truth.test.mts` | Aligned |
+| CII scorer | `server/eagleeye/intelligence/v1/get-risk-scores.ts`, `shared/cii-weights.ts`, `server/eagleeye/intelligence/v1/_risk-config.ts` | `docs/methodology/cii-risk-scores.mdx`, `docs/country-instability-index.mdx`, `docs/algorithms.mdx` | `tests/cii-docs-drift.test.mts`, `tests/cii-scoring.test.mts`, `tests/frontend-cii-source-of-truth.test.mts` | Aligned |
 | CII provenance and fallback | Cached risk-score handler, seed metadata, advisory fallback logic | CII methodology page and API docs describe server authority, advisory fallback, movement windows, and `methodology_version` | `tests/cached-risk-scores.test.mts`, `tests/seed-health-risk-scores.test.mjs` | Aligned |
 | CII public summaries | LLM and press surfaces, README, homepage SEO copy | `public/llms.txt`, `public/llms-full.txt`, `docs/PRESS_KIT.md`, `README.md`, `index.html` | Expanded CII docs-drift test blocks stale CII and product-count claims | Fixed in this audit |
 | Strategic Risk rollup | Frontend Strategic Risk panel and server CII response contract | `docs/strategic-risk.mdx` and CII methodology describe top-country server rollup semantics | CII drift/source-of-truth tests | Aligned |
-| CRI scorer | `server/worldmonitor/resilience/v1/_dimension-scorers.ts`, `_shared.ts`, `_pillar-membership.ts` | `docs/methodology/country-resilience-index.mdx` | `tests/resilience-doc-parity.test.mts`, `tests/resilience-methodology-lint.test.mts`, `tests/resilience-release-gate.test.mts` | Aligned |
+| CRI scorer | `server/eagleeye/resilience/v1/_dimension-scorers.ts`, `_shared.ts`, `_pillar-membership.ts` | `docs/methodology/country-resilience-index.mdx` | `tests/resilience-doc-parity.test.mts`, `tests/resilience-methodology-lint.test.mts`, `tests/resilience-release-gate.test.mts` | Aligned |
 | CRI manifest and coverage | Runtime manifest handler, score export, source-failure paths | CRI methodology documents rankable universe, active and retired dimensions, imputation, coverage, and release-gate posture | `tests/resilience-runtime-manifest.test.mts`, `tests/resilience-source-failure.test.mts`, `tests/resilience-coverage-influence-gate.test.mts` | Aligned |
-| News digest and briefing | `server/worldmonitor/news/v1/*`, digest cooldown libs, brief share/sign routes, feed inventory | `docs/methodology/news-digest-and-briefing.mdx` | `tests/news-digest-methodology-parity.test.mjs`, `tests/brief-url-sign.test.mjs`, `tests/brief-share-url.test.mts`, `tests/brief-edge-route-smoke.test.mjs` | Aligned |
+| News digest and briefing | `server/eagleeye/news/v1/*`, digest cooldown libs, brief share/sign routes, feed inventory | `docs/methodology/news-digest-and-briefing.mdx` | `tests/news-digest-methodology-parity.test.mjs`, `tests/brief-url-sign.test.mjs`, `tests/brief-share-url.test.mts`, `tests/brief-edge-route-smoke.test.mjs` | Aligned |
 | MCP | `api/mcp/*`, `public/.well-known/mcp/server-card.json` | `docs/mcp-server.mdx`, `docs/mcp-quickstart.mdx`, `docs/mcp-jmespath.mdx`, `docs/mcp-error-catalog.mdx` | MCP capability, resource, protocol, JMESPath, and reference-doc tests | Aligned |
-| REST/OpenAPI/proto | `proto/`, `server/worldmonitor/*`, generated docs under `docs/api/` | API reference, endpoint guide, auth docs, source-specific methodology pages | Proto freshness workflow, API parity tests, sidecar/API tests | Aligned for reviewed surfaces |
+| REST/OpenAPI/proto | `proto/`, `server/eagleeye/*`, generated docs under `docs/api/` | API reference, endpoint guide, auth docs, source-specific methodology pages | Proto freshness workflow, API parity tests, sidecar/API tests | Aligned for reviewed surfaces |
 | Forecast/scenario/chokepoint/markets | Forecast integrity, scenario docs, chokepoint seed docs, market methodology contracts | Relevant methodology docs and API descriptions | Forecast provenance, scenario parity, chokepoint, and market contract tests | Aligned for reviewed surfaces |
 | Platform counts and variants | Variant configs, generated stats, feed inventory, locale files, layer registry | LLM files, press kit, community guide, architecture docs, homepage SEO copy | Expanded CII docs-drift test and stale-claim sweep | Fixed in this audit |
 
@@ -94,7 +94,7 @@ server-authoritative methodology and guarded by an expanded CII drift test.
 
 ### CII
 
-CII is now documented as a WorldMonitor editorial risk index, not as an
+CII is now documented as a EagleEye editorial risk index, not as an
 academic or third-party neutral benchmark. The docs disclose the v8 component
 formula, the baseline/event mix, capped boosts and floors, advisory fallback
 behavior, movement windows, methodology version, country coverage, and
@@ -285,7 +285,7 @@ but picked up six additional assertions from current `main`; it passed with no
 failures.
 
 ```text
-npm_config_cache=/tmp/worldmonitor-npm-cache npx tsx --test ...focused bundle...
+npm_config_cache=/tmp/eagleeye-npm-cache npx tsx --test ...focused bundle...
 tests 494
 suites 61
 pass 494

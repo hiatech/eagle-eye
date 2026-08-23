@@ -94,7 +94,7 @@ describe('glossary data integrity', () => {
 
   it('claims no forecast-calibration capability that does not exist (#4930)', () => {
     // No Brier/resolution/calibration scoring exists yet; the glossary must
-    // not imply WorldMonitor computes it. "prediction market" is fine.
+    // not imply EagleEye computes it. "prediction market" is fine.
     const forbidden = /\bbrier\b|\bcalibration score|\bresolution score|\bwe (?:compute|calculate|score) (?:brier|calibration)/i;
     for (const t of GLOSSARY_TERMS) {
       const blob = [t.short, ...t.body].join(' ');

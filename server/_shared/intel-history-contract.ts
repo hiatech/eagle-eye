@@ -4,7 +4,7 @@
  * does not install a validator, so handlers must enforce the same constraints.
  */
 
-import { ApiError } from '../../src/generated/server/worldmonitor/intelligence/v1/service_server';
+import { ApiError } from '../../src/generated/server/eagleeye/intelligence/v1/service_server';
 import { cachedFetchJson } from './redis';
 
 const HISTORY_DOMAINS = new Set(['conflict', 'military', 'energy']);

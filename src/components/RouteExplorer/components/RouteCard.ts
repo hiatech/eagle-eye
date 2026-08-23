@@ -4,7 +4,7 @@
  * and status label. Keyboard-focusable; fires onSelect on Enter/click.
  */
 
-import type { BypassCorridorOption } from '@/generated/server/worldmonitor/supply_chain/v1/service_server';
+import type { BypassCorridorOption } from '@/generated/server/eagleeye/supply_chain/v1/service_server';
 import {
   formatCostDelta,
   warRiskTierLabel,

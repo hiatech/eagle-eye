@@ -214,7 +214,7 @@ function extractLiteralPathDependencies(files, repoRootDir) {
  * exactly one service, and wrong in the direction that strands it.
  * Dockerfile.seed-bundle-resilience-validation installs tsx and COPYs
  * `server/`, and scripts/validate-resilience-sensitivity.mjs:169-185
- * dynamic-imports four `../server/worldmonitor/resilience/v1/*.ts` modules. A
+ * dynamic-imports four `../server/eagleeye/resilience/v1/*.ts` modules. A
  * scripts-only, tsx-less walk cannot follow one of those edges, so the derived
  * closure contained ZERO server/ paths — and this service was previously
  * unmanaged, i.e. protected by the broad fallback. Narrowing it would have
@@ -1018,7 +1018,7 @@ describe('closure detection layers', () => {
   describe('the container model derived from a Dockerfile', () => {
     it('detects the tsx loader and the dynamic roots the image copies in', () => {
       // scripts/validate-resilience-sensitivity.mjs dynamic-imports
-      // ../server/worldmonitor/resilience/v1/*.ts. Without tsx and a server/
+      // ../server/eagleeye/resilience/v1/*.ts. Without tsx and a server/
       // dynamic root the walk cannot follow those edges, and the derived
       // closure silently loses the entire server graph.
       const contract = dockerfileContainerContract(
@@ -1121,10 +1121,10 @@ describe('closure detection layers', () => {
       const entry = registry.find((e) => e.service === 'seed-bundle-resilience-validation');
       const { runtimeFiles } = resolveRuntimeSurface(entry, repoRoot);
       for (const pinned of [
-        'server/worldmonitor/resilience/v1/_dimension-scorers.ts',
-        'server/worldmonitor/resilience/v1/_shared.ts',
-        'server/worldmonitor/resilience/v1/_pillar-membership.ts',
-        'server/worldmonitor/resilience/v1/_indicator-registry.ts',
+        'server/eagleeye/resilience/v1/_dimension-scorers.ts',
+        'server/eagleeye/resilience/v1/_shared.ts',
+        'server/eagleeye/resilience/v1/_pillar-membership.ts',
+        'server/eagleeye/resilience/v1/_indicator-registry.ts',
         // Reached only THROUGH the server graph — proof the walk followed the
         // edge rather than merely listing the four dynamic-import targets.
         'server/_shared/redis.ts',

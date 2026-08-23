@@ -8,7 +8,7 @@
  * discards.
  *
  * Imported by both sides so the two cannot drift apart:
- *   - server/worldmonitor/military/v1/get-aircraft-details-batch.ts
+ *   - server/eagleeye/military/v1/get-aircraft-details-batch.ts
  *   - src/services/wingbits.ts
  * Kept dependency-free so the browser bundle can import it (same pattern as
  * server/_shared/source-tiers.ts, re-exported from src/config/feeds.ts).

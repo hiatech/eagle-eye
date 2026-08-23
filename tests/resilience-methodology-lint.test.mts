@@ -5,7 +5,7 @@ import { describe, it } from 'node:test';
 import {
   RESILIENCE_DIMENSION_ORDER,
   type ResilienceDimensionId,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 
 // T1.8 Phase 1 of the country-resilience reference-grade upgrade plan.
 //

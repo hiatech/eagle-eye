@@ -7,9 +7,9 @@ const posts = (await getCollection('blog'))
   .filter((post) => (post.data.author || DEFAULT_AUTHOR) === DEFAULT_AUTHOR)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const profileUrl = 'https://www.worldmonitor.app/blog/authors/elie-habib/';
+const profileUrl = 'https://www.eagle-eye.app/blog/authors/elie-habib/';
 const personId = `${profileUrl}#person`;
-const description = 'Founder of World Monitor and former Anghami CEO, Elie Habib writes about open-source intelligence, OSINT, markets, AI, and building useful public data tools.';
+const description = 'Founder of Eagle Eye and former Anghami CEO, Elie Habib writes about open-source intelligence, OSINT, markets, AI, and building useful public data tools.';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -18,7 +18,7 @@ const jsonLd = {
       '@type': 'ProfilePage',
       '@id': `${profileUrl}#profile`,
       url: profileUrl,
-      name: 'Elie Habib — World Monitor',
+      name: 'Elie Habib — Eagle Eye',
       description,
       mainEntity: { '@id': personId },
     },
@@ -28,12 +28,12 @@ const jsonLd = {
       name: 'Elie Habib',
       url: profileUrl,
       image: 'https://unavatar.io/github/koala73',
-      jobTitle: 'Founder of World Monitor',
+      jobTitle: 'Founder of Eagle Eye',
       worksFor: {
         '@type': 'Organization',
-        '@id': 'https://www.worldmonitor.app/#organization',
-        name: 'World Monitor',
-        url: 'https://www.worldmonitor.app',
+        '@id': 'https://www.eagle-eye.app/#organization',
+        name: 'Eagle Eye',
+        url: 'https://www.eagle-eye.app',
       },
       sameAs: [
         'https://x.com/eliehabib',
@@ -54,7 +54,7 @@ const jsonLd = {
 <Base
   title="Elie Habib"
   description={description}
-  metaTitle="Elie Habib, Founder of World Monitor"
+  metaTitle="Elie Habib, Founder of Eagle Eye"
   canonicalUrl={profileUrl}
   ogType="profile"
   jsonLd={jsonLd}
@@ -73,13 +73,13 @@ const jsonLd = {
       <div>
         <p class="author-page-label">Author</p>
         <h1>Elie Habib</h1>
-        <p class="author-page-role">Founder of World Monitor</p>
+        <p class="author-page-role">Founder of Eagle Eye</p>
       </div>
     </header>
 
     <div class="prose author-page-bio">
       <p>
-        Elie Habib is the founder of World Monitor, an open-source platform for real-time global
+        Elie Habib is the founder of Eagle Eye, an open-source platform for real-time global
         intelligence. He previously co-founded and led Anghami (NASDAQ: ANGH). His work focuses on
         making geopolitical, market, infrastructure, and
         public-source intelligence accessible to analysts, journalists, developers, and the public.

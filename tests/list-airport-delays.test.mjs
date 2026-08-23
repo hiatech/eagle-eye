@@ -1,5 +1,5 @@
 /**
- * Tests for server/worldmonitor/aviation/v1/list-airport-delays.ts
+ * Tests for server/eagleeye/aviation/v1/list-airport-delays.ts
  *
  * Regression coverage for #3707: airports without telemetry must NOT be
  * published as "Normal operations / FLIGHT_DELAY_SEVERITY_NORMAL" rows.
@@ -35,7 +35,7 @@ const root = resolve(__dirname, '..');
 
 describe('list-airport-delays: source structure (regression net for #3707)', () => {
   const src = readFileSync(
-    resolve(root, 'server/worldmonitor/aviation/v1/list-airport-delays.ts'),
+    resolve(root, 'server/eagleeye/aviation/v1/list-airport-delays.ts'),
     'utf-8',
   );
 
@@ -80,7 +80,7 @@ describe('list-airport-delays: source structure (regression net for #3707)', () 
 describe('FlightDelaySeverity proto enum carries an UNKNOWN variant (#3707)', () => {
   it('proto/.../airport_delay.proto declares FLIGHT_DELAY_SEVERITY_UNKNOWN', () => {
     const protoSrc = readFileSync(
-      resolve(root, 'proto/worldmonitor/aviation/v1/airport_delay.proto'),
+      resolve(root, 'proto/eagleeye/aviation/v1/airport_delay.proto'),
       'utf-8',
     );
     assert.match(protoSrc, /FLIGHT_DELAY_SEVERITY_UNKNOWN\s*=\s*6/);
@@ -90,7 +90,7 @@ describe('FlightDelaySeverity proto enum carries an UNKNOWN variant (#3707)', ()
 
   it('generated server type union includes FLIGHT_DELAY_SEVERITY_UNKNOWN', () => {
     const serverGen = readFileSync(
-      resolve(root, 'src/generated/server/worldmonitor/aviation/v1/service_server.ts'),
+      resolve(root, 'src/generated/server/eagleeye/aviation/v1/service_server.ts'),
       'utf-8',
     );
     assert.match(serverGen, /"FLIGHT_DELAY_SEVERITY_UNKNOWN"/);
@@ -98,7 +98,7 @@ describe('FlightDelaySeverity proto enum carries an UNKNOWN variant (#3707)', ()
 
   it('generated client type union includes FLIGHT_DELAY_SEVERITY_UNKNOWN', () => {
     const clientGen = readFileSync(
-      resolve(root, 'src/generated/client/worldmonitor/aviation/v1/service_client.ts'),
+      resolve(root, 'src/generated/client/eagleeye/aviation/v1/service_client.ts'),
       'utf-8',
     );
     assert.match(clientGen, /"FLIGHT_DELAY_SEVERITY_UNKNOWN"/);
@@ -106,7 +106,7 @@ describe('FlightDelaySeverity proto enum carries an UNKNOWN variant (#3707)', ()
 
   it('_shared.toProtoSeverity maps "unknown" -> FLIGHT_DELAY_SEVERITY_UNKNOWN', () => {
     const sharedSrc = readFileSync(
-      resolve(root, 'server/worldmonitor/aviation/v1/_shared.ts'),
+      resolve(root, 'server/eagleeye/aviation/v1/_shared.ts'),
       'utf-8',
     );
     assert.match(sharedSrc, /unknown:\s*'FLIGHT_DELAY_SEVERITY_UNKNOWN'/);
@@ -219,7 +219,7 @@ before(async () => {
     return originalFetch(url, _init);
   });
 
-  const mod = await import('../server/worldmonitor/aviation/v1/list-airport-delays.ts');
+  const mod = await import('../server/eagleeye/aviation/v1/list-airport-delays.ts');
   listAirportDelays = mod.listAirportDelays;
 });
 

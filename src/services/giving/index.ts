@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { GetGivingSummaryResponse as ProtoResponse } from '@/generated/client/worldmonitor/giving/v1/service_client';
+import type { GetGivingSummaryResponse as ProtoResponse } from '@/generated/client/eagleeye/giving/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getBootstrapHydrationState, getHydratedData } from '@/services/bootstrap';
 import { GivingServiceClient } from '@/services/generated-rpc-clients';

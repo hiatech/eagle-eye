@@ -41,7 +41,7 @@ describe('reported landing-page SEO metadata', () => {
     assertDescription('glossary index', glossaryDescription);
     assert.match(
       glossaryTerm,
-      /const metaTitle = term\.abbr[\s\S]*?\$\{term\.abbr\} Definition \| World Monitor/,
+      /const metaTitle = term\.abbr[\s\S]*?\$\{term\.abbr\} Definition \| Eagle Eye/,
       'abbreviated glossary terms must use compact definition titles',
     );
   });
@@ -64,7 +64,7 @@ describe('reported landing-page SEO metadata', () => {
     assertDescription('Pro', proDescription);
     assertTitle('built Pro', builtProTitle);
     assertDescription('built Pro', builtProDescription);
-    assert.equal(proLocale.meta.title, 'World Monitor Pro | AI Intelligence & MCP');
+    assert.equal(proLocale.meta.title, 'Eagle Eye Pro | AI Intelligence & MCP');
     assertDescription('Pro locale', proLocale.meta.description);
     assertDescription('English sandbox', englishSandboxDescription);
     assertDescription('Chinese sandbox', sandboxDescription);

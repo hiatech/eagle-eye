@@ -445,7 +445,7 @@ export async function verifyInternalMcpRequest(
   // in Vercel's routing docs. The signer (api/mcp/auth.ts buildAuthHeaders)
   // signs the OUTBOUND url, which never carries that param, so hashing the
   // inbound query verbatim 401s EVERY legitimate Pro tool fetch
-  // (WORLDMONITOR-R1 / WORLDMONITOR-T8 — deterministic since U7 shipped,
+  // (EAGLEEYE-R1 / EAGLEEYE-T8 — deterministic since U7 shipped,
   // confirmed live: signing WITH the injected param verifies, without fails).
   // Strip `rpc` entries ONLY when every value exactly equals the final path
   // segment — i.e. only the router-injected echo. A caller-appended

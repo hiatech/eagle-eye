@@ -163,7 +163,7 @@ async function createConvexClient(): Promise<ConvexClient | null> {
     }
   } catch (err) {
     // Firefox 149/Linux has been observed to reject the Convex constructor with
-    // "t is not a constructor" (WORLDMONITOR-N0/MX). Degrade to the null-client
+    // "t is not a constructor" (EAGLEEYE-N0/MX). Degrade to the null-client
     // path instead of letting init error-bubble into Sentry — subscription features
     // silently no-op, which matches the behavior when VITE_CONVEX_URL is unset.
     console.warn('[convex-client] ConvexClient constructor rejected:', (err as Error).message);

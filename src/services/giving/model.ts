@@ -5,7 +5,7 @@ import type {
   GivingProvenance as ProtoProvenance,
   InstitutionalGiving as ProtoInstitutional,
   PlatformGiving as ProtoPlatform,
-} from '../../generated/client/worldmonitor/giving/v1/service_client';
+} from '../../generated/client/eagleeye/giving/v1/service_client';
 
 export type GivingDataMode = 'published_estimate' | 'partial_estimate';
 export type GivingAvailability =

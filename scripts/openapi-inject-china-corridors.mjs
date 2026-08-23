@@ -46,10 +46,10 @@ const targets = [
     prefix: '',
   },
   {
-    path: resolve(apiDir, 'worldmonitor.openapi.yaml'),
+    path: resolve(apiDir, 'eagleeye.openapi.yaml'),
     format: 'yaml',
-    envelope: 'worldmonitor_supply_chain_v1_GetChinaCorridorControlTowersResponse',
-    prefix: 'worldmonitor_supply_chain_v1_',
+    envelope: 'eagleeye_supply_chain_v1_GetChinaCorridorControlTowersResponse',
+    prefix: 'eagleeye_supply_chain_v1_',
   },
 ];
 
@@ -367,8 +367,8 @@ function responseExample() {
             publisher: {
               status: 'known',
               value: {
-                id: 'publisher:worldmonitor-derived',
-                name: 'WorldMonitor derived output',
+                id: 'publisher:eagleeye-derived',
+                name: 'EagleEye derived output',
                 type: 'derived_output',
                 registryReference: null,
               },
@@ -451,7 +451,7 @@ function responseExample() {
             derivation: {
               status: 'known',
               value: {
-                methodId: 'worldmonitor:china-corridor-condition',
+                methodId: 'eagleeye:china-corridor-condition',
                 methodVersion: '1',
                 computedAt: '2026-07-25T12:00:00.000Z',
                 inputSignalIds: ['signal:portwatch:port1188:2026-07-25T11:00:00.000Z'],

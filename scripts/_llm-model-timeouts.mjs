@@ -10,7 +10,7 @@
 // consumer cannot pick up one without the other.
 export const DEEPSEEK_V4_FLASH_MODEL_PREFIX = 'deepseek/deepseek-v4-flash';
 
-// OpenRouter provider routing. WorldMonitor is a geopolitical product, so inference
+// OpenRouter provider routing. EagleEye is a geopolitical product, so inference
 // must never physically run on a China-hosted provider — one could log queries or
 // bias outputs on the exact topics we cover (Taiwan, Xinjiang, the South China Sea,
 // etc.). We BLOCK the known China-based providers and let OpenRouter serve the model

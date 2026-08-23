@@ -4,7 +4,7 @@
  * Why this exists: the minified edge bundle gives every tool-execution error
  * identical anonymous frames (`(vc/edge/function`, no source map, in_app=false),
  * so Sentry's default stack-based grouping merges ALL api/mcp failures — across
- * every tool AND every status code — into ONE catch-all issue (WORLDMONITOR-T8)
+ * every tool AND every status code — into ONE catch-all issue (EAGLEEYE-T8)
  * whose title only reflects the newest event. That masks a real 5xx spike in one
  * tool behind low-grade auth drift in another. Supplying an explicit fingerprint
  * overrides the stack grouping and splits each failure mode into its own

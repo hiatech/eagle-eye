@@ -13,7 +13,7 @@ import { load as loadYaml } from 'js-yaml';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
 
-const EXPECTED_URL = 'https://api.worldmonitor.app';
+const EXPECTED_URL = 'https://api.eagle-eye.app';
 
 const serviceJsonSpecs = readdirSync(apiDir)
   .filter((f) => /Service\.openapi\.json$/.test(f))
@@ -52,8 +52,8 @@ describe('OpenAPI servers contract', () => {
     });
   }
 
-  it('bundle (worldmonitor.openapi.yaml) still carries the servers URL', () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    assertServers(bundle, 'worldmonitor.openapi.yaml');
+  it('bundle (eagleeye.openapi.yaml) still carries the servers URL', () => {
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    assertServers(bundle, 'eagleeye.openapi.yaml');
   });
 });

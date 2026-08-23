@@ -18,8 +18,8 @@ import {
   normalizeNewsSentiment,
   selectEarningsForSymbol,
   type AnalystData,
-} from '../server/worldmonitor/market/v1/analyze-stock.ts';
-import { MarketServiceClient } from '../src/generated/client/worldmonitor/market/v1/service_client.ts';
+} from '../server/eagleeye/market/v1/analyze-stock.ts';
+import { MarketServiceClient } from '../src/generated/client/eagleeye/market/v1/service_client.ts';
 
 const originalFetch = globalThis.fetch;
 
@@ -729,7 +729,7 @@ describe('risk analytics helpers', () => {
 describe('analyzeStock cache contract', () => {
   it('rotates the cache namespace for the additive rating-signal contract', () => {
     const source = readFileSync(
-      new URL('../server/worldmonitor/market/v1/analyze-stock.ts', import.meta.url),
+      new URL('../server/eagleeye/market/v1/analyze-stock.ts', import.meta.url),
       'utf8',
     );
     assert.match(source, /market:analyze-stock:v8:/);

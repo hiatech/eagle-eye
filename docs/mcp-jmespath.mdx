@@ -1,16 +1,16 @@
 ---
 title: "JMESPath Projection Guide"
-description: "Cut MCP response payloads by 80-95% using JMESPath projections — twelve worked examples against real World Monitor response shapes."
+description: "Cut MCP response payloads by 80-95% using JMESPath projections — twelve worked examples against real Eagle Eye response shapes."
 ---
 
-Every WorldMonitor MCP tool accepts an optional `jmespath` string argument. The server applies the expression **after** any per-tool filter and `summary` args, then projects the response before serialisation. A well-chosen projection typically cuts payload size by **80–95%** — the single most effective lever you have for keeping a long agent loop inside its context window.
+Every EagleEye MCP tool accepts an optional `jmespath` string argument. The server applies the expression **after** any per-tool filter and `summary` args, then projects the response before serialisation. A well-chosen projection typically cuts payload size by **80–95%** — the single most effective lever you have for keeping a long agent loop inside its context window.
 
 This page is the practical reference: a quick orientation, then twelve worked examples against three real captured tool responses. For the grammar itself, lean on the spec — [jmespath.org/specification.html](https://jmespath.org/specification.html). Coming back here is faster than re-reading the spec.
 
 ## Quick orientation
 
 - Pass the expression as the `jmespath` argument on any `tools/call`. The expression root is the **full response envelope** — `{ cached_at, stale, data: { … } }` for cache tools — so most expressions start with `data.<key>` to reach the payload, and `cached_at` / `stale` are addressable from the same root when you want them.
-- **Hyphenated keys must be quoted with double quotes.** Most WorldMonitor tools have hyphenated cache keys (`stocks-bootstrap`, `ucdp-events`, `etf-flows`, `fear-greed`, `transit-summaries`). Use `data."stocks-bootstrap".quotes[*].symbol`, not `data.stocks-bootstrap.…`.
+- **Hyphenated keys must be quoted with double quotes.** Most EagleEye tools have hyphenated cache keys (`stocks-bootstrap`, `ucdp-events`, `etf-flows`, `fear-greed`, `transit-summaries`). Use `data."stocks-bootstrap".quotes[*].symbol`, not `data.stocks-bootstrap.…`.
 - **Numbers and JSON literals go in backticks, strings in single quotes.** `[?deathsBest > \`5\`]` (numeric), `[?country == 'Iraq']` (string). Mixing them up silently parses the value as something else.
 - **Two server-side limits** keep edge functions healthy:
   - Expression itself: ≤ **1024 bytes**.
@@ -28,15 +28,15 @@ The same projection is available on the REST API: every `GET` endpoint accepts a
 - **A bad, over-long, or over-expanding expression returns `HTTP 400`** with the same `{ _jmespath_error, original_keys }` body (the MCP transport soft-fails inside a 200 result instead). The ≤ 1024-byte expression limit and 256 KB projected-output cap are identical.
 
 ```bash
-curl "https://api.worldmonitor.app/api/market/v1/get-fear-greed-index?jmespath=compositeScore" \
-  -H "X-WorldMonitor-Key: $WORLDMONITOR_API_KEY"
+curl "https://api.eagle-eye.app/api/market/v1/get-fear-greed-index?jmespath=compositeScore" \
+  -H "X-EagleEye-Key: $EAGLEEYE_API_KEY"
 ```
 
 ## The twelve examples
 
 ### 1. Drill into a single nested object
 
-**Intent.** Skip the equity list and just get the WorldMonitor fear-greed composite score from `get_market_data`.
+**Intent.** Skip the equity list and just get the EagleEye fear-greed composite score from `get_market_data`.
 
 **Tool call:**
 
@@ -348,7 +348,7 @@ This is the workhorse shape for "give me the top-N by some metric". The same sha
 ]
 ```
 
-**Why this works.** Filters and multiselect-hashes compose left-to-right inside the same projection — `[?...].{a:..., b:...}` filters first, then slims each surviving row. Most WorldMonitor responses use upper-snake enum strings (`SEVERITY_LEVEL_HIGH`, `TREND_DIRECTION_STABLE`, `UCDP_VIOLENCE_TYPE_*`); search them with `==` and single quotes exactly as written.
+**Why this works.** Filters and multiselect-hashes compose left-to-right inside the same projection — `[?...].{a:..., b:...}` filters first, then slims each surviving row. Most EagleEye responses use upper-snake enum strings (`SEVERITY_LEVEL_HIGH`, `TREND_DIRECTION_STABLE`, `UCDP_VIOLENCE_TYPE_*`); search them with `==` and single quotes exactly as written.
 
 ---
 

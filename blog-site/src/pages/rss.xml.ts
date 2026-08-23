@@ -26,7 +26,7 @@ function getEnclosure(heroImage: string | undefined) {
   if (!heroImage) return undefined;
   const url = /^https?:\/\//.test(heroImage)
     ? heroImage
-    : `https://www.worldmonitor.app${heroImage}`;
+    : `https://www.eagle-eye.app${heroImage}`;
   const localPath = getPublicAssetPath(heroImage);
   const length = localPath && existsSync(localPath) ? statSync(localPath).size : 1;
   return {
@@ -39,7 +39,7 @@ function getEnclosure(heroImage: string | undefined) {
 export async function GET(context: { site: URL }) {
   const posts = await getCollection('blog');
   return rss({
-    title: 'World Monitor Blog',
+    title: 'Eagle Eye Blog',
     description: 'Real-time global intelligence, OSINT, geopolitics, and markets.',
     site: context.site,
     xmlns: {
@@ -49,7 +49,7 @@ export async function GET(context: { site: URL }) {
     },
     customData: [
       '<language>en-us</language>',
-      `<atom:link href="https://www.worldmonitor.app/blog/rss.xml" rel="self" type="application/rss+xml" />`,
+      `<atom:link href="https://www.eagle-eye.app/blog/rss.xml" rel="self" type="application/rss+xml" />`,
     ].join(''),
     items: posts
       .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())

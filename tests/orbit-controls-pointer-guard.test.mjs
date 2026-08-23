@@ -8,7 +8,7 @@ import { guardOrbitControlsPointerTracking } from '../src/utils/orbit-controls-p
 // globe.gl passes controlType:'orbit'), driven through the listeners three
 // itself registers. Nothing about three's internals is re-implemented here, so
 // a three upgrade that changes pointer tracking or handler dispatch fails this
-// suite instead of silently un-guarding production (Sentry WORLDMONITOR-QD).
+// suite instead of silently un-guarding production (Sentry EAGLEEYE-QD).
 
 // Minimal DOM element: only the surface OrbitControls.connect() touches. The
 // repo's unit tests run under tsx --test with no jsdom.
@@ -72,7 +72,7 @@ const mouse = (id, x, y) => evt('mouse', id, x, y);
 
 const READS_UNDEFINED_X = /Cannot read properties of undefined \(reading 'x'\)|undefined is not an object/;
 
-describe('three OrbitControls mixed mouse+touch crash (WORLDMONITOR-QD)', () => {
+describe('three OrbitControls mixed mouse+touch crash (EAGLEEYE-QD)', () => {
   it('crashes unguarded on pointerup when the surviving pointer is a mouse', () => {
     const { fire } = createControls({ guarded: false });
     fire('pointerdown', touch(1, 10, 10));

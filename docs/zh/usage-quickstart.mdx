@@ -1,6 +1,6 @@
 ---
 title: "快速开始"
-description: "一分钟内完成你的第一次 WorldMonitor API 调用 — 提供 curl、JavaScript 与 Python 三种语言的复制即用示例，涵盖认证头设置、请求参数、响应格式解析与错误处理入门，帮助开发者在最短时间内验证 API 密钥、跑通国家简报与风险评分端点，并顺利进入后续深入集成流程。"
+description: "一分钟内完成你的第一次 EagleEye API 调用 — 提供 curl、JavaScript 与 Python 三种语言的复制即用示例，涵盖认证头设置、请求参数、响应格式解析与错误处理入门，帮助开发者在最短时间内验证 API 密钥、跑通国家简报与风险评分端点，并顺利进入后续深入集成流程。"
 ---
 
 ## 1. 获取 API 密钥
@@ -16,16 +16,16 @@ API Starter 与 API Business 订阅用户可从 **Dashboard → Settings → API
 ### curl
 
 ```bash
-curl -s 'https://api.worldmonitor.app/api/conflict/v1/get-humanitarian-summary?country_code=SD' \
-  -H 'X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567'
+curl -s 'https://api.eagle-eye.app/api/conflict/v1/get-humanitarian-summary?country_code=SD' \
+  -H 'X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567'
 ```
 
 ### JavaScript（Node 或浏览器）
 
 ```js
 const res = await fetch(
-  'https://api.worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL&symbols=TSLA',
-  { headers: { 'X-WorldMonitor-Key': process.env.WM_KEY } }
+  'https://api.eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL&symbols=TSLA',
+  { headers: { 'X-EagleEye-Key': process.env.WM_KEY } }
 );
 const data = await res.json();
 console.log(data);
@@ -37,9 +37,9 @@ console.log(data);
 import os, httpx
 
 r = httpx.get(
-    "https://api.worldmonitor.app/api/economic/v1/get-fred-series",
+    "https://api.eagle-eye.app/api/economic/v1/get-fred-series",
     params={"series_id": "FEDFUNDS"},
-    headers={"X-WorldMonitor-Key": os.environ["WM_KEY"]},
+    headers={"X-EagleEye-Key": os.environ["WM_KEY"]},
 )
 r.raise_for_status()
 print(r.json())
@@ -50,8 +50,8 @@ print(r.json())
 对于仪表盘场景，可使用 `/api/bootstrap` 通过一次请求拉取所有已播种的缓存数据：
 
 ```bash
-curl -s 'https://api.worldmonitor.app/api/bootstrap' \
-  -H 'X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567'
+curl -s 'https://api.eagle-eye.app/api/bootstrap' \
+  -H 'X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567'
 ```
 
 服务器到服务器调用使用相同的主机与请求头格式。`/api/bootstrap` 不需要单独的网关 URL、令牌交换、激活步骤或 IP 白名单。
@@ -63,7 +63,7 @@ curl -s 'https://api.worldmonitor.app/api/bootstrap' \
 将任意兼容 MCP 的客户端指向服务器 URL — 客户端会自动处理 OAuth：
 
 ```
-https://api.worldmonitor.app/api/mcp
+https://api.eagle-eye.app/api/mcp
 ```
 
 针对具体客户端的配置详见 [MCP](/zh/mcp-overview)。

@@ -1,22 +1,22 @@
 ---
 title: "Agent Discovery"
-description: "Point any AI agent, codegen tool, or MCP client at worldmonitor.app and discover every API, OpenAPI spec, MCP server, and OAuth endpoint from a single root URL."
+description: "Point any AI agent, codegen tool, or MCP client at eagle-eye.app and discover every API, OpenAPI spec, MCP server, and OAuth endpoint from a single root URL."
 ---
 
-WorldMonitor is built to be **agent-native**. An autonomous agent — Claude, Cursor, an MCP client, or your own LangChain / LangGraph workflow — can start from a single root URL and discover everything it needs: REST schemas, MCP transport, OAuth flow, skill bundles, and human-readable briefings.
+EagleEye is built to be **agent-native**. An autonomous agent — Claude, Cursor, an MCP client, or your own LangChain / LangGraph workflow — can start from a single root URL and discover everything it needs: REST schemas, MCP transport, OAuth flow, skill bundles, and human-readable briefings.
 
-No prior knowledge required. Just `GET https://worldmonitor.app/`.
+No prior knowledge required. Just `GET https://eagle-eye.app/`.
 
 ## The one URL to remember
 
 ```
-https://worldmonitor.app/
+https://eagle-eye.app/
 ```
 
 The HTTP response carries an [RFC 8288](https://datatracker.ietf.org/doc/html/rfc8288) `Link:` header with `rel` values pointing at every machine-readable surface below. An agent that follows the links resolves the full picture without hardcoding a single path.
 
 ```bash
-curl -sI https://worldmonitor.app/ | grep -i '^link:'
+curl -sI https://eagle-eye.app/ | grep -i '^link:'
 ```
 
 You'll see entries like:
@@ -37,17 +37,17 @@ Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+j
 
 | Endpoint | Standard | What it returns |
 |---|---|---|
-| [`/.well-known/api-catalog`](https://worldmonitor.app/.well-known/api-catalog) | [RFC 9727](https://datatracker.ietf.org/doc/html/rfc9727) | JSON linkset bundling every other discovery URL — start here if you want one fetch and a map |
-| [`/openapi.yaml`](https://www.worldmonitor.app/openapi.yaml) | OpenAPI 3.1 | Single bundled spec covering **every** REST service (Conflict, Resilience, Market, Economic, Maritime, Aviation, Climate, …) — feed it to any code-generator |
-| [`/openapi.json`](https://www.worldmonitor.app/openapi.json) | OpenAPI 3.1 | Byte-identical bundle as minified JSON — same spec as `/openapi.yaml`, for tooling and scanners that only parse JSON |
-| [`/docs/api-versioning`](https://www.worldmonitor.app/docs/api-versioning) | Policy | REST compatibility, deprecation notice, and sunset-header contract |
-| [`/.well-known/mcp/server-card.json`](https://worldmonitor.app/.well-known/mcp/server-card.json) | MCP | Transport (`streamableHttp`), endpoint, OAuth resource, scopes, streaming, capability flags |
-| [`/.well-known/oauth-authorization-server`](https://api.worldmonitor.app/.well-known/oauth-authorization-server) | [RFC 8414](https://datatracker.ietf.org/doc/html/rfc8414) | OAuth 2.1 authorization-server metadata (PKCE, DCR, token endpoints) |
-| [`/.well-known/oauth-protected-resource`](https://worldmonitor.app/.well-known/oauth-protected-resource) | [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728) | Resource metadata for `https://worldmonitor.app/mcp` |
-| [`/.well-known/agent-skills/index.json`](https://worldmonitor.app/.well-known/agent-skills/index.json) | (custom) | Index of pre-packaged agent skills (`fetch-country-brief`, `fetch-resilience-score`, …) — each skill is a self-contained recipe |
-| [`/llms.txt`](https://worldmonitor.app/llms.txt) | [llmstxt.org](https://llmstxt.org) | LLM-friendly markdown briefing — overview, capabilities, links |
-| [`/llms-full.txt`](https://worldmonitor.app/llms-full.txt) | (extension) | Long-form variant covering all data layers, panels, and data sources |
-| [`/api/health`](https://api.worldmonitor.app/api/health) | (custom) | Per-key seed status, freshness, record counts — agents can gate fetches on this |
+| [`/.well-known/api-catalog`](https://eagle-eye.app/.well-known/api-catalog) | [RFC 9727](https://datatracker.ietf.org/doc/html/rfc9727) | JSON linkset bundling every other discovery URL — start here if you want one fetch and a map |
+| [`/openapi.yaml`](https://www.eagle-eye.app/openapi.yaml) | OpenAPI 3.1 | Single bundled spec covering **every** REST service (Conflict, Resilience, Market, Economic, Maritime, Aviation, Climate, …) — feed it to any code-generator |
+| [`/openapi.json`](https://www.eagle-eye.app/openapi.json) | OpenAPI 3.1 | Byte-identical bundle as minified JSON — same spec as `/openapi.yaml`, for tooling and scanners that only parse JSON |
+| [`/docs/api-versioning`](https://www.eagle-eye.app/docs/api-versioning) | Policy | REST compatibility, deprecation notice, and sunset-header contract |
+| [`/.well-known/mcp/server-card.json`](https://eagle-eye.app/.well-known/mcp/server-card.json) | MCP | Transport (`streamableHttp`), endpoint, OAuth resource, scopes, streaming, capability flags |
+| [`/.well-known/oauth-authorization-server`](https://api.eagle-eye.app/.well-known/oauth-authorization-server) | [RFC 8414](https://datatracker.ietf.org/doc/html/rfc8414) | OAuth 2.1 authorization-server metadata (PKCE, DCR, token endpoints) |
+| [`/.well-known/oauth-protected-resource`](https://eagle-eye.app/.well-known/oauth-protected-resource) | [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728) | Resource metadata for `https://eagle-eye.app/mcp` |
+| [`/.well-known/agent-skills/index.json`](https://eagle-eye.app/.well-known/agent-skills/index.json) | (custom) | Index of pre-packaged agent skills (`fetch-country-brief`, `fetch-resilience-score`, …) — each skill is a self-contained recipe |
+| [`/llms.txt`](https://eagle-eye.app/llms.txt) | [llmstxt.org](https://llmstxt.org) | LLM-friendly markdown briefing — overview, capabilities, links |
+| [`/llms-full.txt`](https://eagle-eye.app/llms-full.txt) | (extension) | Long-form variant covering all data layers, panels, and data sources |
+| [`/api/health`](https://api.eagle-eye.app/api/health) | (custom) | Per-key seed status, freshness, record counts — agents can gate fetches on this |
 
 The header-discoverable static assets (`.well-known/*`, `/openapi.yaml`, `/openapi.json`) serve `Access-Control-Allow-Origin: *` and are cached `public, max-age=3600` — safe to memoize. `/api/health` uses the normal API CORS allowlist and is **not** cached (`private, no-store`) because it reflects real-time seed freshness; agents should hit it fresh whenever they need to gate on data availability.
 
@@ -58,14 +58,14 @@ The header-discoverable static assets (`.well-known/*`, `/openapi.yaml`, `/opena
 ```bash
 # 1. Discover the bundled OpenAPI URL (linkset[0] enumerates every API via
 #    RFC 9727 `item` links; select the REST API context object by anchor)
-curl -s https://worldmonitor.app/.well-known/api-catalog \
-  | jq -r '.linkset[] | select(.anchor == "https://api.worldmonitor.app/")."service-desc"[0].href'
-# → https://www.worldmonitor.app/openapi.yaml
+curl -s https://eagle-eye.app/.well-known/api-catalog \
+  | jq -r '.linkset[] | select(.anchor == "https://api.eagle-eye.app/")."service-desc"[0].href'
+# → https://www.eagle-eye.app/openapi.yaml
 
 # 2. Generate clients
-curl -s https://www.worldmonitor.app/openapi.yaml -o worldmonitor.openapi.yaml
+curl -s https://www.eagle-eye.app/openapi.yaml -o eagleeye.openapi.yaml
 npx @openapitools/openapi-generator-cli generate \
-  -i worldmonitor.openapi.yaml -g typescript-fetch -o ./client
+  -i eagleeye.openapi.yaml -g typescript-fetch -o ./client
 ```
 
 The bundled spec covers all 36 services in a single document, so one codegen pass produces typed clients for everything. Prefer a maintained package over codegen? [Official SDKs](/sdks) exist for Python, Ruby, Go, and JavaScript.
@@ -80,12 +80,12 @@ The bundled spec covers all 36 services in a single document, so one codegen pas
 
 ```bash
 # 1. Read the server card — this is the canonical descriptor for MCP
-curl -s https://worldmonitor.app/.well-known/mcp/server-card.json
-# → endpoint (https://worldmonitor.app/mcp), transport, OAuth scopes,
-#   streaming support, and authorization_servers: ["https://api.worldmonitor.app"]
+curl -s https://eagle-eye.app/.well-known/mcp/server-card.json
+# → endpoint (https://eagle-eye.app/mcp), transport, OAuth scopes,
+#   streaming support, and authorization_servers: ["https://api.eagle-eye.app"]
 
 # 2. Fetch authorization-server metadata from that host
-curl -s https://api.worldmonitor.app/.well-known/oauth-authorization-server
+curl -s https://api.eagle-eye.app/.well-known/oauth-authorization-server
 # → token / authorize / registration endpoints, PKCE required, etc.
 ```
 
@@ -94,21 +94,21 @@ curl -s https://api.worldmonitor.app/.well-known/oauth-authorization-server
 Or skip the manual flow entirely — most clients (Claude Desktop, claude.ai, Cursor, MCP Inspector, Claude Code) accept the MCP URL directly and run discovery + OAuth automatically:
 
 ```
-https://worldmonitor.app/mcp
+https://eagle-eye.app/mcp
 ```
 
 See [MCP Server](/mcp-overview) for client-specific config snippets.
 
 ### Server-side with a direct API key
 
-If you don't want OAuth, REST endpoints and the MCP endpoint accept a user API key or operator-issued enterprise key in `X-WorldMonitor-Key`:
+If you don't want OAuth, REST endpoints and the MCP endpoint accept a user API key or operator-issued enterprise key in `X-EagleEye-Key`:
 
 ```bash
-curl -s https://api.worldmonitor.app/api/resilience/v1/get-resilience-ranking \
-  -H "X-WorldMonitor-Key: $WM_KEY"
+curl -s https://api.eagle-eye.app/api/resilience/v1/get-resilience-ranking \
+  -H "X-EagleEye-Key: $WM_KEY"
 ```
 
-PRO subscribers get a key from [worldmonitor.app/pro](https://www.worldmonitor.app/pro). See [Authentication](/usage-auth).
+PRO subscribers get a key from [eagle-eye.app/pro](https://www.eagle-eye.app/pro). See [Authentication](/usage-auth).
 
 ### Drop-in agent skills
 
@@ -116,7 +116,7 @@ PRO subscribers get a key from [worldmonitor.app/pro](https://www.worldmonitor.a
 
 ## Why this matters
 
-The point isn't novelty — RFCs 8414, 8288, 9727, 9728 are old. The point is that **every** WorldMonitor surface (REST, MCP, OAuth, skills, LLM briefings) is reachable from one root URL via well-known conventions, with no out-of-band setup. An agent can:
+The point isn't novelty — RFCs 8414, 8288, 9727, 9728 are old. The point is that **every** EagleEye surface (REST, MCP, OAuth, skills, LLM briefings) is reachable from one root URL via well-known conventions, with no out-of-band setup. An agent can:
 
 - Discover the API without reading our docs.
 - Authenticate without us telling it which OAuth flow we use.

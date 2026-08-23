@@ -58,11 +58,11 @@ test('repeat release lookups are served from Redis, not re-fetched from GitHub',
   const { githubCalls } = installStub();
   const { fetchLatestRelease } = await import('../api/_github-release.js');
 
-  const first = await fetchLatestRelease('WorldMonitor-Version-Check');
+  const first = await fetchLatestRelease('EagleEye-Version-Check');
   assert.equal(first.tag_name, 'v2.4.0');
   assert.equal(githubCalls.length, 1, 'first call must reach GitHub');
 
-  const second = await fetchLatestRelease('WorldMonitor-Version-Check');
+  const second = await fetchLatestRelease('EagleEye-Version-Check');
   assert.deepEqual(second, first, 'cached release must match the fresh one');
   assert.equal(githubCalls.length, 1, 'second call must be served from Redis');
 });
@@ -75,7 +75,7 @@ test('a Redis outage still serves the release (fail-open on version metadata)', 
   const { githubCalls } = installStub({ redisAvailable: false });
   const { fetchLatestRelease } = await import('../api/_github-release.js');
 
-  const result = await fetchLatestRelease('WorldMonitor-Version-Check');
+  const result = await fetchLatestRelease('EagleEye-Version-Check');
   assert.equal(result.tag_name, 'v2.4.0', 'Redis being down must not break /api/version');
   assert.equal(githubCalls.length, 1);
 });
@@ -88,7 +88,7 @@ test('an unconfigured Redis still serves the release', async (t) => {
   const { githubCalls } = installStub();
   const { fetchLatestRelease } = await import('../api/_github-release.js');
 
-  const result = await fetchLatestRelease('WorldMonitor-Version-Check');
+  const result = await fetchLatestRelease('EagleEye-Version-Check');
   assert.equal(result.tag_name, 'v2.4.0');
   assert.equal(githubCalls.length, 1);
 });

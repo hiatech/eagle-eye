@@ -102,7 +102,7 @@ async function openShell(
         { id: 'alerts', state: 'confirmable' },
         { id: 'power', state: 'confirmable' },
       ],
-      accountEmail: 'e2e@worldmonitor.app',
+      accountEmail: 'e2e@eagle-eye.app',
       onConfirmStep: async () => result as 'verified' | 'failed' | 'blocked',
       onSkipStep: () => {},
       onExit: (results) => {
@@ -131,7 +131,7 @@ async function openFlow(page: Page, withOpeners: boolean): Promise<void> {
     w.__proSearchOpened = false;
     const options: Record<string, unknown> = {
       accountUserId: 'e2e-user',
-      accountEmail: 'e2e@worldmonitor.app',
+      accountEmail: 'e2e@eagle-eye.app',
       isAccountCurrent: () => true,
       onEvent: (event: string, stepId?: string, exit?: CapturedProEvent['exit']) => {
         w.__proEvents.push({ event, stepId, exit });
@@ -222,7 +222,7 @@ async function runMarkerlessFlowHarness(
     const result = await mod.openProActivationFlow(
       {
         accountUserId: 'markerless-user',
-        accountEmail: 'markerless@worldmonitor.app',
+        accountEmail: 'markerless@eagle-eye.app',
         onlyIfUnactivated: true,
         expectedActivationKey: 'opaque-subscription',
         activationClaimNonce: 'tab-nonce',
@@ -460,7 +460,7 @@ test.describe('Pro activation flow — markerless first-cycle handoff', () => {
       w.__flowResult = mod.openProActivationFlow(
         {
           accountUserId: 'markerless-user',
-          accountEmail: 'markerless@worldmonitor.app',
+          accountEmail: 'markerless@eagle-eye.app',
           onlyIfUnactivated: true,
           expectedActivationKey: 'opaque-subscription',
           activationClaimNonce: 'tab-nonce',
@@ -554,7 +554,7 @@ async function runDay0FlowHarness(
     const result = await mod.openProActivationFlow(
       {
         accountUserId: 'day0-user',
-        accountEmail: 'day0@worldmonitor.app',
+        accountEmail: 'day0@eagle-eye.app',
         onlyIfUnactivated: false,
         expectedActivationKey: 'opaque-subscription',
         activationClaimNonce: 'tab-nonce',
@@ -904,7 +904,7 @@ test.describe('Pro activation interstitial — shell step flow', () => {
       w.__proExit = null;
       mod.openProActivationInterstitial({
         steps: [{ id: 'brief', state: 'confirmable' }],
-        accountEmail: 'e2e@worldmonitor.app',
+        accountEmail: 'e2e@eagle-eye.app',
         onConfirmStep: () =>
           new Promise<'verified'>((resolve) => {
             w.__resolveProConfirm = resolve;
@@ -1229,7 +1229,7 @@ test.describe('Pro activation — boot gating (real app)', () => {
     // success path does). Markerless onboarding still requires an authenticated,
     // first-cycle Pro subscription carrying server-derived eligibility.
     await page.addInitScript(() => {
-      localStorage.setItem('worldmonitor-variant', 'happy');
+      localStorage.setItem('eagleeye-variant', 'happy');
     });
     await page.goto('/');
     await page.waitForTimeout(4_000); // let the deferred mount check run
@@ -1244,7 +1244,7 @@ test.describe('Pro activation — boot gating (real app)', () => {
   }) => {
     await page.addInitScript(
       ({ key, pid }) => {
-        localStorage.setItem('worldmonitor-variant', 'happy');
+        localStorage.setItem('eagleeye-variant', 'happy');
         localStorage.setItem(key, JSON.stringify({ productId: pid, createdAt: Date.now() }));
       },
       { key: MARKER_KEY, pid: PRO_MONTHLY_PRODUCT_ID },
@@ -1268,7 +1268,7 @@ test.describe('Pro activation — boot gating (real app)', () => {
     // covered by decideActivationMount unit tests (needs Convex here).
     await page.addInitScript(
       ({ key }) => {
-        localStorage.setItem('worldmonitor-variant', 'happy');
+        localStorage.setItem('eagleeye-variant', 'happy');
         localStorage.setItem(key, JSON.stringify({ subscriptionKey: 'sub_e2e_1', shownAt: Date.now() }));
       },
       { key: FIRE_ONCE_KEY },

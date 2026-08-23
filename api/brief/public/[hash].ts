@@ -72,12 +72,12 @@ function renderErrorPage(heading: string, body: string): string {
     '<!DOCTYPE html><html lang="en"><head>'
     + '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
     + '<meta name="robots" content="noindex,nofollow">'
-    + `<title>${heading} · WorldMonitor</title>`
+    + `<title>${heading} · EagleEye</title>`
     + `<style>${ERROR_PAGE_STYLES}</style>`
     + '</head><body><div>'
     + `<h1>${heading}</h1>`
     + `<p>${body}</p>`
-    + '<p><a href="https://worldmonitor.app/pro">Start your own WorldMonitor Brief</a></p>'
+    + '<p><a href="https://eagle-eye.app/pro">Start your own EagleEye Brief</a></p>'
     + '</div></body></html>'
   );
 }

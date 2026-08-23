@@ -7,12 +7,12 @@ const panelLayout = readFileSync(new URL('../src/app/panel-layout.ts', import.me
 describe('variant switcher navigation', () => {
   it('keeps every production variant link on the dashboard route', () => {
     const dashboardUrls = {
-      full: 'https://worldmonitor.app/dashboard',
-      tech: 'https://tech.worldmonitor.app/dashboard',
-      finance: 'https://finance.worldmonitor.app/dashboard',
-      commodity: 'https://commodity.worldmonitor.app/dashboard',
-      energy: 'https://energy.worldmonitor.app/dashboard',
-      happy: 'https://happy.worldmonitor.app/dashboard',
+      full: 'https://eagle-eye.app/dashboard',
+      tech: 'https://tech.eagle-eye.app/dashboard',
+      finance: 'https://finance.eagle-eye.app/dashboard',
+      commodity: 'https://commodity.eagle-eye.app/dashboard',
+      energy: 'https://energy.eagle-eye.app/dashboard',
+      happy: 'https://happy.eagle-eye.app/dashboard',
     } as const;
 
     for (const [variant, url] of Object.entries(dashboardUrls)) {

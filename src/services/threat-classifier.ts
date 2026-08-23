@@ -374,7 +374,7 @@ export function classifyByKeyword(title: string, variant = 'full'): ThreatClassi
 }
 
 // Batched AI classification — collects headlines then fires parallel classifyEvent RPCs
-import type { ClassifyEventResponse } from '@/generated/client/worldmonitor/intelligence/v1/service_client';
+import type { ClassifyEventResponse } from '@/generated/client/eagleeye/intelligence/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { IntelligenceServiceClient } from '@/services/generated-rpc-clients';
 import {

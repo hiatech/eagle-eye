@@ -110,7 +110,7 @@ export async function scrapeRetailer(slug: string) {
   // recovery counter (consecutive_in_stock) accumulates over multiple
   // probe cycles; after 3 successful in-stock observations,
   // handleStaleOnInStock clears pin_disabled_at and the pin returns to
-  // active rotation. Aggregation gates (worldmonitor.ts) keep filtering
+  // active rotation. Aggregation gates (eagleeye.ts) keep filtering
   // pin_disabled_at IS NULL so probed-but-still-disabled pins don't leak
   // into spread until they've fully recovered.
   const RECOVERY_PROBE_LIMIT = 10;

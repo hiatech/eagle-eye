@@ -11,7 +11,7 @@ import { describe, it } from 'node:test';
  * transport's queue (`COLLECTOR_QUEUE_LIMIT`) drains one write at a time, so
  * anything the burst does not fit is dropped as `queue-overflow` before it
  * reaches the network. A downstream queue shallower than the upstream buffer
- * therefore loses events by construction — the WORLDMONITOR-Y3 defect, where
+ * therefore loses events by construction — the EAGLEEYE-Y3 defect, where
  * 25 sat behind 50.
  *
  * Both modules import TS path aliases, so they cannot be imported from a

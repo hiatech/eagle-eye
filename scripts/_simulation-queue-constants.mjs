@@ -2,7 +2,7 @@
 // simulation pipeline. Single source of truth imported by:
 //   - scripts/seed-forecasts.mjs (the auto-trigger seeder + worker)
 //   - server/_shared/simulation-queue.ts (the HTTP-trigger handler module)
-//   - server/worldmonitor/forecast/v1/{trigger,get}-simulation*.ts (handlers)
+//   - server/eagleeye/forecast/v1/{trigger,get}-simulation*.ts (handlers)
 //
 // IMPORTANT — DO NOT MOVE THIS FILE BACK TO server/_shared/. The Railway
 // services `seed-forecasts`, `simulation-worker`, and `deep-forecast-worker`

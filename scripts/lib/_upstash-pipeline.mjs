@@ -26,7 +26,7 @@ export async function defaultRedisPipeline(commands, { timeoutMs = 10_000 } = {}
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'worldmonitor-digest/1.0',
+        'User-Agent': 'eagleeye-digest/1.0',
       },
       body: JSON.stringify(commands),
       signal: AbortSignal.timeout(timeoutMs),

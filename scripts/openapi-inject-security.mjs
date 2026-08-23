@@ -5,7 +5,7 @@
  * The sebuf `protoc-gen-openapiv3` plugin (proto/buf.gen.yaml) has no option or
  * annotation for describing authentication, so every generated spec omits
  * `components.securitySchemes`, a root `security` requirement, and the `401`
- * response — even though every non-public WorldMonitor RPC is authenticated at
+ * response — even though every non-public EagleEye RPC is authenticated at
  * the gateway (server/gateway.ts). This post-generation step adds them so the
  * published contract matches runtime reality. See umbrella issue #4599 (root
  * cause #1).
@@ -21,7 +21,7 @@
  *      responses/notes). Re-serialized byte-faithfully to the generator's
  *      format (recursively sorted keys, Go-style <>&/U+2028/U+2029 escaping, no
  *      trailing newline) so the diff is additions-only.
- *   2. docs/api/<Service>.openapi.yaml and docs/api/worldmonitor.openapi.yaml —
+ *   2. docs/api/<Service>.openapi.yaml and docs/api/eagleeye.openapi.yaml —
  *      docs-facing YAML (the bundle is copied to public/openapi.yaml at build).
  *      The generator's YAML emitter cannot be reproduced by js-yaml (a re-dump
  *      reformats ~100% of 21k lines), so YAML gets formatting-preserving
@@ -49,7 +49,7 @@ import {
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
-const bundlePath = resolve(apiDir, 'worldmonitor.openapi.yaml');
+const bundlePath = resolve(apiDir, 'eagleeye.openapi.yaml');
 
 const CHECK = process.argv.includes('--check');
 
@@ -92,19 +92,19 @@ for (const path of PUBLIC_FORBIDDEN_GATES.keys()) {
 
 // ── Contract definitions ──────────────────────────────────────────────────
 // Header names mirror the gateway's accepted public API-key headers
-// (server/gateway.ts: X-WorldMonitor-Key / X-Api-Key) and docs/api-platform.mdx.
+// (server/gateway.ts: X-EagleEye-Key / X-Api-Key) and docs/api-platform.mdx.
 const API_KEY_SECURITY_SCHEMES = {
-  WorldMonitorKey: {
+  EagleEyeKey: {
     type: 'apiKey',
     in: 'header',
-    name: 'X-WorldMonitor-Key',
-    description: 'User-issued WorldMonitor API key.',
+    name: 'X-EagleEye-Key',
+    description: 'User-issued EagleEye API key.',
   },
   ApiKeyHeader: {
     type: 'apiKey',
     in: 'header',
     name: 'X-Api-Key',
-    description: 'Alias header for the WorldMonitor API key (X-WorldMonitor-Key).',
+    description: 'Alias header for the EagleEye API key (X-EagleEye-Key).',
   },
 };
 
@@ -122,7 +122,7 @@ const SECURITY_SCHEMES = {
 // semantics). BearerAuth is narrower and is stamped only on operations the
 // gateway actually accepts bearer sessions for.
 const ROOT_SECURITY = [
-  { WorldMonitorKey: [] },
+  { EagleEyeKey: [] },
   { ApiKeyHeader: [] },
 ];
 
@@ -359,7 +359,7 @@ function yamlRootSecurityBlock() {
   // 4-space list items to match the bundle's `servers:` style.
   return [
     'security:',
-    '    - WorldMonitorKey: []',
+    '    - EagleEyeKey: []',
     '    - ApiKeyHeader: []',
   ].join('\n');
 }
@@ -370,16 +370,16 @@ function yamlSecuritySchemesBlock(hasBearer) {
   // bearer-capable operation, mirroring expectedSchemesForSpec in the JSON path.
   const L = [
     '    securitySchemes:',
-    '        WorldMonitorKey:',
+    '        EagleEyeKey:',
     '            type: apiKey',
     '            in: header',
-    '            name: X-WorldMonitor-Key',
-    '            description: User-issued WorldMonitor API key.',
+    '            name: X-EagleEye-Key',
+    '            description: User-issued EagleEye API key.',
     '        ApiKeyHeader:',
     '            type: apiKey',
     '            in: header',
     '            name: X-Api-Key',
-    '            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).',
+    '            description: Alias header for the EagleEye API key (X-EagleEye-Key).',
   ];
   if (hasBearer) {
     L.push(
@@ -546,7 +546,7 @@ const YAML_UNAUTHORIZED_SCHEMA = [
 // Operation-level security list items (16-space `-` under a 12-space `security:`).
 const YAML_BEARER_OPERATION_SECURITY = [
   '            security:',
-  '                - WorldMonitorKey: []',
+  '                - EagleEyeKey: []',
   '                - ApiKeyHeader: []',
   '                - BearerAuth: []',
 ];
@@ -1114,7 +1114,7 @@ try {
   bundleChanged = authResult.changed || entitlementResult.changed;
   if (bundleChanged) {
     wouldChange++;
-    touched.push('worldmonitor.openapi.yaml');
+    touched.push('eagleeye.openapi.yaml');
     if (!CHECK) writeFileSync(bundlePath, entitlementResult.text);
   }
 } catch (err) {

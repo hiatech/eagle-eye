@@ -84,7 +84,7 @@ vi.mock('@/services/billing', async (importOriginal) => ({
 
 const { EventHandlerManager } = await import('@/app/event-handlers');
 
-const PRO_ORIGIN = 'https://worldmonitor.app';
+const PRO_ORIGIN = 'https://eagle-eye.app';
 
 let container: HTMLElement;
 let manager: InstanceType<typeof EventHandlerManager>;

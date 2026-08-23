@@ -26,7 +26,7 @@ import { quotaHandler } from '../api/user/mcp-quota.ts';
 function makeReq({ method = 'GET', auth = true } = {}) {
   const headers = {};
   if (auth) headers.Authorization = 'Bearer fake-jwt';
-  return new Request('https://api.worldmonitor.app/api/user/mcp-quota', {
+  return new Request('https://api.eagle-eye.app/api/user/mcp-quota', {
     method,
     headers,
   });

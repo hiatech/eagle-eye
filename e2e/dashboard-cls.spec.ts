@@ -91,15 +91,15 @@ const installDashboardClsObserver = async (
 ): Promise<void> => {
   await page.addInitScript(({ dismissKey, legacyDismissKey, seedDeferredFootprint, panelId, panelOrder }) => {
     localStorage.setItem('wm-layer-warning-dismissed', 'true');
-    localStorage.setItem('worldmonitor-mission-preset-dismissed-v1', '1');
+    localStorage.setItem('eagleeye-mission-preset-dismissed-v1', '1');
     localStorage.removeItem(dismissKey);
     localStorage.removeItem(legacyDismissKey);
     if (seedDeferredFootprint) {
-      localStorage.setItem('worldmonitor-layout-reset-v2.5', 'done');
+      localStorage.setItem('eagleeye-layout-reset-v2.5', 'done');
       localStorage.setItem('panel-order', JSON.stringify(panelOrder));
-      localStorage.setItem('worldmonitor-panel-spans', JSON.stringify({ [panelId]: 3 }));
-      localStorage.setItem('worldmonitor-panel-col-spans', JSON.stringify({ [panelId]: 2 }));
-      localStorage.removeItem('worldmonitor-panel-collapsed');
+      localStorage.setItem('eagleeye-panel-spans', JSON.stringify({ [panelId]: 3 }));
+      localStorage.setItem('eagleeye-panel-col-spans', JSON.stringify({ [panelId]: 2 }));
+      localStorage.removeItem('eagleeye-panel-collapsed');
     }
     window.__wmDashboardClsEntries = [];
 

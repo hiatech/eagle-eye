@@ -23,11 +23,11 @@ import assert from 'node:assert/strict';
 import type {
   ServerContext,
   ListPositiveGeoEventsRequest,
-} from '../src/generated/server/worldmonitor/positive_events/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/positive_events/v1/service_server.ts';
 import {
   listPositiveGeoEvents,
   __resetFallbackForTest,
-} from '../server/worldmonitor/positive-events/v1/list-positive-geo-events.ts';
+} from '../server/eagleeye/positive-events/v1/list-positive-geo-events.ts';
 
 type FetchFn = typeof fetch;
 const originalFetch: FetchFn | undefined = globalThis.fetch;

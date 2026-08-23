@@ -11,7 +11,7 @@ const LLMS_FILES = ['public/llms.txt', 'public/llms-full.txt', 'public/api/llms.
 
 // Every MCP tool name uses a verb prefix (get_/generate_/analyze_/search_/
 // describe_), so this picks tool citations out of the backticked prose
-// without also matching auth headers (`X-WorldMonitor-Key`), query params
+// without also matching auth headers (`X-EagleEye-Key`), query params
 // (`scope=mcp`), or CSS props (`contain-intrinsic-size`) that are backticked.
 const TOOL_TOKEN_RE = /`((?:get|generate|analyze|search|describe)_[a-z0-9_]+)`/g;
 // Same `name: '<tool>'` extraction the coverage auditor uses
@@ -33,7 +33,7 @@ function citedTools(text) {
   return [...new Set([...text.matchAll(TOOL_TOKEN_RE)].map((m) => m[1]))].sort();
 }
 
-// Guards the "When to Use World Monitor (Agent Guidance)" section of the
+// Guards the "When to Use Eagle Eye (Agent Guidance)" section of the
 // public agent files (orank Identity when-to-use gap, PR #4690). llms.txt is
 // hand-maintained and no other test reads its content — docs-stats only checks
 // numeric layer claims in llms-full.txt, and lint:md globs `**/*.md` (skips

@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const CLIENT_FEEDS_PATH = resolve(__dirname, '../src/config/feeds.ts');
-const SERVER_FEEDS_PATH = resolve(__dirname, '../server/worldmonitor/news/v1/_feeds.ts');
+const SERVER_FEEDS_PATH = resolve(__dirname, '../server/eagleeye/news/v1/_feeds.ts');
 
 // Map client const names to the variant string used by the server.
 // The runtime selector in src/config/feeds.ts:927-937 routes
@@ -180,7 +180,7 @@ describe('news feed key parity (client FEEDS ⇔ server VARIANT_FEEDS)', () => {
         `These categories will render empty + 'UNAVAILABLE' on the panel because the\n` +
         `client looks up digest.categories[<key>] and the server emits a different key.\n\n` +
         `Missing on server: ${orphans.join(', ')}\n\n` +
-        `Fix: rename the server-side key in server/worldmonitor/news/v1/_feeds.ts under\n` +
+        `Fix: rename the server-side key in server/eagleeye/news/v1/_feeds.ts under\n` +
         `VARIANT_FEEDS.${serverKey} to match the client. (Or add the key to\n` +
         `\`knownGapsClientOnly\` in this test if the gap is intentional and tracked.)`,
       );

@@ -22,7 +22,7 @@ function configureDefaultEnv() {
   process.env.WM_SESSION_SECRET = SECRET;
   process.env.WIDGET_AGENT_KEY = 'widget-secret';
   process.env.PRO_WIDGET_KEY = 'pro-secret';
-  process.env.WORLDMONITOR_VALID_KEYS = 'enterprise-secret';
+  process.env.EAGLEEYE_VALID_KEYS = 'enterprise-secret';
   process.env.UPSTASH_REDIS_REST_URL = 'https://fake.upstash.io';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
 }
@@ -58,7 +58,7 @@ function makeReq(method, { origin, referer } = {}) {
   const headers = new Headers();
   if (origin) headers.set('origin', origin);
   if (referer) headers.set('referer', referer);
-  return new Request('https://api.worldmonitor.app/api/wm-session', { method, headers });
+  return new Request('https://api.eagle-eye.app/api/wm-session', { method, headers });
 }
 
 function makeLocalReq(method, { origin } = {}) {
@@ -86,7 +86,7 @@ function finalCookieJar(cookies) {
     const domainAttr = attrs.find((attr) => attr.toLowerCase().startsWith('domain='));
     const pathAttr = attrs.find((attr) => attr.toLowerCase().startsWith('path='));
     const maxAgeAttr = attrs.find((attr) => attr.toLowerCase().startsWith('max-age='));
-    const domain = domainAttr ? domainAttr.slice('domain='.length).toLowerCase() : 'api.worldmonitor.app';
+    const domain = domainAttr ? domainAttr.slice('domain='.length).toLowerCase() : 'api.eagle-eye.app';
     const path = pathAttr ? pathAttr.slice('path='.length) : '/';
     const key = `${name};${domain};${path}`;
     if (maxAgeAttr && Number(maxAgeAttr.slice('max-age='.length)) <= 0) {
@@ -111,7 +111,7 @@ function makeWaitUntilCtx() {
 }
 
 test('POST sets a valid HttpOnly cookie and returns the anonymous-only fallback token', async () => {
-  const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }));
   assert.equal(resp.status, 200);
   const body = await resp.json();
   assert.match(body.token, /^wms_/);
@@ -124,7 +124,7 @@ test('POST sets a valid HttpOnly cookie and returns the anonymous-only fallback 
   assert.equal(body.token, token, 'cookie and fallback header must carry the same anonymous token');
   assert.equal(await validateSessionToken(token), true);
   assert.match(cookies.join('\n'), /wm-session=.*HttpOnly/);
-  assert.match(cookies.join('\n'), /wm-session=.*Domain=\.worldmonitor\.app/);
+  assert.match(cookies.join('\n'), /wm-session=.*Domain=\.eagle-eye\.app/);
 });
 
 test('POST emits one anonymous mint usage event without exposing cookie material', async () => {
@@ -148,8 +148,8 @@ test('POST emits one anonymous mint usage event without exposing cookie material
   const { ctx, settle } = makeWaitUntilCtx();
 
   const request = makeReq('POST', {
-    origin: 'https://worldmonitor.app',
-    referer: 'https://worldmonitor.app/reset-password?token=must-not-be-logged#also-not-logged',
+    origin: 'https://eagle-eye.app',
+    referer: 'https://eagle-eye.app/reset-password?token=must-not-be-logged#also-not-logged',
   });
   request.headers.set('x-forwarded-for', '203.0.113.99, attacker-controlled');
   const resp = await handler(request, ctx);
@@ -175,7 +175,7 @@ test('POST emits one anonymous mint usage event without exposing cookie material
       auth_kind: 'anon',
       origin_kind: 'browser-cross-origin',
       ip: null,
-      referer: 'https://worldmonitor.app/reset-password',
+      referer: 'https://eagle-eye.app/reset-password',
       reason: 'ok',
     },
   );
@@ -202,7 +202,7 @@ test('session usage telemetry records verified Cloudflare client attribution and
     throw new Error(`unexpected telemetry fetch: ${url}`);
   };
 
-  const verified = makeReq('POST', { origin: 'https://worldmonitor.app' });
+  const verified = makeReq('POST', { origin: 'https://eagle-eye.app' });
   verified.headers.set('cf-connecting-ip', '203.0.113.7');
   verified.headers.set('cf-ipcountry', 'FR');
   verified.headers.set('x-real-ip', '192.0.2.5');
@@ -212,7 +212,7 @@ test('session usage telemetry records verified Cloudflare client attribution and
   assert.equal((await handler(verified, verifiedCtx.ctx)).status, 200);
   await verifiedCtx.settle();
 
-  const forged = makeReq('POST', { origin: 'https://worldmonitor.app' });
+  const forged = makeReq('POST', { origin: 'https://eagle-eye.app' });
   forged.headers.set('cf-connecting-ip', '203.0.113.7');
   forged.headers.set('cf-ipcountry', 'FR');
   forged.headers.set('x-real-ip', '192.0.2.5');
@@ -221,7 +221,7 @@ test('session usage telemetry records verified Cloudflare client attribution and
   assert.equal((await handler(forged, forgedCtx.ctx)).status, 200);
   await forgedCtx.settle();
 
-  const tor = makeReq('POST', { origin: 'https://worldmonitor.app' });
+  const tor = makeReq('POST', { origin: 'https://eagle-eye.app' });
   tor.headers.set('cf-connecting-ip', '203.0.113.7');
   tor.headers.set('cf-ipcountry', 'T1');
   tor.headers.set('x-real-ip', '192.0.2.5');
@@ -255,7 +255,7 @@ test('OPTIONS preflight returns 204 with CORS', async () => {
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
   __resetRateLimitForTest();
-  const resp = await handler(makeReq('OPTIONS', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('OPTIONS', { origin: 'https://eagle-eye.app' }));
   assert.equal(resp.status, 204);
   assert.equal(resp.headers.get('access-control-allow-methods'), 'POST, OPTIONS');
   assert.equal(resp.headers.get('access-control-allow-credentials'), 'true');
@@ -279,7 +279,7 @@ test('POST fail-closed limiter receives Vercel ctx for degraded telemetry', () =
 });
 
 test('GET method is rejected with 405', async () => {
-  const resp = await handler(makeReq('GET', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('GET', { origin: 'https://eagle-eye.app' }));
   assert.equal(resp.status, 405);
 });
 
@@ -303,12 +303,12 @@ test('POST returns degraded 503 without issuing a token when Redis limiter confi
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
   __resetRateLimitForTest();
 
-  const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }));
 
   assert.equal(resp.status, 503);
   assert.equal(resp.headers.get('X-RateLimit-Mode'), 'degraded');
   assert.equal(resp.headers.get('Retry-After'), '5');
-  assert.equal(resp.headers.get('access-control-allow-origin'), 'https://worldmonitor.app');
+  assert.equal(resp.headers.get('access-control-allow-origin'), 'https://eagle-eye.app');
   assert.equal(cookieValue(setCookies(resp), 'wm-session'), '');
   const body = await resp.json();
   assert.match(body.error, /rate-limit service temporarily unavailable/i);
@@ -316,7 +316,7 @@ test('POST returns degraded 503 without issuing a token when Redis limiter confi
 
 test('POST returns 429 without issuing a token when the wm-session issuance budget is exhausted', async () => {
   mockUpstashRateLimit({ remaining: -1, limit: 30 });
-  const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }));
 
   assert.equal(resp.status, 429);
   assert.equal(resp.headers.get('X-RateLimit-Limit'), '30');
@@ -346,7 +346,7 @@ test('failed mint outcomes emit their terminal status', async () => {
   };
   const { ctx, settle } = makeWaitUntilCtx();
 
-  const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), ctx);
+  const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), ctx);
   assert.equal(resp.status, 429);
   await settle();
 
@@ -376,14 +376,14 @@ test('telemetry stops delivery attempts when the Axiom sink is repeatedly unavai
 
   for (let index = 0; index < 20; index += 1) {
     const { ctx, settle } = makeWaitUntilCtx();
-    const response = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), ctx);
+    const response = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), ctx);
     assert.equal(response.status, 200);
     await settle();
   }
   assert.equal(axiomAttempts, 20);
 
   const { ctx, settle } = makeWaitUntilCtx();
-  const response = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), ctx);
+  const response = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), ctx);
   assert.equal(response.status, 200);
   await settle();
   assert.equal(axiomAttempts, 20, 'open circuit breaker drops later telemetry delivery attempts');
@@ -416,19 +416,19 @@ test('telemetry probes and closes the circuit after the outage window elapses', 
   try {
     for (let index = 0; index < 20; index += 1) {
       const { ctx, settle } = makeWaitUntilCtx();
-      await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), ctx);
+      await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), ctx);
       await settle();
     }
     now += 5 * 60 * 1000 + 1;
     axiomAvailable = true;
 
     const recovered = makeWaitUntilCtx();
-    await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), recovered.ctx);
+    await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), recovered.ctx);
     await recovered.settle();
     assert.equal(axiomAttempts, 21, 'a single half-open delivery probes the recovered sink');
 
     const resumed = makeWaitUntilCtx();
-    await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }), resumed.ctx);
+    await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }), resumed.ctx);
     await resumed.settle();
     assert.equal(axiomAttempts, 22, 'a successful probe closes the circuit for later events');
   } finally {
@@ -437,7 +437,7 @@ test('telemetry probes and closes the circuit after the outage window elapses', 
 });
 
 test('no-key session refresh preserves existing HttpOnly key cookies', async () => {
-  const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }));
+  const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }));
   assert.equal(resp.status, 200);
   const cookies = setCookies(resp);
   assert.ok(cookies.some((cookie) => cookie.startsWith('wm-session=')));
@@ -446,10 +446,10 @@ test('no-key session refresh preserves existing HttpOnly key cookies', async () 
 });
 
 test('legacy widget/pro keys are moved into short-lived HttpOnly cookies', async () => {
-  const req = new Request('https://api.worldmonitor.app/api/wm-session', {
+  const req = new Request('https://api.eagle-eye.app/api/wm-session', {
     method: 'POST',
     headers: {
-      origin: 'https://worldmonitor.app',
+      origin: 'https://eagle-eye.app',
       'content-type': 'application/json',
     },
     body: JSON.stringify({ widgetKey: 'widget-secret', proKey: 'pro-secret' }),
@@ -460,16 +460,16 @@ test('legacy widget/pro keys are moved into short-lived HttpOnly cookies', async
   const joined = cookies.join('\n');
   assert.match(joined, /wm-widget-key=widget-secret;.*HttpOnly/);
   assert.match(joined, /wm-pro-key=pro-secret;.*HttpOnly/);
-  assert.match(joined, /wm-widget-key=widget-secret;.*Domain=\.worldmonitor\.app/);
-  assert.match(joined, /wm-pro-key=pro-secret;.*Domain=\.worldmonitor\.app/);
+  assert.match(joined, /wm-widget-key=widget-secret;.*Domain=\.eagle-eye\.app/);
+  assert.match(joined, /wm-pro-key=pro-secret;.*Domain=\.eagle-eye\.app/);
   assert.match(joined, /Max-Age=43200/);
 });
 
 test('enterprise key can be exchanged into a short-lived HttpOnly pro cookie', async () => {
-  const req = new Request('https://api.worldmonitor.app/api/wm-session', {
+  const req = new Request('https://api.eagle-eye.app/api/wm-session', {
     method: 'POST',
     headers: {
-      origin: 'https://worldmonitor.app',
+      origin: 'https://eagle-eye.app',
       'content-type': 'application/json',
     },
     body: JSON.stringify({ proKey: 'enterprise-secret' }),
@@ -483,16 +483,16 @@ test('enterprise key can be exchanged into a short-lived HttpOnly pro cookie', a
 test('legacy widget/pro secret checks reject prefix and length mismatches', async () => {
   const previousWidget = process.env.WIDGET_AGENT_KEY;
   const previousPro = process.env.PRO_WIDGET_KEY;
-  const previousEnterprise = process.env.WORLDMONITOR_VALID_KEYS;
+  const previousEnterprise = process.env.EAGLEEYE_VALID_KEYS;
   process.env.WIDGET_AGENT_KEY = 'widget-secret-with-a-distinct-length';
   process.env.PRO_WIDGET_KEY = 'pro-secret-with-a-longer-distinct-length';
-  process.env.WORLDMONITOR_VALID_KEYS = 'enterprise-short,enterprise-secret-with-a-longer-length';
+  process.env.EAGLEEYE_VALID_KEYS = 'enterprise-short,enterprise-secret-with-a-longer-length';
 
   try {
-    const accepted = await handler(new Request('https://api.worldmonitor.app/api/wm-session', {
+    const accepted = await handler(new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body: JSON.stringify({
@@ -502,10 +502,10 @@ test('legacy widget/pro secret checks reject prefix and length mismatches', asyn
     }));
     assert.equal(accepted.status, 200);
 
-    const prefixOnly = await handler(new Request('https://api.worldmonitor.app/api/wm-session', {
+    const prefixOnly = await handler(new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body: JSON.stringify({
@@ -515,10 +515,10 @@ test('legacy widget/pro secret checks reject prefix and length mismatches', asyn
     }));
     assert.equal(prefixOnly.status, 401);
 
-    const differentLength = await handler(new Request('https://api.worldmonitor.app/api/wm-session', {
+    const differentLength = await handler(new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body: JSON.stringify({
@@ -530,46 +530,46 @@ test('legacy widget/pro secret checks reject prefix and length mismatches', asyn
   } finally {
     process.env.WIDGET_AGENT_KEY = previousWidget;
     process.env.PRO_WIDGET_KEY = previousPro;
-    process.env.WORLDMONITOR_VALID_KEYS = previousEnterprise;
+    process.env.EAGLEEYE_VALID_KEYS = previousEnterprise;
   }
 });
 
 test('legacy key length boundary: 512 accepted, 513 rejected', async () => {
-  const previousEnterprise = process.env.WORLDMONITOR_VALID_KEYS;
+  const previousEnterprise = process.env.EAGLEEYE_VALID_KEYS;
   const key512 = 'a'.repeat(512);
   const key513 = 'b'.repeat(513);
-  process.env.WORLDMONITOR_VALID_KEYS = `${key512}`;
+  process.env.EAGLEEYE_VALID_KEYS = `${key512}`;
 
   try {
-    const accepted = await handler(new Request('https://api.worldmonitor.app/api/wm-session', {
+    const accepted = await handler(new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body: JSON.stringify({ proKey: key512 }),
     }));
     assert.equal(accepted.status, 200);
 
-    const rejected = await handler(new Request('https://api.worldmonitor.app/api/wm-session', {
+    const rejected = await handler(new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body: JSON.stringify({ proKey: key513 }),
     }));
     assert.equal(rejected.status, 401);
   } finally {
-    process.env.WORLDMONITOR_VALID_KEYS = previousEnterprise;
+    process.env.EAGLEEYE_VALID_KEYS = previousEnterprise;
   }
 });
 
 test('invalid legacy keys are rejected and not persisted as HttpOnly cookies', async () => {
-  const req = new Request('https://api.worldmonitor.app/api/wm-session', {
+  const req = new Request('https://api.eagle-eye.app/api/wm-session', {
     method: 'POST',
     headers: {
-      origin: 'https://worldmonitor.app',
+      origin: 'https://eagle-eye.app',
       'content-type': 'application/json',
     },
     body: JSON.stringify({ widgetKey: 'wrong-widget-key', proKey: 'wrong-pro-key' }),
@@ -584,10 +584,10 @@ test('invalid legacy keys are rejected and not persisted as HttpOnly cookies', a
 });
 
 test('legacy cookie tombstones do not delete replacement HttpOnly key cookies', async () => {
-  const req = new Request('https://api.worldmonitor.app/api/wm-session', {
+  const req = new Request('https://api.eagle-eye.app/api/wm-session', {
     method: 'POST',
     headers: {
-      origin: 'https://worldmonitor.app',
+      origin: 'https://eagle-eye.app',
       'content-type': 'application/json',
     },
     body: JSON.stringify({ widgetKey: 'widget-secret', proKey: 'pro-secret' }),
@@ -595,15 +595,15 @@ test('legacy cookie tombstones do not delete replacement HttpOnly key cookies', 
   const resp = await handler(req);
   assert.equal(resp.status, 200);
   const jar = finalCookieJar(setCookies(resp));
-  assert.equal(jar.get('wm-widget-key;.worldmonitor.app;/'), 'widget-secret');
-  assert.equal(jar.get('wm-pro-key;.worldmonitor.app;/'), 'pro-secret');
+  assert.equal(jar.get('wm-widget-key;.eagle-eye.app;/'), 'widget-secret');
+  assert.equal(jar.get('wm-pro-key;.eagle-eye.app;/'), 'pro-secret');
 });
 
 test('Returns 503 when WM_SESSION_SECRET is missing', async () => {
   const stash = process.env.WM_SESSION_SECRET;
   delete process.env.WM_SESSION_SECRET;
   try {
-    const resp = await handler(makeReq('POST', { origin: 'https://worldmonitor.app' }));
+    const resp = await handler(makeReq('POST', { origin: 'https://eagle-eye.app' }));
     assert.equal(resp.status, 503);
     const body = await resp.json();
     assert.match(body.error, /Session service not configured/);
@@ -616,12 +616,12 @@ test('Returns 503 when WM_SESSION_SECRET is missing', async () => {
 // The client cannot answer this itself (HttpOnly), so it could not tell "the
 // server rejected my cookie" from "my browser never stored it" — and re-minted
 // forever on the second, reporting it as a server-side retry_401. See
-// WORLDMONITOR-WG/XP.
+// EAGLEEYE-WG/XP.
 
 function makeReqWithCookie(cookie) {
-  const headers = new Headers({ origin: 'https://worldmonitor.app' });
+  const headers = new Headers({ origin: 'https://eagle-eye.app' });
   if (cookie) headers.set('cookie', cookie);
-  return new Request('https://api.worldmonitor.app/api/wm-session', { method: 'POST', headers });
+  return new Request('https://api.eagle-eye.app/api/wm-session', { method: 'POST', headers });
 }
 
 test('mint reports hadSession:false when the request carries no session cookie', async () => {

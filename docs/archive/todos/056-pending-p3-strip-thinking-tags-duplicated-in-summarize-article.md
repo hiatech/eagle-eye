@@ -9,10 +9,10 @@ dependencies: []
 # `stripThinkingTags` logic duplicated verbatim in `summarize-article.ts` — should use shared function
 
 ## Problem Statement
-`server/worldmonitor/news/v1/summarize-article.ts` contains a 16-line inline reimplementation of the `stripThinkingTags` function that already exists and is exported from `server/_shared/llm.ts`. The two implementations have identical pattern matching logic. Any future change to the thinking-tag stripping behavior must be applied in two places.
+`server/eagleeye/news/v1/summarize-article.ts` contains a 16-line inline reimplementation of the `stripThinkingTags` function that already exists and is exported from `server/_shared/llm.ts`. The two implementations have identical pattern matching logic. Any future change to the thinking-tag stripping behavior must be applied in two places.
 
 ## Findings
-- **`server/worldmonitor/news/v1/summarize-article.ts:155-170`** — inline `stripThinkingTags` implementation
+- **`server/eagleeye/news/v1/summarize-article.ts:155-170`** — inline `stripThinkingTags` implementation
 - **`server/_shared/llm.ts`** — exports `stripThinkingTags` (or equivalent function)
 - Flagged by: code-simplicity-reviewer
 
@@ -27,7 +27,7 @@ const cleaned = stripThinkingTags(rawSummary);
 **Effort:** Trivial | **Risk:** Low
 
 ## Technical Details
-- Files: `server/worldmonitor/news/v1/summarize-article.ts`, `server/_shared/llm.ts`
+- Files: `server/eagleeye/news/v1/summarize-article.ts`, `server/_shared/llm.ts`
 - PR: koala73/worldmonitor#2380
 
 ## Acceptance Criteria

@@ -105,9 +105,9 @@ const targets = [
     prefix: '',
   },
   {
-    path: resolve(apiDir, 'worldmonitor.openapi.yaml'),
+    path: resolve(apiDir, 'eagleeye.openapi.yaml'),
     format: 'yaml',
-    prefix: 'worldmonitor_company_monitoring_v1_',
+    prefix: 'eagleeye_company_monitoring_v1_',
   },
 ];
 

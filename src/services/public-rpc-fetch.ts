@@ -1,6 +1,6 @@
 import { addPublicSharedRpcMarker } from '@/shared/public-rpc-cache';
 
-const CREDENTIAL_HEADERS = ['Authorization', 'X-WorldMonitor-Key', 'X-Api-Key', 'Cookie'];
+const CREDENTIAL_HEADERS = ['Authorization', 'X-EagleEye-Key', 'X-Api-Key', 'Cookie'];
 
 /**
  * Fetch one of the explicitly caller-invariant dashboard RPCs through its

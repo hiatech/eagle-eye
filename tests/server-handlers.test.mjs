@@ -15,7 +15,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { deduplicateHeadlines } from '../server/worldmonitor/news/v1/dedup.mjs';
+import { deduplicateHeadlines } from '../server/eagleeye/news/v1/dedup.mjs';
 import { aggregateHapiConflictEvents } from '../scripts/_conflict-hapi.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,7 +29,7 @@ const readSrc = (relPath) => readFileSync(resolve(root, relPath), 'utf-8');
 // ========================================================================
 
 describe('aggregateHapiConflictEvents (scripts/_conflict-hapi.mjs)', () => {
-  // #5554: server/worldmonitor/conflict/v1/get-humanitarian-summary.ts no longer
+  // #5554: server/eagleeye/conflict/v1/get-humanitarian-summary.ts no longer
   // fetches HAPI at all — it's a cache-only read of what this seeder writes (HDX's
   // app_identifier rate limiting is per-identifier, so a per-request RPC fetch would
   // stack uncoordinated traffic on top of the seeder's bulk refresh). The
@@ -87,7 +87,7 @@ describe('aggregateHapiConflictEvents (scripts/_conflict-hapi.mjs)', () => {
 });
 
 describe('getHumanitarianSummary handler (cache-only)', () => {
-  const src = readSrc('server/worldmonitor/conflict/v1/get-humanitarian-summary.ts');
+  const src = readSrc('server/eagleeye/conflict/v1/get-humanitarian-summary.ts');
 
   it('never calls HAPI directly — reads the seeder-written cache only', () => {
     assert.doesNotMatch(src, /hapi\.humdata\.org/,
@@ -102,7 +102,7 @@ describe('getHumanitarianSummary handler (cache-only)', () => {
 // ========================================================================
 
 describe('humanitarian_summary.proto', () => {
-  const proto = readSrc('proto/worldmonitor/conflict/v1/humanitarian_summary.proto');
+  const proto = readSrc('proto/eagleeye/conflict/v1/humanitarian_summary.proto');
 
   it('has conflict-event field names instead of humanitarian field names', () => {
     assert.match(proto, /conflict_events_total/);
@@ -128,7 +128,7 @@ describe('humanitarian_summary.proto', () => {
 // ========================================================================
 
 describe('LLM prompt political context (LOW-1)', () => {
-  const src = readSrc('server/worldmonitor/news/v1/_shared.ts');
+  const src = readSrc('server/eagleeye/news/v1/_shared.ts');
 
   it('does not contain hardcoded "Donald Trump" reference', () => {
     assert.doesNotMatch(src, /Donald Trump/,
@@ -190,7 +190,7 @@ describe('headline deduplication', () => {
 
 describe('getCacheKey determinism', () => {
   const src = readSrc('src/utils/summary-cache-key.ts');
-  const sharedSrc = readSrc('server/worldmonitor/news/v1/_shared.ts');
+  const sharedSrc = readSrc('server/eagleeye/news/v1/_shared.ts');
 
   it('getCacheKey function exists and builds versioned keys', () => {
     assert.match(src, /export function buildSummaryCacheKey\(/,
@@ -214,7 +214,7 @@ describe('getCacheKey determinism', () => {
 // ========================================================================
 
 describe('getVesselSnapshot caching (HIGH-1)', () => {
-  const src = readSrc('server/worldmonitor/maritime/v1/get-vessel-snapshot.ts');
+  const src = readSrc('server/eagleeye/maritime/v1/get-vessel-snapshot.ts');
 
   it('cache is keyed by request shape (candidates, tankers, quantized bbox)', () => {
     // PR 3 (parity-push) replaced the prior `Record<'with'|'without'>` cache
@@ -295,7 +295,7 @@ describe('getVesselSnapshot caching (HIGH-1)', () => {
 // ========================================================================
 
 describe('getSimulationOutcome handler', () => {
-  const src = readSrc('server/worldmonitor/forecast/v1/get-simulation-outcome.ts');
+  const src = readSrc('server/eagleeye/forecast/v1/get-simulation-outcome.ts');
 
   it('returns found:false (NOT_FOUND) when pointer is absent', () => {
     // The handler must define a NOT_FOUND sentinel with found: false

@@ -71,7 +71,7 @@ export async function assembleBootstrapTierPayload(registry, options = {}) {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'WorldMonitor Bootstrap Publisher/1.0',
+      'User-Agent': 'EagleEye Bootstrap Publisher/1.0',
     },
     body: JSON.stringify(keys.map(key => ['GET', key])),
     signal: AbortSignal.timeout(timeoutMs),

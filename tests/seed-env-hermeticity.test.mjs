@@ -56,7 +56,7 @@ const envFileBody = (url) => `# fixture\nUPSTASH_REDIS_REST_URL=${url}\nUPSTASH_
 /**
  * Build a throwaway checkout shaped like the real repo: `<root>/scripts/` next
  * to an optional `<root>/.env.local`, plus a fake `$HOME` that always contains
- * the hardcoded `Documents/GitHub/worldmonitor/.env.local` the old candidate
+ * the hardcoded `Documents/GitHub/eagleeye/.env.local` the old candidate
  * list reached for.
  */
 function makeFixtureCheckout({ withLocalEnvFile, nested = false, only = null }) {
@@ -78,7 +78,7 @@ function makeFixtureCheckout({ withLocalEnvFile, nested = false, only = null }) 
   }
 
   const fakeHome = join(root, 'fake-home');
-  const escapedDir = join(fakeHome, 'Documents/GitHub/worldmonitor');
+  const escapedDir = join(fakeHome, 'Documents/GitHub/eagleeye');
   mkdirSync(escapedDir, { recursive: true });
   writeFileSync(join(escapedDir, '.env.local'), envFileBody(ESCAPED_SENTINEL));
 
@@ -376,7 +376,7 @@ describe('seeder env hermeticity (#5767)', () => {
       assert.equal(result.url, CHECKOUT_SENTINEL);
     });
 
-    it('never reaches into $HOME/Documents/GitHub/worldmonitor for credentials', () => {
+    it('never reaches into $HOME/Documents/GitHub/eagleeye for credentials', () => {
       // The checkout has no .env.local of its own — exactly the worktree case
       // from #5767. The fake $HOME does have one; it must not be found.
       const fixture = makeFixtureCheckout({ withLocalEnvFile: false });
@@ -430,12 +430,12 @@ describe('seeder env hermeticity (#5767)', () => {
   describe('no script resolves credentials from outside its checkout', () => {
     it('findCheckoutEscapingEnvPaths flags a home path baked into the repo', () => {
       assert.deepEqual(
-        findCheckoutEscapingEnvPaths(`envPath = join('/Users/someone/Documents/GitHub/worldmonitor', '.env.local');`),
-        ['/Users/someone/Documents/GitHub/worldmonitor'],
+        findCheckoutEscapingEnvPaths(`envPath = join('/Users/someone/Documents/GitHub/eagleeye', '.env.local');`),
+        ['/Users/someone/Documents/GitHub/eagleeye'],
       );
       assert.deepEqual(
-        findCheckoutEscapingEnvPaths(`const p = '/home/ci/worldmonitor/.env.local';`),
-        ['/home/ci/worldmonitor/.env.local'],
+        findCheckoutEscapingEnvPaths(`const p = '/home/ci/eagleeye/.env.local';`),
+        ['/home/ci/eagleeye/.env.local'],
       );
       // Negatives: checkout-relative and explicitly-configured paths are fine.
       assert.deepEqual(findCheckoutEscapingEnvPaths(`join(__dirname, '..', '.env.local')`), []);
@@ -446,13 +446,13 @@ describe('seeder env hermeticity (#5767)', () => {
       // Each of these is the same bug in a different costume, and each one
       // defeated the previous `join(process.env.HOME, '<literal>')` regex.
       const disguises = [
-        `join(process.env.HOME, 'Documents/GitHub/worldmonitor', '.env.local')`,
-        `join(process.env['HOME'], 'Documents/GitHub/worldmonitor', '.env.local')`,
+        `join(process.env.HOME, 'Documents/GitHub/eagleeye', '.env.local')`,
+        `join(process.env['HOME'], 'Documents/GitHub/eagleeye', '.env.local')`,
         `import { homedir as getHome } from 'node:os';\nconst p = join(getHome(), 'wm/.env.local');`,
-        'const p = `${process.env.HOME}/Documents/GitHub/worldmonitor/.env.local`;',
-        `const p = process.env.HOME + '/Documents/GitHub/worldmonitor/.env.local';`,
+        'const p = `${process.env.HOME}/Documents/GitHub/eagleeye/.env.local`;',
+        `const p = process.env.HOME + '/Documents/GitHub/eagleeye/.env.local';`,
         `const p = join(process.env.USERPROFILE, 'wm', '.env.local');`,
-        `const p = '~/Documents/GitHub/worldmonitor/.env.local';`,
+        `const p = '~/Documents/GitHub/eagleeye/.env.local';`,
       ];
       for (const source of disguises) {
         assert.ok(

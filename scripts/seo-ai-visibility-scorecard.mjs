@@ -329,8 +329,8 @@ function validateBingAiPerformance(aiPerformance, label, latestEndDate) {
       invariant(
         typeof page.url === 'string'
           && page.url.startsWith('https://')
-          && isWorldMonitorUrl(page.url),
-        `${pageLabel}.url must be a World Monitor HTTPS URL`,
+          && isEagleEyeUrl(page.url),
+        `${pageLabel}.url must be a Eagle Eye HTTPS URL`,
       );
       invariant(!citedUrls.has(page.url), `${label} has duplicate cited page ${page.url}`);
       citedUrls.add(page.url);
@@ -433,15 +433,15 @@ function validateReferralSegments(referrals, referrerFamilyIds) {
   }
 }
 
-export function isWorldMonitorUrl(value) {
+export function isEagleEyeUrl(value) {
   try {
     const url = new URL(value);
     return url.protocol === 'https:'
       && url.username === ''
       && url.password === ''
       && (
-        url.hostname === 'worldmonitor.app'
-        || url.hostname.endsWith('.worldmonitor.app')
+        url.hostname === 'eagle-eye.app'
+        || url.hostname.endsWith('.eagle-eye.app')
       );
   } catch {
     return false;
@@ -660,10 +660,10 @@ export function validateBaseline(baseline, querySet) {
       observation.citedUrls.every((url) => isNonEmptyString(url) && url.startsWith('https://')),
       `${label}.citedUrls must contain HTTPS URLs`,
     );
-    const hasWorldMonitorCitation = observation.citedUrls.some(isWorldMonitorUrl);
+    const hasEagleEyeCitation = observation.citedUrls.some(isEagleEyeUrl);
     invariant(
-      observation.directCitation === hasWorldMonitorCitation,
-      `${label}: directCitation must match World Monitor cited URLs`,
+      observation.directCitation === hasEagleEyeCitation,
+      `${label}: directCitation must match Eagle Eye cited URLs`,
     );
     invariant(Array.isArray(observation.competitorsCited), `${label}.competitorsCited must be an array`);
     invariant(SENTIMENTS.has(observation.sentiment), `${label}.sentiment is invalid`);
@@ -1437,7 +1437,7 @@ export function formatScorecardMarkdown(scorecard) {
     '2. Record UTC date/time, country-level geography, locale, device, and whether the',
     '   surface was signed-out or signed-in. Do not record account identifiers or prompts',
     '   unrelated to this reviewed query set.',
-    '3. Count a direct citation only when the answer links to a `worldmonitor.app` URL.',
+    '3. Count a direct citation only when the answer links to a `eagle-eye.app` URL.',
     '   A mention supported only by a directory, review, or social post is not a direct citation.',
     '4. Export Search Console/Bing data through supported product exports or APIs. Do not',
     '   scrape search-result pages or commit property IDs, tokens, or credentials.',

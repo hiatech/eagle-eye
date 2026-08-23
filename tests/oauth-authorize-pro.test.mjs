@@ -115,7 +115,7 @@ async function makeDeps(overrides = {}) {
 }
 
 function makeReq(query) {
-  const url = new URL('https://api.worldmonitor.app/oauth/authorize-pro');
+  const url = new URL('https://api.eagle-eye.app/oauth/authorize-pro');
   for (const [k, v] of Object.entries(query)) {
     if (v != null) url.searchParams.set(k, v);
   }
@@ -123,7 +123,7 @@ function makeReq(query) {
 }
 
 function makeReqMethod(method) {
-  return new Request('https://api.worldmonitor.app/oauth/authorize-pro?nonce=x&grant=y', { method });
+  return new Request('https://api.eagle-eye.app/oauth/authorize-pro?nonce=x&grant=y', { method });
 }
 
 // ===========================================================================

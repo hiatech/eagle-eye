@@ -6,7 +6,7 @@
 // the liquid GEOPOLITICAL prediction markets — Iran enriched-uranium ($28M),
 // Iran leadership change ($21M), coup/ceasefire lines — almost all resolve on
 // multi-month horizons (Dec-31 and beyond). A 45-day cap therefore excludes
-// exactly the domain WorldMonitor is a reference in, leaving geo coverage to
+// exactly the domain EagleEye is a reference in, leaving geo coverage to
 // the luck of a rare short-dated line. This family lifts the horizon to 210
 // days so the persistent geo bench is captured, and ranks it ABOVE every other
 // family (userValueScore 0.9) so its bets win the top-K ensemble slots.

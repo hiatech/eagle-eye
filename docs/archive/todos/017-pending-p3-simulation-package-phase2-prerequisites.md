@@ -16,7 +16,7 @@ The simulation package is a write-only black box: agents cannot read it, trigger
 From the agent-native review:
 
 - **0/4 simulation-package capabilities are agent-accessible** (trigger, read, check existence, discover schema)
-- There is no `getSimulationPackage(runId)` RPC handler in `server/worldmonitor/forecast/v1/`
+- There is no `getSimulationPackage(runId)` RPC handler in `server/eagleeye/forecast/v1/`
 - The R2 key is deterministic and computable from `(runId, generatedAt)` but no handler exposes it
 - `schemaVersion` is written as R2 object metadata but never returned through any read path
 - `writeSimulationPackage` returns `{ pkgKey, theaterCount }` but this result is discarded at the fire-and-forget call site — nothing writes a Redis existence key
@@ -27,7 +27,7 @@ Phase 2 gate: MiroFish or any LLM scenario-analysis workflow that consumes the p
 
 ### Option A: Add `getSimulationPackage(runId)` RPC (Recommended for Phase 2)
 
-Create `server/worldmonitor/forecast/v1/get-simulation-package.ts` that reads from R2 using `buildSimulationPackageKey(runId, generatedAt)`. Follows the same pattern as the deep-snapshot replay handler.
+Create `server/eagleeye/forecast/v1/get-simulation-package.ts` that reads from R2 using `buildSimulationPackageKey(runId, generatedAt)`. Follows the same pattern as the deep-snapshot replay handler.
 
 ### Option B: Write Redis existence key on successful write
 
@@ -41,7 +41,7 @@ Both options are Phase 2 work, not Phase 1 blockers.
 
 ## Acceptance Criteria (Phase 2)
 
-- [ ] `getSimulationPackage(runId)` RPC handler exists in `server/worldmonitor/forecast/v1/`
+- [ ] `getSimulationPackage(runId)` RPC handler exists in `server/eagleeye/forecast/v1/`
 - [ ] Handler reads from R2 using `buildSimulationPackageKey`
 - [ ] `schemaVersion` is included in the RPC response
 - [ ] Redis key `forecast:simulation-package:latest` written on successful `writeSimulationPackage`
@@ -49,9 +49,9 @@ Both options are Phase 2 work, not Phase 1 blockers.
 
 ## Technical Details
 
-- New file needed: `server/worldmonitor/forecast/v1/get-simulation-package.ts`
-- Wire in: `server/worldmonitor/handler.ts` (gateway registration)
-- Follow pattern of: `server/worldmonitor/forecast/v1/get-forecasts.ts`
+- New file needed: `server/eagleeye/forecast/v1/get-simulation-package.ts`
+- Wire in: `server/eagleeye/handler.ts` (gateway registration)
+- Follow pattern of: `server/eagleeye/forecast/v1/get-forecasts.ts`
 
 ## Work Log
 

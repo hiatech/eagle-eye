@@ -228,7 +228,7 @@ export function buildEmbedMapUrl(
     variant?: EmbedVariant;
   } = {},
 ): string {
-  const url = new URL(baseUrl, 'https://www.worldmonitor.app');
+  const url = new URL(baseUrl, 'https://www.eagle-eye.app');
   const layerIds = state.layerIds ?? embedLayerIdsFromMapLayers(state.layers ?? mapLayersFromEmbedIds(DEFAULT_EMBED_LAYER_IDS));
   const center = normalizeCenter(state.center ?? DEFAULT_EMBED_CENTER);
   const zoom = Number.isFinite(state.zoom) ? clamp(state.zoom as number, 1, 10) : DEFAULT_EMBED_ZOOM;
@@ -253,11 +253,11 @@ export function embedLayerIdsFromMapLayers(layers: MapLayers): EmbedLayerId[] {
 export function buildEmbedIframeSnippet(url: string, options: { width?: string; height?: string } = {}): string {
   const width = sanitizeCssDimension(options.width ?? '100%');
   const height = sanitizePixelDimension(options.height ?? '420', 120, 1200);
-  return `<iframe src="${escapeAttribute(url)}" title="World Monitor live map" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:${width};height:${height}px;border:0;display:block" allowfullscreen></iframe>`;
+  return `<iframe src="${escapeAttribute(url)}" title="Eagle Eye live map" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="width:${width};height:${height}px;border:0;display:block" allowfullscreen></iframe>`;
 }
 
-export function buildWorldMonitorAttributionUrl(baseUrl: string, referrerHost: string | null): string {
-  const url = new URL(baseUrl, 'https://www.worldmonitor.app');
+export function buildEagleEyeAttributionUrl(baseUrl: string, referrerHost: string | null): string {
+  const url = new URL(baseUrl, 'https://www.eagle-eye.app');
   url.searchParams.set('utm_source', 'embed');
   url.searchParams.set('utm_medium', 'iframe');
   url.searchParams.set('utm_campaign', referrerHost ? referrerHost.slice(0, 80) : 'direct');

@@ -73,7 +73,7 @@ test('repeat OpenSanctions lookup is served from Redis, not re-fetched upstream'
   process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token';
 
   const { upstreamCalls } = installRedisBackedStub();
-  const { lookupSanctionEntity } = await import('../server/worldmonitor/sanctions/v1/lookup-entity.ts');
+  const { lookupSanctionEntity } = await import('../server/eagleeye/sanctions/v1/lookup-entity.ts');
 
   const first = await lookupSanctionEntity({} as never, { q: 'Test Person', maxResults: 10 } as never);
   assert.equal(first.source, 'opensanctions');
@@ -96,7 +96,7 @@ test('lookup cache key normalizes case and surrounding whitespace', async (t) =>
   process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token';
 
   const { upstreamCalls } = installRedisBackedStub();
-  const { lookupSanctionEntity } = await import('../server/worldmonitor/sanctions/v1/lookup-entity.ts');
+  const { lookupSanctionEntity } = await import('../server/eagleeye/sanctions/v1/lookup-entity.ts');
 
   await lookupSanctionEntity({} as never, { q: 'Test Person', maxResults: 10 } as never);
   await lookupSanctionEntity({} as never, { q: '  TEST person  ', maxResults: 10 } as never);
@@ -136,7 +136,7 @@ test('an OpenSanctions outage falls back to OFAC without persisting a negative s
     throw new Error(`unexpected request: ${url}`);
   }) as typeof fetch;
 
-  const { lookupSanctionEntity } = await import('../server/worldmonitor/sanctions/v1/lookup-entity.ts');
+  const { lookupSanctionEntity } = await import('../server/eagleeye/sanctions/v1/lookup-entity.ts');
   const result = await lookupSanctionEntity({} as never, { q: 'Test Person', maxResults: 10 } as never);
 
   assert.equal(result.source, 'ofac', 'a 503 must degrade to the seeded OFAC index');
@@ -156,7 +156,7 @@ test('a different maxResults does not serve a short cached result', async (t) =>
   process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token';
 
   const { upstreamCalls } = installRedisBackedStub();
-  const { lookupSanctionEntity } = await import('../server/worldmonitor/sanctions/v1/lookup-entity.ts');
+  const { lookupSanctionEntity } = await import('../server/eagleeye/sanctions/v1/lookup-entity.ts');
 
   await lookupSanctionEntity({} as never, { q: 'Test Person', maxResults: 5 } as never);
   await lookupSanctionEntity({} as never, { q: 'Test Person', maxResults: 50 } as never);

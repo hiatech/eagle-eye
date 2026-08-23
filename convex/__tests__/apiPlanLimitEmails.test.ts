@@ -72,7 +72,7 @@ describe("api plan-limit email delivery", () => {
     expect(calls).toHaveLength(1);
     expect(calls[0]).toMatchObject({
       to: ["owner@example.com"],
-      subject: "World Monitor usage notice: daily API requests exceeded plan limit",
+      subject: "Eagle Eye usage notice: daily API requests exceeded plan limit",
     });
 
     const notices = await t.run((ctx) => ctx.db.query("apiPlanLimitNotices").collect());

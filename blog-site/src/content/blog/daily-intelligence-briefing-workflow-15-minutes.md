@@ -1,7 +1,7 @@
 ---
 title: "The 15-Minute Morning Intelligence Briefing: A Repeatable Daily Workflow"
 description: "A minute-by-minute morning briefing routine for analysts: world brief, risk movers, watchlists, regional context, forward indicators, and automation."
-metaTitle: "Daily Intelligence Briefing Workflow | World Monitor"
+metaTitle: "Daily Intelligence Briefing Workflow | Eagle Eye"
 keywords: "daily intelligence briefing, morning intelligence briefing template, geopolitical daily brief, intelligence analyst workflow, situational awareness routine, morning market and risk briefing"
 audience: "Analysts, executives, traders, security professionals, journalists, anyone who needs daily situational awareness"
 heroImage: "/blog/images/blog/daily-intelligence-briefing-workflow-15-minutes.jpg"
@@ -11,7 +11,7 @@ modifiedDate: "2026-07-22"
 
 The difference between a professional intelligence consumer and a doomscroller is not access to information. It is that one of them runs the same sequence every morning and the other opens a feed and hopes.
 
-Presidents get the PDB. Fund managers get the morning note. Everyone else gets an algorithmic timeline optimized for outrage rather than awareness. This post is the fix: a 15-minute briefing routine with a fixed structure, built on [World Monitor](/blog/posts/what-is-worldmonitor-real-time-global-intelligence/), that ends with you knowing what changed, what matters, and what to watch. Then it shows how to automate the whole thing.
+Presidents get the PDB. Fund managers get the morning note. Everyone else gets an algorithmic timeline optimized for outrage rather than awareness. This post is the fix: a 15-minute briefing routine with a fixed structure, built on [Eagle Eye](/blog/posts/what-is-eagle-eye-real-time-global-intelligence/), that ends with you knowing what changed, what matters, and what to watch. Then it shows how to automate the whole thing.
 
 The structure borrows from how watch floors actually brief: **global picture → movers → your portfolio → your region → forward look.** Always in that order, because the order is what makes deviations visible.
 
@@ -57,15 +57,15 @@ You are not trying to predict the future in three minutes. You are recording tod
 
 ## Minutes 14–15: Capture
 
-End with one minute of output: two or three lines covering *what changed, what I am watching, what would change my mind.* Yesterday's note is your baseline for tomorrow; a week of notes is a record of how situations actually evolved versus how they felt day by day. World Monitor's snapshot history keeps seven days of platform state, so you can scrub back when you need to reconstruct a timeline.
+End with one minute of output: two or three lines covering *what changed, what I am watching, what would change my mind.* Yesterday's note is your baseline for tomorrow; a week of notes is a record of how situations actually evolved versus how they felt day by day. Eagle Eye's snapshot history keeps seven days of platform state, so you can scrub back when you need to reconstruct a timeline.
 
 ## Automating the Whole Thing
 
 Once the manual routine is habit, automate the parts that do not need your judgment:
 
 - **Pro digests** deliver scheduled briefings (daily, twice-daily, or weekly) to email, Slack, Discord, or Telegram, with quiet hours so the overnight alert respects your time zone.
-- **An MCP-connected agent** can run the entire sequence (world brief, CII movers, your countries, market prep) through the [59 tools on the MCP server](/blog/posts/worldmonitor-mcp-server-ai-agents-real-time-intelligence/) and post a written summary before you wake. The `market-open-prep` and `country-briefing` prompt templates are purpose-built for this.
-- **Developers** can compose their own brief from the [REST API](/blog/posts/build-on-worldmonitor-developer-api-open-source/): the same world brief, risk scores, and quotes, assembled your way.
+- **An MCP-connected agent** can run the entire sequence (world brief, CII movers, your countries, market prep) through the [59 tools on the MCP server](/blog/posts/eagle-eye-mcp-server-ai-agents-real-time-intelligence/) and post a written summary before you wake. The `market-open-prep` and `country-briefing` prompt templates are purpose-built for this.
+- **Developers** can compose their own brief from the [REST API](/blog/posts/build-on-eagle-eye-developer-api-open-source/): the same world brief, risk scores, and quotes, assembled your way.
 
 The goal of automation is not to skip the 15 minutes. It is to spend them on the two items that actually need a human instead of on collection.
 
@@ -89,4 +89,4 @@ Yes. Pro digest settings push scheduled briefs to your channel of choice, and an
 
 ---
 
-**Run the sequence tomorrow at [worldmonitor.app](https://www.worldmonitor.app): world brief, deltas, watchlist, region, forward look, capture. By Friday it is a habit; by next month it is an edge.**
+**Run the sequence tomorrow at [eagle-eye.app](https://www.eagle-eye.app): world brief, deltas, watchlist, region, forward look, capture. By Friday it is a habit; by next month it is an edge.**

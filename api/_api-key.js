@@ -15,12 +15,12 @@ function isDesktopOrigin(origin) {
 }
 
 export function getHeaderApiKey(req) {
-  return req.headers.get('X-WorldMonitor-Key') || req.headers.get('X-Api-Key') || '';
+  return req.headers.get('X-EagleEye-Key') || req.headers.get('X-Api-Key') || '';
 }
 
 async function isValidEnterpriseKey(key) {
   if (!key) return false;
-  const validKeys = (process.env.WORLDMONITOR_VALID_KEYS || '').split(',').filter(Boolean);
+  const validKeys = (process.env.EAGLEEYE_VALID_KEYS || '').split(',').filter(Boolean);
   return timingSafeIncludes(key, validKeys);
 }
 
@@ -53,7 +53,7 @@ function getCookie(req, name) {
 //   2. A wm_-prefixed user API key (validated against the user-key table by gateway).
 //      Kind: 'user'. Returns required:true/valid:false here so the gateway's
 //      fallback at server/gateway.ts:~440 triggers validateUserApiKey().
-//   3. An enterprise key (WORLDMONITOR_VALID_KEYS). Kind: 'enterprise'. The
+//   3. An enterprise key (EAGLEEYE_VALID_KEYS). Kind: 'enterprise'. The
 //      ONLY kind that bypasses entitlement checks (operator-issued).
 // Tauri desktop continues to authenticate via enterprise key.
 //
@@ -90,10 +90,10 @@ export async function validateApiKey(req, options = {}) {
     return { valid: false, required: true, error: 'Invalid session token' };
   }
 
-  // Enterprise key (WORLDMONITOR_VALID_KEYS) — checked BEFORE the wm_ user-key
+  // Enterprise key (EAGLEEYE_VALID_KEYS) — checked BEFORE the wm_ user-key
   // fallthrough so an operator-issued key that happens to start with wm_ is
   // still recognized. Pre-#3541 the static allowlist accepted any prefix; some
-  // legacy operator keys (e.g. the Railway relay's WORLDMONITOR_RELAY_KEY) use
+  // legacy operator keys (e.g. the Railway relay's EAGLEEYE_RELAY_KEY) use
   // the wm_ prefix from before user-issued keys were namespaced. Without this
   // ordering, those keys get punted to validateUserApiKey() and 401 because
   // the Convex user-key table has no record of an operator-minted value.

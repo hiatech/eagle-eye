@@ -42,24 +42,24 @@ describe('consentPage — Pro CTA structure (U4)', () => {
   it('renders the brand-green Pro CTA as a top-level <a> with the apex grant URL', async () => {
     const html = await renderHtml(BASE_PARAMS, NONCE);
     // CTA element exists with stable id and class for U3+settings UI to depend on.
-    assert.match(html, /<a id="pc" class="pro-cta"[^>]*>Sign in with WorldMonitor Pro<\/a>/);
+    assert.match(html, /<a id="pc" class="pro-cta"[^>]*>Sign in with EagleEye Pro<\/a>/);
     // Brand green at the CSS layer (matches existing #2d8a6e for the Authorize
     // button family — keeps visual identity consistent with htmlError + logo).
     assert.match(html, /\.pro-cta\{[^}]*background:#2d8a6e/);
   });
 
-  it('Pro CTA href is exactly https://worldmonitor.app/mcp-grant?nonce=<n> — no www, no return_to, no extra params', async () => {
+  it('Pro CTA href is exactly https://eagle-eye.app/mcp-grant?nonce=<n> — no www, no return_to, no extra params', async () => {
     const html = await renderHtml(BASE_PARAMS, NONCE);
     const m = html.match(/<a id="pc"[^>]*href="([^"]+)"/);
     assert.ok(m, 'pro-cta anchor with href must exist');
     const href = m[1];
     // Exact wire format (the apex page reads oauth:nonce:<nonce> itself; we
     // do NOT forward client_id / redirect_uri / state via URL — U3 contract).
-    assert.equal(href, `https://worldmonitor.app/mcp-grant?nonce=${NONCE}`);
+    assert.equal(href, `https://eagle-eye.app/mcp-grant?nonce=${NONCE}`);
     // Defense-in-depth structural assertions in case the regex above ever
     // matches an unrelated <a id="pc">.
     const u = new URL(href);
-    assert.equal(u.origin, 'https://worldmonitor.app');
+    assert.equal(u.origin, 'https://eagle-eye.app');
     assert.equal(u.pathname, '/mcp-grant');
     assert.equal(u.searchParams.get('nonce'), NONCE);
     assert.equal([...u.searchParams.keys()].length, 1, 'no extra query params allowed');
@@ -73,7 +73,7 @@ describe('consentPage — Pro CTA structure (U4)', () => {
     const html = await renderHtml(BASE_PARAMS, weirdNonce);
     const m = html.match(/<a id="pc"[^>]*href="([^"]+)"/);
     assert.ok(m);
-    assert.equal(m[1], 'https://worldmonitor.app/mcp-grant?nonce=a%20b%26c%3Dd');
+    assert.equal(m[1], 'https://eagle-eye.app/mcp-grant?nonce=a%20b%26c%3Dd');
   });
 
   it('renders the "Use API key instead" disclosure link below the Pro CTA', async () => {
@@ -89,7 +89,7 @@ describe('consentPage — Pro CTA structure (U4)', () => {
     assert.match(html, /<input type="password" id="api_key"/);
     // Existing POST action target must be preserved (nothing about the
     // legacy submit path is changed by U4).
-    assert.match(html, /method="POST" action="https:\/\/api\.worldmonitor\.app\/oauth\/authorize"/);
+    assert.match(html, /method="POST" action="https:\/\/api\.eagle-eye\.app\/oauth\/authorize"/);
   });
 
   it('inline script wires the disclosure click handler + #api-key fragment + errorMsg auto-show', async () => {
@@ -148,7 +148,7 @@ describe('consentPage — XSS defense for client metadata (U4)', () => {
     // The Pro CTA href is built from the nonce only (NOT from client_name
     // or redirect_uri) — so a malicious client_name CANNOT influence it.
     const m = html.match(/<a id="pc"[^>]*href="([^"]+)"/);
-    assert.equal(m[1], `https://worldmonitor.app/mcp-grant?nonce=${NONCE}`);
+    assert.equal(m[1], `https://eagle-eye.app/mcp-grant?nonce=${NONCE}`);
   });
 
   it('rejects (via URL constructor) a redirect_uri that fails to parse — production handler allowlists URIs upstream, so consentPage assumes parseable input', async () => {
@@ -165,9 +165,9 @@ describe('consentPage — XSS defense for client metadata (U4)', () => {
   it('"Unknown Client" fallback (handler line ~217) still renders the Pro CTA correctly', async () => {
     const html = await renderHtml({ ...BASE_PARAMS, client_name: 'Unknown Client' }, NONCE);
     assert.match(html, /<div class="client-name">Unknown Client wants access<\/div>/);
-    assert.match(html, /<a id="pc" class="pro-cta"[^>]*>Sign in with WorldMonitor Pro<\/a>/);
+    assert.match(html, /<a id="pc" class="pro-cta"[^>]*>Sign in with EagleEye Pro<\/a>/);
     const m = html.match(/<a id="pc"[^>]*href="([^"]+)"/);
-    assert.equal(m[1], `https://worldmonitor.app/mcp-grant?nonce=${NONCE}`);
+    assert.equal(m[1], `https://eagle-eye.app/mcp-grant?nonce=${NONCE}`);
   });
 });
 
@@ -201,7 +201,7 @@ describe('consentPage — preserved invariants (regression guard for U6+)', () =
 
   it('legacy "Get an API key" footer link is preserved', async () => {
     const html = await renderHtml(BASE_PARAMS, NONCE);
-    assert.match(html, /href="https:\/\/www\.worldmonitor\.app\/pro"/);
+    assert.match(html, /href="https:\/\/www\.eagle-eye\.app\/pro"/);
   });
 
   it('PAGE_HEADERS contract preserved: text/html + DENY + no-store + Pragma', async () => {

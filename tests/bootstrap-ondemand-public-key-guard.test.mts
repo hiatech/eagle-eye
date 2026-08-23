@@ -20,7 +20,7 @@
 // credentials, gets the same 401, and reports `wm_session_route_401`. (The
 // interceptor set is PUBLIC_SINGLE_KEY_BOOTSTRAP_KEYS in wm-session.ts; it is
 // the on-demand tier plus weatherAlerts, never an arbitrary key.) That is
-// WORLDMONITOR-XP: 100% of its events were route `/api/bootstrap`, ~125/hr,
+// EAGLEEYE-XP: 100% of its events were route `/api/bootstrap`, ~125/hr,
 // each one blaming the anonymous session for a request that never presented it.
 //
 // `crossStraitActivity` is the live instance — a `slow`-tier key that
@@ -44,7 +44,7 @@ beforeEach(() => {
     const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
     requested.push(url);
     // Mirror production: the public URL only serves on-demand keys.
-    const key = new URL(url, 'https://api.worldmonitor.app').searchParams.get('keys') ?? '';
+    const key = new URL(url, 'https://api.eagle-eye.app').searchParams.get('keys') ?? '';
     if (!ON_DEMAND.has(key)) {
       return new Response(JSON.stringify({ error: 'API key required' }), { status: 401 });
     }
@@ -59,7 +59,7 @@ afterEach(() => {
   globalThis.fetch = originalFetch;
 });
 
-describe('ensureHydrated public on-demand key guard (WORLDMONITOR-XP)', () => {
+describe('ensureHydrated public on-demand key guard (EAGLEEYE-XP)', () => {
   it('does not issue a guaranteed-401 public read for a key outside the on-demand tier', async () => {
     assert.equal(
       ON_DEMAND.has('crossStraitActivity'),

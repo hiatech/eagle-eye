@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { AirQualityAlert, ListAirQualityAlertsResponse } from '@/generated/client/worldmonitor/health/v1/service_client';
+import type { AirQualityAlert, ListAirQualityAlertsResponse } from '@/generated/client/eagleeye/health/v1/service_client';
 import { HealthServiceClient } from '@/services/generated-rpc-clients';
 
 export type { AirQualityAlert, ListAirQualityAlertsResponse };

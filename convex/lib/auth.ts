@@ -59,7 +59,7 @@ export async function requireUserId(
     // Throw as ConvexError so Convex's server-side Sentry integration treats it
     // as an expected business error (WebSocket/auth races on query fire) rather
     // than reporting every unauthed query fire as an unhandled exception
-    // (WORLDMONITOR-N3).
+    // (EAGLEEYE-N3).
     throw new ConvexError("AUTH_REQUIRED");
   }
   return userId;

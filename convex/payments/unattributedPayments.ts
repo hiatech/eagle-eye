@@ -2,7 +2,7 @@ import { internalAction, internalQuery, type MutationCtx } from "../_generated/s
 import { v } from "convex/values";
 import { internal } from "../_generated/api";
 
-const ADMIN_EMAIL = "elie@worldmonitor.app";
+const ADMIN_EMAIL = "elie@eagle-eye.app";
 
 /**
  * Per-customer quiet period for *uncharged* events only.
@@ -260,7 +260,7 @@ export const notifyUnattributedPayment = internalAction({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "World Monitor <noreply@worldmonitor.app>",
+        from: "Eagle Eye <noreply@eagle-eye.app>",
         to: ADMIN_EMAIL,
         subject,
         html,

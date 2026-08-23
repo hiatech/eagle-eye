@@ -53,7 +53,7 @@ let clientTimeout: ReturnType<typeof setTimeout> | null = null;
 interface BuiltAuthHeaders {
   headers: Record<string, string>;
   /** True when the request is authenticated with a tester key (wm-widget-key /
-   *  wm-pro-key / wm-worldmonitor-key) rather than a Clerk JWT. Used to pick
+   *  wm-pro-key / wm-eagleeye-key) rather than a Clerk JWT. Used to pick
    *  the right 403 error message — the "Update wm-pro-key" hint is misleading
    *  for normal paying users who have no tester key. */
   usedTesterKey: boolean;
@@ -81,7 +81,7 @@ async function buildWidgetAuthHeaders(isPro: boolean): Promise<BuiltAuthHeaders>
   const proKey = getProWidgetKey();
   if (testerKey || widgetKey || proKey) {
     const headers: Record<string, string> = {};
-    if (testerKey) headers['X-WorldMonitor-Key'] = testerKey;
+    if (testerKey) headers['X-EagleEye-Key'] = testerKey;
     if (widgetKey) headers['X-Widget-Key'] = widgetKey;
     if (isPro && proKey) headers['X-Pro-Key'] = proKey;
     return { headers, usedTesterKey: true };

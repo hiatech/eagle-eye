@@ -3,7 +3,7 @@ import { fetchLatestRelease } from './_github-release.js';
 // Non-sebuf: returns XML/HTML, stays as standalone Vercel function
 export const config = { runtime: 'edge' };
 
-const RELEASES_PAGE = 'https://github.com/koala73/worldmonitor/releases/latest';
+const RELEASES_PAGE = 'https://github.com/hiatech/eagle-eye/releases/latest';
 
 const PLATFORM_PATTERNS = {
   'windows-exe': (name) => name.endsWith('_x64-setup.exe'),
@@ -14,7 +14,7 @@ const PLATFORM_PATTERNS = {
   'linux-appimage-arm64': (name) => name.endsWith('_aarch64.AppImage'),
 };
 
-// #5908: there is one published desktop binary — World Monitor — and every
+// #5908: there is one published desktop binary — Eagle Eye — and every
 // variant is selected in-app after install. `variant` is therefore an identity
 // hint, not an asset selector: each supported variant resolves to that same
 // artifact. It is still validated so an unsupported value stays a visible
@@ -33,7 +33,7 @@ export const SUPPORTED_VARIANTS = new Set([
   'happy',
 ]);
 
-const DESKTOP_ASSET_IDENTIFIER = 'worldmonitor';
+const DESKTOP_ASSET_IDENTIFIER = 'eagleeye';
 
 function canonicalAssetName(name) {
   return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
@@ -66,7 +66,7 @@ export default async function handler(req) {
   }
 
   try {
-    const release = await fetchLatestRelease('WorldMonitor-Download-Redirect');
+    const release = await fetchLatestRelease('EagleEye-Download-Redirect');
     if (!release) {
       return Response.redirect(RELEASES_PAGE, 302);
     }

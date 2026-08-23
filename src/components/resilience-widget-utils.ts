@@ -2,7 +2,7 @@ import type { ResilienceScoreResponse } from '@/services/resilience';
 
 // Client-side mirror of the server-side authoritative set
 // (`RESILIENCE_RETIRED_DIMENSIONS` in
-// server/worldmonitor/resilience/v1/_dimension-scorers.ts). Duplicated
+// server/eagleeye/resilience/v1/_dimension-scorers.ts). Duplicated
 // because the widget module cannot import server code; kept in lockstep
 // by `tests/resilience-retired-dimensions-parity.test.mts`. Retired
 // dimensions are filtered out of the displayed coverage percentage so
@@ -25,7 +25,7 @@ const RESILIENCE_RETIRED_DIMENSION_IDS: ReadonlySet<string> = new Set([
 
 // Plan 2026-04-26-001 §U3 (+ review fixup): client-side mirror of
 // `RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE` in
-// `server/worldmonitor/resilience/v1/_dimension-scorers.ts`. When a dim
+// `server/eagleeye/resilience/v1/_dimension-scorers.ts`. When a dim
 // in this set emits coverage=0, the construct doesn't apply to this
 // country (e.g. sovereignFiscalBuffer for non-SWF advanced economies)
 // and must be excluded from the user-facing Coverage % so the widget
@@ -40,7 +40,7 @@ const RESILIENCE_NOT_APPLICABLE_WHEN_ZERO_COVERAGE_IDS: ReadonlySet<string> = ne
   'sovereignFiscalBuffer',
 ]);
 
-// Mirrors server/worldmonitor/resilience/v1/_shared.ts. Keep this table
+// Mirrors server/eagleeye/resilience/v1/_shared.ts. Keep this table
 // in sync so the widget Coverage % matches API overallCoverage semantics;
 // tests/resilience-staleness-factor-parity.test.mts guards drift.
 const STALENESS_CONFIDENCE_COVERAGE_FACTOR: Readonly<Record<string, number>> = {
@@ -438,7 +438,7 @@ export function formatResilienceDataVersion(dataVersion: string | null | undefin
 
 // Short labels for each serialized dimension so the compact grid does
 // not wrap. Keys match `ResilienceDimensionId` from
-// server/worldmonitor/resilience/v1/_dimension-scorers.ts. The doc
+// server/eagleeye/resilience/v1/_dimension-scorers.ts. The doc
 // linter test (resilience-methodology-lint.test.mts) already pins the
 // scorer side, so any new dimension must land in both places together.
 const DIMENSION_LABELS: Record<string, string> = {

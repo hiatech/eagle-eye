@@ -1,6 +1,6 @@
 ---
 title: "Fuel Shortage Alert Methodology"
-description: "How World Monitor classifies and publishes fuel shortage alerts (jet, petrol, diesel, heating oil) using an automated evidence-threshold pipeline."
+description: "How Eagle Eye classifies and publishes fuel shortage alerts (jet, petrol, diesel, heating oil) using an automated evidence-threshold pipeline."
 ---
 
 ## What we track
@@ -18,7 +18,7 @@ Price spikes alone are not shortage signals. We key on physical supply constrain
 
 ## Fully automated — no human review queue
 
-WorldMonitor runs every classifier fully automated. Shortage tiers are no exception. Quality comes from **tiered evidence thresholds + an LLM second-pass sanity check + auto-decay of stale rows**, not from a human reviewer.
+EagleEye runs every classifier fully automated. Shortage tiers are no exception. Quality comes from **tiered evidence thresholds + an LLM second-pass sanity check + auto-decay of stale rows**, not from a human reviewer.
 
 ### Watch tier (automated)
 
@@ -47,7 +47,7 @@ When the post-launch classifier ships, stale shortages will never persist silent
 
 ## Evidence transparency
 
-Every public shortage row exposes its `evidenceSources[]` inline — you can read the sources the classifier used. This is what makes WorldMonitor's shortage registry defensible without an editorial queue.
+Every public shortage row exposes its `evidenceSources[]` inline — you can read the sources the classifier used. This is what makes EagleEye's shortage registry defensible without an editorial queue.
 
 For any `confirmed` row, the panel surfaces:
 
@@ -78,7 +78,7 @@ an `override`-trigger entry to the revision log.
 
 **Status (v1 launch):** the override persistence layer is not yet
 implemented. Reader-flagged corrections are handled manually today via
-[GitHub issues](https://github.com/koala73/worldmonitor/issues); they
+[GitHub issues](https://github.com/hiatech/eagle-eye/issues); they
 flow through the automated override path once that layer ships
 alongside the classifier. See [`/corrections`](/corrections) for the
 planned shape of override entries.
@@ -95,4 +95,4 @@ See [`/corrections`](/corrections) for the planned revision-log shape
 (every tier change will ship with its trigger — `classifier` / `source`
 / `decay` / `override` — and the sources used). The classifier that
 writes entries ships post-launch; corrections are handled manually
-today via [GitHub issues](https://github.com/koala73/worldmonitor/issues).
+today via [GitHub issues](https://github.com/hiatech/eagle-eye/issues).

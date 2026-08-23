@@ -1,5 +1,5 @@
 /**
- * HMAC-signed URL helpers for the WorldMonitor Brief magazine route.
+ * HMAC-signed URL helpers for the EagleEye Brief magazine route.
  *
  * The hosted magazine at /api/brief/{userId}/{issueSlot} is auth-less
  * in the traditional sense (no Clerk session, no cookie). The signed
@@ -163,7 +163,7 @@ function base64urlDecode(token: string): Uint8Array | null {
  *   const url = await signBriefUrl({
  *     userId: 'user_abc',
  *     issueDate: '2026-04-17-0800',
- *     baseUrl: 'https://worldmonitor.app',
+ *     baseUrl: 'https://eagle-eye.app',
  *     secret: process.env.BRIEF_URL_SIGNING_SECRET!,
  *   });
  */

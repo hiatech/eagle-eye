@@ -12,7 +12,7 @@ more editions on hope.
 | --- | --- | --- |
 | Indexation | Google Search Console URL inspection (needs the credentialed access tracked as baseline Opportunity 1) | The report URL indexed; sitemap entry discovered; no canonical conflicts |
 | Non-brand impressions | GSC query report, 28-day window | Impressions/clicks for the q07 cluster (`Strait of Hormuz live traffic tracker` and variants) and for report-shaped queries (`hormuz transit data`, `hormuz ship traffic numbers`) |
-| AI citations | Manual four-platform audit per the reproduction contract in `docs/research/seo-ai-visibility/README.md` | Rerun q07 unchanged on ChatGPT Search, Perplexity, Google AI, Copilot; record whether the report URL (not just the homepage) is cited. A mention without a worldmonitor.app link is not a citation |
+| AI citations | Manual four-platform audit per the reproduction contract in `docs/research/seo-ai-visibility/README.md` | Rerun q07 unchanged on ChatGPT Search, Perplexity, Google AI, Copilot; record whether the report URL (not just the homepage) is cited. A mention without a eagle-eye.app link is not a citation |
 | Downloads | Umami events `research-cta` with targets `download-csv` / `download-json` | Distinct-session download counts |
 | Engagement | Umami pageviews for `/research/…`, plus `research-cta` targets `dashboard`, `chokepoint-page`, `methodology` | Report pageviews; handoff clicks into the live chokepoint page and dashboard |
 | Product outcomes | Umami `research-cta` targets `pricing` and `developer`; existing sign-up/checkout events with landing-page attribution | Assisted pricing views, API/MCP doc visits from the report |

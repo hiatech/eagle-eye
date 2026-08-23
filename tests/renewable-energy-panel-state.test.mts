@@ -173,8 +173,8 @@ before(async () => {
   defineGlobal('navigator', browser.window.navigator);
   defineGlobal('location', {
     ...browser.window.location,
-    hostname: 'worldmonitor.test',
-    host: 'worldmonitor.test',
+    hostname: 'eagleeye.test',
+    host: 'eagleeye.test',
     protocol: 'https:',
   });
   defineGlobal('HTMLElement', browser.HTMLElement);

@@ -26,7 +26,7 @@ interface Tier {
   annualProductId?: string;
 }
 
-const CATALOG_API = 'https://api.worldmonitor.app/api/product-catalog';
+const CATALOG_API = 'https://api.eagle-eye.app/api/product-catalog';
 
 function usePricingData(): Tier[] {
   const [tiers, setTiers] = useState<Tier[]>(fallbackTiers as Tier[]);
@@ -132,11 +132,11 @@ function isInProductHref(href: string): boolean {
   // lands on our product surface.
   const looksRelative = !/^[a-z][a-z0-9+.-]*:/i.test(href) && !href.startsWith('//');
   try {
-    const base = typeof window !== 'undefined' ? window.location.href : 'https://worldmonitor.app/';
+    const base = typeof window !== 'undefined' ? window.location.href : 'https://eagle-eye.app/';
     const url = new URL(href, looksRelative ? base : undefined);
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return false;
-    return url.hostname === 'worldmonitor.app' ||
-           url.hostname.endsWith('.worldmonitor.app') ||
+    return url.hostname === 'eagle-eye.app' ||
+           url.hostname.endsWith('.eagle-eye.app') ||
            // localhost dev-server case so relative CTAs work in pro-test
            url.hostname === 'localhost' ||
            url.hostname === '127.0.0.1';
@@ -147,7 +147,7 @@ function isInProductHref(href: string): boolean {
 
 function getCtaProps(tier: Tier, billing: 'monthly' | 'annual'): CtaProps {
   if (tier.cta && tier.href && tier.price === 0) {
-    // Free tier on an in-product href (e.g. worldmonitor.app dashboard)
+    // Free tier on an in-product href (e.g. eagle-eye.app dashboard)
     // should open in-place. Only send to a new tab when the href is
     // genuinely off-platform (unusual for free tier but possible).
     return {

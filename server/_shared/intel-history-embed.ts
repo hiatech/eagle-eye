@@ -134,9 +134,9 @@ export async function embedQueryText(text: string): Promise<number[] | null> {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://worldmonitor.app',
-        'X-Title': 'World Monitor',
-        'User-Agent': 'worldmonitor-gateway/1.0',
+        'HTTP-Referer': 'https://eagle-eye.app',
+        'X-Title': 'Eagle Eye',
+        'User-Agent': 'eagleeye-gateway/1.0',
       },
       body: JSON.stringify({ model: EMBED_MODEL, input: [input], dimensions: EMBED_DIMS }),
       signal: AbortSignal.timeout(EMBED_TIMEOUT_MS),

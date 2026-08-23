@@ -34,7 +34,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title">Prediction Markets</div>
-    <div class="badge">WorldMonitor Markets</div>
+    <div class="badge">EagleEye Markets</div>
   </div>
   <div class="empty" id="empty">Waiting for market odds…</div>
   <div id="card" style="display:none">
@@ -89,8 +89,8 @@ const RENDER = `
 `;
 
 export const PREDICTION_MARKETS_APP_HTML = buildAppHtml({
-  title: 'Prediction Markets — WorldMonitor',
-  appName: 'worldmonitor-prediction-markets',
+  title: 'Prediction Markets — EagleEye',
+  appName: 'eagleeye-prediction-markets',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

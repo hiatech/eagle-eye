@@ -530,7 +530,7 @@ function injectYaml(text) {
 // ── Run ──────────────────────────────────────────────────────────────────────
 const jsonFiles = readdirSync(apiDir).filter((f) => /Service\.openapi\.json$/.test(f)).sort();
 const yamlFiles = readdirSync(apiDir)
-  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'worldmonitor.openapi.yaml')
+  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'eagleeye.openapi.yaml')
   .sort();
 let wouldChange = 0;
 const touched = [];

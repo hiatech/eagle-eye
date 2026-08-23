@@ -117,7 +117,7 @@ export async function ensureHydrated(key: string): Promise<unknown | undefined> 
   // a non-on-demand key enters session recovery, which mints a fresh cookie and
   // replays a request that still omits credentials, draws the same 401, and
   // reports `wm_session_route_401` — blaming the anonymous session for a
-  // request that never presented one. That was 100% of WORLDMONITOR-XP
+  // request that never presented one. That was 100% of EAGLEEYE-XP
   // (~125/hr, all route `/api/bootstrap`), via the `slow`-tier key
   // `crossStraitActivity`. Callers already treat undefined as "use your own
   // fallback", which is exactly what the 401 produced.

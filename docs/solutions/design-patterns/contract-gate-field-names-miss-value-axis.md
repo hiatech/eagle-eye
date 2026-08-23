@@ -32,11 +32,11 @@ tags:
 
 Two things are true of most schema-contract gates, and both are load-bearing failures.
 
-**The first is the value axis.** A gate that computes `Object.keys(payload) \ declaredFields` answers exactly one question: is every emitted key declared? It says nothing about whether the emitted *values* satisfy the declaration. `optional double period_change_pct = 9;` in `proto/worldmonitor/supply_chain/v1/supply_chain_data.proto:33` means the field is **absent** when missing — that is what the generated TypeScript says (`periodChangePct?: number;`, `src/generated/server/worldmonitor/supply_chain/v1/service_server.ts:22`) and what the published OpenAPI says (`type: number` / `format: double`, no `nullable`, `docs/api/SupplyChainService.openapi.yaml:3679-3681`). A producer writing an explicit JSON `null` emits a *declared name* carrying an *undeclared value*. A name-only gate certifies it, green, forever.
+**The first is the value axis.** A gate that computes `Object.keys(payload) \ declaredFields` answers exactly one question: is every emitted key declared? It says nothing about whether the emitted *values* satisfy the declaration. `optional double period_change_pct = 9;` in `proto/eagleeye/supply_chain/v1/supply_chain_data.proto:33` means the field is **absent** when missing — that is what the generated TypeScript says (`periodChangePct?: number;`, `src/generated/server/eagleeye/supply_chain/v1/service_server.ts:22`) and what the published OpenAPI says (`type: number` / `format: double`, no `nullable`, `docs/api/SupplyChainService.openapi.yaml:3679-3681`). A producer writing an explicit JSON `null` emits a *declared name* carrying an *undeclared value*. A name-only gate certifies it, green, forever.
 
 **The second is coverage provenance.** A gate whose input roster is hand-copied from a composition site starts correct and stops covering the thing the moment someone edits the composition site. That is the exact hand-mirrored-copy drift the gate exists to prevent — reproduced one level up, inside the gate.
 
-Both landed together. Issue #6078 (branch opened in #6078, unmerged as of this writing) started from PR #6074 growing every `supply_chain:shipping:v2` entry by four fields while `message ShippingIndex` still declared eight. `server/worldmonitor/supply-chain/v1/get-shipping-rates.ts:50` casts the Redis blob straight to `GetShippingRatesResponse` with no field stripping, so the public endpoint served four undeclared properties. Nothing failed: the OpenAPI schema sets no `additionalProperties: false` on `ShippingIndex`.
+Both landed together. Issue #6078 (branch opened in #6078, unmerged as of this writing) started from PR #6074 growing every `supply_chain:shipping:v2` entry by four fields while `message ShippingIndex` still declared eight. `server/eagleeye/supply-chain/v1/get-shipping-rates.ts:50` casts the Redis blob straight to `GetShippingRatesResponse` with no field stripping, so the public endpoint served four undeclared properties. Nothing failed: the OpenAPI schema sets no `additionalProperties: false` on `ShippingIndex`.
 
 Closing it properly surfaced seven distinct ways a schema gate goes green while blind. The recipe below is those seven, generalized.
 
@@ -49,7 +49,7 @@ A non-vacuous schema-contract gate needs all eight of these. Each one below is a
 Decide what your schema's `optional` / `nullable` *means* on the wire, write it down, and enforce it where the response is built.
 
 ```ts
-// server/worldmonitor/supply-chain/v1/get-shipping-rates.ts:20-22
+// server/eagleeye/supply-chain/v1/get-shipping-rates.ts:20-22
 function nullToUndefined<T>(value: T | null | undefined): T | undefined {
   return value == null ? undefined : value;
 }
@@ -100,7 +100,7 @@ Top-level keys are the easy half. Ask: *what else ends up in this payload, and d
 
 ### 5. Guard the envelope, not only its elements
 
-The same cast-the-blob mechanism operates one level up. `GetShippingRatesResponse` (`proto/worldmonitor/supply_chain/v1/get_shipping_rates.proto`) was unguarded: a diagnostic added to the producer's return (`degraded`, `sourcesOk`, …) would have shipped undeclared exactly like the four field additions did. `tests/freight-indices.test.mjs:607-622` diffs the producer's return literals against the envelope message's declared fields, in both directions (`deepEqual` of sorted key sets — so an omitted declared field trips too).
+The same cast-the-blob mechanism operates one level up. `GetShippingRatesResponse` (`proto/eagleeye/supply_chain/v1/get_shipping_rates.proto`) was unguarded: a diagnostic added to the producer's return (`degraded`, `sourcesOk`, …) would have shipped undeclared exactly like the four field additions did. `tests/freight-indices.test.mjs:607-622` diffs the producer's return literals against the envelope message's declared fields, in both directions (`deepEqual` of sorted key sets — so an omitted declared field trips too).
 
 ### 6. Fixtures must cover every branch that can emit a field
 

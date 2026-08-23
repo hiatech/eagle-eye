@@ -41,12 +41,12 @@
     "phaseError": "Hiba",
     "previewCheckingHeading": "Widget szerkesztő csatlakoztatása",
     "previewReadyHeading": "Írja le a kívánt widgetet",
-    "previewFetchingHeading": "Élő WorldMonitor adatok lekérése",
+    "previewFetchingHeading": "Élő EagleEye adatok lekérése",
     "previewComposingHeading": "Widget elrendezés összeállítása",
     "previewErrorHeading": "Az előnézet figyelmet igényel",
     "previewCheckingCopy": "Widget kulcsát és backend rendelkezésre állását ellenőrizzük a generálás engedélyezése előtt.",
     "previewReadyCopy": "Használjon egy prompt példát vagy írja le a kívánt élő nézetet. Az előnézet frissül itt, mielőtt mentené.",
-    "previewFetchingCopy": "Az ügynök jóváhagyott WorldMonitor végpontokat hív meg és formálja az adathalmazt a widgethez.",
+    "previewFetchingCopy": "Az ügynök jóváhagyott EagleEye végpontokat hív meg és formálja az adathalmazt a widgethez.",
     "previewComposingCopy": "Az előnézet a legújabb élő adatokkal és irányítópult stílust használva jelenik meg.",
     "previewErrorCopy": "Hárítsa el a problémát, majd próbálkozzon újra. Meglévő widgetjei érintetlen maradnak.",
     "createInteractive": "Interaktív widget létrehozása",
@@ -654,7 +654,7 @@
         "some": "Néhány funkció API-kulcsokat igényel"
       },
       "reserveEarlyAccess": "Foglalj korai hozzáférést",
-      "skipSetup": "Hagyj ki a beállítást — egy World Monitor licenc mindent feloldja. Csatlakozz a várólistához a korai hozzáféréshez.",
+      "skipSetup": "Hagyj ki a beállítást — egy Eagle Eye licenc mindent feloldja. Csatlakozz a várólistához a korai hozzáféréshez.",
       "summary": {
         "desktop": "Asztali mód",
         "web": "Web mód (csak olvasható, szerveren kezelt hitelesítés)",
@@ -685,7 +685,7 @@
       }
     },
     "settingsWindow": {
-      "shellTitle": "World Monitor beállítások",
+      "shellTitle": "Eagle Eye beállítások",
       "shellSearchPlaceholder": "Beállítások keresése...",
       "shellCancel": "Mégse",
       "shellSaveClose": "Mentés és bezárás",
@@ -704,7 +704,7 @@
       "noTraffic": "Még nincs rögzített forgalom.",
       "sidecarUnreachable": "Az oldalkocsi nem elérhető.",
       "logCleared": "Napló törlve.",
-      "worldMonitor": {
+      "eagleEye": {
         "apiKey": {
           "title": "Licenc- / API-kulcs",
           "placeholder": "wm_xxxxxxxxxxxxxxxxxxxxxxxx",
@@ -713,7 +713,7 @@
         "dividerOr": "VAGY",
         "register": {
           "title": "API-kulcsra van szüksége?",
-          "description": "A részletes útmutatóért keresse fel a worldmonitor.app/docs/api-keys oldalt. A kézi API-kulcsokhoz API Starter vagy API Business csomag szükséges.",
+          "description": "A részletes útmutatóért keresse fel a eagle-eye.app/docs/api-keys oldalt. A kézi API-kulcsokhoz API Starter vagy API Business csomag szükséges.",
           "submitBtn": "API-csomagok megtekintése"
         }
       },
@@ -2091,7 +2091,7 @@
       "loadError": "Éghajlat hírek átmenetileg nem érhetőek el"
     },
     "chatAnalyst": {
-      "infoTooltip": "<strong>WM Analyst</strong> AI-elemző élő kontextussal a geopolitikai, piaci, katonai és gazdasági területeken. A Claude által működtetett, valós idejű adatok az aktív WorldMonitor feedekből."
+      "infoTooltip": "<strong>WM Analyst</strong> AI-elemző élő kontextussal a geopolitikai, piaci, katonai és gazdasági területeken. A Claude által működtetett, valós idejű adatok az aktív EagleEye feedekből."
     },
     "cotPositioning": {
       "infoTooltip": "<strong>CFTC COT Positioning</strong> Traders Commitments report: kereskedelmi vállalkozások, nagy spekulánsok és kis kereskedők nettó pozíciói a товар- és pénzügyi futures piacokon. Hetente közzétéve (péntek). Forrás: CFTC."
@@ -2243,7 +2243,7 @@
       "infoTooltip": "<strong>Macro Indicators</strong> Kulcsfontosságú makrogazdasági mutatók az USA és az Euró-övezet számára: CPI, munkanélküliség, GDP és központi banki kamatok. Értékek az előző periódus delta értékével jelennek meg. Forrás: FRED (Federal Reserve Economic Data)."
     },
     "monitors": {
-      "infoTooltip": "<strong>Keyword Monitors</strong> Adjon hozzá bármilyen kifejezést az összes WorldMonitor forrásban való élő hírerwähnungen nyomon követéséhez. Az eredmények valós időben frissülnek, miközben a megfelelő cikkeket feldolgozzák."
+      "infoTooltip": "<strong>Keyword Monitors</strong> Adjon hozzá bármilyen kifejezést az összes EagleEye forrásban való élő hírerwähnungen nyomon követéséhez. Az eredmények valós időben frissülnek, miközben a megfelelő cikkeket feldolgozzák."
     },
     "renewable": {
       "infoTooltip": "<strong>Renewable Energy</strong> Megújuló energiaforrásokból származó villamos energia aránya régiónként és évenként, valamint az USA telepített kapacitása a napenergia, szélenergia és szén esetében (MW). Források: World Bank (EG.ELC.RNEW.ZS) és EIA."
@@ -3301,7 +3301,7 @@
   },
   "premium": {
     "pro": "PRO",
-    "lockedDesc": "World Monitor licenckulcs szükséges",
+    "lockedDesc": "Eagle Eye licenckulcs szükséges",
     "signInToUnlock": "Jelentkezzen be a prémium funkciók feloldásához",
     "signIn": "Jelentkezzen be a feloldáshoz",
     "upgradeDesc": "Frissítsen Pro verzióra a teljes hozzáféréshez a prémium elemzésekhez",

@@ -5,7 +5,7 @@
   "approval": {
     "status": "approved",
     "approverName": "Elie Habib",
-    "approverRole": "WorldMonitor product owner",
+    "approverRole": "EagleEye product owner",
     "approvedAt": "2026-08-05T00:00:00.000Z",
     "approvalEvidence": "github_issue_6003",
     "approvedThresholdsSha256": "29ce1d431086f3b7a9a955776f0c2c009d87c809f810f32f8b10aef53f8ecfc2"

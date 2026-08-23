@@ -17,21 +17,21 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CLI_DIR = join(ROOT, 'cli');
 const pkg = JSON.parse(readFileSync(join(CLI_DIR, 'package.json'), 'utf-8'));
 
-// Guards the published `worldmonitor` CLI package (orank Access "CLI tool
+// Guards the published `eagleeye` CLI package (orank Access "CLI tool
 // available" gap). The CLI ships from cli/ and is advertised in llms.txt, so
 // these assertions stop the package wiring, its User-Agent (a Cloudflare-WAF
 // workaround), and the llms.txt advertisement from silently drifting apart.
-describe('worldmonitor CLI package wiring', () => {
-  it('is the public unscoped `worldmonitor` npm package', () => {
-    assert.equal(pkg.name, 'worldmonitor');
+describe('eagleeye CLI package wiring', () => {
+  it('is the public unscoped `eagleeye` npm package', () => {
+    assert.equal(pkg.name, 'eagleeye');
     assert.equal(pkg.type, 'module');
     assert.equal(pkg.publishConfig?.access, 'public');
     assert.match(pkg.license, /^MIT$/);
   });
 
-  it('exposes the worldmonitor bin pointing at the shipped entry', () => {
-    assert.equal(pkg.bin?.worldmonitor, 'bin/worldmonitor.mjs');
-    const bin = readFileSync(join(CLI_DIR, pkg.bin.worldmonitor), 'utf-8');
+  it('exposes the eagleeye bin pointing at the shipped entry', () => {
+    assert.equal(pkg.bin?.eagleeye, 'bin/eagleeye.mjs');
+    const bin = readFileSync(join(CLI_DIR, pkg.bin.eagleeye), 'utf-8');
     assert.match(bin, /^#!\/usr\/bin\/env node/);
     assert.match(bin, /from '\.\.\/src\/run\.mjs'/);
   });
@@ -45,7 +45,7 @@ describe('worldmonitor CLI package wiring', () => {
   });
 });
 
-describe('worldmonitor CLI request construction', () => {
+describe('eagleeye CLI request construction', () => {
   it('maps a curated command to the right MCP tool call', () => {
     const rpc = JSON.parse(planRequest(parseArgs(['risk', 'IR', '--api-key', 'wm_k'])).body);
     assert.equal(rpc.method, 'tools/call');
@@ -55,7 +55,7 @@ describe('worldmonitor CLI request construction', () => {
   it('always sends the CLI User-Agent (Cloudflare WAF passes it, not `node`)', () => {
     const plan = planRequest(parseArgs(['tools']));
     assert.equal(plan.headers['user-agent'], USER_AGENT);
-    assert.match(USER_AGENT, /^worldmonitor-cli\//);
+    assert.match(USER_AGENT, /^eagleeye-cli\//);
   });
 
   it('injects the API key header from the environment', () => {
@@ -64,7 +64,7 @@ describe('worldmonitor CLI request construction', () => {
   });
 });
 
-describe('worldmonitor CLI run() with a mocked transport', () => {
+describe('eagleeye CLI run() with a mocked transport', () => {
   function stubFetch(body) {
     const calls = [];
     const fetchImpl = async (url, init) => {
@@ -100,7 +100,7 @@ describe('llms.txt advertises the CLI', () => {
   const llms = readFileSync(join(ROOT, 'public/llms.txt'), 'utf-8');
 
   it('references the npm package so the discovery entry is not dropped', () => {
-    assert.match(llms, /worldmonitor/);
+    assert.match(llms, /eagleeye/);
     assert.match(llms, /npm|npx/i, 'llms.txt should mention how to install/run the CLI');
   });
 });

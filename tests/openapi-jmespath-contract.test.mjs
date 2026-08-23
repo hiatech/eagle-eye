@@ -136,8 +136,8 @@ describe('OpenAPI jmespath projection parameter contract', () => {
   });
 
   it(`the unified bundle advertises jmespath on every GET (${EXPECTED_GET_OPERATIONS} total)`, () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    const total = assertJmespathContract(bundle, 'worldmonitor.openapi.yaml');
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    const total = assertJmespathContract(bundle, 'eagleeye.openapi.yaml');
     assert.equal(
       total,
       EXPECTED_GET_OPERATIONS,

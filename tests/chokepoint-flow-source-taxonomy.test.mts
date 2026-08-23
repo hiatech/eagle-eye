@@ -34,22 +34,22 @@ delete process.env.UPSTASH_REDIS_REST_TOKEN;
 
 const { sidecarCacheSet } = await import('../server/_shared/sidecar-cache.ts');
 const { getChokepointStatus } = await import(
-  '../server/worldmonitor/supply-chain/v1/get-chokepoint-status.ts'
+  '../server/eagleeye/supply-chain/v1/get-chokepoint-status.ts'
 );
 // Safe to import: seed-chokepoint-flows.mjs guards its runSeed call behind
 // `isMain`, so nothing executes and no Redis credentials are read on import.
 const { resolveFlowSource } = await import('../scripts/seed-chokepoint-flows.mjs');
 
 const proto = readFileSync(
-  resolve(root, 'proto/worldmonitor/supply_chain/v1/supply_chain_data.proto'),
+  resolve(root, 'proto/eagleeye/supply_chain/v1/supply_chain_data.proto'),
   'utf-8',
 );
 const generatedTs = readFileSync(
-  resolve(root, 'src/generated/server/worldmonitor/supply_chain/v1/service_server.ts'),
+  resolve(root, 'src/generated/server/eagleeye/supply_chain/v1/service_server.ts'),
   'utf-8',
 );
 const generatedTsClient = readFileSync(
-  resolve(root, 'src/generated/client/worldmonitor/supply_chain/v1/service_client.ts'),
+  resolve(root, 'src/generated/client/eagleeye/supply_chain/v1/service_client.ts'),
   'utf-8',
 );
 const openapi = JSON.parse(

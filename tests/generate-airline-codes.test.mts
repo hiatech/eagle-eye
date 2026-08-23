@@ -17,7 +17,7 @@ afterEach(async () => {
 });
 
 async function createTarget(entries: string[]) {
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'worldmonitor-airlines-'));
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'eagleeye-airlines-'));
   tempDirectories.push(directory);
 
   const targetFile = path.join(directory, 'airline-codes.ts');
@@ -63,7 +63,7 @@ describe('generate-airline-codes', () => {
     const generated = await fs.readFile(targetFile, 'utf8');
     assert.deepEqual(result, { total: 1, added: 0, removed: 2 });
     assert.match(requests[0]?.[0] ?? '', /openflights\/1d574116457dd4bccf2d3838c4171b7960794dca\/data\/airlines\.dat$/);
-    assert.equal(requests[0]?.[1].headers?.['User-Agent'], 'worldmonitor-airline-code-generator (+https://github.com/hiatech/worldmonitor)');
+    assert.equal(requests[0]?.[1].headers?.['User-Agent'], 'eagleeye-airline-code-generator (+https://github.com/hiatech/eagle-eye)');
     assert.ok(requests[0]?.[1].signal instanceof AbortSignal);
     assert.match(generated, /const OVERRIDE = \{ KEEP: \{ iata: 'KP', name: 'Keep Airline' \} \};/);
     assert.match(generated, /const GENERATED: Record/);
@@ -96,7 +96,7 @@ describe('generate-airline-codes', () => {
   });
 
   it('returns a failing process status when the CLI fetch fails', async () => {
-    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'worldmonitor-airline-cli-'));
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'eagleeye-airline-cli-'));
     tempDirectories.push(directory);
     const preload = path.join(directory, 'mock-fetch.mjs');
     await fs.writeFile(preload, 'globalThis.fetch = async () => { throw new Error("simulated fetch failure"); };\n');

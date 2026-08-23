@@ -6,7 +6,7 @@
  * set (via the existing `setSourcesEnabled` bulk primitive) and never touches
  * any other enabled/disabled choice. `DEFAULT_ENABLED_SOURCES` remains the
  * baseline; presets are user-applied overlays persisted in the same
- * `worldmonitor-disabled-feeds` storage.
+ * `eagleeye-disabled-feeds` storage.
  *
  * Editorial rules:
  * - State propaganda that the catalog keeps as manual opt-in only (TASS, RT,

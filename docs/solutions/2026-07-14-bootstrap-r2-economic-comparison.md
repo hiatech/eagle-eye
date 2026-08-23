@@ -19,7 +19,7 @@ status: superseded-r2-serving-no-go
 
 ## Decision summary
 
-The signed Upstash dashboard materially strengthens the R2 case. The sole World Monitor database
+The signed Upstash dashboard materially strengthens the R2 case. The sole Eagle Eye database
 is currently on **Fixed 100 GB**, whose published nominal price is $800/month. The dashboard also
 shows 1.3 billion commands, 3 GB average storage, and $219.36 cost for an unspecified displayed
 period; it shows AWS `us-east-1` and offers **Enable Prod Pack**, so Prod Pack is not enabled.
@@ -84,7 +84,7 @@ No credential, endpoint, project identifier, invoice detail, or object name is r
 
 | Observation | Value | Method | Limitation |
 |---|---:|---|---|
-| Upstash organization | World Monitor; one Redis database | Signed dashboard, 2026-07-14 | Account identity is not reproduced here |
+| Upstash organization | Eagle Eye; one Redis database | Signed dashboard, 2026-07-14 | Account identity is not reproduced here |
 | Database plan | Fixed 100 GB; published nominal $800/month | Signed dashboard, 2026-07-14 | Displayed $219.36 is not assumed monthly |
 | Database region | AWS `us-east-1` | Signed dashboard, 2026-07-14 | No paid read region shown |
 | Dashboard commands | 1.3 billion | Signed dashboard, 2026-07-14 | Exact displayed-period boundaries unavailable |

@@ -7,7 +7,7 @@ problem_type: logic_error
 component: authentication
 severity: high
 symptoms:
-  - "Sentry WORLDMONITOR-WG (`kind: wm_session_dead`) regrew 34x traffic-normalized in three days after #5516 fixed one contributor, with 97% tagged `retry_401` (mint succeeded, replay still 401'd)"
+  - "Sentry EAGLEEYE-WG (`kind: wm_session_dead`) regrew 34x traffic-normalized in three days after #5516 fixed one contributor, with 97% tagged `retry_401` (mint succeeded, replay still 401'd)"
   - "Each episode suppressed every anonymous API call for 15 minutes (#5219 cooldown) — a dashboard of blank widgets"
   - "The 401 was invisible in Sentry breadcrumbs: 94 fetch breadcrumbs across 5 sampled events, zero non-2xx"
   - "Axiom `wm_api_usage` showed ZERO server-side 401s for 11 of 12 sampled affected browsers, while sibling routes returned 200 in the same second the client declared the session dead"
@@ -95,7 +95,7 @@ Three review findings all reduced to conflating these:
 
 **6. Make the tag name what failed, and the state readable.** Two smaller review findings, both about the deliverable rather than the logic:
 
-- On `mint_failed` the `route` tag carried whichever route happened to be in flight. The obvious use of the tag is to group `WORLDMONITOR-WG` by it and read off the offending endpoint, so tagging a bystander seeds the census with innocent routes under a name that means "the denied route" everywhere else. `mint_failed` now tags `/api/wm-session` — the thing that actually failed — and the blocked route rides the breadcrumb as `blocked`.
+- On `mint_failed` the `route` tag carried whichever route happened to be in flight. The obvious use of the tag is to group `EAGLEEYE-WG` by it and read off the offending endpoint, so tagging a bystander seeds the census with innocent routes under a name that means "the denied route" everywhere else. `mint_failed` now tags `/api/wm-session` — the thing that actually failed — and the blocked route rides the breadcrumb as `blocked`.
 - Per-route suppression is intentionally silent, which makes "one panel is broken, the rest work" the one state this module can enter with no local way to confirm it. Diagnosing it meant a Sentry search scoped to the user's IP inside the 15-minute window before the strike self-expired. `getStruckRoutes()` is now exported alongside `isWmSessionDead()`.
 
 **Sizing a cardinality bound against the real thing, not a round number.** The per-segment cap was 32 chars. Across the 198 registered routes exactly one final segment exceeds it — `get-china-corridor-control-towers` at 33 — and it is live (`src/components/ChinaCorridorPanel.ts`), so the tag reported that panel's route as `/api/supply-chain/v1/:id`. That is worse than emitting nothing: it is indistinguishable from a legitimately-collapsed dynamic family, so a triager dismisses the one route the tag existed to name. `get-consumer-price-basket-series` sat at exactly 32, one character behind. The lesson is that a guessed bound on a real namespace is a latent bug — enumerate the namespace, size the bound against its actual maximum, and pin the extreme case in a test so the next long name cannot silently reopen it.

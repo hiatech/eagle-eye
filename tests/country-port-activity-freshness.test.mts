@@ -4,12 +4,12 @@ import { after, before, describe, it } from 'node:test';
 import type {
   GetCountryPortActivityRequest,
   ServerContext,
-} from '../src/generated/server/worldmonitor/intelligence/v1/service_server.ts';
+} from '../src/generated/server/eagleeye/intelligence/v1/service_server.ts';
 import {
   getCountryPortActivity,
   isCurrentPortActivityPayload,
   PORTWATCH_PORT_ACTIVITY_MAX_CACHE_AGE_MS,
-} from '../server/worldmonitor/intelligence/v1/get-country-port-activity.ts';
+} from '../server/eagleeye/intelligence/v1/get-country-port-activity.ts';
 
 const DAY = 86_400_000;
 const NOW = Date.parse('2026-07-29T12:00:00.000Z');

@@ -3,7 +3,7 @@ title: "Scenario Engine"
 description: "Run pre-built supply-chain disruption scenarios — conflicts, sanctions, tariff shocks, and weather — to see exposed chokepoints, sectors, and countries."
 ---
 
-Scenario Engine turns WorldMonitor's live supply-chain graph into an interactive what-if tool. Instead of asking "what is the state of this lane today," you pick a named disruption scenario — a Hormuz closure, a Panama drought, a tariff shock on semiconductors — and the engine resolves the downstream impact on chokepoints, HS2 sectors, and the currently seeded reporter countries, then paints the result onto the existing map.
+Scenario Engine turns EagleEye's live supply-chain graph into an interactive what-if tool. Instead of asking "what is the state of this lane today," you pick a named disruption scenario — a Hormuz closure, a Panama drought, a tariff shock on semiconductors — and the engine resolves the downstream impact on chokepoints, HS2 sectors, and the currently seeded reporter countries, then paints the result onto the existing map.
 
 ## Who it is for
 
@@ -19,7 +19,7 @@ You can also drive it programmatically — see [Scenarios API](/api-scenarios) f
 
 ## Scenario templates
 
-Templates are defined in `server/worldmonitor/supply-chain/v1/scenario-templates.ts`. Each template has a `type` drawn from a small, curated set so scenarios are browsable by category rather than a free-form list.
+Templates are defined in `server/eagleeye/supply-chain/v1/scenario-templates.ts`. Each template has a `type` drawn from a small, curated set so scenarios are browsable by category rather than a free-form list.
 
 The currently shipped types are:
 
@@ -45,7 +45,7 @@ The UI is state-driven, not modal — activating a scenario sets a `scenarioStat
 
 ## Tier & gating
 
-Scenario Engine is **PRO**. Free users see the trigger buttons but are blocked at activation: a `scenario-engine` gate-hit event is logged and the map is not repainted. The `ScenarioService.RunScenario` handler also enforces PRO at the edge (`server/worldmonitor/scenario/v1/run-scenario.ts`).
+Scenario Engine is **PRO**. Free users see the trigger buttons but are blocked at activation: a `scenario-engine` gate-hit event is logged and the map is not repainted. The `ScenarioService.RunScenario` handler also enforces PRO at the edge (`server/eagleeye/scenario/v1/run-scenario.ts`).
 
 Rate limits on the API side — 10 jobs / minute / IP, with queue backpressure once the pending queue is already above 100 jobs — are documented in [Scenarios API](/api-scenarios#run-a-scenario).
 
@@ -63,7 +63,7 @@ For scripted use, see [`POST /api/scenario/v1/run-scenario`](/api-scenarios#run-
 
 ## Data behind Scenario Engine
 
-- **Scenario templates** — `server/worldmonitor/supply-chain/v1/scenario-templates.ts`. Additions require a proto-side change; not user-configurable today.
+- **Scenario templates** — `server/eagleeye/supply-chain/v1/scenario-templates.ts`. Additions require a proto-side change; not user-configurable today.
 - **Job queue** — Redis list `scenario-queue:pending`; worker results land at `scenario-result:{jobId}`.
 - **Chokepoint registry** — the same registry that backs live chokepoint status and Route Explorer, ensuring scenario results visually align with the rest of the product.
 - **Trade / impact data** — HS2 exposure cache entries read from `supply-chain:exposure:{ISO2}:{HS2}:v1`. If `iso2` is omitted, v1 computes only the seeded reporter set: `US`, `CN`, `RU`, `IR`, `IN`, and `TW`. Supplying `iso2` scopes the job to that single country key.

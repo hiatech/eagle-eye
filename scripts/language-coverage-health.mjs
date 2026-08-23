@@ -13,7 +13,7 @@
  * Two catalogs have to agree for a native source to be fully wired:
  *
  *   src/config/feeds.ts                      → what the browser fetches directly
- *   server/worldmonitor/news/v1/_feeds.ts    → what buildDigest ingests for AI briefs
+ *   server/eagleeye/news/v1/_feeds.ts    → what buildDigest ingests for AI briefs
  *
  * They are independent files. A source present in only the first renders in the
  * news pane but never reaches a brief; present in only the second, the reverse.
@@ -38,7 +38,7 @@ const DEFAULT_REPO_ROOT = join(SCRIPT_DIR, '..');
 
 const I18N_PATH = 'src/services/i18n.ts';
 const CLIENT_FEEDS_PATH = 'src/config/feeds.ts';
-const SERVER_FEEDS_PATH = 'server/worldmonitor/news/v1/_feeds.ts';
+const SERVER_FEEDS_PATH = 'server/eagleeye/news/v1/_feeds.ts';
 const LOCALES_DIR = 'src/locales';
 
 function readJson(path) {
@@ -343,7 +343,7 @@ export function validateMultiUrlDigestParity({ clientFeeds, serverFeeds, languag
       `${clientFeed.name}: client serves ${unmatched.join('/')} from a locale-keyed URL, ` +
       'the server digest catalog does not — readers in those locales get a pane in ' +
       'their language and a brief built from another. Add the locale URL to this ' +
-      "feed's `url` map in server/worldmonitor/news/v1/_feeds.ts, or document it in " +
+      "feed's `url` map in server/eagleeye/news/v1/_feeds.ts, or document it in " +
       'multiUrlDigestAllowlist',
     );
   }

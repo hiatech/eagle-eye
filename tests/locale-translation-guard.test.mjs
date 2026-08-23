@@ -77,7 +77,7 @@ describe('translation validation', () => {
     // stops seeing it — and there is no scheme, so the https arm never fires
     // either. The guard then accepts a translation that deletes the URL outright,
     // which is precisely what it exists to prevent.
-    const REAL = 'See worldmonitor.app/docs/api-keys for step-by-step help.';
+    const REAL = 'See eagle-eye.app/docs/api-keys for step-by-step help.';
 
     it('rejects dropping a bare-domain URL', () => {
       assert.equal(validateTranslation(REAL, 'Weitere Hilfe finden Sie in der Dokumentation.'), false);
@@ -85,14 +85,14 @@ describe('translation validation', () => {
 
     it('rejects rewriting a bare-domain URL', () => {
       assert.equal(
-        validateTranslation(REAL, 'Siehe worldmonitor.app/fr/docs/cles-api für Hilfe.'),
+        validateTranslation(REAL, 'Siehe eagle-eye.app/fr/docs/cles-api für Hilfe.'),
         false,
       );
     });
 
     it('accepts a preserved bare-domain URL', () => {
       assert.equal(
-        validateTranslation(REAL, 'Siehe worldmonitor.app/docs/api-keys für Schritt-für-Schritt-Hilfe.'),
+        validateTranslation(REAL, 'Siehe eagle-eye.app/docs/api-keys für Schritt-für-Schritt-Hilfe.'),
         true,
       );
     });
@@ -105,21 +105,21 @@ describe('translation validation', () => {
   describe('absolute URLs', () => {
     it('rejects a dropped URL', () => {
       assert.equal(
-        validateTranslation('Read https://worldmonitor.app/pro now', 'Lisez maintenant'),
+        validateTranslation('Read https://eagle-eye.app/pro now', 'Lisez maintenant'),
         false,
       );
     });
 
     it('rejects a rewritten URL', () => {
       assert.equal(
-        validateTranslation('Read https://worldmonitor.app/pro now', 'Lisez https://worldmonitor.app/fr/pro'),
+        validateTranslation('Read https://eagle-eye.app/pro now', 'Lisez https://eagle-eye.app/fr/pro'),
         false,
       );
     });
 
     it('accepts a preserved URL', () => {
       assert.equal(
-        validateTranslation('Read https://worldmonitor.app/pro now', 'Lisez maintenant https://worldmonitor.app/pro'),
+        validateTranslation('Read https://eagle-eye.app/pro now', 'Lisez maintenant https://eagle-eye.app/pro'),
         true,
       );
     });

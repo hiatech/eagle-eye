@@ -5,10 +5,10 @@ import { t } from '../i18n';
 // Registry install commands are product identifiers, not prose — they stay
 // untranslated on purpose (same reason the tool names below do).
 const INSTALL_CHIPS = [
-  { cmd: 'npm i worldmonitor', href: 'https://www.npmjs.com/package/worldmonitor' },
-  { cmd: 'pip install worldmonitor-sdk', href: 'https://pypi.org/project/worldmonitor-sdk/' },
-  { cmd: 'gem install worldmonitor', href: 'https://rubygems.org/gems/worldmonitor' },
-  { cmd: 'go get github.com/koala73/worldmonitor/sdk/go', href: 'https://pkg.go.dev/github.com/koala73/worldmonitor/sdk/go' },
+  { cmd: 'npm i eagleeye', href: 'https://www.npmjs.com/package/eagleeye' },
+  { cmd: 'pip install eagleeye-sdk', href: 'https://pypi.org/project/eagleeye-sdk/' },
+  { cmd: 'gem install eagleeye', href: 'https://rubygems.org/gems/eagleeye' },
+  { cmd: 'go get github.com/hiatech/eagle-eye/sdk/go', href: 'https://pkg.go.dev/github.com/hiatech/eagle-eye/sdk/go' },
 ] as const;
 
 export const Agents = () => (
@@ -47,7 +47,7 @@ export const Agents = () => (
         </div>
         <p className="font-mono text-xs uppercase tracking-wider text-wm-text mb-8">{t('welcome.agents.promise')}</p>
         <a
-          href="https://www.worldmonitor.app/docs"
+          href="https://www.eagle-eye.app/docs"
           className="border border-wm-border text-wm-text px-6 py-3 rounded-sm font-mono text-sm uppercase tracking-wider font-bold hover:border-wm-green/50 transition-colors inline-block"
         >
           {t('welcome.agents.cta')}
@@ -80,7 +80,7 @@ export const Agents = () => (
           </p>
           <p className="text-wm-text mb-2"><span className="text-wm-green" aria-hidden="true">✓</span> {t('welcome.agents.termAnswer')}</p>
           <p>
-            <a href="https://www.worldmonitor.app/docs" className="text-wm-green hover:text-green-300 transition-colors">{t('welcome.agents.termDocs')}</a>
+            <a href="https://www.eagle-eye.app/docs" className="text-wm-green hover:text-green-300 transition-colors">{t('welcome.agents.termDocs')}</a>
           </p>
         </div>
       </motion.div>

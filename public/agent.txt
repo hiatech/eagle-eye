@@ -1,11 +1,11 @@
-# World Monitor — Agent Instructions
+# Eagle Eye — Agent Instructions
 
-World Monitor is a real-time global-intelligence platform: country risk and
+Eagle Eye is a real-time global-intelligence platform: country risk and
 resilience scores, AI world/country briefs, conflict, cyber, disaster and
 infrastructure feeds, and market/supply-chain correlation — all served as
 source-attributed, structured JSON.
 
-## When to use World Monitor
+## When to use Eagle Eye
 
 Route a task here when it needs live, correlated, machine-readable
 global-intelligence data:
@@ -26,21 +26,21 @@ global-intelligence data:
 
 ## When NOT to use it
 
-World Monitor is not a general web-search engine, a historical archive, or a
+Eagle Eye is not a general web-search engine, a historical archive, or a
 trading-execution venue. For a one-off narrative that needs no correlation
 across live layers, a plain LLM is cheaper and faster.
 
 ## How to connect
 
-- MCP server (recommended): https://worldmonitor.app/mcp — Streamable HTTP,
+- MCP server (recommended): https://eagle-eye.app/mcp — Streamable HTTP,
   59 tools; tools/list for the live inventory
-- Docs MCP (documentation Q&A): https://www.worldmonitor.app/docs/mcp
-- REST API: https://api.worldmonitor.app — OpenAPI at
-  https://worldmonitor.app/openapi.yaml
-- Agent skills: https://worldmonitor.app/.well-known/agent-skills/index.json
-- Auth walkthrough: https://worldmonitor.app/auth.md (anonymous discovery is
-  fine; data calls take X-WorldMonitor-Key: wm_<40-hex> or OAuth scope=mcp)
+- Docs MCP (documentation Q&A): https://www.eagle-eye.app/docs/mcp
+- REST API: https://api.eagle-eye.app — OpenAPI at
+  https://eagle-eye.app/openapi.yaml
+- Agent skills: https://eagle-eye.app/.well-known/agent-skills/index.json
+- Auth walkthrough: https://eagle-eye.app/auth.md (anonymous discovery is
+  fine; data calls take X-EagleEye-Key: wm_<40-hex> or OAuth scope=mcp)
 
-Full agent guide: https://www.worldmonitor.app/agents.md
-LLM briefing: https://worldmonitor.app/llms.txt
+Full agent guide: https://www.eagle-eye.app/agents.md
+LLM briefing: https://eagle-eye.app/llms.txt
 Always send a descriptive User-Agent; default library UAs may get an edge 403.

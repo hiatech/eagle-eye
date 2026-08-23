@@ -97,7 +97,7 @@ function getMcpAnonRatelimit(): Ratelimit | null {
 /**
  * Build the Authorization header set for a downstream `_execute` fetch.
  *
- *   - env_key → `X-WorldMonitor-Key: <apiKey>` (existing, unchanged).
+ *   - env_key → `X-EagleEye-Key: <apiKey>` (existing, unchanged).
  *   - pro     → `X-WM-MCP-Internal: <ts>.<sig>` + `X-WM-MCP-User-Id: <userId>`.
  *               Signature binds method+pathname+queryHash+bodyHash+userId.
  *
@@ -116,7 +116,7 @@ export async function buildAuthHeaders(
     // itself (Convex hash lookup + the #4611 apiAccess gate + per-account
     // limits), so usage attributes to the key owner exactly like a direct
     // REST call — no internal-HMAC identity smuggling needed.
-    return { 'X-WorldMonitor-Key': context.apiKey };
+    return { 'X-EagleEye-Key': context.apiKey };
   }
   // context.kind === 'pro'
   const secret = process.env.MCP_INTERNAL_HMAC_SECRET ?? '';
@@ -163,7 +163,7 @@ export const PRODUCTION_DEPS: McpHandlerDeps = {
 
 export function wwwAuthHeader(resourceMetadataUrl: string, errorParam = ''): string {
   const errSegment = errorParam ? `, error="${errorParam}"` : '';
-  return `Bearer realm="worldmonitor"${errSegment}, resource_metadata="${resourceMetadataUrl}"`;
+  return `Bearer realm="eagleeye"${errSegment}, resource_metadata="${resourceMetadataUrl}"`;
 }
 
 function userKeyValidationBackpressureResponse(response: Response, corsHeaders: Record<string, string>): Response {
@@ -305,17 +305,17 @@ export async function resolveAuthContext(
     return { ok: true, context };
   }
 
-  const candidateKey = req.headers.get('X-WorldMonitor-Key') ?? '';
+  const candidateKey = req.headers.get('X-EagleEye-Key') ?? '';
   if (!candidateKey) {
     return {
       ok: false,
       response: new Response(
-        JSON.stringify({ jsonrpc: '2.0', id: null, error: { code: -32001, message: 'Authentication required. Use OAuth (/oauth/token) or pass your API key via X-WorldMonitor-Key header.' } }),
+        JSON.stringify({ jsonrpc: '2.0', id: null, error: { code: -32001, message: 'Authentication required. Use OAuth (/oauth/token) or pass your API key via X-EagleEye-Key header.' } }),
         { status: 401, headers: withMcpNoStore({ 'Content-Type': 'application/json', 'WWW-Authenticate': wwwAuthHeader(resourceMetadataUrl), ...corsHeaders }) },
       ),
     };
   }
-  const validKeys = (process.env.WORLDMONITOR_VALID_KEYS || '').split(',').filter(Boolean);
+  const validKeys = (process.env.EAGLEEYE_VALID_KEYS || '').split(',').filter(Boolean);
   if (await timingSafeIncludes(candidateKey, validKeys)) {
     return { ok: true, context: { kind: 'env_key', apiKey: candidateKey } };
   }
@@ -413,7 +413,7 @@ export async function runProPreChecks(
   }
   if (!validation || validation.userId !== context.userId) {
     return { ok: false, response: new Response(
-      JSON.stringify({ jsonrpc: '2.0', id: null, error: { code: -32001, message: 'MCP authorization revoked. Re-authorize at https://worldmonitor.app/mcp-grant.' } }),
+      JSON.stringify({ jsonrpc: '2.0', id: null, error: { code: -32001, message: 'MCP authorization revoked. Re-authorize at https://eagle-eye.app/mcp-grant.' } }),
       { status: 401, headers: withMcpNoStore({ 'Content-Type': 'application/json', 'WWW-Authenticate': wwwAuthHeader(resourceMetadataUrl, 'invalid_token'), ...corsHeaders }) },
     ) };
   }

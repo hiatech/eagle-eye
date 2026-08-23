@@ -19,7 +19,7 @@ export const WM_SESSION_DEGRADED_FALLBACK_COPY =
  * The remedy to show for a degraded anonymous session, chosen by what actually
  * failed. The three reasons have three different fixes and only one of them is
  * about cookies — the single blanket message told the majority of affected
- * users to check a setting that was never the cause (WORLDMONITOR-WG residual,
+ * users to check a setting that was never the cause (EAGLEEYE-WG residual,
  * where `mint_failed` is ~2/3 of episodes):
  *
  *  - `mint_failed` — `/api/wm-session` never answered (offline, a content

@@ -42,8 +42,8 @@ const ACCESS_TIERS = Object.freeze([
 const REQUIRED_REGISTRATIONS = Object.freeze([
   ['shared/china-decision-signals.ts', ...CHINA_DECISION_PARITY_MANIFEST.map(({ groupId }) => `'${groupId}'`)],
   ['shared/decision-signal-provenance-families.ts', ...CHINA_DECISION_PARITY_MANIFEST.map(({ provenanceFamily }) => `${provenanceFamily}: Object.freeze({`)],
-  ['proto/worldmonitor/intelligence/v1/get_china_decision_signals.proto', 'message GetChinaDecisionSignalsResponse'],
-  ['proto/worldmonitor/intelligence/v1/service.proto', 'GetChinaDecisionSignals'],
+  ['proto/eagleeye/intelligence/v1/get_china_decision_signals.proto', 'message GetChinaDecisionSignalsResponse'],
+  ['proto/eagleeye/intelligence/v1/service.proto', 'GetChinaDecisionSignals'],
   ['api/mcp/registry/rpc-tools.ts', 'get_china_decision_signals', ROUTE, CANONICAL_KEY],
   ['server/gateway.ts', `'${ROUTE}': 'fast'`, `'${ROUTE}',`],
   ['shared/bootstrap-tier-keys.js', `chinaDecisionSignals: '${CANONICAL_KEY}'`],
@@ -326,7 +326,7 @@ export function auditChinaDecisionStaticRegistrations(repoRoot) {
 }
 
 export const CHINA_DECISION_PARITY_USER_AGENT =
-  'worldmonitor-china-parity-audit/1.0 (+https://worldmonitor.app)';
+  'eagleeye-china-parity-audit/1.0 (+https://eagle-eye.app)';
 
 // Cloudflare managed-challenge 403s generic library User-Agents on both the
 // versioned RPC paths and the public www /api/* surface, and Node's fetch sends

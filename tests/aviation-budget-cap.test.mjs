@@ -2,7 +2,7 @@
  * Tests for the AviationStack monthly call budget — the hard ceiling that keeps
  * total paid usage under the plan limit.
  *
- *   reserveAviationStackCalls()  server/worldmonitor/aviation/v1/_avstack-budget.ts
+ *   reserveAviationStackCalls()  server/eagleeye/aviation/v1/_avstack-budget.ts
  *   request-time wiring          list-airport-flights.ts, get-flight-status.ts
  *   seeder backstop              scripts/seed-aviation.mjs
  *
@@ -35,7 +35,7 @@ describe('aviation budget: reserveAviationStackCalls enforces ceilings', () => {
     process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token';
     delete process.env.LOCAL_API_MODE;
     ({ reserveAviationStackCalls } = await import(
-      '../server/worldmonitor/aviation/v1/_avstack-budget.ts'
+      '../server/eagleeye/aviation/v1/_avstack-budget.ts'
     ));
   });
 
@@ -120,7 +120,7 @@ describe('aviation budget: call sites are wired to the cap', () => {
   const read = (p) => readFileSync(resolve(root, p), 'utf-8');
 
   it('list-airport-flights reserves budget and quantizes the limit out of the cache key', () => {
-    const src = read('server/worldmonitor/aviation/v1/list-airport-flights.ts');
+    const src = read('server/eagleeye/aviation/v1/list-airport-flights.ts');
     assert.match(src, /reserveAviationStackCalls\(1, 'request'\)/);
     assert.match(src, /aviationStackBudgetMonth\(\)/);
     // Cache key must NOT vary by limit (was the spend-multiplying explosion).
@@ -132,7 +132,7 @@ describe('aviation budget: call sites are wired to the cap', () => {
   });
 
   it('get-flight-status reserves budget before the upstream call and negative-caches relay errors', () => {
-    const src = read('server/worldmonitor/aviation/v1/get-flight-status.ts');
+    const src = read('server/eagleeye/aviation/v1/get-flight-status.ts');
     assert.match(src, /reserveAviationStackCalls\(1, 'request'\)/);
     assert.match(src, /aviation:status:\$\{flightNumber\}:\$\{date\}:\$\{origin\}:v1:\$\{aviationStackBudgetMonth\(\)\}/);
     assert.match(src, /Flight status relay fetch failed/);
@@ -149,7 +149,7 @@ describe('aviation budget: call sites are wired to the cap', () => {
   it('server budget helper uses the same key format + UTC month math as the seeder', () => {
     // Cross-file drift would split the counter and silently defeat the shared
     // ceiling — pin both halves so a future edit to either fails the test.
-    const srv = read('server/worldmonitor/aviation/v1/_avstack-budget.ts');
+    const srv = read('server/eagleeye/aviation/v1/_avstack-budget.ts');
     assert.match(srv, /aviation:avstack:calls:/);
     assert.match(srv, /getUTCFullYear\(\)/);
     assert.match(srv, /getUTCMonth\(\)/);
@@ -159,12 +159,12 @@ describe('aviation budget: call sites are wired to the cap', () => {
   });
 
   it('request cache keys include the UTC budget month so budget denials expire across month rollover', () => {
-    const srv = read('server/worldmonitor/aviation/v1/_avstack-budget.ts');
+    const srv = read('server/eagleeye/aviation/v1/_avstack-budget.ts');
     assert.match(srv, /export function aviationStackBudgetMonth/);
     assert.match(srv, /getUTCFullYear\(\)/);
     assert.match(srv, /getUTCMonth\(\)/);
-    assert.match(read('server/worldmonitor/aviation/v1/list-airport-flights.ts'), /aviationStackBudgetMonth\(\)/);
-    assert.match(read('server/worldmonitor/aviation/v1/get-flight-status.ts'), /aviationStackBudgetMonth\(\)/);
+    assert.match(read('server/eagleeye/aviation/v1/list-airport-flights.ts'), /aviationStackBudgetMonth\(\)/);
+    assert.match(read('server/eagleeye/aviation/v1/get-flight-status.ts'), /aviationStackBudgetMonth\(\)/);
   });
 
   it('seeder freshness gate is clamped below the health staleness window', () => {

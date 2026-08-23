@@ -230,7 +230,7 @@ export const COMPANY_INTEL_TOOL: ToolDef = {
       const url = `${base}${path}?${query}`;
       const auth = await buildAuthHeaders(context, 'GET', url, null);
       const response = await fetch(url, {
-        headers: { ...auth, 'User-Agent': 'worldmonitor-mcp-edge/1.0' },
+        headers: { ...auth, 'User-Agent': 'eagleeye-mcp-edge/1.0' },
         signal: AbortSignal.timeout(timeoutMs),
       });
       assertToolFetchOk(response, path.split('/').pop() ?? path);

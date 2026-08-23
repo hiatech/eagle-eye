@@ -120,7 +120,7 @@ artifacts.
 Command run on 2026-06-04:
 
 ```bash
-node --input-type=module -e 'const ua="Mozilla/5.0"; const base="https://www.worldmonitor.app"; const read=async (p)=>(await fetch(base+p,{headers:{"user-agent":ua,accept:"application/json"}})).json(); const [manifest,health]=await Promise.all([read("/api/resilience/v1/get-runtime-manifest"),read("/api/health")]); console.log(JSON.stringify({formulaTag:manifest.formulaTag,constructEnergy:manifest.constructVersions?.energy,rankingCache:manifest.rankingCache,intervals:manifest.intervals,healthStatus:health.status,energyV2SeedChecks:{lowCarbonGeneration:health.checks?.lowCarbonGeneration?.status,fossilElectricityShare:health.checks?.fossilElectricityShare?.status,powerLosses:health.checks?.powerLosses?.status,resilienceIntervals:health.checks?.resilienceIntervals?.status}},null,2));'
+node --input-type=module -e 'const ua="Mozilla/5.0"; const base="https://www.eagle-eye.app"; const read=async (p)=>(await fetch(base+p,{headers:{"user-agent":ua,accept:"application/json"}})).json(); const [manifest,health]=await Promise.all([read("/api/resilience/v1/get-runtime-manifest"),read("/api/health")]); console.log(JSON.stringify({formulaTag:manifest.formulaTag,constructEnergy:manifest.constructVersions?.energy,rankingCache:manifest.rankingCache,intervals:manifest.intervals,healthStatus:health.status,energyV2SeedChecks:{lowCarbonGeneration:health.checks?.lowCarbonGeneration?.status,fossilElectricityShare:health.checks?.fossilElectricityShare?.status,powerLosses:health.checks?.powerLosses?.status,resilienceIntervals:health.checks?.resilienceIntervals?.status}},null,2));'
 ```
 
 Observed result:
@@ -164,7 +164,7 @@ Required evidence:
 
 Do not synthesize these files. `scripts/freeze-resilience-ranking.mjs` verifies
 score anchors through `/api/resilience/v1/get-resilience-score`, which requires
-`WORLDMONITOR_API_KEY`. The operator path and exact commands are documented in
+`EAGLEEYE_API_KEY`. The operator path and exact commands are documented in
 `docs/methodology/energy-v2-flag-flip-runbook.md`.
 
 Acceptance is closed only after those real artifacts are captured with

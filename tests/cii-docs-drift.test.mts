@@ -14,7 +14,7 @@ import {
   CII_FORMULA_VERSION,
   STRATEGIC_RISK_POSITIONAL_DECAY,
   STRATEGIC_RISK_TOP_N,
-} from '../server/worldmonitor/intelligence/v1/_risk-config.ts';
+} from '../server/eagleeye/intelligence/v1/_risk-config.ts';
 import { CII_COUNTRY_WEIGHTS } from '../shared/cii-weights.ts';
 
 const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -148,7 +148,7 @@ describe('CII docs drift guards', () => {
     const doc = readFileSync(resolve(root, 'docs', 'strategic-risk.mdx'), 'utf8');
     const panelSource = readFileSync(resolve(root, 'src', 'components', 'StrategicRiskPanel.ts'), 'utf8');
     const serverSource = readFileSync(
-      resolve(root, 'server', 'worldmonitor', 'intelligence', 'v1', 'get-risk-scores.ts'),
+      resolve(root, 'server', 'eagleeye', 'intelligence', 'v1', 'get-risk-scores.ts'),
       'utf8',
     );
     const scoreSection = markdownSection(doc, '### Server Score and Browser Fallback (0-100)');
@@ -249,7 +249,7 @@ describe('CII docs drift guards', () => {
 
   it('CII methodology doc keeps Strategic Risk positional-decay rationale aligned with the top-N cap', () => {
     const doc = readFileSync(resolve(root, 'docs/methodology/cii-risk-scores.mdx'), 'utf8');
-    const config = readFileSync(resolve(root, 'server/worldmonitor/intelligence/v1/_risk-config.ts'), 'utf8');
+    const config = readFileSync(resolve(root, 'server/eagleeye/intelligence/v1/_risk-config.ts'), 'utf8');
     const section = markdownSection(doc, '## 3. Strategic Risk roll-up');
     const nextOneBasedPosition = STRATEGIC_RISK_TOP_N + 1;
     const nextZeroBasedIndex = STRATEGIC_RISK_TOP_N;

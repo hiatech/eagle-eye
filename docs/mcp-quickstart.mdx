@@ -1,34 +1,34 @@
 ---
 title: "MCP Quickstart"
-description: "Connect Claude Desktop to World Monitor via MCP and make your first real intelligence call in five minutes — install, auth, and first query."
+description: "Connect Claude Desktop to Eagle Eye via MCP and make your first real intelligence call in five minutes — install, auth, and first query."
 ---
 
-WorldMonitor exposes 59 live tools — markets, conflict events, maritime chokepoints, aviation, climate, AI briefs, and China decision signals — over the [Model Context Protocol](https://modelcontextprotocol.io). This page is the shortest path from zero to a useful response inside Claude. Everything else in the [MCP Server reference](/mcp-overview) is optional reading once this works.
+EagleEye exposes 59 live tools — markets, conflict events, maritime chokepoints, aviation, climate, AI briefs, and China decision signals — over the [Model Context Protocol](https://modelcontextprotocol.io). This page is the shortest path from zero to a useful response inside Claude. Everything else in the [MCP Server reference](/mcp-overview) is optional reading once this works.
 
 ## 1. Pick a tier and grab credentials
 
 Free accounts can't reach the MCP server — the OAuth flow returns `403 INSUFFICIENT_TIER`. You need one of:
 
-- **Pro** — sign in with your WorldMonitor account, no key to manage. 50 quota-consuming calls per UTC day.
+- **Pro** — sign in with your EagleEye account, no key to manage. 50 quota-consuming calls per UTC day.
 - **API Starter / Business / Enterprise** — paste a user-issued `wm_…` key in your client, or use the same OAuth flow as Pro. `wm_…` MCP calls are throttled at 60 requests/minute/key in this handler; REST/API plan allowances are separate from the Pro/OAuth MCP daily counter.
 
-Upgrade or generate a key at [worldmonitor.app/pro](https://www.worldmonitor.app/pro). The rest of this guide assumes Claude Desktop + OAuth (the simplest path); if you'd rather paste a `wm_…` key into a `curl` script, jump to [Server-side curl](#server-side-curl) at the bottom.
+Upgrade or generate a key at [eagle-eye.app/pro](https://www.eagle-eye.app/pro). The rest of this guide assumes Claude Desktop + OAuth (the simplest path); if you'd rather paste a `wm_…` key into a `curl` script, jump to [Server-side curl](#server-side-curl) at the bottom.
 
 ## 2. Add the server to Claude Desktop
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or the Windows equivalent at `%APPDATA%\Claude\claude_desktop_config.json` and add the `worldmonitor` entry:
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or the Windows equivalent at `%APPDATA%\Claude\claude_desktop_config.json` and add the `eagleeye` entry:
 
 ```json
 {
   "mcpServers": {
-    "worldmonitor": {
-      "url": "https://worldmonitor.app/mcp"
+    "eagleeye": {
+      "url": "https://eagle-eye.app/mcp"
     }
   }
 }
 ```
 
-Restart Claude Desktop. The first time you mention WorldMonitor in a chat, Claude pops the OAuth consent screen — click **Sign in with WorldMonitor Pro**, authenticate in your browser, and the token is stored locally by Claude. No API key ever touches your filesystem.
+Restart Claude Desktop. The first time you mention EagleEye in a chat, Claude pops the OAuth consent screen — click **Sign in with EagleEye Pro**, authenticate in your browser, and the token is stored locally by Claude. No API key ever touches your filesystem.
 
 <Tip>
 Cursor, Claude web, and MCP Inspector use the same URL. See [client setup](/mcp-overview#client-setup) for the exact config field per client.
@@ -41,9 +41,9 @@ Older Claude Desktop builds — and any stdio-only MCP client — connect throug
 ```json
 {
   "mcpServers": {
-    "worldmonitor": {
+    "eagleeye": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://worldmonitor.app/mcp", "--header", "X-WorldMonitor-Key:wm_YOUR_KEY"]
+      "args": ["-y", "mcp-remote", "https://eagle-eye.app/mcp", "--header", "X-EagleEye-Key:wm_YOUR_KEY"]
     }
   }
 }
@@ -51,8 +51,8 @@ Older Claude Desktop builds — and any stdio-only MCP client — connect throug
 
 Two things matter with this setup:
 
-- **Attach your credential explicitly.** The server completes the connection and all discovery (tools/prompts/resources listings) anonymously by design, so `mcp-remote` never sees a 401 challenge at connect time and does not start its OAuth flow on its own. Without the header, the connection looks healthy but every `tools/call` fails with `401`. Use the single-argument form `X-WorldMonitor-Key:wm_…` with **no space after the colon** — it sidesteps client/`npx` argument-escaping bugs with spaces inside `args` (documented by `mcp-remote` for Cursor and Claude Desktop on Windows).
-- **Prefer OAuth?** Omit `--header`: your first tool call returns the 401 challenge that triggers `mcp-remote`'s browser consent flow (dynamic client registration works on both `worldmonitor.app` and `www.worldmonitor.app`). Older `mcp-remote` versions handle this mid-session flow less reliably than the connect-time one, so if the consent window never appears, the explicit key header above is the deterministic path.
+- **Attach your credential explicitly.** The server completes the connection and all discovery (tools/prompts/resources listings) anonymously by design, so `mcp-remote` never sees a 401 challenge at connect time and does not start its OAuth flow on its own. Without the header, the connection looks healthy but every `tools/call` fails with `401`. Use the single-argument form `X-EagleEye-Key:wm_…` with **no space after the colon** — it sidesteps client/`npx` argument-escaping bugs with spaces inside `args` (documented by `mcp-remote` for Cursor and Claude Desktop on Windows).
+- **Prefer OAuth?** Omit `--header`: your first tool call returns the 401 challenge that triggers `mcp-remote`'s browser consent flow (dynamic client registration works on both `eagle-eye.app` and `www.eagle-eye.app`). Older `mcp-remote` versions handle this mid-session flow less reliably than the connect-time one, so if the consent window never appears, the explicit key header above is the deterministic path.
 
 ## 3. Ask your first question
 
@@ -60,7 +60,7 @@ Open a new chat in Claude Desktop and try:
 
 > _What's the current US equity market sentiment and which sectors are leading or lagging today?_
 
-Claude will pick `get_market_data` from the WorldMonitor toolset, call it with no arguments, and answer in plain English. The raw tool response is a single bootstrap bundle covering quotes, sector ETFs, crypto, gulf quotes, ETF flows, and the WorldMonitor fear-greed composite. Because cache tools default-cap list/map fields at 30 items when `limit` is omitted, this first response is intentionally compact; pass `limit: 0` only when you genuinely need the full 200+ quote / ~100 KB market bundle. Typical latency: **300–800 ms** (cache read from Redis, no upstream API call).
+Claude will pick `get_market_data` from the EagleEye toolset, call it with no arguments, and answer in plain English. The raw tool response is a single bootstrap bundle covering quotes, sector ETFs, crypto, gulf quotes, ETF flows, and the EagleEye fear-greed composite. Because cache tools default-cap list/map fields at 30 items when `limit` is omitted, this first response is intentionally compact; pass `limit: 0` only when you genuinely need the full 200+ quote / ~100 KB market bundle. Typical latency: **300–800 ms** (cache read from Redis, no upstream API call).
 
 Behind the scenes, the tool call looks like this:
 
@@ -137,7 +137,7 @@ To discover what MCP can call from your client:
 
 The MCP handshake is invisible from the chat side, but here's the sequence so you know where to look if something breaks:
 
-1. Claude Desktop reads `claude_desktop_config.json`, sees the WorldMonitor server, and on first use POSTs `initialize` to `https://worldmonitor.app/mcp`. The server responds with its capabilities, the negotiated protocol version (default `2025-06-18`, matching the static server card; clients pinned to `2025-03-26` still get `2025-03-26`), and a session-level `instructions` string that tells the model about the universal `jmespath` argument. Clients that advertise `text/event-stream` may receive this response as SSE with a resumable `Mcp-Session-Id` / `Last-Event-ID` cursor; clients that do not advertise SSE receive JSON. See [protocol negotiation](/mcp-overview#protocol-negotiation) and [Streamable HTTP responses](/mcp-overview#streamable-http-responses) for the rollout details.
+1. Claude Desktop reads `claude_desktop_config.json`, sees the EagleEye server, and on first use POSTs `initialize` to `https://eagle-eye.app/mcp`. The server responds with its capabilities, the negotiated protocol version (default `2025-06-18`, matching the static server card; clients pinned to `2025-03-26` still get `2025-03-26`), and a session-level `instructions` string that tells the model about the universal `jmespath` argument. Clients that advertise `text/event-stream` may receive this response as SSE with a resumable `Mcp-Session-Id` / `Last-Event-ID` cursor; clients that do not advertise SSE receive JSON. See [protocol negotiation](/mcp-overview#protocol-negotiation) and [Streamable HTTP responses](/mcp-overview#streamable-http-responses) for the rollout details.
 2. Claude Desktop calls `tools/list` and receives 59 compressed tool descriptions (`≤120` bytes per tool). The compressed form keeps `tools/list` cheap; `describe_tool` returns the full definition on demand.
 3. When you ask a question that needs live data, Claude picks a tool, calls `tools/call`, and inlines the response into its reply. Cache-backed tools, including `get_world_brief`, return the accepted snapshot without a request-time LLM call; live LLM tools (`analyze_situation`, etc.) take 1–4 s.
 
@@ -146,17 +146,17 @@ The MCP handshake is invisible from the chat side, but here's the sequence so yo
 If you'd rather skip the OAuth dance and drive MCP from a script:
 
 ```bash
-export WM_KEY="wm_0123456789abcdef0123456789abcdef01234567"  # API Starter+ key from worldmonitor.app/settings
+export WM_KEY="wm_0123456789abcdef0123456789abcdef01234567"  # API Starter+ key from eagle-eye.app/settings
 
 # 1. List tools (compressed descriptions)
-curl -s https://worldmonitor.app/mcp \
-  -H "X-WorldMonitor-Key: $WM_KEY" \
+curl -s https://eagle-eye.app/mcp \
+  -H "X-EagleEye-Key: $WM_KEY" \
   -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 
 # 2. Call a cache tool
-curl -s https://worldmonitor.app/mcp \
-  -H "X-WorldMonitor-Key: $WM_KEY" \
+curl -s https://eagle-eye.app/mcp \
+  -H "X-EagleEye-Key: $WM_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "jsonrpc":"2.0","id":2,
@@ -167,8 +167,8 @@ curl -s https://worldmonitor.app/mcp \
 # 3. Same call with a JMESPath projection (much smaller response).
 # Heredoc keeps the single-quoted JMESPath string literals readable —
 # wrapping the JSON in -d '...' would collide with the inner quotes.
-curl -s https://worldmonitor.app/mcp \
-  -H "X-WorldMonitor-Key: $WM_KEY" \
+curl -s https://eagle-eye.app/mcp \
+  -H "X-EagleEye-Key: $WM_KEY" \
   -H 'Content-Type: application/json' \
   --data-binary @- <<'EOF'
 {
@@ -184,16 +184,16 @@ curl -s https://worldmonitor.app/mcp \
 EOF
 ```
 
-The `wm_…` user API key goes in `X-WorldMonitor-Key`, **not** as a `Bearer` token — sending it as a bearer fails OAuth resolution and returns `401 invalid_token`. If you already have an OAuth access token from `/api/oauth/token`, use `Authorization: Bearer $TOKEN` instead and drop the `X-WorldMonitor-Key` header.
+The `wm_…` user API key goes in `X-EagleEye-Key`, **not** as a `Bearer` token — sending it as a bearer fails OAuth resolution and returns `401 invalid_token`. If you already have an OAuth access token from `/api/oauth/token`, use `Authorization: Bearer $TOKEN` instead and drop the `X-EagleEye-Key` header.
 
 ## Where to go next
 
 - **[JMESPath guide](/mcp-jmespath)** — projection grammar with 12 worked examples against real response shapes. Read this before your second day of MCP use; it will pay for itself in saved tokens within an hour.
 - **[MCP Tools Reference](/mcp-tools-reference)** — per-tool parameters, freshness budgets, API endpoint mapping, and `curl` examples for every tool.
 - **[MCP Server reference](/mcp-overview)** — auth modes, OAuth setup, plans & quotas, error codes, and freshness model.
-- **[Command-line client](/cli)** — prefer a shell? `npx worldmonitor tools` drives the same tools from your terminal or a script, no integration to write.
-- **[Official SDKs](/sdks)** — prefer a library? Zero-dependency clients for Python (`pip install worldmonitor-sdk`), Ruby (`gem install worldmonitor`), and Go (`go get github.com/koala73/worldmonitor/sdk/go`) call the same tools with language-native helpers.
-- **[Authentication overview](/authentication)** — when to use an API key in `X-WorldMonitor-Key` vs. OAuth vs. browser session.
+- **[Command-line client](/cli)** — prefer a shell? `npx eagleeye tools` drives the same tools from your terminal or a script, no integration to write.
+- **[Official SDKs](/sdks)** — prefer a library? Zero-dependency clients for Python (`pip install eagleeye-sdk`), Ruby (`gem install eagleeye`), and Go (`go get github.com/hiatech/eagle-eye/sdk/go`) call the same tools with language-native helpers.
+- **[Authentication overview](/authentication)** — when to use an API key in `X-EagleEye-Key` vs. OAuth vs. browser session.
 
 ## Operational note (for ops, not callers)
 

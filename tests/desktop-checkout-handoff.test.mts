@@ -138,11 +138,11 @@ function resetHarness(
       // suite uses the real dashboard origin.
       location: {
         // A VARIANT host on the web side on purpose: if it were
-        // worldmonitor.app, the web return-origin assertion below would pass
+        // eagle-eye.app, the web return-origin assertion below would pass
         // even if resolveCheckoutReturnOrigin always returned the canonical
         // origin — the exact property the desktop case exists to prove.
-        href: desktop ? 'tauri://localhost/index.html' : 'https://tech.worldmonitor.app/dashboard',
-        origin: desktop ? 'tauri://localhost' : 'https://tech.worldmonitor.app',
+        href: desktop ? 'tauri://localhost/index.html' : 'https://tech.eagle-eye.app/dashboard',
+        origin: desktop ? 'tauri://localhost' : 'https://tech.eagle-eye.app',
         pathname: desktop ? '/index.html' : '/dashboard',
         search: '',
         hash: '',
@@ -311,7 +311,7 @@ describe('startCheckout on desktop (#5911)', () => {
     await checkout.startCheckout('pro_monthly');
 
     const [body] = globalThis.__desktopCheckoutHarness.requestBodies;
-    assert.equal(body?.returnUrl, 'https://worldmonitor.app/dashboard?wm_checkout=return&wm_src=desktop');
+    assert.equal(body?.returnUrl, 'https://eagle-eye.app/dashboard?wm_checkout=return&wm_src=desktop');
   });
 
   it('reports a checkout error instead of claiming success when nothing opened', async () => {
@@ -342,7 +342,7 @@ describe('startCheckout on desktop (#5911)', () => {
     const harness = globalThis.__desktopCheckoutHarness;
     assert.deepEqual(harness.assignedUrls, [], 'the app must not be replaced by /pro');
     assert.deepEqual(harness.invocations, [
-      { command: 'open_url', payload: { url: 'https://worldmonitor.app/pro' } },
+      { command: 'open_url', payload: { url: 'https://eagle-eye.app/pro' } },
     ]);
   });
 
@@ -357,7 +357,7 @@ describe('startCheckout on desktop (#5911)', () => {
     const harness = globalThis.__desktopCheckoutHarness;
     assert.deepEqual(harness.assignedUrls, []);
     assert.deepEqual(harness.invocations, [
-      { command: 'open_url', payload: { url: 'https://worldmonitor.app/pro' } },
+      { command: 'open_url', payload: { url: 'https://eagle-eye.app/pro' } },
     ]);
   });
 
@@ -411,6 +411,6 @@ describe('startCheckout on web is unchanged (#5911 regression guard)', () => {
     const [body] = globalThis.__desktopCheckoutHarness.requestBodies;
     // The variant host, NOT the canonical origin — this is what proves the
     // desktop swap is conditional rather than unconditional.
-    assert.equal(body?.returnUrl, 'https://tech.worldmonitor.app/dashboard?wm_checkout=return');
+    assert.equal(body?.returnUrl, 'https://tech.eagle-eye.app/dashboard?wm_checkout=return');
   });
 });

@@ -6,7 +6,7 @@ name: Publish Go SDK to the module proxy
 # indexed on pkg.go.dev (the proxy only learns about a version when someone
 # requests it; this is that first request).
 #
-# The module lives at sdk/go/ (module github.com/koala73/worldmonitor/sdk/go),
+# The module lives at sdk/go/ (module github.com/hiatech/eagle-eye/sdk/go),
 # so per Go's monorepo convention its release tags are prefixed with the
 # module directory: sdk/go/v1.2.3.
 
@@ -46,10 +46,10 @@ jobs:
       - name: Verify Version constant matches the tag
         if: startsWith(github.ref, 'refs/tags/sdk/go/v')
         run: |
-          MOD_VERSION="v$(sed -n 's/^const Version = "\(.*\)"$/\1/p' worldmonitor.go)"
+          MOD_VERSION="v$(sed -n 's/^const Version = "\(.*\)"$/\1/p' eagleeye.go)"
           TAG_VERSION="${GITHUB_REF_NAME#sdk/go/}"
           if [ "$MOD_VERSION" != "$TAG_VERSION" ]; then
-            echo "::error::worldmonitor.go Version ($MOD_VERSION) does not match tag ($TAG_VERSION)"
+            echo "::error::eagleeye.go Version ($MOD_VERSION) does not match tag ($TAG_VERSION)"
             exit 1
           fi
 
@@ -60,7 +60,7 @@ jobs:
           else
             VERSION="${GITHUB_REF_NAME#sdk/go/}"
           fi
-          MODULE="github.com/koala73/worldmonitor/sdk/go"
+          MODULE="github.com/hiatech/eagle-eye/sdk/go"
           echo "Requesting ${MODULE}@${VERSION} from proxy.golang.org"
           # Retry: the proxy fetches from GitHub on first request and can lag a
           # just-pushed tag by a minute or two.

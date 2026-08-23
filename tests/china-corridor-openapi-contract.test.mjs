@@ -20,7 +20,7 @@ const provenanceDimensions = [...provenanceContract.dimensions].sort();
 const specs = [
   ['SupplyChainService JSON', JSON.parse(readFileSync(resolve(root, 'docs/api/SupplyChainService.openapi.json'), 'utf8'))],
   ['SupplyChainService YAML', loadYaml(readFileSync(resolve(root, 'docs/api/SupplyChainService.openapi.yaml'), 'utf8'))],
-  ['unified YAML', loadYaml(readFileSync(resolve(root, 'docs/api/worldmonitor.openapi.yaml'), 'utf8'))],
+  ['unified YAML', loadYaml(readFileSync(resolve(root, 'docs/api/eagleeye.openapi.yaml'), 'utf8'))],
 ];
 
 function resolveRef(spec, schema) {

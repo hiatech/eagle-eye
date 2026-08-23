@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 import { createDomainGateway } from '../server/gateway.ts';
-import { getEnergyPrices } from '../server/worldmonitor/economic/v1/get-energy-prices.ts';
+import { getEnergyPrices } from '../server/eagleeye/economic/v1/get-energy-prices.ts';
 import type { RouteDescriptor } from '../server/router.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -28,7 +28,7 @@ afterEach(() => {
 });
 
 function setGatewayAuthEnv() {
-  process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
 }
@@ -36,10 +36,10 @@ function setGatewayAuthEnv() {
 function request(pathAndQuery: string): Request {
   setGatewayAuthEnv();
   const separator = pathAndQuery.includes('?') ? '&' : '?';
-  return new Request('https://worldmonitor.app' + pathAndQuery + separator + '_debug=1', {
+  return new Request('https://eagle-eye.app' + pathAndQuery + separator + '_debug=1', {
     headers: {
-      Origin: 'https://worldmonitor.app',
-      'X-WorldMonitor-Key': TEST_KEY,
+      Origin: 'https://eagle-eye.app',
+      'X-EagleEye-Key': TEST_KEY,
     },
   });
 }
@@ -139,38 +139,38 @@ describe('gateway RPC no-store contract', () => {
 });
 
 const PROTECTED_HIGH_TIER_EMPTY_HANDLERS = [
-  'server/worldmonitor/economic/v1/get-energy-prices.ts',
-  'server/worldmonitor/economic/v1/get-energy-capacity.ts',
-  'server/worldmonitor/economic/v1/get-crude-inventories.ts',
-  'server/worldmonitor/economic/v1/get-nat-gas-storage.ts',
-  'server/worldmonitor/economic/v1/list-fuel-prices.ts',
-  'server/worldmonitor/economic/v1/list-bigmac-prices.ts',
-  'server/worldmonitor/economic/v1/get-fao-food-price-index.ts',
-  'server/worldmonitor/economic/v1/get-bis-policy-rates.ts',
-  'server/worldmonitor/economic/v1/get-bis-exchange-rates.ts',
-  'server/worldmonitor/economic/v1/get-bis-credit.ts',
-  'server/worldmonitor/climate/v1/get-co2-monitoring.ts',
-  'server/worldmonitor/climate/v1/get-ocean-ice-data.ts',
-  'server/worldmonitor/climate/v1/list-climate-anomalies.ts',
-  'server/worldmonitor/climate/v1/list-climate-disasters.ts',
-  'server/worldmonitor/conflict/v1/list-ucdp-events.ts',
-  'server/worldmonitor/cyber/v1/list-cyber-threats.ts',
-  'server/worldmonitor/forecast/v1/get-forecasts.ts',
-  'server/worldmonitor/forecast/v1/get-forecast-scorecard.ts',
-  'server/worldmonitor/market/v1/list-defi-tokens.ts',
-  'server/worldmonitor/market/v1/list-ai-tokens.ts',
-  'server/worldmonitor/market/v1/list-other-tokens.ts',
-  'server/worldmonitor/research/v1/list-arxiv-papers.ts',
-  'server/worldmonitor/research/v1/list-hackernews-items.ts',
-  'server/worldmonitor/research/v1/list-trending-repos.ts',
-  'server/worldmonitor/military/v1/get-theater-posture.ts',
-  'server/worldmonitor/military/v1/list-defense-patents.ts',
+  'server/eagleeye/economic/v1/get-energy-prices.ts',
+  'server/eagleeye/economic/v1/get-energy-capacity.ts',
+  'server/eagleeye/economic/v1/get-crude-inventories.ts',
+  'server/eagleeye/economic/v1/get-nat-gas-storage.ts',
+  'server/eagleeye/economic/v1/list-fuel-prices.ts',
+  'server/eagleeye/economic/v1/list-bigmac-prices.ts',
+  'server/eagleeye/economic/v1/get-fao-food-price-index.ts',
+  'server/eagleeye/economic/v1/get-bis-policy-rates.ts',
+  'server/eagleeye/economic/v1/get-bis-exchange-rates.ts',
+  'server/eagleeye/economic/v1/get-bis-credit.ts',
+  'server/eagleeye/climate/v1/get-co2-monitoring.ts',
+  'server/eagleeye/climate/v1/get-ocean-ice-data.ts',
+  'server/eagleeye/climate/v1/list-climate-anomalies.ts',
+  'server/eagleeye/climate/v1/list-climate-disasters.ts',
+  'server/eagleeye/conflict/v1/list-ucdp-events.ts',
+  'server/eagleeye/cyber/v1/list-cyber-threats.ts',
+  'server/eagleeye/forecast/v1/get-forecasts.ts',
+  'server/eagleeye/forecast/v1/get-forecast-scorecard.ts',
+  'server/eagleeye/market/v1/list-defi-tokens.ts',
+  'server/eagleeye/market/v1/list-ai-tokens.ts',
+  'server/eagleeye/market/v1/list-other-tokens.ts',
+  'server/eagleeye/research/v1/list-arxiv-papers.ts',
+  'server/eagleeye/research/v1/list-hackernews-items.ts',
+  'server/eagleeye/research/v1/list-trending-repos.ts',
+  'server/eagleeye/military/v1/get-theater-posture.ts',
+  'server/eagleeye/military/v1/list-defense-patents.ts',
 ] as const;
 
 const HEALTHY_EMPTY_ALLOWLIST = new Set([
-  "server/worldmonitor/forecast/v1/get-forecasts.ts::{ forecasts: [], generatedAt: data.generatedAt || 0, degraded: false, stale: false, error: '' }",
-  "server/worldmonitor/forecast/v1/get-forecast-scorecard.ts::{ schemaVersion: 1, generatedAt: 0, rollingWindowDays: 180, methodology: '', totals: { entries: 0, resolved: 0, pending: 0, pendingJudge: 0, scored: 0, void: 0, voidRate: 0, publicationCoverage: 0, }, byDomain: [], byGenerationOrigin: [], calibration: [], degraded: false, stale: false, error: '', ...overrides, }",
-  "server/worldmonitor/climate/v1/list-climate-disasters.ts::{ disasters: [], pagination: { nextCursor: '', totalCount: allDisasters.length }, }",
+  "server/eagleeye/forecast/v1/get-forecasts.ts::{ forecasts: [], generatedAt: data.generatedAt || 0, degraded: false, stale: false, error: '' }",
+  "server/eagleeye/forecast/v1/get-forecast-scorecard.ts::{ schemaVersion: 1, generatedAt: 0, rollingWindowDays: 180, methodology: '', totals: { entries: 0, resolved: 0, pending: 0, pendingJudge: 0, scored: 0, void: 0, voidRate: 0, publicationCoverage: 0, }, byDomain: [], byGenerationOrigin: [], calibration: [], degraded: false, stale: false, error: '', ...overrides, }",
+  "server/eagleeye/climate/v1/list-climate-disasters.ts::{ disasters: [], pagination: { nextCursor: '', totalCount: allDisasters.length }, }",
 ]);
 
 function propName(name: ts.PropertyName): string | null {

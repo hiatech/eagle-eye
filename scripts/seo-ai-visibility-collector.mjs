@@ -30,7 +30,7 @@ import {
   SEARCH_METRICS,
   computeQuerySetDigest,
   isNonEmptyString,
-  isWorldMonitorUrl,
+  isEagleEyeUrl,
   validateBaseline,
 } from './seo-ai-visibility-scorecard.mjs';
 import { isMainModule } from './lib/main-module.mjs';
@@ -604,8 +604,8 @@ function normalizeBingAiWindow(window) {
       `citedPages[${index}].url must not contain credentials`,
     );
     invariant(
-      isWorldMonitorUrl(parsed.toString()),
-      `citedPages[${index}].url must be a World Monitor HTTPS URL`,
+      isEagleEyeUrl(parsed.toString()),
+      `citedPages[${index}].url must be a Eagle Eye HTTPS URL`,
     );
     return {
       url: parsed.toString(),

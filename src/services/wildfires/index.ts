@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { FireDetection, FireConfidence, ListFireDetectionsResponse } from '@/generated/client/worldmonitor/wildfire/v1/service_client';
+import type { FireDetection, FireConfidence, ListFireDetectionsResponse } from '@/generated/client/eagleeye/wildfire/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';
 import { WildfireServiceClient } from '@/services/generated-rpc-clients';

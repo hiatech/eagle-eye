@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: '/pro#pricing', labelKey: 'welcome.nav.pricing', accent: true },
   { href: '#faq', labelKey: 'welcome.nav.faq', accent: false },
   { href: '/blog/', labelKey: 'welcome.nav.blog', accent: false },
-  { href: 'https://www.worldmonitor.app/docs', labelKey: 'welcome.nav.docs', accent: false },
+  { href: 'https://www.eagle-eye.app/docs', labelKey: 'welcome.nav.docs', accent: false },
 ] as const;
 
 const NavItems = ({ compact = false }: { compact?: boolean }) => (

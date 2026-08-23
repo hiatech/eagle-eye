@@ -3,7 +3,7 @@
 // "Check your cookie settings, then reload." For `mint_failed` — the mint
 // request never completed, so the browser is offline, behind a content blocker,
 // or hit the 10s timeout — cookie settings are not the problem, and by the time
-// WORLDMONITOR-WG had decayed to its steady state that wrong advice was going
+// EAGLEEYE-WG had decayed to its steady state that wrong advice was going
 // to roughly two thirds of the users who saw the toast.
 //
 // Copy is exactly the kind of defect no type, wiring guard, or source grep can

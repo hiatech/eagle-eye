@@ -158,8 +158,8 @@ test('getResilienceOverallDisplay separates visual band from API level', () => {
 });
 
 test('resilience methodology help copy derives current counts from the preview fixture', async () => {
-  const { RESILIENCE_DIMENSION_ORDER, RESILIENCE_RETIRED_DIMENSIONS, RESILIENCE_DOMAIN_ORDER } = await import('../server/worldmonitor/resilience/v1/_dimension-scorers.ts');
-  const { PILLAR_ORDER } = await import('../server/worldmonitor/resilience/v1/_pillar-membership.ts');
+  const { RESILIENCE_DIMENSION_ORDER, RESILIENCE_RETIRED_DIMENSIONS, RESILIENCE_DOMAIN_ORDER } = await import('../server/eagleeye/resilience/v1/_dimension-scorers.ts');
+  const { PILLAR_ORDER } = await import('../server/eagleeye/resilience/v1/_pillar-membership.ts');
   const summary = getResilienceMethodologySummary();
   assert.deepEqual(summary, {
     activeDimensionCount: RESILIENCE_DIMENSION_ORDER.length - RESILIENCE_RETIRED_DIMENSIONS.size,
@@ -489,7 +489,7 @@ test('getResilienceDimensionLabel returns short stable labels for all 22 dimensi
 // into the confidence grid for any new dimension that ships without
 // a matching DIMENSION_LABELS entry (PR #3324 review-catch).
 test('getResilienceDimensionLabel covers every dimension in RESILIENCE_DIMENSION_ORDER', async () => {
-  const { RESILIENCE_DIMENSION_ORDER } = await import('../server/worldmonitor/resilience/v1/_dimension-scorers.ts');
+  const { RESILIENCE_DIMENSION_ORDER } = await import('../server/eagleeye/resilience/v1/_dimension-scorers.ts');
   const leaks: string[] = [];
   for (const id of RESILIENCE_DIMENSION_ORDER) {
     const label = getResilienceDimensionLabel(id);
@@ -618,7 +618,7 @@ test('LOCKED_PREVIEW populates all 22 serialized dimensions for the gated previe
   const {
     RESILIENCE_DIMENSION_ORDER,
     RESILIENCE_RETIRED_DIMENSIONS,
-  } = await import('../server/worldmonitor/resilience/v1/_dimension-scorers.ts');
+  } = await import('../server/eagleeye/resilience/v1/_dimension-scorers.ts');
   const retiredDimensions = new Set<string>(RESILIENCE_RETIRED_DIMENSIONS);
   const all = collectDimensionConfidences(LOCKED_PREVIEW.domains);
   assert.equal(

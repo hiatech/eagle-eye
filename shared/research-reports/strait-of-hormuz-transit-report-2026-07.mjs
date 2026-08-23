@@ -29,8 +29,8 @@ export const REPORT = {
     'Strait of Hormuz transits are down {{m:declinePct}} since the March 2026 closure — {{m:disruptionDailyAvg}} ships/day since March 1 versus {{m:sameWindow2025DailyAvg}} in the same 2025 window — with July at about {{m:julVsFebShare}} of the February baseline, from IMF PortWatch daily data.',
   disruptionStart: '2026-03-01',
   author: {
-    name: 'World Monitor Research',
-    url: 'https://www.worldmonitor.app/',
+    name: 'Eagle Eye Research',
+    url: 'https://www.eagle-eye.app/',
   },
   datePublished: '2026-07-27',
   dateModified: '2026-07-27',
@@ -41,7 +41,7 @@ export const REPORT = {
   // Why this topic: the evidence trail required by #5668 AC#1, kept in the
   // published report so readers can audit the selection logic itself.
   topicJustification: [
-    'Issue #5667 recorded a 2026-07-26 spot check in which World Monitor was absent from returned results for “Strait of Hormuz live traffic tracker” — the exact reviewed query q07 in the visibility baseline (use-case intent, chokepoints page family, IMF PortWatch as named source).',
+    'Issue #5667 recorded a 2026-07-26 spot check in which Eagle Eye was absent from returned results for “Strait of Hormuz live traffic tracker” — the exact reviewed query q07 in the visibility baseline (use-case intent, chokepoints page family, IMF PortWatch as named source).',
     'The 2026-07-27 visibility baseline shows the category query already earning AI citations (4/4 platform mentions, 3/4 direct) while use-case queries have no observed visibility, so the next authority asset belongs on a use-case surface.',
     'The baseline’s expansion gate allows at most one evidence-rich report experiment before credentialed demand data arrives; this pilot is that single experiment.',
   ],
@@ -58,7 +58,7 @@ export const REPORT = {
   ],
 
   // News-context layer: every entry was retrieved and read on the stated date.
-  // Claims here are attributed to their source and are NOT World Monitor
+  // Claims here are attributed to their source and are NOT Eagle Eye
   // observations.
   newsContext: [
     {
@@ -127,7 +127,7 @@ export const REPORT = {
       layer: 'news',
       block: 'news-context',
       paragraphs: [
-        'World Monitor does not independently verify the events below; they are third-party reporting, listed with source and dates, and kept separate from the observed transit data above.',
+        'Eagle Eye does not independently verify the events below; they are third-party reporting, listed with source and dates, and kept separate from the observed transit data above.',
       ],
     },
     {
@@ -135,7 +135,7 @@ export const REPORT = {
       heading: 'Methodology',
       layer: 'methodology',
       paragraphs: [
-        'All transit figures derive from one source: IMF PortWatch daily chokepoint transit calls (portwatch.imf.org, based on UN Global Platform AIS data), retrieved on {{m:capturedAtDate}} from the public PortWatch ArcGIS service and frozen into the versioned snapshot named below. A transit call is an AIS-observed passage; vessel classes (tanker, container, dry bulk, general cargo, ro-ro) and deadweight-tonnage aggregates are PortWatch fields, not World Monitor estimates.',
+        'All transit figures derive from one source: IMF PortWatch daily chokepoint transit calls (portwatch.imf.org, based on UN Global Platform AIS data), retrieved on {{m:capturedAtDate}} from the public PortWatch ArcGIS service and frozen into the versioned snapshot named below. A transit call is an AIS-observed passage; vessel classes (tanker, container, dry bulk, general cargo, ro-ro) and deadweight-tonnage aggregates are PortWatch fields, not Eagle Eye estimates.',
         'Derived figures are arithmetic over that series only — period averages, sums, and percentage comparisons, each documented in the provenance table below. No smoothing, interpolation, forecasting, or cross-source blending is applied. Missing days would be listed explicitly rather than filled; this snapshot has {{m:missingDatesTotal}} missing days across all four series. The report page is rebuilt deterministically from the committed snapshot, so every figure can be recomputed from the published data files.',
       ],
     },

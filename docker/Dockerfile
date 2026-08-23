@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-# Multi-stage build for the World Monitor web app (frontend only).
+# Multi-stage build for the Eagle Eye web app (frontend only).
 
 # Stage 1: Build the frontend with TypeScript + Vite.
 FROM node:24-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd AS builder
@@ -21,7 +21,7 @@ RUN npm ci --include=dev --ignore-scripts
 # Build-time configuration. Pass via --build-arg. Other VITE_* vars (e.g. VITE_PMTILES_URL)
 # can be added here or via --build-arg for custom builds; see .env.example for the full list.
 ARG VITE_VARIANT=full
-ARG VITE_WS_API_URL=https://api.worldmonitor.app
+ARG VITE_WS_API_URL=https://api.eagle-eye.app
 
 ENV VITE_VARIANT=${VITE_VARIANT}
 ENV VITE_WS_API_URL=${VITE_WS_API_URL}
@@ -38,7 +38,7 @@ FROM nginx:alpine@sha256:54f2a904c251d5a34adf545a72d32515a15e08418dae0266e23be2e
 
 WORKDIR /usr/share/nginx/html
 
-ENV API_UPSTREAM=https://api.worldmonitor.app
+ENV API_UPSTREAM=https://api.eagle-eye.app
 
 # Copy built assets, nginx template (API_UPSTREAM substituted at startup), and entrypoint.
 COPY --from=builder /app/dist/ ./

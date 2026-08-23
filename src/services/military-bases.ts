@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { ListMilitaryBasesResponse, MilitaryBaseEntry, MilitaryBaseCluster } from '@/generated/client/worldmonitor/military/v1/service_client';
+import type { ListMilitaryBasesResponse, MilitaryBaseEntry, MilitaryBaseCluster } from '@/generated/client/eagleeye/military/v1/service_client';
 import type { MilitaryBase, MilitaryBaseType, MilitaryBaseEnriched } from '@/types';
 import { MilitaryServiceClient } from '@/services/generated-rpc-clients';
 

@@ -16,7 +16,7 @@ import { serialize } from './lib/openapi-codegen.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
-const protoDir = resolve(root, 'proto/worldmonitor');
+const protoDir = resolve(root, 'proto/eagleeye');
 const CHECK = process.argv.includes('--check');
 const HTTP_METHODS = new Set(['get', 'post', 'put', 'delete', 'patch', 'options', 'head']);
 
@@ -237,7 +237,7 @@ function injectTypeScript(text) {
 
 const jsonFiles = readdirSync(apiDir).filter(file => /Service\.openapi\.json$/.test(file)).sort();
 const yamlFiles = readdirSync(apiDir)
-  .filter(file => /Service\.openapi\.yaml$/.test(file) || file === 'worldmonitor.openapi.yaml')
+  .filter(file => /Service\.openapi\.yaml$/.test(file) || file === 'eagleeye.openapi.yaml')
   .sort();
 const tsFiles = [
   ...walkFiles(resolve(root, 'src/generated/client'), name => name.endsWith('.ts')),

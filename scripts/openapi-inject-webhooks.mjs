@@ -3,8 +3,8 @@
  * Inject the outbound webhook-delivery contract into the OpenAPI bundle.
  *
  * The ShippingV2Service lets partners register a `callbackUrl` (RegisterWebhook)
- * that WorldMonitor POSTs a signed chokepoint-disruption alert to. The delivery
- * worker (server/worldmonitor/shipping/v2/deliver-webhook.ts) signs every POST
+ * that EagleEye POSTs a signed chokepoint-disruption alert to. The delivery
+ * worker (server/eagleeye/shipping/v2/deliver-webhook.ts) signs every POST
  * with an HMAC-SHA256 over the raw body, keyed by the subscription `secret`, and
  * sends it in a branded `X-WM-Signature` header (plus `X-WM-Event` /
  * `X-WM-Delivery-Id`). The sebuf `protoc-gen-openapiv3` plugin only emits the
@@ -19,9 +19,9 @@
  * named Path Item Objects describing requests the API *initiates*). This step
  * injects one `chokepoint.disruption` webhook documenting the three branded
  * headers, the payload schema, and — crucially — the verification recipe, so a
- * consuming agent can confirm a delivery genuinely came from WorldMonitor.
+ * consuming agent can confirm a delivery genuinely came from EagleEye.
  *
- * Only the bundle (docs/api/worldmonitor.openapi.yaml) is touched: it is copied
+ * Only the bundle (docs/api/eagleeye.openapi.yaml) is touched: it is copied
  * to public/openapi.yaml and deserialized to public/openapi.json (the artifact
  * orank fetches) at build time. The per-service ShippingV2Service spec is left
  * alone — top-level `webhooks` is a bundle-level, cross-cutting concern and the
@@ -40,7 +40,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const bundlePath = resolve(root, 'docs/api/worldmonitor.openapi.yaml');
+const bundlePath = resolve(root, 'docs/api/eagleeye.openapi.yaml');
 
 const CHECK = process.argv.includes('--check');
 
@@ -65,10 +65,10 @@ const WEBHOOKS_BLOCK = `webhooks:
                 - ShippingV2Service
             summary: Chokepoint disruption alert (outbound, signed)
             description: |-
-                WorldMonitor POSTs this event to the \`callbackUrl\` you register via
+                EagleEye POSTs this event to the \`callbackUrl\` you register via
                 RegisterWebhook whenever a subscribed chokepoint's disruption score
                 crosses your \`alertThreshold\`. Every delivery is signed so you can
-                confirm it genuinely came from WorldMonitor.
+                confirm it genuinely came from EagleEye.
 
                 Verification: the \`${SIGNATURE_HEADER}\` header is
                 \`sha256=<hex>\`, where \`<hex>\` is the lowercase hex HMAC-SHA256 of the
@@ -82,7 +82,7 @@ const WEBHOOKS_BLOCK = `webhooks:
 
                 A verifiable signed sample (fixed secret + exact raw body +
                 resulting signature) is published at
-                https://www.worldmonitor.app/.well-known/webhook-sample.json so you
+                https://www.eagle-eye.app/.well-known/webhook-sample.json so you
                 can confirm your HMAC verification end-to-end before registering.
 
                 Respond with any 2xx to acknowledge receipt; a non-2xx response or a
@@ -220,7 +220,7 @@ if (isEntryPoint) {
 
   if (CHECK) {
     if (result.changed) {
-      console.error('✗ bundle (worldmonitor.openapi.yaml) is missing the webhooks delivery contract');
+      console.error('✗ bundle (eagleeye.openapi.yaml) is missing the webhooks delivery contract');
       console.error('  Run: npm run gen:openapi:webhooks');
       process.exit(1);
     }
@@ -228,7 +228,7 @@ if (isEntryPoint) {
   } else {
     if (result.changed) writeFileSync(bundlePath, result.text);
     console.log(
-      `openapi-inject-webhooks: ${result.changed ? 'injected' : 'already present'} — ${WEBHOOK_EVENT} webhook (${SIGNATURE_HEADER}) in worldmonitor.openapi.yaml`,
+      `openapi-inject-webhooks: ${result.changed ? 'injected' : 'already present'} — ${WEBHOOK_EVENT} webhook (${SIGNATURE_HEADER}) in eagleeye.openapi.yaml`,
     );
   }
 }

@@ -37,7 +37,7 @@ import {
 } from './routes';
 import { appendStoredContentAttributionToUrl } from '../../shared/content-attribution';
 
-const API_BASE = 'https://api.worldmonitor.app/api';
+const API_BASE = 'https://api.eagle-eye.app/api';
 const TURNSTILE_SITE_KEY = '0x4AAAAAACnaYgHIyxclu8Tj';
 
 declare global {
@@ -243,7 +243,7 @@ function ClerkUserButton({ user }: { user: UserResource | null }): ReactElement 
       .then((clerk) => {
         if (unmounted || !el) return;
         clerk.mountUserButton(el, {
-          afterSignOutUrl: 'https://www.worldmonitor.app/pro',
+          afterSignOutUrl: 'https://www.eagle-eye.app/pro',
         });
       })
       .catch((err) => {
@@ -485,7 +485,7 @@ const SocialProof = () => (
           "{t('socialProof.quote')}"
         </p>
         <footer className="mt-6 flex items-center justify-center gap-3">
-          <a href="https://www.wired.com/story/world-monitor-elie-habib/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-wm-muted hover:text-wm-text transition-colors">
+          <a href="https://www.wired.com/story/eagle-eye-elie-habib/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-wm-muted hover:text-wm-text transition-colors">
             <img src={wiredLogo} alt="WIRED" loading="lazy" className="h-5 brightness-0 invert opacity-60 hover:opacity-100 transition-opacity" />
           </a>
         </footer>
@@ -641,7 +641,7 @@ const LivePreview = () => (
             <source type="image/webp" srcSet={DASHBOARD_SCREENSHOT_WEBP_SRCSET} sizes={LIVE_PREVIEW_IMAGE_SIZES} />
             <img
               src={DASHBOARD_SCREENSHOT_JPG}
-              alt="World Monitor Dashboard"
+              alt="Eagle Eye Dashboard"
               className="absolute inset-0 w-full h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -795,7 +795,7 @@ const ProShowcase = () => (
           <div className="w-3 h-3 rounded-full bg-red-500" />
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
           <div className="w-3 h-3 rounded-full bg-green-500" />
-          <span className="ml-2 font-mono text-xs text-gray-400">#world-monitor-alerts</span>
+          <span className="ml-2 font-mono text-xs text-gray-400">#eagle-eye-alerts</span>
         </div>
         <div className="p-6 space-y-6 font-sans text-sm">
           <div className="flex gap-4">
@@ -804,7 +804,7 @@ const ProShowcase = () => (
             </div>
             <div>
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-bold text-gray-200">World Monitor</span>
+                <span className="font-bold text-gray-200">Eagle Eye</span>
                 <span className="text-xs text-gray-500 bg-gray-800 px-1 rounded">APP</span>
                 <span className="text-xs text-gray-500">8:00 AM</span>
               </div>
@@ -871,12 +871,12 @@ const ApiSection = () => (
         <div className="bg-black border border-wm-border rounded-lg overflow-hidden font-mono text-sm">
           <div className="bg-wm-card px-4 py-2 border-b border-wm-border flex items-center gap-2">
             <Terminal className="w-4 h-4 text-wm-muted" aria-hidden="true" />
-            <span className="text-wm-muted text-xs">api.worldmonitor.app</span>
+            <span className="text-wm-muted text-xs">api.eagle-eye.app</span>
           </div>
           <div className="p-6 text-gray-300 overflow-x-auto">
             <pre><code>
 <span className="text-wm-blue">curl</span> \<br/>
-  <span className="text-wm-green">"https://api.worldmonitor.app/v1/intelligence/convergence?region=MENA&time_window=6h"</span> \<br/>
+  <span className="text-wm-green">"https://api.eagle-eye.app/v1/intelligence/convergence?region=MENA&time_window=6h"</span> \<br/>
   -H <span className="text-wm-green">"Authorization: Bearer wm_live_xxx"</span><br/><br/>
 <span className="text-wm-muted">{"{"}</span><br/>
   <span className="text-wm-blue">"status"</span>: <span className="text-wm-green">"success"</span>,<br/>
@@ -920,12 +920,12 @@ const ApiSection = () => (
             <span className="text-sm">
               {t('apiSection.cli')}{' — '}
               <a
-                href="https://www.npmjs.com/package/worldmonitor"
+                href="https://www.npmjs.com/package/eagleeye"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-wm-green hover:underline"
               >
-                npx worldmonitor
+                npx eagleeye
               </a>
             </span>
           </li>
@@ -1325,20 +1325,20 @@ const EnterprisePage = () => (
         <div className="flex items-center gap-3 mb-4 md:mb-0">
           <img src="/favico/favicon-32x32.png" alt="" width="28" height="28" loading="lazy" className="rounded-full" />
           <div className="flex flex-col">
-            <span className="font-display font-bold text-sm leading-none tracking-tight text-wm-text">WORLD MONITOR</span>
+            <span className="font-display font-bold text-sm leading-none tracking-tight text-wm-text">EAGLE EYE</span>
             <span className="text-[9px] uppercase tracking-[2px] opacity-60 mt-0.5">by Someone.ceo</span>
           </div>
         </div>
         <div className="flex items-center gap-6">
           <a href={DASHBOARD_PATH} className="hover:text-wm-text transition-colors">Dashboard</a>
-          <a href="https://www.worldmonitor.app/blog/" className="hover:text-wm-text transition-colors">Blog</a>
-          <a href="https://www.worldmonitor.app/docs" className="hover:text-wm-text transition-colors">Docs</a>
-          <a href="https://status.worldmonitor.app/" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">Status</a>
-          <a href="https://github.com/hiatech/worldmonitor" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">GitHub</a>
+          <a href="https://www.eagle-eye.app/blog/" className="hover:text-wm-text transition-colors">Blog</a>
+          <a href="https://www.eagle-eye.app/docs" className="hover:text-wm-text transition-colors">Docs</a>
+          <a href="https://status.eagle-eye.app/" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">Status</a>
+          <a href="https://github.com/hiatech/eagle-eye" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">GitHub</a>
           <a href="https://discord.gg/re63kWKxaz" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">Discord</a>
-          <a href="https://x.com/worldmonitorai" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">X</a>
+          <a href="https://x.com/eagleeyeai" target="_blank" rel="noreferrer" className="hover:text-wm-text transition-colors">X</a>
         </div>
-        <span className="text-[10px] opacity-40 mt-4 md:mt-0">&copy; {new Date().getFullYear()} WorldMonitor</span>
+        <span className="text-[10px] opacity-40 mt-4 md:mt-0">&copy; {new Date().getFullYear()} EagleEye</span>
       </div>
     </footer>
   </div>

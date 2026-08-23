@@ -199,7 +199,7 @@ describe('brief-contract wiring (source-textual)', () => {
   });
 
   it('country-intel brief strips invented citations before shipping', () => {
-    const src = readSrc('server/worldmonitor/intelligence/v1/get-country-intel-brief.ts');
+    const src = readSrc('server/eagleeye/intelligence/v1/get-country-intel-brief.ts');
     assert.match(src, /verifyCitationIndexes\(llmResult\.content, entrySources\.length\)/);
     assert.match(src, /brief: citationCheck\.text/);
   });

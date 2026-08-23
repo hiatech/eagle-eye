@@ -114,7 +114,7 @@ function installAxiomFetchSpy(
 const ORIGINAL_FETCH = globalThis.fetch;
 const ORIGINAL_USAGE_FLAG = process.env.USAGE_TELEMETRY;
 const ORIGINAL_AXIOM_TOKEN = process.env.AXIOM_API_TOKEN;
-const ORIGINAL_VALID_KEYS = process.env.WORLDMONITOR_VALID_KEYS;
+const ORIGINAL_VALID_KEYS = process.env.EAGLEEYE_VALID_KEYS;
 const ORIGINAL_CONVEX_SITE_URL = process.env.CONVEX_SITE_URL;
 const ORIGINAL_CONVEX_SHARED_SECRET = process.env.CONVEX_SERVER_SHARED_SECRET;
 const ORIGINAL_REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
@@ -127,8 +127,8 @@ afterEach(() => {
   else process.env.USAGE_TELEMETRY = ORIGINAL_USAGE_FLAG;
   if (ORIGINAL_AXIOM_TOKEN == null) delete process.env.AXIOM_API_TOKEN;
   else process.env.AXIOM_API_TOKEN = ORIGINAL_AXIOM_TOKEN;
-  if (ORIGINAL_VALID_KEYS == null) delete process.env.WORLDMONITOR_VALID_KEYS;
-  else process.env.WORLDMONITOR_VALID_KEYS = ORIGINAL_VALID_KEYS;
+  if (ORIGINAL_VALID_KEYS == null) delete process.env.EAGLEEYE_VALID_KEYS;
+  else process.env.EAGLEEYE_VALID_KEYS = ORIGINAL_VALID_KEYS;
   if (ORIGINAL_CONVEX_SITE_URL == null) delete process.env.CONVEX_SITE_URL;
   else process.env.CONVEX_SITE_URL = ORIGINAL_CONVEX_SITE_URL;
   if (ORIGINAL_CONVEX_SHARED_SECRET == null) delete process.env.CONVEX_SERVER_SHARED_SECRET;
@@ -157,8 +157,8 @@ describe('gateway telemetry payload — domain extraction', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/v2/shipping/route-intelligence', {
-        headers: { Origin: 'https://worldmonitor.app' },
+      new Request('https://eagle-eye.app/api/v2/shipping/route-intelligence', {
+        headers: { Origin: 'https://eagle-eye.app' },
       }),
       recorder.ctx,
     );
@@ -192,8 +192,8 @@ describe('gateway telemetry payload — domain extraction', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL', {
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL', {
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
       recorder.ctx,
     );
@@ -226,8 +226,8 @@ describe('gateway telemetry payload — domain extraction', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL', {
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL', {
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
       recorder.ctx,
     );
@@ -260,8 +260,8 @@ describe('gateway telemetry payload — domain extraction', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL&jmespath=a[[[', {
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL&jmespath=a[[[', {
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
       recorder.ctx,
     );
@@ -295,10 +295,10 @@ describe('gateway telemetry payload — trusted client attribution (#5228)', () 
     ]);
     const recorder = makeRecordingCtx();
     const response = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL', {
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL', {
         headers: {
-          Origin: 'https://worldmonitor.app',
-          'X-WorldMonitor-Key': SESSION_TOKEN,
+          Origin: 'https://eagle-eye.app',
+          'X-EagleEye-Key': SESSION_TOKEN,
           'cf-connecting-ip': '203.0.113.7',
           'cf-ipcountry': 'FR',
           'x-real-ip': '192.0.2.5',
@@ -332,10 +332,10 @@ describe('gateway telemetry payload — trusted client attribution (#5228)', () 
     ]);
     const recorder = makeRecordingCtx();
     const response = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL', {
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL', {
         headers: {
-          Origin: 'https://worldmonitor.app',
-          'X-WorldMonitor-Key': SESSION_TOKEN,
+          Origin: 'https://eagle-eye.app',
+          'X-EagleEye-Key': SESSION_TOKEN,
           'cf-connecting-ip': '203.0.113.7',
           'cf-ipcountry': 'FR',
           'x-real-ip': '192.0.2.5',
@@ -355,7 +355,7 @@ describe('gateway telemetry payload — trusted client attribution (#5228)', () 
 
   it('never falls back to an unproven Cloudflare country header', () => {
     process.env.CF_EDGE_PROOF_SECRET = 'edge-secret-xyz';
-    const request = new Request('https://worldmonitor.app/api/market/v1/list-market-quotes', {
+    const request = new Request('https://eagle-eye.app/api/market/v1/list-market-quotes', {
       headers: { 'cf-ipcountry': 'FR' },
     });
 
@@ -364,7 +364,7 @@ describe('gateway telemetry payload — trusted client attribution (#5228)', () 
 
   it('falls back from Cloudflare’s T1 pseudo-country to Vercel geography', () => {
     process.env.CF_EDGE_PROOF_SECRET = 'edge-secret-xyz';
-    const request = new Request('https://worldmonitor.app/api/market/v1/list-market-quotes', {
+    const request = new Request('https://eagle-eye.app/api/market/v1/list-market-quotes', {
       headers: {
         'cf-ipcountry': 'T1',
         'x-vercel-ip-country': 'ZA',
@@ -438,9 +438,9 @@ describe('gateway telemetry payload — bearer identity propagation', () => {
     const token = await signToken({ sub: 'user_pro', plan: 'pro' });
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/resilience/v1/get-resilience-score?countryCode=US', {
+      new Request('https://eagle-eye.app/api/resilience/v1/get-resilience-score?countryCode=US', {
         headers: {
-          Origin: 'https://worldmonitor.app',
+          Origin: 'https://eagle-eye.app',
           Authorization: `Bearer ${token}`,
         },
       }),
@@ -499,9 +499,9 @@ describe('gateway telemetry payload — bearer identity propagation', () => {
     const token = await signToken({ sub: 'user_api', plan: 'api' });
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/analyze-stock?symbol=AAPL', {
+      new Request('https://eagle-eye.app/api/market/v1/analyze-stock?symbol=AAPL', {
         headers: {
-          Origin: 'https://worldmonitor.app',
+          Origin: 'https://eagle-eye.app',
           Authorization: `Bearer ${token}`,
         },
       }),
@@ -557,9 +557,9 @@ describe('gateway telemetry payload — bearer identity propagation', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/analyze-stock?symbol=AAPL', {
+      new Request('https://eagle-eye.app/api/market/v1/analyze-stock?symbol=AAPL', {
         headers: {
-          Origin: 'https://worldmonitor.app',
+          Origin: 'https://eagle-eye.app',
           'X-Api-Key': TELEMETRY_FREE_USER_KEY,
         },
       }),
@@ -621,9 +621,9 @@ describe('gateway telemetry payload — bearer identity propagation', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/cyber/v1/list-cyber-threats', {
+      new Request('https://eagle-eye.app/api/cyber/v1/list-cyber-threats', {
         headers: {
-          Origin: 'https://worldmonitor.app',
+          Origin: 'https://eagle-eye.app',
           'X-Api-Key': TELEMETRY_ACTIVE_USER_KEY,
         },
       }),
@@ -658,9 +658,9 @@ describe('gateway telemetry payload — bearer identity propagation', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/resilience/v1/get-resilience-score?countryCode=US', {
+      new Request('https://eagle-eye.app/api/resilience/v1/get-resilience-score?countryCode=US', {
         headers: {
-          Origin: 'https://worldmonitor.app',
+          Origin: 'https://eagle-eye.app',
           Authorization: 'Bearer not-a-real-token',
         },
       }),
@@ -693,8 +693,8 @@ describe('gateway telemetry payload — ctx-optional safety', () => {
     ]);
 
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes?symbols=AAPL', {
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes?symbols=AAPL', {
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
     );
     assert.equal(res.status, 200);
@@ -733,8 +733,8 @@ describe('gateway telemetry payload — unmatched route reason labels', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/trade/v1/list-tariffs', {
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+      new Request('https://eagle-eye.app/api/trade/v1/list-tariffs', {
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
       recorder.ctx,
     );
@@ -773,9 +773,9 @@ describe('gateway telemetry payload — unmatched route reason labels', () => {
 
     const recorder = makeRecordingCtx();
     const res = await handler(
-      new Request('https://worldmonitor.app/api/market/v1/list-market-quotes', {
+      new Request('https://eagle-eye.app/api/market/v1/list-market-quotes', {
         method: 'DELETE',
-        headers: { Origin: 'https://worldmonitor.app', 'X-WorldMonitor-Key': SESSION_TOKEN },
+        headers: { Origin: 'https://eagle-eye.app', 'X-EagleEye-Key': SESSION_TOKEN },
       }),
       recorder.ctx,
     );

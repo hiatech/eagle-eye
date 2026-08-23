@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import wgiIndicatorKeys from '../shared/wgi-indicator-keys.json' with { type: 'json' };
 
 const scriptMod = await import('../scripts/compare-resilience-current-vs-proposed.mjs');
-const registryMod = await import('../server/worldmonitor/resilience/v1/_indicator-registry.ts');
+const registryMod = await import('../server/eagleeye/resilience/v1/_indicator-registry.ts');
 
 const { buildIndicatorExtractionPlan, applyExtractionRule, EXTRACTION_RULES } = scriptMod;
 const { INDICATOR_REGISTRY } = registryMod;

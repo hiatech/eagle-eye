@@ -1,6 +1,6 @@
 import type {
   GetChinaCorridorControlTowersResponse,
-} from '@/generated/client/worldmonitor/supply_chain/v1/service_client';
+} from '@/generated/client/eagleeye/supply_chain/v1/service_client';
 import {
   createUnavailableChinaCorridorControlTowerResponse,
   parseChinaCorridorWirePayload,

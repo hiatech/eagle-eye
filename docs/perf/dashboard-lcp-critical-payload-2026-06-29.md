@@ -31,7 +31,7 @@ The measured final LCP candidate is the pre-hydration shell copy (`p.skeleton-ma
 Fresh isolated worktree:
 
 ```bash
-git worktree add -b codex/4489-lcp-critical-payload-worktree /tmp/worldmonitor-issue-4489-lcp origin/main
+git worktree add -b codex/4489-lcp-critical-payload-worktree /tmp/eagleeye-issue-4489-lcp origin/main
 npm run worktree:bootstrap
 ```
 
@@ -78,7 +78,7 @@ npx playwright test e2e/dashboard-cls.spec.ts e2e/runtime-fetch.spec.ts
 
 Result: 21 tests passed and 3 existing runtime-fetch assertions failed in areas not touched by this patch:
 
-- `update badge picks architecture-correct desktop download url`: expected `worldmonitor.app`, received `api.worldmonitor.app`.
+- `update badge picks architecture-correct desktop download url`: expected `eagle-eye.app`, received `api.eagle-eye.app`.
 - `loadMarkets keeps Yahoo-backed data when Finnhub is skipped`: direct harness render assertion did not observe market rows.
 - `fetchHapiSummary maps proto countryCode to iso2 field`: direct harness fixture returned a shape that tripped `Object.entries` on null/undefined.
 

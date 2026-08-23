@@ -8,8 +8,8 @@ const read = (path) => readFileSync(resolve(root, path), 'utf8');
 
 describe('natural cyclone attribution contract', () => {
   it('ships canonical identity and agency-level wind-period observations through the proto bindings', () => {
-    const proto = read('proto/worldmonitor/natural/v1/list_natural_events.proto');
-    const client = read('src/generated/client/worldmonitor/natural/v1/service_client.ts');
+    const proto = read('proto/eagleeye/natural/v1/list_natural_events.proto');
+    const client = read('src/generated/client/eagleeye/natural/v1/service_client.ts');
     const types = read('src/types/index.ts');
     const adapter = read('src/services/eonet.ts');
 

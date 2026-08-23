@@ -193,7 +193,7 @@ export const touchProMcpTokenLastUsed = internalMutation({
  * brief unauth windows during sign-out, initial page load before Clerk
  * resolves, and token-rotation races. Throwing `AUTH_REQUIRED` from a
  * reactive query path causes Convex's server-side Sentry integration
- * to page on those transient races (WORLDMONITOR-RD, sibling of N3),
+ * to page on those transient races (EAGLEEYE-RD, sibling of N3),
  * even though the `requireUserId` ConvexError throw was explicitly
  * designed not to. Returning `[]` is observationally identical to
  * "user has no tokens yet" — the only legitimate caller is the

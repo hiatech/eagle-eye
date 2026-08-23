@@ -102,7 +102,7 @@ describe('Bootstrap cache key registry', () => {
   it('every cache key maps to a handler file or external seed script', () => {
     const keys = Object.values(CANONICAL_BOOTSTRAP_CACHE_KEYS);
 
-    const handlerDirs = join(root, 'server', 'worldmonitor');
+    const handlerDirs = join(root, 'server', 'eagleeye');
     const handlerFiles = [];
     function walk(dir) {
       for (const entry of readdirSync(dir)) {

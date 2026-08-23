@@ -14,35 +14,35 @@ const call = (host, init) =>
 
 describe('agent-auth WWW-Authenticate challenge (/agent/auth)', () => {
   it('answers a plain GET with 401 + RFC 9728 WWW-Authenticate pointing at the PRM', async () => {
-    const res = await call('worldmonitor.app', { method: 'GET' });
+    const res = await call('eagle-eye.app', { method: 'GET' });
     assert.equal(res.status, 401);
     assert.equal(
       res.headers.get('www-authenticate'),
-      'Bearer realm="worldmonitor", resource_metadata="https://worldmonitor.app/.well-known/oauth-protected-resource"',
+      'Bearer realm="eagleeye", resource_metadata="https://eagle-eye.app/.well-known/oauth-protected-resource"',
     );
     assert.equal(res.headers.get('cache-control'), 'no-store');
     assert.equal(res.headers.get('access-control-allow-origin'), '*');
   });
 
   it('returns a machine-readable body with the auth discovery pointers', async () => {
-    const body = await (await call('worldmonitor.app', { method: 'GET' })).json();
+    const body = await (await call('eagle-eye.app', { method: 'GET' })).json();
     assert.equal(body.error, 'unauthorized');
     assert.equal(
       body.resource_metadata,
-      'https://worldmonitor.app/.well-known/oauth-protected-resource',
+      'https://eagle-eye.app/.well-known/oauth-protected-resource',
     );
     assert.equal(
       body.authorization_server,
-      'https://worldmonitor.app/.well-known/oauth-authorization-server',
+      'https://eagle-eye.app/.well-known/oauth-authorization-server',
     );
-    assert.equal(body.skill, 'https://worldmonitor.app/auth.md');
+    assert.equal(body.skill, 'https://eagle-eye.app/auth.md');
   });
 
   it('derives resource_metadata from the request Host (www stays self-consistent)', async () => {
-    const res = await call('www.worldmonitor.app', { method: 'GET' });
+    const res = await call('www.eagle-eye.app', { method: 'GET' });
     assert.equal(
       res.headers.get('www-authenticate'),
-      'Bearer realm="worldmonitor", resource_metadata="https://www.worldmonitor.app/.well-known/oauth-protected-resource"',
+      'Bearer realm="eagleeye", resource_metadata="https://www.eagle-eye.app/.well-known/oauth-protected-resource"',
     );
   });
 
@@ -50,12 +50,12 @@ describe('agent-auth WWW-Authenticate challenge (/agent/auth)', () => {
     const res = await call('evil.example', { method: 'GET' });
     assert.match(
       res.headers.get('www-authenticate'),
-      /resource_metadata="https:\/\/worldmonitor\.app\/\.well-known\/oauth-protected-resource"/,
+      /resource_metadata="https:\/\/eagle-eye\.app\/\.well-known\/oauth-protected-resource"/,
     );
   });
 
   it('answers CORS preflight', async () => {
-    const res = await call('worldmonitor.app', { method: 'OPTIONS' });
+    const res = await call('eagle-eye.app', { method: 'OPTIONS' });
     assert.equal(res.status, 204);
     assert.equal(res.headers.get('access-control-allow-methods'), 'GET, HEAD, POST, OPTIONS');
   });

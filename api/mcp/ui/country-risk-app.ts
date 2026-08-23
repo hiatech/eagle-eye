@@ -48,8 +48,8 @@ export const COUNTRY_RISK_APP_HTML = `<!DOCTYPE html>
      styles working) rather than '*'. default-src 'none' earns full credit over a
      permissive default. frame-ancestors is advisory in a <meta> CSP (browsers honor
      it only via HTTP header) but the static scanner reads it here. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://worldmonitor.app https://www.worldmonitor.app; frame-ancestors https://chatgpt.com https://claude.ai https://claude.com; form-action 'none'; base-uri 'none'">
-<title>Country Risk — WorldMonitor</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://eagle-eye.app https://www.eagle-eye.app; frame-ancestors https://chatgpt.com https://claude.ai https://claude.com; form-action 'none'; base-uri 'none'">
+<title>Country Risk — EagleEye</title>
 <style>
   :root {
     --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --card: #f8fafc;
@@ -306,7 +306,7 @@ export const COUNTRY_RISK_APP_HTML = `<!DOCTYPE html>
     method: "ui/initialize",
     params: {
       protocolVersion: "2026-01-26",
-      appInfo: { name: "worldmonitor-country-risk", version: "1.0.0" },
+      appInfo: { name: "eagleeye-country-risk", version: "1.0.0" },
       appCapabilities: {}
     }
   });

@@ -8,7 +8,7 @@ import {
   includesCountryTerm,
   includesCountryCodeToken,
   matchesCountry,
-} from '../server/worldmonitor/intelligence/v1/_country-brief-context.ts';
+} from '../server/eagleeye/intelligence/v1/_country-brief-context.ts';
 
 describe('country intel brief cache key derivation', () => {
   it('anon callers share one key per country+lang regardless of client context', () => {

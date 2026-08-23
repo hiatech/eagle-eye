@@ -600,7 +600,7 @@ export async function resolvePlanKey(
   // NOTE: must use the static import — Convex's V8 isolate throws
   // `TypeError: dynamic module import unsupported` on `await import(...)`,
   // which would silently break the legacy-alias path on every webhook
-  // for users on rotated product IDs (WORLDMONITOR-QM, 13 events / 1 user).
+  // for users on rotated product IDs (EAGLEEYE-QM, 13 events / 1 user).
   const aliasedPlan = LEGACY_PRODUCT_ALIASES[dodoProductId];
   if (aliasedPlan) {
     console.warn(
@@ -752,7 +752,7 @@ async function resolveUserId(
   // errorMessage` and is forwarded to Sentry by Convex auto-Sentry, where the
   // payload itself is deliberately absent. The prior wording asserted "no
   // dodoCustomerId" unconditionally, which sent triage down the wrong path on
-  // events that carried one (WORLDMONITOR-YA).
+  // events that carried one (EAGLEEYE-YA).
   throw new Error(
     `[subscriptionHelpers] Cannot resolve userId ` +
       describeUnresolvedIdentity(dodoCustomerId, metadata),
@@ -1510,7 +1510,7 @@ export async function handlePaymentOrRefundEvent(
   // the checkout-session metadata, and `customers` rows are only written by the
   // subscription handlers — so a renewal charge or a refund on a subscription we
   // already track was resolvable from our own row all along, while this handler
-  // threw and sent the whole webhook to the dead-letter (WORLDMONITOR-YA). The
+  // threw and sent the whole webhook to the dead-letter (EAGLEEYE-YA). The
   // row is as trustworthy as the customers table: both are written by this same
   // webhook path from an already-verified identity.
   const existingSubscription = data.subscription_id

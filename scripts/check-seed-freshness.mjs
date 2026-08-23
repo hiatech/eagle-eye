@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const DEFAULT_HEALTH_URL = 'https://api.worldmonitor.app/api/health?compact=1';
+const DEFAULT_HEALTH_URL = 'https://api.eagle-eye.app/api/health?compact=1';
 const BASELINE_URL = new URL('./seed-freshness-baseline.json', import.meta.url);
 
 export function validateCompactHealthPayload(payload) {
@@ -200,7 +200,7 @@ export function formatAcceptanceReport(
 async function main() {
   const healthUrl = process.env.HEALTH_URL || DEFAULT_HEALTH_URL;
   const response = await fetch(healthUrl, {
-    headers: { 'User-Agent': 'worldmonitor-seed-freshness-monitor/1.0' },
+    headers: { 'User-Agent': 'eagleeye-seed-freshness-monitor/1.0' },
     signal: AbortSignal.timeout(20_000),
   });
   if (!response.ok) {

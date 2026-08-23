@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 
-import { getResilienceScore } from '../server/worldmonitor/resilience/v1/get-resilience-score.ts';
+import { getResilienceScore } from '../server/eagleeye/resilience/v1/get-resilience-score.ts';
 import {
   RESILIENCE_SCORE_CACHE_PREFIX,
   RESILIENCE_HISTORY_KEY_PREFIX,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
 import { createRedisFetch } from './helpers/fake-upstash-redis.mts';
 import { RESILIENCE_FIXTURES } from './helpers/resilience-fixtures.mts';
 

@@ -22,24 +22,24 @@ import { loadEnvFile, CHROME_UA } from './_seed-utils.mjs';
 
 loadEnvFile(import.meta.url);
 
-const API_BASE = 'https://api.worldmonitor.app';
+const API_BASE = 'https://api.eagle-eye.app';
 const TIMEOUT = 30_000;
 
 // Defense-in-depth auth — Origin-trust alone broke globally on 2026-05-02
 // (CF/Vercel intermediaries can strip Origin and CF can cache the resulting
-// 401 for s-maxage, poisoning a POP). Send X-WorldMonitor-Key when configured;
+// 401 for s-maxage, poisoning a POP). Send X-EagleEye-Key when configured;
 // fall through to Origin-only when unset to preserve local dev behaviour.
-// Set WORLDMONITOR_RELAY_KEY on the Railway service to a value already
-// present in Vercel's WORLDMONITOR_VALID_KEYS. Same pattern as ais-relay.cjs.
-const RELAY_API_KEY = process.env.WORLDMONITOR_RELAY_KEY || '';
+// Set EAGLEEYE_RELAY_KEY on the Railway service to a value already
+// present in Vercel's EAGLEEYE_VALID_KEYS. Same pattern as ais-relay.cjs.
+const RELAY_API_KEY = process.env.EAGLEEYE_RELAY_KEY || '';
 
 function warmPingHeaders() {
   const h = {
     'Content-Type': 'application/json',
     'User-Agent': CHROME_UA,
-    Origin: 'https://worldmonitor.app',
+    Origin: 'https://eagle-eye.app',
   };
-  if (RELAY_API_KEY) h['X-WorldMonitor-Key'] = RELAY_API_KEY;
+  if (RELAY_API_KEY) h['X-EagleEye-Key'] = RELAY_API_KEY;
   return h;
 }
 
@@ -52,7 +52,7 @@ async function warmPing(name, path) {
       signal: AbortSignal.timeout(TIMEOUT),
     });
     if (!resp.ok) {
-      const keyNote = RELAY_API_KEY ? '' : ' (WORLDMONITOR_RELAY_KEY not set — Origin-only auth)';
+      const keyNote = RELAY_API_KEY ? '' : ' (EAGLEEYE_RELAY_KEY not set — Origin-only auth)';
       console.warn(`  ${name}: HTTP ${resp.status}${keyNote}`);
       return false;
     }
@@ -89,7 +89,7 @@ async function main() {
     // Distinct, grep-able marker so persistent auth/gateway breakage stays
     // visible in Railway logs even though we exit 0. Set up a Railway log
     // alert on this string instead of relying on container exit codes.
-    console.log('WARN: all warm-pings failed — cache is cold (check WORLDMONITOR_RELAY_KEY and gateway auth)');
+    console.log('WARN: all warm-pings failed — cache is cold (check EAGLEEYE_RELAY_KEY and gateway auth)');
   }
   // Best-effort cache warmer: a missed warm-ping is not a failure worth paging on.
   // Upstream timeouts and transient 5xx happen routinely; exiting non-zero turned

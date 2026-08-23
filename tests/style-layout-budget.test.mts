@@ -30,7 +30,7 @@ import {
   MIN_PLAUSIBLE_STYLE_LAYOUT_PCT,
 } from '../scripts/check-style-layout-budget.mjs';
 
-const DASHBOARD_URL = 'https://www.worldmonitor.app/dashboard';
+const DASHBOARD_URL = 'https://www.eagle-eye.app/dashboard';
 
 /**
  * Mirrors `buildDecomposition` output: every category present, always — which
@@ -119,7 +119,7 @@ test("the harness's own refusal-to-attribute warning is unmeasured", () => {
 test('a capture of the wrong page is unmeasured', () => {
   // A redirect, auth wall, or error page produces a perfectly numeric trace.
   const verdict = evaluateStyleLayoutBudget(
-    report(22.1, { url: 'https://www.worldmonitor.app/login' }),
+    report(22.1, { url: 'https://www.eagle-eye.app/login' }),
     { expectedUrlSuffix: '/dashboard' },
   );
   assert.equal(verdict.status, 'unmeasured');

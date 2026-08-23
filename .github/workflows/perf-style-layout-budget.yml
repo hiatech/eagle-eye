@@ -21,7 +21,7 @@ on:
       url:
         description: Page to measure
         required: false
-        default: https://www.worldmonitor.app/dashboard
+        default: https://www.eagle-eye.app/dashboard
       max_pct:
         description: styleLayout budget, percent of attributed main-thread self-time
         required: false
@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/measure-desktop-mainthread.mjs \
-            "${{ github.event.inputs.url || 'https://www.worldmonitor.app/dashboard' }}" \
+            "${{ github.event.inputs.url || 'https://www.eagle-eye.app/dashboard' }}" \
             --cpu 1 --settle 15000 --json > style-layout-report.json
 
       - name: Enforce the styleLayout budget

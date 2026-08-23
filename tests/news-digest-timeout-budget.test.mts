@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { __testing__ } from '../server/worldmonitor/news/v1/list-feed-digest';
+import { __testing__ } from '../server/eagleeye/news/v1/list-feed-digest';
 import {
   __resetFetcherTimeoutForTests,
   __setFetcherTimeoutForTests,
@@ -20,7 +20,7 @@ const {
 } = __testing__;
 
 const DIGEST_SRC = readFileSync(
-  new URL('../server/worldmonitor/news/v1/list-feed-digest.ts', import.meta.url),
+  new URL('../server/eagleeye/news/v1/list-feed-digest.ts', import.meta.url),
   'utf8',
 );
 

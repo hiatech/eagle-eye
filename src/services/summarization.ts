@@ -14,7 +14,7 @@ import { BETA_MODE } from '@/config/beta';
 import { isFeatureAvailable, type RuntimeFeatureId } from './runtime-config';
 import { trackLLMUsage, trackLLMFailure } from './analytics';
 import { getCurrentLanguage } from './i18n';
-import type { SummarizeArticleResponse } from '@/generated/client/worldmonitor/news/v1/service_client';
+import type { SummarizeArticleResponse } from '@/generated/client/eagleeye/news/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { buildSummaryCacheKey } from '@/utils/summary-cache-key';
 import { NewsServiceClient } from '@/services/generated-rpc-clients';

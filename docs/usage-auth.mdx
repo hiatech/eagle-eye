@@ -1,17 +1,17 @@
 ---
 title: "Authentication"
-description: "Authenticate against World Monitor with browser session, API key, OAuth bearer, or Clerk — plus how server-side gating enforces plan entitlements."
+description: "Authenticate against Eagle Eye with browser session, API key, OAuth bearer, or Clerk — plus how server-side gating enforces plan entitlements."
 ---
 
-WorldMonitor has four authentication modes. Which one applies depends on how you're calling.
+EagleEye has four authentication modes. Which one applies depends on how you're calling.
 
 ## Auth matrix
 
 | Mode | Header | Used by | Trusted on which endpoints? |
 |------|--------|---------|------------------------------|
 | **Browser session** | `wm-session` HttpOnly cookie | Dashboard browser reads | Public endpoints that do not set `forceKey: true`. |
-| **API key** | `X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567` | Server-to-server, scripts, SDKs | User API keys cover entitled API access; operator-issued enterprise keys cover internal/partner access. |
-| **OAuth bearer** | `Authorization: Bearer <oauth-token>` | MCP clients (Claude, Cursor, Inspector) | `/api/mcp`. The handler also accepts a direct `X-WorldMonitor-Key` in lieu of an OAuth token — see [MCP](/mcp-overview#authentication). |
+| **API key** | `X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567` | Server-to-server, scripts, SDKs | User API keys cover entitled API access; operator-issued enterprise keys cover internal/partner access. |
+| **OAuth bearer** | `Authorization: Bearer <oauth-token>` | MCP clients (Claude, Cursor, Inspector) | `/api/mcp`. The handler also accepts a direct `X-EagleEye-Key` in lieu of an OAuth token — see [MCP](/mcp-overview#authentication). |
 | **Clerk session JWT** | `Authorization: Bearer <clerk-jwt>` | Authenticated browser users | User-specific routes: `/api/latest-brief`, `/api/user-prefs`, `/api/notification-channels`, `/api/brief/share-url`, etc. |
 
 ## `forceKey: true` — which endpoints ignore browser session cookies?
@@ -23,7 +23,7 @@ Some endpoints explicitly reject anonymous browser session cookies and require a
 - `/api/widget-agent`
 - Vendor / partner endpoints
 
-For these, you **must** send an API key; `X-WorldMonitor-Key` is the canonical header.
+For these, you **must** send an API key; `X-EagleEye-Key` is the canonical header.
 
 ## Browser session mode
 
@@ -36,7 +36,7 @@ CORS decides whether a browser is allowed to read the response, but `Origin` is 
 See [CORS](/cors) for the origin patterns.
 
 <Warning>
-**A Cloudflare Worker** (`api-cors-preflight`) is the authoritative CORS handler for `api.worldmonitor.app` — it overrides `_cors.js` and `vercel.json`. If you're changing origin rules, change them in the Cloudflare dashboard.
+**A Cloudflare Worker** (`api-cors-preflight`) is the authoritative CORS handler for `api.eagle-eye.app` — it overrides `_cors.js` and `vercel.json`. If you're changing origin rules, change them in the Cloudflare dashboard.
 </Warning>
 
 ## API key mode
@@ -48,22 +48,22 @@ API-tier subscribers get a key automatically on subscription. To rotate, contact
 ### Use it
 
 ```
-X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567
+X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567
 ```
 
 User-issued keys are exactly `wm_` followed by 40 lowercase hex characters. Enterprise keys are opaque operator-issued strings and are only distributed out of band. Keep keys out of client-side code — use a server-side proxy if you need to call from the browser to a `forceKey` endpoint.
 
-`X-WorldMonitor-Key` is the canonical header. API-key-authenticated endpoints also accept `X-Api-Key` as an alias for compatibility with generic API clients, including standalone edge functions that use `validateApiKey()` and gateway-backed routes. Do not send user API keys as bearer tokens or query-string parameters unless an endpoint explicitly documents that form.
+`X-EagleEye-Key` is the canonical header. API-key-authenticated endpoints also accept `X-Api-Key` as an alias for compatibility with generic API clients, including standalone edge functions that use `validateApiKey()` and gateway-backed routes. Do not send user API keys as bearer tokens or query-string parameters unless an endpoint explicitly documents that form.
 
-For `/api/bootstrap`, server-side callers should use `https://api.worldmonitor.app/api/bootstrap` with one of these API-key headers. There is no separate gateway host, token-exchange step, activation step, or IP allow-list requirement for standard server-to-server access. The endpoint's anonymous weather path (`?keys=weatherAlerts`) is public **only when no key header is sent** — once you attach `X-WorldMonitor-Key`/`X-Api-Key`, the request is validated even for weather, so a key without current API access returns `403` rather than falling back to anonymous data. That URL is served `no-store` precisely so this holds: it is uncached, so an invalid key always reaches the origin. If you want the CDN-cached weather read instead, use the explicitly public `?keys=weatherAlerts&public=1`, which returns the same shared payload to every caller and ignores credentials by design.
+For `/api/bootstrap`, server-side callers should use `https://api.eagle-eye.app/api/bootstrap` with one of these API-key headers. There is no separate gateway host, token-exchange step, activation step, or IP allow-list requirement for standard server-to-server access. The endpoint's anonymous weather path (`?keys=weatherAlerts`) is public **only when no key header is sent** — once you attach `X-EagleEye-Key`/`X-Api-Key`, the request is validated even for weather, so a key without current API access returns `403` rather than falling back to anonymous data. That URL is served `no-store` precisely so this holds: it is uncached, so an invalid key always reaches the origin. If you want the CDN-cached weather read instead, use the explicitly public `?keys=weatherAlerts&public=1`, which returns the same shared payload to every caller and ignores credentials by design.
 
 ### Server-side validation
 
 The edge function calls `validateApiKey(req, { forceKey?: boolean })`:
 
-1. Desktop origins must send an enterprise key in `X-WorldMonitor-Key`.
+1. Desktop origins must send an enterprise key in `X-EagleEye-Key`.
 2. If `forceKey` is false, a valid `wms_` browser session cookie satisfies the anonymous/public gate.
-3. Enterprise keys are checked against `WORLDMONITOR_VALID_KEYS`.
+3. Enterprise keys are checked against `EAGLEEYE_VALID_KEYS`.
 4. User keys with the `wm_` + 40-hex shape are validated against the user-key table and current `apiAccess` entitlement. Gateway-backed routes use the gateway fallback; `/api/bootstrap` performs the same user-key lookup in its Edge-safe platform helper.
 5. If none passes → 401.
 
@@ -87,10 +87,10 @@ Server-side verification uses `jose` with a cached JWKS — no round-trip to Cle
 
 `isCallerPremium` returns true only when one of these is present:
 
-- A valid `X-WorldMonitor-Key` (env-allowlisted from `WORLDMONITOR_VALID_KEYS`, or a user-owned `wm_`-prefixed key whose Convex record has the `apiAccess` entitlement), **or**
+- A valid `X-EagleEye-Key` (env-allowlisted from `EAGLEEYE_VALID_KEYS`, or a user-owned `wm_`-prefixed key whose Convex record has the `apiAccess` entitlement), **or**
 - A Clerk `Authorization: Bearer …` token whose user has role `pro` or Dodo entitlement tier ≥ 1.
 
-From the browser, `premiumFetch()` (`src/services/premium-fetch.ts`) handles this by injecting one of those credentials on every request. Desktop app uses `WORLDMONITOR_API_KEY` from the runtime config. Server-to-server callers must send the header explicitly.
+From the browser, `premiumFetch()` (`src/services/premium-fetch.ts`) handles this by injecting one of those credentials on every request. Desktop app uses `EAGLEEYE_API_KEY` from the runtime config. Server-to-server callers must send the header explicitly.
 
 | Tier | Access |
 |------|--------|

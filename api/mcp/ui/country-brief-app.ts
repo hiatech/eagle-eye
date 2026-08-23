@@ -32,7 +32,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title" id="title">Country Brief</div>
-    <div class="badge">WorldMonitor Intelligence</div>
+    <div class="badge">EagleEye Intelligence</div>
   </div>
   <div class="lens" id="lens" style="display:none"></div>
   <div class="empty" id="empty">Waiting for country-brief data…</div>
@@ -104,8 +104,8 @@ const RENDER = `
 `;
 
 export const COUNTRY_BRIEF_APP_HTML = buildAppHtml({
-  title: 'Country Brief — WorldMonitor',
-  appName: 'worldmonitor-country-brief',
+  title: 'Country Brief — EagleEye',
+  appName: 'eagleeye-country-brief',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

@@ -81,7 +81,7 @@ export function isPublicSharedRpcRequest(urlLike: string | URL, method = 'GET'):
   try {
     url = urlLike instanceof URL
       ? urlLike
-      : new URL(urlLike, 'https://worldmonitor.invalid');
+      : new URL(urlLike, 'https://eagleeye.invalid');
   } catch {
     return false;
   }
@@ -102,7 +102,7 @@ export function isPublicSharedRpcRequest(urlLike: string | URL, method = 'GET'):
 export function addPublicSharedRpcMarker(urlLike: string | URL): string {
   const original = String(urlLike);
   const relative = original.startsWith('/');
-  const base = typeof location === 'undefined' ? 'https://worldmonitor.invalid' : location.href;
+  const base = typeof location === 'undefined' ? 'https://eagleeye.invalid' : location.href;
   const url = new URL(original, base);
 
   if (!PUBLIC_SHARED_RPC_PATHS.has(url.pathname)) {

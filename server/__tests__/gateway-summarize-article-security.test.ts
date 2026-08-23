@@ -71,7 +71,7 @@ function makeRequest(path: string, headers: Record<string, string> = {}, method 
   if (method !== "GET" && method !== "HEAD") {
     init.body = JSON.stringify({ provider: "groq", headlines: ["headline"] });
   }
-  return new Request(`https://www.worldmonitor.app${path}`, {
+  return new Request(`https://www.eagle-eye.app${path}`, {
     ...init,
   });
 }
@@ -133,7 +133,7 @@ describe("summarize-article gateway spend controls", () => {
     const calls = { summarize: 0, cache: 0 };
 
     const res = await makeGateway(calls)(
-      makeRequest(SUMMARIZE_PATH, { "X-WorldMonitor-Key": "wms_anonymous_session" }),
+      makeRequest(SUMMARIZE_PATH, { "X-EagleEye-Key": "wms_anonymous_session" }),
       { waitUntil: () => {} },
     );
 
@@ -381,17 +381,17 @@ describe("summarize-article gateway spend controls", () => {
     const calls = { summarize: 0, cache: 0 };
 
     const res = await makeGateway(calls)(
-      makeRequest(SUMMARIZE_PATH, { "X-WorldMonitor-Key": "wms_anonymous_session" }, "POST"),
+      makeRequest(SUMMARIZE_PATH, { "X-EagleEye-Key": "wms_anonymous_session" }, "POST"),
       { waitUntil: () => {} },
     );
 
     // makeRequest defaults to a brief body, so use a fresh request with the
     // translate mode body for the actual assertion.
     const translate = await makeGateway(calls)(
-      new Request(`https://www.worldmonitor.app${SUMMARIZE_PATH}`, {
+      new Request(`https://www.eagle-eye.app${SUMMARIZE_PATH}`, {
         method: "POST",
         headers: {
-          "X-WorldMonitor-Key": "wms_anonymous_session",
+          "X-EagleEye-Key": "wms_anonymous_session",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ provider: "groq", mode: "translate", headlines: ["hola"] }),
@@ -425,7 +425,7 @@ describe("summarize-article gateway spend controls", () => {
     const calls = { summarize: 0, cache: 0 };
 
     const res = await makeGateway(calls)(
-      makeRequest(`${CACHE_PATH}?cache_key=test-cache-key`, { "X-WorldMonitor-Key": "wms_anonymous_session" }, "GET"),
+      makeRequest(`${CACHE_PATH}?cache_key=test-cache-key`, { "X-EagleEye-Key": "wms_anonymous_session" }, "GET"),
       { waitUntil: () => {} },
     );
 

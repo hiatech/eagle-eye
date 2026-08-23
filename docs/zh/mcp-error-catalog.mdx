@@ -1,6 +1,6 @@
 ---
 title: "MCP 错误目录"
-description: "WorldMonitor MCP 服务器可能返回的每一种错误形态的完整目录：JSON-RPC 错误代码、HTTP 状态码与软行为响应信封，每一项均附具体触发条件、示例负载结构、客户端处理建议与重试与退避策略，帮助集成方稳健实现异常处理、可观测性告警、故障恢复与优雅降级流程。"
+description: "EagleEye MCP 服务器可能返回的每一种错误形态的完整目录：JSON-RPC 错误代码、HTTP 状态码与软行为响应信封，每一项均附具体触发条件、示例负载结构、客户端处理建议与重试与退避策略，帮助集成方稳健实现异常处理、可观测性告警、故障恢复与优雅降级流程。"
 ---
 
 {/*
@@ -32,13 +32,13 @@ description: "WorldMonitor MCP 服务器可能返回的每一种错误形态的�
 - **JSON-RPC `error.code`** 是应用层的回答。共使用六个代码：`-32001`、`-32029`、`-32600`、`-32601`、`-32602`、`-32603`。handler 不会发出其他代码 —— 如果你看到了其他代码，请将其视为协议 bug 并提交 issue。
 - **软行为信封**是高频失败模式。`tools/call` 在 JSON-RPC 层成功（HTTP 200，无 `error` 字段），但位于 `result.content[0].text` 中的 JSON 携带了一个 `_budget_exceeded` 或 `_jmespath_error` 判别字段。只检查 JSON-RPC 信封的客户端会默默地把这些当作成功 —— 请解析 `result.content[0].text`，并在将该负载作为数据消费前检查是否存在前导下划线 `_` 键。
 - **已执行的调用仍计费。** `_budget_exceeded`、`_jmespath_error` 和工具执行错误（`-32603`）都发生在工具已运行之后，因此它们会消耗 Pro 每日配额槽位。只有预分发失败（如每日上限拒绝或配额预留服务失败）才不消耗槽位。
-- **两条 401 路径都设置了 `WWW-Authenticate`**，包含 `realm="worldmonitor"` 以及指向 `/.well-known/oauth-protected-resource` 的 `resource_metadata` 指针。支持 RFC 9728 的客户端（Claude Desktop、MCP Inspector）会凭此头自动跳转 OAuth 流程，无需进一步干预。
+- **两条 401 路径都设置了 `WWW-Authenticate`**，包含 `realm="eagleeye"` 以及指向 `/.well-known/oauth-protected-resource` 的 `resource_metadata` 指针。支持 RFC 9728 的客户端（Claude Desktop、MCP Inspector）会凭此头自动跳转 OAuth 流程，无需进一步干预。
 
 ## JSON-RPC 错误代码
 
 | 代码      | 含义（本服务器）                                                      | 配对 HTTP 状态码        | 恢复方式                                                              |
 |-----------|------------------------------------------------------------------------|---------------------------|-----------------------------------------------------------------------|
-| `-32001`  | 未鉴权、令牌无效或订阅未激活             | **401**                   | 通过 OAuth 重新鉴权，或修正 `X-WorldMonitor-Key` 头      |
+| `-32001`  | 未鉴权、令牌无效或订阅未激活             | **401**                   | 通过 OAuth 重新鉴权，或修正 `X-EagleEye-Key` 头      |
 | `-32029`  | 被限流 —— 每分钟节流或 Pro 每日配额上限              | **200**（每分钟）/ **429**（每日） | 遵循 `Retry-After`；对于 200/每分钟，退避约 1 秒                    |
 | `-32600`  | 格式错误的 JSON-RPC 请求信封                                    | **200**                   | 修正请求编码器；这是客户端 bug                         |
 | `-32601`  | 方法未找到                                                       | **200**                   | 使用 initialize 结果中 `capabilities` 所宣告的方法     |
@@ -51,9 +51,9 @@ description: "WorldMonitor MCP 服务器可能返回的每一种错误形态的�
 
 在 `api/mcp/auth.ts` 的六个发出站点触发，总是配对 HTTP **401** 和 `WWW-Authenticate` 头。这些站点归并为五个用户可见的触发点，按客户端命中顺序排列如下：
 
-1. **既无 `Authorization` bearer 也无 `X-WorldMonitor-Key`** —— 客户端在调用 `/mcp` 时未携带任何凭证。
+1. **既无 `Authorization` bearer 也无 `X-EagleEye-Key`** —— 客户端在调用 `/mcp` 时未携带任何凭证。
 2. **`Authorization: Bearer <token>` 但 `<token>` 无效或已过期** —— 令牌无法解析到上下文（被撤销 / TTL 过期 / 从未由 `/api/oauth/token` 签发）。
-3. **`X-WorldMonitor-Key: <key>` 但 `<key>` 不在有效集合中** —— API key 错误。
+3. **`X-EagleEye-Key: <key>` 但 `<key>` 不在有效集合中** —— API key 错误。
 4. **OAuth 令牌可解析但 Pro MCP 令牌行缺失或跨绑定** —— `mcpTokenId` 不再映射到该 userId。通常是 Settings → Connected MCP clients 中的撤销操作所致。
 5. **OAuth 令牌可解析但订阅已失效** —— 权益重新检查发现 `tier < 1`、`mcpAccess !== true` 或 `validUntil < now`。包括权益服务不可用时的故障关闭路径。
 
@@ -65,18 +65,18 @@ description: "WorldMonitor MCP 服务器可能返回的每一种错误形态的�
   "id": null,
   "error": {
     "code": -32001,
-    "message": "Authentication required. Use OAuth (/oauth/token) or pass your API key via X-WorldMonitor-Key header."
+    "message": "Authentication required. Use OAuth (/oauth/token) or pass your API key via X-EagleEye-Key header."
   }
 }
 ```
 
 ```http
 HTTP/1.1 401 Unauthorized
-WWW-Authenticate: Bearer realm="worldmonitor", resource_metadata="https://worldmonitor.app/.well-known/oauth-protected-resource"
+WWW-Authenticate: Bearer realm="eagleeye", resource_metadata="https://eagle-eye.app/.well-known/oauth-protected-resource"
 Content-Type: application/json
 ```
 
-**如何处理。** 重新走一遍 OAuth 流程（`/api/oauth/token` 使用新的授权码，或用有效 refresh token 做刷新授权）。对于 API key 客户端，复核 `X-WorldMonitor-Key` 头 —— 用户签发的 `wm_` key 与运维签发的企业 key 必须放在该头中，**而不是**作为 `Authorization: Bearer`。`WWW-Authenticate` 头中的 `resource_metadata` 指针是从零开始发起发现流程的权威入口。
+**如何处理。** 重新走一遍 OAuth 流程（`/api/oauth/token` 使用新的授权码，或用有效 refresh token 做刷新授权）。对于 API key 客户端，复核 `X-EagleEye-Key` 头 —— 用户签发的 `wm_` key 与运维签发的企业 key 必须放在该头中，**而不是**作为 `Authorization: Bearer`。`WWW-Authenticate` 头中的 `resource_metadata` 指针是从零开始发起发现流程的权威入口。
 
 ### `-32029` —— 被限流（每分钟或每日）
 
@@ -90,7 +90,7 @@ Content-Type: application/json
 
 | 鉴权上下文                              | `message`                                                                           | 站点                                                    |
 |-------------------------------------------|-------------------------------------------------------------------------------------|---------------------------------------------------------|
-| `X-WorldMonitor-Key`                      | `Rate limit exceeded. Max 60 requests per minute per API key.`                      | `api/mcp/auth.ts` `applyPerMinuteLimit` API-key 分支  |
+| `X-EagleEye-Key`                      | `Rate limit exceeded. Max 60 requests per minute per API key.`                      | `api/mcp/auth.ts` `applyPerMinuteLimit` API-key 分支  |
 | Pro OAuth bearer                          | `Rate limit exceeded. Max 60 requests per minute per Pro user.`                     | `api/mcp/auth.ts` `applyPerMinuteLimit` Pro 分支      |
 | 匿名发现路径上无凭证 | `Rate limit exceeded. Max 60 unauthenticated discovery requests per minute per IP.` | `api/mcp/auth.ts` `applyAnonDiscoveryLimit`             |
 
@@ -107,7 +107,7 @@ Content-Type: application/json
 }
 ```
 
-**Pro/OAuth 每日上限 —— HTTP 429 + `Retry-After`。** 硬性每日上限（默认 **50 次配额消耗调用 / UTC 日**）由工具运行**之前**的原子 Redis 预留执行，因此恰好跨越边界的那次调用会被拒绝。只有 `tools/call` 和对数据承载 **URI 模板实例化**的 `resources/read`（鉴权对称的 resources 路径）计数。`wm_…` API-key MCP 调用者不进入此 MCP 每日预留路径；它们在此由 60 次请求 / 分钟 / 密钥限流器保护，而更宽泛的 REST/API 套餐额度在 MCP handler 之外强制执行。**豁免 Pro/OAuth 每日上限：** `describe_tool`、`tools/list`、`prompts/list`、`prompts/get`、`resources/list`、`resources/templates/list`、`logging/setLevel`、`initialize`、`notifications/initialized`、`ping`，以及对**公开**（具体、仅元数据）资源的 `resources/read`，例如 `worldmonitor://seed-meta/freshness`。（这些方法仍计入上面的每分钟限制 —— 每日与每分钟的豁免集合不同。）
+**Pro/OAuth 每日上限 —— HTTP 429 + `Retry-After`。** 硬性每日上限（默认 **50 次配额消耗调用 / UTC 日**）由工具运行**之前**的原子 Redis 预留执行，因此恰好跨越边界的那次调用会被拒绝。只有 `tools/call` 和对数据承载 **URI 模板实例化**的 `resources/read`（鉴权对称的 resources 路径）计数。`wm_…` API-key MCP 调用者不进入此 MCP 每日预留路径；它们在此由 60 次请求 / 分钟 / 密钥限流器保护，而更宽泛的 REST/API 套餐额度在 MCP handler 之外强制执行。**豁免 Pro/OAuth 每日上限：** `describe_tool`、`tools/list`、`prompts/list`、`prompts/get`、`resources/list`、`resources/templates/list`、`logging/setLevel`、`initialize`、`notifications/initialized`、`ping`，以及对**公开**（具体、仅元数据）资源的 `resources/read`，例如 `eagleeye://seed-meta/freshness`。（这些方法仍计入上面的每分钟限制 —— 每日与每分钟的豁免集合不同。）
 
 ```json
 {
@@ -223,7 +223,7 @@ Content-Type: application/json
 
 **HTTP 200 —— `resources/read` 负载为空或不可解析。** `resources/read` 内部的防御性检查，针对内部 `tools/call` 分发器返回的 `content[0].text` 为空或非 JSON 文本的不应发生情形。
 
-**如何处理。** 对于 HTTP 200 工具错误：约 1 秒后重试一次；若某个工具持续返回 `-32603`，请在 [status.worldmonitor.app](https://status.worldmonitor.app) 查看相关种子程序。对于 HTTP 503：遵循 `Retry-After`。对于 `resources/read` 防御性情形：提交 issue —— 它表明你调用上游存在分发器契约违规。
+**如何处理。** 对于 HTTP 200 工具错误：约 1 秒后重试一次；若某个工具持续返回 `-32603`，请在 [status.eagle-eye.app](https://status.eagle-eye.app) 查看相关种子程序。对于 HTTP 503：遵循 `Retry-After`。对于 `resources/read` 防御性情形：提交 issue —— 它表明你调用上游存在分发器契约违规。
 
 ## HTTP 状态码
 
@@ -241,7 +241,7 @@ MCP handler 可能返回的每个状态码。大多数 JSON-RPC 回复 —— �
 
 有一个 HTTP 状态码不属于 JSON-RPC 错误：
 
-- **405 携带空主体**来自 JSON-RPC **之前**的方法校验。handler 接受 `POST`（JSON-RPC 路径）、`GET`（独立 SSE 流 / `Last-Event-ID` 重放通道）、`HEAD`（以 200 ack 携带 `Content-Type: application/json`，供可用性探测使用）和 `OPTIONS`（CORS 预检）。无 `Last-Event-ID` 的裸 `GET` 也返回 405（不提供独立流）。其他方法得到 405 + `Allow: POST, GET, HEAD, OPTIONS`。该端点不强制 `Origin` 允许列表：它通告通配 CORS，并通过显式 `Authorization` / `X-WorldMonitor-Key` 头鉴权，因此浏览器来源客户端（任意来源）均被接受。
+- **405 携带空主体**来自 JSON-RPC **之前**的方法校验。handler 接受 `POST`（JSON-RPC 路径）、`GET`（独立 SSE 流 / `Last-Event-ID` 重放通道）、`HEAD`（以 200 ack 携带 `Content-Type: application/json`，供可用性探测使用）和 `OPTIONS`（CORS 预检）。无 `Last-Event-ID` 的裸 `GET` 也返回 405（不提供独立流）。其他方法得到 405 + `Allow: POST, GET, HEAD, OPTIONS`。该端点不强制 `Origin` 允许列表：它通告通配 CORS，并通过显式 `Authorization` / `X-EagleEye-Key` 头鉴权，因此浏览器来源客户端（任意来源）均被接受。
 
 ## 软行为信封
 

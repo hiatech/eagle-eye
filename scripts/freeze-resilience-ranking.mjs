@@ -3,9 +3,9 @@
 // of published figures. Writes to docs/snapshots/resilience-ranking-<YYYY-MM-DD>.json.
 //
 // Usage:
-//   API_BASE=https://api.worldmonitor.app node scripts/freeze-resilience-ranking.mjs
-//   API_BASE=https://api.worldmonitor.app WORLDMONITOR_API_KEY=... node scripts/freeze-resilience-ranking.mjs
-//   API_BASE=https://api.worldmonitor.app WORLDMONITOR_API_KEY=... \
+//   API_BASE=https://api.eagle-eye.app node scripts/freeze-resilience-ranking.mjs
+//   API_BASE=https://api.eagle-eye.app EAGLEEYE_API_KEY=... node scripts/freeze-resilience-ranking.mjs
+//   API_BASE=https://api.eagle-eye.app EAGLEEYE_API_KEY=... \
 //     RESILIENCE_RANKING_OUTPUT_BASENAME=resilience-ranking-live-post-pr1-YYYY-MM-DD.json \
 //     node scripts/freeze-resilience-ranking.mjs
 //
@@ -27,7 +27,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const RESILIENCE_SCORER_PATH = path.join(
   REPO_ROOT,
   'server',
-  'worldmonitor',
+  'eagleeye',
   'resilience',
   'v1',
   '_dimension-scorers.ts',
@@ -217,8 +217,8 @@ async function mintSessionCookie() {
 
 async function buildAuthHeaders() {
   const headers = baseHeaders();
-  if (process.env.WORLDMONITOR_API_KEY) {
-    headers['X-WorldMonitor-Key'] = process.env.WORLDMONITOR_API_KEY;
+  if (process.env.EAGLEEYE_API_KEY) {
+    headers['X-EagleEye-Key'] = process.env.EAGLEEYE_API_KEY;
   } else {
     headers.cookie = await mintSessionCookie();
   }
@@ -229,8 +229,8 @@ async function fetchJson(url, headers) {
   const response = await fetch(url, { headers });
   if (!response.ok) {
     const body = await response.text().catch(() => '');
-    const credentialHint = response.status === 401 && SCORE_URL && url.startsWith(SCORE_URL) && !process.env.WORLDMONITOR_API_KEY
-      ? ' Set WORLDMONITOR_API_KEY to a Pro/API key; post-flip ranking snapshots must verify score anchors through get-resilience-score and cannot be captured from an unauthenticated shell.'
+    const credentialHint = response.status === 401 && SCORE_URL && url.startsWith(SCORE_URL) && !process.env.EAGLEEYE_API_KEY
+      ? ' Set EAGLEEYE_API_KEY to a Pro/API key; post-flip ranking snapshots must verify score anchors through get-resilience-score and cannot be captured from an unauthenticated shell.'
       : '';
     throw new Error(`HTTP ${response.status} from ${url}: ${body}${credentialHint}`);
   }
@@ -411,12 +411,12 @@ function resolveRankingSnapshotOutputPath(capturedAt, outputBasename = OUTPUT_BA
 
 async function main() {
   if (!API_BASE) {
-    console.error('[freeze-resilience-ranking] API_BASE env var required (e.g. https://api.worldmonitor.app)');
+    console.error('[freeze-resilience-ranking] API_BASE env var required (e.g. https://api.eagle-eye.app)');
     process.exit(2);
   }
-  if (FORCE_RANKING_REFRESH && !process.env.WORLDMONITOR_API_KEY) {
+  if (FORCE_RANKING_REFRESH && !process.env.EAGLEEYE_API_KEY) {
     console.error(
-      '[freeze-resilience-ranking] WORLDMONITOR_API_KEY is required when RESILIENCE_RANKING_REFRESH is enabled; set RESILIENCE_RANKING_REFRESH=false to capture the cached public ranking instead',
+      '[freeze-resilience-ranking] EAGLEEYE_API_KEY is required when RESILIENCE_RANKING_REFRESH is enabled; set RESILIENCE_RANKING_REFRESH=false to capture the cached public ranking instead',
     );
     process.exit(2);
   }

@@ -17,42 +17,42 @@ type SentryNs = typeof import('@sentry/browser');
 // first-party callers that hit the same hosts directly (e.g.
 // `MapContainer.fetchAndApplyRadar` → `api.rainviewer.com`). The set IS the
 // safety: only known third-party hosts are suppressed; first-party fetches
-// to `api.worldmonitor.app` and the self-hosted R2 PMTiles bucket are NOT
+// to `api.eagle-eye.app` and the self-hosted R2 PMTiles bucket are NOT
 // in the set, so genuine basemap / API regressions still surface.
 const THIRD_PARTY_FETCH_HOST_ALLOWLIST = new Set([
   'tilecache.rainviewer.com',
-  'api.rainviewer.com', // weather radar API used by MapContainer.fetchAndApplyRadar — WORLDMONITOR-QG
+  'api.rainviewer.com', // weather radar API used by MapContainer.fetchAndApplyRadar — EAGLEEYE-QG
   'basemaps.cartocdn.com',
   'tiles.openfreemap.org',
   'protomaps.github.io',
   // Clerk Frontend API (CNAME → Clerk's auth infra). The bundled Clerk SDK
   // fetches it for session/token refresh and retries transient failures
-  // itself (`retryImmediately`); a `Failed to fetch (clerk.worldmonitor.app)`
+  // itself (`retryImmediately`); a `Failed to fetch (clerk.eagle-eye.app)`
   // that leaks to onunhandledrejection is a Clerk-SDK-internal network blip,
   // not our code — same disposition as the existing `/ClerkJS: Network error/`
-  // ignoreError. NOT our `api.worldmonitor.app`, which stays off the list so
-  // genuine API regressions still surface (WORLDMONITOR-SA/SB).
-  'clerk.worldmonitor.app',
+  // ignoreError. NOT our `api.eagle-eye.app`, which stays off the list so
+  // genuine API regressions still surface (EAGLEEYE-SA/SB).
+  'clerk.eagle-eye.app',
   // DebugBear RUM beacon collector. We embed the DebugBear RUM script
   // (`src/bootstrap/debugbear-rum.ts` → cdn.debugbear.com) whose collector
   // POSTs field metrics to `data.debugbear.com`; a leaked
   // `NetworkError ... (data.debugbear.com)` / `Failed to fetch (data.debugbear.com)`
   // is a dropped monitoring beacon (adblock / network blip) — invisible to the
   // user and unactionable, same disposition as the Clerk-SDK-internal fetch
-  // above. NOT `api.worldmonitor.app` (stays off so real API regressions
-  // surface). WORLDMONITOR-RP.
+  // above. NOT `api.eagle-eye.app` (stays off so real API regressions
+  // surface). EAGLEEYE-RP.
   'data.debugbear.com',
   // Self-hosted Umami analytics collector (`src/services/analytics.ts` loads
-  // `abacus.worldmonitor.app/script.js`, whose tracker POSTs events to
+  // `abacus.eagle-eye.app/script.js`, whose tracker POSTs events to
   // `/api/send`). Same disposition as the DebugBear beacon above: a dropped
   // analytics beacon is invisible to the user and unactionable — typically an
   // ad-blocker or a fetch-wrapping extension killing the POST. It reaches
   // Sentry despite the extension gate because the leaked rejection carries our
   // Vite `window.fetch` trampolines, which make hasFirstParty true. Serves no
   // product data, so an abacus outage belongs to uptime monitoring, not a
-  // per-user Sentry error. NOT `api.worldmonitor.app` (stays off so real API
-  // regressions surface). WORLDMONITOR-WH/WJ.
-  'abacus.worldmonitor.app',
+  // per-user Sentry error. NOT `api.eagle-eye.app` (stays off so real API
+  // regressions surface). EAGLEEYE-WH/WJ.
+  'abacus.eagle-eye.app',
 ]);
 
 function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
@@ -60,12 +60,12 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
   return {
     dsn: sentryDsn || undefined,
     ...getSentryBuildMetadata(__APP_VERSION__, __BUILD_HASH__),
-    environment: (location.hostname === 'worldmonitor.app' || location.hostname.endsWith('.worldmonitor.app')) ? 'production'
+    environment: (location.hostname === 'eagle-eye.app' || location.hostname.endsWith('.eagle-eye.app')) ? 'production'
       : location.hostname.includes('vercel.app') ? 'preview'
       : 'development',
     enabled: Boolean(sentryDsn) && !location.hostname.startsWith('localhost') && !('__TAURI_INTERNALS__' in window),
     allowUrls: [
-      /https?:\/\/(www\.|tech\.|finance\.|commodity\.|happy\.)?worldmonitor\.app/,
+      /https?:\/\/(www\.|tech\.|finance\.|commodity\.|happy\.)?eagle-eye\.app/,
       /https?:\/\/.*\.vercel\.app/,
     ],
     sendDefaultPii: true,
@@ -91,7 +91,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // Firefox, some WebView contexts). Our code only initializes the
       // library; the throw is environmental and unavoidable from our side.
       // Same disposition as the existing "Connection to Indexed Database
-      // server lost" entry above. WORLDMONITOR-RC.
+      // server lost" entry above. EAGLEEYE-RC.
       /^IndexedDBUnavailableError|IndexedDB is not available in this environment/,
       /webkit\.messageHandlers/,
       /(?:unsafe-eval.*Content Security Policy|Content Security Policy.*unsafe-eval)/,
@@ -119,8 +119,8 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /userScripts is not defined/,
       /NS_ERROR_ABORT/,
       /NS_ERROR_OUT_OF_MEMORY/,
-      /NS_ERROR_UNEXPECTED/, // Firefox XPCOM: Worker init failure on privacy-hardened Firefox/Ubuntu — WORLDMONITOR-N6/N7/N8/N9
-      /NS_ERROR_FILE_NO_DEVICE_SPACE/, // Firefox XPCOM: disk-full on IndexedDB/cache/SW write — WORLDMONITOR-Q0
+      /NS_ERROR_UNEXPECTED/, // Firefox XPCOM: Worker init failure on privacy-hardened Firefox/Ubuntu — EAGLEEYE-N6/N7/N8/N9
+      /NS_ERROR_FILE_NO_DEVICE_SPACE/, // Firefox XPCOM: disk-full on IndexedDB/cache/SW write — EAGLEEYE-Q0
       /DataCloneError.*could not be cloned/,
       /cannot decode message/,
       /WKWebView was deallocated/,
@@ -129,7 +129,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // reply within the host's expected window. Common in in-app browsers like
       // DuckDuckGo / Yelp / Reddit-mobile / Instagram. We never postMessage to a
       // WKScriptMessageHandler ourselves; this is browser-native and unactionable
-      // (WORLDMONITOR-KJ — 15 events / 14 users in DuckDuckGo 26.3 on macOS).
+      // (EAGLEEYE-KJ — 15 events / 14 users in DuckDuckGo 26.3 on macOS).
       /WKWebView API client did not respond to this postMessage/,
       /Unexpected end of(?: JSON)? input/,
       /window\.android\.\w+ is not a function/,
@@ -146,12 +146,12 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // Bare `Uncaught Error: AbortError` (no message body) from Convex
       // server-side action timeouts auto-captured by Convex's Sentry
       // integration. Zero-frame, environment 'prod', no actionable context
-      // — the action retries cleanly. WORLDMONITOR-QH.
+      // — the action retries cleanly. EAGLEEYE-QH.
       /^Uncaught Error: AbortError$/,
       /Unexpected end of script/,
       /Style is not done loading/,
       /Event `CustomEvent`.*captured as promise rejection/,
-      /Event `ProgressEvent`.*captured as promise rejection/, // resource/XHR `error` ProgressEvent leaking via onunhandledrejection (img/script/audio/EventSource load failure). Our IDB/worker/FileReader onerror handlers all reject with wrapped Errors (never a raw ProgressEvent); the only XHR caller is fire-and-forget + Tauri-desktop-only where Sentry is disabled — so a raw ProgressEvent rejection can never originate from our bundle. Sibling of the CustomEvent entry above — WORLDMONITOR-SQ
+      /Event `ProgressEvent`.*captured as promise rejection/, // resource/XHR `error` ProgressEvent leaking via onunhandledrejection (img/script/audio/EventSource load failure). Our IDB/worker/FileReader onerror handlers all reject with wrapped Errors (never a raw ProgressEvent); the only XHR caller is fire-and-forget + Tauri-desktop-only where Sentry is disabled — so a raw ProgressEvent rejection can never originate from our bundle. Sibling of the CustomEvent entry above — EAGLEEYE-SQ
       /getProgramInfoLog/,
       /__firefox__/,
       /ifameElement\.contentDocument/,
@@ -194,7 +194,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /evaluating '[^']*\.luma/,
       /translateNotifyError/,
       /GM_getValue/,
-      /gm_menus/, // WORLDMONITOR-TJ — Greasemonkey/Violentmonkey internal (GUID-keyed window['<uuid>'].gm_menus userscript-menu registry); never in our bundle, sibling of GM_getValue
+      /gm_menus/, // EAGLEEYE-TJ — Greasemonkey/Violentmonkey internal (GUID-keyed window['<uuid>'].gm_menus userscript-menu registry); never in our bundle, sibling of GM_getValue
       /^InvalidStateError:|The object is in an invalid state/,
       /Could not establish connection\. Receiving end does not exist/,
       /webkitCurrentPlaybackTargetIsWireless/,
@@ -237,7 +237,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /shaderSource must be an instance of WebGLShader/,
       /WebGL2RenderingContext\.shaderSource: Argument 1 is not an object/,
       // Chrome wording for the same condition (gl.createShader returned null,
-      // typically after WebGL context loss or on degraded GPU drivers). WORLDMONITOR-RM.
+      // typically after WebGL context loss or on degraded GPU drivers). EAGLEEYE-RM.
       /Failed to execute 'shaderSource' on 'WebGL2?RenderingContext': parameter 1 is not of type 'WebGLShader'/,
       /Failed to initialize WebGL/,
       /opacityVertexArray\.length/,
@@ -246,9 +246,9 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /^NetworkError: Load failed$/,
       /^A network error occurred\.?$/,
       /nmhCrx is not defined/,
-      /\bcrusoe is not defined\b/, // WORLDMONITOR-R3 — injected userscript reference, anonymous-frames-only stack
-      /\bvc_request_action is not defined\b/, // WORLDMONITOR-RB — Samsung Internet / Tizen smart-view-cast global injection
-      /\bmainWorldSdk is not defined\b/, // WORLDMONITOR-TG — browser extension SDK injected into the page main world references its global before define; not in our bundle (Edge 148/Windows, anonymous-frames-only stack)
+      /\bcrusoe is not defined\b/, // EAGLEEYE-R3 — injected userscript reference, anonymous-frames-only stack
+      /\bvc_request_action is not defined\b/, // EAGLEEYE-RB — Samsung Internet / Tizen smart-view-cast global injection
+      /\bmainWorldSdk is not defined\b/, // EAGLEEYE-TG — browser extension SDK injected into the page main world references its global before define; not in our bundle (Edge 148/Windows, anonymous-frames-only stack)
       /navigationPerformanceLoggerJavascriptInterface/,
       /jQuery is not defined/,
       /illegal UTF-16 sequence/,
@@ -259,7 +259,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /Can't find variable: caches/,
       /crypto\.randomUUID is not a function/,
       /ucapi is not defined/,
-      /Identifier '(?:script|reportPage|element|Shop|change_ua|originalPrompt)' has already been declared/, // change_ua: User-Agent-changer browser extension injecting same script twice — WORLDMONITOR-2D (88 events / 26 users). originalPrompt: extension hooking window.prompt double-injected — WORLDMONITOR-TE (not in our bundle; build would fail on a duplicate top-level const)
+      /Identifier '(?:script|reportPage|element|Shop|change_ua|originalPrompt)' has already been declared/, // change_ua: User-Agent-changer browser extension injecting same script twice — EAGLEEYE-2D (88 events / 26 users). originalPrompt: extension hooking window.prompt double-injected — EAGLEEYE-TE (not in our bundle; build would fail on a duplicate top-level const)
       /getAttribute is not a function.*getAttribute\("role"\)/,
       /SCDynimacBridge/,
       /errTimes is not defined/,
@@ -320,21 +320,21 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       /\.at is not a function/, // Instagram/older Android in-app browsers missing Array.at()
       /Response cannot have a body with the given status/, // Safari: Response constructor with 204/304 + body
       /ClerkJS: Network error/, // Clerk SDK transient network failures on user devices
-      /^ClerkJS: Response: needs_(?:first|second)_factor\b/, // Clerk SDK auth-flow branch not yet supported; SDK-internal limitation, not our code — WORLDMONITOR-Q1. Narrow to the observed `needs_*_factor` family so future actionable `ClerkJS: Response: <something>` errors (e.g. misconfigured redirect URI) still surface.
-      /\[clerk\] failed to load/, // Clerk SDK failed to load its own UI chunk from clerk.worldmonitor.app — SDK-internal load failure, not our code (WORLDMONITOR-??: Yandex Browser 26.4).
+      /^ClerkJS: Response: needs_(?:first|second)_factor\b/, // Clerk SDK auth-flow branch not yet supported; SDK-internal limitation, not our code — EAGLEEYE-Q1. Narrow to the observed `needs_*_factor` family so future actionable `ClerkJS: Response: <something>` errors (e.g. misconfigured redirect URI) still surface.
+      /\[clerk\] failed to load/, // Clerk SDK failed to load its own UI chunk from clerk.eagle-eye.app — SDK-internal load failure, not our code (EAGLEEYE-??: Yandex Browser 26.4).
       /doesn't provide an export named/, // stale cached chunk after deploy references removed export
       /Possible side-effect in debug-evaluate/, // Chrome DevTools internal EvalError
       /ConvexError: CONFLICT/, // Expected OCC rejection on concurrent preference saves
-      /ConvexError: API_ACCESS_REQUIRED/, // Expected business error: free user opens API Keys tab; client handles gracefully (UnifiedSettings.ts:731-738) — WORLDMONITOR-NA
+      /ConvexError: API_ACCESS_REQUIRED/, // Expected business error: free user opens API Keys tab; client handles gracefully (UnifiedSettings.ts:731-738) — EAGLEEYE-NA
       /\[CONVEX [AQM]\(.+?\)\] Connection lost while action was in flight/, // Convex SDK transient WS disconnect
-      /^Invalid start version: \d+:\d+:\d+, transitioning from \d+:\d+:\d+$/, // Convex SDK internal sync protocol error from `remote_query_set.js` (server republished query mid-transition or WS reconnect race) — WORLDMONITOR-Q5
+      /^Invalid start version: \d+:\d+:\d+, transitioning from \d+:\d+:\d+$/, // Convex SDK internal sync protocol error from `remote_query_set.js` (server republished query mid-transition or WS reconnect race) — EAGLEEYE-Q5
       /Response did not contain `success` or `data`/, // DuckDuckGo browser internal tracker/content-block response — never emitted by our code
-      /Cannot set properties of undefined \(setting 'bodyTouched'\)/, // Quark browser (Alibaba mobile) touch-tracking script injection (WORLDMONITOR-N1)
-      /Cannot read properties of \w+ \(reading '[^']*[^\x00-\x7F][^']*'\)/, // Non-ASCII property name in message = mojibake/corrupted identifier from injected extension; our bundle emits ASCII-only identifiers (WORLDMONITOR-NS)
-      /Octal literals are not allowed in strict mode/, // Runtime SyntaxError from injected extension script; our TS bundle never emits octal literals and doesn't eval (WORLDMONITOR-NV)
-      /Unexpected identifier 'm'/, // Foreign script injection on Opera; pre-compiled bundle can't parse-fail at runtime (WORLDMONITOR-NT)
-      /PlayerControlsInterface\.\w+ is not a function/, // Android Chrome WebView native bridge injection (Bilibili/UC/QQ-style host) — never emitted by our code (WORLDMONITOR-P2)
-      /github\.com\/styled-components\/styled-components\/blob/, // styled-components runtime error (errors.md#N URL); we don't depend on styled-components, so it can only be a browser extension (Grammarly et al.) injecting its own bundle — WORLDMONITOR-SE
+      /Cannot set properties of undefined \(setting 'bodyTouched'\)/, // Quark browser (Alibaba mobile) touch-tracking script injection (EAGLEEYE-N1)
+      /Cannot read properties of \w+ \(reading '[^']*[^\x00-\x7F][^']*'\)/, // Non-ASCII property name in message = mojibake/corrupted identifier from injected extension; our bundle emits ASCII-only identifiers (EAGLEEYE-NS)
+      /Octal literals are not allowed in strict mode/, // Runtime SyntaxError from injected extension script; our TS bundle never emits octal literals and doesn't eval (EAGLEEYE-NV)
+      /Unexpected identifier 'm'/, // Foreign script injection on Opera; pre-compiled bundle can't parse-fail at runtime (EAGLEEYE-NT)
+      /PlayerControlsInterface\.\w+ is not a function/, // Android Chrome WebView native bridge injection (Bilibili/UC/QQ-style host) — never emitted by our code (EAGLEEYE-P2)
+      /github\.com\/styled-components\/styled-components\/blob/, // styled-components runtime error (errors.md#N URL); we don't depend on styled-components, so it can only be a browser extension (Grammarly et al.) injecting its own bundle — EAGLEEYE-SE
     ],
     beforeSend(event) {
       const msg = event.exception?.values?.[0]?.value ?? '';
@@ -355,16 +355,16 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       }
       // Suppress any TypeError / RangeError that happens entirely within maplibre or deck.gl internals.
       // RangeError: "Invalid array length" during deck.gl bindVertexArray / _updateCache on large
-      // GL layer updates (vertex-buffer allocation failure in vendor code — WORLDMONITOR-N4).
+      // GL layer updates (vertex-buffer allocation failure in vendor code — EAGLEEYE-N4).
       // EXCEPTION: `Failed to fetch (<host>)` is routed through the host-allowlist block below
       // so a self-hosted R2 PMTiles / first-party basemap regression isn't silently dropped just
-      // because its stack happens to be all-vendor frames (WORLDMONITOR-NE/NF follow-up).
+      // because its stack happens to be all-vendor frames (EAGLEEYE-NE/NF follow-up).
       const excType = event.exception?.values?.[0]?.type ?? '';
       // Host-suffixed fetch-failure shapes — Chrome/Edge `Failed to fetch (<host>)`
       // (maplibre's AJAX wrapper AND first-party fetch callers) and Firefox
       // `NetworkError when attempting to fetch resource. (<host>)` (the
       // engine-equivalent phrasing, e.g. an embedded SDK's beacon fetch —
-      // WORLDMONITOR-RP). Both route through the host allowlist below, which is
+      // EAGLEEYE-RP). Both route through the host allowlist below, which is
       // the load-bearing safety; this match is just the shape detector.
       const isHostScopedFetchFailure = excType === 'TypeError'
         && /^(?:Failed to fetch|NetworkError when attempting to fetch resource\.) \([^)]+\)$/.test(msg);
@@ -377,21 +377,21 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // scoped to maplibre's tile/style/glyph fetches (which wrap transient network
       // errors and rethrow in a Generator-backed Promise that leaks to
       // onunhandledrejection even though DeckGLMap's map-error handler already
-      // logs the warning). Expanded (WORLDMONITOR-QG) to also cover first-party
+      // logs the warning). Expanded (EAGLEEYE-QG) to also cover first-party
       // call sites that fetch the same allowlisted hosts directly — e.g.
       // `MapContainer.fetchAndApplyRadar` hitting `api.rainviewer.com`. The
       // host-allowlist set is the load-bearing safety: only known third-party
       // hosts get suppressed; first-party fetch failures (self-hosted R2 PMTiles
-      // bucket, `api.worldmonitor.app`) are intentionally NOT in the set so a
+      // bucket, `api.eagle-eye.app`) are intentionally NOT in the set so a
       // real basemap / API regression is never silently dropped
-      // (WORLDMONITOR-NE/NF, WORLDMONITOR-QG).
+      // (EAGLEEYE-NE/NF, EAGLEEYE-QG).
       if (isHostScopedFetchFailure) {
         const hostMatch = msg.match(/^(?:Failed to fetch|NetworkError when attempting to fetch resource\.) \(([^)]+)\)$/);
         const host = hostMatch?.[1];
         if (host && THIRD_PARTY_FETCH_HOST_ALLOWLIST.has(host)) return null;
       }
       // Suppress Three.js/globe.gl TypeError crashes in main bundle (reading 'type'/'pathType'/'count'/'__globeObjType' on undefined during WebGL traversal/raycast).
-      // __globeObjType is exclusively set by three-globe on its own objects and we have no user onClick/onHover handler, so it is always globe.gl internal even when the stack shows the bundled main chunk (WORLDMONITOR-ME).
+      // __globeObjType is exclusively set by three-globe on its own objects and we have no user onClick/onHover handler, so it is always globe.gl internal even when the stack shows the bundled main chunk (EAGLEEYE-ME).
       if (/reading '__globeObjType'|__globeObjType/.test(msg)) return null;
       if (/reading '(?:type|pathType|count)'|can't access property "(?:type|pathType|count|__globeObjType)",? \w+ is (?:undefined|null)|undefined is not an object \(evaluating '\w+\.(?:pathType|count)'\)/.test(msg)) {
         if (!hasFirstParty) return null;
@@ -399,7 +399,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // deck.gl/maplibre internal null-access on Layer.isHidden during render (Safari 26.4 beta,
       // empty stacks, preceded by DeckGLMap map-error breadcrumbs). Our first-party `isHidden`
       // lives on SmartPollContext in runtime.ts — any access there would produce frames, so gate
-      // on !hasFirstParty to preserve signal on a real poller regression (WORLDMONITOR-NR).
+      // on !hasFirstParty to preserve signal on a real poller regression (EAGLEEYE-NR).
       if (/undefined is not an object \(evaluating '\w{1,3}\.isHidden'\)|Cannot read properties of undefined \(reading 'isHidden'\)/.test(msg)) {
         if (!hasFirstParty) return null;
       }
@@ -407,7 +407,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // and no first-party frames, this is userscript/extension injection. Our own minified bundle
       // would keep frames via the source-mapped assets/*.js chunks; if the SDK strips them, the
       // stack is non-empty. Bound var length to 1–2 to avoid masking a real "foo is not defined"
-      // that happens to hit the unhandledrejection path (WORLDMONITOR-NQ).
+      // that happens to hit the unhandledrejection path (EAGLEEYE-NQ).
       if (!hasFirstParty && frames.length === 0 && /^Can't find variable: \w{1,2}$/.test(msg)) return null;
       // Suppress minified Three.js/globe.gl crashes (e.g. "l is undefined" in raycast, "b is undefined" in update/initGlobe)
       if (/^\w{1,2} is (?:undefined|not an object)$/.test(msg) && frames.length > 0) {
@@ -418,7 +418,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // Match by function name pattern (_handleTouch*Dolly*) or suppress when no first-party frames.
       //
       // Symbolicated case: function name regex hits (_handleTouchDolly*, OrbitControls).
-      // Unsymbolicated case (Sentry WORLDMONITOR-P7): single minified frame in the main
+      // Unsymbolicated case (Sentry EAGLEEYE-P7): single minified frame in the main
       // bundle (e.g. `Yge`) on iOS/iPadOS Safari. iOS is the only platform where a
       // touch-driven `t.x` crash is plausible AND the production build can lose source
       // maps for OrbitControls' touch handlers. Gate on:
@@ -437,7 +437,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // rapid re-tap). OrbitControls is bundled into main-*.js, so hasFirstParty=true and
       // production stacks are often unsymbolicated — require a positive three.js signature
       // in the frame context (the literal `this._pointers … setPointerCapture` code slice)
-      // so an unrelated first-party setPointerCapture regression still surfaces (WORLDMONITOR-NC).
+      // so an unrelated first-party setPointerCapture regression still surfaces (EAGLEEYE-NC).
       if (excType === 'NotFoundError' && /setPointerCapture.*No active pointer with the given id/.test(msg)) {
         // Sentry wire format includes `context: [[lineno, text], ...]` per frame, but the
         // SDK's StackFrame type omits it — cast to any to read it.
@@ -470,7 +470,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // matches REQUIRE the trailing colon+selector, leaving the colon-less
       // ambiguous `Element not found` (handled by the !hasFirstParty ambiguous
       // gate below, which additionally demands a confirmed third-party stack)
-      // untouched. WORLDMONITOR-VR/VV/VW/VX/VY/VS/VT/VZ (2026-07-09 Floot agent).
+      // untouched. EAGLEEYE-VR/VV/VW/VX/VY/VS/VT/VZ (2026-07-09 Floot agent).
       // NB: the `called with no selector` regex deliberately omits the leading
       // "was " — the beforeSend unit-test harness strips TypeScript `as <T>`
       // assertions with a crude `/as\s+\w+/` that also mangles the English
@@ -497,7 +497,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // our bundle. The `frames.every(...)` injected-script gate above misses this
       // because the `[native code]` insertBefore/forEach frames break its
       // predicate and its page-URL matcher only accepts bare origins, not document
-      // paths (WORLDMONITOR-V8: Firefox iOS 152, `undefined is not an object
+      // paths (EAGLEEYE-V8: Firefox iOS 152, `undefined is not an object
       // (evaluating 's[e]')`, insertBefore in a promiseReactionJob — 6 events / 1
       // user).
       //
@@ -541,8 +541,8 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // trampoline (`Object.apply` / `apply`) an extension's hook.js uses to
       // re-invoke the original fetch — NOT a loose `/fetch/` — so an extension
       // frame named `fetchContent` / `prefetch` does NOT swallow a real bare
-      // `Failed to fetch` from our own code (WORLDMONITOR-SG). The `apply`
-      // trampoline variant is WORLDMONITOR-TZ: a wallet extension's
+      // `Failed to fetch` from our own code (EAGLEEYE-SG). The `apply`
+      // trampoline variant is EAGLEEYE-TZ: a wallet extension's
       // `injected/hook.js` wraps `window.fetch` and the leaked rejection frame
       // surfaces as `Object.apply`, not `window.fetch`.
       // Sentry renders a frame reached through an aliased property as
@@ -551,7 +551,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // anchored match below needs the bare name, so strip one trailing
       // bracketed annotation first; the meaningful identity is the name BEFORE
       // the bracket, so a frame merely stored under a fetch-ish alias still
-      // fails the match (WORLDMONITOR-Y8, same Adjust extension as SG above).
+      // fails the match (EAGLEEYE-Y8, same Adjust extension as SG above).
       // NB: deliberately written without spelling out the annotation keyword —
       // the beforeSend unit-test harness strips `<keyword> <word>` sequences to
       // drop TypeScript assertions and would mangle a regex that contained it
@@ -578,18 +578,18 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // wrappers (notably runtime.ts) must surface. Mirrors the SG
       // extension-wrapper gate above; collector identity comes from
       // DEBUGBEAR_RUM_SCRIPT_SRC via the shared predicate.
-      // WORLDMONITOR-VC (93ev/69u, 2026-07-04+).
-      // The optional `\w{1,3}.` receiver prefix is WORLDMONITOR-VQ: a later Vite
+      // EAGLEEYE-VC (93ev/69u, 2026-07-04+).
+      // The optional `\w{1,3}.` receiver prefix is EAGLEEYE-VQ: a later Vite
       // build emits the same trampoline as `Rt.window.fetch` rather than a bare
       // `window.fetch`, and the anchored match rejected it, so the identical
       // wrapper class re-surfaced as a new issue. The prefix is bounded to a
       // minified identifier (≤3 chars) so a real named receiver — e.g.
       // `apiClient.fetch` — is still read as a genuine caller and surfaces.
-      // WORLDMONITOR-Y4 is the third build-rename of the same wrapper: Vite
+      // EAGLEEYE-Y4 is the third build-rename of the same wrapper: Vite
       // emitted one hop of the trampoline as a BARE minified name (`t`) with no
       // `fetch` in it at all, which no fetch-anchored pattern can match. Bare
       // names are admitted only at ≤2 chars and only inside these two chunks —
-      // `fetchContent` (WORLDMONITOR-SG) and `apiClient.fetch` both stay above
+      // `fetchContent` (EAGLEEYE-SG) and `apiClient.fetch` both stay above
       // that bound and still surface, which their regression tests assert. What
       // keeps the tolerance honest is that neither module backing these chunks
       // issues a fetch of its own, so a bare minified frame in them cannot be
@@ -617,7 +617,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // frames appear. `/SnapTube/` in ignoreErrors already covers the variants that name
       // the bridge in the MESSAGE; this closes the case where the attribution exists only
       // in a frame function. Double-gated on !hasFirstParty AND the named bridge frame so a
-      // genuine first-party `JSON.parse(undefined)` still surfaces (WORLDMONITOR-RA).
+      // genuine first-party `JSON.parse(undefined)` still surfaces (EAGLEEYE-RA).
       if (excType === 'SyntaxError' && /is not valid JSON/.test(msg) && !hasFirstParty && frames.some(f => /^SnapTube\./.test(f.function ?? ''))) return null;
       // Suppress errors originating from UV proxy (Ultraviolet service worker)
       if (frames.some(f => /\/uv\/service\//.test(f.filename ?? '') || /uv\.handler/.test(f.filename ?? ''))) return null;
@@ -633,12 +633,12 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // generic hasFirstParty gate below can't see it — match by function name.
       // Gated on excType === 'RangeError' (mirrors the sortedTrackListForMenu
       // pattern above) so an unrelated exception with a FireglassUtils frame
-      // isn't silently dropped (WORLDMONITOR-MK).
+      // isn't silently dropped (EAGLEEYE-MK).
       if (excType === 'RangeError' && frames.some(f => /FireglassUtils/.test(f.function ?? ''))) return null;
       // `Maximum call stack size exceeded` with a COMPLETELY empty stack, only on
       // iOS. A blown stack is exactly the case where the SDK cannot collect
       // frames, so zero frames alone proves nothing — the platform census is what
-      // does. WORLDMONITOR-WK is 23 events across 20 users and 100% iOS, 21 of
+      // does. EAGLEEYE-WK is 23 events across 20 users and 100% iOS, 21 of
       // them inside the Google app's in-app WebView (the rest Chrome iOS); zero
       // desktop, zero Android, one release. Our own bundle is the same code on
       // every platform, so a genuine first-party recursion cannot be confined to
@@ -652,7 +652,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           && /^Maximum call stack size exceeded\.?$/.test(msg)
           && /^(iOS|iPadOS)$/.test(((event.contexts as any)?.os?.name as string) ?? '')) return null;
       // Suppress Chrome Mobile WebView 105+ Request constructor quirk ONLY when
-      // the Dodo checkout lazy chunk is in the stack (WORLDMONITOR-MH). The
+      // the Dodo checkout lazy chunk is in the stack (EAGLEEYE-MH). The
       // exact message is unique to the Fetch § Request() duplex requirement, but
       // src/services/runtime.ts (runtime fetch patch) also constructs `new
       // Request(init)` at lines 861/869/902 — without this provenance guard the
@@ -661,7 +661,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // only when startCheckout runs) so a runtime.ts failure still surfaces.
       if (/Failed to construct 'Request': The `duplex` member must be specified/.test(msg)
           && frames.some(f => /\/assets\/checkout-[A-Za-z0-9_-]+\.js/.test(f.filename ?? ''))) return null;
-      // Suppress "options is not defined" from browser extension overriding Navigator getter (WORLDMONITOR-JN).
+      // Suppress "options is not defined" from browser extension overriding Navigator getter (EAGLEEYE-JN).
       // Only suppress when stack has no first-party frames (filename=<anonymous> is the extension getter).
       if (/^options is not defined$/.test(msg) && frames.every(f => !f.filename || f.filename === '<anonymous>' || f.filename === '[native code]')) return null;
       // Suppress TransactionInactiveError only when no first-party frames are present
@@ -677,14 +677,14 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // bridge API (history.pushState, IndexedDB, etc.). The throw is native; a first-
       // party caller is always on the stack, so the generic `!hasFirstParty` gate below
       // misses it. Scope to excType==='UnknownError' — that type name is WebKit-only and
-      // cannot originate from our TypeScript (WORLDMONITOR-NM).
+      // cannot originate from our TypeScript (EAGLEEYE-NM).
       if (excType === 'UnknownError' && /Cannot inject key into script value/.test(msg)) return null;
       // Convex SDK re-auth race: during a WebSocket reconnect, `BaseConvexClient.
       // tryToReauthenticate` can read `this.authState.config.fetchToken` while
       // authState is transitioning out of `authenticated` state. Known Convex
       // internal; we use the SDK as-is. Gate by the exact function name so we
       // don't mask a genuine first-party `fetchToken` regression
-      // (WORLDMONITOR-NJ).
+      // (EAGLEEYE-NJ).
       if (/Cannot read properties of undefined \(reading 'fetchToken'\)/.test(msg)
           && frames.some(f => /tryToReauthenticate/.test(f.function ?? ''))) return null;
       // Dynamic-import chunk-load failures whose browser-emitted message names one of
@@ -698,8 +698,8 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // this wrapper). Unlike the
       // zero-frame variant below, the `import()` call site here is first-party
       // (MapContainer.initDeck, lazy panel/video loaders), so the rejection rides a
-      // first-party frame and the `!hasFirstParty` gate misses it (WORLDMONITOR-TN: Map
-      // chunk, WORLDMONITOR-S1: hls chunk). Match the owned, hashed asset URL in
+      // first-party frame and the `!hasFirstParty` gate misses it (EAGLEEYE-TN: Map
+      // chunk, EAGLEEYE-S1: hls chunk). Match the owned, hashed asset URL in
       // the message instead of the stack.
       const dynamicImportAssetUrlMatch = msg.match(
         /(?:https?:\/\/[^\s'")]+)?\/assets\/[A-Za-z0-9_-]+-[A-Za-z0-9_-]+\.js/i,
@@ -713,8 +713,8 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           try {
             const host = new URL(assetUrl).hostname;
             const currentHost = typeof location !== 'undefined' ? location.hostname : '';
-            isOwnedDynamicImportAssetUrl = host === 'worldmonitor.app'
-              || host.endsWith('.worldmonitor.app')
+            isOwnedDynamicImportAssetUrl = host === 'eagle-eye.app'
+              || host.endsWith('.eagle-eye.app')
               || (currentHost.endsWith('.vercel.app') && host === currentHost);
           } catch {
             isOwnedDynamicImportAssetUrl = false;
@@ -727,7 +727,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // stack trace because the browser fires them as synthetic TypeErrors at fetch time,
       // not at any first-party call site. The chunk-reload guard auto-reloads the page,
       // so the user is unaffected — but the Sentry event is still captured. Drop these
-      // even when frames.length === 0 (WORLDMONITOR-Q / WORLDMONITOR-15). The phrases
+      // even when frames.length === 0 (EAGLEEYE-Q / EAGLEEYE-15). The phrases
       // are runtime-emitted only — our shipped code cannot synthesize them. Browser
       // variants: Chrome/Edge `Failed to fetch dynamically imported module` (no URL /
       // modulepreload), Safari `Importing a module script failed.`, Firefox `error
@@ -735,7 +735,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // found.` (Safari) is the module-LINK counterpart: a chunk imports a named export
       // a sibling chunk no longer provides after a deploy — a built bundle always links
       // consistently, so at runtime this is version skew, never a code defect, and it
-      // throws at link time with zero first-party frames (WORLDMONITOR-TM).
+      // throws at link time with zero first-party frames (EAGLEEYE-TM).
       if (
         !hasFirstParty
         && /(?:Failed to fetch|error loading) dynamically imported module|Importing a module script failed|Importing binding name '[^']*' is not found/i.test(msg)
@@ -746,23 +746,23 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // browser fires them from internal infra at the timer boundary). Both
       // phrases are runtime-emitted only — our shipped code cannot synthesize
       // the literal "signal timed out" or DOMException name. Same `!hasFirstParty`
-      // safety as the dynamic-import block (WORLDMONITOR-66 / WORLDMONITOR-62).
+      // safety as the dynamic-import block (EAGLEEYE-66 / EAGLEEYE-62).
       //
       // Extensions to the same gate:
       //   • `out of memory` — Firefox via setInterval mechanism, zero frames
-      //     (WORLDMONITOR-KE). Browser-engine signal, not synthesizable by
+      //     (EAGLEEYE-KE). Browser-engine signal, not synthesizable by
       //     our code.
       //   • `\.(toLowerCase|trim|indexOf|findIndex) is not a function` —
       //     Apple Mail privacy proxy walks DOM with forEach and assumes
       //     `el.className` is a string, but on SVG elements it's a
-      //     `SVGAnimatedString` (WORLDMONITOR-P2). Frame stack is
+      //     `SVGAnimatedString` (EAGLEEYE-P2). Frame stack is
       //     [sentry-chunk, [native code]] which gets fully filtered out of
       //     `nonInfraFrames` → hasAnyStack=false. The literal " is not a
       //     function" suffix anchored to those four mutator names is
       //     unambiguously a third-party prototype-mismatch (our code never
       //     calls those methods on objects of unknown shape).
       //   • `Request timeout: /...` — third-party Electron wrappers
-      //     (WORLDMONITOR-PW: Electron 39.2.7 polling /api/setIsSelect, an
+      //     (EAGLEEYE-PW: Electron 39.2.7 polling /api/setIsSelect, an
       //     endpoint we don't serve). Our own `Request timeout` strings
       //     don't include a colon-and-path suffix; the format is unique to
       //     wrapper-injected code.
@@ -781,7 +781,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           // source-mapped .ts frame on the rejection (the awaiting site).
           // The hostname-suffixed variant `Failed to fetch (<host>)` is
           // handled above by `isHostScopedFetchFailure` which does its own
-          // first-party-host allowlist (WORLDMONITOR-KM).
+          // first-party-host allowlist (EAGLEEYE-KM).
           || /^(?:TypeError: )?Failed to fetch$/.test(msg)
           // Safari module-loader abort / streaming-fetch interruption: iOS
           // Safari emits `SyntaxError: Unexpected EOF` with zero captured
@@ -793,7 +793,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           // Safari: `JSON Parse error: Unexpected EOF` (with prefix) — so
           // bare `Unexpected EOF` is engine-emitted only. Same `!hasFirstParty`
           // safety as the `Failed to fetch` / `signal timed out` blocks above
-          // (WORLDMONITOR-RF).
+          // (EAGLEEYE-RF).
           || /^(?:SyntaxError: )?Unexpected EOF$/.test(msg)
           // `Unexpected token '<'` with zero captured frames = HTML served
           // where JS was expected: a stale hashed chunk after a deploy (the
@@ -806,21 +806,21 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           // preserved). The `hasAnyStack`-gated `Unexpected token/keyword`
           // gate below misses this zero-frame variant. `(?:SyntaxError: )?`
           // mirrors the EOF gate above: some engines embed the type in the
-          // `value` field (WORLDMONITOR-TY).
+          // `value` field (EAGLEEYE-TY).
           || /^(?:SyntaxError: )?Unexpected token '<'/.test(msg)
           // Bare `Unexpected token '<keyword>'` with zero captured frames on ancient
           // Android WebView (Chrome 98) — injected bridge/extension script or a
           // browser-internal parse failure, not our already-parsed bundle. A genuine
           // first-party SyntaxError carries a source-mapped .ts frame or an owned
           // hashed-chunk URL in the message (handled above). The `hasAnyStack`-gated
-          // token gate below misses this zero-frame variant (WORLDMONITOR-??:
+          // token gate below misses this zero-frame variant (EAGLEEYE-??:
           // Unexpected token 'else' / 'for', 2026-07-18).
           || /^(?:SyntaxError: )?Unexpected token '(?:else|for)'$/.test(msg)
           // Firefox's wording for a failed `fetch()` — the engine-emitted
           // equivalent of Chrome's bare `Failed to fetch` (above) and Safari's
           // `Load failed`. Surfaces via `onunhandledrejection` with zero captured
           // frames. Same provenance reasoning as the `Failed to fetch` gate
-          // (WORLDMONITOR-KM): a genuine first-party fetch failure keeps a
+          // (EAGLEEYE-KM): a genuine first-party fetch failure keeps a
           // source-mapped .ts frame on the awaiting site (hasFirstParty → NOT
           // suppressed, preserved by the first-party-stack test), so a zero-frame
           // rejection is a background / service-worker / extension / stale-pre-
@@ -828,12 +828,12 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
           // shipped code never synthesizes it. This aligns the Firefox phrasing
           // with the bare `Failed to fetch` handling; the earlier blanket
           // "let NetworkError through" caution predated the KM provenance
-          // refinement (WORLDMONITOR-RK).
+          // refinement (EAGLEEYE-RK).
           || /^(?:TypeError: )?NetworkError when attempting to fetch resource\.?$/.test(msg)
           // `.postMessage` on null with no first-party frame = an in-app webview
           // JS bridge / injected extension script posting to a null message
           // target (observed on ancient Mobile Safari 13 in-app browsers —
-          // WORLDMONITOR-TE/TF). A genuine first-party `worker.postMessage` /
+          // EAGLEEYE-TE/TF). A genuine first-party `worker.postMessage` /
           // iframe-bridge bug keeps a source-mapped .ts frame (hasFirstParty →
           // preserved), so a no-first-party occurrence is bridge/extension noise.
           // This is the WebKit phrasing; the V8 `reading 'postMessage'` variant is
@@ -867,7 +867,7 @@ function buildSentryInitOptions(): Parameters<SentryNs['init']>[0] {
       // `!hasFirstParty` token-parse gate above misses this because `initDeck` rides the
       // stack as the CALLER, not the source. Gate on the presence of a deck-stack /
       // maplibre vendor frame so a genuine first-party SyntaxError elsewhere still
-      // surfaces (WORLDMONITOR-SP).
+      // surfaces (EAGLEEYE-SP).
       // `(?:SyntaxError: )?` mirrors the EOF/token gates above (lines 588, 601):
       // some engines embed the exception type in the `value` field, so `msg` can be
       // either `Invalid or unexpected token` or `SyntaxError: Invalid or unexpected

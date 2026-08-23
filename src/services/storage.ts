@@ -1,4 +1,4 @@
-const DB_NAME = 'worldmonitor_db';
+const DB_NAME = 'eagleeye_db';
 const DB_VERSION = 1;
 
 interface BaselineEntry {
@@ -16,7 +16,7 @@ let db: IDBDatabase | null = null;
 // some embedded webviews, sandboxed iframes, and any non-browser context that
 // somehow loads this chunk. Pre-fix: `indexedDB.open(...)` threw
 // `ReferenceError: indexedDB is not defined` as an unhandled rejection
-// (Sentry WORLDMONITOR-7479081164). Now: probe up-front and reject with a
+// (Sentry EAGLEEYE-7479081164). Now: probe up-front and reject with a
 // named error that `withTransaction` recognises and degrades gracefully.
 export class IndexedDBUnavailableError extends Error {
   constructor() {

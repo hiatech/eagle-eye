@@ -206,7 +206,7 @@ describe('cachedFetchJson — import verification', () => {
   // The previous two assertions in this block — "get-company-enrichment.ts
   // imports cachedFetchJson" and "list-company-signals.ts imports
   // cachedFetchJson" — were intentionally removed when both handlers were
-  // disabled per issues #3754 and #3755 (worldmonitor). The disabled handlers
+  // disabled per issues #3754 and #3755 (eagleeye). The disabled handlers
   // must NOT import cachedFetchJson because re-introducing an upstream fetch
   // recreates the fabricated-intelligence bug class. See
   // tests/disabled-company-rpcs.test.mts for the source-level forbid scan.

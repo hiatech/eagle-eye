@@ -1,5 +1,5 @@
 // MCP Apps (extension `io.modelcontextprotocol/ui`, spec 2026-01-26) — the
-// SHARED app-shell foundation for the WorldMonitor interactive-dashboard fleet.
+// SHARED app-shell foundation for the EagleEye interactive-dashboard fleet.
 //
 // The first shipped widget (get_country_risk, v1.11.0) inlined its whole HTML —
 // DOCTYPE, CSP, dark-mode CSS vars, and the ~150-line postMessage bridge — in
@@ -38,7 +38,7 @@ export const UI_RESOURCE_MIME_TYPE = 'text/html;profile=mcp-app';
 // The MCP server origin(s) the views connect back to. Mirrored into BOTH the
 // HTML `<meta http-equiv>` CSP connect-src and the spec-native
 // `_meta.ui.csp.connectDomains` so a host learns the identical policy two ways.
-export const UI_CONNECT_DOMAINS = ['https://worldmonitor.app', 'https://www.worldmonitor.app'] as const;
+export const UI_CONNECT_DOMAINS = ['https://eagle-eye.app', 'https://www.eagle-eye.app'] as const;
 
 // The agent hosts allowed to embed a shell (advisory in a <meta> CSP — browsers
 // honor frame-ancestors only via HTTP header — but the static scanner reads it

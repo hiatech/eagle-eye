@@ -38,7 +38,7 @@ Each submission is a fresh LLM call — no caching. A 5-second cooldown applies 
 
 ## Tier & gating
 
-**PRO (hard-locked) and opt-in.** `enabled: false, premium: 'locked'` in `src/config/panels.ts:111`. `isPanelEntitled` unlocks it when **either** a valid `WORLDMONITOR_API_KEY` is present **or** `isPro` is true (`deduction` is in the `apiKeyPanels` allowlist at `src/config/panels.ts:973`). Per the render path, `hasPremiumAccess()` is also checked before submit.
+**PRO (hard-locked) and opt-in.** `enabled: false, premium: 'locked'` in `src/config/panels.ts:111`. `isPanelEntitled` unlocks it when **either** a valid `EAGLEEYE_API_KEY` is present **or** `isPro` is true (`deduction` is in the `apiKeyPanels` allowlist at `src/config/panels.ts:973`). Per the render path, `hasPremiumAccess()` is also checked before submit.
 
 ## API reference
 

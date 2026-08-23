@@ -51,7 +51,7 @@ describe('billing-denial propagation helpers', () => {
   });
 
   it('entitlement_verification_unavailable throws a typed retryable denial', () => {
-    // env_key/user_key tool fetches sign with X-WorldMonitor-Key (api/mcp/auth.ts
+    // env_key/user_key tool fetches sign with X-EagleEye-Key (api/mcp/auth.ts
     // buildAuthHeaders), so the gateway's backend-unreachable 503 reaches this
     // layer and must keep its billing contract instead of flattening into the
     // generic -32603 at HTTP 200.

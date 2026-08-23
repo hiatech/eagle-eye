@@ -3,10 +3,10 @@ info:
     title: DisplacementService API
     version: 1.0.0
 security:
-    - WorldMonitorKey: []
+    - EagleEyeKey: []
     - ApiKeyHeader: []
 servers:
-    - url: https://api.worldmonitor.app
+    - url: https://api.eagle-eye.app
 paths:
     /api/displacement/v1/get-displacement-summary:
         get:
@@ -46,7 +46,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -78,12 +78,12 @@ paths:
                                           "asylumLocation":
                                               "latitude": 40.7128
                                               "longitude": -74.006
-                                          "asylumName": "WorldMonitor Analyst"
+                                          "asylumName": "EagleEye Analyst"
                                           "originCode": "US"
                                           "originLocation":
                                               "latitude": 40.7128
                                               "longitude": -74.006
-                                          "originName": "WorldMonitor Analyst"
+                                          "originName": "EagleEye Analyst"
                                           "refugees": 1
                                     "year": 1
                             schema:
@@ -183,7 +183,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -197,7 +197,7 @@ paths:
                                 "countries":
                                     - "code": "US"
                                       "densityPerKm2": 1
-                                      "name": "WorldMonitor Analyst"
+                                      "name": "EagleEye Analyst"
                                       "population": 1
                                 "exposure":
                                     "densityPerKm2": 1
@@ -262,16 +262,16 @@ paths:
                                     - $ref: '#/components/schemas/GatewayError'
 components:
     securitySchemes:
-        WorldMonitorKey:
+        EagleEyeKey:
             type: apiKey
             in: header
-            name: X-WorldMonitor-Key
-            description: User-issued WorldMonitor API key.
+            name: X-EagleEye-Key
+            description: User-issued EagleEye API key.
         ApiKeyHeader:
             type: apiKey
             in: header
             name: X-Api-Key
-            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).
+            description: Alias header for the EagleEye API key (X-EagleEye-Key).
     schemas:
         JmespathProjectionError:
             description: Returned when a REST jmespath projection is invalid or exceeds the expression/output byte limits.

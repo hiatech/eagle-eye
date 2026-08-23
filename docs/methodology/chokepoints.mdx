@@ -1,11 +1,11 @@
 ---
 title: "Chokepoint Methodology"
-description: "How World Monitor scores 13 monitored maritime chokepoints, including the seven-item live-flow subset backed by EIA energy baseline volumes."
+description: "How Eagle Eye scores 13 monitored maritime chokepoints, including the seven-item live-flow subset backed by EIA energy baseline volumes."
 ---
 
 ## What we track
 
-WorldMonitor has **13 monitored waterways** in the canonical chokepoint registry and the
+EagleEye has **13 monitored waterways** in the canonical chokepoint registry and the
 `GetChokepointStatus` RPC. The status RPC returns one row for each canonical id:
 `suez`, `malacca_strait`, `hormuz_strait`, `bab_el_mandeb`, `panama`,
 `taiwan_strait`, `cape_of_good_hope`, `gibraltar`, `bosphorus`,
@@ -100,8 +100,8 @@ The score badge thresholds are:
 ## Threat Taxonomy
 
 The geopolitical threat baseline is assigned per chokepoint in
-`server/worldmonitor/supply-chain/v1/get-chokepoint-status.ts` and weighted in
-`server/worldmonitor/supply-chain/v1/_scoring.mjs`.
+`server/eagleeye/supply-chain/v1/get-chokepoint-status.ts` and weighted in
+`server/eagleeye/supply-chain/v1/_scoring.mjs`.
 
 | Threat level | Weight | Meaning |
 |---|---:|---|
@@ -198,7 +198,7 @@ Refresh cadence:
   waterways do not yet publish mb/d estimates.
 - The Dover Strait live-flow row currently maps to the EIA `danish` baseline id.
   Treat `baselineMbd` as the source reference and `id` as the canonical
-  WorldMonitor row id.
+  EagleEye row id.
 - AIS and PortWatch coverage can degrade near heavily jammed or conflict-heavy
   regions. Missing upstream coverage is surfaced as unavailable data, not
   synthesized as zero traffic.
@@ -210,4 +210,4 @@ Refresh cadence:
 
 See [`/corrections`](/corrections) for the planned revision-log shape. If you
 spot a wrong number today, open a GitHub issue at the
-[public repository](https://github.com/koala73/worldmonitor/issues).
+[public repository](https://github.com/hiatech/eagle-eye/issues).

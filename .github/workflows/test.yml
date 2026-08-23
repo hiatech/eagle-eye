@@ -274,8 +274,8 @@ jobs:
           sudo apt-get install --yes postgresql-client
       - name: Build managed Umami images
         run: |
-          docker build --file Dockerfile.umami --tag worldmonitor/umami:ci .
-          docker build --file Dockerfile.umami-retention --tag worldmonitor/umami-retention:ci .
+          docker build --file Dockerfile.umami --tag eagleeye/umami:ci .
+          docker build --file Dockerfile.umami-retention --tag eagleeye/umami-retention:ci .
       - name: Exercise Umami migration and concurrent upserts
         env:
           UMAMI_TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/umami_integration

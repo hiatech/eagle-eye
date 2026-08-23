@@ -1,16 +1,16 @@
 {
   "specVersion": "1.0",
   "host": {
-    "displayName": "World Monitor",
-    "identifier": "did:web:worldmonitor.app",
-    "documentationUrl": "https://worldmonitor.app/docs/documentation"
+    "displayName": "Eagle Eye",
+    "identifier": "did:web:eagle-eye.app",
+    "documentationUrl": "https://eagle-eye.app/docs/documentation"
   },
   "entries": [
     {
-      "identifier": "urn:air:worldmonitor.app:mcp:worldmonitor",
-      "displayName": "World Monitor MCP server",
+      "identifier": "urn:air:eagle-eye.app:mcp:eagleeye",
+      "displayName": "Eagle Eye MCP server",
       "type": "application/mcp-server-card+json",
-      "url": "https://worldmonitor.app/.well-known/mcp/server-card.json",
+      "url": "https://eagle-eye.app/.well-known/mcp/server-card.json",
       "description": "Live global-intelligence MCP server: real-time markets, conflict events, aviation, maritime, energy, climate, health, displacement, supply chain, and AI-generated regional briefs.",
       "tags": [
         "news-and-intelligence",
@@ -41,16 +41,16 @@
         "forecast the impact of a Strait of Hormuz closure"
       ],
       "trustManifest": {
-        "identity": "did:web:worldmonitor.app",
+        "identity": "did:web:eagle-eye.app",
         "identityType": "did"
       }
     },
     {
-      "identifier": "urn:air:worldmonitor.app:api:worldmonitor",
-      "displayName": "World Monitor REST API",
+      "identifier": "urn:air:eagle-eye.app:api:eagleeye",
+      "displayName": "Eagle Eye REST API",
       "type": "application/vnd.oai.openapi+json;version=3.1",
-      "url": "https://worldmonitor.app/openapi.json",
-      "description": "World Monitor's public REST API: 190+ documented operations across conflict, markets, energy, maritime, aviation, climate, health, and supply-chain intelligence, with API-key and OAuth access.",
+      "url": "https://eagle-eye.app/openapi.json",
+      "description": "Eagle Eye's public REST API: 190+ documented operations across conflict, markets, energy, maritime, aviation, climate, health, and supply-chain intelligence, with API-key and OAuth access.",
       "tags": [
         "news-and-intelligence",
         "api",
@@ -58,23 +58,23 @@
         "openapi"
       ],
       "trustManifest": {
-        "identity": "did:web:worldmonitor.app",
+        "identity": "did:web:eagle-eye.app",
         "identityType": "did"
       }
     },
     {
-      "identifier": "urn:air:worldmonitor.app:skills:index",
-      "displayName": "World Monitor agent skills",
+      "identifier": "urn:air:eagle-eye.app:skills:index",
+      "displayName": "Eagle Eye agent skills",
       "type": "application/json",
-      "url": "https://worldmonitor.app/.well-known/agent-skills/index.json",
-      "description": "Self-published agent skills for common World Monitor workflows (country briefings, market prep, conflict monitoring, route risk).",
+      "url": "https://eagle-eye.app/.well-known/agent-skills/index.json",
+      "description": "Self-published agent skills for common Eagle Eye workflows (country briefings, market prep, conflict monitoring, route risk).",
       "tags": [
         "news-and-intelligence",
         "agent-skills",
         "skills"
       ],
       "trustManifest": {
-        "identity": "did:web:worldmonitor.app",
+        "identity": "did:web:eagle-eye.app",
         "identityType": "did"
       }
     }

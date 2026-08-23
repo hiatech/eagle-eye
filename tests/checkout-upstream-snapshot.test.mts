@@ -2,7 +2,7 @@
  * Locks the upstream-emitter snapshot used to identify whether a failed
  * /api/create-checkout response came from Cloudflare, Vercel, our own
  * function, or a client-side middlebox. Regression scope:
- * WORLDMONITOR-RN — the old failure path discarded both the response
+ * EAGLEEYE-RN — the old failure path discarded both the response
  * body (CF 403 pages are HTML, silently became `{}`) and headers
  * (cf-ray / server / x-vercel-id would have named the emitter).
  *

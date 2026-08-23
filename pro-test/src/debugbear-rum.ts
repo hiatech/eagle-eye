@@ -4,13 +4,13 @@ export const DEBUGBEAR_RUM_SCRIPT_SRC = 'https://cdn.debugbear.com/lpMwA9KpC6pf.
 // RUM needs only a fraction. Keep in sync with src/bootstrap/debugbear-rum.ts (asserted by the test).
 export const DEBUGBEAR_RUM_SAMPLE_RATE = 10;
 const DEBUGBEAR_RUM_HOSTS = new Set([
-  'worldmonitor.app',
-  'www.worldmonitor.app',
-  'tech.worldmonitor.app',
-  'finance.worldmonitor.app',
-  'commodity.worldmonitor.app',
-  'happy.worldmonitor.app',
-  'energy.worldmonitor.app',
+  'eagle-eye.app',
+  'www.eagle-eye.app',
+  'tech.eagle-eye.app',
+  'finance.eagle-eye.app',
+  'commodity.eagle-eye.app',
+  'happy.eagle-eye.app',
+  'energy.eagle-eye.app',
 ]);
 
 type DebugBearRumEvent = ['presampling', number] | ['error' | 'unhandledrejection', Event];

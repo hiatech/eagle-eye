@@ -1,7 +1,7 @@
 import type { NaturalEvent, NaturalEventCategory } from '@/types';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 import { NATURAL_EVENT_CATEGORIES } from '@/types';
-import type { ListNaturalEventsResponse } from '@/generated/client/worldmonitor/natural/v1/service_client';
+import type { ListNaturalEventsResponse } from '@/generated/client/eagleeye/natural/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';
 import { NaturalServiceClient } from '@/services/generated-rpc-clients';

@@ -65,7 +65,7 @@ function getRatelimit(policy) {
 // network/timeout blip — are absorbed by the fail-open / `failClosed`-503 path,
 // so the user is unaffected. Capture those at `warning` so a sustained Redis
 // outage still escalates by volume without a transient script-timeout drowning
-// genuine error-level signal in the dashboard (WORLDMONITOR-RX; mirrors the
+// genuine error-level signal in the dashboard (EAGLEEYE-RX; mirrors the
 // SERVICE_UNAVAILABLE `level: 'warning'` precedent in api/user-prefs.ts). A
 // `missing-config` stage is a real deploy misconfiguration and any novel error
 // is unclassified — both stay at `error` so on-call still sees them.

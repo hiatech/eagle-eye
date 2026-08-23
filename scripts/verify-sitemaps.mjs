@@ -6,16 +6,16 @@ import { XMLValidator } from 'fast-xml-parser';
 
 import { getHtmlAttribute } from './discover-content-corpus-pages.mjs';
 
-const DEFAULT_ORIGIN = 'https://www.worldmonitor.app';
+const DEFAULT_ORIGIN = 'https://www.eagle-eye.app';
 const DEFAULT_TIMEOUT_MS = 15_000;
 const EXPECTED_PAGE_HOSTS = new Set([
-  'worldmonitor.app',
-  'www.worldmonitor.app',
-  'tech.worldmonitor.app',
-  'finance.worldmonitor.app',
-  'commodity.worldmonitor.app',
-  'happy.worldmonitor.app',
-  'energy.worldmonitor.app',
+  'eagle-eye.app',
+  'www.eagle-eye.app',
+  'tech.eagle-eye.app',
+  'finance.eagle-eye.app',
+  'commodity.eagle-eye.app',
+  'happy.eagle-eye.app',
+  'energy.eagle-eye.app',
 ]);
 
 const decodeXml = (value) => String(value)
@@ -49,10 +49,10 @@ export function parseSitemapDocument(source) {
 export function classifySitemapUrl(value) {
   const url = new URL(value);
   const { pathname } = url;
-  if (url.hostname === 'worldmonitor.app' && pathname === '/mcp') return 'mcp';
+  if (url.hostname === 'eagle-eye.app' && pathname === '/mcp') return 'mcp';
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
   if (pathname === '/docs' || pathname.startsWith('/docs/')) return 'docs';
-  if (url.hostname !== 'www.worldmonitor.app' && pathname === '/dashboard') {
+  if (url.hostname !== 'www.eagle-eye.app' && pathname === '/dashboard') {
     return 'dashboard-variant';
   }
   if (pathname === '/') return 'landing';
@@ -113,7 +113,7 @@ async function fetchDirect(url, { method = 'GET', fetchImpl = globalThis.fetch }
       Accept: method === 'HEAD'
         ? '*/*'
         : 'application/xml,text/xml,text/html,text/markdown,text/plain;q=0.9,*/*;q=0.8',
-      'User-Agent': 'WorldMonitor-Sitemap-Verifier/1.0 (+https://www.worldmonitor.app)',
+      'User-Agent': 'EagleEye-Sitemap-Verifier/1.0 (+https://www.eagle-eye.app)',
     },
     signal: AbortSignal.timeout(DEFAULT_TIMEOUT_MS),
   });
@@ -182,14 +182,14 @@ function validatePageLocation(value) {
     || url.hash
     || url.href !== value
   ) {
-    return `sitemap page URL is not an allowed canonical WorldMonitor URL: ${value}`;
+    return `sitemap page URL is not an allowed canonical EagleEye URL: ${value}`;
   }
-  if (url.hostname === 'worldmonitor.app' && url.pathname !== '/mcp') {
+  if (url.hostname === 'eagle-eye.app' && url.pathname !== '/mcp') {
     return `apex sitemap URL must be the canonical MCP endpoint: ${value}`;
   }
   if (
-    url.hostname !== 'www.worldmonitor.app'
-    && url.hostname !== 'worldmonitor.app'
+    url.hostname !== 'www.eagle-eye.app'
+    && url.hostname !== 'eagle-eye.app'
     && url.pathname !== '/dashboard'
   ) {
     return `variant sitemap URL must be its canonical dashboard: ${value}`;

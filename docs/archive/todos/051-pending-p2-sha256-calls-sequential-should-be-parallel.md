@@ -12,7 +12,7 @@ dependencies: []
 `get-country-intel-brief.ts` computes two async SHA-256 hashes sequentially: first `sha256Hex(contextSnapshot)` then `sha256Hex(frameworkRaw)`. Both use `crypto.subtle.digest` (Web Crypto API) and are independent. Running them sequentially doubles the cache key computation latency on every request, including cache hits. On Vercel Edge where cold-start budget is tight, this adds unnecessary overhead.
 
 ## Findings
-- **`server/worldmonitor/intelligence/v1/get-country-intel-brief.ts:38-39`**:
+- **`server/eagleeye/intelligence/v1/get-country-intel-brief.ts:38-39`**:
   ```ts
   const contextHash = contextSnapshot ? (await sha256Hex(contextSnapshot)).slice(0, 16) : 'base';
   const frameworkHash = frameworkRaw ? (await sha256Hex(frameworkRaw)).slice(0, 8) : '';
@@ -38,7 +38,7 @@ The `frameworkRaw` is clamped to 2000 chars and is not an attacker-controlled co
 **Pros:** Zero async overhead for framework hash | **Cons:** FNV-1a is weaker than SHA-256 for collision resistance | **Effort:** Trivial | **Risk:** Low
 
 ## Technical Details
-- File: `server/worldmonitor/intelligence/v1/get-country-intel-brief.ts:38-39`
+- File: `server/eagleeye/intelligence/v1/get-country-intel-brief.ts:38-39`
 - PR: koala73/worldmonitor#2380
 
 ## Acceptance Criteria

@@ -9,7 +9,7 @@ import {
   WILDFIRE_DASHBOARD_DETECTION_LIMIT,
   listFireDetections,
   limitFireDetectionsForDashboard,
-} from '../server/worldmonitor/wildfire/v1/list-fire-detections.ts';
+} from '../server/eagleeye/wildfire/v1/list-fire-detections.ts';
 import { resolveFireDetectionTotalCount } from '../src/services/wildfires/payload.ts';
 import {
   WILDFIRE_CANONICAL_DETECTION_LIMIT,
@@ -17,7 +17,7 @@ import {
 } from '../scripts/_wildfire-dashboard.mjs';
 import { MAX_PAYLOAD_BYTES, runSeed } from '../scripts/_seed-utils.mjs';
 import { buildEnvelope, unwrapEnvelope } from '../scripts/_seed-envelope-source.mjs';
-import type { FireDetection } from '../src/generated/server/worldmonitor/wildfire/v1/service_server';
+import type { FireDetection } from '../src/generated/server/eagleeye/wildfire/v1/service_server';
 
 const REGIONS = ['Ukraine', 'Russia', 'Iran', 'Israel/Gaza', 'Syria', 'Taiwan', 'North Korea', 'Saudi Arabia', 'Turkey'];
 const SATELLITES = ['VIIRS_SNPP_NRT', 'VIIRS_NOAA20_NRT', 'VIIRS_NOAA21_NRT'];

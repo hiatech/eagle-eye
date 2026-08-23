@@ -23,7 +23,7 @@ import { revokeHandler } from '../api/user/mcp-revoke.ts';
 function makeReq({ method = 'POST', body = { tokenId: 'tok_abc' }, auth = true, raw = null } = {}) {
   const headers = { 'Content-Type': 'application/json' };
   if (auth) headers.Authorization = 'Bearer fake-jwt';
-  return new Request('https://api.worldmonitor.app/api/user/mcp-revoke', {
+  return new Request('https://api.eagle-eye.app/api/user/mcp-revoke', {
     method,
     headers,
     body: raw !== null ? raw : (method === 'POST' ? JSON.stringify(body) : undefined),
@@ -63,7 +63,7 @@ describe('mcp-revoke handler', () => {
     const { deps, observed } = makeDeps({
       resolveUserId: async () => 'user_legit_session',
     });
-    const req = new Request('https://api.worldmonitor.app/api/user/mcp-revoke', {
+    const req = new Request('https://api.eagle-eye.app/api/user/mcp-revoke', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer fake-jwt' },
       body: JSON.stringify({ tokenId: 'tok_target', userId: 'user_VICTIM' }),

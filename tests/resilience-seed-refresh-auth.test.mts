@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 const SEED_REFRESH_AUTH_FILES = [
   '../server/gateway.ts',
-  '../server/worldmonitor/resilience/v1/get-resilience-ranking.ts',
+  '../server/eagleeye/resilience/v1/get-resilience-ranking.ts',
 ] as const;
 
 function stripComments(source: string): string {
@@ -18,11 +18,11 @@ function escapeRegExp(value: string): string {
 }
 
 describe('resilience seed-refresh auth', () => {
-  it('uses timingSafeEqual for X-WorldMonitor-Key and WORLDMONITOR_SEED_REFRESH_KEY comparisons', async () => {
-    const headerGetter = String.raw`(?:ctx\.request\.headers|request\.headers)\.get\(\s*['"]X-WorldMonitor-Key['"]\s*\)`;
+  it('uses timingSafeEqual for X-EagleEye-Key and EAGLEEYE_SEED_REFRESH_KEY comparisons', async () => {
+    const headerGetter = String.raw`(?:ctx\.request\.headers|request\.headers)\.get\(\s*['"]X-EagleEye-Key['"]\s*\)`;
     const identifier = String.raw`[A-Za-z_$][\w$]*`;
     const seedRefreshKeyBinding = new RegExp(
-      String.raw`\b(?:const|let|var)\s+(${identifier})\s*=\s*[\s\S]{0,160}?process\.env\.WORLDMONITOR_SEED_REFRESH_KEY\b`,
+      String.raw`\b(?:const|let|var)\s+(${identifier})\s*=\s*[\s\S]{0,160}?process\.env\.EAGLEEYE_SEED_REFRESH_KEY\b`,
       'g',
     );
     const headerBinding = new RegExp(
@@ -33,7 +33,7 @@ describe('resilience seed-refresh auth', () => {
 
     for (const path of SEED_REFRESH_AUTH_FILES) {
       const source = stripComments(await readFile(new URL(path, import.meta.url), 'utf8'));
-      if (!source.includes('WORLDMONITOR_SEED_REFRESH_KEY')) continue;
+      if (!source.includes('EAGLEEYE_SEED_REFRESH_KEY')) continue;
 
       assert.match(
         source,
@@ -50,7 +50,7 @@ describe('resilience seed-refresh auth', () => {
         (match) => String.raw`\b${escapeRegExp(match[1] ?? '')}\b`,
       );
       const seedRefreshKeyOperands = [
-        String.raw`process\.env\.WORLDMONITOR_SEED_REFRESH_KEY\b`,
+        String.raw`process\.env\.EAGLEEYE_SEED_REFRESH_KEY\b`,
         ...seedRefreshKeyNames,
       ].filter(Boolean);
       const headerOperands = [headerGetter, ...headerNames].filter(Boolean);

@@ -2,8 +2,8 @@ import { strict as assert } from 'node:assert';
 import test from 'node:test';
 import handler from '../api/download.js';
 
-const RELEASES_PAGE = 'https://github.com/koala73/worldmonitor/releases/latest';
-const WORLD_APPIMAGE = 'https://downloads.example/World.Monitor_2.5.7_amd64.AppImage';
+const RELEASES_PAGE = 'https://github.com/hiatech/eagle-eye/releases/latest';
+const EAGLE_APPIMAGE = 'https://downloads.example/Eagle.Eye_2.5.7_amd64.AppImage';
 
 function makeGitHubReleaseResponse(assets) {
   return new Response(JSON.stringify({ assets }), {
@@ -12,38 +12,38 @@ function makeGitHubReleaseResponse(assets) {
   });
 }
 
-function worldMonitorAssets() {
+function eagleEyeAssets() {
   return [
     {
-      name: 'World.Monitor_2.5.7_amd64.AppImage',
-      browser_download_url: WORLD_APPIMAGE,
+      name: 'Eagle.Eye_2.5.7_amd64.AppImage',
+      browser_download_url: EAGLE_APPIMAGE,
     },
   ];
 }
 
 async function download(query, assets) {
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => makeGitHubReleaseResponse(assets ?? worldMonitorAssets());
+  globalThis.fetch = async () => makeGitHubReleaseResponse(assets ?? eagleEyeAssets());
   try {
-    return await handler(new Request(`https://worldmonitor.app/api/download?${query}`));
+    return await handler(new Request(`https://eagle-eye.app/api/download?${query}`));
   } finally {
     globalThis.fetch = originalFetch;
   }
 }
 
-test('matches the desktop binary for dotted World.Monitor AppImage asset names', async () => {
+test('matches the desktop binary for dotted Eagle.Eye AppImage asset names', async () => {
   const response = await download('platform=linux-appimage&variant=full');
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
 test('resolves the platform asset when no variant is supplied', async () => {
   const response = await download('platform=linux-appimage');
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
-test('applies the World Monitor identity filter even with no variant supplied', async () => {
+test('applies the Eagle Eye identity filter even with no variant supplied', async () => {
   // The desktop updater stopped sending `variant` under the one-binary model,
   // so the no-variant path is the app's own download path. A stray branded
   // asset ordered first must not win it.
@@ -52,10 +52,10 @@ test('applies the World Monitor identity filter even with no variant supplied', 
       name: 'Tech-Monitor_2.5.7_amd64.AppImage',
       browser_download_url: 'https://downloads.example/Tech-Monitor_2.5.7_amd64.AppImage',
     },
-    ...worldMonitorAssets(),
+    ...eagleEyeAssets(),
   ]);
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
 test('does not treat inherited Object properties as known platforms', async () => {
@@ -81,32 +81,32 @@ for (const variant of ['full', 'world', 'tech', 'finance', 'commodity', 'energy'
   test(`resolves variant=${variant} to the single desktop binary`, async () => {
     const response = await download(`platform=linux-appimage&variant=${variant}`);
     assert.equal(response.status, 302);
-    assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+    assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
   });
 }
 
 test('treats an empty variant the same as omitting it', async () => {
   // `variant=` is falsy, so it skips the supported-set check. It must still get
   // the identity filter — that is now unconditional precisely so no path can
-  // resolve a non-World-Monitor asset.
+  // resolve a non-Eagle-Eye asset.
   const response = await download('platform=linux-appimage&variant=', [
     {
       name: 'Tech-Monitor_2.5.7_amd64.AppImage',
       browser_download_url: 'https://downloads.example/Tech-Monitor_2.5.7_amd64.AppImage',
     },
-    ...worldMonitorAssets(),
+    ...eagleEyeAssets(),
   ]);
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
 test('is case-insensitive about the variant', async () => {
   const response = await download('platform=linux-appimage&variant=TECH');
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
-test('still resolves to the World Monitor asset when a stray branded asset is present', async () => {
+test('still resolves to the Eagle Eye asset when a stray branded asset is present', async () => {
   // Defends the collapse itself: a leftover per-variant artifact on a release
   // must not resurrect per-variant asset selection.
   const response = await download('platform=linux-appimage&variant=tech', [
@@ -114,10 +114,10 @@ test('still resolves to the World Monitor asset when a stray branded asset is pr
       name: 'Tech-Monitor_2.5.7_amd64.AppImage',
       browser_download_url: 'https://downloads.example/Tech-Monitor_2.5.7_amd64.AppImage',
     },
-    ...worldMonitorAssets(),
+    ...eagleEyeAssets(),
   ]);
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get('location'), WORLD_APPIMAGE);
+  assert.equal(response.headers.get('location'), EAGLE_APPIMAGE);
 });
 
 test('falls back to the release page for a variant the product does not support', async () => {
@@ -133,11 +133,11 @@ test('rejects an unsupported variant without calling GitHub', async () => {
   let upstreamCalls = 0;
   globalThis.fetch = async () => {
     upstreamCalls++;
-    return makeGitHubReleaseResponse(worldMonitorAssets());
+    return makeGitHubReleaseResponse(eagleEyeAssets());
   };
   try {
     const response = await handler(
-      new Request('https://worldmonitor.app/api/download?platform=linux-appimage&variant=nonsense')
+      new Request('https://eagle-eye.app/api/download?platform=linux-appimage&variant=nonsense')
     );
     assert.equal(response.status, 302);
     assert.equal(response.headers.get('location'), RELEASES_PAGE);

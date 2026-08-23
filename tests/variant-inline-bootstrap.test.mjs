@@ -20,7 +20,7 @@ describe('variant inline bootstrap', () => {
     for (const variant of ['happy', 'tech', 'finance', 'commodity', 'energy']) {
       assert.ok(
         indexHtml.includes(`h.startsWith('${variant}.'))v='${variant}'`),
-        `index.html inline bootstrap must set data-variant for ${variant}.worldmonitor.app`,
+        `index.html inline bootstrap must set data-variant for ${variant}.eagle-eye.app`,
       );
     }
   });
@@ -28,7 +28,7 @@ describe('variant inline bootstrap', () => {
   it('allows the inline variant bootstrap through the CSP', () => {
     assert.ok(variantBootstrapScript, 'index.html must include the inline variant bootstrap script');
     assert.ok(
-      variantBootstrapScript.includes('worldmonitor-variant') && variantBootstrapScript.includes('document.documentElement.dataset.variant'),
+      variantBootstrapScript.includes('eagleeye-variant') && variantBootstrapScript.includes('document.documentElement.dataset.variant'),
       'the marked pre-paint script must retain variant bootstrapping',
     );
 

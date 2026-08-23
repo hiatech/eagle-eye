@@ -62,7 +62,7 @@ describe('resolvePlaybackGate — decision chain', () => {
   });
 
   it('shows the control to a premium session before auth or Convex settle', () => {
-    // The desktop runtime path: WORLDMONITOR_API_KEY present, no Clerk session
+    // The desktop runtime path: EAGLEEYE_API_KEY present, no Clerk session
     // will ever exist, no entitlement row will ever arrive.
     assert.equal(
       resolvePlaybackGate(

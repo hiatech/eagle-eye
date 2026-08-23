@@ -5,7 +5,7 @@
 // internal `_uiResourceUri`).
 //
 // How this differs from the DATA resources in ../resources/index.ts:
-//   - DATA resources (worldmonitor://…) return live JSON and consume the Pro
+//   - DATA resources (eagleeye://…) return live JSON and consume the Pro
 //     daily quota symmetrically with the equivalent tools/call.
 //   - UI resources (ui://…) return a STATIC, data-free HTML template. They
 //     carry no data and spend no quota, so resources/read of a ui:// URI is
@@ -38,16 +38,16 @@ export const UI_RESOURCE_MIME_TYPE = SHELL_UI_MIME_TYPE;
 // Canonical ui:// URIs for each app shell. Each is imported by its backing tool
 // def as the single-source-of-truth `_uiResourceUri`, so the tool linkage and
 // the registered resource can never drift.
-export const COUNTRY_RISK_UI_URI = 'ui://worldmonitor/country-risk.html';
-export const WORLD_BRIEF_UI_URI = 'ui://worldmonitor/world-brief.html';
-export const COUNTRY_BRIEF_UI_URI = 'ui://worldmonitor/country-brief.html';
-export const MARKET_RADAR_UI_URI = 'ui://worldmonitor/market-radar.html';
-export const CHOKEPOINT_MONITOR_UI_URI = 'ui://worldmonitor/chokepoint-monitor.html';
-export const NEWS_INTELLIGENCE_UI_URI = 'ui://worldmonitor/news-intelligence.html';
-export const CONFLICT_EVENTS_UI_URI = 'ui://worldmonitor/conflict-events.html';
-export const NATURAL_DISASTERS_UI_URI = 'ui://worldmonitor/natural-disasters.html';
-export const PREDICTION_MARKETS_UI_URI = 'ui://worldmonitor/prediction-markets.html';
-export const FORECASTS_UI_URI = 'ui://worldmonitor/forecasts.html';
+export const COUNTRY_RISK_UI_URI = 'ui://eagleeye/country-risk.html';
+export const WORLD_BRIEF_UI_URI = 'ui://eagleeye/world-brief.html';
+export const COUNTRY_BRIEF_UI_URI = 'ui://eagleeye/country-brief.html';
+export const MARKET_RADAR_UI_URI = 'ui://eagleeye/market-radar.html';
+export const CHOKEPOINT_MONITOR_UI_URI = 'ui://eagleeye/chokepoint-monitor.html';
+export const NEWS_INTELLIGENCE_UI_URI = 'ui://eagleeye/news-intelligence.html';
+export const CONFLICT_EVENTS_UI_URI = 'ui://eagleeye/conflict-events.html';
+export const NATURAL_DISASTERS_UI_URI = 'ui://eagleeye/natural-disasters.html';
+export const PREDICTION_MARKETS_UI_URI = 'ui://eagleeye/prediction-markets.html';
+export const FORECASTS_UI_URI = 'ui://eagleeye/forecasts.html';
 
 // Per-resource `_meta.ui` (ext-apps `UIResourceMeta`) is built by the shared
 // `buildUiMeta()` in ./shell — SINGLE source of truth for the fleet's CSP /
@@ -121,7 +121,7 @@ export const UI_RESOURCE_REGISTRY: UiResourceDef[] = [
     uri: NEWS_INTELLIGENCE_UI_URI,
     name: 'News Intelligence (interactive)',
     description:
-      'Interactive in-conversation app shell for get_news_intelligence: renders AI-classified top stories (title, category, alert flag, country, source) from WorldMonitor\'s intelligence layer. Linked from the get_news_intelligence tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.',
+      'Interactive in-conversation app shell for get_news_intelligence: renders AI-classified top stories (title, category, alert flag, country, source) from EagleEye\'s intelligence layer. Linked from the get_news_intelligence tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.',
     mimeType: UI_RESOURCE_MIME_TYPE,
     _meta: buildUiMeta(),
     html: NEWS_INTELLIGENCE_APP_HTML,
@@ -157,7 +157,7 @@ export const UI_RESOURCE_REGISTRY: UiResourceDef[] = [
     uri: FORECASTS_UI_URI,
     name: 'Forecasts (interactive)',
     description:
-      'Interactive in-conversation app shell for get_forecast_predictions: renders WorldMonitor\'s AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). Linked from the get_forecast_predictions tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.',
+      'Interactive in-conversation app shell for get_forecast_predictions: renders EagleEye\'s AI-generated geopolitical and economic forecasts as probability cards (title, domain, region). Linked from the get_forecast_predictions tool via _meta.ui.resourceUri; an MCP-Apps host renders it inline and streams the tool result in via postMessage. Static, data-free template — public and quota-exempt.',
     mimeType: UI_RESOURCE_MIME_TYPE,
     _meta: buildUiMeta(),
     html: FORECASTS_APP_HTML,

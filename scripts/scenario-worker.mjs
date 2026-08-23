@@ -27,7 +27,7 @@ const BLMOVE_TIMEOUT_SECONDS = 30;  // block for up to 30s waiting for a job
 
 /**
  * Inline copy of SCENARIO_TEMPLATES (no TypeScript import).
- * Keep in sync with server/worldmonitor/supply-chain/v1/scenario-templates.ts.
+ * Keep in sync with server/eagleeye/supply-chain/v1/scenario-templates.ts.
  * Worker only needs: id, affectedChokepointIds, disruptionPct, durationDays, affectedHs2, costShockMultiplier.
  *
  * @type {Array<{ id: string; affectedChokepointIds: string[]; disruptionPct: number; durationDays: number; affectedHs2: string[] | null; costShockMultiplier: number }>}

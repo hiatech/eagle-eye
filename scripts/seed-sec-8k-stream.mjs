@@ -26,7 +26,7 @@ export const MIN_STREAM_EVENTS = 50;
 
 // SEC requires a declared User-Agent identifying the requester (no browser
 // spoofing) — same convention as scripts/seed-regulatory-actions.mjs.
-const SEC_USER_AGENT = 'WorldMonitor/2.0 (monitor@worldmonitor.app)';
+const SEC_USER_AGENT = 'EagleEye/2.0 (monitor@eagle-eye.app)';
 
 // Material 8-K item codes — must equal the high+medium materiality codes in
 // server/_shared/sec-edgar.ts MATERIAL_8K_ITEMS (asserted by

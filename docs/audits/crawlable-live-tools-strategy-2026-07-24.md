@@ -1,8 +1,8 @@
-# Crawlable Live Tools for World Monitor
+# Crawlable Live Tools for Eagle Eye
 
 ## Decision
 
-World Monitor should build search-intent tools as progressively enhanced pages on the main domain, not as a disconnected SEO subdomain. The static page must be useful and source-labelled before JavaScript runs; live API data should add utility without becoming the only crawlable content.
+Eagle Eye should build search-intent tools as progressively enhanced pages on the main domain, not as a disconnected SEO subdomain. The static page must be useful and source-labelled before JavaScript runs; live API data should add utility without becoming the only crawlable content.
 
 The first implementation upgrades the existing country corpus:
 
@@ -95,7 +95,7 @@ country envelopes no larger than 45 degrees latitude by 60 degrees longitude.
 
 ## Guardrails
 
-- Use subfolders on `worldmonitor.app`; do not split authority onto an SEO subdomain.
+- Use subfolders on `eagle-eye.app`; do not split authority onto an SEO subdomain.
 - Do not generate pages without unique source-backed content.
 - Do not fetch live data during the build. Builds must remain deterministic.
 - Show timestamps and methodology versions beside dynamic scores.

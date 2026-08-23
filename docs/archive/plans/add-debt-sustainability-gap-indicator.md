@@ -1,4 +1,4 @@
-# Plan: Add `debtSustainabilityGap` indicator to WorldMonitor resilience
+# Plan: Add `debtSustainabilityGap` indicator to EagleEye resilience
 
 **Status**: APPROVED by Codex (gpt-5.5) after 4 rounds of review on 2026-05-12.
 **Origin**: session pivot from the orphan-fiscal-data finding — `govExpenditurePct` + `primaryBalancePct` were ingested via `seed-imf-macro.mjs` but no resilience indicator consumed them. Plan #1 (descriptive UI surface) is separately shipped this session.
@@ -7,7 +7,7 @@
 
 ## Context
 
-WorldMonitor scores 190+ countries on a resilience composite. One dimension is `fiscalSpace`, with three sub-indicators today (all read from one Redis blob `resilience:recovery:fiscal-space:v1`, populated by `scripts/seed-recovery-fiscal-space.mjs`):
+EagleEye scores 190+ countries on a resilience composite. One dimension is `fiscalSpace`, with three sub-indicators today (all read from one Redis blob `resilience:recovery:fiscal-space:v1`, populated by `scripts/seed-recovery-fiscal-space.mjs`):
 
 ```
 recoveryGovRevenue       weight 0.4  higherBetter   goalposts 5..45    GGR_NGDP
@@ -15,7 +15,7 @@ recoveryFiscalBalance    weight 0.3  higherBetter   goalposts -15..5   GGXCNL_NG
 recoveryDebtToGdp        weight 0.3  lowerBetter    goalposts 0..150   GGXWDG_NGDP
 ```
 
-Scorer: `scoreFiscalSpace` in `server/worldmonitor/resilience/v1/_dimension-scorers.ts:2013`.
+Scorer: `scoreFiscalSpace` in `server/eagleeye/resilience/v1/_dimension-scorers.ts:2013`.
 
 **Problem**: None of these signals alone — or blended — answers "is this country's debt path sustainable?" A country can have high debt + strong primary surplus + g≈r and be fine (Japan-ish), or low debt + chronic primary deficit + r>g and be in trouble. The current composite penalizes the level and rewards the surplus, then averages, losing the r-g interaction term.
 
@@ -189,7 +189,7 @@ Two failure modes, cleanly separated:
 - **System-level outage** (IMF fiscal-3 down across the board → <150 countries with fiscal-3 OR <100 with gap inputs) → seeder refuses to publish, last canonical blob serves.
 - **Per-country gap unavailability** (year misalignment, hyperinflation cap, partial growth/inflation for one specific country) → that country's gap indicator scores null, fiscal-3 still scores it.
 
-### 2. `server/worldmonitor/resilience/v1/_indicator-registry.ts`
+### 2. `server/eagleeye/resilience/v1/_indicator-registry.ts`
 
 Add new indicator entry, rebalance existing fiscalSpace weights:
 
@@ -217,7 +217,7 @@ Add new indicator entry, rebalance existing fiscalSpace weights:
 //                       sum = 1.0
 ```
 
-### 3. `server/worldmonitor/resilience/v1/_dimension-scorers.ts::scoreFiscalSpace`
+### 3. `server/eagleeye/resilience/v1/_dimension-scorers.ts::scoreFiscalSpace`
 
 ```ts
 return weightedBlend([
@@ -246,7 +246,7 @@ This makes the existing `tests/resilience-indicator-extraction-plan.test.mjs:23`
 
 ### 5. Type update — `RecoveryFiscalSpaceCountry`
 
-Locate the type def (likely in `_indicator-registry.ts` or `server/worldmonitor/resilience/types.ts`), add:
+Locate the type def (likely in `_indicator-registry.ts` or `server/eagleeye/resilience/types.ts`), add:
 ```ts
 primaryBalancePct: number | null;
 realGdpGrowthPct: number | null;
@@ -382,8 +382,8 @@ Run `scripts/compare-resilience-current-vs-proposed.mjs` against the change. Exp
 ## Files touched
 
 1. `scripts/seed-recovery-fiscal-space.mjs` — pull 3 more series, compute gap, schema v2, two-floor validate, export named helpers + floors constant.
-2. `server/worldmonitor/resilience/v1/_indicator-registry.ts` — new indicator + rebalanced weights.
-3. `server/worldmonitor/resilience/v1/_dimension-scorers.ts::scoreFiscalSpace` — add 4th sub-score.
+2. `server/eagleeye/resilience/v1/_indicator-registry.ts` — new indicator + rebalanced weights.
+3. `server/eagleeye/resilience/v1/_dimension-scorers.ts::scoreFiscalSpace` — add 4th sub-score.
 4. Type def of `RecoveryFiscalSpaceCountry` (likely same file as scorer or its types module).
 5. `scripts/compare-resilience-current-vs-proposed.mjs:366` — one new EXTRACTION_RULES row.
 6. `docs/methodology/country-resilience-index.mdx:322` — update fiscal-space indicator table.

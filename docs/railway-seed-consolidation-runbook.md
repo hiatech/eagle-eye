@@ -77,7 +77,7 @@ production configuration. It reports exact watch-path and cron drift, missing
 registered services, and missing required source-routing variables. Apply mode
 refuses a partial mutation while a service or required variable is absent.
 
-After linking the CLI to the `world-monitor` production environment, audit the
+After linking the CLI to the `eagle-eye` production environment, audit the
 live settings with:
 
 ```bash
@@ -111,7 +111,7 @@ branch policy to `main`, and configure:
 
 - environment secret `RAILWAY_PRODUCTION_TOKEN`: a Railway project token scoped
   to the production environment;
-- environment variable `RAILWAY_PROJECT_ID`: the `world-monitor` project ID.
+- environment variable `RAILWAY_PROJECT_ID`: the `eagle-eye` project ID.
 
 Do not define the Railway token as a repository or organization secret:
 `workflow_dispatch` can target another ref, while the environment's server-side
@@ -126,7 +126,7 @@ the live audit.
 ### Bootstrap R2 publisher contract
 
 The public bootstrap tiers use the dedicated private bucket
-`worldmonitor-bootstrap`. Managed `r2.dev` access stays disabled and the bucket
+`eagleeye-bootstrap`. Managed `r2.dev` access stays disabled and the bucket
 has no custom domain; clients continue to enter through `/api/bootstrap` so the
 WAF, origin policy, rate limits, telemetry, and future access controls remain in
 the request path.
@@ -144,9 +144,9 @@ The environment contract is deliberately split by consumer:
 
 | Scope | Variables | Install in | Capability |
 |---|---|---|---|
-| Shared routing and tier shape | `R2_ACCOUNT_ID`, optional `R2_ENDPOINT`, `R2_BOOTSTRAP_BUCKET=worldmonitor-bootstrap`, `IRAN_EVENTS_ENABLED` | Railway production and Vercel production | Names plus the feature flag that controls `iranEvents` tier membership; values must match |
-| Publisher | `R2_BOOTSTRAP_ACCESS_KEY_ID`, `R2_BOOTSTRAP_SECRET_ACCESS_KEY` | Railway production publisher only | Publisher can PUT and GET only in `worldmonitor-bootstrap` |
-| Edge reader | `R2_BOOTSTRAP_READ_KEY_ID`, `R2_BOOTSTRAP_READ_SECRET` | Vercel production only | Edge can GET; it cannot PUT or DELETE, and cannot read `worldmonitor-data` |
+| Shared routing and tier shape | `R2_ACCOUNT_ID`, optional `R2_ENDPOINT`, `R2_BOOTSTRAP_BUCKET=eagleeye-bootstrap`, `IRAN_EVENTS_ENABLED` | Railway production and Vercel production | Names plus the feature flag that controls `iranEvents` tier membership; values must match |
+| Publisher | `R2_BOOTSTRAP_ACCESS_KEY_ID`, `R2_BOOTSTRAP_SECRET_ACCESS_KEY` | Railway production publisher only | Publisher can PUT and GET only in `eagleeye-bootstrap` |
+| Edge reader | `R2_BOOTSTRAP_READ_KEY_ID`, `R2_BOOTSTRAP_READ_SECRET` | Vercel production only | Edge can GET; it cannot PUT or DELETE, and cannot read `eagleeye-data` |
 
 Preview and development do not receive either credential; missing credentials
 must use the Redis path. The publisher must not fall back to any
@@ -166,8 +166,8 @@ Provision and release in this order:
 4. Install only the shared and read-only variables in Vercel production. Keep
    them absent from preview and development.
 5. Run the negative permission probes: publisher cannot access
-   `worldmonitor-data`; edge cannot write/delete in `worldmonitor-bootstrap` and
-   cannot read `worldmonitor-data`.
+   `eagleeye-data`; edge cannot write/delete in `eagleeye-bootstrap` and
+   cannot read `eagleeye-data`.
 
 Rotate one consumer at a time: create a replacement token, update that consumer,
 verify its publish or read with the replacement, then revoke the old token. On
@@ -716,7 +716,7 @@ Recovery is accepted only when:
 | **Replaces** | 5 services |
 | **Net savings** | 4 slots |
 | **Members** | Crypto Quotes (5min), Hyperliquid Flow (5min), Stablecoin Markets (10min), ETF Flows (15min), China Corporate Disclosures (30min), China Stock Connect (60min), Gulf Quotes (10min), Token Panels (30min), Gold ETF Flows (2h), Gold CB Reserves (daily), SEC CIK Map (daily), SEC 8-K Stream (30min) |
-| **Required env** | `PROXY_URL` (required independently by Gulf Quotes / ETF Flows and selected for an exchange only when its source-specific setting is absent) and `RELAY_SHARED_SECRET` (authenticates the fixed `https://api.worldmonitor.app/api/internal/china-exchange-egress` fallback used by China Corporate Disclosures after direct/proxy SZSE failures; China Stock Connect deliberately does not use it). Proxy configuration precedence is `SSE_PROXY_URL` → `SZSE_PROXY_URL` → `PROXY_URL` for SSE and `SZSE_PROXY_URL` → `PROXY_URL` for SZSE; the process selects the first non-empty setting rather than attempting each URL sequentially. This is the deployment contract; production provisioning and live fallback acceptance require separate verification. |
+| **Required env** | `PROXY_URL` (required independently by Gulf Quotes / ETF Flows and selected for an exchange only when its source-specific setting is absent) and `RELAY_SHARED_SECRET` (authenticates the fixed `https://api.eagle-eye.app/api/internal/china-exchange-egress` fallback used by China Corporate Disclosures after direct/proxy SZSE failures; China Stock Connect deliberately does not use it). Proxy configuration precedence is `SSE_PROXY_URL` → `SZSE_PROXY_URL` → `PROXY_URL` for SSE and `SZSE_PROXY_URL` → `PROXY_URL` for SZSE; the process selects the first non-empty setting rather than attempting each URL sequentially. This is the deployment contract; production provisioning and live fallback acceptance require separate verification. |
 | **Note** | Crypto Quotes, Stablecoin Markets, ETF Flows, Gulf Quotes, and Token Panels back up ais-relay inline loops. Hyperliquid Flow, China Corporate Disclosures, China Stock Connect, Gold ETF Flows, Gold CB Reserves, SEC CIK Map, and SEC 8-K Stream are primary in this bundle. China Corporate Disclosures reads official metadata only: SSE uses direct then the selected proxy, while SZSE uses direct, distinct port attempts within the selected proxy, then the authenticated fixed edge hop. China Stock Connect reads aggregate exchange statistics over direct then the selected proxy only — it stops short of the edge hop, because a seeder fetches upstream data and the web tier serves it from Redis, and borrowing an edge function's egress for acquisition inverts that. It additionally caps every `www.szse.cn` request in a run under one shared 100s wall-clock budget, because its SZSE endpoints are date-keyed and the number of probes depends on how many sessions the exchange has published. Gulf Quotes uses Alpha Vantage (richer than relay's Yahoo-only). |
 
 ### Bundle 11: seed-bundle-relay-backup
@@ -782,7 +782,7 @@ entries.
 
 | Service | ID | Type |
 |---|---|---|
-| worldmonitor (ais-relay) | `a5f66d97-217f-44a0-a42d-5f3b67752223` | AIS relay + inline seeds |
+| eagleeye (ais-relay) | `a5f66d97-217f-44a0-a42d-5f3b67752223` | AIS relay + inline seeds |
 | notification-relay | `aa37bd8e-c28d-4e9b-9d1e-0961f1b63d97` | Notification dispatch |
 | simulation-worker | `67264e35-0b51-457b-984f-4ef20e36a117` | Forecast simulations |
 | deep-forecast-worker | `750bc68f-9840-49a3-95eb-7c8bcc060485` | Deep forecast tasks |
@@ -955,7 +955,7 @@ Each bundle service inherits the same env vars as the individual seeds it replac
 - Plus any API keys used by member seeds (GIE_API_KEY, ICAO_API_KEY, etc.)
 - `SAM_GOV_API_KEY` for the Global Tenders SAM.gov adapter. The other initial procurement adapters do not require credentials.
 
-The simplest approach: use Railway's "shared variables" or copy all env vars from the `worldmonitor` (ais-relay) service, which has a superset of all API keys.
+The simplest approach: use Railway's "shared variables" or copy all env vars from the `eagleeye` (ais-relay) service, which has a superset of all API keys.
 
 ---
 
@@ -993,15 +993,15 @@ IMPORT_HHI_VERBOSE=1 FORCE_RESEED=true node scripts/seed-recovery-import-hhi.mjs
 Then warm live scores so `importConcentration` reads the refreshed canonical key:
 
 ```bash
-API_BASE_URL=https://api.worldmonitor.app \
-WORLDMONITOR_SEED_REFRESH_KEY=<seed-refresh-key> \
-WORLDMONITOR_API_KEY=<read-key> \
+API_BASE_URL=https://api.eagle-eye.app \
+EAGLEEYE_SEED_REFRESH_KEY=<seed-refresh-key> \
+EAGLEEYE_API_KEY=<read-key> \
 node scripts/seed-resilience-scores.mjs
 ```
 
-`WORLDMONITOR_SEED_REFRESH_KEY` is required: the resilience score seeder uses it
+`EAGLEEYE_SEED_REFRESH_KEY` is required: the resilience score seeder uses it
 for the seed-only `get-resilience-ranking?refresh=1` recompute path. Keep
-`WORLDMONITOR_API_KEY` or `WORLDMONITOR_VALID_KEYS` available too so laggard
+`EAGLEEYE_API_KEY` or `EAGLEEYE_VALID_KEYS` available too so laggard
 per-country score warms can fall back to the normal premium read endpoint. In
 Railway, the service environment should already provide the Upstash Redis
 credentials; for a local force-run, export `UPSTASH_REDIS_REST_URL` and
@@ -1018,9 +1018,9 @@ counts `intervalMissingScorePayloadCount`, `intervalStaleScorePayloadCount`,
 Verify the public audit surfaces after the run:
 
 ```bash
-curl -fsS https://api.worldmonitor.app/api/resilience/v1/get-runtime-manifest \
+curl -fsS https://api.eagle-eye.app/api/resilience/v1/get-runtime-manifest \
   | jq '{formulaTag, rankingCache, constructVersions, intervals}'
-curl -fsS https://api.worldmonitor.app/api/health \
+curl -fsS https://api.eagle-eye.app/api/health \
   | jq '.checks.resilienceIntervals'
 ```
 
@@ -1033,7 +1033,7 @@ Pass condition for interval recovery: runtime manifest reports
 Verify both Redis and the live score API:
 
 ```bash
-WORLDMONITOR_API_KEY=<key> node scripts/verify-import-hhi-coverage.mjs
+EAGLEEYE_API_KEY=<key> node scripts/verify-import-hhi-coverage.mjs
 ```
 
 Pass condition for AE/RU/NO/CH:

@@ -1,5 +1,5 @@
-World Monitor
-=============
+Eagle Eye
+=========
 
 Upstream work
 -------------
@@ -15,15 +15,16 @@ This distribution
 -----------------
 Copyright (C) 2026 Hiatech
 
-This is a MODIFIED version of World Monitor, maintained by Hiatech. It is not
-endorsed by, affiliated with, or supported by the upstream project or its
-authors.
+Eagle Eye is a MODIFIED version of World Monitor, maintained by Hiatech. It is
+not endorsed by, affiliated with, or supported by the upstream project or its
+authors. The name and branding were changed precisely so the two are not
+confused; "World Monitor" continues to name the upstream work only.
 
 Modifications since the fork point (upstream commit d9a65dd) include additional
 multilingual news feeds and ingestion sources, changes to digest assembly and
-feed-fetch behaviour, and deployment and operational configuration for this
-instance. CHANGELOG.md and the git commit history are the complete, dated
-record of what changed.
+feed-fetch behaviour, deployment and operational configuration for this
+instance, and the rename to Eagle Eye. CHANGELOG.md and the git commit history
+are the complete, dated record of what changed.
 
 
 Corresponding Source (AGPL-3.0-only, section 13)
@@ -33,7 +34,7 @@ network be offered the Corresponding Source of THAT version. For any network
 server running this distribution, that source is available to all users, free
 of charge, from:
 
-    https://github.com/hiatech/worldmonitor
+    https://github.com/hiatech/eagle-eye
 
 
 Other licenses

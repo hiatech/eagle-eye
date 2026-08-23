@@ -67,7 +67,7 @@ function buildCardSvg(report, snapshot) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <rect width="${WIDTH}" height="${HEIGHT}" fill="#050807"/>
   <rect x="0" y="0" width="${WIDTH}" height="6" fill="#4ade80"/>
-  <text x="80" y="96" fill="#4ade80" font-size="24" font-weight="700" letter-spacing="3" font-family="Helvetica, Arial, sans-serif">WORLD MONITOR RESEARCH</text>
+  <text x="80" y="96" fill="#4ade80" font-size="24" font-weight="700" letter-spacing="3" font-family="Helvetica, Arial, sans-serif">EAGLE EYE RESEARCH</text>
   <text x="80" y="164" fill="#eef8f0" font-size="${report.title.length > 40 ? 44 : 54}" font-weight="700" font-family="Helvetica, Arial, sans-serif">${escapeXml(report.title)}</text>
   <text x="80" y="218" fill="#a8b8ad" font-size="28" font-family="Helvetica, Arial, sans-serif">Average daily transit calls by month — IMF PortWatch data through ${escapeXml(focus.observationEnd)}</text>
   ${bars}

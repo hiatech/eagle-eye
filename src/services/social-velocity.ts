@@ -1,5 +1,5 @@
 import { createLazyClient, getRpcBaseUrl } from '@/services/rpc-client';
-import type { GetSocialVelocityResponse, SocialVelocityPost } from '@/generated/client/worldmonitor/intelligence/v1/service_client';
+import type { GetSocialVelocityResponse, SocialVelocityPost } from '@/generated/client/eagleeye/intelligence/v1/service_client';
 import { getHydratedData } from '@/services/bootstrap';
 import { IntelligenceServiceClient } from '@/services/generated-rpc-clients';
 

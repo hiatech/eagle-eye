@@ -113,7 +113,7 @@ generate: clean ## Generate code from proto definitions
 		BUF_BIN=$$(command -v buf) && \
 		PATH="$$PLUGIN_DIR:$$PATH" "$$BUF_BIN" generate
 	@node scripts/generate-request-validation.mjs
-	@# protoc-gen-openapiv3 still misses WorldMonitor-specific contract details:
+	@# protoc-gen-openapiv3 still misses EagleEye-specific contract details:
 	@# auth/security (#4599 root cause #1), filter parameter schemas,
 	@# query parameter requiredness (#4599 root cause #3 / #4604), and
 	@# examples. Apply byte-/format-preserving injectors before deriving

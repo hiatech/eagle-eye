@@ -36,7 +36,7 @@ tags:
 
 ## Context
 
-Issue #5379 was an adversarial sweep of WorldMonitor's auth test surface. The headline finding was not any single broken test — it was that **four separate times in one PR (#5385), a layer built to detect silent failure had a silent failure of its own.** Each was found the same way: by deliberately breaking the detector and checking whether it noticed. None was found by reading the detector and judging it correct.
+Issue #5379 was an adversarial sweep of EagleEye's auth test surface. The headline finding was not any single broken test — it was that **four separate times in one PR (#5385), a layer built to detect silent failure had a silent failure of its own.** Each was found the same way: by deliberately breaking the detector and checking whether it noticed. None was found by reading the detector and judging it correct.
 
 That recursion is the durable lesson. A guard, a CI gate, and an anti-vacuity test are all just code, and code that asserts "nothing is wrong" fails open by construction: when its input silently shrinks to nothing, it reports success louder than ever.
 

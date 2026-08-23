@@ -45,7 +45,7 @@ const ENV_EXAMPLE = readFileSync(resolve(HERE, '../.env.example'), 'utf8');
  */
 
 const VALID_KEY = 'wm_test_key_123';
-process.env.WORLDMONITOR_VALID_KEYS = VALID_KEY;
+process.env.EAGLEEYE_VALID_KEYS = VALID_KEY;
 delete process.env.UPSTASH_REDIS_REST_URL;
 delete process.env.UPSTASH_REDIS_REST_TOKEN;
 

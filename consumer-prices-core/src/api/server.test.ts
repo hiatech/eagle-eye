@@ -8,7 +8,7 @@ vi.mock('../db/client.js', () => ({
   getPool: () => ({ query: mockHealthQuery }),
 }));
 
-vi.mock('../snapshots/worldmonitor.js', () => ({
+vi.mock('../snapshots/eagleeye.js', () => ({
   buildBasketSeriesSnapshot: vi.fn(),
   buildCategoriesSnapshot: vi.fn(),
   buildFreshnessSnapshot: vi.fn(),
@@ -31,16 +31,16 @@ beforeEach(() => {
 
 describe('consumer-prices-core Fastify server', () => {
   it('fails closed when the snapshot API key is missing', () => {
-    const original = process.env.WORLDMONITOR_SNAPSHOT_API_KEY;
-    delete process.env.WORLDMONITOR_SNAPSHOT_API_KEY;
+    const original = process.env.EAGLEEYE_SNAPSHOT_API_KEY;
+    delete process.env.EAGLEEYE_SNAPSHOT_API_KEY;
 
     try {
-      expect(() => createServer({ logger: false })).toThrow(/WORLDMONITOR_SNAPSHOT_API_KEY is required/);
-      expect(() => createServer({ apiKey: '', logger: false })).toThrow(/WORLDMONITOR_SNAPSHOT_API_KEY is required/);
-      expect(() => createServer({ apiKey: '   ', logger: false })).toThrow(/WORLDMONITOR_SNAPSHOT_API_KEY is required/);
+      expect(() => createServer({ logger: false })).toThrow(/EAGLEEYE_SNAPSHOT_API_KEY is required/);
+      expect(() => createServer({ apiKey: '', logger: false })).toThrow(/EAGLEEYE_SNAPSHOT_API_KEY is required/);
+      expect(() => createServer({ apiKey: '   ', logger: false })).toThrow(/EAGLEEYE_SNAPSHOT_API_KEY is required/);
     } finally {
-      if (original === undefined) delete process.env.WORLDMONITOR_SNAPSHOT_API_KEY;
-      else process.env.WORLDMONITOR_SNAPSHOT_API_KEY = original;
+      if (original === undefined) delete process.env.EAGLEEYE_SNAPSHOT_API_KEY;
+      else process.env.EAGLEEYE_SNAPSHOT_API_KEY = original;
     }
   });
 

@@ -10,18 +10,18 @@ Use this skill when the user asks about protests, riots, strikes, demonstrations
 
 ## Authentication
 
-No API key is required for this public RPC. If your agent already sends a World Monitor key for quota attribution or a shared integration wrapper, use the `X-WorldMonitor-Key` header. `Authorization: Bearer ...` is for MCP/OAuth or Clerk JWTs - **not** raw API keys.
+No API key is required for this public RPC. If your agent already sends a Eagle Eye key for quota attribution or a shared integration wrapper, use the `X-EagleEye-Key` header. `Authorization: Bearer ...` is for MCP/OAuth or Clerk JWTs - **not** raw API keys.
 
 ```
-X-WorldMonitor-Key: wm_0123456789abcdef0123456789abcdef01234567
+X-EagleEye-Key: wm_0123456789abcdef0123456789abcdef01234567
 ```
 
-Issue a key at https://www.worldmonitor.app/pro for authenticated and Pro-gated endpoints.
+Issue a key at https://www.eagle-eye.app/pro for authenticated and Pro-gated endpoints.
 
 ## Endpoint
 
 ```
-GET https://api.worldmonitor.app/api/unrest/v1/list-unrest-events
+GET https://api.eagle-eye.app/api/unrest/v1/list-unrest-events
 ```
 
 ## Parameters
@@ -73,8 +73,8 @@ Recent unrest in France over the last seven days:
 ```bash
 START_MS=$(node -e 'console.log(Date.now() - 7 * 24 * 60 * 60 * 1000)')
 curl -s --get \
-  -H "User-Agent: worldmonitor-agent-skill/1.0" \
-  'https://api.worldmonitor.app/api/unrest/v1/list-unrest-events' \
+  -H "User-Agent: eagleeye-agent-skill/1.0" \
+  'https://api.eagle-eye.app/api/unrest/v1/list-unrest-events' \
   --data-urlencode 'country=FR' \
   --data-urlencode "start=$START_MS" \
   | jq '.events[:10] | .[] | {title, city, eventType, severity, occurredAt}'
@@ -96,9 +96,9 @@ Use this skill for aggregate situational awareness and source-attributed reporti
 - For armed-conflict battle events and fatality bands, use `track-conflict-events`.
 - For broad news coverage about a protest topic, use `fetch-news-digest` or `GET /api/intelligence/v1/search-gdelt-documents`.
 - For Telegram OSINT chatter, use `GET /api/intelligence/v1/list-telegram-feed`.
-- Via MCP, use the unrest/conflict intelligence tools on `https://worldmonitor.app/mcp`.
+- Via MCP, use the unrest/conflict intelligence tools on `https://eagle-eye.app/mcp`.
 
 ## References
 
-- OpenAPI: https://worldmonitor.app/openapi.json - operation `ListUnrestEvents`.
-- Auth matrix: https://www.worldmonitor.app/docs/usage-auth
+- OpenAPI: https://eagle-eye.app/openapi.json - operation `ListUnrestEvents`.
+- Auth matrix: https://www.eagle-eye.app/docs/usage-auth

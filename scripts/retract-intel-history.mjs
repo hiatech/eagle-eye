@@ -232,7 +232,7 @@ export async function sendRetractRequest(
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${secret}`,
-      'User-Agent': 'worldmonitor-retract-intel-history/1.0',
+      'User-Agent': 'eagleeye-retract-intel-history/1.0',
     },
     body: JSON.stringify(payload),
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),

@@ -7,7 +7,7 @@ async function loadHappyDashboard(page: Page): Promise<void> {
   await page.addInitScript(() => {
     if (sessionStorage.getItem('__panel_drag_reorder_init_done')) return;
     localStorage.clear();
-    localStorage.setItem('worldmonitor-variant', 'happy');
+    localStorage.setItem('eagleeye-variant', 'happy');
     sessionStorage.setItem('__panel_drag_reorder_init_done', '1');
   });
   await page.goto('/', { waitUntil: 'domcontentloaded' });

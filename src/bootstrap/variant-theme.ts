@@ -9,7 +9,7 @@ import { enqueueSentryCall } from './sentry-defer';
  * surfaces as an onunhandledrejection ERROR in Sentry — even though the user is
  * unaffected, because the same helper dispatches `vite:preloadError` first and
  * `installChunkReloadGuard` (chunk-reload.ts) turns that into a one-shot reload
- * (WORLDMONITOR-XT: happy-theme.css, 2026-07-28; the asset itself served 200, so
+ * (EAGLEEYE-XT: happy-theme.css, 2026-07-28; the asset itself served 200, so
  * the failure was client-local, not deploy skew).
  *
  * Consume the rejection here and re-report it as deliberate warning-level

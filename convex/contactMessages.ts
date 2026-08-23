@@ -2,7 +2,7 @@ import { mutation } from "./_generated/server";
 import { v, ConvexError } from "convex/values";
 import { isCorporateDomain } from "./lib/emailDomain";
 
-// Field length caps. Aligned with `server/worldmonitor/leads/v1/submit-contact.ts`,
+// Field length caps. Aligned with `server/eagleeye/leads/v1/submit-contact.ts`,
 // which already enforces these bounds at the edge — duplicating them here means
 // a direct Convex client call (bypassing the edge) cannot fill the table with
 // arbitrarily large blobs.

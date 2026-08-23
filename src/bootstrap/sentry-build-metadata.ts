@@ -19,7 +19,7 @@ export function getSentryBuildMetadata(
   appVersion: string,
   buildHash: string,
 ): SentryBuildMetadata {
-  const release = `worldmonitor@${appVersion}`;
+  const release = `eagleeye@${appVersion}`;
   const normalizedBuildHash = buildHash.trim();
   if (!VERCEL_COMMIT_SHA.test(normalizedBuildHash)) return { release };
 

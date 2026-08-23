@@ -36,8 +36,8 @@ describe('cloud prefs panel sync guardrails', () => {
     );
     assert.doesNotMatch(
       syncKeysSrc,
-      /'worldmonitor-panel-order'/,
-      'cloud sync must not watch stale worldmonitor-panel-order, which the app never writes',
+      /'eagleeye-panel-order'/,
+      'cloud sync must not watch stale eagleeye-panel-order, which the app never writes',
     );
   });
 

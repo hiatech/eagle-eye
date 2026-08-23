@@ -99,7 +99,7 @@ const APP_CHECKOUT_BASE_URL = `${WEB_APP_ORIGIN}/dashboard`;
  * but wait.
  */
 /**
- * Send the user to a worldmonitor.app surface the way the runtime expects:
+ * Send the user to a eagle-eye.app surface the way the runtime expects:
  * the OS browser on desktop, a top-window navigation on web. Every exit from
  * this file that used to `window.location.assign` a web URL goes through
  * here, so the desktop rule cannot be fixed on one path and missed on its
@@ -926,7 +926,7 @@ export async function startCheckout(
 
     // Transient CF/origin 502s on this POST are retried once with an
     // Idempotency-Key (server dedupes replays — api/_idempotency.ts).
-    // WORLDMONITOR-Q4: without this, every transient was a lost checkout.
+    // EAGLEEYE-Q4: without this, every transient was a lost checkout.
     const resp = await postCreateCheckout(createDefaultCheckoutTransportDeps(), {
       url: '/api/create-checkout',
       token,
@@ -953,7 +953,7 @@ export async function startCheckout(
       // (Cloudflare / Vercel deployment-protection 403s are HTML, not
       // JSON — the old `resp.json().catch(() => ({}))` swallowed the
       // smoking-gun page) AND still attempt structured-body parsing
-      // for our own JSON error envelopes. WORLDMONITOR-RN.
+      // for our own JSON error envelopes. EAGLEEYE-RN.
       const rawText = await resp.text().catch(() => '');
       const upstream = snapshotUpstreamResponse(resp, rawText);
       // parseCheckoutErrorBody returns {} for invalid JSON AND for valid
@@ -1037,7 +1037,7 @@ export async function startCheckout(
       // service_unavailable + retryable=true in the classifier so the
       // user sees retry-friendly copy; reopening sign-in wouldn't help.
       // The `upstream` snapshot captured above identifies which layer
-      // emitted it (WORLDMONITOR-RN).
+      // emitted it (EAGLEEYE-RN).
       if (error.code === 'unauthorized' || error.code === 'session_expired') {
         savePendingCheckoutIntent({
           productId,
@@ -1058,7 +1058,7 @@ export async function startCheckout(
     // is `SyntaxError: The string did not match the expected pattern.` —
     // which skipped the contract-violation reporter below, discarded the
     // upstream snapshot that would name the emitter, and split one bug
-    // across a Sentry fingerprint per browser engine. WORLDMONITOR-XV.
+    // across a Sentry fingerprint per browser engine. EAGLEEYE-XV.
     // Let body-stream failures reach the outer exception path. Replacing a
     // rejected read with an empty string discards the original error, stack,
     // and cause, and falsely reports that the server sent an empty body.
@@ -1225,7 +1225,7 @@ function reportCheckoutError(
       code: error.code,
       // Promote cf-ray and server to tags so they're filterable in the
       // Sentry UI without opening the event. cf-ray presence alone is
-      // definitive for Cloudflare emission. WORLDMONITOR-RN.
+      // definitive for Cloudflare emission. EAGLEEYE-RN.
       ...(upstream?.cfRay ? { cfRay: upstream.cfRay } : {}),
       ...(upstream?.server ? { upstreamServer: upstream.server } : {}),
     },

@@ -1,5 +1,5 @@
 
-import type { Forecast, GetForecastsResponse } from '@/generated/client/worldmonitor/forecast/v1/service_client';
+import type { Forecast, GetForecastsResponse } from '@/generated/client/eagleeye/forecast/v1/service_client';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 import { publicRpcFetch } from '@/services/public-rpc-fetch';
 import { ForecastServiceClient } from '@/services/generated-rpc-clients';

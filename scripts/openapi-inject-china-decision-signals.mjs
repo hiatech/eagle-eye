@@ -52,10 +52,10 @@ const targets = [
     prefix: '',
   },
   {
-    path: resolve(apiDir, 'worldmonitor.openapi.yaml'),
+    path: resolve(apiDir, 'eagleeye.openapi.yaml'),
     format: 'yaml',
-    envelope: 'worldmonitor_intelligence_v1_GetChinaDecisionSignalsResponse',
-    prefix: 'worldmonitor_intelligence_v1_',
+    envelope: 'eagleeye_intelligence_v1_GetChinaDecisionSignalsResponse',
+    prefix: 'eagleeye_intelligence_v1_',
   },
 ];
 

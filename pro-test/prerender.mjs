@@ -17,20 +17,20 @@ const STATIC_SCRIPT_NONCE = 'wm-static-bootstrap';
 // /pro can't drift. Nonce'd to match the static-bootstrap CSP trust (otherwise
 // deploy-config.test.mjs would demand a script-src sha256 hash for it).
 const WM_SAMEAS = [
-  'https://github.com/hiatech/worldmonitor',
-  'https://www.npmjs.com/package/worldmonitor',
-  'https://x.com/worldmonitorai',
+  'https://github.com/hiatech/eagle-eye',
+  'https://www.npmjs.com/package/eagleeye',
+  'https://x.com/eagleeyeai',
   'https://x.com/eliehabib',
   'https://discord.gg/re63kWKxaz',
-  'https://www.wired.com/story/world-monitor-elie-habib/',
+  'https://www.wired.com/story/eagle-eye-elie-habib/',
 ];
 const ORGANIZATION_JSONLD = `    <script type="application/ld+json" nonce="${STATIC_SCRIPT_NONCE}">${JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'World Monitor',
-  alternateName: 'WorldMonitor',
-  url: 'https://www.worldmonitor.app/',
-  logo: 'https://www.worldmonitor.app/favico/apple-touch-icon.png',
+  name: 'Eagle Eye',
+  alternateName: 'EagleEye',
+  url: 'https://www.eagle-eye.app/',
+  logo: 'https://www.eagle-eye.app/favico/apple-touch-icon.png',
   description: 'Open-source real-time global intelligence platform aggregating conflicts, military movements, markets, infrastructure, and geopolitical data. Used by 2M+ people across 190+ countries.',
   founder: {
     '@type': 'Person',
@@ -48,8 +48,8 @@ const ORGANIZATION_JSONLD = `    <script type="application/ld+json" nonce="${STA
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
-    email: 'support@worldmonitor.app',
-    url: 'https://www.worldmonitor.app/pro',
+    email: 'support@eagle-eye.app',
+    url: 'https://www.eagle-eye.app/pro',
     availableLanguage: 'English',
   },
   address: {
@@ -58,7 +58,7 @@ const ORGANIZATION_JSONLD = `    <script type="application/ld+json" nonce="${STA
     addressCountry: 'AE',
   },
 })}</script>`;
-const DASHBOARD_SCREENSHOT_BASENAME = 'worldmonitor-7-mar-2026';
+const DASHBOARD_SCREENSHOT_BASENAME = 'eagle-eye-7-mar-2026';
 const DASHBOARD_SCREENSHOT_ASSETS = [
   { filenamePrefix: DASHBOARD_SCREENSHOT_BASENAME, extension: '.jpg' },
   { filenamePrefix: DASHBOARD_SCREENSHOT_BASENAME + '-640', extension: '.avif' },

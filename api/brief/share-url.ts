@@ -55,12 +55,12 @@ const BRIEF_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 /**
  * Public base URL for the share links we mint. Pinned to
- * WORLDMONITOR_PUBLIC_BASE_URL in prod to prevent host-header
+ * EAGLEEYE_PUBLIC_BASE_URL in prod to prevent host-header
  * reflection from producing share URLs pointing at preview deploys
  * or other non-canonical origins.
  */
 function publicBaseUrl(req: Request): string {
-  const pinned = process.env.WORLDMONITOR_PUBLIC_BASE_URL;
+  const pinned = process.env.EAGLEEYE_PUBLIC_BASE_URL;
   if (pinned) return pinned.replace(/\/+$/, '');
   return new URL(req.url).origin;
 }

@@ -26,7 +26,7 @@ tags: [umami, analytics, sentry, alerting, alert-fatigue, bot-filter, observabil
 
 ## Problem
 
-PR #5964 added a browser-side Sentry warning for every Umami collector write failure. It fired 45 events across 24 users in its first 32 minutes and caught **zero** instances of the umami#4183 `session_data` race it was built to detect. Most of the "failures" were HTTP 200 successes, and most of those came from WorldMonitor's own crawler.
+PR #5964 added a browser-side Sentry warning for every Umami collector write failure. It fired 45 events across 24 users in its first 32 minutes and caught **zero** instances of the umami#4183 `session_data` race it was built to detect. Most of the "failures" were HTTP 200 successes, and most of those came from EagleEye's own crawler.
 
 ## Symptoms
 
@@ -51,7 +51,7 @@ HeadlessChrome   status=200 bodyLen=15  body={"beep":"boop"}
 Googlebot        status=403 (Cloudflare WAF, never reaches Umami)
 ```
 
-**Umami's bot check answers `HTTP 200` with `{"beep":"boop"}` and stores nothing.** 20 of the 27 came from `Mozilla/5.0 (VISION-3.0-WorldMonitor; +https://github.com/local/vision)` — our own agent — plus 3 HeadlessChrome. The remaining `network` failures are ad-blocked clients.
+**Umami's bot check answers `HTTP 200` with `{"beep":"boop"}` and stores nothing.** 20 of the 27 came from `Mozilla/5.0 (VISION-3.0-EagleEye; +https://github.com/local/vision)` — our own agent — plus 3 HeadlessChrome. The remaining `network` failures are ad-blocked clients.
 
 The fix separates *delivery classification* from *alerting*:
 

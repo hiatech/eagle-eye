@@ -20,9 +20,9 @@ import {
   getStockAnalysisRatingSummary,
   getStockAnalysisRatingWhyNow,
 } from '../src/services/stock-analysis-rating.ts';
-import { analyzeStock } from '../server/worldmonitor/market/v1/analyze-stock.ts';
-import { getStockAnalysisHistory } from '../server/worldmonitor/market/v1/get-stock-analysis-history.ts';
-import { MarketServiceClient } from '../src/generated/client/worldmonitor/market/v1/service_client.ts';
+import { analyzeStock } from '../server/eagleeye/market/v1/analyze-stock.ts';
+import { getStockAnalysisHistory } from '../server/eagleeye/market/v1/get-stock-analysis-history.ts';
+import { MarketServiceClient } from '../src/generated/client/eagleeye/market/v1/service_client.ts';
 
 const originalFetch = globalThis.fetch;
 const originalRedisUrl = process.env.UPSTASH_REDIS_REST_URL;

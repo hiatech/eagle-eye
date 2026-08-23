@@ -168,7 +168,7 @@ function parseRetryAfterMs(value) {
 
 async function fetchText(fetchFn, url) {
   const response = await fetchFn(url, {
-    headers: { Accept: 'text/html,application/xhtml+xml', 'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)' },
+    headers: { Accept: 'text/html,application/xhtml+xml', 'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)' },
     signal: AbortSignal.timeout(NBS_REQUEST_TIMEOUT_MS),
   });
   if (!response.ok) {
@@ -294,7 +294,7 @@ async function fetchChinaMoneyNotices(fetchFn) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+      'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
     },
     body: new URLSearchParams({ channelId: CHINAMONEY_LPR_CHANNEL_ID, pageSize: '24', pageNo: '1' }).toString(),
     signal: AbortSignal.timeout(20_000),

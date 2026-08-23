@@ -11,7 +11,7 @@ import type { ConflictEvent, UcdpConflictStatus, HapiConflictSummary } from './c
 import type { CountryDisplacement } from '@/services/displacement';
 import type { ClimateAnomaly } from '@/services/climate';
 import type { GpsJamHex } from '@/services/gps-interference';
-import type { Earthquake } from '@/generated/client/worldmonitor/seismology/v1/service_client';
+import type { Earthquake } from '@/generated/client/eagleeye/seismology/v1/service_client';
 import type { CountrySanctionsPressure } from '@/services/sanctions-pressure';
 import { getCountryAtCoordinates, iso3ToIso2Code, nameToCountryCode, getCountryNameByCode, matchCountryNamesInText, ME_STRIKE_BOUNDS, resolveCountryFromBounds } from './country-geometry';
 
@@ -34,7 +34,7 @@ export interface ComponentScores {
   information: number;
 }
 
-// Keep these aligned with server/worldmonitor/intelligence/v1/_risk-config.ts.
+// Keep these aligned with server/eagleeye/intelligence/v1/_risk-config.ts.
 // The server remains authoritative for API scores; this legacy browser engine
 // still needs the same curve when it recalculates local CII state.
 const CII_CONFLICT_ACTIVITY_CAP = 70;

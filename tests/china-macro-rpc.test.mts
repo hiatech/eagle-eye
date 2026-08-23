@@ -2,7 +2,7 @@ import { afterEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { getChinaMacroSnapshot } from '../server/worldmonitor/economic/v1/get-china-macro-snapshot';
+import { getChinaMacroSnapshot } from '../server/eagleeye/economic/v1/get-china-macro-snapshot';
 import { normalizeHydratedChina } from '../src/components/macro-tiles-china';
 import { parseNbsIndustrialRelease } from '../scripts/china-macro/adapters.mjs';
 import {

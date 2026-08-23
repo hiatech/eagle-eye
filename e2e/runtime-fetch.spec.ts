@@ -53,8 +53,8 @@ test.describe('desktop runtime routing guardrails', () => {
           hasTauriGlobals: false,
           userAgent: 'Mozilla/5.0',
           locationProtocol: 'https:',
-          locationHost: 'worldmonitor.app',
-          locationOrigin: 'https://worldmonitor.app',
+          locationHost: 'eagle-eye.app',
+          locationOrigin: 'https://eagle-eye.app',
         }),
       };
     });
@@ -95,10 +95,10 @@ test.describe('desktop runtime routing guardrails', () => {
 
         calls.push(url);
 
-        if (url.includes('worldmonitor.app/api/fred-data')) {
+        if (url.includes('eagle-eye.app/api/fred-data')) {
           return responseJson({ observations: [{ value: '321.5' }] }, 200);
         }
-        if (url.includes('worldmonitor.app/api/stablecoin-markets')) {
+        if (url.includes('eagle-eye.app/api/stablecoin-markets')) {
           return responseJson({ stablecoins: [{ symbol: 'USDT' }] }, 200);
         }
 
@@ -124,7 +124,7 @@ test.describe('desktop runtime routing guardrails', () => {
       delete globalWindow.__wmFetchPatched;
 
       // Set a valid WM API key so cloud fallback is allowed
-      await runtimeConfig.setSecretValue('WORLDMONITOR_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, 'wm_test_key_1234567890abcdef');
+      await runtimeConfig.setSecretValue('EAGLEEYE_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, 'wm_test_key_1234567890abcdef');
 
       try {
         runtime.installRuntimeFetchPatch();
@@ -151,7 +151,7 @@ test.describe('desktop runtime routing guardrails', () => {
         } else {
           globalWindow.__TAURI__ = previousTauri;
         }
-        await runtimeConfig.setSecretValue('WORLDMONITOR_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, '');
+        await runtimeConfig.setSecretValue('EAGLEEYE_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, '');
       }
     });
 
@@ -160,8 +160,8 @@ test.describe('desktop runtime routing guardrails', () => {
     expect(result.stableStatus).toBe(200);
     expect(result.stableSymbol).toBe('USDT');
 
-    expect(result.calls.some((url) => url.includes('worldmonitor.app/api/fred-data'))).toBe(true);
-    expect(result.calls.some((url) => url.includes('worldmonitor.app/api/stablecoin-markets'))).toBe(true);
+    expect(result.calls.some((url) => url.includes('eagle-eye.app/api/fred-data'))).toBe(true);
+    expect(result.calls.some((url) => url.includes('eagle-eye.app/api/stablecoin-markets'))).toBe(true);
     expect(result.proxiedPaths.some((path) => path.startsWith('/api/fred-data'))).toBe(true);
     expect(result.proxiedPaths.some((path) => path.startsWith('/api/stablecoin-markets'))).toBe(true);
   });
@@ -237,8 +237,8 @@ test.describe('desktop runtime routing guardrails', () => {
     expect(result.validateError).toContain('native proxy rejected /api/local-validate-secret');
     expect(result.proxiedPaths).toContain('/api/local-env-update');
     expect(result.proxiedPaths).toContain('/api/local-validate-secret');
-    expect(result.calls.some((url) => url.includes('worldmonitor.app/api/local-env-update'))).toBe(false);
-    expect(result.calls.some((url) => url.includes('worldmonitor.app/api/local-validate-secret'))).toBe(false);
+    expect(result.calls.some((url) => url.includes('eagle-eye.app/api/local-env-update'))).toBe(false);
+    expect(result.calls.some((url) => url.includes('eagle-eye.app/api/local-validate-secret'))).toBe(false);
   });
 
   test('runtime fetch patch preserves Request abort signals', async ({ page }) => {
@@ -428,12 +428,12 @@ test.describe('desktop runtime routing guardrails', () => {
     // No `variant` under the one-binary model (#5908): one published binary, so
     // OS/arch fully determines the asset. Host and platform id below match what
     // the updater actually emits — the previous expectations asserted
-    // `worldmonitor.app` and `windows-exe` while the code had long produced
-    // `api.worldmonitor.app` and `windows-msi`; this spec is in no workflow, so
+    // `eagle-eye.app` and `windows-exe` while the code had long produced
+    // `api.eagle-eye.app` and `windows-msi`; this spec is in no workflow, so
     // nothing caught the drift.
-    expect(result.macArm).toBe('https://api.worldmonitor.app/api/download?platform=macos-arm64');
-    expect(result.windowsX64).toBe('https://api.worldmonitor.app/api/download?platform=windows-msi');
-    expect(result.linuxX64).toBe('https://api.worldmonitor.app/api/download?platform=linux-appimage');
+    expect(result.macArm).toBe('https://api.eagle-eye.app/api/download?platform=macos-arm64');
+    expect(result.windowsX64).toBe('https://api.eagle-eye.app/api/download?platform=windows-msi');
+    expect(result.linuxX64).toBe('https://api.eagle-eye.app/api/download?platform=linux-appimage');
     expect(result.probeFailureFallback).toBe('https://github.com/koala73/worldmonitor/releases/latest');
   });
 
@@ -1654,7 +1654,7 @@ test.describe('desktop runtime routing guardrails', () => {
     expect(result.hasIso3Field).toBe(false);
   });
 
-  test('cloud fallback blocked without WorldMonitor API key', async ({ page }) => {
+  test('cloud fallback blocked without EagleEye API key', async ({ page }) => {
     await page.goto('/tests/runtime-harness.html');
 
     const result = await page.evaluate(async () => {
@@ -1680,7 +1680,7 @@ test.describe('desktop runtime routing guardrails', () => {
 
         calls.push(url);
 
-        if (url.includes('worldmonitor.app/api/fred-data')) {
+        if (url.includes('eagle-eye.app/api/fred-data')) {
           return responseJson({ observations: [{ value: '999' }] }, 200);
         }
         return responseJson({ ok: true }, 200);
@@ -1710,7 +1710,7 @@ test.describe('desktop runtime routing guardrails', () => {
           fetchError = err instanceof Error ? err.message : String(err);
         }
 
-        const cloudCalls = calls.filter(u => u.includes('worldmonitor.app'));
+        const cloudCalls = calls.filter(u => u.includes('eagle-eye.app'));
 
         return {
           fetchError,
@@ -1733,7 +1733,7 @@ test.describe('desktop runtime routing guardrails', () => {
     expect(result.localCalls).toBeGreaterThan(0);
   });
 
-  test('cloud fallback allowed with valid WorldMonitor API key', async ({ page }) => {
+  test('cloud fallback allowed with valid EagleEye API key', async ({ page }) => {
     await page.goto('/tests/runtime-harness.html');
 
     const result = await page.evaluate(async () => {
@@ -1761,13 +1761,13 @@ test.describe('desktop runtime routing guardrails', () => {
 
         calls.push(url);
 
-        if (url.includes('worldmonitor.app') && init?.headers) {
+        if (url.includes('eagle-eye.app') && init?.headers) {
           const h = new Headers(init.headers);
-          const wmKey = h.get('X-WorldMonitor-Key');
-          if (wmKey) capturedHeaders['X-WorldMonitor-Key'] = wmKey;
+          const wmKey = h.get('X-EagleEye-Key');
+          if (wmKey) capturedHeaders['X-EagleEye-Key'] = wmKey;
         }
 
-        if (url.includes('worldmonitor.app/api/market/v1/test')) {
+        if (url.includes('eagle-eye.app/api/market/v1/test')) {
           return responseJson({ quotes: [] }, 200);
         }
         return responseJson({ ok: true }, 200);
@@ -1788,7 +1788,7 @@ test.describe('desktop runtime routing guardrails', () => {
       delete globalWindow.__wmFetchPatched;
 
       const testKey = 'wm_test_key_1234567890abcdef';
-      await runtimeConfig.setSecretValue('WORLDMONITOR_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, testKey);
+      await runtimeConfig.setSecretValue('EAGLEEYE_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, testKey);
 
       try {
         runtime.installRuntimeFetchPatch();
@@ -1799,8 +1799,8 @@ test.describe('desktop runtime routing guardrails', () => {
         return {
           status: response.status,
           hasQuotes: Array.isArray(body.quotes),
-          cloudCalls: calls.filter(u => u.includes('worldmonitor.app')).length,
-          wmKeyHeader: capturedHeaders['X-WorldMonitor-Key'] || null,
+          cloudCalls: calls.filter(u => u.includes('eagle-eye.app')).length,
+          wmKeyHeader: capturedHeaders['X-EagleEye-Key'] || null,
           proxiedPaths,
         };
       } finally {
@@ -1811,7 +1811,7 @@ test.describe('desktop runtime routing guardrails', () => {
         } else {
           globalWindow.__TAURI__ = previousTauri;
         }
-        await runtimeConfig.setSecretValue('WORLDMONITOR_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, '');
+        await runtimeConfig.setSecretValue('EAGLEEYE_API_KEY' as import('/src/services/runtime-config.ts').RuntimeSecretKey, '');
       }
     });
 

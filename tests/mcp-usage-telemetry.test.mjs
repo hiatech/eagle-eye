@@ -43,7 +43,7 @@ describe('api/mcp — usage telemetry (#4866)', () => {
   let mcpHandler;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'wm_env_key_1';
+    process.env.EAGLEEYE_VALID_KEYS = 'wm_env_key_1';
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;
@@ -90,7 +90,7 @@ describe('api/mcp — usage telemetry (#4866)', () => {
     const events = captureAxiom();
     const { ctx, settle } = makeCtx();
     const res = await mcpHandler(
-      new Request(BASE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': 'wm_bogus_key' }, body: JSON.stringify(callBody('describe_tool', { tool_name: 'get_market_data' })) }),
+      new Request(BASE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': 'wm_bogus_key' }, body: JSON.stringify(callBody('describe_tool', { tool_name: 'get_market_data' })) }),
       deps,
       ctx,
     );
@@ -126,7 +126,7 @@ describe('api/mcp — usage telemetry (#4866)', () => {
     const events = captureAxiom();
     const { ctx, settle } = makeCtx();
     const res = await mcpHandler(
-      new Request(BASE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': USER_KEY }, body: JSON.stringify(callBody('describe_tool', { tool_name: 'get_market_data' })) }),
+      new Request(BASE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': USER_KEY }, body: JSON.stringify(callBody('describe_tool', { tool_name: 'get_market_data' })) }),
       deps,
       ctx,
     );

@@ -366,7 +366,7 @@ describe('resilience validation artifacts', () => {
     if (postFlipRankingFiles.length === 0) {
       assert.match(
         runbook,
-        /WORLDMONITOR_API_KEY[\s\S]*get-resilience-score[\s\S]*Pro authentication required/,
+        /EAGLEEYE_API_KEY[\s\S]*get-resilience-score[\s\S]*Pro authentication required/,
         'runbook must explain that the post-flip ranking artifact requires a Pro/API key for score-anchor verification.',
       );
       assert.ok(
@@ -446,7 +446,7 @@ describe('resilience validation artifacts', () => {
 
     const artifact = buildAcceptanceArtifact({
       generatedAt: '2026-06-03T12:00:00.000Z',
-      baseUrl: 'https://www.worldmonitor.app',
+      baseUrl: 'https://www.eagle-eye.app',
       baselineSnapshotPath: resolve(snapshotDir, 'resilience-ranking-live-pre-repair-2026-04-22.json'),
       baselineSnapshot,
       postFlipSnapshotPath: resolve(snapshotDir, 'resilience-ranking-live-post-pr1-2026-06-03.json'),
@@ -616,7 +616,7 @@ describe('resilience validation artifacts', () => {
     const message = formatMissingPostFlipRankingSnapshotMessage();
 
     assert.match(message, /resilience-ranking-live-post-pr1-YYYY-MM-DD\.json/);
-    assert.match(message, /WORLDMONITOR_API_KEY=<pro-api-key>/);
+    assert.match(message, /EAGLEEYE_API_KEY=<pro-api-key>/);
     assert.match(message, /node scripts\/freeze-resilience-ranking\.mjs/);
     assert.match(message, /RESILIENCE_RANKING_OUTPUT_BASENAME=resilience-ranking-live-post-pr1-YYYY-MM-DD\.json/);
     assert.match(message, /\[freeze-resilience-ranking\] wrote .*resilience-ranking-live-post-pr1-YYYY-MM-DD\.json/);
@@ -667,7 +667,7 @@ describe('resilience validation artifacts', () => {
         (err: unknown) => {
           assert.ok(err instanceof Error);
           assert.match(err.message, /resilience-ranking-live-post-pr1-YYYY-MM-DD\.json/);
-          assert.match(err.message, /WORLDMONITOR_API_KEY=<pro-api-key>/);
+          assert.match(err.message, /EAGLEEYE_API_KEY=<pro-api-key>/);
           assert.match(err.message, /HTTP 401[\s\S]*get-resilience-score[\s\S]*Pro authentication required/);
           assert.match(err.message, /gate-7-matched-pair[\s\S]*do not commit a synthetic artifact/);
           return true;

@@ -16,7 +16,7 @@ import {
   TIER_MAX_AGE_MS,
 } from './src/kv-shadow.js';
 
-const BOOT_URL = 'https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1';
+const BOOT_URL = 'https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1';
 const freshEnvelope = (tier = 'fast', ageMs = 0) =>
   JSON.stringify({ tier, generatedAt: Date.now() - ageMs, payload: { data: {}, missing: [] } });
 
@@ -46,7 +46,7 @@ function makeCtx() {
   const waits = [];
   return { ctx: { waitUntil: (p) => waits.push(p) }, waits };
 }
-const bootReq = () => new Request(BOOT_URL, { method: 'GET', headers: { Origin: 'https://worldmonitor.app' } });
+const bootReq = () => new Request(BOOT_URL, { method: 'GET', headers: { Origin: 'https://eagle-eye.app' } });
 
 test('CORS response is byte-identical whether the KV shadow is on or off', async () => {
   __resetKvShadowForTests();
@@ -88,7 +88,7 @@ test('a non-bootstrap request never probes KV', async () => {
   const env = makeEnv({ kvValue: freshEnvelope() });
   env.BOOTSTRAP_KV.get = async () => { probed = true; return null; };
   const { ctx, waits } = makeCtx();
-  maybeShadowKvRead(new Request('https://api.worldmonitor.app/api/health'), new URL('https://api.worldmonitor.app/api/health'), env, ctx);
+  maybeShadowKvRead(new Request('https://api.eagle-eye.app/api/health'), new URL('https://api.eagle-eye.app/api/health'), env, ctx);
   await Promise.all(waits);
   assert.equal(probed, false);
 });
@@ -111,7 +111,7 @@ test('emits an allowlisted event with outcome kv on a fresh value', async () => 
     assert.equal(typeof event.kv_duration_ms, 'number');
     assert.equal(event.cf_colo, 'SIN');
     assert.equal(event.cf_country, 'SG');
-    assert.equal(requestInit.headers['User-Agent'], 'WorldMonitor Bootstrap KV Shadow/1.0');
+    assert.equal(requestInit.headers['User-Agent'], 'EagleEye Bootstrap KV Shadow/1.0');
     // Privacy: EXACTLY the allowlist (+ _time). No ip/user_agent/customer_id/etc. can appear.
     assert.deepEqual(
       Object.keys(event).sort(),
@@ -161,12 +161,12 @@ test('execution_cold is a boolean and a consecutive probe is warm', async () => 
 test('bootstrapTierFromPublicRequest mirrors the public-tier contract', () => {
   const tier = (u, method = 'GET') => bootstrapTierFromPublicRequest({ method }, new URL(u));
   assert.equal(tier(BOOT_URL), 'fast');
-  assert.equal(tier('https://api.worldmonitor.app/api/bootstrap?tier=slow&public=1'), 'slow');
+  assert.equal(tier('https://api.eagle-eye.app/api/bootstrap?tier=slow&public=1'), 'slow');
   assert.equal(tier(BOOT_URL, 'POST'), null, 'non-GET');
-  assert.equal(tier('https://api.worldmonitor.app/api/bootstrap?tier=fast'), null, 'no public=1');
-  assert.equal(tier('https://api.worldmonitor.app/api/bootstrap?tier=bogus&public=1'), null, 'unknown tier');
-  assert.equal(tier('https://api.worldmonitor.app/api/bootstrap?tier=fast&public=1&x=1'), null, 'extra param');
-  assert.equal(tier('https://api.worldmonitor.app/api/other?tier=fast&public=1'), null, 'wrong path');
+  assert.equal(tier('https://api.eagle-eye.app/api/bootstrap?tier=fast'), null, 'no public=1');
+  assert.equal(tier('https://api.eagle-eye.app/api/bootstrap?tier=bogus&public=1'), null, 'unknown tier');
+  assert.equal(tier('https://api.eagle-eye.app/api/bootstrap?tier=fast&public=1&x=1'), null, 'extra param');
+  assert.equal(tier('https://api.eagle-eye.app/api/other?tier=fast&public=1'), null, 'wrong path');
 });
 
 test('Axiom delivery failures produce bounded operator-visible warnings', async () => {

@@ -16,25 +16,25 @@ const posts = (await getCollection('blog')).sort(
 // WebP covers high-DPI ones.
 
 const DEFAULT_AUTHOR = 'Elie Habib';
-const DEFAULT_AUTHOR_URL = 'https://www.worldmonitor.app/blog/authors/elie-habib/';
+const DEFAULT_AUTHOR_URL = 'https://www.eagle-eye.app/blog/authors/elie-habib/';
 const DEFAULT_AUTHOR_ID = `${DEFAULT_AUTHOR_URL}#person`;
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  "@id": "https://www.worldmonitor.app/blog/#blog",
-  "name": "World Monitor Blog",
-  "description": "Evidence-led analysis and practical guides on real-time global intelligence, OSINT, geopolitics, markets, and the open-source tools behind World Monitor.",
-  "url": "https://www.worldmonitor.app/blog/",
+  "@id": "https://www.eagle-eye.app/blog/#blog",
+  "name": "Eagle Eye Blog",
+  "description": "Evidence-led analysis and practical guides on real-time global intelligence, OSINT, geopolitics, markets, and the open-source tools behind Eagle Eye.",
+  "url": "https://www.eagle-eye.app/blog/",
   "inLanguage": "en-US",
   "publisher": {
     "@type": "Organization",
-    "@id": "https://www.worldmonitor.app/#organization",
-    "name": "World Monitor",
-    "url": "https://www.worldmonitor.app",
+    "@id": "https://www.eagle-eye.app/#organization",
+    "name": "Eagle Eye",
+    "url": "https://www.eagle-eye.app",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://www.worldmonitor.app/favico/apple-touch-icon.png"
+      "url": "https://www.eagle-eye.app/favico/apple-touch-icon.png"
     }
   },
   "blogPost": posts.map(post => {
@@ -43,7 +43,7 @@ const jsonLd = {
 
     return {
       "@type": "BlogPosting",
-      "@id": `https://www.worldmonitor.app/blog/posts/${post.id}/#article`,
+      "@id": `https://www.eagle-eye.app/blog/posts/${post.id}/#article`,
       "headline": post.data.title,
       "description": post.data.description,
       "datePublished": post.data.pubDate.toISOString(),
@@ -54,17 +54,17 @@ const jsonLd = {
         ...(authorUrl ? { "url": authorUrl } : {}),
         ...(authorName === DEFAULT_AUTHOR ? { "@id": DEFAULT_AUTHOR_ID } : {})
       },
-      "url": `https://www.worldmonitor.app/blog/posts/${post.id}/`,
-      "image": post.data.heroImage ? `https://www.worldmonitor.app${post.data.heroImage}` : "https://www.worldmonitor.app/favico/og-image.png"
+      "url": `https://www.eagle-eye.app/blog/posts/${post.id}/`,
+      "image": post.data.heroImage ? `https://www.eagle-eye.app${post.data.heroImage}` : "https://www.eagle-eye.app/favico/og-image.png"
     };
   })
 };
 ---
 
 <Base
-  title="World Monitor Blog"
-  description="Evidence-led analysis and practical guides on real-time global intelligence, OSINT, geopolitics, markets, and the open-source tools behind World Monitor."
-  metaTitle="World Monitor Blog | Intelligence & OSINT"
+  title="Eagle Eye Blog"
+  description="Evidence-led analysis and practical guides on real-time global intelligence, OSINT, geopolitics, markets, and the open-source tools behind Eagle Eye."
+  metaTitle="Eagle Eye Blog | Intelligence & OSINT"
   jsonLd={jsonLd}
 >
   <div class="blog-hero">
@@ -74,7 +74,7 @@ const jsonLd = {
     </div>
     <h1>Noise<span class="green">.</span>Signal<span class="green">.</span>Blog</h1>
     <p class="subtitle">
-      Analysis, guides, and deep dives on real-time intelligence, OSINT, geopolitics, markets, and the open-source tools behind World Monitor.
+      Analysis, guides, and deep dives on real-time intelligence, OSINT, geopolitics, markets, and the open-source tools behind Eagle Eye.
     </p>
   </div>
   <div class="blog-list">

@@ -12,7 +12,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { decodeRssBody } from '../server/worldmonitor/news/v1/list-feed-digest';
+import { decodeRssBody } from '../server/eagleeye/news/v1/list-feed-digest';
 
 /** Encode a string as ISO-8859-1 bytes (each code point < 256 → one byte). */
 function latin1Bytes(text: string): ArrayBuffer {

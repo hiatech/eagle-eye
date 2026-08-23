@@ -42,7 +42,7 @@ const searchRows = (metrics) => ({
       ],
       pageRows: [
         {
-          page: 'https://www.worldmonitor.app/',
+          page: 'https://www.eagle-eye.app/',
           clicks: 4,
           impressions: 20,
           ctr: 0.2,
@@ -64,7 +64,7 @@ const searchRows = (metrics) => ({
 
 const bingPerformance = ({
   includeDetailArrays = true,
-  firstCitedUrl = 'https://www.worldmonitor.app/docs/api-reference',
+  firstCitedUrl = 'https://www.eagle-eye.app/docs/api-reference',
 } = {}) => ({
   status: 'available',
   windows: [
@@ -255,7 +255,7 @@ describe('SEO/AI visibility collector', () => {
             { phrase: 'geopolitical risk API', citationCount: 3 },
           ],
           citedPages: [
-            { url: 'https://www.worldmonitor.app/docs/api-reference', citationCount: 4 },
+            { url: 'https://www.eagle-eye.app/docs/api-reference', citationCount: 4 },
           ],
         },
         {
@@ -276,7 +276,7 @@ describe('SEO/AI visibility collector', () => {
     ]);
     assert.deepEqual(normalized.windows[0].citedPages, [
       {
-        url: 'https://www.worldmonitor.app/docs/api-reference',
+        url: 'https://www.eagle-eye.app/docs/api-reference',
         citationCount: 4,
       },
     ]);
@@ -302,17 +302,17 @@ describe('SEO/AI visibility collector', () => {
 
   it('rejects cited URL credentials and stores canonical credential-free URLs', () => {
     const canonical = normalizeBingAiPerformance(
-      bingPerformance({ firstCitedUrl: 'https://WWW.worldmonitor.app/docs/api-reference?view=1' }),
+      bingPerformance({ firstCitedUrl: 'https://WWW.eagle-eye.app/docs/api-reference?view=1' }),
       { observedAt },
     );
     assert.equal(
       canonical.windows[0].citedPages[0].url,
-      'https://www.worldmonitor.app/docs/api-reference?view=1',
+      'https://www.eagle-eye.app/docs/api-reference?view=1',
     );
 
     assert.throws(
       () => normalizeBingAiPerformance(
-        bingPerformance({ firstCitedUrl: 'https://operator:secret@www.worldmonitor.app/docs/api-reference' }),
+        bingPerformance({ firstCitedUrl: 'https://operator:secret@www.eagle-eye.app/docs/api-reference' }),
         { observedAt },
       ),
       /must not contain credentials/,

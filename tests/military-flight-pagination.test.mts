@@ -82,7 +82,7 @@ async function loadMilitaryService(
   );
   patched = replaceRequired(
     patched,
-    "import type { MilitaryFlight as ProtoMilitaryFlight, MilitaryAircraftType as ProtoMilitaryAircraftType, MilitaryOperator as ProtoMilitaryOperator } from '@/generated/client/worldmonitor/military/v1/service_client';",
+    "import type { MilitaryFlight as ProtoMilitaryFlight, MilitaryAircraftType as ProtoMilitaryAircraftType, MilitaryOperator as ProtoMilitaryOperator } from '@/generated/client/eagleeye/military/v1/service_client';",
     'type ProtoMilitaryFlight = any; type ProtoMilitaryAircraftType = any; type ProtoMilitaryOperator = any;',
     'generated military types',
   );

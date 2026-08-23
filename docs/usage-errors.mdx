@@ -1,6 +1,6 @@
 ---
 title: "Errors"
-description: "Standard World Monitor API error shape, common HTTP status codes, JSON-RPC error envelopes, and safe retry strategies for transient failures."
+description: "Standard Eagle Eye API error shape, common HTTP status codes, JSON-RPC error envelopes, and safe retry strategies for transient failures."
 ---
 
 ## Error shape
@@ -96,6 +96,6 @@ For mutations this avoids duplicating the side effect, including async enqueues 
 
 ## Debugging
 
-- Every edge response includes `x-vercel-id` and `x-worldmonitor-deploy` headers — include those when reporting issues.
-- Sentry alerts forward to [status.worldmonitor.app](https://status.worldmonitor.app/).
+- Every edge response includes `x-vercel-id` and `x-eagleeye-deploy` headers — include those when reporting issues.
+- Sentry alerts forward to [status.eagle-eye.app](https://status.eagle-eye.app/).
 - `GET /api/health` and `GET /api/seed-health` show per-seed freshness; a stale seed is the most common root cause of unexpected empty payloads.

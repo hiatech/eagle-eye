@@ -13,7 +13,7 @@ export const MIN_MARKET_COMPLETION_RATIO = 0.5;
 /**
  * Coverage-schema activation handshake (#6059).
  *
- * WorldMonitor's Edge health registry (api/health.js) ships the moment a PR
+ * EagleEye's Edge health registry (api/health.js) ships the moment a PR
  * merges, but these coverage keys only exist after the next daily
  * scrape→aggregate→publish window. Health softens that gap to a bounded
  * `ROLLOUT_PENDING` warn and revokes the softening permanently the instant this

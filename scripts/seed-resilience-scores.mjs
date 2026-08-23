@@ -18,23 +18,23 @@ import {
 
 loadEnvFile(import.meta.url);
 
-const API_BASE = process.env.API_BASE_URL || 'https://api.worldmonitor.app';
+const API_BASE = process.env.API_BASE_URL || 'https://api.eagle-eye.app';
 // Normal premium reads/warmups use the standard API key allowlist.
-const WM_KEY = process.env.WORLDMONITOR_API_KEY
-  || (process.env.WORLDMONITOR_VALID_KEYS ?? '').split(',').map((k) => k.trim()).filter(Boolean)[0]
+const WM_KEY = process.env.EAGLEEYE_API_KEY
+  || (process.env.EAGLEEYE_VALID_KEYS ?? '').split(',').map((k) => k.trim()).filter(Boolean)[0]
   || '';
 // Ranking ?refresh=1 is intentionally stronger than a normal premium read:
 // only this seed-only secret can force the expensive recompute path.
-const WM_REFRESH_KEY = process.env.WORLDMONITOR_SEED_REFRESH_KEY?.trim() || '';
-const SEED_UA = 'Mozilla/5.0 (compatible; WorldMonitor-Seed/1.0)';
+const WM_REFRESH_KEY = process.env.EAGLEEYE_SEED_REFRESH_KEY?.trim() || '';
+const SEED_UA = 'Mozilla/5.0 (compatible; EagleEye-Seed/1.0)';
 const NEG_SENTINEL = '__WM_NEG__';
 
 function requireSeedRefreshKey() {
   if (WM_REFRESH_KEY) return;
-  throw new Error('WORLDMONITOR_SEED_REFRESH_KEY is required for resilience ranking refresh');
+  throw new Error('EAGLEEYE_SEED_REFRESH_KEY is required for resilience ranking refresh');
 }
 
-// Bumped v13 → v14 in lockstep with server/worldmonitor/resilience/v1/
+// Bumped v13 → v14 in lockstep with server/eagleeye/resilience/v1/
 // _shared.ts for plan 2026-04-25-004 Phase 2 (Ship 2) — adds the new
 // `financialSystemExposure` dim to the headline score; v13 entries lack
 // the new dim's contribution so caching them post-deploy would surface
@@ -399,7 +399,7 @@ async function seedResilienceScores() {
       // WM_KEY is absent) would recover. Forcing a recompute routes the call
       // through warmMissingResilienceScores and its chunked pipeline SET.
       const headers = { 'User-Agent': SEED_UA, 'Accept': 'application/json' };
-      if (WM_REFRESH_KEY) headers['X-WorldMonitor-Key'] = WM_REFRESH_KEY;
+      if (WM_REFRESH_KEY) headers['X-EagleEye-Key'] = WM_REFRESH_KEY;
       const resp = await fetch(`${API_BASE}/api/resilience/v1/get-resilience-ranking?refresh=1`, {
         headers,
         signal: AbortSignal.timeout(60_000),
@@ -426,7 +426,7 @@ async function seedResilienceScores() {
 
     // Warm laggards individually (countries the bulk ranking timed out on)
     if (stillMissing.length > 0 && !WM_KEY) {
-      console.warn(`[resilience-scores] ${stillMissing.length} laggards found but neither WORLDMONITOR_API_KEY nor WORLDMONITOR_VALID_KEYS is set — skipping individual warmup`);
+      console.warn(`[resilience-scores] ${stillMissing.length} laggards found but neither EAGLEEYE_API_KEY nor EAGLEEYE_VALID_KEYS is set — skipping individual warmup`);
     }
     let laggardsWarmed = 0;
     if (stillMissing.length > 0 && WM_KEY) {
@@ -437,7 +437,7 @@ async function seedResilienceScores() {
         const results = await Promise.allSettled(batch.map(async (cc) => {
           const scoreUrl = `${API_BASE}/api/resilience/v1/get-resilience-score?countryCode=${cc}`;
           const resp = await fetch(scoreUrl, {
-            headers: { 'User-Agent': SEED_UA, 'Accept': 'application/json', 'X-WorldMonitor-Key': WM_KEY },
+            headers: { 'User-Agent': SEED_UA, 'Accept': 'application/json', 'X-EagleEye-Key': WM_KEY },
             signal: AbortSignal.timeout(30_000),
           });
           if (!resp.ok) throw new Error(`${cc}: HTTP ${resp.status}`);
@@ -527,7 +527,7 @@ async function refreshRankingAggregate({ url, token, laggardsWarmed }) {
     // flow where a failed rebuild would leave the ranking absent instead of
     // stale-but-present.
     const rebuildHeaders = { 'User-Agent': SEED_UA, 'Accept': 'application/json' };
-    if (WM_REFRESH_KEY) rebuildHeaders['X-WorldMonitor-Key'] = WM_REFRESH_KEY;
+    if (WM_REFRESH_KEY) rebuildHeaders['X-EagleEye-Key'] = WM_REFRESH_KEY;
     const rebuildResp = await fetch(`${API_BASE}/api/resilience/v1/get-resilience-ranking?refresh=1`, {
       headers: rebuildHeaders,
       signal: AbortSignal.timeout(60_000),

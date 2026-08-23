@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { GetCableHealthResponse, CableHealthRecord as ProtoCableHealthRecord } from '@/generated/client/worldmonitor/infrastructure/v1/service_client';
+import type { GetCableHealthResponse, CableHealthRecord as ProtoCableHealthRecord } from '@/generated/client/eagleeye/infrastructure/v1/service_client';
 import type { CableHealthRecord, CableHealthResponse, CableHealthStatus } from '@/types';
 import { createCircuitBreaker } from '@/utils';
 import { InfrastructureServiceClient } from '@/services/generated-rpc-clients';

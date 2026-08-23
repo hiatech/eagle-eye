@@ -252,7 +252,7 @@ export function migrateDisabledFeedsV2(
   data: Record<string, unknown>,
   feedsByCategory: FeedsByCategory,
 ): Record<string, unknown> {
-  const raw = data['worldmonitor-disabled-feeds'];
+  const raw = data['eagleeye-disabled-feeds'];
   if (typeof raw !== 'string') return data;
   let parsed: unknown;
   try { parsed = JSON.parse(raw); } catch { return data; }
@@ -269,7 +269,7 @@ export function migrateDisabledFeedsV2(
   console.log(
     `[cloud-prefs] schema-2 migration: re-enabled ${recoverable.length} source(s) from fully-disabled categories`,
   );
-  return { ...data, 'worldmonitor-disabled-feeds': JSON.stringify(cleaned) };
+  return { ...data, 'eagleeye-disabled-feeds': JSON.stringify(cleaned) };
 }
 
 function hasExactStringSet(values: unknown[], expected: ReadonlySet<string>): boolean {
@@ -308,7 +308,7 @@ export function migrateFrontlineEuropeDefaultsV3(
     (legacyDefaultDisabled.size === 0 && legacyCapDisabled.size === 0)
     || frontlineNames.size === 0
   ) return data;
-  const raw = data['worldmonitor-disabled-feeds'];
+  const raw = data['eagleeye-disabled-feeds'];
   if (typeof raw !== 'string') return data;
 
   let parsed: unknown;
@@ -326,7 +326,7 @@ export function migrateFrontlineEuropeDefaultsV3(
   console.log(
     `[prefs] schema-3 migration: re-enabled ${parsed.length - cleaned.length} frontline source(s) from an untouched legacy default/cap state`,
   );
-  return { ...data, 'worldmonitor-disabled-feeds': JSON.stringify(cleaned) };
+  return { ...data, 'eagleeye-disabled-feeds': JSON.stringify(cleaned) };
 }
 
 /**
@@ -352,7 +352,7 @@ export function migrateStrategicDefaultsV4(
     ...additionalLegacyDisabledStates,
   ].filter((state) => state.size > 0);
   if (recognizedStates.length === 0 || strategicDefaultNames.size === 0) return data;
-  const raw = data['worldmonitor-disabled-feeds'];
+  const raw = data['eagleeye-disabled-feeds'];
   if (typeof raw !== 'string') return data;
 
   let parsed: unknown;
@@ -370,7 +370,7 @@ export function migrateStrategicDefaultsV4(
   console.log(
     `[prefs] schema-4 migration: re-enabled ${parsed.length - cleaned.length} strategic default source(s) from an untouched legacy default/cap state`,
   );
-  return { ...data, 'worldmonitor-disabled-feeds': JSON.stringify(cleaned) };
+  return { ...data, 'eagleeye-disabled-feeds': JSON.stringify(cleaned) };
 }
 
 interface RegionalFeedRolloutMigrationAnalysis {
@@ -385,7 +385,7 @@ function analyzeRegionalFeedRolloutMigration(
 ): RegionalFeedRolloutMigrationAnalysis | null {
   if (targets.length === 0) return null;
 
-  const raw = data['worldmonitor-disabled-feeds'];
+  const raw = data['eagleeye-disabled-feeds'];
   if (typeof raw !== 'string') return null;
 
   let parsed: unknown;
@@ -451,7 +451,7 @@ export function migrateRegionalFeedRolloutDefaultsV5(
   // preserve the row rather than guessing and overwriting user intent.
   if (analysis.candidateKeys.size !== 1) return data;
 
-  const raw = data['worldmonitor-disabled-feeds'] as string;
+  const raw = data['eagleeye-disabled-feeds'] as string;
   const reconciled = analysis.candidates[0]!;
   if (JSON.stringify(reconciled) === raw) return data;
 
@@ -459,7 +459,7 @@ export function migrateRegionalFeedRolloutDefaultsV5(
   console.log(
     `[prefs] schema-5 migration: reconciled ${target.defaultNames.size} rollout default(s) and ${target.optInNames.size} opt-in source(s) for an untouched profile`,
   );
-  return { ...data, 'worldmonitor-disabled-feeds': JSON.stringify(reconciled) };
+  return { ...data, 'eagleeye-disabled-feeds': JSON.stringify(reconciled) };
 }
 
 /**
@@ -475,7 +475,7 @@ export function migrateCanadaArcticOptInsV6(
   data: Record<string, unknown>,
   optInSources: ReadonlyArray<string>,
 ): Record<string, unknown> {
-  const raw = data['worldmonitor-disabled-feeds'];
+  const raw = data['eagleeye-disabled-feeds'];
   if (typeof raw !== 'string') return data;
 
   let parsed: unknown;
@@ -496,5 +496,5 @@ export function migrateCanadaArcticOptInsV6(
   console.log(
     `[prefs] schema-6 migration: disabled ${updated.length - parsed.length} Canada/Arctic opt-in source(s)`,
   );
-  return { ...data, 'worldmonitor-disabled-feeds': JSON.stringify(updated) };
+  return { ...data, 'eagleeye-disabled-feeds': JSON.stringify(updated) };
 }

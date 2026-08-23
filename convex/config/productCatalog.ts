@@ -20,10 +20,10 @@
  * in PRODUCT_CATALOG; only deliberately public facts belong here.
  */
 export const PUBLIC_PRODUCT_METADATA = {
-  name: "World Monitor",
+  name: "Eagle Eye",
   lifecycle: "launched",
-  canonicalUrl: "https://www.worldmonitor.app/",
-  pricingUrl: "https://www.worldmonitor.app/pro#pricing",
+  canonicalUrl: "https://www.eagle-eye.app/",
+  pricingUrl: "https://www.eagle-eye.app/pro#pricing",
   primaryCtaLabel: "View Pro plans",
   currency: "USD",
   availability: "https://schema.org/InStock",

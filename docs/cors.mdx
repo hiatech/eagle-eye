@@ -1,6 +1,6 @@
 ---
 title: "CORS"
-description: "How cross-origin request protection works in World Monitor and what to do when adding new API endpoints — allowlists, preflights, and Worker gate."
+description: "How cross-origin request protection works in Eagle Eye and what to do when adding new API endpoints — allowlists, preflights, and Worker gate."
 ---
 
 ---
@@ -20,8 +20,8 @@ Both files use the same regex patterns:
 
 | Pattern | Matches |
 | --- | --- |
-| `(*.)?worldmonitor.app` | Production + subdomains (`tech.`, `finance.`, etc.) |
-| `worldmonitor-*-elie-*.vercel.app` | Vercel preview deploys |
+| `(*.)?eagle-eye.app` | Production + subdomains (`tech.`, `finance.`, etc.) |
+| `eagleeye-*-elie-*.vercel.app` | Vercel preview deploys |
 | `localhost:*` / `127.0.0.1:*` | Local development only when `NODE_ENV !== "production"` |
 | `tauri.localhost:*` / `*.tauri.localhost:*` | Desktop app (Tauri v2) |
 | `tauri://localhost` / `asset://localhost` | Desktop app (Tauri v2 asset protocol) |
@@ -82,12 +82,12 @@ Both implementations allow these request headers:
 
 - `Content-Type`
 - `Authorization`
-- `X-WorldMonitor-Key` (API key for desktop/third-party access). See [API Key Gating](/api-key-deployment) for key management details.
+- `X-EagleEye-Key` (API key for desktop/third-party access). See [API Key Gating](/api-key-deployment) for key management details.
 - `X-Api-Key`
 - `X-Widget-Key`
 - `X-Pro-Key`
-- `X-WorldMonitor-Desktop-Timestamp`
-- `X-WorldMonitor-Desktop-Signature`
+- `X-EagleEye-Desktop-Timestamp`
+- `X-EagleEye-Desktop-Signature`
 - `Mcp-Session-Id`
 - `MCP-Protocol-Version`
 - `Last-Event-ID`

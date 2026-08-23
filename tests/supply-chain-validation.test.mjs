@@ -19,11 +19,11 @@ const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
 
 function makeCtx(headers = {}, path = '/api/supply-chain/v1/get-country-products') {
-  const req = new Request(`https://worldmonitor.app${path}`, { method: 'GET', headers });
+  const req = new Request(`https://eagle-eye.app${path}`, { method: 'GET', headers });
   return { request: req, pathParams: {}, headers };
 }
 function proCtx(path) {
-  return makeCtx({ 'X-WorldMonitor-Key': 'pro-test-key' }, path);
+  return makeCtx({ 'X-EagleEye-Key': 'pro-test-key' }, path);
 }
 
 let getCountryProducts;
@@ -32,15 +32,15 @@ let ValidationError;
 
 describe('supply-chain handlers: input-shape validation returns 400, not empty-200', () => {
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'pro-test-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'pro-test-key';
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
 
-    const gcpMod = await import('../server/worldmonitor/supply-chain/v1/get-country-products.ts');
-    const gmscMod = await import('../server/worldmonitor/supply-chain/v1/get-multi-sector-cost-shock.ts');
+    const gcpMod = await import('../server/eagleeye/supply-chain/v1/get-country-products.ts');
+    const gmscMod = await import('../server/eagleeye/supply-chain/v1/get-multi-sector-cost-shock.ts');
     getCountryProducts = gcpMod.getCountryProducts;
     getMultiSectorCostShock = gmscMod.getMultiSectorCostShock;
-    const gen = await import('../src/generated/server/worldmonitor/supply_chain/v1/service_server.ts');
+    const gen = await import('../src/generated/server/eagleeye/supply_chain/v1/service_server.ts');
     ValidationError = gen.ValidationError;
   });
 
@@ -66,7 +66,7 @@ describe('supply-chain handlers: input-shape validation returns 400, not empty-2
     });
 
     it('PRO-gate deny on a well-formed iso2 still returns empty-200 (not 400) — intentional contract shift preserved', async () => {
-      // No X-WorldMonitor-Key header → isCallerPremium returns false.
+      // No X-EagleEye-Key header → isCallerPremium returns false.
       const res = await getCountryProducts(makeCtx({}, '/api/supply-chain/v1/get-country-products'), { iso2: 'SG' });
       assert.deepEqual(res, { iso2: 'SG', products: [], fetchedAt: '' });
     });

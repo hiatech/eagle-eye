@@ -12,7 +12,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { recentPeriod } from '../scripts/shared/comtrade-period.mjs';
-import { lazyFetchBilateralHs4 } from '../server/worldmonitor/supply-chain/v1/_bilateral-hs4-lazy.js';
+import { lazyFetchBilateralHs4 } from '../server/eagleeye/supply-chain/v1/_bilateral-hs4-lazy.js';
 
 const ORIGINAL_FETCH = globalThis.fetch;
 let fetchCalls: string[] = [];

@@ -132,10 +132,10 @@ describe('buildPublicBriefUrl', () => {
     const { url, hash } = await buildPublicBriefUrl({
       userId: 'user_abc',
       issueDate: '2026-04-18-0800',
-      baseUrl: 'https://worldmonitor.app',
+      baseUrl: 'https://eagle-eye.app',
       secret: SECRET_A,
     });
-    assert.match(url, /^https:\/\/worldmonitor\.app\/api\/brief\/public\/[A-Za-z0-9_-]{12}$/);
+    assert.match(url, /^https:\/\/eagle-eye\.app\/api\/brief\/public\/[A-Za-z0-9_-]{12}$/);
     assert.ok(url.endsWith(hash));
   });
 
@@ -143,7 +143,7 @@ describe('buildPublicBriefUrl', () => {
     const { url } = await buildPublicBriefUrl({
       userId: 'user_abc',
       issueDate: '2026-04-18-0800',
-      baseUrl: 'https://worldmonitor.app',
+      baseUrl: 'https://eagle-eye.app',
       secret: SECRET_A,
       refCode: 'ABC123',
     });
@@ -154,7 +154,7 @@ describe('buildPublicBriefUrl', () => {
     const { url } = await buildPublicBriefUrl({
       userId: 'user_abc',
       issueDate: '2026-04-18-0800',
-      baseUrl: 'https://worldmonitor.app',
+      baseUrl: 'https://eagle-eye.app',
       secret: SECRET_A,
       refCode: 'a b+c',
     });
@@ -165,11 +165,11 @@ describe('buildPublicBriefUrl', () => {
     const { url } = await buildPublicBriefUrl({
       userId: 'user_abc',
       issueDate: '2026-04-18-0800',
-      baseUrl: 'https://worldmonitor.app///',
+      baseUrl: 'https://eagle-eye.app///',
       secret: SECRET_A,
     });
-    assert.ok(url.startsWith('https://worldmonitor.app/api/brief/public/'));
-    assert.ok(!url.startsWith('https://worldmonitor.app///'));
+    assert.ok(url.startsWith('https://eagle-eye.app/api/brief/public/'));
+    assert.ok(!url.startsWith('https://eagle-eye.app///'));
   });
 });
 

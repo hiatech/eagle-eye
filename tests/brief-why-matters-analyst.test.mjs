@@ -92,7 +92,7 @@ async function invokeHandlerWithCachedEnvelope(
 
   try {
     const { default: handler } = await import('../api/internal/brief-why-matters.ts');
-    const request = new Request('https://worldmonitor.test/api/internal/brief-why-matters', {
+    const request = new Request('https://eagleeye.test/api/internal/brief-why-matters', {
       method: 'POST',
       headers: {
         Authorization: 'Bearer test-relay-secret',
@@ -419,7 +419,7 @@ describe('parseWhyMattersV2 — analyst output validator', () => {
 
   it('rejects raw forecast-probability disclosures but preserves ordinary sourced percentages', () => {
     const forecastLeak =
-      "WorldMonitor's internal forecast assigns an 84% probability to a Strait of Hormuz disruption, which would intensify regional shipping risk. " +
+      "EagleEye's internal forecast assigns an 84% probability to a Strait of Hormuz disruption, which would intensify regional shipping risk. " +
       'That projection is not a reader-facing fact and must fall through to the next generation layer.';
     const likelyLeak =
       'A disruption is 84% likely according to the forecast, creating an immediate risk of higher insurance costs across Gulf shipping routes. ' +
@@ -430,7 +430,7 @@ describe('parseWhyMattersV2 — analyst output validator', () => {
         description: 'Carriers are reviewing transit plans after new regional threats.',
         source: 'Reuters',
       },
-      privateForecasts: 'WorldMonitor disruption model: Strait closure remains 84% likely.',
+      privateForecasts: 'EagleEye disruption model: Strait closure remains 84% likely.',
     };
     assert.equal(parseWhyMattersV2(forecastLeak, provenance), null);
     assert.equal(parseWhyMattersV2(likelyLeak, provenance), null);
@@ -775,7 +775,7 @@ describe('endpoint validation contract', () => {
 describe('buildAnalystWhyMattersPrompt — shape and budget', () => {
   let builder;
   it('loads', async () => {
-    const mod = await import('../server/worldmonitor/intelligence/v1/brief-why-matters-prompt.ts');
+    const mod = await import('../server/eagleeye/intelligence/v1/brief-why-matters-prompt.ts');
     builder = mod.buildAnalystWhyMattersPrompt;
     assert.ok(typeof builder === 'function');
   });
@@ -869,7 +869,7 @@ describe('buildAnalystWhyMattersPrompt — shape and budget', () => {
       macroSignals: '',
       degraded: false,
     });
-    assert.doesNotMatch(user, /# Live WorldMonitor Context/);
+    assert.doesNotMatch(user, /# Live EagleEye Context/);
   });
 
   it('truncates context to stay under budget', () => {
@@ -905,7 +905,7 @@ describe('sectionsForCategory — structural relevance gating', () => {
   let sectionsForCategory;
   let builder;
   it('loads', async () => {
-    const mod = await import('../server/worldmonitor/intelligence/v1/brief-why-matters-prompt.ts');
+    const mod = await import('../server/eagleeye/intelligence/v1/brief-why-matters-prompt.ts');
     sectionsForCategory = mod.sectionsForCategory;
     builder = mod.buildAnalystWhyMattersPrompt;
     assert.ok(typeof sectionsForCategory === 'function');
@@ -1138,7 +1138,7 @@ describe('sectionsForCategory — structural relevance gating', () => {
             worldBrief: 'US-Iran ceasefire talks remain fragile around the Strait of Hormuz.',
             countryBrief: 'Local institutions are handling the reported event.',
             riskScores: 'Domestic stability risk is moderate.',
-            forecasts: 'WorldMonitor forecast: Hormuz traffic disruption remains 84% likely.',
+            forecasts: 'EagleEye forecast: Hormuz traffic disruption remains 84% likely.',
             marketData: 'Oil trades at $87.',
             macroSignals: 'FX stress remains elevated.',
             degraded: false,
@@ -1166,7 +1166,7 @@ describe('sectionsForCategory — structural relevance gating', () => {
         worldBrief: 'US-Iran ceasefire talks remain fragile around the Strait of Hormuz.',
         countryBrief: 'Iranian forces remain on high alert.',
         riskScores: 'Regional stability risk is severe.',
-        forecasts: 'WorldMonitor forecast: Hormuz traffic disruption remains elevated.',
+        forecasts: 'EagleEye forecast: Hormuz traffic disruption remains elevated.',
         marketData: 'Oil trades at $87.',
         macroSignals: 'FX stress remains elevated.',
         degraded: false,

@@ -12,7 +12,7 @@ The `DiseaseOutbreakItem` proto message has a `location` field (field 3) that is
 
 ## Findings
 
-- **File:** `proto/worldmonitor/health/v1/list_disease_outbreaks.proto` — `DiseaseOutbreakItem` has `string location = 3`
+- **File:** `proto/eagleeye/health/v1/list_disease_outbreaks.proto` — `DiseaseOutbreakItem` has `string location = 3`
 - **File:** `scripts/seed-disease-outbreaks.mjs:84-93` — Outbreak object construction never assigns a `location` value; the field is omitted or set to `''`
 - **WHO DON RSS format:** Location is often embedded in the item `<title>` (e.g., "Avian influenza A(H5N1) – **Cambodia**") or `<description>` — not a dedicated field, requires extraction
 - **Impact:** All disease outbreak cards show no location. Users cannot see which country/region the outbreak affects — a critical piece of context for a geopolitical monitoring app

@@ -19,7 +19,7 @@ import {
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const apiDir = resolve(root, 'docs/api');
-const protoWorldmonitorDir = resolve(root, 'proto/worldmonitor');
+const protoEagleeyeDir = resolve(root, 'proto/eagleeye');
 
 // Source-of-truth sets/maps are imported from scripts/lib/openapi-codegen.mjs —
 // the SAME module the injector uses — so the contract test can't drift from the
@@ -43,7 +43,7 @@ const GATED_DESCRIPTION_PATHS = new Set([
 
 const HTTP_METHODS = new Set(['get', 'post', 'put', 'delete', 'patch', 'options', 'head']);
 const API_KEY_SCHEMES = {
-  WorldMonitorKey: { type: 'apiKey', in: 'header', name: 'X-WorldMonitor-Key' },
+  EagleEyeKey: { type: 'apiKey', in: 'header', name: 'X-EagleEye-Key' },
   ApiKeyHeader: { type: 'apiKey', in: 'header', name: 'X-Api-Key' },
 };
 const BEARER_SCHEME = { BearerAuth: { type: 'http', scheme: 'bearer' } };
@@ -242,7 +242,7 @@ function findMatchingBrace(src, openIndex) {
 
 function readProtoRequiredRequestFields() {
   const contracts = [];
-  for (const file of listProtoFiles(protoWorldmonitorDir)) {
+  for (const file of listProtoFiles(protoEagleeyeDir)) {
     const src = readFileSync(file, 'utf8');
     const messageRe = /\bmessage\s+(\w+)\s*\{/g;
     let msgMatch;
@@ -529,21 +529,21 @@ describe('OpenAPI security contract', () => {
       assertPublicForbiddenGateContract(spec, file);
       assertPremiumForbiddenGateContract(spec, file);
     }
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
     assertEntitlementOperationContract(bundle, 'bundle');
     assertPremiumForbiddenGateContract(bundle, 'bundle');
     assertPublicForbiddenGateContract(bundle, 'bundle');
   });
 
   it('keeps gated operation descriptions byte-identical across JSON, YAML, and bundle', () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
     const failures = [];
     for (const file of serviceSpecs) {
       const jsonSpec = JSON.parse(readFileSync(resolve(apiDir, file), 'utf8'));
       const yamlFile = file.replace(/\.json$/, '.yaml');
       const yamlSpec = loadYaml(readFileSync(resolve(apiDir, yamlFile), 'utf8'));
       failures.push(...gatedDescriptionParityFailures(jsonSpec, yamlSpec, file, yamlFile));
-      failures.push(...gatedDescriptionParityFailures(jsonSpec, bundle, file, 'worldmonitor.openapi.yaml'));
+      failures.push(...gatedDescriptionParityFailures(jsonSpec, bundle, file, 'eagleeye.openapi.yaml'));
     }
     assert.deepEqual(failures, []);
   });
@@ -555,8 +555,8 @@ describe('OpenAPI security contract', () => {
     }
   });
 
-  it('bundle (worldmonitor.openapi.yaml) carries the full auth contract', () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
+  it('bundle (eagleeye.openapi.yaml) carries the full auth contract', () => {
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
     assertAuthContract(bundle, 'bundle');
   });
 
@@ -571,8 +571,8 @@ describe('OpenAPI security contract', () => {
       failures.push(...queryRequiredContradictions(yamlSpec, yamlFile));
     }
 
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    failures.push(...queryRequiredContradictions(bundle, 'worldmonitor.openapi.yaml'));
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    failures.push(...queryRequiredContradictions(bundle, 'eagleeye.openapi.yaml'));
 
     assert.deepEqual(failures, []);
   });
@@ -588,8 +588,8 @@ describe('OpenAPI security contract', () => {
       specs.push({ label: yamlFile, spec: loadYaml(readFileSync(resolve(apiDir, yamlFile), 'utf8')) });
     }
     specs.push({
-      label: 'worldmonitor.openapi.yaml',
-      spec: loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8')),
+      label: 'eagleeye.openapi.yaml',
+      spec: loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8')),
     });
 
     const failures = [];
@@ -644,13 +644,13 @@ describe('OpenAPI security contract', () => {
     const yamlSpec = loadYaml(readFileSync(resolve(apiDir, 'LeadsService.openapi.yaml'), 'utf8'));
     assertSchemaRequires(yamlSpec, 'RegisterInterestRequest', fields, 'LeadsService.openapi.yaml');
 
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
     const matches = matchingRequestSchemas(bundle, 'RegisterInterestRequest');
-    assert.equal(matches.length, 1, 'worldmonitor.openapi.yaml: expected one RegisterInterestRequest schema');
+    assert.equal(matches.length, 1, 'eagleeye.openapi.yaml: expected one RegisterInterestRequest schema');
     const [[schemaName, schema]] = matches;
     assert.ok(
       Array.isArray(schema.required) && schema.required.includes('turnstileToken'),
-      `worldmonitor.openapi.yaml: ${schemaName}.required must include turnstileToken`,
+      `eagleeye.openapi.yaml: ${schemaName}.required must include turnstileToken`,
     );
   });
 

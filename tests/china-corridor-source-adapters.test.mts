@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { buildChinaCorridorSourceBundle } from '../server/worldmonitor/supply-chain/v1/china-corridor-source-adapters.ts';
+import { buildChinaCorridorSourceBundle } from '../server/eagleeye/supply-chain/v1/china-corridor-source-adapters.ts';
 
 const ASSESSED_AT = '2026-07-25T12:00:00.000Z';
 const FRESH_META = { fetchedAt: Date.parse('2026-07-25T11:30:00.000Z') };
@@ -263,7 +263,7 @@ describe('China corridor source adapters (#5578)', () => {
     );
     assert.equal(published?.metrics.demandChangeCurrentDemandKbd, 103.4);
     assert.equal(published?.metrics.demandChangePriorDemandKbd, 100);
-    assert.equal(published?.publisher.id, 'publisher:worldmonitor-energy-spine');
+    assert.equal(published?.publisher.id, 'publisher:eagleeye-energy-spine');
     assert.equal(published?.retrievalTime, '2026-07-25T11:30:00.000Z');
   });
 

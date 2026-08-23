@@ -1,9 +1,9 @@
 ---
 title: "设计哲学"
-description: "World Monitor 背后的设计原则、情报工艺与算法决策深度解读：全面介绍以地图为先的实时仪表盘是如何工程化实现的、为何选择这种技术架构，涵盖前端渲染管道、边缘缓存策略、Cloudflare Workers 数据采集流水线、评分引擎、实时推送与容灾降级机制等核心模块。"
+description: "Eagle Eye 背后的设计原则、情报工艺与算法决策深度解读：全面介绍以地图为先的实时仪表盘是如何工程化实现的、为何选择这种技术架构，涵盖前端渲染管道、边缘缓存策略、Cloudflare Workers 数据采集流水线、评分引擎、实时推送与容灾降级机制等核心模块。"
 ---
 
-> **在找系统参考？** 请参阅 [`ARCHITECTURE.md`](https://github.com/koala73/worldmonitor/blob/main/ARCHITECTURE.md)，了解部署拓扑、目录结构、缓存层、CI/CD 以及贡献者操作指南。
+> **在找系统参考？** 请参阅 [`ARCHITECTURE.md`](https://github.com/hiatech/eagle-eye/blob/main/ARCHITECTURE.md)，了解部署拓扑、目录结构、缓存层、CI/CD 以及贡献者操作指南。
 
 ---
 
@@ -69,7 +69,7 @@ description: "World Monitor 背后的设计原则、情报工艺与算法决策�
 
 ### 原生 TypeScript 架构
 
-World Monitor 使用原生 TypeScript 编写 — 不使用任何前端框架（React、Vue、Svelte、Angular）。这是一个刻意的架构决策，而非疏忽。
+Eagle Eye 使用原生 TypeScript 编写 — 不使用任何前端框架（React、Vue、Svelte、Angular）。这是一个刻意的架构决策，而非疏忽。
 
 **为什么不用框架：**
 
@@ -272,7 +272,7 @@ Page Load → parallel fetch ─┬─ /api/bootstrap?tier=fast  (s-maxage=1200)
 
 ### 边缘函数架构
 
-World Monitor 使用 60+ 个 Vercel Edge Functions 作为轻量 API 层，分为两代。`api/*.js` 中的遗留端点各自处理单一数据源问题 — 代理、缓存或转换外部 API。较新的 proto 优先端点使用**每领域薄入口点** — 34 个独立的边缘函数，每个仅导入其自身的处理器模块。这取代了原来在每次冷启动时加载全部 34 个领域的单体网关。每个领域的函数经 tree-shaking 仅包含其依赖，将冷启动时间减少约 85%（大多数端点低于 100ms，而单体处理器需 500ms+）。共享的 `server/gateway.ts` 提供通用路由逻辑。两代共存，新功能以 proto 优先方式构建。此架构避免了单体后端同时保持 API 密钥服务端：
+Eagle Eye 使用 60+ 个 Vercel Edge Functions 作为轻量 API 层，分为两代。`api/*.js` 中的遗留端点各自处理单一数据源问题 — 代理、缓存或转换外部 API。较新的 proto 优先端点使用**每领域薄入口点** — 34 个独立的边缘函数，每个仅导入其自身的处理器模块。这取代了原来在每次冷启动时加载全部 34 个领域的单体网关。每个领域的函数经 tree-shaking 仅包含其依赖，将冷启动时间减少约 85%（大多数端点低于 100ms，而单体处理器需 500ms+）。共享的 `server/gateway.ts` 提供通用路由逻辑。两代共存，新功能以 proto 优先方式构建。此架构避免了单体后端同时保持 API 密钥服务端：
 
 - **RSS 代理** — 域名白名单代理，支持 500+ 订阅源，防止 CORS 问题并隐藏源服务器。Edge 代理和 Railway 中继都保持重定向为手动，并在每一跳前重新检查 RSS 域名白名单。来自屏蔽 Vercel IP 的域名的订阅源自动通过 Railway 中继路由。
 - **AI 管道** — Groq 和 OpenRouter 边缘函数配 Redis 去重，使并发用户间的相同标题仅触发一次 LLM 调用。classify-event 端点在 500 错误时暂停其队列以避免浪费 API 配额。
@@ -298,18 +298,18 @@ World Monitor 使用 60+ 个 Vercel Edge Functions 作为轻量 API 层，分为
 
 ### 单一部署变体合并
 
-所有六个仪表盘变体（World Monitor、Tech Monitor、Finance Monitor、Commodity Monitor、Happy Monitor、Energy Monitor）从**单一 Vercel 部署**提供服务。变体在运行时通过主机名检测确定：
+所有六个仪表盘变体（Eagle Eye、Tech Monitor、Finance Monitor、Commodity Monitor、Happy Monitor、Energy Monitor）从**单一 Vercel 部署**提供服务。变体在运行时通过主机名检测确定：
 
 | 主机名 | 变体 |
 | --- | --- |
-| `tech.worldmonitor.app` | `tech` |
-| `finance.worldmonitor.app` | `finance` |
-| `commodity.worldmonitor.app` | `commodity` |
-| `happy.worldmonitor.app` | `happy` |
-| `energy.worldmonitor.app` | `energy` |
-| `worldmonitor.app`（默认） | `full` |
+| `tech.eagle-eye.app` | `tech` |
+| `finance.eagle-eye.app` | `finance` |
+| `commodity.eagle-eye.app` | `commodity` |
+| `happy.eagle-eye.app` | `happy` |
+| `energy.eagle-eye.app` | `energy` |
+| `eagle-eye.app`（默认） | `full` |
 
-在桌面应用上，变体存储在 `localStorage['worldmonitor-variant']` 中，可在不重新构建的情况下切换。标题栏中的变体选择器在 Web 上在已部署域名间导航，或在桌面端切换 localStorage 值。
+在桌面应用上，变体存储在 `localStorage['eagleeye-variant']` 中，可在不重新构建的情况下切换。标题栏中的变体选择器在 Web 上在已部署域名间导航，或在桌面端切换 localStorage 值。
 
 此架构取代了原来的多部署方式（每个变体一个独立 Vercel 项目），并提供以下优势：
 
@@ -419,7 +419,7 @@ WebGPU (fastest)  →  WebGL (fast)  →  WASM + SIMD (baseline)
 
 **每订阅源熔断器**（RSS） — 每个 RSS 订阅源 URL 有独立失败计数器。连续 2 次失败后，订阅源进入 5 分钟冷却期，期间不进行任何抓取尝试。冷却到期后订阅源自动重新进入池。这防止单个配置错误或宕机的订阅源消耗抓取预算并拖慢整个新闻刷新周期。
 
-**每面板熔断器**（数据面板） — 从 API 端点抓取的面板使用 IndexedDB 支持的持久缓存（`worldmonitor_persistent_cache` 存储）配 TTL 包络。抓取成功时，结果带过期时间戳存储。后续加载时，熔断器立即提供缓存结果并尝试后台刷新。如果后台刷新失败，过期的缓存数据继续显示 — 面板不会因瞬时 API 故障而空白。缓存条目在页面重载和浏览器重启后保留。
+**每面板熔断器**（数据面板） — 从 API 端点抓取的面板使用 IndexedDB 支持的持久缓存（`eagleeye_persistent_cache` 存储）配 TTL 包络。抓取成功时，结果带过期时间戳存储。后续加载时，熔断器立即提供缓存结果并尝试后台刷新。如果后台刷新失败，过期的缓存数据继续显示 — 面板不会因瞬时 API 故障而空白。缓存条目在页面重载和浏览器重启后保留。
 
 熔断器跨存储层优雅降级：IndexedDB（主要，至设备配额）→ localStorage 回退（5MB 限制）→ 内存 Map（仅会话）。当设备存储配额耗尽时（移动版 Safari 常见），全局 `_storageQuotaExceeded` 标志禁用所有后续写入，同时读取正常继续。
 
@@ -507,7 +507,7 @@ Sentry SDK 初始化包含 `beforeSend` 钩子和 `ignoreErrors` 列表，抑制
 
 ### 错误追踪与生产强化
 
-Sentry 在生产环境中捕获未处理异常和 Promise 拒绝，具备环境感知路由（生产环境在 `worldmonitor.app`，预览环境在 `*.vercel.app`，localhost 和 Tauri 桌面端禁用）。
+Sentry 在生产环境中捕获未处理异常和 Promise 拒绝，具备环境感知路由（生产环境在 `eagle-eye.app`，预览环境在 `*.vercel.app`，localhost 和 Tauri 桌面端禁用）。
 
 配置包含 30+ 个 `ignoreErrors` 模式，抑制以下噪声：
 
@@ -524,7 +524,7 @@ Sentry 在生产环境中捕获未处理异常和 Promise 拒绝，具备环境�
 
 **存储配额管理** — 当设备的 localStorage 或 IndexedDB 配额耗尽时（移动版 Safari 5MB 限制常见），全局 `_storageQuotaExceeded` 标志禁用持久缓存（IndexedDB + localStorage 回退）和工具 `saveToStorage()` 函数的所有后续写入尝试。该标志在首次 `name === 'QuotaExceededError'` 或 `code === 22` 的 `DOMException` 时设置，防止重复失败写入导致的级联错误。读取操作继续正常 — 缓存数据仍可访问，仅新写入被抑制。
 
-事务以 10% 采样以在可观测性与成本间平衡。发布追踪（`worldmonitor@{version}`）支持跨部署的回归检测。
+事务以 10% 采样以在可观测性与成本间平衡。发布追踪（`eagleeye@{version}`）支持跨部署的回归检测。
 
 ---
 
@@ -845,7 +845,7 @@ ACLED/GDELT → Protest Events ────────────────�
 
 ## 服务状态监控
 
-服务状态面板追踪 WorldMonitor 用户可能依赖的外部服务的运行健康度。
+服务状态面板追踪 EagleEye 用户可能依赖的外部服务的运行健康度。
 
 ### 受监控服务
 

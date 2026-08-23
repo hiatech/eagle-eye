@@ -362,7 +362,7 @@ describe("runDunningScan windows", () => {
     expect(resendSends(fetchMock)).toHaveLength(0);
   });
 
-  test("batch scan staggers send START times (first pacing layer, WORLDMONITOR-VH)", async () => {
+  test("batch scan staggers send START times (first pacing layer, EAGLEEYE-VH)", async () => {
     vi.useFakeTimers();
     process.env.RESEND_API_KEY = "re_test";
     const t = convexTest(schema, modules);
@@ -403,7 +403,7 @@ describe("runDunningScan windows", () => {
     }
   });
 
-  test("reserveResendSlot paces actual POSTs >= SEND_SPACING_MS apart, portal-latency-independent (WORLDMONITOR-VH)", async () => {
+  test("reserveResendSlot paces actual POSTs >= SEND_SPACING_MS apart, portal-latency-independent (EAGLEEYE-VH)", async () => {
     // Staggering only spaces send START times; the real Resend POST happens
     // after a variable-latency Dodo portal mint, so start-spacing alone can't
     // bound the POST rate. reserveResendSlot is the hard guarantee: it hands out
@@ -428,7 +428,7 @@ describe("runDunningScan windows", () => {
     expect(afterIdle).toBe(Date.now());
   });
 
-  test("resendPacingWaitMs never clamps a large backlog into a burst (WORLDMONITOR-VH re-review P2)", () => {
+  test("resendPacingWaitMs never clamps a large backlog into a burst (EAGLEEYE-VH re-review P2)", () => {
     const now = 1_000_000_000_000;
     expect(resendPacingWaitMs(now, now)).toBe(0);
     expect(resendPacingWaitMs(now + SEND_SPACING_MS, now)).toBe(SEND_SPACING_MS);

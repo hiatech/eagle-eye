@@ -529,11 +529,11 @@ describe('History accumulation (functional)', () => {
 // real seeder functions, run through the real publish-time history merge. Grow
 // the payload without growing the proto and this reds.
 
-const PROTO_PATH = 'proto/worldmonitor/supply_chain/v1/supply_chain_data.proto';
+const PROTO_PATH = 'proto/eagleeye/supply_chain/v1/supply_chain_data.proto';
 const SHIPPING_PROTO_PATHS = {
-  response: 'proto/worldmonitor/supply_chain/v1/get_shipping_rates.proto',
+  response: 'proto/eagleeye/supply_chain/v1/get_shipping_rates.proto',
 };
-const GENERATED_SERVER_PATH = 'src/generated/server/worldmonitor/supply_chain/v1/service_server.ts';
+const GENERATED_SERVER_PATH = 'src/generated/server/eagleeye/supply_chain/v1/service_server.ts';
 
 // Keys the seeder uses for its own bookkeeping and MUST delete before publish.
 // Anything listed here is asserted below to be (a) genuinely emitted by some
@@ -879,7 +879,7 @@ describe('Seed script structure', () => {
 });
 
 describe('Handler cache-only (get-shipping-rates.ts)', () => {
-  const handlerSrc = readFileSync(resolve(root, 'server/worldmonitor/supply-chain/v1/get-shipping-rates.ts'), 'utf-8');
+  const handlerSrc = readFileSync(resolve(root, 'server/eagleeye/supply-chain/v1/get-shipping-rates.ts'), 'utf-8');
 
   it('does not import FRED constants or fetch functions', () => {
     assert.ok(!handlerSrc.includes('FRED_API_BASE'));

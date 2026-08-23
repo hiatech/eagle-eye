@@ -1,4 +1,4 @@
-import type { TemporalAnomaly as TemporalAnomalyProto } from '@/generated/client/worldmonitor/infrastructure/v1/service_client';
+import type { TemporalAnomaly as TemporalAnomalyProto } from '@/generated/client/eagleeye/infrastructure/v1/service_client';
 import { getRpcBaseUrl } from '@/services/rpc-client';
 import { getHydratedData } from '@/services/bootstrap';
 import { InfrastructureServiceClient } from '@/services/generated-rpc-clients';

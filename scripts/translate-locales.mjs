@@ -437,7 +437,7 @@ export function extractUrlTokens(text) {
       // that produced it.
       if (token.startsWith('/')) return true;
       // Host-qualified: keep it only if what precedes the first slash really
-      // looks like a hostname. This is what separates `worldmonitor.app/docs`
+      // looks like a hostname. This is what separates `eagle-eye.app/docs`
       // from `calls/day` (no dot) and `1.5/kg` (last label is not a TLD).
       const host = token.slice(0, token.indexOf('/'));
       const labels = host.split('.');

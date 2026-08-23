@@ -62,7 +62,7 @@ current code does in a current desktop build — not the stale v2.5.23 binary.
 | Capability | Desktop behavior vs web | Classification | Evidence |
 | --- | --- | --- | --- |
 | API routing | All `/api/*` calls proxied through the Rust `proxy_local_api_request` command to a bundled Node sidecar on `127.0.0.1:46123` (port-file discovery, default 46123); web uses direct fetch | intentional difference (richer: local-first) | `src/services/runtime.ts:115-126,346-413`; `src-tauri/src/main.rs:25` |
-| Cloud fallback | Only with a valid `WORLDMONITOR_API_KEY` in the keyring, except a small key-free allowlist (`register-interest`, `leads/*`, `version`); web N/A | intentional difference — default install is local+anonymous-cloud-free | `src/services/runtime.ts:299-304,367-378` |
+| Cloud fallback | Only with a valid `EAGLEEYE_API_KEY` in the keyring, except a small key-free allowlist (`register-interest`, `leads/*`, `version`); web N/A | intentional difference — default install is local+anonymous-cloud-free | `src/services/runtime.ts:299-304,367-378` |
 | Sidecar route surface | 60 routes: 34 sebuf `{domain}/v1/[rpc].js` (esbuild-bundled at release) + 26 raw `.js`; `.ts`-only routes (87 files) are cloud-only | mixed — see gaps | `src-tauri/sidecar/local-api-server.mjs:531-557`; `scripts/build-sidecar-handlers.mjs` |
 | Seed-backed RPC data | **GAP**: sidecar has no Redis credentials; seed-backed handlers return empty 200 locally and the `!ok` cloud fallback never fires; hardcoded `cloudPreferred` covers only market/economic/infrastructure/news/research (5 of 34 domains) + `/api/bootstrap`. 29 domains — incl. all 9 added since v2.5.23 — can serve blank panels | blocked → #5906 | `local-api-server.mjs:686-705,1764-1767`; `server/_shared/redis.ts:86-88` |
 | `api/v2/shipping` family | **GAP**: invisible to the handler-build glob (`api/{domain}/v1/[rpc].ts` only); cloud-only + Pro-gated on desktop, undeclared | blocked → #5907 | `scripts/build-sidecar-handlers.mjs:26-29`; `src/shared/premium-paths.ts:52-53` |
@@ -90,7 +90,7 @@ current code does in a current desktop build — not the stale v2.5.23 binary.
 | --- | --- | --- | --- |
 | Clerk sign-in | No desktop gating in code; CSP allowlists Clerk — but **dead in shipped builds** (missing `VITE_CLERK_PUBLISHABLE_KEY`) | blocked → #5905 | `src/services/clerk.ts:30-49,233-236`; `src-tauri/tauri.conf.json:32` |
 | Convex entitlements | Same pattern: `VITE_CONVEX_URL` missing from the desktop build (workflow passes non-`VITE_` `CONVEX_URL`, which never reaches the client) | blocked → #5905 | `src/services/entitlements.ts:96-99`; `vite.config.ts` (no define) |
-| Premium access | `WORLDMONITOR_API_KEY` from keyring is the only working Pro path in shipped builds; sidecar attaches the key natively (renderer skip is by design) | parity for key users; blocked for subscribers | `src/services/panel-gating.ts:53-58`; `src/services/premium-fetch.ts:223-237` |
+| Premium access | `EAGLEEYE_API_KEY` from keyring is the only working Pro path in shipped builds; sidecar attaches the key natively (renderer skip is by design) | parity for key users; blocked for subscribers | `src/services/panel-gating.ts:53-58`; `src/services/premium-fetch.ts:223-237` |
 | Billing portal / checkout | Every billing, checkout and upgrade exit routes through `openExternalUrl`, which hands the URL to the OS browser via `open_url` on desktop (5s timeout, Sentry-reported failure, scheme-checked) and reports whether the handoff actually happened, so a failed open surfaces as a checkout error instead of a false "check your browser". The return URL is built from the canonical web origin; the app unlocks over the live Convex entitlement watch with no redirect back in. `openBillingPortal` reports `open-failed` rather than `opened` when nothing opened, and the checkout toast names the OS browser only when the native handoff actually succeeded. All seven remaining renderer call sites were migrated (#6120). **Residual**: the returning browser cannot acknowledge the purchase (its `handleCheckoutReturn` needs a session-local attempt record the app holds) → #6121; a plain-`http://` external link still cannot leave the app, because the native allowlist is https-only → tracked separately | intentional difference (desktop pays in the browser) — #5911 | `src/services/external-navigation.ts`; `src/services/checkout-return-url.ts:resolveCheckoutReturnOrigin`; `src/services/checkout.ts` (`navigateToWebSurface` + hosted-checkout branch) |
 | Settings → Plan &amp; billing tab | **GAP**: the tab is not rendered at all on desktop — `isSignedIn` is hardcoded to `!isDesktopApp`, so `renderUpgradeSection` / `handleUpgradeClick` are unreachable there regardless of Clerk. Their desktop branches are correct (#5911) but currently dead | blocked → #6108 | `src/components/UnifiedSettings.ts:644,656` |
 | #5901 unified user menu | No desktop-specific handling; hosts the billing surface above; menu itself requires Clerk (so absent from shipped builds until the env fix lands) | inherits the two rows above | `src/app/event-handlers.ts:1963` (commit `53181fb71`) |
@@ -119,7 +119,7 @@ current code does in a current desktop build — not the stale v2.5.23 binary.
 
 | Capability | Desktop behavior vs web | Classification | Evidence |
 | --- | --- | --- | --- |
-| Update discovery | Custom 6-hourly poll of `api.worldmonitor.app/api/version` (no Tauri updater plugin, no signed update artifacts); per-arch download via `/api/download` | intentional mechanism; **correctness fixed by #5908** — one release line, so `/releases/latest` is the right read, and `isNewerDesktopVersion` reports an unparseable version as `version_unparsable` instead of NaN-collapsing it to a silent `no_update` | `src/app/desktop-updater.ts:25,66-95`; `src/utils/desktop-version.ts`; `api/version.js:13`; `api/download.js` |
+| Update discovery | Custom 6-hourly poll of `api.eagle-eye.app/api/version` (no Tauri updater plugin, no signed update artifacts); per-arch download via `/api/download` | intentional mechanism; **correctness fixed by #5908** — one release line, so `/releases/latest` is the right read, and `isNewerDesktopVersion` reports an unparseable version as `version_unparsable` instead of NaN-collapsing it to a silent `no_update` | `src/app/desktop-updater.ts:25,66-95`; `src/utils/desktop-version.ts`; `api/version.js:13`; `api/download.js` |
 | Web push / service worker | Intentionally desktop-excluded (Tauri check) and doubly so via missing `VITE_VAPID_PUBLIC_KEY` | intentional difference — fallback: in-app alerts | `src/services/push-notifications.ts:42`; `src/main.ts:496` |
 | Breaking-news alerts | Run on desktop; posted via raw XHR to bypass the fetch interceptor | parity | `src/services/breaking-news-alerts.ts:214-228` |
 | Stale-bundle check | Web-only (desktop has the updater instead) | intentional difference | `src/main.ts:405` |
@@ -131,7 +131,7 @@ Condensed from the release-infra audit; each row feeds a child issue or the
 release-candidate checklist:
 
 1. ~~Variant release model structurally broken~~ — **resolved by #5908.** The
-   supported model is now one published World Monitor binary with in-app variant
+   supported model is now one published Eagle Eye binary with in-app variant
    switching, so the endpoints' single-release read is correct by design. The
    workflow keeps one build-leg pair and one tag (`v__VERSION__`), the AppImage
    re-upload and release-notes step can no longer target different tags,
@@ -170,5 +170,5 @@ release-candidate checklist:
 - Desktop build-env parity (`scripts/check-desktop-build-env.mjs`): discovers
   every Tauri workflow, scans syntax-aware `VITE_*` property reads, and runs in
   both the workflow-change and source-change CI legs; a route-table contract
-  test asserting every `server/worldmonitor/` domain has an explicit
+  test asserting every `server/eagleeye/` domain has an explicit
   desktop-path decision remains a future candidate.

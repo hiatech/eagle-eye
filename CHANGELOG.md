@@ -1,10 +1,28 @@
 # Changelog
 
-All notable changes to World Monitor are documented here.
+All notable changes to Eagle Eye are documented here. Entries dated before the
+rename describe releases that shipped under the upstream name, World Monitor,
+and are left as written — they are a historical record, not current naming.
 
 ## [Unreleased]
 
 ### Changed
+
+- **Renamed the project from World Monitor to Eagle Eye.** This fork is now
+  Eagle Eye (`hiatech/eagle-eye`, `eagle-eye.app`); the upstream work it derives
+  from keeps the name World Monitor. Renaming a fork away from the upstream name
+  is deliberate — it prevents the two being confused and is independent of the
+  AGPL obligations, which are unaffected. Upstream copyright and attribution in
+  `LICENSE` and `NOTICE` are untouched, and every reference to
+  `koala73/worldmonitor` still points at the upstream repository. The AGPL §13
+  Corresponding Source offer now points at `https://github.com/hiatech/eagle-eye`.
+  Source-level identifiers moved with it: the proto package root
+  `worldmonitor.*.v1` is now `eagleeye.*.v1`, and `proto/`, `server/` and
+  `src/generated/` directory trees follow. HTTP RPC paths are unchanged — they
+  are built as `/api/<domain>/v1/<rpc>` and never contained the package root.
+  Redis key prefixes are unchanged, so seeded data survives the rename. Client
+  package identities move to the fork: npm `eagleeye`, RubyGems `eagleeye`, PyPI
+  `eagleeye-sdk`, Go module `github.com/hiatech/eagle-eye/sdk/go`.
 
 - **Corporate intelligence is live; `get-company-enrichment` and
   `list-company-signals` are no longer deprecated** (#5695). Both

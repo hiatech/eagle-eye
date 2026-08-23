@@ -866,19 +866,19 @@ async function warmPingChokepoints() {
   const baseUrl = process.env.WM_API_BASE_URL;
   if (!baseUrl) { console.log('  [Chokepoints] Warm-ping skipped (no WM_API_BASE_URL)'); return; }
   // get-chokepoint-status is medium-tier gated. The gateway trusts a relay
-  // warm-ping ONLY when it carries WORLDMONITOR_RELAY_KEY in X-WorldMonitor-Key
+  // warm-ping ONLY when it carries EAGLEEYE_RELAY_KEY in X-EagleEye-Key
   // (server/gateway.ts isRelayWarmPingRequest); Origin alone is not enough, so
   // without the key this 401s every run. Mirrors seed-service-statuses.mjs.
-  const relayKey = process.env.WORLDMONITOR_RELAY_KEY || '';
-  const headers = { 'User-Agent': CHROME_UA, Origin: 'https://worldmonitor.app' };
-  if (relayKey) headers['X-WorldMonitor-Key'] = relayKey;
+  const relayKey = process.env.EAGLEEYE_RELAY_KEY || '';
+  const headers = { 'User-Agent': CHROME_UA, Origin: 'https://eagle-eye.app' };
+  if (relayKey) headers['X-EagleEye-Key'] = relayKey;
   try {
     const resp = await fetch(`${baseUrl}/api/supply-chain/v1/get-chokepoint-status`, {
       headers,
       signal: AbortSignal.timeout(15_000),
     });
     if (!resp.ok) {
-      const keyNote = relayKey ? '' : ' (WORLDMONITOR_RELAY_KEY not set — Origin-only auth)';
+      const keyNote = relayKey ? '' : ' (EAGLEEYE_RELAY_KEY not set — Origin-only auth)';
       console.warn(`  [Chokepoints] Warm-ping failed: HTTP ${resp.status}${keyNote}`);
     } else console.log('  [Chokepoints] Warm-ping OK');
   } catch (err) { console.warn(`  [Chokepoints] Warm-ping error: ${err.message}`); }
@@ -15241,7 +15241,7 @@ async function callForecastLLM(systemPrompt, userPrompt, options = {}) {
                 Authorization: `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
                 'User-Agent': CHROME_UA,
-                ...(provider.name === 'openrouter' ? { 'HTTP-Referer': 'https://worldmonitor.app', 'X-Title': 'World Monitor' } : {}),
+                ...(provider.name === 'openrouter' ? { 'HTTP-Referer': 'https://eagle-eye.app', 'X-Title': 'Eagle Eye' } : {}),
               },
               body: JSON.stringify({
                 model: provider.model,

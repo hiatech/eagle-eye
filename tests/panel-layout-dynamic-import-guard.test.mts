@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { describe, it } from 'node:test';
 
-// Regression coverage for WORLDMONITOR-R4 adapted to the lazy panel registry:
+// Regression coverage for EAGLEEYE-R4 adapted to the lazy panel registry:
 // split-risk panels must stay demand-loaded through `lazyPanel(...)`, and their
 // dynamic imports must route through the Safari-safe importPanel helper. The
 // shared lazy loader must also treat failed chunk loads as recoverable instead of
@@ -281,7 +281,7 @@ const SPLIT_RISK_PANEL_IMPORTS: Array<[string, string, string]> = [
   ['macro-signals', '@/components/MacroSignalsPanel', 'MacroSignalsPanel'],
 ];
 
-describe('panel-layout lazy dynamic-import guard (WORLDMONITOR-R4)', () => {
+describe('panel-layout lazy dynamic-import guard (EAGLEEYE-R4)', () => {
   const filePath = new URL('../src/app/panel-layout.ts', import.meta.url);
 
   it('shared importPanel helper uses Safari-safe dynamic import guards', async () => {

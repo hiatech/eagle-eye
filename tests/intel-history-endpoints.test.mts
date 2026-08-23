@@ -32,9 +32,9 @@ import {
   OPENROUTER_EMBEDDINGS_URL,
 } from '../scripts/lib/brief-dedup-consts.mjs';
 import { normalizeQueryText } from '../server/_shared/intel-history-embed';
-import { getIntelTimeline } from '../server/worldmonitor/intelligence/v1/get-intel-timeline';
-import { getSimilarEvents } from '../server/worldmonitor/intelligence/v1/get-similar-events';
-import { searchIntelHistory } from '../server/worldmonitor/intelligence/v1/search-intel-history';
+import { getIntelTimeline } from '../server/eagleeye/intelligence/v1/get-intel-timeline';
+import { getSimilarEvents } from '../server/eagleeye/intelligence/v1/get-similar-events';
+import { searchIntelHistory } from '../server/eagleeye/intelligence/v1/search-intel-history';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -679,12 +679,12 @@ describe('getSimilarEvents handler', () => {
 
 const read = (rel: string): string => readFileSync(resolve(root, rel), 'utf-8');
 
-const serviceProtoSrc = read('proto/worldmonitor/intelligence/v1/service.proto');
-const recordProtoSrc = read('proto/worldmonitor/intelligence/v1/intel_history_record.proto');
-const searchProtoSrc = read('proto/worldmonitor/intelligence/v1/search_intel_history.proto');
-const timelineProtoSrc = read('proto/worldmonitor/intelligence/v1/get_intel_timeline.proto');
-const similarProtoSrc = read('proto/worldmonitor/intelligence/v1/get_similar_events.proto');
-const handlerIndexSrc = read('server/worldmonitor/intelligence/v1/handler.ts');
+const serviceProtoSrc = read('proto/eagleeye/intelligence/v1/service.proto');
+const recordProtoSrc = read('proto/eagleeye/intelligence/v1/intel_history_record.proto');
+const searchProtoSrc = read('proto/eagleeye/intelligence/v1/search_intel_history.proto');
+const timelineProtoSrc = read('proto/eagleeye/intelligence/v1/get_intel_timeline.proto');
+const similarProtoSrc = read('proto/eagleeye/intelligence/v1/get_similar_events.proto');
+const handlerIndexSrc = read('server/eagleeye/intelligence/v1/handler.ts');
 const premiumPathsSrc = read('src/shared/premium-paths.ts');
 const entitlementSrc = read('server/_shared/entitlement-check.ts');
 const gatewaySrc = read('server/gateway.ts');
@@ -720,7 +720,7 @@ describe('proto definitions', () => {
     // Defined once, reused by all three request files (satellite.proto pattern).
     assert.equal(/message IntelHistoryRecord/.test(searchProtoSrc), false);
     for (const src of [searchProtoSrc, timelineProtoSrc, similarProtoSrc]) {
-      assert.match(src, /import "worldmonitor\/intelligence\/v1\/intel_history_record\.proto"/);
+      assert.match(src, /import "eagleeye\/intelligence\/v1\/intel_history_record\.proto"/);
     }
   });
 
@@ -730,7 +730,7 @@ describe('proto definitions', () => {
         serviceProtoSrc,
         new RegExp(`rpc ${rpc}\\(${rpc}Request\\) returns \\(${rpc}Response\\)`),
       );
-      assert.match(serviceProtoSrc, new RegExp(`import "worldmonitor/intelligence/v1/${file}\\.proto"`));
+      assert.match(serviceProtoSrc, new RegExp(`import "eagleeye/intelligence/v1/${file}\\.proto"`));
     });
   }
 

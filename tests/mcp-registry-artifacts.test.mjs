@@ -8,14 +8,14 @@ const __filename = fileURLToPath(import.meta.url);
 const ROOT = resolve(dirname(__filename), '..');
 
 // Guards for the official MCP registry publication artifacts
-// (registry.modelcontextprotocol.io, namespace app.worldmonitor):
+// (registry.modelcontextprotocol.io, namespace app.eagleeye):
 // - public/.well-known/mcp-registry-auth is the HTTP domain-verification
 //   surface. If it 404s or its format drifts, every future `mcp-publisher
 //   login http` fails and the namespace is unrecoverable without DNS access.
 // - server.json is the published registry entry. Its version/remote must
 //   track the MCP server card; on a SERVER_VERSION bump, bump server.json
 //   too and republish (`mcp-publisher publish` with the domain key at
-//   ~/.config/worldmonitor/mcp-registry-ed25519.pem).
+//   ~/.config/eagleeye/mcp-registry-ed25519.pem).
 describe('mcp registry publication artifacts', () => {
   const authFile = readFileSync(join(ROOT, 'public/.well-known/mcp-registry-auth'), 'utf-8');
   const serverJson = JSON.parse(readFileSync(join(ROOT, 'server.json'), 'utf-8'));
@@ -31,8 +31,8 @@ describe('mcp registry publication artifacts', () => {
     );
   });
 
-  it('server.json stays in the app.worldmonitor namespace with the canonical remote', () => {
-    assert.equal(serverJson.name, 'app.worldmonitor/mcp');
+  it('server.json stays in the app.eagleeye namespace with the canonical remote', () => {
+    assert.equal(serverJson.name, 'app.eagleeye/mcp');
     assert.equal(serverJson.remotes.length, 1);
     assert.equal(serverJson.remotes[0].type, 'streamable-http');
     assert.equal(
@@ -40,7 +40,7 @@ describe('mcp registry publication artifacts', () => {
       serverCard.url,
       'registry remote must match the server card MCP endpoint',
     );
-    assert.equal(serverJson.websiteUrl, 'https://www.worldmonitor.app');
+    assert.equal(serverJson.websiteUrl, 'https://www.eagle-eye.app');
   });
 
   it('server.json version tracks the server card (bump both + republish on SERVER_VERSION change)', () => {

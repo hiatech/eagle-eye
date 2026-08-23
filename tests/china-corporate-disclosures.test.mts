@@ -1916,7 +1916,7 @@ describe('official China corporate disclosures (#5577)', () => {
       RAILWAY_ENVIRONMENT_NAME: 'production',
       RELAY_SHARED_SECRET: 'relay-secret',
     }), {
-      url: 'https://api.worldmonitor.app/api/internal/china-exchange-egress',
+      url: 'https://api.eagle-eye.app/api/internal/china-exchange-egress',
       secret: 'relay-secret',
     });
     assert.equal(resolveChinaExchangeEdgeEgress({
@@ -1928,7 +1928,7 @@ describe('official China corporate disclosures (#5577)', () => {
       CHINA_EXCHANGE_EDGE_URL: 'https://attacker.example/internal-egress',
       RELAY_SHARED_SECRET: 'relay-secret',
     }), {
-      url: 'https://api.worldmonitor.app/api/internal/china-exchange-egress',
+      url: 'https://api.eagle-eye.app/api/internal/china-exchange-egress',
       secret: 'relay-secret',
     });
   });

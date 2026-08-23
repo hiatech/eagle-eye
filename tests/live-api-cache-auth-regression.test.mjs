@@ -14,8 +14,8 @@ import { strict as assert } from 'node:assert';
 import { describe, it } from 'node:test';
 
 const LIVE = process.env.LIVE_API_CACHE_TESTS === '1';
-const API_BASE = stripTrailingSlash(process.env.WM_LIVE_API_BASE_URL || 'https://api.worldmonitor.app');
-const WEB_BASE = stripTrailingSlash(process.env.WM_LIVE_WEB_BASE_URL || 'https://worldmonitor.app');
+const API_BASE = stripTrailingSlash(process.env.WM_LIVE_API_BASE_URL || 'https://api.eagle-eye.app');
+const WEB_BASE = stripTrailingSlash(process.env.WM_LIVE_WEB_BASE_URL || 'https://eagle-eye.app');
 const FAKE_WM_KEY = 'wm_0000000000000000000000000000000000000000';
 // The CDN-shielded weather read. `&public=1` marks a URL whose response is the
 // shared seed payload for EVERY caller, so it can be cached without the cache
@@ -27,7 +27,7 @@ const PUBLIC_WEATHER_URL = `${API_BASE}/api/bootstrap?keys=weatherAlerts&public=
  *
  * The fake-auth assertions below are about ORIGIN auth logic ("an invalid key
  * must be rejected no-store"), but the cache key does NOT include
- * X-WorldMonitor-Key (`vary: Origin` only) on any layer — so on any URL that is
+ * X-EagleEye-Key (`vary: Origin` only) on any layer — so on any URL that is
  * both publicly cacheable and credentialed, a request bearing an invalid key is
  * served whatever anonymous response is already cached — verified against
  * production before #5386 was fixed:
@@ -49,7 +49,7 @@ function bust(url) {
   _bust += 1;
   return `${url}${url.includes('?') ? '&' : '?'}__cb=${Date.now()}-${_bust}`;
 }
-const USER_AGENT = 'WorldMonitor-Live-Cache-Auth-Sweep/1.0';
+const USER_AGENT = 'EagleEye-Live-Cache-Auth-Sweep/1.0';
 const LIVE_API_CACHE_TIMEOUT_MS = positiveIntegerFromEnv(process.env.LIVE_API_CACHE_TIMEOUT_MS, 15_000);
 
 function positiveIntegerFromEnv(value, fallback) {
@@ -154,7 +154,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
 
   it('bootstrap rejects fake auth as dynamic no-store while public weather stays cacheable', async () => {
     const fake = await fetchText(bust(`${API_BASE}/api/bootstrap?keys=weatherAlerts`), {
-      headers: { 'X-WorldMonitor-Key': FAKE_WM_KEY },
+      headers: { 'X-EagleEye-Key': FAKE_WM_KEY },
     });
     assert.equal(fake.resp.status, 401);
     assertNoStore(fake.resp, 'bootstrap fake auth');
@@ -175,7 +175,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
   });
 
   it('an invalid key is never answered by a warm cache entry, on either weather URL', async () => {
-    // #5386, fixed: the edge cache key does not include X-WorldMonitor-Key
+    // #5386, fixed: the edge cache key does not include X-EagleEye-Key
     // (`vary: Origin` only), and neither Vercel nor Cloudflare would key on it —
     // so a URL that is BOTH publicly cacheable and credentialed will serve the
     // cached anonymous 200 to an invalid key once warm. Production did exactly
@@ -196,7 +196,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
     // The public URL is public for every caller — a key attached here changes
     // nothing, by design (a CDN hit precedes handler auth).
     const publicWithBadKey = await fetchText(PUBLIC_WEATHER_URL, {
-      headers: { 'X-WorldMonitor-Key': FAKE_WM_KEY },
+      headers: { 'X-EagleEye-Key': FAKE_WM_KEY },
     });
     assert.equal(publicWithBadKey.resp.status, 200, 'the marked public URL answers every caller identically');
     assert.match(
@@ -250,7 +250,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
     }
 
     const bareWithBadKey = await fetchText(bareUrl, {
-      headers: { 'X-WorldMonitor-Key': FAKE_WM_KEY },
+      headers: { 'X-EagleEye-Key': FAKE_WM_KEY },
     });
     assert.equal(bareWithBadKey.resp.status, 401, 'an invalid key on the bare weather URL must reach the origin and 401');
     assertNoStore(bareWithBadKey.resp, 'invalid key on the bare weather URL');
@@ -261,7 +261,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
 
   it('generated RPCs reject fake auth as dynamic no-store while public no-auth RPCs stay cacheable', async () => {
     const fake = await fetchText(bust(`${API_BASE}/api/market/v1/list-market-quotes?symbols=AAPL`), {
-      headers: { 'X-WorldMonitor-Key': FAKE_WM_KEY },
+      headers: { 'X-EagleEye-Key': FAKE_WM_KEY },
     });
     assert.equal(fake.resp.status, 401);
     assertNoStore(fake.resp, 'generated RPC fake auth');
@@ -276,7 +276,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
 
   it('premium RPC fake auth fails closed without shared cache headers', async () => {
     const fake = await fetchText(bust(`${API_BASE}/api/market/v1/analyze-stock?symbol=AAPL`), {
-      headers: { 'X-WorldMonitor-Key': FAKE_WM_KEY },
+      headers: { 'X-EagleEye-Key': FAKE_WM_KEY },
     });
     assert.equal(fake.resp.status, 401);
     assertNoStore(fake.resp, 'premium RPC fake auth');
@@ -325,7 +325,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
         params: {
           protocolVersion: '2025-03-26',
           capabilities: {},
-          clientInfo: { name: 'worldmonitor-live-sweep', version: '1.0' },
+          clientInfo: { name: 'eagleeye-live-sweep', version: '1.0' },
         },
       }),
     });
@@ -441,7 +441,7 @@ describe(`live API cache/auth regression sweep (${LIVE ? 'ENABLED' : 'SKIPPED - 
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-WorldMonitor-Key': process.env.WM_LIVE_TEST_KEY,
+        'X-EagleEye-Key': process.env.WM_LIVE_TEST_KEY,
       },
       body: JSON.stringify({
         jsonrpc: '2.0',

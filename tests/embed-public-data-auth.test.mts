@@ -48,14 +48,14 @@ describe('embed public data auth', () => {
     const gateway = makeGateway();
 
     for (const path of EMBED_PUBLIC_RPC_PATHS) {
-      const res = await gateway(new Request(`https://worldmonitor.app${path}`, {
-        headers: { Origin: 'https://worldmonitor.app' },
+      const res = await gateway(new Request(`https://eagle-eye.app${path}`, {
+        headers: { Origin: 'https://eagle-eye.app' },
       }));
       assert.equal(res.status, 200, `${path} should not require wm-session in an embed iframe`);
     }
 
-    const gated = await gateway(new Request('https://worldmonitor.app/api/conflict/v1/list-ucdp-events', {
-      headers: { Origin: 'https://worldmonitor.app' },
+    const gated = await gateway(new Request('https://eagle-eye.app/api/conflict/v1/list-ucdp-events', {
+      headers: { Origin: 'https://eagle-eye.app' },
     }));
     assert.equal(gated.status, 401);
   });
@@ -66,10 +66,10 @@ describe('embed public data auth', () => {
     // never shared-cacheable, so it cannot answer a credentialed request from a
     // warm edge entry (#5386).
     for (const url of [
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts',
     ]) {
-      const publicReq = new Request(url, { headers: { Origin: 'https://worldmonitor.app' } });
+      const publicReq = new Request(url, { headers: { Origin: 'https://eagle-eye.app' } });
 
       const publicRes = await bootstrapHandler(publicReq);
       // This test intentionally has no Redis credentials. The public route still
@@ -80,28 +80,28 @@ describe('embed public data auth', () => {
     }
 
     assert.equal(isPublicWeatherBootstrapRequest(new Request(
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1',
-      { headers: { Origin: 'https://worldmonitor.app' } },
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1',
+      { headers: { Origin: 'https://eagle-eye.app' } },
     )), true);
     assert.equal(isAnonymousWeatherBootstrapRequest(new Request(
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts',
-      { headers: { Origin: 'https://worldmonitor.app' } },
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts',
+      { headers: { Origin: 'https://eagle-eye.app' } },
     )), true);
 
     const rejected = [
-      'https://worldmonitor.app/api/bootstrap',
-      'https://worldmonitor.app/api/bootstrap?tier=fast',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts,marketQuotes',
-      'https://worldmonitor.app/api/bootstrap?keys=marketQuotes',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&debug=1',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&keys=marketQuotes',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=1&debug=1',
-      'https://worldmonitor.app/api/bootstrap?keys=weatherAlerts&public=0',
-      'https://worldmonitor.app/api/bootstrap?keys=marketQuotes&public=1',
+      'https://eagle-eye.app/api/bootstrap',
+      'https://eagle-eye.app/api/bootstrap?tier=fast',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts,marketQuotes',
+      'https://eagle-eye.app/api/bootstrap?keys=marketQuotes',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&debug=1',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&keys=marketQuotes',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=1&debug=1',
+      'https://eagle-eye.app/api/bootstrap?keys=weatherAlerts&public=0',
+      'https://eagle-eye.app/api/bootstrap?keys=marketQuotes&public=1',
     ];
 
     for (const url of rejected) {
-      const req = new Request(url, { headers: { Origin: 'https://worldmonitor.app' } });
+      const req = new Request(url, { headers: { Origin: 'https://eagle-eye.app' } });
       assert.equal(isPublicWeatherBootstrapRequest(req), false, url);
       assert.equal(isAnonymousWeatherBootstrapRequest(req), false, url);
       const res = await bootstrapHandler(req);

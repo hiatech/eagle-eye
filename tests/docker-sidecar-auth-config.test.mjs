@@ -23,7 +23,7 @@ test('Docker nginx injects LOCAL_API_TOKEN through a private transport header', 
 
   assert.match(nginx, /location \/api\/ \{/);
   assert.match(nginx, /proxy_pass http:\/\/127\.0\.0\.1:\$\{LOCAL_API_PORT\}/);
-  assert.match(nginx, /proxy_set_header X-WorldMonitor-Local-Token "\$\{LOCAL_API_TOKEN\}"/);
+  assert.match(nginx, /proxy_set_header X-EagleEye-Local-Token "\$\{LOCAL_API_TOKEN\}"/);
   assert.doesNotMatch(nginx, /proxy_set_header Authorization/);
 });
 

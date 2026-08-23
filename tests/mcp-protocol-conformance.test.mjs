@@ -133,7 +133,7 @@ describe('api/mcp.ts — protocol conformance lifecycle (in-process)', () => {
     );
     assert.equal(step1Res.status, 401, 'step 1 (unauth tools/call): expected HTTP 401');
     assert.ok(
-      (step1Res.headers.get('www-authenticate') ?? '').includes('Bearer realm="worldmonitor"'),
+      (step1Res.headers.get('www-authenticate') ?? '').includes('Bearer realm="eagleeye"'),
       'step 1 (unauth tools/call): WWW-Authenticate Bearer realm missing',
     );
     const step1Body = await step1Res.json();
@@ -184,7 +184,7 @@ describe('api/mcp.ts — protocol conformance lifecycle (in-process)', () => {
     assert.equal(step2Body.jsonrpc, '2.0', 'step 2: envelope jsonrpc field must be "2.0"');
     assert.equal(step2Body.id, 2, 'step 2: envelope id must echo the request id');
     assert.equal(step2Body.result?.protocolVersion, '2025-03-26', 'step 2: protocolVersion must echo the client request when supported');
-    assert.equal(step2Body.result?.serverInfo?.name, 'worldmonitor', 'step 2: serverInfo.name must be "worldmonitor"');
+    assert.equal(step2Body.result?.serverInfo?.name, 'eagleeye', 'step 2: serverInfo.name must be "eagleeye"');
     assert.ok(step2Body.result?.capabilities, 'step 2: capabilities object must be present');
     assert.equal(
       pipeFresh.count, 0,

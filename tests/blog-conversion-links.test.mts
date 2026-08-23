@@ -40,7 +40,7 @@ function executeInlineUtmPropagation(incomingSearch: string, hrefs: Array<string
     };
   });
   const location = {
-    href: `https://www.worldmonitor.app/blog/posts/example/${incomingSearch}`,
+    href: `https://www.eagle-eye.app/blog/posts/example/${incomingSearch}`,
     get search(): string {
       return new URL(this.href).search;
     },
@@ -63,10 +63,10 @@ function executeInlineUtmPropagation(incomingSearch: string, hrefs: Array<string
 
 describe('blog conversion attribution', () => {
   it('keeps base product URLs clean and puts bounded attribution on handoffs', () => {
-    assert.equal(BLOG_PRODUCT_URLS.dashboard, 'https://www.worldmonitor.app/dashboard');
-    assert.equal(BLOG_PRODUCT_URLS.pro, 'https://www.worldmonitor.app/pro');
+    assert.equal(BLOG_PRODUCT_URLS.dashboard, 'https://www.eagle-eye.app/dashboard');
+    assert.equal(BLOG_PRODUCT_URLS.pro, 'https://www.eagle-eye.app/pro');
     assert.equal(new URL(BLOG_PRODUCT_URLS.pro).search, '');
-    assert.equal(BLOG_CONVERSION_SOURCE, 'worldmonitor-blog');
+    assert.equal(BLOG_CONVERSION_SOURCE, 'eagleeye-blog');
     assert.equal(BLOG_CONVERSION_MEDIUM, 'owned-content');
 
     for (const destination of ['dashboard', 'pro', 'api', 'mcp'] as const) {
@@ -115,7 +115,7 @@ describe('blog conversion attribution', () => {
     assert.match(post, /Explore Pro/);
     assert.match(
       base,
-      /data-domains="[^"]*\bwww\.worldmonitor\.app\b[^"]*"/,
+      /data-domains="[^"]*\bwww\.eagle-eye\.app\b[^"]*"/,
     );
     assert.match(trackedLink, /BLOG_CONVERSION_EVENT/);
     assert.match(trackedLink, /data-wm-content-link/);
@@ -134,7 +134,7 @@ describe('blog conversion attribution', () => {
     const hrefs = executeInlineUtmPropagation(
       `?utm_source=inbound&utm_source=second&utm_medium=email&utm_campaign=${'x'.repeat(120)}&utm_term=term&utm_content=button&ref=affiliate&wm_referral=partner`,
       [
-        'https://www.worldmonitor.app/dashboard?utm_source=destination&utm_medium=existing',
+        'https://www.eagle-eye.app/dashboard?utm_source=destination&utm_medium=existing',
         '/pro?utm_campaign=article',
         null,
       ],

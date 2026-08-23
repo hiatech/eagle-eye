@@ -10,15 +10,15 @@ import {
 describe('buildDashboardCheckoutReturnUrl', () => {
   it('routes Dodo full-page returns to the dashboard instead of the root welcome page', () => {
     assert.equal(
-      buildDashboardCheckoutReturnUrl('https://worldmonitor.app'),
-      'https://worldmonitor.app/dashboard?wm_checkout=return',
+      buildDashboardCheckoutReturnUrl('https://eagle-eye.app'),
+      'https://eagle-eye.app/dashboard?wm_checkout=return',
     );
   });
 
   it('preserves the active origin so preview and variant hosts return to their own dashboard', () => {
     assert.equal(
-      buildDashboardCheckoutReturnUrl('https://tech.worldmonitor.app'),
-      'https://tech.worldmonitor.app/dashboard?wm_checkout=return',
+      buildDashboardCheckoutReturnUrl('https://tech.eagle-eye.app'),
+      'https://tech.eagle-eye.app/dashboard?wm_checkout=return',
     );
   });
 });
@@ -26,12 +26,12 @@ describe('buildDashboardCheckoutReturnUrl', () => {
 describe('resolveCheckoutReturnOrigin (#5911)', () => {
   it('keeps the active origin on web, so variant and preview hosts still self-return', () => {
     assert.equal(
-      resolveCheckoutReturnOrigin('https://tech.worldmonitor.app', false),
-      'https://tech.worldmonitor.app',
+      resolveCheckoutReturnOrigin('https://tech.eagle-eye.app', false),
+      'https://tech.eagle-eye.app',
     );
     assert.equal(
-      resolveCheckoutReturnOrigin('https://worldmonitor-git-x.vercel.app', false),
-      'https://worldmonitor-git-x.vercel.app',
+      resolveCheckoutReturnOrigin('https://eagleeye-git-x.vercel.app', false),
+      'https://eagleeye-git-x.vercel.app',
     );
   });
 
@@ -43,7 +43,7 @@ describe('resolveCheckoutReturnOrigin (#5911)', () => {
     it(`replaces the desktop WebView origin ${webviewOrigin}, which serves no dashboard`, () => {
       assert.equal(
         resolveCheckoutReturnOrigin(webviewOrigin, true),
-        'https://worldmonitor.app',
+        'https://eagle-eye.app',
       );
     });
   }
@@ -57,14 +57,14 @@ describe('resolveCheckoutReturnOrigin (#5911)', () => {
         resolveCheckoutReturnOrigin('tauri://localhost', true),
         DESKTOP_CHECKOUT_SOURCE,
       ),
-      'https://worldmonitor.app/dashboard?wm_checkout=return&wm_src=desktop',
+      'https://eagle-eye.app/dashboard?wm_checkout=return&wm_src=desktop',
     );
   });
 
   it('does not add the desktop source marker to ordinary web returns', () => {
     assert.equal(
-      buildDashboardCheckoutReturnUrl('https://worldmonitor.app'),
-      'https://worldmonitor.app/dashboard?wm_checkout=return',
+      buildDashboardCheckoutReturnUrl('https://eagle-eye.app'),
+      'https://eagle-eye.app/dashboard?wm_checkout=return',
     );
   });
 });

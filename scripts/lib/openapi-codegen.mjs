@@ -952,7 +952,7 @@ export const PUBLIC_FORBIDDEN_GATES = new Map([
     },
   }],
   ['/api/leads/v1/register-interest', {
-    // The handler (server/worldmonitor/leads/v1/register-interest.ts) fails
+    // The handler (server/eagleeye/leads/v1/register-interest.ts) fails
     // closed with two distinct 403s: browser callers that fail the Cloudflare
     // Turnstile check get 403 Bot verification failed; desktop-source callers
     // whose shared-secret HMAC bypass is missing/invalid get 403 Desktop

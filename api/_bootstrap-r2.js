@@ -104,7 +104,7 @@ export async function readBootstrapTierObject(tier, options = {}) {
       `${config.endpoint}/${encodeURIComponent(config.bucket)}/${tier}.json`,
       {
         method: 'GET',
-        headers: { 'User-Agent': 'WorldMonitor Bootstrap/1.0' },
+        headers: { 'User-Agent': 'EagleEye Bootstrap/1.0' },
         signal,
       },
     );

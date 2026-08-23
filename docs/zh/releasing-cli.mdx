@@ -1,13 +1,13 @@
 ---
 title: "CLI 发布运行手册"
-description: "维护者如何使用 cli-v* 标签、npm Trusted Publishing 以及发布工作流中的 dry-run 门控，从 cli/ 目录发布 worldmonitor npm CLI 的完整流程 —— 涵盖版本号约定、变更日志、令牌无关的可信发布链路、回滚策略以及针对预发布通道与稳定通道的差异化处理。"
+description: "维护者如何使用 cli-v* 标签、npm Trusted Publishing 以及发布工作流中的 dry-run 门控，从 cli/ 目录发布 eagleeye npm CLI 的完整流程 —— 涵盖版本号约定、变更日志、令牌无关的可信发布链路、回滚策略以及针对预发布通道与稳定通道的差异化处理。"
 ---
-本运行手册涵盖维护者从 `cli/` 发布官方 [`worldmonitor`](https://www.npmjs.com/package/worldmonitor) npm CLI 的流程。CLI 发布有意与桌面应用发布相互独立：一个 `cli-vX.Y.Z` Git 标签会触发 `.github/workflows/publish-cli.yml`。
+本运行手册涵盖维护者从 `cli/` 发布官方 [`eagleeye`](https://www.npmjs.com/package/eagleeye) npm CLI 的流程。CLI 发布有意与桌面应用发布相互独立：一个 `cli-vX.Y.Z` Git 标签会触发 `.github/workflows/publish-cli.yml`。
 Python、Ruby 和 Go SDK 以相同方式发布，各自使用自己的标签（`py-v*`、`gem-v*`、`sdk/go/v*`）——参见[官方 SDK → 发布](/zh/sdks#releasing-maintainers)。
 
 ## 先决条件
 
-- `worldmonitor` 包已存在于 npm 上。
+- `eagleeye` 包已存在于 npm 上。
 - npm Trusted Publishing 已针对本仓库和 `.github/workflows/publish-cli.yml` 配置完成。
 - 该工作流保留 `permissions.id-token: write`，以便 npm 能够铸造短期 OIDC 凭证并附加来源证明（provenance）。
 
@@ -51,4 +51,4 @@ Python、Ruby 和 Go SDK 以相同方式发布，各自使用自己的标签（`
 | 发布步骤认证失败 | npm Trusted Publishing 缺失或指向了错误的工作流/仓库 | 为本仓库和 `.github/workflows/publish-cli.yml` 配置包的可信发布者 |
 | CLI 测试失败 | 包尚未达到可发布状态 | 修复 `cli/`，在本地重新运行测试，提交，然后推送一个新的发布标签 |
 
-工作流成功后，确认新版本已出现在 npm 上，且 `npx worldmonitor --version` 解析到已发布的版本。
+工作流成功后，确认新版本已出现在 npm 上，且 `npx eagleeye --version` 解析到已发布的版本。

@@ -370,7 +370,7 @@ export class RuntimeConfigPanel extends Panel {
 
     if (this.mode === 'alert') {
       this.content.querySelector<HTMLButtonElement>('[data-early-access]')?.addEventListener('click', () => {
-        const url = 'https://www.worldmonitor.app/pro';
+        const url = 'https://www.eagle-eye.app/pro';
         void openExternalUrl(url);
       });
       return;

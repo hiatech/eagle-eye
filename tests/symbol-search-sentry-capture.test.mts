@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, describe, it } from 'node:test';
 
-// ─── WORLDMONITOR-RE: symbol-search Sentry-capture policy ──────────────────
+// ─── EAGLEEYE-RE: symbol-search Sentry-capture policy ──────────────────
 //
 // PR #4233 made `api/symbol-search.ts` SKIP the `captureSilentError` call for
 // upstream gateway transients (502/503/504) — Finnhub-side infra blips that
@@ -30,7 +30,7 @@ delete process.env.NODE_TEST_CONTEXT;
 
 // Set before the dynamic import so parseDsn() wires up the envelope transport.
 process.env.VITE_SENTRY_DSN = 'https://testpublickey@sentry.test/12345';
-process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
 process.env.FINNHUB_API_KEY = 'test-key';
 // Leave UPSTASH_* unset: both the cache helpers and the rate limiter guard on
 // those vars and return early WITHOUT fetching, so Finnhub + the Sentry
@@ -51,8 +51,8 @@ after(() => {
 
 function makeReq(q = 'nvidia'): Request {
   return new Request(
-    `https://worldmonitor.app/api/symbol-search?q=${encodeURIComponent(q)}`,
-    { headers: { 'X-WorldMonitor-Key': TEST_KEY } },
+    `https://eagle-eye.app/api/symbol-search?q=${encodeURIComponent(q)}`,
+    { headers: { 'X-EagleEye-Key': TEST_KEY } },
   );
 }
 
@@ -80,7 +80,7 @@ async function runWithFinnhubStatus(finnhubStatus: number): Promise<{ envelopeHi
   return { envelopeHits, status: res.status };
 }
 
-describe('symbol-search Sentry-capture policy (WORLDMONITOR-RE)', () => {
+describe('symbol-search Sentry-capture policy (EAGLEEYE-RE)', () => {
   // ── Actionable failures STILL capture (also the DSN-activation control) ──
   for (const finnhubStatus of [401, 403, 500]) {
     it(`captures an actionable Finnhub ${finnhubStatus} and surfaces 502 to the client`, async () => {
@@ -100,7 +100,7 @@ describe('symbol-search Sentry-capture policy (WORLDMONITOR-RE)', () => {
   for (const finnhubStatus of [502, 503, 504]) {
     it(`skips capture for upstream gateway transient ${finnhubStatus}`, async () => {
       const { envelopeHits, status } = await runWithFinnhubStatus(finnhubStatus);
-      assert.equal(envelopeHits, 0, `gateway transient ${finnhubStatus} must NOT page Sentry (WORLDMONITOR-RE)`);
+      assert.equal(envelopeHits, 0, `gateway transient ${finnhubStatus} must NOT page Sentry (EAGLEEYE-RE)`);
       assert.equal(status, 502, 'client still receives 502 so it backs off and uptime monitoring fires');
     });
   }

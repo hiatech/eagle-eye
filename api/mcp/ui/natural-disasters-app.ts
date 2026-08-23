@@ -33,7 +33,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title">Natural Disasters</div>
-    <div class="badge">WorldMonitor Hazards</div>
+    <div class="badge">EagleEye Hazards</div>
   </div>
   <div class="empty" id="empty">Waiting for hazard data…</div>
   <div id="card" style="display:none">
@@ -126,8 +126,8 @@ const RENDER = `
 `;
 
 export const NATURAL_DISASTERS_APP_HTML = buildAppHtml({
-  title: 'Natural Disasters — WorldMonitor',
-  appName: 'worldmonitor-natural-disasters',
+  title: 'Natural Disasters — EagleEye',
+  appName: 'eagleeye-natural-disasters',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

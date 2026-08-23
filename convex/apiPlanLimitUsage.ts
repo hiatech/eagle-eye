@@ -241,7 +241,7 @@ async function queryAxiom(apl: string, dimension: PlanLimitDimension): Promise<{
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        "User-Agent": "worldmonitor-convex-plan-limit-scanner/1.0",
+        "User-Agent": "eagleeye-convex-plan-limit-scanner/1.0",
       },
       body: JSON.stringify({ apl }),
       signal: AbortSignal.timeout(10_000),

@@ -32,7 +32,7 @@ describe('ExaProvider.extract', () => {
     const request = fetchMock.mock.calls[0]?.[1] as RequestInit;
     expect(fetchMock.mock.calls[0]?.[0]).toBe('https://api.exa.ai/contents');
     expect(request.method).toBe('POST');
-    expect(request.headers).toMatchObject({ 'x-api-key': 'test-key', 'User-Agent': 'worldmonitor-consumer-prices/1.0' });
+    expect(request.headers).toMatchObject({ 'x-api-key': 'test-key', 'User-Agent': 'eagleeye-consumer-prices/1.0' });
     const body = JSON.parse(String(request.body)) as {
       summary: {
         query: string;

@@ -1,9 +1,9 @@
-// Pure, dependency-free logic for the WorldMonitor CLI: argument parsing,
+// Pure, dependency-free logic for the EagleEye CLI: argument parsing,
 // request planning, and output formatting. Nothing here touches the network or
 // the process — every export is unit-testable in isolation, and the thin
 // network/IO wrapper lives in ./run.mjs.
 //
-// The CLI is MCP-first. The MCP server (https://worldmonitor.app/mcp) is the
+// The CLI is MCP-first. The MCP server (https://eagle-eye.app/mcp) is the
 // live, documented agent surface: `tools/list` is public, and `tools/call`
 // (used by the curated data commands) authenticates with a user API key. A
 // small REST escape hatch (`health`, `get <path>`) and an OpenAPI listing
@@ -13,14 +13,14 @@ export const VERSION = '0.1.3';
 
 // Cloudflare's WAF challenges generic library User-Agents (node, curl,
 // python-requests, empty) on the API edge, so we always identify ourselves.
-export const USER_AGENT = `worldmonitor-cli/${VERSION} (+https://worldmonitor.app)`;
+export const USER_AGENT = `eagleeye-cli/${VERSION} (+https://eagle-eye.app)`;
 
-export const DEFAULT_BASE_URL = 'https://api.worldmonitor.app';
-export const DEFAULT_MCP_URL = 'https://worldmonitor.app/mcp';
-export const DEFAULT_SPEC_URL = 'https://worldmonitor.app/openapi.json';
+export const DEFAULT_BASE_URL = 'https://api.eagle-eye.app';
+export const DEFAULT_MCP_URL = 'https://eagle-eye.app/mcp';
+export const DEFAULT_SPEC_URL = 'https://eagle-eye.app/openapi.json';
 
 // Header the API accepts for a user-issued key (alias: X-Api-Key).
-export const API_KEY_HEADER = 'X-WorldMonitor-Key';
+export const API_KEY_HEADER = 'X-EagleEye-Key';
 
 // JSON-RPC error code the MCP server returns when a call needs authentication.
 export const MCP_AUTH_ERROR_CODE = -32001;
@@ -28,7 +28,7 @@ export const MCP_AUTH_ERROR_CODE = -32001;
 // Shown on any auth failure (MCP -32001 or a REST 401) so the fix is always one
 // hint away, whichever surface the user hit.
 export const AUTH_HINT =
-  'Hint: this call needs a key — pass --api-key or set WORLDMONITOR_API_KEY (get one at https://worldmonitor.app/pro).';
+  'Hint: this call needs a key — pass --api-key or set EAGLEEYE_API_KEY (get one at https://eagle-eye.app/pro).';
 
 // Thrown for bad invocations so run.mjs can exit with a distinct status (2) and
 // print usage rather than a stack trace.
@@ -127,7 +127,7 @@ function isFlag(token) {
 // Split argv into { command, positionals, options, params }. `options` holds
 // recognised global flags; `params` holds every other `--key value` pair and
 // becomes the request's tool arguments (MCP) or query string (REST). This is
-// what makes `worldmonitor conflicts --country IR --limit 5` work with no
+// what makes `eagleeye conflicts --country IR --limit 5` work with no
 // per-command wiring.
 export function parseArgs(argv) {
   const options = {};
@@ -177,10 +177,10 @@ export function parseArgs(argv) {
 // on every call.
 export function resolveConfig(env = {}) {
   return {
-    apiKey: env.WORLDMONITOR_API_KEY || env.WM_API_KEY,
-    baseUrl: env.WORLDMONITOR_BASE_URL,
-    mcpUrl: env.WORLDMONITOR_MCP_URL,
-    specUrl: env.WORLDMONITOR_SPEC_URL,
+    apiKey: env.EAGLEEYE_API_KEY || env.WM_API_KEY,
+    baseUrl: env.EAGLEEYE_BASE_URL,
+    mcpUrl: env.EAGLEEYE_MCP_URL,
+    specUrl: env.EAGLEEYE_SPEC_URL,
   };
 }
 
@@ -264,7 +264,7 @@ export function planRequest(parsed, config = {}) {
   if (command === 'get') {
     const path = positionals[0];
     if (!path || !path.startsWith('/')) {
-      throw new UsageError('`get` needs an API path, e.g. `worldmonitor get /api/health`');
+      throw new UsageError('`get` needs an API path, e.g. `eagleeye get /api/health`');
     }
     return restPlan(path, params, options, config);
   }
@@ -277,7 +277,7 @@ export function planRequest(parsed, config = {}) {
     const tool = positionals[0];
     if (!tool) {
       throw new UsageError(
-        '`call` needs a tool name, e.g. `worldmonitor call get_country_risk --country_code IR`',
+        '`call` needs a tool name, e.g. `eagleeye call get_country_risk --country_code IR`',
       );
     }
     return mcpPlan('tools/call', { name: tool, arguments: collectArgs(parsed) }, options, config, {
@@ -294,7 +294,7 @@ export function planRequest(parsed, config = {}) {
     });
     for (const a of spec.args) {
       if (a.required && args[a.name] === undefined) {
-        throw new UsageError(`\`${command}\` needs <${a.name}>. Usage: worldmonitor ${command} <${a.name}>`);
+        throw new UsageError(`\`${command}\` needs <${a.name}>. Usage: eagleeye ${command} <${a.name}>`);
       }
     }
     return mcpPlan('tools/call', { name: spec.tool, arguments: args }, options, config, {
@@ -302,7 +302,7 @@ export function planRequest(parsed, config = {}) {
     });
   }
 
-  throw new UsageError(`Unknown command: ${command || '(none)'}. Run \`worldmonitor --help\`.`);
+  throw new UsageError(`Unknown command: ${command || '(none)'}. Run \`eagleeye --help\`.`);
 }
 
 export function formatOutput(value, options = {}) {
@@ -341,10 +341,10 @@ export function renderListing(rows) {
   return `${rows.length} operation(s):\n${lines.join('\n')}`;
 }
 
-export const HELP = `worldmonitor — command-line client for the World Monitor global-intelligence API
+export const HELP = `eagleeye — command-line client for the Eagle Eye global-intelligence API
 
 USAGE
-  worldmonitor <command> [arguments] [--flags]
+  eagleeye <command> [arguments] [--flags]
 
 DATA COMMANDS (MCP tools/call — need --api-key)
   world                    Live global situation brief
@@ -370,7 +370,7 @@ REST
   list [service]           List documented REST operations (from the live spec)
 
 FLAGS
-  --api-key <key>          User API key (or env WORLDMONITOR_API_KEY)
+  --api-key <key>          User API key (or env EAGLEEYE_API_KEY)
   --mcp-url <url>          MCP endpoint (default ${DEFAULT_MCP_URL})
   --base-url <url>         REST base (default ${DEFAULT_BASE_URL})
   --args <json>            Typed arguments object for a tool call
@@ -381,9 +381,9 @@ FLAGS
   -v, --version            Print version
 
 Any other --key value pair becomes a tool/request parameter, e.g.
-  worldmonitor risk IR --api-key wm_xxx
-  worldmonitor conflicts --country IR --limit 5 --api-key wm_xxx
-  worldmonitor call get_market_data --asset_class crypto --api-key wm_xxx
-  worldmonitor tools
+  eagleeye risk IR --api-key wm_xxx
+  eagleeye conflicts --country IR --limit 5 --api-key wm_xxx
+  eagleeye call get_market_data --asset_class crypto --api-key wm_xxx
+  eagleeye tools
 
-Get an API key at https://worldmonitor.app/pro · docs https://worldmonitor.app/docs/cli`;
+Get an API key at https://eagle-eye.app/pro · docs https://eagle-eye.app/docs/cli`;

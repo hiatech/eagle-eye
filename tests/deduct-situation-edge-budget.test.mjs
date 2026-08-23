@@ -13,12 +13,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // kills the invocation — a budget above the ceiling is unreachable: 7d of
 // Axiom route telemetry (2026-07) shows no successful response past 23.6s,
 // while slower runs surface as client 504s with the LLM spend wasted and
-// nothing cached (WORLDMONITOR-VP, #5147).
+// nothing cached (EAGLEEYE-VP, #5147).
 //
 // Source-text extraction (same pattern as csp-filter.test.mjs) so the test
 // doesn't drag the handler's redis/llm import graph into the runner.
 const src = readFileSync(
-  resolve(__dirname, '../server/worldmonitor/intelligence/v1/deduct-situation.ts'),
+  resolve(__dirname, '../server/eagleeye/intelligence/v1/deduct-situation.ts'),
   'utf-8',
 );
 
@@ -33,7 +33,7 @@ function constVal(name, known = {}) {
   return new Function(`"use strict"; return (${expr});`)();
 }
 
-describe('deduct-situation edge response budget (WORLDMONITOR-VP / #5147)', () => {
+describe('deduct-situation edge response budget (EAGLEEYE-VP / #5147)', () => {
   it('names the Vercel edge initial-response ceiling at 25s', () => {
     assert.equal(constVal('VERCEL_INITIAL_RESPONSE_LIMIT_MS'), 25_000);
   });

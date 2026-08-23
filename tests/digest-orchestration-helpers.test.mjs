@@ -31,35 +31,35 @@ describe('subjectForBrief — synthesis-level → email subject', () => {
   it('synthesis level 1 + non-empty briefLead → Intelligence Brief', () => {
     assert.equal(
       subjectForBrief({ briefLead: 'A real lead', synthesisLevel: 1, shortDate: 'Apr 25' }),
-      'WorldMonitor Intelligence Brief — Apr 25',
+      'EagleEye Intelligence Brief — Apr 25',
     );
   });
 
   it('synthesis level 2 + non-empty briefLead → Intelligence Brief (L2 still editorial)', () => {
     assert.equal(
       subjectForBrief({ briefLead: 'A degraded lead', synthesisLevel: 2, shortDate: 'Apr 25' }),
-      'WorldMonitor Intelligence Brief — Apr 25',
+      'EagleEye Intelligence Brief — Apr 25',
     );
   });
 
   it('synthesis level 3 → Digest (stub fallback ships less editorial subject)', () => {
     assert.equal(
       subjectForBrief({ briefLead: 'a stub', synthesisLevel: 3, shortDate: 'Apr 25' }),
-      'WorldMonitor Digest — Apr 25',
+      'EagleEye Digest — Apr 25',
     );
   });
 
   it('null briefLead → Digest regardless of level (no signal for editorial subject)', () => {
     assert.equal(
       subjectForBrief({ briefLead: null, synthesisLevel: 1, shortDate: 'Apr 25' }),
-      'WorldMonitor Digest — Apr 25',
+      'EagleEye Digest — Apr 25',
     );
   });
 
   it('empty-string briefLead → Digest', () => {
     assert.equal(
       subjectForBrief({ briefLead: '', synthesisLevel: 1, shortDate: 'Apr 25' }),
-      'WorldMonitor Digest — Apr 25',
+      'EagleEye Digest — Apr 25',
     );
   });
 });

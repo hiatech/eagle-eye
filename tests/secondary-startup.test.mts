@@ -21,7 +21,7 @@ const activeMarkup = indexHtml.replace(/<!--[\s\S]*?-->/g, '');
 describe('secondary dashboard startup', () => {
   it('keeps analytics, auth, Sentry, and font fetches out of index.html startup tags', () => {
     assert.equal(
-      /<script\b[^>]+src=["']https:\/\/abacus\.worldmonitor\.app\/script\.js["']/i.test(activeMarkup),
+      /<script\b[^>]+src=["']https:\/\/abacus\.eagle-eye\.app\/script\.js["']/i.test(activeMarkup),
       false,
       'Umami must be injected by the deferred dashboard loader, not index.html',
     );
@@ -36,7 +36,7 @@ describe('secondary dashboard startup', () => {
       'Sentry ingest preconnect must not compete with initial dashboard paint',
     );
     assert.equal(
-      /<link\b[^>]+rel=["']dns-prefetch["'][^>]+href=["']https:\/\/clerk\.worldmonitor\.app["']/i.test(activeMarkup),
+      /<link\b[^>]+rel=["']dns-prefetch["'][^>]+href=["']https:\/\/clerk\.eagle-eye\.app["']/i.test(activeMarkup),
       false,
       'Clerk dns-prefetch must not run before the deferred Clerk loader',
     );
@@ -55,7 +55,7 @@ describe('secondary dashboard startup', () => {
   it('keeps secondary startup script hosts out of the dashboard script-src allowlist', () => {
     const scriptSrc = dashboardCsp.match(/script-src\s+([^;]+)/)?.[1] ?? '';
     assert.match(scriptSrc, /'strict-dynamic'/);
-    assert.doesNotMatch(scriptSrc, /https:\/\/abacus\.worldmonitor\.app/);
+    assert.doesNotMatch(scriptSrc, /https:\/\/abacus\.eagle-eye\.app/);
     assert.doesNotMatch(scriptSrc, /https:\/\/cdn\.debugbear\.com/);
     assert.doesNotMatch(scriptSrc, /https:\/\/static\.cloudflareinsights\.com/);
     assert.doesNotMatch(dashboardCsp, /style-src[^;]*https:\/\/fonts\.googleapis\.com/);
@@ -165,12 +165,12 @@ describe('deferred Umami loader', () => {
       assert.equal(appendedScripts.length, 1);
       const firstScript = appendedScripts[0]!;
       assert.equal(firstScript.async, true);
-      assert.equal(firstScript.src, 'https://abacus.worldmonitor.app/script.js');
+      assert.equal(firstScript.src, 'https://abacus.eagle-eye.app/script.js');
       assert.equal(firstScript.dataset.websiteId, 'e8800335-c853-46a8-8497-c993ed2f58bc');
       // www MUST stay listed (#4931): the apex 301s to www in production and
       // the tracker's data-domains check is an exact hostname match — without
       // www, analytics on the canonical host are silently disabled.
-      assert.equal(firstScript.dataset.domains, 'worldmonitor.app,www.worldmonitor.app,happy.worldmonitor.app');
+      assert.equal(firstScript.dataset.domains, 'eagle-eye.app,www.eagle-eye.app,happy.eagle-eye.app');
       assert.deepEqual(calls, []);
       firstScript.listeners.get('error')?.();
       assert.equal(firstScript.removed, true);

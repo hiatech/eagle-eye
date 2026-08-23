@@ -55,7 +55,7 @@ export async function putKvJsonValue(config, key, value, { fetchFn = fetch, time
       headers: {
         Authorization: `Bearer ${config.token}`,
         'Content-Type': 'application/json',
-        'User-Agent': 'WorldMonitor Bootstrap Publisher/1.0',
+        'User-Agent': 'EagleEye Bootstrap Publisher/1.0',
       },
       body,
       signal: controller.signal,

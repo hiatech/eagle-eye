@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
 describe('Customs revenue handler', () => {
-  const handlerSrc = readFileSync(join(root, 'server/worldmonitor/trade/v1/get-customs-revenue.ts'), 'utf-8');
+  const handlerSrc = readFileSync(join(root, 'server/eagleeye/trade/v1/get-customs-revenue.ts'), 'utf-8');
 
   it('reads from Redis with raw key mode (true)', () => {
     assert.match(handlerSrc, /getCachedJson\(\s*CUSTOMS_KEY\s*,\s*true\s*\)/);

@@ -586,7 +586,7 @@
         "needsKeys": "Configurați cheile API pentru a debloca funcțiile",
         "some": "Unele funcții necesită chei API"
       },
-      "skipSetup": "Omiteți configurarea — o singură licență World Monitor deblochează totul. Alăturați-vă listei de așteptare pentru acces anticipat.",
+      "skipSetup": "Omiteți configurarea — o singură licență Eagle Eye deblochează totul. Alăturați-vă listei de așteptare pentru acces anticipat.",
       "summary": {
         "desktop": "Modul desktop",
         "web": "Mod web (numai citire, acreditări gestionate de server)",
@@ -631,7 +631,7 @@
       "noTraffic": "Nu s-a înregistrat încă trafic.",
       "sidecarUnreachable": "Sidecar nu este accesibil.",
       "logCleared": "Jurnalul a fost șters.",
-      "worldMonitor": {
+      "eagleEye": {
         "apiKey": {
           "title": "Cheie de licență / API",
           "placeholder": "wm_xxxxxxxxxxxxxxxxxxxxxxxx",
@@ -640,7 +640,7 @@
         "dividerOr": "SAU",
         "register": {
           "title": "Aveți nevoie de o cheie API?",
-          "description": "Consultați worldmonitor.app/docs/api-keys pentru instrucțiuni pas cu pas. Cheile API manuale necesită un plan API Starter sau API Business.",
+          "description": "Consultați eagle-eye.app/docs/api-keys pentru instrucțiuni pas cu pas. Cheile API manuale necesită un plan API Starter sau API Business.",
           "submitBtn": "Vedeți planurile API"
         }
       },
@@ -651,7 +651,7 @@
         "status": "Stare",
         "duration": "Durata"
       },
-      "shellTitle": "Setări World Monitor",
+      "shellTitle": "Setări Eagle Eye",
       "shellSearchPlaceholder": "Căutați setări...",
       "shellCancel": "Anulare",
       "shellSaveClose": "Salvare & Închidere",
@@ -1923,7 +1923,7 @@
       "tripDays": "Zile de călătorie"
     },
     "chatAnalyst": {
-      "infoTooltip": "<strong>Analist WM</strong> Analist AI cu context în timp real în domeniile geopolitic, piețe, militar și economic. Alimentat de Claude cu date în timp real injectate din fluxurile active WorldMonitor."
+      "infoTooltip": "<strong>Analist WM</strong> Analist AI cu context în timp real în domeniile geopolitic, piețe, militar și economic. Alimentat de Claude cu date în timp real injectate din fluxurile active EagleEye."
     },
     "cotPositioning": {
       "infoTooltip": "<strong>Poziționare CFTC COT</strong> Raportul angajamentelor traderilor: poziționarea netă a comercialilor, speculanților mari și traderilor mici în contractele futures pe mărfuri și financiare. Publicat săptămânal (vineri). Sursă: CFTC."
@@ -2055,7 +2055,7 @@
       "infoTooltip": "<strong>Indicatori macro</strong> Indicatori macroeconomici cheie pentru SUA și zona euro: CPI, șomaj, GDP și ratele băncilor centrale. Valori afișate cu delta față de perioada anterioară. Sursă: FRED (Federal Reserve Economic Data)."
     },
     "monitors": {
-      "infoTooltip": "<strong>Monitoare de cuvinte cheie</strong> Adăugați orice termen pentru a urmări mențiunile în știri în timp real din toate sursele WorldMonitor. Rezultatele se actualizează în timp real pe măsură ce articolele corespunzătoare sunt ingerate."
+      "infoTooltip": "<strong>Monitoare de cuvinte cheie</strong> Adăugați orice termen pentru a urmări mențiunile în știri în timp real din toate sursele EagleEye. Rezultatele se actualizează în timp real pe măsură ce articolele corespunzătoare sunt ingerate."
     },
     "renewable": {
       "infoTooltip": "<strong>Energie regenerabilă</strong> Ponderea regenerabilelor în producția de electricitate pe regiune și an, plus capacitatea instalată în SUA pentru solar, eolian și cărbune (MW). Surse: Banca Mondială (EG.ELC.RNEW.ZS) și EIA."
@@ -3248,10 +3248,10 @@
     "copyCoordinates": "Copiază coordonatele"
   },
   "shell": {
-    "documentTitle": "World Monitor — Tabloul de Bord al Inteligenței Globale în Timp Real",
+    "documentTitle": "Eagle Eye — Tabloul de Bord al Inteligenței Globale în Timp Real",
     "metaDescription": "Platformă de inteligență globală în timp real. Prezentată în WIRED. Utilizată de 2M+ persoane din 190 de țări. Conflicte, piețe, militare, OSINT într-o singură vizualizare.",
     "offlineTitle": "Sunteți Offline",
-    "offlineMessage": "World Monitor necesită o conexiune la internet pentru date de informații în timp real.",
+    "offlineMessage": "Eagle Eye necesită o conexiune la internet pentru date de informații în timp real.",
     "offlineRetry": "Încercați din nou"
   },
   "widgets": {
@@ -3289,12 +3289,12 @@
     "phaseError": "Eroare",
     "previewCheckingHeading": "Se conectează constructorul de widget",
     "previewReadyHeading": "Descrie widgetul pe care îl dorești",
-    "previewFetchingHeading": "Se preiau datele live WorldMonitor",
+    "previewFetchingHeading": "Se preiau datele live EagleEye",
     "previewComposingHeading": "Se compune aspectul widgetului",
     "previewErrorHeading": "Previzualizarea necesită atenție",
     "previewCheckingCopy": "Validăm cheia widgetului și disponibilitatea backend-ului înainte de a activa generarea.",
     "previewReadyCopy": "Folosește un exemplu de prompt sau descrie exact vizualizarea live pe care o dorești. Previzualizarea se va actualiza aici înainte să o salvezi.",
-    "previewFetchingCopy": "Agentul apelează punctele finale WorldMonitor aprobate și modelează setul de date pentru widget.",
+    "previewFetchingCopy": "Agentul apelează punctele finale EagleEye aprobate și modelează setul de date pentru widget.",
     "previewComposingCopy": "Previzualizarea se redă cu cele mai recente date live și stilul tabloului de bord.",
     "previewErrorCopy": "Remediază problema, apoi reîncearcă. Widgeturile existente nu sunt afectate.",
     "createInteractive": "Creează Widget Interactiv",
@@ -3323,7 +3323,7 @@
   },
   "premium": {
     "pro": "PRO",
-    "lockedDesc": "Necesită o cheie de licență World Monitor",
+    "lockedDesc": "Necesită o cheie de licență Eagle Eye",
     "signInToUnlock": "Conectați-vă pentru a debloca funcțiile premium",
     "signIn": "Conectați-vă pentru a debloca",
     "upgradeDesc": "Upgrade la Pro pentru acces deplin la analitica premium",

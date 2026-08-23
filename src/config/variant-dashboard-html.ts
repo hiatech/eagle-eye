@@ -1,8 +1,8 @@
 import { VARIANT_META, type VariantMeta } from './variant-meta';
 
-// Variants that are served from their own worldmonitor.app subdomain by the
+// Variants that are served from their own eagle-eye.app subdomain by the
 // single web deployment (vercel.json host-based rewrites map
-// <variant>.worldmonitor.app/dashboard → /dashboard-<variant>.html).
+// <variant>.eagle-eye.app/dashboard → /dashboard-<variant>.html).
 // Desktop/self-host variant builds are NOT in scope — they run
 // htmlVariantPlugin at build time with VITE_VARIANT set.
 export const WEB_DASHBOARD_VARIANTS = ['tech', 'finance', 'commodity', 'happy', 'energy'] as const;
@@ -63,7 +63,7 @@ const TWO: CountBounds = { min: 2, max: 2 };
 // keywords/subject/classification metas, canonical + English discovery links,
 // og/twitter cards, the WebApplication JSON-LD block, and the visually
 // hidden <h1>. The Organization/WebSite JSON-LD blocks intentionally keep
-// the World Monitor identity (each variant isPartOf World Monitor — same
+// the Eagle Eye identity (each variant isPartOf Eagle Eye — same
 // modelling as the middleware.ts crawler stub).
 export function renderVariantDashboardHtml(fullDashboardHtml: string, variant: string): string {
   const meta: VariantMeta | undefined = VARIANT_META[variant];
@@ -109,7 +109,7 @@ export function renderVariantDashboardHtml(fullDashboardHtml: string, variant: s
   // the exact-count guard makes a reintroduced ?lang alternate fail the build.
   html = replaceCounted(
     html,
-    /(<link rel="alternate" hreflang="[^"]+" href=")https:\/\/www\.worldmonitor\.app\/dashboard((?:\?[^"]*)?" \/>)/g,
+    /(<link rel="alternate" hreflang="[^"]+" href=")https:\/\/www\.eagle-eye\.app\/dashboard((?:\?[^"]*)?" \/>)/g,
     (_m, a, b) => `${a}${escHtml(meta.url)}${b}`,
     TWO,
     'hreflang alternates',

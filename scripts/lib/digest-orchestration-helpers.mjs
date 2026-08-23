@@ -26,9 +26,9 @@ import { generateDigestProse } from './brief-llm.mjs';
  */
 export function subjectForBrief({ briefLead, synthesisLevel, shortDate }) {
   if (briefLead && synthesisLevel >= 1 && synthesisLevel <= 2) {
-    return `WorldMonitor Intelligence Brief — ${shortDate}`;
+    return `EagleEye Intelligence Brief — ${shortDate}`;
   }
-  return `WorldMonitor Digest — ${shortDate}`;
+  return `EagleEye Digest — ${shortDate}`;
 }
 
 /**

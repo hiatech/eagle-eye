@@ -246,8 +246,8 @@ Keep `tradeSanctions` as a retired/compat dimension at coverage=0; add `tradePol
 ## References
 
 - Phase 1 (rename + drop OFAC): [`known-limitations.md § tradeSanctions → tradePolicy`](./known-limitations.md#tradesanctions--tradepolicy-ofac-domicile-component-dropped-ship-1-2026-04-25)
-- Scorer: `server/worldmonitor/resilience/v1/_dimension-scorers.ts` (`scoreFinancialSystemExposure`)
-- Indicator registry: `server/worldmonitor/resilience/v1/_indicator-registry.ts` (4 entries with dimension `financialSystemExposure`)
+- Scorer: `server/eagleeye/resilience/v1/_dimension-scorers.ts` (`scoreFinancialSystemExposure`)
+- Indicator registry: `server/eagleeye/resilience/v1/_indicator-registry.ts` (4 entries with dimension `financialSystemExposure`)
 - Seeders: `scripts/seed-{wb-external-debt,bis-lbs,fatf-listing}.mjs`
 - Tests: `tests/resilience-financial-system-exposure.test.mts`, `tests/seed-{wb-external-debt,bis-lbs,fatf-listing}.test.mjs`
 - Bundle: `scripts/seed-bundle-macro.mjs` (Option A per Codex R1 #5)

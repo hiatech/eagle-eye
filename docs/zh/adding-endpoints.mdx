@@ -1,12 +1,12 @@
 ---
 title: "添加 API 端点"
-description: "在 World Monitor 中扩展 JSON API 的完整开发指南：所有端点必须使用 sebuf 定义类型安全的请求与响应契约。本文分步演示如何在现有服务中添加新 RPC、创建全新的服务模块、注册路由与生成客户端，并保持与 CLI、SDK、OpenAPI 与 MCP 工具生态的一致性。"
+description: "在 Eagle Eye 中扩展 JSON API 的完整开发指南：所有端点必须使用 sebuf 定义类型安全的请求与响应契约。本文分步演示如何在现有服务中添加新 RPC、创建全新的服务模块、注册路由与生成客户端，并保持与 CLI、SDK、OpenAPI 与 MCP 工具生态的一致性。"
 ---
-World Monitor 中的所有 JSON API 端点**必须**使用 sebuf。不要为新的数据 API 创建独立的 `api/*.js` 或 `api/*.ts` 文件——这一旧模式已被弃用并正在被移除。
+Eagle Eye 中的所有 JSON API 端点**必须**使用 sebuf。不要为新的数据 API 创建独立的 `api/*.js` 或 `api/*.ts` 文件——这一旧模式已被弃用并正在被移除。
 
 本指南将介绍如何为现有服务添加新的 RPC，以及如何添加一个全新的服务。
 
-> **强制执行：** `npm run lint:api-contract` 会在 CI 中运行（参见 `.github/workflows/lint-code.yml`）。它会遍历 `api/` 下的每个文件，将每个 sebuf 网关（`api/<domain>/v<N>/[rpc].ts`）与 `src/generated/server/worldmonitor/` 下生成的服务配对，并拒绝任何既不是网关也未在 `api/api-route-exceptions.json` 中列出的文件。该清单是那些确实无法使用 proto 定义的端点（OAuth 回调、二进制响应、上游代理、运维管道）的唯一逃生通道，且每个条目都通过 `.github/CODEOWNERS` 固定由 @SebastienMelki 负责。新增条目预计会受到审核者的质疑。
+> **强制执行：** `npm run lint:api-contract` 会在 CI 中运行（参见 `.github/workflows/lint-code.yml`）。它会遍历 `api/` 下的每个文件，将每个 sebuf 网关（`api/<domain>/v<N>/[rpc].ts`）与 `src/generated/server/eagleeye/` 下生成的服务配对，并拒绝任何既不是网关也未在 `api/api-route-exceptions.json` 中列出的文件。该清单是那些确实无法使用 proto 定义的端点（OAuth 回调、二进制响应、上游代理、运维管道）的唯一逃生通道，且每个条目都通过 `.github/CODEOWNERS` 固定由 @SebastienMelki 负责。新增条目预计会受到审核者的质疑。
 >
 > **生成新鲜度：** 修改任何 `.proto` 文件后，在推送前请运行 `make generate`。`src/generated/` 中生成的 TypeScript 代码已签入仓库，必须保持同步；如果发生漂移，`.github/workflows/proto-check.yml` 会导致 PR 失败。
 
@@ -44,14 +44,14 @@ make generate   # 从 proto 重新生成所有 TypeScript + OpenAPI
 
 ### 1. 定义请求/响应消息
 
-创建 `proto/worldmonitor/seismology/v1/get_earthquake_details.proto`：
+创建 `proto/eagleeye/seismology/v1/get_earthquake_details.proto`：
 
 ```protobuf
 syntax = "proto3";
-package worldmonitor.seismology.v1;
+package eagleeye.seismology.v1;
 
 import "buf/validate/validate.proto";
-import "worldmonitor/seismology/v1/earthquake.proto";
+import "eagleeye/seismology/v1/earthquake.proto";
 
 // GetEarthquakeDetailsRequest specifies which earthquake to retrieve.
 message GetEarthquakeDetailsRequest {
@@ -72,10 +72,10 @@ message GetEarthquakeDetailsResponse {
 
 ### 2. 将 RPC 添加到服务定义
 
-编辑 `proto/worldmonitor/seismology/v1/service.proto`：
+编辑 `proto/eagleeye/seismology/v1/service.proto`：
 
 ```protobuf
-import "worldmonitor/seismology/v1/get_earthquake_details.proto";
+import "eagleeye/seismology/v1/get_earthquake_details.proto";
 
 service SeismologyService {
   // ... existing RPCs ...
@@ -97,7 +97,7 @@ make check   # 一步完成代码检查 + 生成
 
 ### 4. 实现处理程序
 
-创建 `server/worldmonitor/seismology/v1/get-earthquake-details.ts`：
+创建 `server/eagleeye/seismology/v1/get-earthquake-details.ts`：
 
 ```typescript
 import type {
@@ -105,7 +105,7 @@ import type {
   ServerContext,
   GetEarthquakeDetailsRequest,
   GetEarthquakeDetailsResponse,
-} from '../../../../src/generated/server/worldmonitor/seismology/v1/service_server';
+} from '../../../../src/generated/server/eagleeye/seismology/v1/service_server';
 
 export const getEarthquakeDetails: SeismologyServiceHandler['getEarthquakeDetails'] = async (
   _ctx: ServerContext,
@@ -137,10 +137,10 @@ export const getEarthquakeDetails: SeismologyServiceHandler['getEarthquakeDetail
 
 ### 5. 将其接入处理程序再导出
 
-编辑 `server/worldmonitor/seismology/v1/handler.ts`：
+编辑 `server/eagleeye/seismology/v1/handler.ts`：
 
 ```typescript
-import type { SeismologyServiceHandler } from '../../../../src/generated/server/worldmonitor/seismology/v1/service_server';
+import type { SeismologyServiceHandler } from '../../../../src/generated/server/eagleeye/seismology/v1/service_server';
 
 import { listEarthquakes } from './list-earthquakes';
 import { getEarthquakeDetails } from './get-earthquake-details';
@@ -170,16 +170,16 @@ npx tsc --noEmit   # 应该零错误通过
 ### 1. 创建 proto 目录
 
 ```
-proto/worldmonitor/weather/v1/
+proto/eagleeye/weather/v1/
 ```
 
 ### 2. 定义实体消息
 
-创建 `proto/worldmonitor/weather/v1/weather_station.proto`：
+创建 `proto/eagleeye/weather/v1/weather_station.proto`：
 
 ```protobuf
 syntax = "proto3";
-package worldmonitor.weather.v1;
+package eagleeye.weather.v1;
 
 import "buf/validate/validate.proto";
 import "sebuf/http/annotations.proto";
@@ -204,15 +204,15 @@ message WeatherStation {
 
 ### 3. 定义请求/响应消息
 
-创建 `proto/worldmonitor/weather/v1/list_weather_stations.proto`：
+创建 `proto/eagleeye/weather/v1/list_weather_stations.proto`：
 
 ```protobuf
 syntax = "proto3";
-package worldmonitor.weather.v1;
+package eagleeye.weather.v1;
 
 import "buf/validate/validate.proto";
-import "worldmonitor/core/v1/pagination.proto";
-import "worldmonitor/weather/v1/weather_station.proto";
+import "eagleeye/core/v1/pagination.proto";
+import "eagleeye/weather/v1/weather_station.proto";
 
 // ListWeatherStationsRequest specifies filters for weather station data.
 message ListWeatherStationsRequest {
@@ -221,7 +221,7 @@ message ListWeatherStationsRequest {
   // Filter by country code.
   string country_code = 2 [(buf.validate.field).string.max_len = 2];
   // Pagination parameters.
-  worldmonitor.core.v1.PaginationRequest pagination = 3;
+  eagleeye.core.v1.PaginationRequest pagination = 3;
 }
 
 // ListWeatherStationsResponse contains the matching stations.
@@ -229,20 +229,20 @@ message ListWeatherStationsResponse {
   // The list of weather stations.
   repeated WeatherStation stations = 1;
   // Pagination metadata.
-  worldmonitor.core.v1.PaginationResponse pagination = 2;
+  eagleeye.core.v1.PaginationResponse pagination = 2;
 }
 ```
 
 ### 4. 定义服务
 
-创建 `proto/worldmonitor/weather/v1/service.proto`：
+创建 `proto/eagleeye/weather/v1/service.proto`：
 
 ```protobuf
 syntax = "proto3";
-package worldmonitor.weather.v1;
+package eagleeye.weather.v1;
 
 import "sebuf/http/annotations.proto";
-import "worldmonitor/weather/v1/list_weather_stations.proto";
+import "eagleeye/weather/v1/list_weather_stations.proto";
 
 // WeatherService provides APIs for weather observation stations.
 service WeatherService {
@@ -266,19 +266,19 @@ make check   # 一步完成代码检查 + 生成
 创建处理程序目录和文件：
 
 ```
-server/worldmonitor/weather/v1/
+server/eagleeye/weather/v1/
 ├── handler.ts                     # thin re-export
 └── list-weather-stations.ts       # RPC implementation
 ```
 
-`server/worldmonitor/weather/v1/list-weather-stations.ts`：
+`server/eagleeye/weather/v1/list-weather-stations.ts`：
 ```typescript
 import type {
   WeatherServiceHandler,
   ServerContext,
   ListWeatherStationsRequest,
   ListWeatherStationsResponse,
-} from '../../../../src/generated/server/worldmonitor/weather/v1/service_server';
+} from '../../../../src/generated/server/eagleeye/weather/v1/service_server';
 
 export const listWeatherStations: WeatherServiceHandler['listWeatherStations'] = async (
   _ctx: ServerContext,
@@ -289,9 +289,9 @@ export const listWeatherStations: WeatherServiceHandler['listWeatherStations'] =
 };
 ```
 
-`server/worldmonitor/weather/v1/handler.ts`：
+`server/eagleeye/weather/v1/handler.ts`：
 ```typescript
-import type { WeatherServiceHandler } from '../../../../src/generated/server/worldmonitor/weather/v1/service_server';
+import type { WeatherServiceHandler } from '../../../../src/generated/server/eagleeye/weather/v1/service_server';
 
 import { listWeatherStations } from './list-weather-stations';
 
@@ -308,8 +308,8 @@ export const weatherHandler: WeatherServiceHandler = {
 export const config = { runtime: 'edge' };
 
 import { createDomainGateway, serverOptions } from '../../../server/gateway';
-import { createWeatherServiceRoutes } from '../../../src/generated/server/worldmonitor/weather/v1/service_server';
-import { weatherHandler } from '../../../server/worldmonitor/weather/v1/handler';
+import { createWeatherServiceRoutes } from '../../../src/generated/server/eagleeye/weather/v1/service_server';
+import { weatherHandler } from '../../../server/eagleeye/weather/v1/handler';
 
 export default createDomainGateway(
   createWeatherServiceRoutes(weatherHandler, serverOptions),
@@ -331,7 +331,7 @@ import {
   WeatherServiceClient,
   type WeatherStation,
   type ListWeatherStationsResponse,
-} from '@/generated/client/worldmonitor/weather/v1/service_client';
+} from '@/generated/client/eagleeye/weather/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 
 export type { WeatherStation };
@@ -439,11 +439,11 @@ double latitude = 1 [
 
 | 类型 | 导入 | 用途 |
 |------|------|------|
-| `GeoCoordinates` | `worldmonitor/core/v1/geo.proto` | 任何经纬度位置（内置 -90/90 和 -180/180 边界） |
-| `BoundingBox` | `worldmonitor/core/v1/geo.proto` | 空间过滤 |
-| `TimeRange` | `worldmonitor/core/v1/time.proto` | 基于时间的过滤（带 `INT64_ENCODING_NUMBER`） |
-| `PaginationRequest` | `worldmonitor/core/v1/pagination.proto` | 请求分页（带 page_size 1-100 约束） |
-| `PaginationResponse` | `worldmonitor/core/v1/pagination.proto` | 响应分页元数据 |
+| `GeoCoordinates` | `eagleeye/core/v1/geo.proto` | 任何经纬度位置（内置 -90/90 和 -180/180 边界） |
+| `BoundingBox` | `eagleeye/core/v1/geo.proto` | 空间过滤 |
+| `TimeRange` | `eagleeye/core/v1/time.proto` | 基于时间的过滤（带 `INT64_ENCODING_NUMBER`） |
+| `PaginationRequest` | `eagleeye/core/v1/pagination.proto` | 请求分页（带 page_size 1-100 约束） |
+| `PaginationResponse` | `eagleeye/core/v1/pagination.proto` | 响应分页元数据 |
 
 ### 注释
 

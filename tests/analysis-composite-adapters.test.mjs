@@ -23,7 +23,7 @@ const PRODUCER_PAYLOADS = JSON.parse(
 describe('producer fixture contracts', () => {
   it('pins fixture field names to the canonical producer assembly points', () => {
     const cableProducer = readFileSync(
-      new URL('../server/worldmonitor/infrastructure/v1/get-cable-health.ts', import.meta.url),
+      new URL('../server/eagleeye/infrastructure/v1/get-cable-health.ts', import.meta.url),
       'utf8',
     );
     const thermalProducer = readFileSync(

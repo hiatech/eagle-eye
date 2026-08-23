@@ -37,7 +37,7 @@ import {
   HEADLINE_ELIGIBLE_MIN_COVERAGE,
   HEADLINE_ELIGIBLE_MIN_POPULATION_MILLIONS,
   HEADLINE_ELIGIBLE_HIGH_COVERAGE,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
 import {
   RESILIENCE_DIMENSION_ORDER,
   RESILIENCE_DIMENSION_DOMAINS,
@@ -47,25 +47,25 @@ import {
   type ResilienceDomainId,
   type ResilienceDimensionId,
   getResilienceDomainWeight,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 import {
   PILLAR_DOMAINS,
   PILLAR_ORDER,
   PILLAR_WEIGHTS,
-} from '../server/worldmonitor/resilience/v1/_pillar-membership.ts';
+} from '../server/eagleeye/resilience/v1/_pillar-membership.ts';
 import {
   COUNTRY_LANGUAGE_TIER,
   LANGUAGE_TIERS,
-} from '../server/worldmonitor/resilience/v1/_language-coverage.ts';
+} from '../server/eagleeye/resilience/v1/_language-coverage.ts';
 import {
   INDICATOR_REGISTRY,
-} from '../server/worldmonitor/resilience/v1/_indicator-registry.ts';
+} from '../server/eagleeye/resilience/v1/_indicator-registry.ts';
 import {
   MACRO_FISCAL_INDICATOR_WEIGHTS,
-} from '../server/worldmonitor/resilience/v1/_macro-fiscal-weights.ts';
+} from '../server/eagleeye/resilience/v1/_macro-fiscal-weights.ts';
 import {
   RANKABLE_UNIVERSE_SIZE,
-} from '../server/worldmonitor/resilience/v1/_rankable-universe.ts';
+} from '../server/eagleeye/resilience/v1/_rankable-universe.ts';
 import {
   SCORER_DOC_PARITY_NON_LINEAR_IDS,
   SCORER_DOC_PARITY_SPECS,
@@ -84,14 +84,14 @@ const FEATURES_PATH = resolve(here, '../docs/features.mdx');
 const SEED_SCORE_SCRIPT_PATH = resolve(here, '../scripts/seed-resilience-scores.mjs');
 const STATIC_SEED_SCRIPT_PATH = resolve(here, '../scripts/seed-resilience-static.mjs');
 const HEALTH_API_PATH = resolve(here, '../api/health.js');
-const RESILIENCE_SCORE_PROTO_PATH = resolve(here, '../proto/worldmonitor/resilience/v1/get_resilience_score.proto');
-const RESILIENCE_PROTO_PATH = resolve(here, '../proto/worldmonitor/resilience/v1/resilience.proto');
+const RESILIENCE_SCORE_PROTO_PATH = resolve(here, '../proto/eagleeye/resilience/v1/get_resilience_score.proto');
+const RESILIENCE_PROTO_PATH = resolve(here, '../proto/eagleeye/resilience/v1/resilience.proto');
 const RESILIENCE_OPENAPI_YAML_PATH = resolve(here, '../docs/api/ResilienceService.openapi.yaml');
 const RESILIENCE_OPENAPI_JSON_PATH = resolve(here, '../docs/api/ResilienceService.openapi.json');
-const BUNDLED_OPENAPI_YAML_PATH = resolve(here, '../docs/api/worldmonitor.openapi.yaml');
+const BUNDLED_OPENAPI_YAML_PATH = resolve(here, '../docs/api/eagleeye.openapi.yaml');
 const docText = readFileSync(DOC_PATH, 'utf8');
-const sharedText = readFileSync(resolve(here, '../server/worldmonitor/resilience/v1/_shared.ts'), 'utf8');
-const dimensionScorerText = readFileSync(resolve(here, '../server/worldmonitor/resilience/v1/_dimension-scorers.ts'), 'utf8');
+const sharedText = readFileSync(resolve(here, '../server/eagleeye/resilience/v1/_shared.ts'), 'utf8');
+const dimensionScorerText = readFileSync(resolve(here, '../server/eagleeye/resilience/v1/_dimension-scorers.ts'), 'utf8');
 const indicatorSourceCatalogText = readFileSync(INDICATOR_SOURCE_CATALOG_PATH, 'utf8');
 const seedScoreScriptText = readFileSync(SEED_SCORE_SCRIPT_PATH, 'utf8');
 const staticSeedScriptText = readFileSync(STATIC_SEED_SCRIPT_PATH, 'utf8');

@@ -11,7 +11,7 @@
  *
  * This is the pipeline's first ground-truth completeness number: "of the
  * stories a neutral external index considers top news today, what
- * fraction does WorldMonitor carry?" Misses are listed by lowest
+ * fraction does EagleEye carry?" Misses are listed by lowest
  * similarity so coverage holes are actionable (add a feed / fix a
  * wrapper), not just a percentage.
  *

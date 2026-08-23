@@ -1,6 +1,6 @@
 /**
  * Unit + gateway tests for the generic REST batch endpoint
- * (POST /api/batch/v1/execute, server/worldmonitor/batch/v1/execute-batch.ts).
+ * (POST /api/batch/v1/execute, server/eagleeye/batch/v1/execute-batch.ts).
  *
  * The handler re-dispatches each operation as a same-origin GET through the
  * public gateway, so the security posture rests on four invariants pinned
@@ -22,11 +22,11 @@ import {
   BATCH_MARKER_HEADER,
   MAX_BATCH_OPERATIONS,
   MAX_SUB_RESPONSE_BYTES,
-} from '../server/worldmonitor/batch/v1/execute-batch.ts';
-import type { FetchLike } from '../server/worldmonitor/batch/v1/execute-batch.ts';
+} from '../server/eagleeye/batch/v1/execute-batch.ts';
+import type { FetchLike } from '../server/eagleeye/batch/v1/execute-batch.ts';
 import { installRedis } from './helpers/fake-upstash-redis.mts';
 
-const ORIGIN = 'https://www.worldmonitor.app';
+const ORIGIN = 'https://www.eagle-eye.app';
 
 function makeCtx(headers: Record<string, string> = {}) {
   const request = new Request(`${ORIGIN}/api/batch/v1/execute`, {
@@ -95,7 +95,7 @@ describe('executeBatch handler', () => {
     await executeBatch(
       makeCtx({
         Authorization: 'Bearer wm_deadbeef',
-        'X-WorldMonitor-Key': 'wm_cafebabe',
+        'X-EagleEye-Key': 'wm_cafebabe',
         Cookie: 'session=secret',
         'x-user-id': 'user_123',
         'User-Agent': 'my-agent/2.0',
@@ -105,7 +105,7 @@ describe('executeBatch handler', () => {
 
     const sent = new Headers(calls[0]!.init.headers as HeadersInit);
     assert.equal(sent.get('authorization'), 'Bearer wm_deadbeef');
-    assert.equal(sent.get('x-worldmonitor-key'), 'wm_cafebabe');
+    assert.equal(sent.get('x-eagleeye-key'), 'wm_cafebabe');
     assert.equal(sent.get(BATCH_MARKER_HEADER), '1');
     assert.equal(sent.get('accept'), 'application/json');
     assert.equal(sent.get('user-agent'), 'my-agent/2.0');
@@ -121,7 +121,7 @@ describe('executeBatch handler', () => {
     await executeBatch(makeCtx(), { operations: [{ id: 'a', path: '/api/market/v1/get-fear-greed-index' }] });
 
     const sent = new Headers(calls[0]!.init.headers as HeadersInit);
-    assert.match(sent.get('user-agent') ?? '', /WorldMonitor-Batch/);
+    assert.match(sent.get('user-agent') ?? '', /EagleEye-Batch/);
   });
 
   it('rejects non-RPC and cross-origin paths per-operation without fetching', async () => {
@@ -248,11 +248,11 @@ describe('batch gateway access', () => {
   it('is NOT public and not premium: anonymous POST gets 401 before any fan-out', async () => {
     const [{ createDomainGateway, PUBLIC_NO_AUTH_RPC_PATHS, serverOptions }, generated, { batchHandler }, { PREMIUM_RPC_PATHS }] = await Promise.all([
       import('../server/gateway.ts'),
-      import('../src/generated/server/worldmonitor/batch/v1/service_server.ts'),
-      import('../server/worldmonitor/batch/v1/handler.ts'),
+      import('../src/generated/server/eagleeye/batch/v1/service_server.ts'),
+      import('../server/eagleeye/batch/v1/handler.ts'),
       import('../src/shared/premium-paths.ts'),
     ]);
-    delete process.env.WORLDMONITOR_VALID_KEYS;
+    delete process.env.EAGLEEYE_VALID_KEYS;
     installRedis({});
 
     assert.equal(PUBLIC_NO_AUTH_RPC_PATHS.has('/api/batch/v1/execute'), false);
@@ -260,7 +260,7 @@ describe('batch gateway access', () => {
 
     const gateway = createDomainGateway(generated.createBatchServiceRoutes(batchHandler, serverOptions));
     const res = await gateway(
-      new Request('https://www.worldmonitor.app/api/batch/v1/execute', {
+      new Request('https://www.eagle-eye.app/api/batch/v1/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operations: [{ id: 'a', path: '/api/market/v1/get-fear-greed-index' }] }),

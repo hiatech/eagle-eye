@@ -56,8 +56,8 @@ function installBrowserGlobals(): void {
       setInterval: () => 1,
       clearInterval: () => {},
       location: {
-        href: 'https://worldmonitor.app/dashboard',
-        origin: 'https://worldmonitor.app',
+        href: 'https://eagle-eye.app/dashboard',
+        origin: 'https://eagle-eye.app',
         pathname: '/dashboard',
         search: '',
         hash: '',
@@ -75,7 +75,7 @@ function installBrowserGlobals(): void {
       globalThis.__checkoutOverlayHarness.fetchBodies.push(body);
       // Both json() and text() are modelled: a real Response exposes both,
       // and the success path reads text() so a non-JSON 200 cannot throw an
-      // engine-specific DOMException (WORLDMONITOR-XV).
+      // engine-specific DOMException (EAGLEEYE-XV).
       const successBody = { checkout_url: 'https://checkout.dodopayments.com/session/cks_redirecttest000000000' };
       return {
         ok: true,
@@ -298,7 +298,7 @@ describe('checkout overlay lifecycle', () => {
     assert.equal(harness.fetchBodies.length, 1);
     assert.deepEqual(harness.fetchBodies[0], {
       productId: 'prod_monthly',
-      returnUrl: 'https://worldmonitor.app/dashboard?wm_checkout=return',
+      returnUrl: 'https://eagle-eye.app/dashboard?wm_checkout=return',
     });
     // #4449: redirect mode navigates the top window to Dodo's hosted checkout
     // (3DS/fraud run unconstrained) instead of opening the overlay iframe

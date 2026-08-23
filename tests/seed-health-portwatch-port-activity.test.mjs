@@ -5,14 +5,14 @@ const originalFetch = globalThis.fetch;
 const originalEnv = {
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  WORLDMONITOR_VALID_KEYS: process.env.WORLDMONITOR_VALID_KEYS,
+  EAGLEEYE_VALID_KEYS: process.env.EAGLEEYE_VALID_KEYS,
   RESILIENCE_PILLAR_COMBINE_ENABLED: process.env.RESILIENCE_PILLAR_COMBINE_ENABLED,
   RESILIENCE_SCHEMA_V2_ENABLED: process.env.RESILIENCE_SCHEMA_V2_ENABLED,
 };
 
 process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'token';
-process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+process.env.EAGLEEYE_VALID_KEYS = 'test-key';
 process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'true';
 process.env.RESILIENCE_SCHEMA_V2_ENABLED = 'true';
 
@@ -29,7 +29,7 @@ const RESILIENCE_INTERVAL_METHODOLOGY = 'weight-perturbation-sensitivity-v3';
 before(() => {
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'token';
-  process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+  process.env.EAGLEEYE_VALID_KEYS = 'test-key';
   process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'true';
   process.env.RESILIENCE_SCHEMA_V2_ENABLED = 'true';
 });
@@ -108,8 +108,8 @@ function installSeedHealthPipelineMock(
 }
 
 async function readSeedHealth(now = TEST_NOW) {
-  const req = new Request('https://api.worldmonitor.app/api/seed-health', {
-    headers: { 'X-WorldMonitor-Key': 'test-key' },
+  const req = new Request('https://api.eagle-eye.app/api/seed-health', {
+    headers: { 'X-EagleEye-Key': 'test-key' },
   });
   const res = await handleSeedHealth(req, { now });
   const body = await res.json();

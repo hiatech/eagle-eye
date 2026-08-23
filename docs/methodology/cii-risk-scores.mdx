@@ -5,9 +5,9 @@ description: "Editorial methodology behind the Composite Instability Index — b
 
 Published methodology note for the **Composite Instability Index (CII)** and
 the **Strategic Risk** roll-up surfaced by `GET /api/intelligence/v1/get-risk-scores`
-(proto `worldmonitor.intelligence.v1.GetRiskScoresResponse`).
+(proto `eagleeye.intelligence.v1.GetRiskScoresResponse`).
 
-These weights are **editorial** — authored by the WorldMonitor intelligence
+These weights are **editorial** — authored by the EagleEye intelligence
 team based on internal review of historical incidents and current geopolitical
 posture. They are **not derived from a published academic index**, a
 peer-reviewed paper, or a third-party risk product. Treat the scores as
@@ -136,7 +136,7 @@ The current version is **v8**.
 > constants, or CII movement semantics MUST
 > come with a bump of
 > `CII_FORMULA_VERSION` in
-> `server/worldmonitor/intelligence/v1/_risk-config.ts`, an update to this
+> `server/eagleeye/intelligence/v1/_risk-config.ts`, an update to this
 > document in the same commit, and a public CHANGELOG entry. Source-of-truth
 > refactors that preserve server/API scores do not bump the wire version. Tests
 > in `tests/cii-scoring.test.mts` enforce that this document lists every
@@ -214,7 +214,7 @@ Advisory levels can also add `advisoryBoost` before the floor is applied:
 "caution". The server first uses the live `intelligence:advisories:v1`
 `byCountry` level when available. If no live level is present for a tracked
 country, it may apply the embedded State Department fallback table in
-`server/worldmonitor/intelligence/v1/get-risk-scores.ts`. Each `CiiScore`
+`server/eagleeye/intelligence/v1/get-risk-scores.ts`. Each `CiiScore`
 therefore exposes:
 
 | Wire field | Values | Meaning |
@@ -280,7 +280,7 @@ These flags are runtime quality markers and do not change `methodology_version`.
 
 These are the editorial values applied by both server-side API scoring and
 frontend client-side CII rendering. The source of truth is
-[`shared/cii-weights.ts`](https://github.com/koala73/worldmonitor/blob/main/shared/cii-weights.ts); server and frontend
+[`shared/cii-weights.ts`](https://github.com/hiatech/eagle-eye/blob/main/shared/cii-weights.ts); server and frontend
 tables derive from that module so coefficient drift fails in tests instead of
 shipping silently.
 
@@ -392,7 +392,7 @@ overallScore = min(100, round(weightedAvg * 0.70 + 15))             # banded to 
 
 The decay step, top-N window, scale-floor (`15`), and scale-factor (`0.70`)
 are all defined in
-[`server/worldmonitor/intelligence/v1/_risk-config.ts`](https://github.com/koala73/worldmonitor/blob/main/server/worldmonitor/intelligence/v1/_risk-config.ts).
+[`server/eagleeye/intelligence/v1/_risk-config.ts`](https://github.com/hiatech/eagle-eye/blob/main/server/eagleeye/intelligence/v1/_risk-config.ts).
 Their **rationale**:
 
 - **`STRATEGIC_RISK_POSITIONAL_DECAY = 0.15`** — the most-affected country

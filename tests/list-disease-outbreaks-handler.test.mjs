@@ -1,5 +1,5 @@
 /**
- * Tests for server/worldmonitor/health/v1/list-disease-outbreaks.ts
+ * Tests for server/eagleeye/health/v1/list-disease-outbreaks.ts
  *
  * Regression coverage for PR #3793 round 3 (P2 review finding):
  *   - alertLevelMethodologyVersion is declared on the proto contract and
@@ -26,7 +26,7 @@ const root = resolve(__dirname, '..');
 describe('proto + generated bindings declare alertLevelMethodologyVersion (#3793 round 3)', () => {
   it('list_disease_outbreaks.proto declares alert_level_methodology_version field 3', () => {
     const protoSrc = readFileSync(
-      resolve(root, 'proto/worldmonitor/health/v1/list_disease_outbreaks.proto'),
+      resolve(root, 'proto/eagleeye/health/v1/list_disease_outbreaks.proto'),
       'utf-8',
     );
     assert.match(
@@ -44,7 +44,7 @@ describe('proto + generated bindings declare alertLevelMethodologyVersion (#3793
 
   it('generated client ListDiseaseOutbreaksResponse interface declares alertLevelMethodologyVersion', () => {
     const clientGen = readFileSync(
-      resolve(root, 'src/generated/client/worldmonitor/health/v1/service_client.ts'),
+      resolve(root, 'src/generated/client/eagleeye/health/v1/service_client.ts'),
       'utf-8',
     );
     // Locate the response interface block and assert the field is inside it.
@@ -59,7 +59,7 @@ describe('proto + generated bindings declare alertLevelMethodologyVersion (#3793
 
   it('generated server ListDiseaseOutbreaksResponse interface declares alertLevelMethodologyVersion', () => {
     const serverGen = readFileSync(
-      resolve(root, 'src/generated/server/worldmonitor/health/v1/service_server.ts'),
+      resolve(root, 'src/generated/server/eagleeye/health/v1/service_server.ts'),
       'utf-8',
     );
     const match = serverGen.match(/export interface ListDiseaseOutbreaksResponse \{[^}]*\}/);
@@ -118,7 +118,7 @@ before(async () => {
     return originalFetch(url, _init);
   });
 
-  const mod = await import('../server/worldmonitor/health/v1/list-disease-outbreaks.ts');
+  const mod = await import('../server/eagleeye/health/v1/list-disease-outbreaks.ts');
   listDiseaseOutbreaks = mod.listDiseaseOutbreaks;
 });
 

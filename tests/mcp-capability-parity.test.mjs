@@ -69,7 +69,7 @@ function makeReq(body) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-WorldMonitor-Key': VALID_KEY,
+      'X-EagleEye-Key': VALID_KEY,
     },
     body: JSON.stringify(body),
   });
@@ -110,7 +110,7 @@ let cardCaps;
 
 describe('api/mcp.ts — capability parity (advertised AND non-empty)', () => {
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = VALID_KEY;
+    process.env.EAGLEEYE_VALID_KEYS = VALID_KEY;
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     process.env.MCP_TELEMETRY = 'false';
@@ -299,7 +299,7 @@ describe('docs/mcp-overview.mdx — API-key quota contract', () => {
       'docs must not claim API-key requests use the OAuth/Pro entitlement pre-check path');
     assert.match(docs, /OAuth bearer requests re-check[\s\S]*active entitlement[\s\S]*before dispatch/i,
       'docs must describe the OAuth entitlement re-check path');
-    assert.match(docs, /Direct `X-WorldMonitor-Key` requests[\s\S]*configured API key[\s\S]*per-key (?:rate )?limiter/i,
+    assert.match(docs, /Direct `X-EagleEye-Key` requests[\s\S]*configured API key[\s\S]*per-key (?:rate )?limiter/i,
       'docs must describe API-key MCP auth and per-key minute limiting without implying Pro daily quota reservation');
     assert.match(docs, /REST\/API plan allowances[\s\S]*outside[\s\S]*Pro\/OAuth MCP daily reservation path/i,
       'docs must keep REST/API plan allowances separate from MCP daily reservation semantics');

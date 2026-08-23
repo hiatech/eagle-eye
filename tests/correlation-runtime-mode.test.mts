@@ -174,8 +174,8 @@ describe('#5983 correlation runtime mode contract', () => {
       ] as const) {
         globalThis.fetch = async () => redisResponse(result);
         const response = await correlationRuntimeModeHandler(
-          new Request('https://api.worldmonitor.app/api/correlation-runtime-mode', {
-            headers: { Origin: 'https://worldmonitor.app' },
+          new Request('https://api.eagle-eye.app/api/correlation-runtime-mode', {
+            headers: { Origin: 'https://eagle-eye.app' },
           }),
         );
         assert.equal(response.status, 200);
@@ -186,7 +186,7 @@ describe('#5983 correlation runtime mode contract', () => {
 
       globalThis.fetch = async () => redisResponse(null, 503);
       const unavailable = await correlationRuntimeModeHandler(
-        new Request('https://api.worldmonitor.app/api/correlation-runtime-mode'),
+        new Request('https://api.eagle-eye.app/api/correlation-runtime-mode'),
       );
       assert.equal(unavailable.status, 200);
       assert.deepEqual(await unavailable.json(), { mode: 'legacy' });
@@ -208,7 +208,7 @@ describe('#5983 correlation runtime mode contract', () => {
 
     try {
       const forbidden = await correlationRuntimeModeHandler(
-        new Request('https://api.worldmonitor.app/api/correlation-runtime-mode', {
+        new Request('https://api.eagle-eye.app/api/correlation-runtime-mode', {
           headers: { Origin: 'https://evil.example' },
         }),
       );
@@ -217,18 +217,18 @@ describe('#5983 correlation runtime mode contract', () => {
       assert.equal(await forbidden.text(), 'Forbidden');
 
       const preflight = await correlationRuntimeModeHandler(
-        new Request('https://api.worldmonitor.app/api/correlation-runtime-mode', {
+        new Request('https://api.eagle-eye.app/api/correlation-runtime-mode', {
           method: 'OPTIONS',
-          headers: { Origin: 'https://worldmonitor.app' },
+          headers: { Origin: 'https://eagle-eye.app' },
         }),
       );
       assert.equal(preflight.status, 204);
       assert.equal(preflight.headers.get('Cache-Control'), 'no-store');
 
       const wrongMethod = await correlationRuntimeModeHandler(
-        new Request('https://api.worldmonitor.app/api/correlation-runtime-mode', {
+        new Request('https://api.eagle-eye.app/api/correlation-runtime-mode', {
           method: 'POST',
-          headers: { Origin: 'https://worldmonitor.app' },
+          headers: { Origin: 'https://eagle-eye.app' },
         }),
       );
       assert.equal(wrongMethod.status, 405);

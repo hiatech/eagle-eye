@@ -53,7 +53,7 @@ export enum PanelGateReason {
  * signals that aren't already covered by isProUser.
  */
 export function hasPremiumAccess(authState?: AuthSession): boolean {
-  if (getSecretState('WORLDMONITOR_API_KEY').present) return true;
+  if (getSecretState('EAGLEEYE_API_KEY').present) return true;
   if (isProUser()) return true;
   if (authState?.user?.role === 'pro') return true;
   return false;
@@ -135,7 +135,7 @@ export interface GateActionDeps {
 }
 
 // Absolute origin (WEB_APP_ORIGIN): the desktop runtime's webview has no
-// worldmonitor.app origin, so a relative href would resolve against
+// eagle-eye.app origin, so a relative href would resolve against
 // tauri://localhost. `openExternalUrl` then routes it to the OS browser on
 // desktop rather than opening another WebView window (#5911).
 function openProPage(path: string): void {

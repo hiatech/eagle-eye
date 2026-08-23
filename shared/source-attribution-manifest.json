@@ -38,7 +38,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 112
         },
         {
@@ -72,7 +72,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 111
         },
         {
@@ -82,8 +82,8 @@
       ]
     },
     {
-      "host": "abacus.worldmonitor.app",
-      "provider": "abacus.worldmonitor.app",
+      "host": "abacus.eagle-eye.app",
+      "provider": "abacus.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -194,7 +194,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 360
         },
         {
@@ -232,7 +232,7 @@
           "line": 794
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 17
         }
       ]
@@ -285,7 +285,7 @@
           "line": 796
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 19
         }
       ]
@@ -342,7 +342,7 @@
           "line": 30
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 39
         }
       ]
@@ -422,7 +422,7 @@
           "line": 403
         },
         {
-          "path": "server/worldmonitor/aviation/v1/_shared.ts",
+          "path": "server/eagleeye/aviation/v1/_shared.ts",
           "line": 25
         }
       ]
@@ -432,7 +432,7 @@
       "provider": "Axiom telemetry",
       "kind": "structured",
       "observed": true,
-      "license": "Excluded: World Monitor operational telemetry, not an external data provider",
+      "license": "Excluded: Eagle Eye operational telemetry, not an external data provider",
       "attribution": "Excluded from the provider count: internal usage telemetry.",
       "status": "excluded",
       "references": [
@@ -464,7 +464,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 73
         },
         {
@@ -552,7 +552,7 @@
           "line": 2602
         },
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 413
         }
       ]
@@ -679,7 +679,7 @@
           "line": 41
         },
         {
-          "path": "server/worldmonitor/market/v1/stock-news-search.ts",
+          "path": "server/eagleeye/market/v1/stock-news-search.ts",
           "line": 196
         }
       ]
@@ -868,7 +868,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/sanctions/v1/lookup-entity.ts",
+          "path": "server/eagleeye/sanctions/v1/lookup-entity.ts",
           "line": 16
         }
       ]
@@ -898,7 +898,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/military/v1/get-wingbits-live-flight.ts",
+          "path": "server/eagleeye/military/v1/get-wingbits-live-flight.ts",
           "line": 13
         }
       ]
@@ -947,11 +947,11 @@
       "status": "excluded",
       "references": [
         {
-          "path": "server/worldmonitor/leads/v1/register-interest.ts",
+          "path": "server/eagleeye/leads/v1/register-interest.ts",
           "line": 145
         },
         {
-          "path": "server/worldmonitor/leads/v1/submit-contact.ts",
+          "path": "server/eagleeye/leads/v1/submit-contact.ts",
           "line": 88
         }
       ]
@@ -1015,7 +1015,7 @@
           "line": 11557
         },
         {
-          "path": "server/worldmonitor/market/v1/stock-news-search.ts",
+          "path": "server/eagleeye/market/v1/stock-news-search.ts",
           "line": 239
         }
       ]
@@ -1045,7 +1045,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 96
         },
         {
@@ -1121,11 +1121,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/aviation/v1/_providers/travelpayouts_data.ts",
+          "path": "server/eagleeye/aviation/v1/_providers/travelpayouts_data.ts",
           "line": 16
         },
         {
-          "path": "server/worldmonitor/aviation/v1/_providers/travelpayouts_data.ts",
+          "path": "server/eagleeye/aviation/v1/_providers/travelpayouts_data.ts",
           "line": 17
         }
       ]
@@ -1159,7 +1159,7 @@
           "line": 37
         },
         {
-          "path": "server/worldmonitor/displacement/v1/get-displacement-summary.ts",
+          "path": "server/eagleeye/displacement/v1/get-displacement-summary.ts",
           "line": 60
         }
       ]
@@ -1246,7 +1246,7 @@
           "line": 24
         },
         {
-          "path": "server/worldmonitor/webcam/v1/get-webcam-image.ts",
+          "path": "server/eagleeye/webcam/v1/get-webcam-image.ts",
           "line": 4
         }
       ]
@@ -1325,17 +1325,17 @@
           "line": 298
         },
         {
-          "path": "server/worldmonitor/economic/v1/list-world-bank-indicators.ts",
+          "path": "server/eagleeye/economic/v1/list-world-bank-indicators.ts",
           "line": 41
         }
       ]
     },
     {
-      "host": "api.worldmonitor.app",
-      "provider": "World Monitor hosted API",
+      "host": "api.eagle-eye.app",
+      "provider": "Eagle Eye hosted API",
       "kind": "structured",
       "observed": true,
-      "license": "Excluded: World Monitor own service/control plane",
+      "license": "Excluded: Eagle Eye own service/control plane",
       "attribution": "Excluded from the external-provider count: first-party API endpoint.",
       "status": "excluded",
       "references": [
@@ -1487,7 +1487,7 @@
           "line": 411
         },
         {
-          "path": "server/worldmonitor/trade/v1/_shared.ts",
+          "path": "server/eagleeye/trade/v1/_shared.ts",
           "line": 8
         }
       ]
@@ -1532,7 +1532,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 281
         },
         {
@@ -1551,7 +1551,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 277
         },
         {
@@ -1570,7 +1570,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 462
         },
         {
@@ -1619,7 +1619,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 28
         }
       ]
@@ -1634,7 +1634,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 138
         },
         {
@@ -1714,7 +1714,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 41
         }
       ]
@@ -1729,7 +1729,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 624
         },
         {
@@ -1778,7 +1778,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 818
         },
         {
@@ -1970,7 +1970,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 576
         },
         {
@@ -1993,7 +1993,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 175
         },
         {
@@ -2039,7 +2039,7 @@
           "line": 37
         },
         {
-          "path": "server/worldmonitor/shipping/v2/webhook-shared.ts",
+          "path": "server/eagleeye/shipping/v2/webhook-shared.ts",
           "line": 37
         }
       ]
@@ -2069,7 +2069,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 615
         },
         {
@@ -2100,14 +2100,14 @@
           "line": 236
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 136
         }
       ]
     },
     {
-      "host": "commodity.worldmonitor.app",
-      "provider": "commodity.worldmonitor.app",
+      "host": "commodity.eagle-eye.app",
+      "provider": "commodity.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -2150,7 +2150,7 @@
           "line": 14
         },
         {
-          "path": "server/worldmonitor/supply-chain/v1/_bilateral-hs4-lazy.ts",
+          "path": "server/eagleeye/supply-chain/v1/_bilateral-hs4-lazy.ts",
           "line": 23
         }
       ]
@@ -2165,7 +2165,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 44
         }
       ]
@@ -2180,7 +2180,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 801
         },
         {
@@ -2214,7 +2214,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 838
         },
         {
@@ -2252,7 +2252,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 626
         },
         {
@@ -2271,7 +2271,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 122
         },
         {
@@ -2306,7 +2306,7 @@
           "line": 593
         },
         {
-          "path": "server/worldmonitor/military/v1/_wingbits-aircraft-details.ts",
+          "path": "server/eagleeye/military/v1/_wingbits-aircraft-details.ts",
           "line": 18
         }
       ]
@@ -2351,7 +2351,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 351
         },
         {
@@ -2370,7 +2370,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 435
         },
         {
@@ -2564,7 +2564,7 @@
           "line": 696
         },
         {
-          "path": "server/worldmonitor/aviation/v1/_shared.ts",
+          "path": "server/eagleeye/aviation/v1/_shared.ts",
           "line": 26
         }
       ]
@@ -2579,7 +2579,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -2613,7 +2613,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 617
         },
         {
@@ -2632,7 +2632,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 127
         },
         {
@@ -2659,7 +2659,7 @@
           "line": 155
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 42
         },
         {
@@ -2678,7 +2678,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 574
         },
         {
@@ -2720,7 +2720,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 833
         },
         {
@@ -2773,7 +2773,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 48
         }
       ]
@@ -2875,7 +2875,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 219
         },
         {
@@ -2894,7 +2894,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/imagery/v1/search-imagery.ts",
+          "path": "server/eagleeye/imagery/v1/search-imagery.ts",
           "line": 10
         }
       ]
@@ -2966,7 +2966,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/military/v1/get-wingbits-live-flight.ts",
+          "path": "server/eagleeye/military/v1/get-wingbits-live-flight.ts",
           "line": 12
         }
       ]
@@ -3045,7 +3045,7 @@
           "line": 165
         },
         {
-          "path": "server/worldmonitor/intelligence/v1/get-country-facts.ts",
+          "path": "server/eagleeye/intelligence/v1/get-country-facts.ts",
           "line": 168
         }
       ]
@@ -3070,8 +3070,8 @@
       ]
     },
     {
-      "host": "energy.worldmonitor.app",
-      "provider": "energy.worldmonitor.app",
+      "host": "energy.eagle-eye.app",
+      "provider": "energy.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -3094,7 +3094,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 191
         },
         {
@@ -3158,7 +3158,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -3177,7 +3177,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 460
         },
         {
@@ -3223,11 +3223,11 @@
           "line": 62
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 295
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 515
         },
         {
@@ -3262,7 +3262,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 205
         },
         {
@@ -3296,7 +3296,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 562
         },
         {
@@ -3319,7 +3319,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 67
         },
         {
@@ -3338,11 +3338,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 286
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 508
         },
         {
@@ -3369,43 +3369,43 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 56
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 229
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 245
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 254
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 259
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 341
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 372
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 391
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 418
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 455
         },
         {
@@ -3460,7 +3460,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 70
         },
         {
@@ -3479,7 +3479,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 218
         },
         {
@@ -3498,7 +3498,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 98
         },
         {
@@ -3517,11 +3517,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 398
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 457
         },
         {
@@ -3575,7 +3575,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 384
         },
         {
@@ -3609,7 +3609,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 69
         },
         {
@@ -3628,7 +3628,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 345
         },
         {
@@ -3647,7 +3647,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 86
         },
         {
@@ -3666,7 +3666,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 65
         },
         {
@@ -3689,14 +3689,14 @@
           "line": 26
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 35
         }
       ]
     },
     {
-      "host": "finance.worldmonitor.app",
-      "provider": "finance.worldmonitor.app",
+      "host": "finance.eagle-eye.app",
+      "provider": "finance.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -3719,23 +3719,23 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 300
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 571
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 600
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 772
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 780
         },
         {
@@ -3798,19 +3798,19 @@
           "line": 32
         },
         {
-          "path": "server/worldmonitor/intelligence/v1/_company-shared.ts",
+          "path": "server/eagleeye/intelligence/v1/_company-shared.ts",
           "line": 138
         },
         {
-          "path": "server/worldmonitor/intelligence/v1/_company-shared.ts",
+          "path": "server/eagleeye/intelligence/v1/_company-shared.ts",
           "line": 159
         },
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 209
         },
         {
-          "path": "server/worldmonitor/market/v1/get-insider-transactions.ts",
+          "path": "server/eagleeye/market/v1/get-insider-transactions.ts",
           "line": 68
         }
       ]
@@ -3855,11 +3855,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 484
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 824
         },
         {
@@ -3882,7 +3882,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 346
         },
         {
@@ -3901,7 +3901,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -3924,7 +3924,7 @@
           "line": 217
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 302
         }
       ]
@@ -3977,7 +3977,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 822
         },
         {
@@ -4034,7 +4034,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 556
         },
         {
@@ -4111,7 +4111,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 836
         },
         {
@@ -4130,7 +4130,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 77
         },
         {
@@ -4257,8 +4257,8 @@
       ]
     },
     {
-      "host": "happy.worldmonitor.app",
-      "provider": "happy.worldmonitor.app",
+      "host": "happy.eagle-eye.app",
+      "provider": "happy.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -4296,7 +4296,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 27
         }
       ]
@@ -4311,15 +4311,15 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 285
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 509
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 577
         },
         {
@@ -4358,7 +4358,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 797
         },
         {
@@ -4377,7 +4377,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 110
         },
         {
@@ -4411,7 +4411,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 535
         },
         {
@@ -4434,7 +4434,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 109
         },
         {
@@ -4498,7 +4498,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 386
         },
         {
@@ -4536,7 +4536,7 @@
           "line": 203
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 282
         }
       ]
@@ -4551,7 +4551,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 476
         },
         {
@@ -4570,7 +4570,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -4604,7 +4604,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 177
         },
         {
@@ -4638,7 +4638,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 395
         },
         {
@@ -4657,7 +4657,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 43
         }
       ]
@@ -4736,11 +4736,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 547
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 828
         },
         {
@@ -4782,7 +4782,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 365
         },
         {
@@ -4816,7 +4816,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 45
         }
       ]
@@ -5020,7 +5020,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 575
         },
         {
@@ -5103,7 +5103,7 @@
           "line": 11100
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 47
         },
         {
@@ -5134,7 +5134,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 410
         },
         {
@@ -5144,8 +5144,8 @@
       ]
     },
     {
-      "host": "maps.worldmonitor.app",
-      "provider": "maps.worldmonitor.app",
+      "host": "maps.eagle-eye.app",
+      "provider": "maps.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -5213,7 +5213,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 172
         },
         {
@@ -5311,11 +5311,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/get-cable-health.ts",
+          "path": "server/eagleeye/infrastructure/v1/get-cable-health.ts",
           "line": 174
         },
         {
-          "path": "server/worldmonitor/maritime/v1/list-navigational-warnings.ts",
+          "path": "server/eagleeye/maritime/v1/list-navigational-warnings.ts",
           "line": 18
         }
       ]
@@ -5345,7 +5345,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 129
         },
         {
@@ -5368,7 +5368,7 @@
           "line": 589
         },
         {
-          "path": "server/worldmonitor/aviation/v1/_shared.ts",
+          "path": "server/eagleeye/aviation/v1/_shared.ts",
           "line": 24
         }
       ]
@@ -5429,7 +5429,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 520
         },
         {
@@ -5452,7 +5452,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 189
         },
         {
@@ -5479,55 +5479,55 @@
           "line": 126
         },
         {
-          "path": "server/worldmonitor/market/v1/stock-news-search.ts",
+          "path": "server/eagleeye/market/v1/stock-news-search.ts",
           "line": 363
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 43
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 51
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 616
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 625
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 628
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 629
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 630
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 631
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 632
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 633
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 634
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 821
         },
         {
@@ -7110,7 +7110,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 421
         },
         {
@@ -7148,7 +7148,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 800
         },
         {
@@ -7167,7 +7167,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 335
         },
         {
@@ -7205,7 +7205,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 542
         },
         {
@@ -7224,7 +7224,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 223
         },
         {
@@ -7243,7 +7243,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 185
         },
         {
@@ -7262,7 +7262,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 437
         },
         {
@@ -7319,7 +7319,7 @@
           "line": 8
         },
         {
-          "path": "server/worldmonitor/infrastructure/v1/reverse-geocode.ts",
+          "path": "server/eagleeye/infrastructure/v1/reverse-geocode.ts",
           "line": 9
         }
       ]
@@ -7334,7 +7334,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 246
         },
         {
@@ -7387,7 +7387,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 176
         },
         {
@@ -7410,7 +7410,7 @@
           "line": 20
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 716
         },
         {
@@ -7441,7 +7441,7 @@
           "line": 797
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 20
         }
       ]
@@ -7498,7 +7498,7 @@
           "line": 592
         },
         {
-          "path": "server/worldmonitor/military/v1/list-military-flights.ts",
+          "path": "server/eagleeye/military/v1/list-military-flights.ts",
           "line": 486
         },
         {
@@ -7559,7 +7559,7 @@
           "line": 29
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 38
         }
       ]
@@ -7634,7 +7634,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 266
         },
         {
@@ -7766,7 +7766,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 114
         },
         {
@@ -7808,7 +7808,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 427
         },
         {
@@ -7863,11 +7863,11 @@
       ]
     },
     {
-      "host": "proxy.worldmonitor.app",
-      "provider": "World Monitor proxy",
+      "host": "proxy.eagle-eye.app",
+      "provider": "Eagle Eye proxy",
       "kind": "structured",
       "observed": true,
-      "license": "Excluded: World Monitor own service/control plane",
+      "license": "Excluded: Eagle Eye own service/control plane",
       "attribution": "Excluded from the external-provider count: first-party proxy endpoint.",
       "status": "excluded",
       "references": [
@@ -7899,7 +7899,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -8012,7 +8012,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/intelligence/v1/get-country-facts.ts",
+          "path": "server/eagleeye/intelligence/v1/get-country-facts.ts",
           "line": 131
         }
       ]
@@ -8099,31 +8099,31 @@
           "line": 208
         },
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 285
         },
         {
-          "path": "server/worldmonitor/market/v1/analyze-stock.ts",
+          "path": "server/eagleeye/market/v1/analyze-stock.ts",
           "line": 226
         },
         {
-          "path": "server/worldmonitor/market/v1/analyze-stock.ts",
+          "path": "server/eagleeye/market/v1/analyze-stock.ts",
           "line": 315
         },
         {
-          "path": "server/worldmonitor/market/v1/analyze-stock.ts",
+          "path": "server/eagleeye/market/v1/analyze-stock.ts",
           "line": 793
         },
         {
-          "path": "server/worldmonitor/market/v1/analyze-stock.ts",
+          "path": "server/eagleeye/market/v1/analyze-stock.ts",
           "line": 835
         },
         {
-          "path": "server/worldmonitor/market/v1/analyze-stock.ts",
+          "path": "server/eagleeye/market/v1/analyze-stock.ts",
           "line": 916
         },
         {
-          "path": "server/worldmonitor/market/v1/get-country-stock-index.ts",
+          "path": "server/eagleeye/market/v1/get-country-stock-index.ts",
           "line": 90
         }
       ]
@@ -8168,7 +8168,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 35
         }
       ]
@@ -8226,7 +8226,7 @@
           "line": 44
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 37
         }
       ]
@@ -8241,7 +8241,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 790
         },
         {
@@ -8313,7 +8313,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/intelligence/v1/get-country-facts.ts",
+          "path": "server/eagleeye/intelligence/v1/get-country-facts.ts",
           "line": 90
         }
       ]
@@ -8347,7 +8347,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 525
         },
         {
@@ -8381,7 +8381,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 97
         },
         {
@@ -8415,7 +8415,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 441
         },
         {
@@ -8434,19 +8434,19 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 83
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 240
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 265
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 419
         },
         {
@@ -8492,7 +8492,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 445
         },
         {
@@ -8511,11 +8511,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 71
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 551
         },
         {
@@ -8599,7 +8599,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -8780,7 +8780,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 601
         },
         {
@@ -8811,7 +8811,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/market/v1/stock-news-search.ts",
+          "path": "server/eagleeye/market/v1/stock-news-search.ts",
           "line": 283
         }
       ]
@@ -8880,7 +8880,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 125
         },
         {
@@ -8899,7 +8899,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 532
         },
         {
@@ -8926,7 +8926,7 @@
           "line": 793
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 16
         }
       ]
@@ -8941,7 +8941,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 796
         },
         {
@@ -8960,7 +8960,7 @@
       "status": "excluded",
       "references": [
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 237
         }
       ]
@@ -8975,7 +8975,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 47
         }
       ]
@@ -9025,7 +9025,7 @@
           "line": 68
         },
         {
-          "path": "server/worldmonitor/economic/v1/_bis-shared.ts",
+          "path": "server/eagleeye/economic/v1/_bis-shared.ts",
           "line": 10
         }
       ]
@@ -9040,7 +9040,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 42
         }
       ]
@@ -9055,7 +9055,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 53
         }
       ]
@@ -9070,7 +9070,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 29
         }
       ]
@@ -9085,7 +9085,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 58
         }
       ]
@@ -9100,7 +9100,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 33
         }
       ]
@@ -9115,7 +9115,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 38
         }
       ]
@@ -9130,7 +9130,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 39
         }
       ]
@@ -9145,7 +9145,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 52
         }
       ]
@@ -9160,7 +9160,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 34
         }
       ]
@@ -9175,7 +9175,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 59
         }
       ]
@@ -9190,7 +9190,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 56
         }
       ]
@@ -9205,7 +9205,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 60
         }
       ]
@@ -9220,7 +9220,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 57
         }
       ]
@@ -9258,7 +9258,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 527
         },
         {
@@ -9342,7 +9342,7 @@
           "line": 939
         },
         {
-          "path": "server/worldmonitor/leads/v1/register-interest.ts",
+          "path": "server/eagleeye/leads/v1/register-interest.ts",
           "line": 137
         },
         {
@@ -9376,7 +9376,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 820
         },
         {
@@ -9395,7 +9395,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 531
         },
         {
@@ -9409,8 +9409,8 @@
       ]
     },
     {
-      "host": "tech.worldmonitor.app",
-      "provider": "tech.worldmonitor.app",
+      "host": "tech.eagle-eye.app",
+      "provider": "tech.eagle-eye.app",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -9433,7 +9433,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 534
         },
         {
@@ -9456,19 +9456,19 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 499
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 506
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 518
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 567
         },
         {
@@ -9519,7 +9519,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 108
         },
         {
@@ -9587,7 +9587,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 434
         },
         {
@@ -9621,7 +9621,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 623
         },
         {
@@ -9640,7 +9640,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 392
         },
         {
@@ -9659,7 +9659,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 72
         },
         {
@@ -9678,7 +9678,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 563
         },
         {
@@ -9705,7 +9705,7 @@
           "line": 795
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 18
         }
       ]
@@ -9720,7 +9720,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 835
         },
         {
@@ -9739,7 +9739,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 428
         },
         {
@@ -9777,7 +9777,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 436
         },
         {
@@ -9815,7 +9815,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 463
         },
         {
@@ -9849,7 +9849,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 411
         },
         {
@@ -9883,7 +9883,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 61
         }
       ]
@@ -9913,7 +9913,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 433
         },
         {
@@ -9962,7 +9962,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 170
         },
         {
@@ -10038,7 +10038,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 627
         },
         {
@@ -10065,7 +10065,7 @@
           "line": 27
         },
         {
-          "path": "server/worldmonitor/cyber/v1/_shared.ts",
+          "path": "server/eagleeye/cyber/v1/_shared.ts",
           "line": 36
         }
       ]
@@ -10103,15 +10103,15 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 292
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 513
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 519
         },
         {
@@ -10150,7 +10150,7 @@
           "line": 798
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 21
         }
       ]
@@ -10165,7 +10165,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 429
         },
         {
@@ -10199,7 +10199,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 837
         },
         {
@@ -10218,7 +10218,7 @@
       "status": "excluded",
       "references": [
         {
-          "path": "server/worldmonitor/leads/v1/register-interest.ts",
+          "path": "server/eagleeye/leads/v1/register-interest.ts",
           "line": 136
         },
         {
@@ -10252,7 +10252,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 487
         },
         {
@@ -10343,7 +10343,7 @@
           "line": 239
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 148
         }
       ]
@@ -10358,7 +10358,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 202
         },
         {
@@ -10377,7 +10377,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 203
         },
         {
@@ -10421,11 +10421,11 @@
       ]
     },
     {
-      "host": "worldmonitor.app",
-      "provider": "World Monitor web app",
+      "host": "eagle-eye.app",
+      "provider": "Eagle Eye web app",
       "kind": "feed+structured",
       "observed": true,
-      "license": "Excluded: World Monitor own web application",
+      "license": "Excluded: Eagle Eye own web application",
       "attribution": "Excluded from the external-provider count: first-party web origin.",
       "status": "excluded",
       "references": [
@@ -10618,7 +10618,7 @@
           "line": 1771
         },
         {
-          "path": "server/worldmonitor/infrastructure/v1/reverse-geocode.ts",
+          "path": "server/eagleeye/infrastructure/v1/reverse-geocode.ts",
           "line": 10
         },
         {
@@ -10668,8 +10668,8 @@
       ]
     },
     {
-      "host": "worldmonitor.invalid",
-      "provider": "WorldMonitor test origin",
+      "host": "eagleeye.invalid",
+      "provider": "EagleEye test origin",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: test-only origin",
@@ -10687,8 +10687,8 @@
       ]
     },
     {
-      "host": "worldmonitor.mintlify.dev",
-      "provider": "worldmonitor.mintlify.dev",
+      "host": "eagleeye.mintlify.dev",
+      "provider": "eagleeye.mintlify.dev",
       "kind": "structured",
       "observed": true,
       "license": "Excluded: first-party, control-plane, UI, or rendering transport",
@@ -10711,7 +10711,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 149
         },
         {
@@ -10730,7 +10730,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 133
         },
         {
@@ -10749,7 +10749,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 524
         },
         {
@@ -10768,7 +10768,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 239
         },
         {
@@ -10810,7 +10810,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 456
         },
         {
@@ -10859,7 +10859,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 91
         },
         {
@@ -10878,7 +10878,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 346
         },
         {
@@ -10912,7 +10912,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 104
         },
         {
@@ -10946,7 +10946,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 255
         },
         {
@@ -10965,7 +10965,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 255
         },
         {
@@ -10996,11 +10996,11 @@
           "line": 128
         },
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 109
         },
         {
-          "path": "server/worldmonitor/market/v1/_shared.ts",
+          "path": "server/eagleeye/market/v1/_shared.ts",
           "line": 159
         }
       ]
@@ -11015,7 +11015,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 458
         },
         {
@@ -11034,7 +11034,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 85
         },
         {
@@ -11053,7 +11053,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 403
         },
         {
@@ -11072,11 +11072,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 485
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 826
         },
         {
@@ -11099,7 +11099,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 115
         },
         {
@@ -11118,7 +11118,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 729
         },
         {
@@ -11141,7 +11141,7 @@
           "line": 799
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 22
         }
       ]
@@ -11160,7 +11160,7 @@
           "line": 800
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 23
         }
       ]
@@ -11198,11 +11198,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 220
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 369
         },
         {
@@ -11225,7 +11225,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 221
         },
         {
@@ -11259,7 +11259,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 385
         },
         {
@@ -11293,7 +11293,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 146
         },
         {
@@ -11327,7 +11327,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 75
         },
         {
@@ -11384,7 +11384,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 68
         },
         {
@@ -11422,7 +11422,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 397
         },
         {
@@ -11441,7 +11441,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 350
         },
         {
@@ -11479,7 +11479,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 452
         },
         {
@@ -11498,7 +11498,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 336
         },
         {
@@ -11521,7 +11521,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 377
         },
         {
@@ -11555,7 +11555,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 30
         }
       ]
@@ -11570,23 +11570,23 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 298
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 570
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 599
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 773
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 778
         },
         {
@@ -11629,7 +11629,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 614
         },
         {
@@ -11667,7 +11667,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 224
         },
         {
@@ -11686,7 +11686,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 493
         },
         {
@@ -11705,7 +11705,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 488
         }
       ]
@@ -11720,7 +11720,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 235
         },
         {
@@ -11739,7 +11739,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 357
         },
         {
@@ -11773,7 +11773,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 193
         },
         {
@@ -11792,7 +11792,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 548
         },
         {
@@ -11815,7 +11815,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 469
         },
         {
@@ -11834,7 +11834,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 817
         },
         {
@@ -11853,7 +11853,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 815
         },
         {
@@ -11872,7 +11872,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 140
         },
         {
@@ -11891,7 +11891,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 227
         },
         {
@@ -11910,7 +11910,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 144
         },
         {
@@ -11929,7 +11929,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 40
         }
       ]
@@ -11944,7 +11944,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 105
         },
         {
@@ -12028,7 +12028,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 388
         },
         {
@@ -12047,7 +12047,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 376
         },
         {
@@ -12085,7 +12085,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 356
         },
         {
@@ -12104,7 +12104,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 530
         },
         {
@@ -12123,7 +12123,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 81
         },
         {
@@ -12169,7 +12169,7 @@
           "line": 19
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 831
         },
         {
@@ -12211,11 +12211,11 @@
           "line": 38
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 333
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 637
         },
         {
@@ -12246,7 +12246,7 @@
           "line": 792
         },
         {
-          "path": "server/worldmonitor/aviation/v1/list-aviation-news.ts",
+          "path": "server/eagleeye/aviation/v1/list-aviation-news.ts",
           "line": 15
         }
       ]
@@ -12261,11 +12261,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 486
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 825
         },
         {
@@ -12303,7 +12303,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 80
         },
         {
@@ -12338,11 +12338,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 301
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 781
         },
         {
@@ -12392,7 +12392,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 142
         },
         {
@@ -12411,7 +12411,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 236
         },
         {
@@ -12468,7 +12468,7 @@
           "line": 230
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 112
         }
       ]
@@ -12483,7 +12483,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 37
         }
       ]
@@ -12543,15 +12543,15 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 788
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 804
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 805
         },
         {
@@ -12667,7 +12667,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 99
         },
         {
@@ -12686,7 +12686,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 237
         },
         {
@@ -12720,7 +12720,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 442
         },
         {
@@ -12739,7 +12739,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 141
         },
         {
@@ -12758,7 +12758,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 196
         },
         {
@@ -12777,7 +12777,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 494
         },
         {
@@ -12815,7 +12815,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 243
         },
         {
@@ -12849,7 +12849,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 242
         },
         {
@@ -12868,7 +12868,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 136
         },
         {
@@ -12887,7 +12887,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 375
         },
         {
@@ -12906,7 +12906,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 267
         },
         {
@@ -12925,7 +12925,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 268
         },
         {
@@ -12944,7 +12944,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 123
         },
         {
@@ -12963,7 +12963,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 475
         },
         {
@@ -12982,7 +12982,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 269
         },
         {
@@ -13001,7 +13001,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 347
         },
         {
@@ -13020,7 +13020,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 409
         },
         {
@@ -13058,7 +13058,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 272
         },
         {
@@ -13077,7 +13077,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 137
         },
         {
@@ -13096,7 +13096,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 443
         },
         {
@@ -13115,7 +13115,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 425
         },
         {
@@ -13134,7 +13134,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 408
         },
         {
@@ -13168,7 +13168,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 82
         },
         {
@@ -13210,7 +13210,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 834
         },
         {
@@ -13229,7 +13229,7 @@
       "status": "excluded",
       "references": [
         {
-          "path": "server/worldmonitor/leads/v1/register-interest.ts",
+          "path": "server/eagleeye/leads/v1/register-interest.ts",
           "line": 135
         },
         {
@@ -13263,7 +13263,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 190
         },
         {
@@ -13282,7 +13282,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 426
         },
         {
@@ -13316,7 +13316,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 147
         },
         {
@@ -13350,7 +13350,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 819
         },
         {
@@ -13369,7 +13369,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 728
         },
         {
@@ -13388,7 +13388,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 693
         },
         {
@@ -13453,7 +13453,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 363
         },
         {
@@ -13472,7 +13472,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 241
         },
         {
@@ -13491,7 +13491,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 795
         },
         {
@@ -13533,7 +13533,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 32
         }
       ]
@@ -13593,7 +13593,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 407
         },
         {
@@ -13627,7 +13627,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 50
         }
       ]
@@ -13642,7 +13642,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 124
         },
         {
@@ -13676,7 +13676,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 103
         },
         {
@@ -13695,7 +13695,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 89
         },
         {
@@ -13714,7 +13714,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 832
         },
         {
@@ -13733,7 +13733,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 276
         },
         {
@@ -13767,7 +13767,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 791
         },
         {
@@ -13809,7 +13809,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 823
         },
         {
@@ -13843,7 +13843,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 66
         },
         {
@@ -13889,7 +13889,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 197
         },
         {
@@ -13908,7 +13908,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 789
         },
         {
@@ -13927,7 +13927,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 348
         },
         {
@@ -13946,7 +13946,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 444
         },
         {
@@ -13965,7 +13965,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 374
         },
         {
@@ -13984,7 +13984,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 584
         },
         {
@@ -14007,7 +14007,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 361
         },
         {
@@ -14026,7 +14026,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 354
         },
         {
@@ -14083,7 +14083,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 473
         },
         {
@@ -14121,7 +14121,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 54
         }
       ]
@@ -14136,7 +14136,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 225
         },
         {
@@ -14155,7 +14155,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 420
         },
         {
@@ -14174,7 +14174,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 367
         },
         {
@@ -14193,7 +14193,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 717
         },
         {
@@ -14220,7 +14220,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 206
         },
         {
@@ -14239,7 +14239,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 171
         },
         {
@@ -14300,7 +14300,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 238
         },
         {
@@ -14372,7 +14372,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 794
         },
         {
@@ -14426,11 +14426,11 @@
           "line": 26
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 334
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 664
         },
         {
@@ -14457,7 +14457,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 148
         },
         {
@@ -14476,7 +14476,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 588
         },
         {
@@ -14495,7 +14495,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 526
         },
         {
@@ -14514,7 +14514,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 117
         },
         {
@@ -14533,7 +14533,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 809
         },
         {
@@ -14597,7 +14597,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 222
         },
         {
@@ -14688,7 +14688,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 228
         },
         {
@@ -14707,7 +14707,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 93
         },
         {
@@ -14764,7 +14764,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 84
         },
         {
@@ -14783,7 +14783,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 533
         },
         {
@@ -14810,7 +14810,7 @@
           "line": 154
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 41
         },
         {
@@ -14833,11 +14833,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 288
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 294
         },
         {
@@ -14891,7 +14891,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 135
         },
         {
@@ -14925,7 +14925,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 76
         },
         {
@@ -14948,15 +14948,15 @@
           "line": 18
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 57
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 258
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 373
         },
         {
@@ -14987,7 +14987,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 400
         },
         {
@@ -15006,7 +15006,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 173
         },
         {
@@ -15025,7 +15025,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 275
         }
       ]
@@ -15040,7 +15040,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 355
         },
         {
@@ -15059,19 +15059,19 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 287
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 293
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 507
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 514
         },
         {
@@ -15110,7 +15110,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 352
         },
         {
@@ -15137,7 +15137,7 @@
           "line": 233
         },
         {
-          "path": "server/worldmonitor/research/v1/list-tech-events.ts",
+          "path": "server/eagleeye/research/v1/list-tech-events.ts",
           "line": 124
         }
       ]
@@ -15152,7 +15152,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 587
         },
         {
@@ -15175,7 +15175,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 134
         },
         {
@@ -15194,7 +15194,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 92
         },
         {
@@ -15213,7 +15213,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 816
         },
         {
@@ -15262,7 +15262,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 349
         },
         {
@@ -15281,7 +15281,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 132
         },
         {
@@ -15300,7 +15300,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 31
         }
       ]
@@ -15315,7 +15315,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 150
         },
         {
@@ -15349,7 +15349,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 90
         },
         {
@@ -15383,7 +15383,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 332
         }
       ]
@@ -15413,11 +15413,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 317
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 318
         }
       ]
@@ -15440,7 +15440,7 @@
           "line": 37
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 495
         },
         {
@@ -15459,7 +15459,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/webcam/v1/get-webcam-image.ts",
+          "path": "server/eagleeye/webcam/v1/get-webcam-image.ts",
           "line": 11
         },
         {
@@ -15469,11 +15469,11 @@
       ]
     },
     {
-      "host": "www.worldmonitor.app",
-      "provider": "World Monitor web app",
+      "host": "www.eagle-eye.app",
+      "provider": "Eagle Eye web app",
       "kind": "structured",
       "observed": true,
-      "license": "Excluded: World Monitor own web application",
+      "license": "Excluded: Eagle Eye own web application",
       "attribution": "Excluded from the external-provider count: first-party web origin.",
       "status": "excluded",
       "references": [
@@ -15617,7 +15617,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 422
         },
         {
@@ -15636,11 +15636,11 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 523
         },
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 543
         },
         {
@@ -15667,7 +15667,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 808
         },
         {
@@ -15686,7 +15686,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 273
         },
         {
@@ -15705,7 +15705,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 438
         },
         {
@@ -15744,11 +15744,11 @@
           "line": 9847
         },
         {
-          "path": "server/worldmonitor/aviation/v1/get-youtube-live-stream-info.ts",
+          "path": "server/eagleeye/aviation/v1/get-youtube-live-stream-info.ts",
           "line": 73
         },
         {
-          "path": "server/worldmonitor/aviation/v1/get-youtube-live-stream-info.ts",
+          "path": "server/eagleeye/aviation/v1/get-youtube-live-stream-info.ts",
           "line": 136
         },
         {
@@ -15803,7 +15803,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 186
         },
         {
@@ -15841,7 +15841,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/infrastructure/v1/list-service-statuses.ts",
+          "path": "server/eagleeye/infrastructure/v1/list-service-statuses.ts",
           "line": 49
         }
       ]
@@ -15871,7 +15871,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 204
         },
         {
@@ -15890,7 +15890,7 @@
       "status": "excluded",
       "references": [
         {
-          "path": "server/worldmonitor/leads/v1/register-interest.ts",
+          "path": "server/eagleeye/leads/v1/register-interest.ts",
           "line": 134
         }
       ]
@@ -15920,7 +15920,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 102
         },
         {
@@ -15992,7 +15992,7 @@
       "status": "terms-review",
       "references": [
         {
-          "path": "server/worldmonitor/news/v1/_feeds.ts",
+          "path": "server/eagleeye/news/v1/_feeds.ts",
           "line": 126
         },
         {

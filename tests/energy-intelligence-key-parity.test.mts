@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 //   `energy:intelligence:feed:v1`
 // server/_shared/cache-keys.ts declared
 //   `energy:intelligence:v1:feed`  (drifted)
-// server/worldmonitor/intelligence/v1/chat-analyst-context.ts imports
+// server/eagleeye/intelligence/v1/chat-analyst-context.ts imports
 // ENERGY_INTELLIGENCE_KEY from cache-keys.ts and calls getCachedJson on
 // it. With the drift, the OilPrice + OPEC RSS feed was being seeded
 // weekly but never reached the chat analyst — silently invisible for

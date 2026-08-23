@@ -29,15 +29,15 @@
 //     report and decides whether to hold publication.
 //
 // Usage:
-//   WORLDMONITOR_API_KEY=wm_xxx API_BASE=https://api.worldmonitor.app \
+//   EAGLEEYE_API_KEY=wm_xxx API_BASE=https://api.eagle-eye.app \
 //     node scripts/audit-resilience-cohorts.mjs
-//   WORLDMONITOR_API_KEY=wm_xxx API_BASE=... \
+//   EAGLEEYE_API_KEY=wm_xxx API_BASE=... \
 //     BASELINE=docs/snapshots/resilience-ranking-live-pre-cohort-audit-2026-04-24.json \
 //     OUT=/tmp/audit.md node scripts/audit-resilience-cohorts.mjs
 //   FIXTURE=tests/fixtures/resilience-audit-fixture.json node scripts/audit-resilience-cohorts.mjs
 //
 // Auth: the resilience ranking + score endpoints are in PREMIUM_RPC_PATHS
-// (see src/shared/premium-paths.ts). A valid WORLDMONITOR_API_KEY is
+// (see src/shared/premium-paths.ts). A valid EAGLEEYE_API_KEY is
 // required whether running from a trusted browser origin or not — the
 // premium gate forces the key.
 //
@@ -77,11 +77,11 @@ const FIXTURE_PATH = process.env.FIXTURE || '';
 const API_BASE = (process.env.API_BASE || '').replace(/\/$/, '');
 if (!FIXTURE_PATH) {
   if (!API_BASE) {
-    console.error('[audit-resilience-cohorts] API_BASE env var required (e.g. https://api.worldmonitor.app), or FIXTURE=path.json for offline mode');
+    console.error('[audit-resilience-cohorts] API_BASE env var required (e.g. https://api.eagle-eye.app), or FIXTURE=path.json for offline mode');
     process.exit(2);
   }
-  if (!process.env.WORLDMONITOR_API_KEY) {
-    console.error('[audit-resilience-cohorts] WORLDMONITOR_API_KEY env var required; resilience RPC paths are in PREMIUM_RPC_PATHS.');
+  if (!process.env.EAGLEEYE_API_KEY) {
+    console.error('[audit-resilience-cohorts] EAGLEEYE_API_KEY env var required; resilience RPC paths are in PREMIUM_RPC_PATHS.');
     process.exit(2);
   }
 }
@@ -174,8 +174,8 @@ function apiHeaders() {
     // bot guard that 403s bare `node` fetches on the edge path.
     'user-agent': 'audit-resilience-cohorts/1.0 (+scripts/audit-resilience-cohorts.mjs)',
   };
-  if (process.env.WORLDMONITOR_API_KEY) {
-    h['X-WorldMonitor-Key'] = process.env.WORLDMONITOR_API_KEY;
+  if (process.env.EAGLEEYE_API_KEY) {
+    h['X-EagleEye-Key'] = process.env.EAGLEEYE_API_KEY;
   }
   return h;
 }

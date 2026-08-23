@@ -36,7 +36,7 @@ function restoreEnv() {
 }
 
 function makeRequest(headers: Record<string, string> = {}): Request {
-  return new Request('https://worldmonitor.app/api/test', { headers });
+  return new Request('https://eagle-eye.app/api/test', { headers });
 }
 
 async function importFreshRateLimitModule() {
@@ -164,7 +164,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
   it('checkRateLimit returns 503 with the degraded marker when failClosed=true', async () => {
     const res = await checkRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       { failClosed: true },
     );
     assert.ok(res, 'expected a Response when fail-closed');
@@ -173,7 +173,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     assert.equal(res.headers.get('Retry-After'), '5');
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
       'CORS headers should be propagated on the degraded response',
     );
     const body = (await res.json()) as { error?: string };
@@ -187,7 +187,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
 
     const res = await mod.checkRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
       { failClosed: true },
     );
 
@@ -258,7 +258,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     const res = await mod.checkEndpointRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
       pathname,
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
     );
 
     assert.ok(res, 'expected summarize-article endpoint policy to fail closed without Redis config');
@@ -266,7 +266,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     assert.equal(res.headers.get('X-RateLimit-Mode'), 'degraded');
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
       'CORS headers should be propagated on the degraded response',
     );
     assert.equal(res.headers.get('Retry-After'), '5');
@@ -291,7 +291,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     const res = await mod.checkEndpointRateLimit(
       makeRequest({ 'cf-connecting-ip': '203.0.113.7' }),
       pathname,
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
     );
 
     assert.ok(res, 'expected deduct-situation endpoint policy to fail closed without Redis config');
@@ -299,7 +299,7 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     assert.equal(res.headers.get('X-RateLimit-Mode'), 'degraded');
     assert.equal(
       res.headers.get('Access-Control-Allow-Origin'),
-      'https://worldmonitor.app',
+      'https://eagle-eye.app',
       'CORS headers should be propagated on the degraded response',
     );
   });
@@ -348,13 +348,13 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
     const res = await mod.checkEndpointRateLimit(
       makeRequest({ 'x-real-ip': '203.0.113.7' }),
       '/api/market/v1/get-insider-transactions',
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
     );
 
     assert.ok(res, 'a timed-out limiter decision must not use the SDK allow fallback');
     assert.equal(res.status, 503);
     assert.equal(res.headers.get('X-RateLimit-Mode'), 'degraded');
-    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
   });
 
   it('paid-provider endpoint policies abort a stalled Redis fetch before failing closed (#6236)', async () => {
@@ -464,12 +464,12 @@ describe('rate-limit fail-open / fail-closed posture (#3531 M9)', () => {
       'pre-attribution-test',
       600,
       '60 s',
-      { 'Access-Control-Allow-Origin': 'https://worldmonitor.app' },
+      { 'Access-Control-Allow-Origin': 'https://eagle-eye.app' },
     );
 
     assert.equal(res?.status, 503);
     assert.equal(res.headers.get('X-RateLimit-Mode'), 'degraded');
-    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+    assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
   });
 });
 
@@ -502,7 +502,7 @@ describe('rate-limit fail-closed call-site policy (#3531)', () => {
 describe('scoped rate-limit degraded call-site policy (#3531)', () => {
   const SCOPED_RATE_LIMIT_CALLERS = [
     {
-      path: 'server/worldmonitor/leads/v1/register-interest.ts',
+      path: 'server/eagleeye/leads/v1/register-interest.ts',
       expected: /if\s*\(\s*scoped\.degraded\s*\)\s*\{/,
       reason: 'desktop lead capture bypasses Turnstile, so Redis degradation must fail closed locally',
     },

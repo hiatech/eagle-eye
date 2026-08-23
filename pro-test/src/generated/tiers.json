@@ -20,7 +20,7 @@
       "mcpBurstRequestsPerMinute": 0
     },
     "cta": "Get Started",
-    "href": "https://worldmonitor.app/dashboard",
+    "href": "https://eagle-eye.app/dashboard",
     "highlighted": false
   },
   {
@@ -114,7 +114,7 @@
     "localeKey": "apiBusiness",
     "monthlyPrice": 299.99,
     "annualPrice": 2699.99,
-    "description": "Launch your own product on WorldMonitor data",
+    "description": "Launch your own product on EagleEye data",
     "features": [
       "Everything in API Starter",
       "Redistribution rights — embed our data in what you sell",
@@ -158,7 +158,7 @@
       "mcpBurstRequestsPerMinute": 1000
     },
     "cta": "Contact Sales",
-    "href": "mailto:enterprise@worldmonitor.app",
+    "href": "mailto:enterprise@eagle-eye.app",
     "highlighted": false
   }
 ]

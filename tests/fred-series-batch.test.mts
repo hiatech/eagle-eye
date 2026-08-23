@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 import { getCachedJsonBatch } from '../server/_shared/redis';
 import { sidecarCacheSet } from '../server/_shared/sidecar-cache';
-import { getFredSeriesBatch } from '../server/worldmonitor/economic/v1/get-fred-series-batch';
+import { getFredSeriesBatch } from '../server/eagleeye/economic/v1/get-fred-series-batch';
 
 const ORIGINAL_ENV = {
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,

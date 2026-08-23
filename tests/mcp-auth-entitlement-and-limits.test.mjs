@@ -36,7 +36,7 @@ import { HMAC_SECRET, PRO_USER_ID, PRO_TOKEN_ID, makeProDeps } from './helpers/m
 const originalEnv = { ...process.env };
 const ORIGINAL_SLIDING_WINDOW = Ratelimit.slidingWindow;
 
-const RESOURCE_META_URL = 'https://worldmonitor.app/.well-known/oauth-protected-resource';
+const RESOURCE_META_URL = 'https://eagle-eye.app/.well-known/oauth-protected-resource';
 const CORS = { 'Access-Control-Allow-Origin': '*' };
 
 const USER_KEY = `wm_${'ab12'.repeat(10)}`;
@@ -507,7 +507,7 @@ describe('api/mcp/auth.ts — applyPerMinuteLimit (#5379 Gap 9)', () => {
 const EDGE_PROOF = 'edge-proof-secret-value';
 
 function anonReq(headers = {}) {
-  return new Request('https://worldmonitor.app/mcp', { method: 'POST', headers });
+  return new Request('https://eagle-eye.app/mcp', { method: 'POST', headers });
 }
 
 describe('api/mcp/auth.ts — applyAnonDiscoveryLimit (#5379 Gap 10)', () => {

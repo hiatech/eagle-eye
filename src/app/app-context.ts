@@ -1,6 +1,6 @@
 import type { InternetOutage, SocialUnrestEvent, MilitaryFlight, MilitaryFlightCluster, MilitaryVessel, MilitaryVesselCluster, USNIFleetReport, PanelConfig, MapLayers, NewsItem, MarketData, ClusteredEvent, CyberThreat, Monitor, AisDisruptionEvent } from '@/types';
 import type { AirportDelayAlert, PositionSample } from '@/services/aviation';
-import type { IranEvent } from '@/generated/client/worldmonitor/conflict/v1/service_client';
+import type { IranEvent } from '@/generated/client/eagleeye/conflict/v1/service_client';
 import type { ConflictEvent } from '@/services/conflict';
 import type { GpsJamHex } from '@/services/gps-interference';
 import type { OverlayId } from '@/utils/overlay-history';

@@ -41,10 +41,10 @@ const FEED_FILES = new Set([
   // completeness, but their playback transport is excluded from the data
   // provider count below.
   'src/components/LiveNewsPanel.ts',
-  'server/worldmonitor/news/v1/_feeds.ts',
+  'server/eagleeye/news/v1/_feeds.ts',
 ]);
 const PRESENTATION_ONLY_FILES = new Set(['src/components/LiveNewsPanel.ts']);
-const STATUS_FILE = 'server/worldmonitor/infrastructure/v1/list-service-statuses.ts';
+const STATUS_FILE = 'server/eagleeye/infrastructure/v1/list-service-statuses.ts';
 
 // URL literals are intentionally parsed before classification.  This catches
 // both quoted URLs and template literals such as the CFTC dataset endpoint.
@@ -293,7 +293,7 @@ const PROVIDER_OVERRIDES = {
   },
   'api.axiom.co': {
     provider: 'Axiom telemetry',
-    license: 'Excluded: World Monitor operational telemetry, not an external data provider',
+    license: 'Excluded: Eagle Eye operational telemetry, not an external data provider',
     attribution: 'Excluded from the provider count: internal usage telemetry.',
     status: 'excluded',
   },
@@ -369,8 +369,8 @@ const PROVIDER_OVERRIDES = {
     attribution: 'Excluded from the provider count: local-only loopback URL.',
     status: 'excluded',
   },
-  'worldmonitor.invalid': {
-    provider: 'WorldMonitor test origin',
+  'eagleeye.invalid': {
+    provider: 'EagleEye test origin',
     license: 'Excluded: test-only origin',
     attribution: 'Excluded from the provider count: test-only URL.',
     status: 'excluded',
@@ -381,27 +381,27 @@ const PROVIDER_OVERRIDES = {
     attribution: 'Excluded from the provider count: credentials placeholder.',
     status: 'excluded',
   },
-  'api.worldmonitor.app': {
-    provider: 'World Monitor hosted API',
-    license: 'Excluded: World Monitor own service/control plane',
+  'api.eagle-eye.app': {
+    provider: 'Eagle Eye hosted API',
+    license: 'Excluded: Eagle Eye own service/control plane',
     attribution: 'Excluded from the external-provider count: first-party API endpoint.',
     status: 'excluded',
   },
-  'proxy.worldmonitor.app': {
-    provider: 'World Monitor proxy',
-    license: 'Excluded: World Monitor own service/control plane',
+  'proxy.eagle-eye.app': {
+    provider: 'Eagle Eye proxy',
+    license: 'Excluded: Eagle Eye own service/control plane',
     attribution: 'Excluded from the external-provider count: first-party proxy endpoint.',
     status: 'excluded',
   },
-  'worldmonitor.app': {
-    provider: 'World Monitor web app',
-    license: 'Excluded: World Monitor own web application',
+  'eagle-eye.app': {
+    provider: 'Eagle Eye web app',
+    license: 'Excluded: Eagle Eye own web application',
     attribution: 'Excluded from the external-provider count: first-party web origin.',
     status: 'excluded',
   },
-  'www.worldmonitor.app': {
-    provider: 'World Monitor web app',
-    license: 'Excluded: World Monitor own web application',
+  'www.eagle-eye.app': {
+    provider: 'Eagle Eye web app',
+    license: 'Excluded: Eagle Eye own web application',
     attribution: 'Excluded from the external-provider count: first-party web origin.',
     status: 'excluded',
   },
@@ -469,7 +469,7 @@ const DYNAMIC_HOSTS = [
   { host: 'www.swfinstitute.org', kind: 'structured', path: 'scripts/seed-sovereign-wealth.mjs', line: 24 },
   { host: 'www.ifswf.org', kind: 'structured', path: 'scripts/seed-sovereign-wealth.mjs', line: 291 },
   { host: 'www.visionofhumanity.org', kind: 'structured', path: 'scripts/seed-resilience-static.mjs', line: 614 },
-  { host: 'earth-search.aws.element84.com', kind: 'structured', path: 'server/worldmonitor/imagery/v1/search-imagery.ts', line: 10 },
+  { host: 'earth-search.aws.element84.com', kind: 'structured', path: 'server/eagleeye/imagery/v1/search-imagery.ts', line: 10 },
 ];
 
 const EXCLUDED_HOSTS = new Set([
@@ -477,7 +477,7 @@ const EXCLUDED_HOSTS = new Set([
   'test.dodopayments.com',
   'live.dodopayments.com',
   'customer.dodopayments.com',
-  'worldmonitor.mintlify.dev',
+  'eagleeye.mintlify.dev',
   'discord.com',
   'discord.gg',
   'slack.com',
@@ -648,7 +648,7 @@ function mergeEntry(observed, previous) {
         attribution: 'Excluded from the external-provider count: presentation-only HLS stream, not an ingested dataset.',
         status: 'excluded',
       }
-      : EXCLUDED_HOSTS.has(observed.host) || observed.host.endsWith('.worldmonitor.app')
+      : EXCLUDED_HOSTS.has(observed.host) || observed.host.endsWith('.eagle-eye.app')
       ? {
         provider: observed.host,
         license: 'Excluded: first-party, control-plane, UI, or rendering transport',

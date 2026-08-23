@@ -6,8 +6,8 @@
  * draft-meunier-http-message-signatures-directory (the Cloudflare/IETF
  * emerging standard for cryptographically-identified automated traffic).
  *
- * Publishes WorldMonitor's Ed25519 bot-signing public key as a JWK Set so a
- * server receiving a WorldMonitor-originated automated request can fetch this
+ * Publishes EagleEye's Ed25519 bot-signing public key as a JWK Set so a
+ * server receiving a EagleEye-originated automated request can fetch this
  * directory, match the request's `Signature-Input` keyid (the RFC 8037 JWK
  * thumbprint) to a key here, and verify the RFC 9421 HTTP Message Signature.
  *

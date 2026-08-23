@@ -50,7 +50,7 @@ test('a seeded non-CN country index is served from Redis without touching Yahoo'
     throw new Error(`unexpected request: ${url}`);
   }) as typeof fetch;
 
-  const { getCountryStockIndex } = await import('../server/worldmonitor/market/v1/get-country-stock-index.ts');
+  const { getCountryStockIndex } = await import('../server/eagleeye/market/v1/get-country-stock-index.ts');
   const result = await getCountryStockIndex({} as never, { countryCode: 'DE' } as never);
 
   assert.equal(result.available, true);
@@ -94,7 +94,7 @@ test('a seed row for the wrong country is rejected rather than served', async (t
     throw new Error(`unexpected request: ${url}`);
   }) as typeof fetch;
 
-  const { getCountryStockIndex } = await import('../server/worldmonitor/market/v1/get-country-stock-index.ts');
+  const { getCountryStockIndex } = await import('../server/eagleeye/market/v1/get-country-stock-index.ts');
   const result = await getCountryStockIndex({} as never, { countryCode: 'FR' } as never);
 
   assert.equal(result.code, 'FR', 'a mismatched seed row must not leak another country’s index');

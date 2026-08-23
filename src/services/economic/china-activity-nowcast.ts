@@ -1,6 +1,6 @@
 import type {
   GetChinaActivityNowcastResponse,
-} from '@/generated/client/worldmonitor/economic/v1/service_client';
+} from '@/generated/client/eagleeye/economic/v1/service_client';
 import {
   evaluateChinaActivityNowcast,
   isChinaActivityNowcastUpstreamUnavailable,

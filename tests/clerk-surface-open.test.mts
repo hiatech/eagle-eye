@@ -1,6 +1,6 @@
 /**
  * Regression coverage for the Clerk UI-open retry/capture state machine
- * (`runClerkSurfaceOpen`) added to fix WORLDMONITOR-SC / WORLDMONITOR-SD.
+ * (`runClerkSurfaceOpen`) added to fix EAGLEEYE-SC / EAGLEEYE-SD.
  *
  * Clerk's `openSignIn` / `openSignUp` throw SYNCHRONOUSLY ("Clerk was not
  * loaded with Ui components") when the session layer loaded but the UI
@@ -35,7 +35,7 @@ describe('runClerkSurfaceOpen', () => {
     assert.equal(failures, 0);
   });
 
-  it('does not let a synchronous throw escape (the WORLDMONITOR-SC/-SD crash)', () => {
+  it('does not let a synchronous throw escape (the EAGLEEYE-SC/-SD crash)', () => {
     assert.doesNotThrow(() => {
       runClerkSurfaceOpen(
         () => { throw new Error('Clerk was not loaded with Ui components'); },

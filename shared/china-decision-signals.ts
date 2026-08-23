@@ -536,8 +536,8 @@ function buildDerivedNowcastProvenance(
       publisher: {
         status: 'known',
         value: {
-          id: 'worldmonitor-china-activity-nowcast',
-          name: 'WorldMonitor China Activity Nowcast',
+          id: 'eagleeye-china-activity-nowcast',
+          name: 'EagleEye China Activity Nowcast',
           type: 'derived_output',
           registryReference: null,
         },

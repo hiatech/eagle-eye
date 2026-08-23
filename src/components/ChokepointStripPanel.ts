@@ -4,7 +4,7 @@ import { joinSafeHtml, safeHtml, unsafeRawHtml, type SafeHtml } from '@/utils/sa
 import { getHydratedData } from '@/services/bootstrap';
 import { fetchChokepointStatus } from '@/services/supply-chain';
 import { attributionFooterHtml, ATTRIBUTION_FOOTER_CSS } from '@/utils/attribution-footer';
-import type { GetChokepointStatusResponse, ChokepointInfo } from '@/generated/client/worldmonitor/supply_chain/v1/service_client';
+import type { GetChokepointStatusResponse, ChokepointInfo } from '@/generated/client/eagleeye/supply_chain/v1/service_client';
 
 // Ordering for the atlas strip: highest-volume chokepoints first.
 // Matches scripts/seed-chokepoint-baselines.mjs ordering.

@@ -23,7 +23,7 @@ import { describe, it } from 'node:test';
 import {
   scoreTradePolicy,
   type ResilienceSeedReader,
-} from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+} from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 
 const TEST_ISO2 = 'XX';
 

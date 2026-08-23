@@ -11,7 +11,7 @@ const originalDateNow = Date.now;
 // key path is the simplest to satisfy in-test — an env allowlist + a matching
 // header, no HMAC. Set for the whole file.
 const TEST_KEY = 'wm-test-enterprise-key';
-process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
 
 afterEach(() => {
   globalThis.fetch = originalFetch;
@@ -23,9 +23,9 @@ afterEach(() => {
 
 function makeReq(q?: string, method = 'GET'): Request {
   const url = q === undefined
-    ? 'https://worldmonitor.app/api/symbol-search'
-    : `https://worldmonitor.app/api/symbol-search?q=${encodeURIComponent(q)}`;
-  return new Request(url, { method, headers: { 'X-WorldMonitor-Key': TEST_KEY } });
+    ? 'https://eagle-eye.app/api/symbol-search'
+    : `https://eagle-eye.app/api/symbol-search?q=${encodeURIComponent(q)}`;
+  return new Request(url, { method, headers: { 'X-EagleEye-Key': TEST_KEY } });
 }
 
 describe('mapFinnhubResults', () => {
@@ -97,7 +97,7 @@ describe('symbol-search handler', () => {
     assert.match(requestedUrl, /finnhub\.io\/api\/v1\/search\?q=nvidia&token=test-key/);
     // AGENTS.md Critical Conventions: "Always include User-Agent header in
     // server-side fetch calls". Reviewer P1 on PR #3698.
-    assert.equal(requestedUA, 'worldmonitor-edge/1.0');
+    assert.equal(requestedUA, 'eagleeye-edge/1.0');
     const body = await res.json() as { results: unknown };
     assert.deepEqual(body.results, [{ symbol: 'NVDA', name: 'NVIDIA CORP', display: 'NVDA' }]);
   });

@@ -67,9 +67,9 @@ test('shouldSampleWebVital defaults to the configured rate and Math.random', () 
 
 test('sanitizeWebVitalUrl redacts query strings and caps malformed URLs', () => {
   assert.equal(
-    sanitizeWebVitalUrl('https://api.worldmonitor.app/api/bootstrap?tier=fast&wms=secret#frag'),
-    'https://api.worldmonitor.app/api/bootstrap?[redacted]',
+    sanitizeWebVitalUrl('https://api.eagle-eye.app/api/bootstrap?tier=fast&wms=secret#frag'),
+    'https://api.eagle-eye.app/api/bootstrap?[redacted]',
   );
-  assert.equal(sanitizeWebVitalUrl('https://worldmonitor.app/assets/main.js'), 'https://worldmonitor.app/assets/main.js');
+  assert.equal(sanitizeWebVitalUrl('https://eagle-eye.app/assets/main.js'), 'https://eagle-eye.app/assets/main.js');
   assert.equal(sanitizeWebVitalUrl(`http://[bad?${'x'.repeat(220)}`), 'http://[bad');
 });

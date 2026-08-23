@@ -5,7 +5,7 @@ const originalEnv = { ...process.env };
 
 function makeCtx(headers = {}) {
   return {
-    request: new Request('https://worldmonitor.app/api/leads/v1/register-interest', {
+    request: new Request('https://eagle-eye.app/api/leads/v1/register-interest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...headers },
     }),
@@ -40,13 +40,13 @@ describe('LeadsService.registerInterest desktop auth', () => {
     process.env.VERCEL_ENV = 'production';
     delete process.env.WM_DESKTOP_AUTH_ALLOW_LEGACY;
 
-    const mod = await import('../server/worldmonitor/leads/v1/register-interest.ts');
+    const mod = await import('../server/eagleeye/leads/v1/register-interest.ts');
     registerInterest = mod.registerInterest;
     createDesktopAuthSignature = mod.createDesktopAuthSignature;
     timestampHeader = mod.DESKTOP_AUTH_TIMESTAMP_HEADER;
     signatureHeader = mod.DESKTOP_AUTH_SIGNATURE_HEADER;
     desktopAuthWindowMs = mod.DESKTOP_AUTH_WINDOW_MS;
-    const gen = await import('../src/generated/server/worldmonitor/leads/v1/service_server.ts');
+    const gen = await import('../src/generated/server/eagleeye/leads/v1/service_server.ts');
     ApiError = gen.ApiError;
   });
 

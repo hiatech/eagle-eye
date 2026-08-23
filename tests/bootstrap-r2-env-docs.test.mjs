@@ -19,7 +19,7 @@ describe('bootstrap R2 environment documentation', () => {
       assert.equal(matches.length, 1, `${name} must be documented exactly once`);
     }
 
-    assert.match(envExample, /^R2_BOOTSTRAP_BUCKET=worldmonitor-bootstrap$/m);
+    assert.match(envExample, /^R2_BOOTSTRAP_BUCKET=eagleeye-bootstrap$/m);
     assert.match(envExample, /^IRAN_EVENTS_ENABLED=false$/m);
     assert.match(envExample, /^BOOTSTRAP_R2_SHADOW_MEASURE=$/m);
     for (const name of [...PUBLISHER_ENV, ...EDGE_ENV]) {

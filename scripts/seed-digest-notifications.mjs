@@ -121,13 +121,13 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY ?? '';
 // off the `alerts@` mailbox so recipients don't see a scary "alert" from-name
 // in their inbox. normalizeResendSender coerces a bare email address into a
 // "Name <addr>" wrapper at runtime (with a loud warning), so a Railway env
-// like `RESEND_FROM_BRIEF=brief@worldmonitor.app` can't re-introduce the bug
+// like `RESEND_FROM_BRIEF=brief@eagle-eye.app` can't re-introduce the bug
 // that `.env.example` documents.
 const RESEND_FROM =
   normalizeResendSender(
     process.env.RESEND_FROM_BRIEF ?? process.env.RESEND_FROM_EMAIL,
-    'WorldMonitor Brief',
-  ) ?? 'WorldMonitor Brief <brief@worldmonitor.app>';
+    'EagleEye Brief',
+  ) ?? 'EagleEye Brief <brief@eagle-eye.app>';
 const DIGEST_LAST_RUN_KEY = 'digest:last-run';
 const DIGEST_LAST_RUN_META_KEY = 'seed-meta:digest:last-run';
 const DIGEST_LAST_RUN_TTL_SECONDS = 7 * 24 * 60 * 60;
@@ -173,8 +173,8 @@ function getDigestScoreMin() {
 // ── Brief composer (consolidation of the retired seed-brief-composer) ──────
 
 const BRIEF_URL_SIGNING_SECRET = process.env.BRIEF_URL_SIGNING_SECRET ?? '';
-const WORLDMONITOR_PUBLIC_BASE_URL =
-  process.env.WORLDMONITOR_PUBLIC_BASE_URL ?? 'https://worldmonitor.app';
+const EAGLEEYE_PUBLIC_BASE_URL =
+  process.env.EAGLEEYE_PUBLIC_BASE_URL ?? 'https://eagle-eye.app';
 const BRIEF_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
 // Brief story window: derived per-rule from the rule's lastSentAt via
 // digestWindowStartMs, identical to the send-loop window. The previous
@@ -228,11 +228,11 @@ const FREE_TIER_FOLLOW_LIMIT = 3;
 // lets local dev point at a preview deployment or `localhost:3000`.
 const BRIEF_WHY_MATTERS_ENDPOINT_URL =
   process.env.BRIEF_WHY_MATTERS_ENDPOINT_URL ??
-  `${WORLDMONITOR_PUBLIC_BASE_URL}/api/internal/brief-why-matters`;
+  `${EAGLEEYE_PUBLIC_BASE_URL}/api/internal/brief-why-matters`;
 
 /**
  * Lowercase + collapse whitespace to mirror extractor-side gate in
- * server/worldmonitor/news/v1/list-feed-digest.ts
+ * server/eagleeye/news/v1/list-feed-digest.ts
  * (normalizeForDescriptionEquality). Duplicated (not imported) because
  * that module is .ts on a different loader path; a shared .mjs helper
  * would be a cleaner home if more surfaces adopt this check.
@@ -291,7 +291,7 @@ async function callAnalystWhyMatters(story) {
         // 403 path. Defense-in-depth alongside the PUBLIC_API_PATHS
         // allowlist. Distinct from ops curl / UptimeRobot so log grep
         // disambiguates cron traffic from operator traffic.
-        'User-Agent': 'worldmonitor-digest-notifications/1.0',
+        'User-Agent': 'eagleeye-digest-notifications/1.0',
         Accept: 'application/json',
       },
       body: JSON.stringify({ story: payload }),
@@ -362,7 +362,7 @@ async function upstashRest(...args) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${UPSTASH_TOKEN}`,
-      'User-Agent': 'worldmonitor-digest/1.0',
+      'User-Agent': 'eagleeye-digest/1.0',
     },
     signal: AbortSignal.timeout(10000),
   });
@@ -381,7 +381,7 @@ async function upstashPipeline(commands) {
     headers: {
       Authorization: `Bearer ${UPSTASH_TOKEN}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'worldmonitor-digest/1.0',
+      'User-Agent': 'eagleeye-digest/1.0',
     },
     body: JSON.stringify(commands),
     signal: AbortSignal.timeout(15000),
@@ -1021,7 +1021,7 @@ function formatDigest(stories, nowMs) {
     month: 'long', day: 'numeric', year: 'numeric',
   }).format(new Date(nowMs));
 
-  const lines = [`WorldMonitor Daily Digest — ${dateStr}`, ''];
+  const lines = [`EagleEye Daily Digest — ${dateStr}`, ''];
 
   const buckets = { critical: [], high: [], medium: [] };
   for (const s of stories) {
@@ -1054,7 +1054,7 @@ function formatDigest(stories, nowMs) {
     lines.push('');
   }
 
-  lines.push('View full dashboard \u2192 worldmonitor.app');
+  lines.push('View full dashboard \u2192 eagle-eye.app');
   return lines.join('\n');
 }
 
@@ -1132,10 +1132,10 @@ function formatDigestHtml(stories, nowMs) {
             <table cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td style="width: 36px; height: 36px; vertical-align: middle;">
-                  <img src="https://www.worldmonitor.app/favico/android-chrome-192x192.png" width="36" height="36" alt="WorldMonitor" style="border-radius: 50%; display: block;" />
+                  <img src="https://www.eagle-eye.app/favico/android-chrome-192x192.png" width="36" height="36" alt="EagleEye" style="border-radius: 50%; display: block;" />
                 </td>
                 <td style="padding-left: 10px;">
-                  <div style="font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.3px;">WORLD MONITOR</div>
+                  <div style="font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.3px;">EAGLE EYE</div>
                 </td>
               </tr>
             </table>
@@ -1167,17 +1167,17 @@ function formatDigestHtml(stories, nowMs) {
       </table>
       ${sectionsHtml}
       <div style="text-align: center; padding: 12px 0 36px;">
-        <a href="https://worldmonitor.app/dashboard" style="display: inline-block; background: #4ade80; color: #0a0a0a; padding: 12px 32px; text-decoration: none; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 3px;">Open Dashboard</a>
+        <a href="https://eagle-eye.app/dashboard" style="display: inline-block; background: #4ade80; color: #0a0a0a; padding: 12px 32px; text-decoration: none; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 3px;">Open Dashboard</a>
       </div>
     </div>
     <div style="background: #0a0a0a; border-top: 1px solid #1a1a1a; padding: 20px 36px; text-align: center;">
       <div style="margin-bottom: 12px;">
-        <a href="https://x.com/worldmonitorapp" style="color: #555; text-decoration: none; font-size: 11px; margin: 0 10px;">X / Twitter</a>
-        <a href="https://github.com/koala73/worldmonitor" style="color: #555; text-decoration: none; font-size: 11px; margin: 0 10px;">GitHub</a>
+        <a href="https://x.com/eagleeyeapp" style="color: #555; text-decoration: none; font-size: 11px; margin: 0 10px;">X / Twitter</a>
+        <a href="https://github.com/hiatech/eagle-eye" style="color: #555; text-decoration: none; font-size: 11px; margin: 0 10px;">GitHub</a>
         <a href="https://discord.gg/re63kWKxaz" style="color: #555; text-decoration: none; font-size: 11px; margin: 0 10px;">Discord</a>
       </div>
       <p style="font-size: 10px; color: #444; margin: 0; line-height: 1.5;">
-        <a href="https://worldmonitor.app" style="color: #4ade80; text-decoration: none;">worldmonitor.app</a>
+        <a href="https://eagle-eye.app" style="color: #4ade80; text-decoration: none;">eagle-eye.app</a>
       </p>
     </div>
   </div>
@@ -1280,7 +1280,7 @@ async function deactivateChannel(userId, channelType) {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${RELAY_SECRET}`,
-        'User-Agent': 'worldmonitor-digest/1.0',
+        'User-Agent': 'eagleeye-digest/1.0',
       },
       body: JSON.stringify({ userId, channelType }),
       signal: AbortSignal.timeout(10000),
@@ -1367,7 +1367,7 @@ async function sendTelegramBriefCarousel(userId, chatId, caption, magazineUrl) {
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMediaGroup`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'User-Agent': 'worldmonitor-digest/1.0' },
+        headers: { 'Content-Type': 'application/json', 'User-Agent': 'eagleeye-digest/1.0' },
         body: JSON.stringify({ chat_id: chatId, media }),
         signal: AbortSignal.timeout(20000),
       },
@@ -1395,7 +1395,7 @@ async function sendTelegram(userId, chatId, text) {
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'User-Agent': 'worldmonitor-digest/1.0' },
+        headers: { 'Content-Type': 'application/json', 'User-Agent': 'eagleeye-digest/1.0' },
         body: JSON.stringify({
           chat_id: chatId,
           text: safeText,
@@ -1443,7 +1443,7 @@ async function sendSlack(userId, webhookEnvelope, text) {
     const res = await postJsonWithPinnedAddress(
       safeUrl,
       JSON.stringify({ text, unfurl_links: false }),
-      { 'Content-Type': 'application/json', 'User-Agent': 'worldmonitor-digest/1.0' },
+      { 'Content-Type': 'application/json', 'User-Agent': 'eagleeye-digest/1.0' },
       resolvedAddresses,
     );
     if (res.status === 404 || res.status === 410) {
@@ -1481,7 +1481,7 @@ async function sendDiscord(userId, webhookEnvelope, text) {
     const res = await postJsonWithPinnedAddress(
       safeUrl,
       JSON.stringify({ content }),
-      { 'Content-Type': 'application/json', 'User-Agent': 'worldmonitor-digest/1.0' },
+      { 'Content-Type': 'application/json', 'User-Agent': 'eagleeye-digest/1.0' },
       resolvedAddresses,
     );
     if (res.status === 404 || res.status === 410) {
@@ -1539,7 +1539,7 @@ async function sendWebhook(userId, webhookEnvelope, stories, aiSummary) {
     const resp = await postJsonWithPinnedAddress(
       safeUrl,
       payload,
-      { 'Content-Type': 'application/json', 'User-Agent': 'worldmonitor-digest/1.0' },
+      { 'Content-Type': 'application/json', 'User-Agent': 'eagleeye-digest/1.0' },
       resolvedAddresses,
     );
     if (resp.status === 404 || resp.status === 410 || resp.status === 403) {
@@ -1584,7 +1584,7 @@ async function getUserTier(userId) {
   try {
     const res = await fetch(`${CONVEX_SITE_URL}/relay/entitlement`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RELAY_SECRET}`, 'User-Agent': 'worldmonitor-digest/1.0' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RELAY_SECRET}`, 'User-Agent': 'eagleeye-digest/1.0' },
       body: JSON.stringify({ userId }),
       signal: AbortSignal.timeout(5000),
     });
@@ -1629,16 +1629,16 @@ function buildChannelBodies(storyListPlain, aiSummary, magazineUrl) {
     ? String(magazineUrl).replace(/[<>|]/g, '')
     : '';
   const briefFooterPlain = magazineUrl
-    ? `\n\n${DIVIDER}\n\n📖 Open your WorldMonitor Brief magazine:\n${magazineUrl}`
+    ? `\n\n${DIVIDER}\n\n📖 Open your EagleEye Brief magazine:\n${magazineUrl}`
     : '';
   const briefFooterTelegram = magazineUrl
-    ? `\n\n${DIVIDER}\n\n📖 <a href="${telegramSafeUrl}">Open your WorldMonitor Brief magazine</a>`
+    ? `\n\n${DIVIDER}\n\n📖 <a href="${telegramSafeUrl}">Open your EagleEye Brief magazine</a>`
     : '';
   const briefFooterSlack = magazineUrl
-    ? `\n\n${DIVIDER}\n\n📖 <${slackSafeUrl}|Open your WorldMonitor Brief magazine>`
+    ? `\n\n${DIVIDER}\n\n📖 <${slackSafeUrl}|Open your EagleEye Brief magazine>`
     : '';
   const briefFooterDiscord = magazineUrl
-    ? `\n\n${DIVIDER}\n\n📖 [Open your WorldMonitor Brief magazine](${magazineUrl})`
+    ? `\n\n${DIVIDER}\n\n📖 [Open your EagleEye Brief magazine](${magazineUrl})`
     : '';
   if (!aiSummary) {
     return {
@@ -1677,7 +1677,7 @@ function injectBriefCta(html, magazineUrl) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
   const ctaHtml = `<div style="margin:0 0 24px 0;">
-<a href="${escapedUrl}" style="display:inline-block;background:#f2ede4;color:#0a0a0a;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.08em;padding:14px 22px;border-radius:4px;">Open your WorldMonitor Brief →</a>
+<a href="${escapedUrl}" style="display:inline-block;background:#f2ede4;color:#0a0a0a;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.08em;padding:14px 22px;border-radius:4px;">Open your EagleEye Brief →</a>
 <div style="margin-top:10px;font-size:11px;color:#888;line-height:1.5;">Your personalised editorial magazine. Opens in the browser — scroll or swipe through today's threads.</div>
 </div>`;
   return html.replace('<div data-brief-cta-slot></div>', ctaHtml);
@@ -2216,7 +2216,7 @@ async function composeAndStoreBriefForUser(userId, annotated, insightsNumbers, d
   const magazineUrl = await signBriefUrl({
     userId,
     issueDate: issueSlot,
-    baseUrl: WORLDMONITOR_PUBLIC_BASE_URL,
+    baseUrl: EAGLEEYE_PUBLIC_BASE_URL,
     secret: BRIEF_URL_SIGNING_SECRET,
   });
   return {
@@ -2255,7 +2255,7 @@ async function main() {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${RELAY_SECRET}`,
-        'User-Agent': 'worldmonitor-digest/1.0',
+        'User-Agent': 'eagleeye-digest/1.0',
       },
       signal: AbortSignal.timeout(10000),
     });
@@ -2460,7 +2460,7 @@ async function main() {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${RELAY_SECRET}`,
-          'User-Agent': 'worldmonitor-digest/1.0',
+          'User-Agent': 'eagleeye-digest/1.0',
         },
         body: JSON.stringify({ userId: rule.userId }),
         signal: AbortSignal.timeout(10000),
@@ -2807,7 +2807,7 @@ async function main() {
         // the long-form story list goes in the text message below so
         // it remains forwardable / quotable on its own.
         if (magazineUrl) {
-          const caption = `<b>WorldMonitor Brief — ${shortDate}</b>\n${formatterStories.length} ${formatterStories.length === 1 ? 'thread' : 'threads'} on the desk today.`;
+          const caption = `<b>EagleEye Brief — ${shortDate}</b>\n${formatterStories.length} ${formatterStories.length === 1 ? 'thread' : 'threads'} on the desk today.`;
           await sendTelegramBriefCarousel(rule.userId, ch.chatId, caption, magazineUrl);
         }
         ok = await sendTelegram(rule.userId, ch.chatId, telegramText);

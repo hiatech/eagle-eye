@@ -237,8 +237,8 @@ describe('decision-signal provenance contract (#5581)', () => {
     assert.deepEqual(
       (derived.claims.publisher as { value: { type: string; registryReference: null } }).value,
       {
-        id: 'publisher:worldmonitor-derived',
-        name: 'WorldMonitor derived output',
+        id: 'publisher:eagleeye-derived',
+        name: 'EagleEye derived output',
         type: 'derived_output',
         registryReference: null,
       },

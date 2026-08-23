@@ -338,7 +338,7 @@
         "OLLAMA_API_URL": "e.g. http://127.0.0.1:11434 (Ollama) or http://127.0.0.1:1234/v1 (LM Studio) — OpenAI-compatible endpoint.",
         "OLLAMA_MODEL": "e.g. llama3.1:8b — model tag to use for summarization."
       },
-      "skipSetup": "Hoppa över installationen — en enda World Monitor-licens låser upp allt. Gå med i väntelistan för tidig tillgång.",
+      "skipSetup": "Hoppa över installationen — en enda Eagle Eye-licens låser upp allt. Gå med i väntelistan för tidig tillgång.",
       "reserveEarlyAccess": "Reservera din tidig åtkomst"
     },
     "countryIntel": {
@@ -446,7 +446,7 @@
       },
       "sidecarUnreachable": "Sidovagn går inte att nå.",
       "logCleared": "Loggen rensad.",
-      "worldMonitor": {
+      "eagleEye": {
         "apiKey": {
           "description": "Prenumeranter på API Starter och API Business skapar nyckeln i webbpanelen via Settings → API Keys. Om den fullständiga nyckeln går förlorad ska du återkalla den och skapa en ny.",
           "placeholder": "wm_xxxxxxxxxxxxxxxxxxxxxxxx",
@@ -454,12 +454,12 @@
         },
         "dividerOr": "ELLER",
         "register": {
-          "description": "Se worldmonitor.app/docs/api-keys för stegvisa instruktioner. Manuella API-nycklar kräver abonnemanget API Starter eller API Business.",
+          "description": "Se eagle-eye.app/docs/api-keys för stegvisa instruktioner. Manuella API-nycklar kräver abonnemanget API Starter eller API Business.",
           "submitBtn": "Visa API-abonnemang",
           "title": "Behöver du en API-nyckel?"
         }
       },
-      "shellTitle": "World Monitor-inställningar",
+      "shellTitle": "Eagle Eye-inställningar",
       "shellSearchPlaceholder": "Sök inställningar...",
       "shellCancel": "Avbryt",
       "shellSaveClose": "Spara & Stäng",
@@ -1660,7 +1660,7 @@
       "tripDays": "Resedagar"
     },
     "chatAnalyst": {
-      "infoTooltip": "<strong>WM Analytiker</strong> AI-analytiker med livekontext inom geopolitiska, marknads-, militära och ekonomiska domäner. Drivs av Claude med realtidsdata injicerade från aktiva WorldMonitor-flöden."
+      "infoTooltip": "<strong>WM Analytiker</strong> AI-analytiker med livekontext inom geopolitiska, marknads-, militära och ekonomiska domäner. Drivs av Claude med realtidsdata injicerade från aktiva EagleEye-flöden."
     },
     "cotPositioning": {
       "infoTooltip": "<strong>CFTC COT Positionering</strong> Commitments of Traders-rapport: nettopositionering av kommersiella aktörer, stora spekulanter och små handlare i råvaru- och finansiella terminer. Publiceras veckovis (fredag). Källa: CFTC."
@@ -1787,7 +1787,7 @@
       "infoTooltip": "<strong>Makroindikatorer</strong> Viktiga makroekonomiska indikatorer för USA och euroområdet: CPI, arbetslöshet, GDP och centralbanksräntor. Värden visade med delta mot föregående period. Källa: FRED (Federal Reserve Economic Data)."
     },
     "monitors": {
-      "infoTooltip": "<strong>Nyckelordsmonitorer</strong> Lägg till valfri term för att spåra omnämnanden i nyheter i realtid från alla WorldMonitor-källor. Resultaten uppdateras i realtid allt eftersom matchande artiklar importeras."
+      "infoTooltip": "<strong>Nyckelordsmonitorer</strong> Lägg till valfri term för att spåra omnämnanden i nyheter i realtid från alla EagleEye-källor. Resultaten uppdateras i realtid allt eftersom matchande artiklar importeras."
     },
     "renewable": {
       "infoTooltip": "<strong>Förnybar energi</strong> Andel förnybar el i elproduktionen per region och år, plus installerad effekt i USA för sol, vind och kol (MW). Källor: Världsbanken (EG.ELC.RNEW.ZS) och EIA."
@@ -3230,10 +3230,10 @@
     "copyCoordinates": "Kopiera koordinater"
   },
   "shell": {
-    "documentTitle": "World Monitor — Realtidsinstrumentpanel för global underrättelse",
+    "documentTitle": "Eagle Eye — Realtidsinstrumentpanel för global underrättelse",
     "metaDescription": "Realtidsplattform för global underrättelse. Presenterad i WIRED. Används av 2M+ personer i 190 länder. Konflikter, marknader, militär, OSINT i en vy.",
     "offlineTitle": "Du är offline",
-    "offlineMessage": "World Monitor kräver en internetanslutning för realtidsunderrättelsedata.",
+    "offlineMessage": "Eagle Eye kräver en internetanslutning för realtidsunderrättelsedata.",
     "offlineRetry": "Försök igen"
   },
   "widgets": {
@@ -3271,12 +3271,12 @@
     "phaseError": "Fel",
     "previewCheckingHeading": "Ansluter widgetbyggaren",
     "previewReadyHeading": "Beskriv den widget du vill ha",
-    "previewFetchingHeading": "Hämtar live WorldMonitor-data",
+    "previewFetchingHeading": "Hämtar live EagleEye-data",
     "previewComposingHeading": "Komponerar widgetlayouten",
     "previewErrorHeading": "Förhandsvisningen behöver uppmärksamhet",
     "previewCheckingCopy": "Vi validerar din widgetnyckel och servergränssnittsåtkomst innan vi aktiverar generering.",
     "previewReadyCopy": "Använd ett frågeexempel eller beskriv den exakta livevy du vill ha. Förhandsvisningen uppdateras här innan du sparar den.",
-    "previewFetchingCopy": "Agenten anropar godkända WorldMonitor-slutpunkter och formar datasetet för widgeten.",
+    "previewFetchingCopy": "Agenten anropar godkända EagleEye-slutpunkter och formar datasetet för widgeten.",
     "previewComposingCopy": "Förhandsvisningen renderas med de senaste livedata och instrumentpanelsstilen.",
     "previewErrorCopy": "Åtgärda problemet och försök sedan igen. Dina befintliga widgetar påverkas inte.",
     "createInteractive": "Skapa interaktiv widget",
@@ -3305,7 +3305,7 @@
   },
   "premium": {
     "pro": "PRO",
-    "lockedDesc": "Kräver en World Monitor-licensnyckel",
+    "lockedDesc": "Kräver en Eagle Eye-licensnyckel",
     "signInToUnlock": "Logga in för att låsa upp premiumfunktioner",
     "signIn": "Logga in för att låsa upp",
     "upgradeDesc": "Uppgradera till Pro för fullständig åtkomst till premiumanalytik",

@@ -17,7 +17,7 @@ import { ENDPOINT_RATE_POLICIES, checkScopedRateLimit, getClientIp } from '../se
 
 export const config = { runtime: 'edge' };
 
-const UPSTREAM_URL = 'https://worldmonitor.mintlify.dev/docs/mcp';
+const UPSTREAM_URL = 'https://eagleeye.mintlify.dev/docs/mcp';
 const UPSTREAM_TIMEOUT_MS = 30_000;
 const MAX_REQUEST_BODY_BYTES = 262_144; // mirrors the MCP JMESPath output cap
 const RATE_LIMIT_ERROR_CODE = -32029; // JSON-RPC code mirrored from api/mcp.ts

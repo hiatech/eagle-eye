@@ -24,7 +24,7 @@ const LATEST_KEY = 'forecast:simulation-outcome:latest';
 const QUEUE_KEY = 'forecast:simulation-task-queue:v1';
 
 function makeCtx() {
-  const req = new Request('https://worldmonitor.app/api/forecast/v1/get-simulation-outcome');
+  const req = new Request('https://eagle-eye.app/api/forecast/v1/get-simulation-outcome');
   return { request: req, pathParams: {}, headers: {} };
 }
 
@@ -68,12 +68,12 @@ const allFailedOutcome = {
 };
 
 describe('getSimulationOutcome runId filter (#3734 U6)', () => {
-  let getSimulationOutcome: typeof import('../server/worldmonitor/forecast/v1/get-simulation-outcome').getSimulationOutcome;
+  let getSimulationOutcome: typeof import('../server/eagleeye/forecast/v1/get-simulation-outcome').getSimulationOutcome;
 
   beforeEach(async () => {
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
-    const mod = await import('../server/worldmonitor/forecast/v1/get-simulation-outcome.ts');
+    const mod = await import('../server/eagleeye/forecast/v1/get-simulation-outcome.ts');
     getSimulationOutcome = mod.getSimulationOutcome;
   });
 

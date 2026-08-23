@@ -17,11 +17,11 @@ import {
   COUNTRY_BBOX as SEED_BBOX,
   geoToCountry as seedGeoToCountry,
 } from '../scripts/seed-military-cii.mjs';
-import { TIER1_COUNTRIES as SERVER_TIER1 } from '../server/worldmonitor/intelligence/v1/_shared.ts';
+import { TIER1_COUNTRIES as SERVER_TIER1 } from '../server/eagleeye/intelligence/v1/_shared.ts';
 import {
   COUNTRY_BBOX as SERVER_BBOX,
   geoToCountry as serverGeoToCountry,
-} from '../server/worldmonitor/intelligence/v1/get-risk-scores.ts';
+} from '../server/eagleeye/intelligence/v1/get-risk-scores.ts';
 
 test('seed TIER1_COUNTRIES matches the server source of truth exactly', () => {
   assert.deepEqual(

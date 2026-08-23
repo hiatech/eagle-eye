@@ -1,5 +1,5 @@
 # =============================================================================
-# World Monitor — Docker Image
+# Eagle Eye — Docker Image
 # =============================================================================
 # Multi-stage build:
 #   builder       — installs deps, compiles TS handlers, builds Vite frontend
@@ -73,7 +73,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Nginx + supervisord configs
 COPY docker/nginx.conf /etc/nginx/nginx.conf.template
-COPY docker/supervisord.conf /etc/supervisor/conf.d/worldmonitor.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/eagleeye.conf
 COPY docker/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 

@@ -4,7 +4,7 @@ import { joinSafeHtml, safeHtml, safeUrlAttr, type SafeHtml } from '@/utils/sani
 import { getHydratedData } from '@/services/bootstrap';
 import { createLazyClient, getRpcBaseUrl, rpcFetch } from '@/services/rpc-client';
 
-import type { ListClimateNewsResponse, ClimateNewsItem } from '@/generated/client/worldmonitor/climate/v1/service_client';
+import type { ListClimateNewsResponse, ClimateNewsItem } from '@/generated/client/eagleeye/climate/v1/service_client';
 import { ClimateServiceClient } from '@/services/generated-rpc-clients';
 
 const getClimateClient = createLazyClient(() => new ClimateServiceClient(getRpcBaseUrl(), { fetch: rpcFetch }));

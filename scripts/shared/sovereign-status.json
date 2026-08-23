@@ -1,6 +1,6 @@
 {
   "name": "sovereign-status",
-  "description": "Authoritative whitelist of countries eligible for the WorldMonitor Country Resilience Index headline ranking. Plan 2026-04-26-002 §U2 (PR 1). Membership = 193 UN member states + 3 standalone SARs (HK, MO, TW) per Q1 decision. Non-eligible territories (American Samoa, Guam, Greenland, Falkland Islands, Isle of Man, Gibraltar, etc.) are filtered at universe-build time in seed-resilience-static.mjs and seed-resilience-scores.mjs. Status field carries 'un-member' or 'sar'; entries not in this list are implicitly excluded.",
+  "description": "Authoritative whitelist of countries eligible for the EagleEye Country Resilience Index headline ranking. Plan 2026-04-26-002 §U2 (PR 1). Membership = 193 UN member states + 3 standalone SARs (HK, MO, TW) per Q1 decision. Non-eligible territories (American Samoa, Guam, Greenland, Falkland Islands, Isle of Man, Gibraltar, etc.) are filtered at universe-build time in seed-resilience-static.mjs and seed-resilience-scores.mjs. Status field carries 'un-member' or 'sar'; entries not in this list are implicitly excluded.",
   "entries": [
     { "iso2": "AF", "status": "un-member" },
     { "iso2": "AL", "status": "un-member" },

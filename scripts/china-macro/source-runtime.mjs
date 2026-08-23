@@ -76,7 +76,7 @@ export async function fetchText(fetchFn, value, {
         headers: {
           Accept: 'text/html,text/plain;q=0.9,*/*;q=0.1',
           'Accept-Language': 'en,zh-CN;q=0.8',
-          'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+          'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
         },
         redirect: 'manual',
         signal: AbortSignal.timeout(12_000),
@@ -237,7 +237,7 @@ function robotsGroups(text) {
 
 function robotsDisallowPaths(text, candidatePaths) {
   const groups = robotsGroups(text);
-  const crawler = 'worldmonitor';
+  const crawler = 'eagleeye';
   const specific = groups.filter((group) => (
     group.agents.some((agent) => agent !== '*' && crawler.startsWith(agent))
   ));

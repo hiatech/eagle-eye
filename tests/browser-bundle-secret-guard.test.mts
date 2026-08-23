@@ -2,20 +2,20 @@
  * Defensive guard for issue #3704.
  *
  * The reporter flagged that the browser runtime *appeared* to seed
- * `WORLDMONITOR_API_KEY` (a server-side platform credential) into
+ * `EAGLEEYE_API_KEY` (a server-side platform credential) into
  * client-readable state. Investigation showed the architecture is
  * actually safe today because:
  *
  *   1. Vite's default `envPrefix: 'VITE_'` blocks any unprefixed env
  *      var from being inlined into `import.meta.env` in the browser
- *      bundle. `WORLDMONITOR_API_KEY` has no prefix → invisible to
+ *      bundle. `EAGLEEYE_API_KEY` has no prefix → invisible to
  *      `readEnvSecret()` at runtime in web builds.
  *
  *   2. No entry in `RUNTIME_FEATURES.requiredSecrets` references
- *      `WORLDMONITOR_API_KEY`, so `seedSecretsFromEnvironment()` never
+ *      `EAGLEEYE_API_KEY`, so `seedSecretsFromEnvironment()` never
  *      iterates over it — the key isn't even attempted.
  *
- *   3. `vite.config.ts` does not pass `WORLDMONITOR_API_KEY` through
+ *   3. `vite.config.ts` does not pass `EAGLEEYE_API_KEY` through
  *      its `define:` block (which would inline the literal value into
  *      the bundle regardless of `envPrefix`).
  *
@@ -36,17 +36,17 @@ import { fileURLToPath } from 'node:url';
 import * as ts from 'typescript';
 
 // Server-side secrets that MUST NOT cross into the browser bundle. Each
-// of these grants access to worldmonitor.app infrastructure. They are
+// of these grants access to eagle-eye.app infrastructure. They are
 // distinct from per-user provider credentials (GROQ_API_KEY,
 // OPENROUTER_API_KEY, etc.) which users legitimately enter via the
 // desktop settings UI.
 const PLATFORM_ONLY_SECRETS = [
   // Enterprise tier key — possession grants enterprise API access (see
-  // api/_api-key.js validation against WORLDMONITOR_VALID_KEYS).
-  'WORLDMONITOR_API_KEY',
+  // api/_api-key.js validation against EAGLEEYE_VALID_KEYS).
+  'EAGLEEYE_API_KEY',
   // Allowlist of accepted enterprise keys — leaking it reveals all
   // accepted keys at once.
-  'WORLDMONITOR_VALID_KEYS',
+  'EAGLEEYE_VALID_KEYS',
   // Signs anonymous browser session tokens (see api/_session.js).
   // Leakage lets attackers mint valid wms_ tokens.
   'WM_SESSION_SECRET',
@@ -371,13 +371,13 @@ describe('browser bundle secret guard (#3704)', () => {
   // undefined, so `readEnvSecret()` returns `''` for every key
   // regardless of what's in `process.env` or what's listed in
   // `requiredSecrets`. The snapshot is always empty and the assertion
-  // always passes — even if `WORLDMONITOR_API_KEY` were added to a
+  // always passes — even if `EAGLEEYE_API_KEY` were added to a
   // `requiredSecrets` array (the exact regression test #1 above catches).
   //
   // The HONEST runtime check is a bundle-content grep after `npm run build`:
   //
   //   npm run build
-  //   grep -r "WORLDMONITOR_API_KEY" dist/  # must return zero hits
+  //   grep -r "EAGLEEYE_API_KEY" dist/  # must return zero hits
   //
   // That's done at deploy time, not unit-test time. Tests #1–#3 above
   // are the load-bearing CI guards.

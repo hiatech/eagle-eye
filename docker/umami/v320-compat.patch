@@ -48,7 +48,7 @@ index 6cdb33c..d6bee46 100644
 +// whose connectionTimeoutMillis defaults to 0, and pg-pool treats 0 as "queue the
 +// caller with no timer at all". A saturated pool therefore parks callers forever
 +// instead of failing them, which is how a slow database turned collector requests
-+// into indefinite hangs rather than prompt errors (worldmonitor #6053). Bounding
++// into indefinite hangs rather than prompt errors (eagleeye #6053). Bounding
 +// the acquisition wait turns pool exhaustion back into a fast, visible failure.
 +const DEFAULT_POOL_CONNECT_TIMEOUT_MS = 10000;
 +

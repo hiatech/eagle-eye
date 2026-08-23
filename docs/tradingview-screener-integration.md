@@ -1,6 +1,6 @@
 # TradingView Screener Integration Guide
 
-**Purpose:** Reference document for extending WorldMonitor's finance hub with TradingView Screener data.
+**Purpose:** Reference document for extending EagleEye's finance hub with TradingView Screener data.
 
 ---
 
@@ -36,7 +36,7 @@ Both provide:
 - Timeframe variants per field (1m → 1M)
 - No API key required for delayed/public data
 
-The TypeScript library is the one relevant for WorldMonitor. It has full parity with the Python version (41/41 operations pass) plus a self-hosted REST server option.
+The TypeScript library is the one relevant for EagleEye. It has full parity with the Python version (41/41 operations pass) plus a self-hosted REST server option.
 
 ---
 
@@ -141,7 +141,7 @@ col('date').in_day_range(0, 0)    col('date').in_week_range(0, 2)
 
 ## Architecture Fit (Gold Standard)
 
-WorldMonitor's data flow: `Railway seeds Redis → Vercel reads Redis → Frontend RPC`
+EagleEye's data flow: `Railway seeds Redis → Vercel reads Redis → Frontend RPC`
 
 TradingView Screener calls belong in the **Railway AIS relay** (`scripts/ais-relay.cjs`), alongside existing CoinGecko/Yahoo/Finnhub calls.
 
@@ -238,7 +238,7 @@ async function seedTvStockScreener() {
 ### Server Handler Pattern (read-only from Redis)
 
 ```typescript
-// server/worldmonitor/market/v1/list-tv-stock-screener.ts
+// server/eagleeye/market/v1/list-tv-stock-screener.ts
 import { getCachedJson } from '@/_shared/redis';
 import type { ListTvStockScreenerRequest, ListTvStockScreenerResponse } from '@generated/...';
 
@@ -764,7 +764,7 @@ const [total, rows] = await new Query()
 - **Max limit:** Up to 100,000 rows technically possible but not recommended.
 - **No retry logic built-in** — implement your own for 429/5xx.
 
-### WorldMonitor-Specific Recommendations
+### EagleEye-Specific Recommendations
 
 | Concern | Recommendation |
 |---------|---------------|
@@ -775,7 +775,7 @@ const [total, rows] = await new Query()
 | **Finnhub/Yahoo overlap** | TradingView can supplement stock quotes; keep Finnhub/Yahoo as primary for existing panels |
 | **Railway concurrency** | Run TV calls sequentially inside `seedAllMarketData()`, not `Promise.all` |
 | **Circuit breaker** | Add a `tvScreenerBreaker` alongside existing stock/crypto breakers |
-| **No auth initially** | Delayed data is fine for WorldMonitor's use case |
+| **No auth initially** | Delayed data is fine for EagleEye's use case |
 | **User-Agent** | Library automatically mimics Chrome headers; do not override |
 
 ### Sample Relay Integration Timing
@@ -803,8 +803,8 @@ TradingView calls are independent of CoinGecko rate limits. Each call completes 
 - [ ] `npm install tradingview-screener-ts` in Railway relay package
 - [ ] Add `seedTvStockScreener()` to `scripts/ais-relay.cjs`
 - [ ] Add `market:tv-screener:stocks:v1` to `server/_shared/cache-keys.ts`
-- [ ] Create `proto/worldmonitor/market/v1/list_tv_stock_screener.proto`
-- [ ] Create `server/worldmonitor/market/v1/list-tv-stock-screener.ts`
+- [ ] Create `proto/eagleeye/market/v1/list_tv_stock_screener.proto`
+- [ ] Create `server/eagleeye/market/v1/list-tv-stock-screener.ts`
 - [ ] Register in `handler.ts` and `service.proto`
 - [ ] Run `buf generate`
 - [ ] Add `tvStocksBreaker` to `src/services/market/index.ts`

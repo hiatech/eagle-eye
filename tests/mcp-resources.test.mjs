@@ -43,7 +43,7 @@ function envKeyReq(body, headers = {}) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-WorldMonitor-Key': VALID_KEY,
+      'X-EagleEye-Key': VALID_KEY,
       ...headers,
     },
     body: JSON.stringify(body),
@@ -273,7 +273,7 @@ let CHOKEPOINT_SLUGS;
 
 describe('api/mcp.ts — resources capability + stability + auth-symmetry', () => {
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = VALID_KEY;
+    process.env.EAGLEEYE_VALID_KEYS = VALID_KEY;
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake.upstash.io';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake_token';
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;
@@ -359,17 +359,17 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     // which would break an anonymous validator's resources/read probe).
     const actualUris = body.result.resources.map((r) => r.uri);
     assert.deepEqual(actualUris, [
-      'worldmonitor://seed-meta/freshness',
-      'ui://worldmonitor/country-risk.html',
-      'ui://worldmonitor/world-brief.html',
-      'ui://worldmonitor/country-brief.html',
-      'ui://worldmonitor/market-radar.html',
-      'ui://worldmonitor/chokepoint-monitor.html',
-      'ui://worldmonitor/news-intelligence.html',
-      'ui://worldmonitor/conflict-events.html',
-      'ui://worldmonitor/natural-disasters.html',
-      'ui://worldmonitor/prediction-markets.html',
-      'ui://worldmonitor/forecasts.html',
+      'eagleeye://seed-meta/freshness',
+      'ui://eagleeye/country-risk.html',
+      'ui://eagleeye/world-brief.html',
+      'ui://eagleeye/country-brief.html',
+      'ui://eagleeye/market-radar.html',
+      'ui://eagleeye/chokepoint-monitor.html',
+      'ui://eagleeye/news-intelligence.html',
+      'ui://eagleeye/conflict-events.html',
+      'ui://eagleeye/natural-disasters.html',
+      'ui://eagleeye/prediction-markets.html',
+      'ui://eagleeye/forecasts.html',
     ], 'resources/list = concrete DATA freshness probe then the ui:// app-shell fleet, in registry order');
     for (const r of body.result.resources) {
       assert.equal(typeof r.uri, 'string', `resource ${r.uri}: uri must be a string`);
@@ -401,14 +401,14 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   // -------------------------------------------------------------------------
   // MCP Apps ui:// resource — read is public + quota-exempt (v1.11.0)
   // -------------------------------------------------------------------------
-  it('resources/read ui://worldmonitor/country-risk.html returns the app-shell HTML (mimeType text/html;profile=mcp-app)', async () => {
-    const res = await handler(envKeyReq(readBody('ui://worldmonitor/country-risk.html')));
+  it('resources/read ui://eagleeye/country-risk.html returns the app-shell HTML (mimeType text/html;profile=mcp-app)', async () => {
+    const res = await handler(envKeyReq(readBody('ui://eagleeye/country-risk.html')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, `unexpected error: ${JSON.stringify(body.error)}`);
     assert.equal(body.result.contents.length, 1);
     const c = body.result.contents[0];
-    assert.equal(c.uri, 'ui://worldmonitor/country-risk.html');
+    assert.equal(c.uri, 'ui://eagleeye/country-risk.html');
     assert.equal(c.mimeType, 'text/html;profile=mcp-app');
     assert.match(c.text, /^<!doctype html>/i, 'ui:// resource must return self-contained HTML');
     assert.match(c.text, /ui\/initialize/, 'app shell must implement the MCP Apps postMessage handshake');
@@ -419,19 +419,19 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     // orank Experience checks mcp-apps-ui-quality / mcp-view-domain / mcp-view-csp
     // read the served HTML statically. Guard each required token so a future
     // edit can't silently regress the score.
-    const res = await handler(envKeyReq(readBody('ui://worldmonitor/country-risk.html')));
+    const res = await handler(envKeyReq(readBody('ui://eagleeye/country-risk.html')));
     const html = (await res.json()).result.contents[0].text;
 
     // ui-quality + view-domain: UPPERCASE DOCTYPE + color-scheme meta.
     assert.match(html, /^<!DOCTYPE html>/, 'HTML must open with an uppercase <!DOCTYPE html> (orank mcp-apps-ui-quality)');
     assert.match(html, /<meta\s+name="color-scheme"\s+content="light dark">/, 'must declare <meta name="color-scheme" content="light dark">');
-    assert.doesNotMatch(html, /wm_[a-f0-9]{40}|X-WorldMonitor-Key|Bearer\s+[A-Za-z0-9]/, 'app shell must not hardcode secrets/keys');
+    assert.doesNotMatch(html, /wm_[a-f0-9]{40}|X-EagleEye-Key|Bearer\s+[A-Za-z0-9]/, 'app shell must not hardcode secrets/keys');
 
     // view-csp: a <meta http-equiv> CSP scoping all four required directive categories.
     const cspMatch = html.match(/<meta\s+http-equiv="Content-Security-Policy"\s+content="([^"]+)">/);
     assert.ok(cspMatch, 'must carry a <meta http-equiv="Content-Security-Policy"> tag');
     const csp = cspMatch[1];
-    assert.match(csp, /connect-src[^;]*worldmonitor\.app/, 'connect-src must include the MCP server origin');
+    assert.match(csp, /connect-src[^;]*eagle-eye\.app/, 'connect-src must include the MCP server origin');
     assert.match(csp, /frame-ancestors[^;]*https:\/\/chatgpt\.com/, 'frame-ancestors must include https://chatgpt.com');
     assert.match(csp, /frame-ancestors[^;]*https:\/\/claude\.ai/, 'frame-ancestors must include https://claude.ai');
     assert.match(csp, /form-action\s+'none'/, 'form-action must be scoped');
@@ -440,12 +440,12 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   });
 
   it('resources/read ui:// response carries spec _meta.ui.csp with secure empty allowlists', async () => {
-    const res = await handler(envKeyReq(readBody('ui://worldmonitor/country-risk.html')));
+    const res = await handler(envKeyReq(readBody('ui://eagleeye/country-risk.html')));
     const meta = (await res.json()).result.contents[0]._meta;
     assert.ok(meta?.ui?.csp, 'contents[0]._meta.ui.csp must be present (ext-apps UIResourceMeta)');
     // connectDomains mirrors the HTML meta CSP's connect-src (the MCP origin);
     // the other allowlists stay empty (secure default — app loads nothing external).
-    assert.deepEqual(meta.ui.csp.connectDomains, ['https://worldmonitor.app', 'https://www.worldmonitor.app'],
+    assert.deepEqual(meta.ui.csp.connectDomains, ['https://eagle-eye.app', 'https://www.eagle-eye.app'],
       'connectDomains must mirror the HTML connect-src (MCP server origin)');
     assert.deepEqual(meta.ui.csp.resourceDomains, [], 'resourceDomains empty = no external resources');
     assert.deepEqual(meta.ui.csp.frameDomains, [], 'frameDomains empty = no nested frames');
@@ -455,7 +455,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     // served HTML's connect-src (catches the two CSP declarations drifting).
     // Parse the CSP from the meta CONTENT attribute — not a bare `connect-src`
     // grep, which would also hit the word in the head comment.
-    const htmlRes = await handler(envKeyReq(readBody('ui://worldmonitor/country-risk.html')));
+    const htmlRes = await handler(envKeyReq(readBody('ui://eagleeye/country-risk.html')));
     const html = (await htmlRes.json()).result.contents[0].text;
     const cspContent = html.match(/<meta\s+http-equiv="Content-Security-Policy"\s+content="([^"]+)">/)[1];
     const connectSrc = cspContent.match(/connect-src([^;]+)/)[1];
@@ -468,7 +468,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     const anonReq = new Request(BASE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(readBody('ui://worldmonitor/country-risk.html')),
+      body: JSON.stringify(readBody('ui://eagleeye/country-risk.html')),
     });
     const res = await handler(anonReq);
     assert.equal(res.status, 200, 'ui:// read must be servable without auth (static, data-free template)');
@@ -532,7 +532,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       // ui-quality + view-domain.
       assert.match(html, /^<!DOCTYPE html>/, `${uri}: must open with an uppercase <!DOCTYPE html>`);
       assert.match(html, /<meta\s+name="color-scheme"\s+content="light dark">/, `${uri}: must declare color-scheme`);
-      assert.doesNotMatch(html, /wm_[a-f0-9]{40}|X-WorldMonitor-Key|Bearer\s+[A-Za-z0-9]/, `${uri}: must not hardcode secrets`);
+      assert.doesNotMatch(html, /wm_[a-f0-9]{40}|X-EagleEye-Key|Bearer\s+[A-Za-z0-9]/, `${uri}: must not hardcode secrets`);
       // The TS template interpolation must be fully resolved — no leaked `${` markers.
       assert.doesNotMatch(html, /\$\{/, `${uri}: unresolved template placeholder leaked into served HTML`);
 
@@ -541,7 +541,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       assert.ok(cspMatch, `${uri}: must carry a <meta http-equiv CSP> tag`);
       const csp = cspMatch[1];
       assert.match(csp, /default-src\s+'none'/, `${uri}: default-src must be 'none'`);
-      assert.match(csp, /connect-src[^;]*worldmonitor\.app/, `${uri}: connect-src must include the MCP origin`);
+      assert.match(csp, /connect-src[^;]*eagle-eye\.app/, `${uri}: connect-src must include the MCP origin`);
       // frame-ancestors in a <meta> CSP is ADVISORY — browsers enforce it only
       // via an HTTP response header, and a ui:// shell is delivered as a
       // JSON-RPC string the host injects into its own sandboxed iframe (no HTTP
@@ -564,7 +564,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       // Spec _meta.ui.csp must mirror the HTML connect-src and keep the other
       // allowlists empty (the fleet's shared secure default).
       assert.deepEqual(c._meta?.ui?.csp?.connectDomains,
-        ['https://worldmonitor.app', 'https://www.worldmonitor.app'],
+        ['https://eagle-eye.app', 'https://www.eagle-eye.app'],
         `${uri}: _meta.ui.csp.connectDomains must mirror the HTML connect-src`);
       assert.deepEqual(c._meta?.ui?.csp?.resourceDomains, [], `${uri}: resourceDomains must be empty`);
       assert.deepEqual(c._meta?.ui?.csp?.frameDomains, [], `${uri}: frameDomains must be empty`);
@@ -583,15 +583,15 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   // -------------------------------------------------------------------------
   it('FLEET: shared-shell widgets surface soft-error envelopes (_budget_exceeded / _jmespath_error) instead of rendering blank success', async () => {
     const shellWidgets = [
-      'ui://worldmonitor/world-brief.html',
-      'ui://worldmonitor/country-brief.html',
-      'ui://worldmonitor/market-radar.html',
-      'ui://worldmonitor/chokepoint-monitor.html',
-      'ui://worldmonitor/news-intelligence.html',
-      'ui://worldmonitor/conflict-events.html',
-      'ui://worldmonitor/natural-disasters.html',
-      'ui://worldmonitor/prediction-markets.html',
-      'ui://worldmonitor/forecasts.html',
+      'ui://eagleeye/world-brief.html',
+      'ui://eagleeye/country-brief.html',
+      'ui://eagleeye/market-radar.html',
+      'ui://eagleeye/chokepoint-monitor.html',
+      'ui://eagleeye/news-intelligence.html',
+      'ui://eagleeye/conflict-events.html',
+      'ui://eagleeye/natural-disasters.html',
+      'ui://eagleeye/prediction-markets.html',
+      'ui://eagleeye/forecasts.html',
     ];
     for (const uri of shellWidgets) {
       const res = await handler(envKeyReq(readBody(uri)));
@@ -616,7 +616,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('EXPANSION WIDGETS: execute authoritative payloads and summary samples for all five renderers', async () => {
     const cases = [
       {
-        uri: 'ui://worldmonitor/news-intelligence.html',
+        uri: 'ui://eagleeye/news-intelligence.html',
         hostId: 'list',
         raw: { data: { insights: { topStories: [{
           primaryTitle: 'Port disruption expands', primarySource: 'MIIT (China)',
@@ -639,7 +639,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
         summaryTokens: [/Summary news headline/, /Unreviewed Source/, /\? Unreviewed/],
       },
       {
-        uri: 'ui://worldmonitor/conflict-events.html',
+        uri: 'ui://eagleeye/conflict-events.html',
         hostId: 'list',
         raw: { data: { 'ucdp-events': { events: [{
           sideA: 'Government forces', sideB: 'Armed group', country: 'Sudan',
@@ -652,7 +652,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
         summaryTokens: [/Summary side A vs Summary side B/, /Lebanon/, /3 deaths/],
       },
       {
-        uri: 'ui://worldmonitor/natural-disasters.html',
+        uri: 'ui://eagleeye/natural-disasters.html',
         hostId: 'groups',
         raw: { data: {
           earthquakes: { earthquakes: [{ magnitude: 5.4, place: 'Aegean Sea', occurredAt: '2026-07-02T00:00:00Z' }] },
@@ -672,7 +672,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
         summaryTokens: [/M4\.8/, /Summary quake/, /Nominal/, /Summary fire/, /brightness 301/],
       },
       {
-        uri: 'ui://worldmonitor/prediction-markets.html',
+        uri: 'ui://eagleeye/prediction-markets.html',
         hostId: 'groups',
         raw: { data: { 'markets-bootstrap': {
           geopolitical: [{ title: 'Ceasefire by September?', yesPrice: 73, source: 'Polymarket' }],
@@ -686,7 +686,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
         summaryTokens: [/Summary market\?/, /61%/, /Kalshi/],
       },
       {
-        uri: 'ui://worldmonitor/forecasts.html',
+        uri: 'ui://eagleeye/forecasts.html',
         hostId: 'list',
         raw: { data: { predictions: { predictions: [{
           title: 'Oil remains above $70', probability: 0.42, domain: 'energy', region: 'Global',
@@ -717,7 +717,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('EXPANSION WIDGETS: probability nulls remain unknown and visual ranges clamp safely', async () => {
     const payloads = [
       {
-        uri: 'ui://worldmonitor/prediction-markets.html', hostId: 'groups',
+        uri: 'ui://eagleeye/prediction-markets.html', hostId: 'groups',
         payload: { data: { 'markets-bootstrap': { geopolitical: [
           { title: 'Unknown market', yesPrice: null },
           { title: 'Low outlier', yesPrice: -5 },
@@ -725,7 +725,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
         ] } } },
       },
       {
-        uri: 'ui://worldmonitor/forecasts.html', hostId: 'list',
+        uri: 'ui://eagleeye/forecasts.html', hostId: 'list',
         payload: { data: { predictions: { predictions: [
           { title: 'Unknown forecast', probability: null },
           { title: 'Fraction forecast', probability: 0.25 },
@@ -750,7 +750,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   });
 
   it('conflict-events widget distinguishes byte-truncated responses from complete results', async () => {
-    const res = await handler(envKeyReq(readBody('ui://worldmonitor/conflict-events.html')));
+    const res = await handler(envKeyReq(readBody('ui://eagleeye/conflict-events.html')));
     const html = (await res.json()).result.contents[0].text;
     const payload = {
       data: {
@@ -777,26 +777,26 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     const hostile = '<img src=x onerror="globalThis.pwned=true">';
     const cases = [
       {
-        uri: 'ui://worldmonitor/news-intelligence.html', hostId: 'list',
+        uri: 'ui://eagleeye/news-intelligence.html', hostId: 'list',
         payload: { data: { insights: { topStories: [{ primaryTitle: hostile, primarySource: hostile }] } } },
       },
       {
-        uri: 'ui://worldmonitor/conflict-events.html', hostId: 'list',
+        uri: 'ui://eagleeye/conflict-events.html', hostId: 'list',
         payload: { data: { 'ucdp-events': { events: [{ sideA: hostile, sideB: 'Other side' }] } } },
       },
       {
-        uri: 'ui://worldmonitor/natural-disasters.html', hostId: 'groups',
+        uri: 'ui://eagleeye/natural-disasters.html', hostId: 'groups',
         payload: { data: {
           earthquakes: { earthquakes: [{ place: hostile, magnitude: 4, occurredAt: 0 }] },
           fires: { fireDetections: [] },
         } },
       },
       {
-        uri: 'ui://worldmonitor/prediction-markets.html', hostId: 'groups',
+        uri: 'ui://eagleeye/prediction-markets.html', hostId: 'groups',
         payload: { data: { 'markets-bootstrap': { geopolitical: [{ title: hostile, yesPrice: 50 }] } } },
       },
       {
-        uri: 'ui://worldmonitor/forecasts.html', hostId: 'list',
+        uri: 'ui://eagleeye/forecasts.html', hostId: 'list',
         payload: { data: { predictions: { predictions: [{ title: hostile, probability: 0.5 }] } } },
       },
     ];
@@ -815,19 +815,19 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('MULTI-CACHE WIDGETS: missing labels show unavailable while present empty lists show genuine empty copy', async () => {
     const cases = [
       {
-        uri: 'ui://worldmonitor/news-intelligence.html', hostId: 'list',
+        uri: 'ui://eagleeye/news-intelligence.html', hostId: 'list',
         missing: { data: { 'gdelt-intel': {} } },
         empty: { data: { insights: { topStories: [] } } },
         emptyCopy: /No news stories available\./,
       },
       {
-        uri: 'ui://worldmonitor/conflict-events.html', hostId: 'list',
+        uri: 'ui://eagleeye/conflict-events.html', hostId: 'list',
         missing: { data: { acled: {} } },
         empty: { data: { 'ucdp-events': { events: [] } } },
         emptyCopy: /No conflict events available\./,
       },
       {
-        uri: 'ui://worldmonitor/natural-disasters.html', hostId: 'groups',
+        uri: 'ui://eagleeye/natural-disasters.html', hostId: 'groups',
         missing: { data: { fires: { fireDetections: [] } } },
         empty: { data: { earthquakes: { earthquakes: [] }, fires: { fireDetections: [] } } },
         emptyCopy: /No natural-hazard events available\./,
@@ -859,7 +859,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   // reads only `country_code` leaves the title stuck at generic "Country Brief".
   // -------------------------------------------------------------------------
   it('country-brief widget resolves its title from the camelCase countryName / countryCode fields the tool returns', async () => {
-    const res = await handler(envKeyReq(readBody('ui://worldmonitor/country-brief.html')));
+    const res = await handler(envKeyReq(readBody('ui://eagleeye/country-brief.html')));
     const html = (await res.json()).result.contents[0].text;
     assert.match(html, /data\.countryName/, 'must prefer the resolved countryName field');
     assert.match(html, /data\.countryCode/, 'must resolve the camelCase countryCode field');
@@ -872,9 +872,9 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     assert.ok(Array.isArray(body.result?.resourceTemplates), 'result.resourceTemplates must be an array');
 
     const expectedTemplates = [
-      'worldmonitor://countries/{iso2}/risk',
-      'worldmonitor://chokepoints/{slug}/status',
-      'worldmonitor://markets/{symbol}/quote',
+      'eagleeye://countries/{iso2}/risk',
+      'eagleeye://chokepoints/{slug}/status',
+      'eagleeye://markets/{symbol}/quote',
     ];
     const actualTemplates = body.result.resourceTemplates.map((r) => r.uriTemplate);
     assert.deepEqual(actualTemplates, expectedTemplates,
@@ -926,15 +926,15 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   // -------------------------------------------------------------------------
   // resources/read — each URI resolves (env-key auth path)
   // -------------------------------------------------------------------------
-  it('resources/read worldmonitor://countries/de/risk returns country-risk content with cached_at + stale', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://countries/de/risk')));
+  it('resources/read eagleeye://countries/de/risk returns country-risk content with cached_at + stale', async () => {
+    const res = await handler(envKeyReq(readBody('eagleeye://countries/de/risk')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, `unexpected error: ${JSON.stringify(body.error)}`);
     assert.ok(Array.isArray(body.result?.contents), 'result.contents must be an array');
     assert.equal(body.result.contents.length, 1, 'must return exactly one content entry');
     const c = body.result.contents[0];
-    assert.equal(c.uri, 'worldmonitor://countries/de/risk', 'echo the requested uri verbatim');
+    assert.equal(c.uri, 'eagleeye://countries/de/risk', 'echo the requested uri verbatim');
     assert.equal(c.mimeType, 'application/json');
     const payload = JSON.parse(c.text);
     assert.equal(typeof payload.cached_at === 'string' || payload.cached_at === null, true,
@@ -946,8 +946,8 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     assert.equal(payload.cii, 28);
   });
 
-  it('resources/read worldmonitor://chokepoints/suez/status returns the transit-summary envelope with cached_at + stale', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://chokepoints/suez/status')));
+  it('resources/read eagleeye://chokepoints/suez/status returns the transit-summary envelope with cached_at + stale', async () => {
+    const res = await handler(envKeyReq(readBody('eagleeye://chokepoints/suez/status')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, `unexpected error: ${JSON.stringify(body.error)}`);
@@ -958,8 +958,8 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     assert.ok(payload.data, 'cache-tool envelope must carry a data field');
   });
 
-  it('resources/read worldmonitor://seed-meta/freshness returns envelope-only (no data field)', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://seed-meta/freshness')));
+  it('resources/read eagleeye://seed-meta/freshness returns envelope-only (no data field)', async () => {
+    const res = await handler(envKeyReq(readBody('eagleeye://seed-meta/freshness')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, `unexpected error: ${JSON.stringify(body.error)}`);
@@ -972,8 +972,8 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       'envelope-only projection must contain exactly cached_at + stale');
   });
 
-  it('resources/read worldmonitor://markets/AAPL/quote returns the matched single-symbol slice with cached_at + stale', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://markets/AAPL/quote')));
+  it('resources/read eagleeye://markets/AAPL/quote returns the matched single-symbol slice with cached_at + stale', async () => {
+    const res = await handler(envKeyReq(readBody('eagleeye://markets/AAPL/quote')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, `unexpected error: ${JSON.stringify(body.error)}`);
@@ -987,14 +987,14 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   // resources/read error paths
   // -------------------------------------------------------------------------
   it('resources/read with an unknown URI prefix returns -32602', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://nope/asdf')));
+    const res = await handler(envKeyReq(readBody('eagleeye://nope/asdf')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error?.code, -32602, `unknown uri prefix must be -32602, got ${body.error?.code}`);
   });
 
   it('resources/read with a malformed iso2 (3 letters) returns -32602 with a specific message', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://countries/deu/risk')));
+    const res = await handler(envKeyReq(readBody('eagleeye://countries/deu/risk')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error?.code, -32602);
@@ -1005,14 +1005,14 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('resources/read with an uppercase iso2 returns -32602 (lowercase canonical)', async () => {
     // Stability contract: the URI is case-sensitive. "DE" is invalid;
     // "de" is canonical. Documented inline in the resource description.
-    const res = await handler(envKeyReq(readBody('worldmonitor://countries/DE/risk')));
+    const res = await handler(envKeyReq(readBody('eagleeye://countries/DE/risk')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error?.code, -32602);
   });
 
   it('resources/read with an unknown chokepoint slug returns -32602 listing the known slugs', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://chokepoints/no-such-slug/status')));
+    const res = await handler(envKeyReq(readBody('eagleeye://chokepoints/no-such-slug/status')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error?.code, -32602);
@@ -1023,7 +1023,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   });
 
   it('resources/read with a lowercase ticker returns -32602', async () => {
-    const res = await handler(envKeyReq(readBody('worldmonitor://markets/aapl/quote')));
+    const res = await handler(envKeyReq(readBody('eagleeye://markets/aapl/quote')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error?.code, -32602);
@@ -1096,7 +1096,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('LOAD-BEARING: Pro resources/read on countries/de/risk decrements the daily-quota counter by exactly 1 (identical to tools/call(get_country_risk))', async () => {
     const { deps: depsR, pipe: pipeR } = makeProDeps({ pipelineOpts: { initialCount: 0 } });
     const resR = await mcpHandler(
-      proReq('POST', readBody('worldmonitor://countries/de/risk')),
+      proReq('POST', readBody('eagleeye://countries/de/risk')),
       depsR,
     );
     const bodyR = await resR.json();
@@ -1121,8 +1121,8 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
 
   it('Pro resources/read on data-bearing template URIs (markets, chokepoints) increments counter by 1 each', async () => {
     const uris = [
-      'worldmonitor://markets/AAPL/quote',
-      'worldmonitor://chokepoints/suez/status',
+      'eagleeye://markets/AAPL/quote',
+      'eagleeye://chokepoints/suez/status',
     ];
     for (const uri of uris) {
       const { deps, pipe } = makeProDeps({ pipelineOpts: { initialCount: 0 } });
@@ -1137,7 +1137,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
 
   it('PUBLIC seed-meta/freshness resources/read is quota-exempt (metadata-class, mirrors resources/list) even for Pro', async () => {
     const { deps, pipe } = makeProDeps({ pipelineOpts: { initialCount: 0 } });
-    const res = await mcpHandler(proReq('POST', readBody('worldmonitor://seed-meta/freshness')), deps);
+    const res = await mcpHandler(proReq('POST', readBody('eagleeye://seed-meta/freshness')), deps);
     const body = await res.json();
     assert.equal(body.error, undefined, `should succeed, got error: ${JSON.stringify(body.error)}`);
     assert.equal(pipe.count, 0,
@@ -1149,7 +1149,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   });
 
   it('ANON seed-meta/freshness resources/read succeeds (no credentials, no quota)', async () => {
-    const res = await handler(anonReq(readBody('worldmonitor://seed-meta/freshness')));
+    const res = await handler(anonReq(readBody('eagleeye://seed-meta/freshness')));
     assert.equal(res.status, 200, 'anonymous public-resource read must return 200');
     const body = await res.json();
     assert.equal(body.error, undefined, `anonymous read must not error: ${JSON.stringify(body.error)}`);
@@ -1161,7 +1161,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   it('ANON resources/read of a data-bearing TEMPLATE instantiation stays gated (401 — no quota bypass)', async () => {
     // The data-leak / quota-bypass protection: only concrete PUBLIC resources
     // are anon-readable. A template instantiation (country risk) requires auth.
-    const res = await handler(anonReq(readBody('worldmonitor://countries/de/risk')));
+    const res = await handler(anonReq(readBody('eagleeye://countries/de/risk')));
     assert.equal(res.status, 401, 'anonymous read of a data-bearing template must be 401');
     assert.ok(
       res.headers.get('WWW-Authenticate')?.includes('Bearer'),
@@ -1188,11 +1188,11 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
   });
 
   it('env-key resources/read on countries/de/risk does NOT touch the Pro quota path (env-key tier is its own quota)', async () => {
-    // env-key auth path uses X-WorldMonitor-Key. The dispatcher's INCR
+    // env-key auth path uses X-EagleEye-Key. The dispatcher's INCR
     // reservation only fires for context.kind === 'pro'. This test asserts
     // the response succeeds AND no Pro pipeline activity was attempted.
     const { deps, pipe } = makeProDeps({ pipelineOpts: { initialCount: 0 } });
-    const res = await mcpHandler(envKeyReq(readBody('worldmonitor://countries/de/risk')), deps);
+    const res = await mcpHandler(envKeyReq(readBody('eagleeye://countries/de/risk')), deps);
     const body = await res.json();
     assert.equal(body.error, undefined, `env-key resources/read should succeed, got error: ${JSON.stringify(body.error)}`);
     assert.equal(pipe.count, 0, 'env-key auth must NOT touch the Pro daily-quota counter');
@@ -1216,7 +1216,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     // an unauthenticated host fetch the shell to render it.
     const { deps, pipe } = makeProDeps({ pipelineOpts: { initialCount: 0 } });
     const res = await mcpHandler(
-      proReq('POST', readBody('ui://worldmonitor/country-risk.html')),
+      proReq('POST', readBody('ui://eagleeye/country-risk.html')),
       deps,
     );
     const body = await res.json();
@@ -1229,7 +1229,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     // Pre-seed the counter at the cap so the next INCR rejects.
     const { deps, pipe } = makeProDeps({ pipelineOpts: { initialCount: 50 } });
     const res = await mcpHandler(
-      proReq('POST', readBody('worldmonitor://countries/de/risk')),
+      proReq('POST', readBody('eagleeye://countries/de/risk')),
       deps,
     );
     assert.equal(res.status, 429, 'cap-exceeded must surface as HTTP 429');
@@ -1265,7 +1265,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       pipelineOpts: { initialCount: 60 },
       getEntitlements: proBusiness,
     });
-    const res = await mcpHandler(proReq('POST', readBody('worldmonitor://countries/de/risk')), deps);
+    const res = await mcpHandler(proReq('POST', readBody('eagleeye://countries/de/risk')), deps);
     const body = await res.json();
     assert.equal(body.error, undefined, `read at count 60 must succeed on a 250/day plan, got: ${JSON.stringify(body.error)}`);
     assert.equal(pipe.count, 61);
@@ -1274,7 +1274,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
       pipelineOpts: { initialCount: 250 },
       getEntitlements: proBusiness,
     });
-    const capped = await mcpHandler(proReq('POST', readBody('worldmonitor://countries/de/risk')), depsCapped);
+    const capped = await mcpHandler(proReq('POST', readBody('eagleeye://countries/de/risk')), depsCapped);
     assert.equal(capped.status, 429, 'the 251st read must still hit the plan cap');
     const cappedBody = await capped.json();
     assert.equal(cappedBody.error?.code, -32029);
@@ -1311,7 +1311,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     try {
       const { deps: depsR } = makeProDeps({ pipelineOpts: { initialCount: 50 } });
       const resR = await mcpHandler(
-        proReq('POST', readBody('worldmonitor://countries/de/risk')),
+        proReq('POST', readBody('eagleeye://countries/de/risk')),
         depsR,
       );
       assert.equal(resR.status, 429);
@@ -1349,7 +1349,7 @@ describe('api/mcp.ts — resources capability + stability + auth-symmetry', () =
     const huge = { padding: 'x'.repeat(300_000) }; // > 262_144 budget
     installMockFetch({ riskPayload: huge });
 
-    const res = await handler(envKeyReq(readBody('worldmonitor://countries/de/risk')));
+    const res = await handler(envKeyReq(readBody('eagleeye://countries/de/risk')));
     assert.equal(res.status, 200);
     const body = await res.json();
     assert.equal(body.error, undefined, 'budget-exceeded surfaces as success-shape, not JSON-RPC error');

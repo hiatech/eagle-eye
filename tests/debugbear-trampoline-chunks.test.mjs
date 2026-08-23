@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 
 /**
  * Load-bearing guard for the DebugBear trampoline gate in
- * `src/bootstrap/sentry-init.ts` (WORLDMONITOR-VC / VQ / Y4).
+ * `src/bootstrap/sentry-init.ts` (EAGLEEYE-VC / VQ / Y4).
  *
  * That gate suppresses a bare `Failed to fetch` when every non-infra frame is
  * either the DebugBear RUM collector or one of the `panel-storage` /

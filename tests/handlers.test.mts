@@ -2,10 +2,10 @@
  * Unit tests for server handler business logic.
  *
  * Covers exported pure functions from:
- *   - server/worldmonitor/cyber/v1/_shared.ts
- *   - server/worldmonitor/military/v1/get-usni-fleet-report.ts
- *   - server/worldmonitor/news/v1/_shared.ts  (+ dedup.mjs + hash.ts)
- *   - server/worldmonitor/infrastructure/v1/get-cable-health.ts
+ *   - server/eagleeye/cyber/v1/_shared.ts
+ *   - server/eagleeye/military/v1/get-usni-fleet-report.ts
+ *   - server/eagleeye/news/v1/_shared.ts  (+ dedup.mjs + hash.ts)
+ *   - server/eagleeye/infrastructure/v1/get-cable-health.ts
  *
  * USNI parsing now happens in the Railway relay seed path; these tests cover
  * the server handler's pure cache-response helpers without resurrecting the
@@ -26,7 +26,7 @@ import {
   SEVERITY_MAP,
   SEVERITY_RANK,
   type RawThreat,
-} from '../server/worldmonitor/cyber/v1/_shared.ts';
+} from '../server/eagleeye/cyber/v1/_shared.ts';
 
 // ---------------------------------------------------------------------------
 // Military / USNI fleet report helpers
@@ -34,14 +34,14 @@ import {
 import {
   buildUSNIFleetReportCacheResponse,
   buildUSNIFleetReportForceRefreshResponse,
-} from '../server/worldmonitor/military/v1/get-usni-fleet-report.ts';
-import type { USNIFleetReport } from '../src/generated/server/worldmonitor/military/v1/service_server.ts';
+} from '../server/eagleeye/military/v1/get-usni-fleet-report.ts';
+import type { USNIFleetReport } from '../src/generated/server/eagleeye/military/v1/service_server.ts';
 
 // ---------------------------------------------------------------------------
 // News domain helpers
 // ---------------------------------------------------------------------------
-import { deduplicateHeadlines } from '../server/worldmonitor/news/v1/dedup.mjs';
-import { buildArticlePrompts, hashString, selectUniqueHeadlinePairs } from '../server/worldmonitor/news/v1/_shared.ts';
+import { deduplicateHeadlines } from '../server/eagleeye/news/v1/dedup.mjs';
+import { buildArticlePrompts, hashString, selectUniqueHeadlinePairs } from '../server/eagleeye/news/v1/_shared.ts';
 
 // ---------------------------------------------------------------------------
 // Infrastructure / cable health helpers
@@ -54,7 +54,7 @@ import {
   parseIssueDate,
   processNgaSignals,
   computeHealthMap,
-} from '../server/worldmonitor/infrastructure/v1/get-cable-health.ts';
+} from '../server/eagleeye/infrastructure/v1/get-cable-health.ts';
 
 
 // ========================================================================

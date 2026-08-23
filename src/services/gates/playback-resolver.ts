@@ -18,7 +18,7 @@
 
 export interface PlaybackGateInputs {
   /**
-   * `hasPremiumAccess(authState)` — desktop WORLDMONITOR_API_KEY, browser
+   * `hasPremiumAccess(authState)` — desktop EAGLEEYE_API_KEY, browser
    * tester keys, Clerk pro role, or a live Convex entitlement.
    */
   premiumAccess: boolean;

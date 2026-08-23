@@ -11,7 +11,7 @@ import { validateGeneratedRequest } from '../server/request-validator.ts';
 const root = resolve(import.meta.dirname, '..');
 const serviceSource = readFileSync(resolve(root, 'src/services/wingbits.ts'), 'utf8');
 const handlerSource = readFileSync(
-  resolve(root, 'server/worldmonitor/military/v1/get-aircraft-details-batch.ts'),
+  resolve(root, 'server/eagleeye/military/v1/get-aircraft-details-batch.ts'),
   'utf8',
 );
 let moduleCounter = 0;
@@ -138,7 +138,7 @@ describe('Wingbits aircraft-details batching', () => {
 
   it('keeps the shared batch bound at or below what the generated validator enforces', () => {
     const maxItems = GENERATED_MESSAGE_RULES[
-      'worldmonitor.military.v1.GetAircraftDetailsBatchRequest'
+      'eagleeye.military.v1.GetAircraftDetailsBatchRequest'
     ]?.fields?.icao24s?.repeatedMaxItems;
 
     assert.equal(typeof maxItems, 'number', 'generated rules must still declare icao24s.repeatedMaxItems');

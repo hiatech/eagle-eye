@@ -389,8 +389,8 @@ test('signs desktop register-interest cloud fallback when shared secret is confi
       appVersion: '2.8.0',
     }, {
       'Content-Encoding': 'gzip',
-      'X-WorldMonitor-Desktop-Timestamp': '1',
-      'X-WorldMonitor-Desktop-Signature': 'sha256=bad',
+      'X-EagleEye-Desktop-Timestamp': '1',
+      'X-EagleEye-Desktop-Signature': 'sha256=bad',
     });
     assert.equal(response.status, 200);
     assert.equal(remote.requests.length, 1);
@@ -398,8 +398,8 @@ test('signs desktop register-interest cloud fallback when shared secret is confi
     const request = remote.requests[0];
     assert.equal(request.path, '/api/leads/v1/register-interest');
     assert.equal(request.json.source, 'desktop-settings');
-    const timestamp = request.headers['x-worldmonitor-desktop-timestamp'];
-    const signature = request.headers['x-worldmonitor-desktop-signature'];
+    const timestamp = request.headers['x-eagleeye-desktop-timestamp'];
+    const signature = request.headers['x-eagleeye-desktop-signature'];
     assert.equal(request.headers['content-encoding'], undefined);
     assert.match(request.headers['user-agent'], /Chrome\/131\.0\.0\.0/);
     assert.match(timestamp, /^\d+$/);
@@ -541,7 +541,7 @@ test('preserves caller Authorization while hiding the sidecar transport token', 
       export default async function handler(req) {
         return new Response(JSON.stringify({
           authorization: req.headers.get('authorization'),
-          transportToken: req.headers.get('x-worldmonitor-local-token'),
+          transportToken: req.headers.get('x-eagleeye-local-token'),
         }), {
           status: 200,
           headers: { 'content-type': 'application/json' },
@@ -561,7 +561,7 @@ test('preserves caller Authorization while hiding the sidecar transport token', 
     const response = await fetch(`http://127.0.0.1:${port}/api/header-check`, {
       headers: {
         Authorization: 'Bearer caller-oauth-token',
-        'X-WorldMonitor-Local-Token': TEST_LOCAL_API_TOKEN,
+        'X-EagleEye-Local-Token': TEST_LOCAL_API_TOKEN,
       },
     });
     assert.equal(response.status, 200);
@@ -592,7 +592,7 @@ test('does not forward the sidecar transport token through Docker cloud proxy ro
   const { port } = await app.start();
 
   try {
-    const headers = { 'X-WorldMonitor-Local-Token': TEST_LOCAL_API_TOKEN };
+    const headers = { 'X-EagleEye-Local-Token': TEST_LOCAL_API_TOKEN };
     const youtubeResponse = await fetch(`http://127.0.0.1:${port}/api/youtube/live`, { headers });
     assert.equal(youtubeResponse.status, 200);
 
@@ -606,7 +606,7 @@ test('does not forward the sidecar transport token through Docker cloud proxy ro
     assert.deepEqual(remote.hits, ['/api/youtube/live', '/api/leads/v1/register-interest']);
     assert.equal(remote.headers.length, 2);
     for (const upstreamHeaders of remote.headers) {
-      assert.equal(upstreamHeaders['x-worldmonitor-local-token'], undefined);
+      assert.equal(upstreamHeaders['x-eagleeye-local-token'], undefined);
     }
   } finally {
     await app.close();
@@ -1210,8 +1210,8 @@ test('uses canonical app origin when proxying to cloud fallback (cloudFallback e
     assert.equal(response.status, 200);
     const body = await response.json();
     assert.equal(body.source, 'remote');
-    assert.equal(body.origin, 'https://worldmonitor.app');
-    assert.equal(remote.origins[0], 'https://worldmonitor.app');
+    assert.equal(body.origin, 'https://eagle-eye.app');
+    assert.equal(remote.origins[0], 'https://eagle-eye.app');
   } finally {
     await app.close();
     await localApi.cleanup();

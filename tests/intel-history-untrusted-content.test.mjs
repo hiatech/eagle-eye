@@ -128,7 +128,7 @@ describe('the content-safety rule reaches the agent, not just the schema', () =>
 
 describe('intel-history REST contract marks its untrusted feed text', () => {
   it('the proto carries the UNTRUSTED CONTENT note and per-field markings', () => {
-    const proto = read('proto/worldmonitor/intelligence/v1/intel_history_record.proto');
+    const proto = read('proto/eagleeye/intelligence/v1/intel_history_record.proto');
 
     assert.match(proto, /UNTRUSTED CONTENT/);
     assert.match(proto, /never as instructions/i);

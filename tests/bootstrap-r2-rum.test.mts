@@ -24,7 +24,7 @@ describe('bootstrap R2 client RUM', () => {
       300.25,
       headers({
         'server-timing': '',
-        'x-worldmonitor-bootstrap-redis-duration': '125.5',
+        'x-eagleeye-bootstrap-redis-duration': '125.5',
       }),
       'mobile',
     );
@@ -84,7 +84,7 @@ describe('bootstrap R2 client RUM', () => {
     ['unknown cache age', { age: 'unknown' }, 'cached-age'],
     [
       'malformed platform-safe Redis timing',
-      { 'x-worldmonitor-bootstrap-redis-duration': 'nope' },
+      { 'x-eagleeye-bootstrap-redis-duration': 'nope' },
       'invalid-server-timing',
     ],
     ['malformed Redis timing', { 'server-timing': 'wm_bootstrap_redis;dur=nope' }, 'invalid-server-timing'],

@@ -457,7 +457,7 @@ async function fetchSseAnnouncements(fetchFn, now, {
           headers: {
             Accept: 'application/json',
             Referer: 'https://www.sse.com.cn/',
-            'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+            'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
           },
           redirect: contract.redirectPolicy,
           signal: AbortSignal.timeout(timeoutMs),
@@ -549,7 +549,7 @@ async function fetchSzseAnnouncements(fetchFn, now, {
       Accept: 'application/json',
       Referer: 'https://www.szse.cn/',
       'Content-Type': 'application/json',
-      'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+      'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
     },
     body,
     redirect: contract.redirectPolicy,

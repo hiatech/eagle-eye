@@ -84,7 +84,7 @@ function stubCacheHit() {
 function userKeyReq(body) {
   return new Request(BASE_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-WorldMonitor-Key': USER_KEY },
+    headers: { 'Content-Type': 'application/json', 'X-EagleEye-Key': USER_KEY },
     body: JSON.stringify(body),
   });
 }
@@ -174,7 +174,7 @@ describe('api/mcp.ts — plan-driven daily quota on the pro context', () => {
   let mcpHandler;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'wm_test_key_plan_driven_quota';
+    process.env.EAGLEEYE_VALID_KEYS = 'wm_test_key_plan_driven_quota';
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;
@@ -339,7 +339,7 @@ describe('api/mcp.ts — KTD6: plan-driven limits do NOT reach the user_key cont
   let mcpHandler;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'wm_env_operator_key_999';
+    process.env.EAGLEEYE_VALID_KEYS = 'wm_env_operator_key_999';
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;

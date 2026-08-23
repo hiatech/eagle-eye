@@ -19,10 +19,10 @@ import { describe, it, beforeEach, afterEach } from 'node:test';
 
 const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
-const TEST_RESOLVER_KEY = Symbol.for('worldmonitor.shippingV2.resolveWebhookHostnameForTest');
+const TEST_RESOLVER_KEY = Symbol.for('eagleeye.shippingV2.resolveWebhookHostnameForTest');
 
 function makeCtx(headers = {}) {
-  const req = new Request('https://worldmonitor.app/api/v2/shipping/route-intelligence', {
+  const req = new Request('https://eagle-eye.app/api/v2/shipping/route-intelligence', {
     method: 'GET',
     headers,
   });
@@ -30,7 +30,7 @@ function makeCtx(headers = {}) {
 }
 
 function proCtx() {
-  return makeCtx({ 'X-WorldMonitor-Key': 'pro-test-key' });
+  return makeCtx({ 'X-EagleEye-Key': 'pro-test-key' });
 }
 
 let routeIntelligence;
@@ -50,22 +50,22 @@ function stubChokepointStatus(value) {
 
 describe('ShippingV2Service handlers', () => {
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'pro-test-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'pro-test-key';
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
     Reflect.set(globalThis, TEST_RESOLVER_KEY, async () => ['93.184.216.34']);
 
-    const riMod = await import('../server/worldmonitor/shipping/v2/route-intelligence.ts');
-    const rwMod = await import('../server/worldmonitor/shipping/v2/register-webhook.ts');
-    const lwMod = await import('../server/worldmonitor/shipping/v2/list-webhooks.ts');
-    const dwMod = await import('../server/worldmonitor/shipping/v2/deliver-webhook.ts');
-    webhookShared = await import('../server/worldmonitor/shipping/v2/webhook-shared.ts');
+    const riMod = await import('../server/eagleeye/shipping/v2/route-intelligence.ts');
+    const rwMod = await import('../server/eagleeye/shipping/v2/register-webhook.ts');
+    const lwMod = await import('../server/eagleeye/shipping/v2/list-webhooks.ts');
+    const dwMod = await import('../server/eagleeye/shipping/v2/deliver-webhook.ts');
+    webhookShared = await import('../server/eagleeye/shipping/v2/webhook-shared.ts');
     routeIntelligence = riMod.routeIntelligence;
     registerWebhook = rwMod.registerWebhook;
     listWebhooks = lwMod.listWebhooks;
     deliverShippingV2Webhook = dwMod.deliverShippingV2Webhook;
     WebhookDeliverySsrfError = dwMod.WebhookDeliverySsrfError;
-    const gen = await import('../src/generated/server/worldmonitor/shipping/v2/service_server.ts');
+    const gen = await import('../src/generated/server/eagleeye/shipping/v2/service_server.ts');
     ValidationError = gen.ValidationError;
     ApiError = gen.ApiError;
   });
@@ -201,7 +201,7 @@ describe('ShippingV2Service handlers', () => {
     }
 
     it('rejects callers without an API key with 401 (tenant-isolation gate)', async () => {
-      // Without this gate, Clerk-authenticated pro callers with no X-WorldMonitor-Key
+      // Without this gate, Clerk-authenticated pro callers with no X-EagleEye-Key
       // collapse into a shared 'anon' fingerprint bucket and can see each other's
       // webhooks. Must fire before any premium check.
       await assert.rejects(
@@ -523,7 +523,7 @@ describe('ShippingV2Service handlers', () => {
       assert.equal(seen.url, 'https://hooks.example.com/wm');
       assert.equal(seen.method, 'POST');
       assert.equal(seen.headers['content-type'], 'application/json');
-      assert.equal(seen.headers['user-agent'], 'WorldMonitor-ShippingV2-Webhooks/1.0');
+      assert.equal(seen.headers['user-agent'], 'EagleEye-ShippingV2-Webhooks/1.0');
       assert.equal(seen.headers['x-wm-delivery-id'], 'whd_test_delivery');
       assert.equal(seen.headers['x-wm-event'], 'chokepoint.disruption');
       assert.match(seen.headers['x-wm-signature'], /^sha256=[0-9a-f]{64}$/);

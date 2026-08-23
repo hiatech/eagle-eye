@@ -14,14 +14,14 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf-8');
 // workflows cross-check against the release tag — these assertions stop any
 // of that wiring from silently drifting.
 
-const HOMEPAGE = 'https://worldmonitor.app';
+const HOMEPAGE = 'https://eagle-eye.app';
 
-describe('Python SDK package (sdk/python → PyPI worldmonitor-sdk)', () => {
+describe('Python SDK package (sdk/python → PyPI eagleeye-sdk)', () => {
   const pyproject = read('sdk/python/pyproject.toml');
-  const module = read('sdk/python/src/worldmonitor_sdk/__init__.py');
+  const module = read('sdk/python/src/eagleeye_sdk/__init__.py');
 
-  it('is the worldmonitor-sdk distribution with the product-domain homepage', () => {
-    assert.match(pyproject, /^name = "worldmonitor-sdk"$/m);
+  it('is the eagleeye-sdk distribution with the product-domain homepage', () => {
+    assert.match(pyproject, /^name = "eagleeye-sdk"$/m);
     assert.match(pyproject, new RegExp(`^Homepage = "${HOMEPAGE}"$`, 'm'));
     assert.match(pyproject, /^license = "MIT"$/m);
   });
@@ -34,17 +34,17 @@ describe('Python SDK package (sdk/python → PyPI worldmonitor-sdk)', () => {
   });
 
   it('sends a descriptive User-Agent (Cloudflare WAF passes it, not python-urllib)', () => {
-    assert.match(module, /USER_AGENT = "worldmonitor-python\/%s \(\+https:\/\/worldmonitor\.app\)"/);
+    assert.match(module, /USER_AGENT = "eagleeye-python\/%s \(\+https:\/\/eagle-eye\.app\)"/);
   });
 });
 
-describe('Ruby SDK package (sdk/ruby → gem worldmonitor)', () => {
-  const gemspec = read('sdk/ruby/worldmonitor.gemspec');
-  const versionRb = read('sdk/ruby/lib/worldmonitor/version.rb');
-  const lib = read('sdk/ruby/lib/worldmonitor.rb');
+describe('Ruby SDK package (sdk/ruby → gem eagleeye)', () => {
+  const gemspec = read('sdk/ruby/eagleeye.gemspec');
+  const versionRb = read('sdk/ruby/lib/eagleeye/version.rb');
+  const lib = read('sdk/ruby/lib/eagleeye.rb');
 
-  it('is the worldmonitor gem with the product-domain homepage', () => {
-    assert.match(gemspec, /spec\.name = "worldmonitor"/);
+  it('is the eagleeye gem with the product-domain homepage', () => {
+    assert.match(gemspec, /spec\.name = "eagleeye"/);
     assert.match(gemspec, new RegExp(`spec\\.homepage = "${HOMEPAGE}"`));
     assert.match(gemspec, new RegExp(`"homepage_uri" => "${HOMEPAGE}"`));
     assert.match(gemspec, /spec\.license = "MIT"/);
@@ -52,20 +52,20 @@ describe('Ruby SDK package (sdk/ruby → gem worldmonitor)', () => {
 
   it('declares VERSION where the gemspec and publish workflow read it', () => {
     assert.match(versionRb, /VERSION = "\d+\.\d+\.\d+"/);
-    assert.match(gemspec, /require_relative "lib\/worldmonitor\/version"/);
+    assert.match(gemspec, /require_relative "lib\/eagleeye\/version"/);
   });
 
   it('sends a descriptive User-Agent', () => {
-    assert.match(lib, /USER_AGENT = "worldmonitor-ruby\/#\{VERSION\} \(\+https:\/\/worldmonitor\.app\)"/);
+    assert.match(lib, /USER_AGENT = "eagleeye-ruby\/#\{VERSION\} \(\+https:\/\/eagle-eye\.app\)"/);
   });
 });
 
 describe('Go SDK module (sdk/go → pkg.go.dev)', () => {
   const gomod = read('sdk/go/go.mod');
-  const source = read('sdk/go/worldmonitor.go');
+  const source = read('sdk/go/eagleeye.go');
 
   it('is the sdk/go submodule of this repository', () => {
-    assert.match(gomod, /^module github\.com\/koala73\/worldmonitor\/sdk\/go$/m);
+    assert.match(gomod, /^module github\.com\/hiatech\/eagle-eye\/sdk\/go$/m);
   });
 
   it('declares the Version constant the publish workflow checks against the tag', () => {
@@ -73,8 +73,8 @@ describe('Go SDK module (sdk/go → pkg.go.dev)', () => {
   });
 
   it('documents the product domain and sends a descriptive User-Agent', () => {
-    assert.match(source, /https:\/\/worldmonitor\.app/);
-    assert.match(source, /const UserAgent = "worldmonitor-go\/" \+ Version \+ " \(\+https:\/\/worldmonitor\.app\)"/);
+    assert.match(source, /https:\/\/eagle-eye\.app/);
+    assert.match(source, /const UserAgent = "eagleeye-go\/" \+ Version \+ " \(\+https:\/\/eagle-eye\.app\)"/);
   });
 });
 
@@ -106,16 +106,16 @@ describe('SDK publish workflows', () => {
 describe('SDK discovery surfaces', () => {
   it('llms.txt advertises every registry package', () => {
     const llms = read('public/llms.txt');
-    assert.match(llms, /pypi\.org\/project\/worldmonitor-sdk/);
-    assert.match(llms, /rubygems\.org\/gems\/worldmonitor/);
-    assert.match(llms, /pkg\.go\.dev\/github\.com\/koala73\/worldmonitor\/sdk\/go/);
+    assert.match(llms, /pypi\.org\/project\/eagleeye-sdk/);
+    assert.match(llms, /rubygems\.org\/gems\/eagleeye/);
+    assert.match(llms, /pkg\.go\.dev\/github\.com\/hiatech\/eagle-eye\/sdk\/go/);
   });
 
   it('api/llms.txt advertises the SDK surface', () => {
     const llms = read('public/api/llms.txt');
-    assert.match(llms, /pip install worldmonitor-sdk/);
-    assert.match(llms, /gem install worldmonitor/);
-    assert.match(llms, /go get github\.com\/koala73\/worldmonitor\/sdk\/go/);
+    assert.match(llms, /pip install eagleeye-sdk/);
+    assert.match(llms, /gem install eagleeye/);
+    assert.match(llms, /go get github\.com\/hiatech\/eagle-eye\/sdk\/go/);
   });
 
   it('the docs site has an SDKs page wired into navigation', () => {

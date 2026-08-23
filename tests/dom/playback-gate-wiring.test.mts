@@ -33,7 +33,7 @@ type Entitlement = import('@/services/entitlements').EntitlementState | null;
 let session: Session = { user: null, isPending: true };
 /** Live Convex entitlement snapshot; `null` means "no snapshot has arrived". */
 let entitlement: Entitlement = null;
-/** Desktop runtime with WORLDMONITOR_API_KEY configured. */
+/** Desktop runtime with EAGLEEYE_API_KEY configured. */
 let desktopKeyPresent = false;
 // Kept apart, and each replayed with the argument its real emitter passes, so
 // the test cannot accidentally certify a listener that only works when called
@@ -106,7 +106,7 @@ vi.mock('@/services/storage', async (importOriginal) => ({
   }),
 }));
 
-// The desktop runtime's WORLDMONITOR_API_KEY branch of `hasPremiumAccess`.
+// The desktop runtime's EAGLEEYE_API_KEY branch of `hasPremiumAccess`.
 // Without this the suite reaches `premiumAccess` ONLY through `isEntitled()`,
 // so dropping the desktop-key path from `readPlaybackGateInputs` would go
 // unnoticed. Everything else keeps the real (absent-secret) behaviour.
@@ -115,7 +115,7 @@ vi.mock('@/services/runtime-config', async (importOriginal) => {
   return {
     ...actual,
     getSecretState: (key: string) =>
-      key === 'WORLDMONITOR_API_KEY' && desktopKeyPresent
+      key === 'EAGLEEYE_API_KEY' && desktopKeyPresent
         ? { present: true, valid: true, source: 'env' as const }
         : actual.getSecretState(key as Parameters<typeof actual.getSecretState>[0]),
   };
@@ -382,7 +382,7 @@ describe('setupPlaybackControl — revocation (#5632)', () => {
 
 describe('setupPlaybackControl — non-Convex premium paths (#5632)', () => {
   it('shows the control on a desktop API key with no session and no snapshot', () => {
-    // `hasPremiumAccess` short-circuits on WORLDMONITOR_API_KEY before any
+    // `hasPremiumAccess` short-circuits on EAGLEEYE_API_KEY before any
     // Clerk or Convex signal. Without this case the suite reaches
     // `premiumAccess` only through isEntitled(), so dropping the desktop-key
     // path from readPlaybackGateInputs would go unnoticed.

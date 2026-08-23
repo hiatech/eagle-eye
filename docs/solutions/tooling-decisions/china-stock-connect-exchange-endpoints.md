@@ -19,7 +19,7 @@ tags: [china, sse, szse, stock-connect, northbound, margin, market-data, endpoin
 
 ## Context
 
-WorldMonitor's China equity coverage was two Yahoo symbols. Issue #6155 asked for
+EagleEye's China equity coverage was two Yahoo symbols. Issue #6155 asked for
 "Stock Connect northbound flows + margin balance", naming northbound net flow as
 "arguably the single most valuable China market series we don't have".
 

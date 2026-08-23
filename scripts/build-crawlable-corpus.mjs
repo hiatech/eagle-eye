@@ -20,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DEFAULT_ROOT = resolve(__dirname, '..');
 const DEFAULT_OUT_DIR = join(DEFAULT_ROOT, 'public');
-const DEFAULT_BASE_URL = 'https://www.worldmonitor.app';
+const DEFAULT_BASE_URL = 'https://www.eagle-eye.app';
 const RESILIENCE_SNAPSHOT_PATH = 'docs/snapshots/resilience-ranking-2026-05-28.json';
 const COUNTRY_NAMES_PATH = 'shared/country-names.json';
 const CHOKEPOINT_REGISTRY_PATH = 'src/config/chokepoint-registry.ts';
@@ -40,8 +40,8 @@ const CHOKEPOINT_PAGE_CONTENT_VERSION = '2026-07-28';
 const DATASET_SCHEMA_CONTENT_VERSION = '2026-08-05';
 const DATASET_LICENSE = {
   '@type': 'CreativeWork',
-  name: 'World Monitor Terms of Service (27 July 2026)',
-  url: 'https://www.worldmonitor.app/docs/terms',
+  name: 'Eagle Eye Terms of Service (27 July 2026)',
+  url: 'https://www.eagle-eye.app/docs/terms',
 };
 const CHANGELOG_PAGE_SIZE = 2;
 const MAX_TOOL_LATITUDE_SPAN = 45;
@@ -223,7 +223,7 @@ function withUtmSource(url, utmSource) {
 }
 
 const OG_IMAGE_PATH = '/favico/og-image.png';
-const OG_IMAGE_ALT = 'World Monitor — real-time global intelligence dashboard with live markets, geopolitical data, and infrastructure monitoring';
+const OG_IMAGE_ALT = 'Eagle Eye — real-time global intelligence dashboard with live markets, geopolitical data, and infrastructure monitoring';
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -359,18 +359,18 @@ export function countryMetaDescription({ name, rank, rankedCount }) {
   ];
   const standings = rank == null
     ? [
-      `a low-confidence listing in World Monitor's Country Resilience Index`,
-      `a low-confidence listing in World Monitor's resilience index`,
-      `a low-confidence listing in World Monitor's index`,
-      `a low-confidence World Monitor index listing`,
+      `a low-confidence listing in Eagle Eye's Country Resilience Index`,
+      `a low-confidence listing in Eagle Eye's resilience index`,
+      `a low-confidence listing in Eagle Eye's index`,
+      `a low-confidence Eagle Eye index listing`,
       `a low-confidence index listing`,
     ]
     : [
-      `ranked #${rank} of ${rankedCount} in World Monitor's Country Resilience Index`,
-      `ranked #${rank} of ${rankedCount} in World Monitor's resilience index`,
-      `ranked #${rank} of ${rankedCount} in World Monitor's index`,
-      `#${rank} of ${rankedCount} in World Monitor's resilience index`,
-      `#${rank} of ${rankedCount} in World Monitor's index`,
+      `ranked #${rank} of ${rankedCount} in Eagle Eye's Country Resilience Index`,
+      `ranked #${rank} of ${rankedCount} in Eagle Eye's resilience index`,
+      `ranked #${rank} of ${rankedCount} in Eagle Eye's index`,
+      `#${rank} of ${rankedCount} in Eagle Eye's resilience index`,
+      `#${rank} of ${rankedCount} in Eagle Eye's index`,
     ];
   const signals = [
     'with live instability, travel advisories, sanctions and security signals.',
@@ -861,7 +861,7 @@ function pageDocument({
     <meta property="og:title" content="${escapeHtml(title)}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:url" content="${escapeHtml(canonical)}">
-    <meta property="og:site_name" content="World Monitor">
+    <meta property="og:site_name" content="Eagle Eye">
     <meta property="og:image" content="${escapeHtml(absoluteUrl(baseUrl, ogImage))}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -871,7 +871,7 @@ function pageDocument({
     <meta name="twitter:description" content="${escapeHtml(description)}">
     <meta name="twitter:image" content="${escapeHtml(absoluteUrl(baseUrl, ogImage))}">
     <meta name="twitter:image:alt" content="${escapeHtml(ogImageAlt)}">
-    <meta name="twitter:site" content="@worldmonitorai">
+    <meta name="twitter:site" content="@eagleeyeai">
     ${ld.map((entry) => `<script type="application/ld+json">${escapeJsonScript(entry)}</script>`).join('\n    ')}
     <style>
       :root { color-scheme: dark; --bg: #050807; --panel: #0c1210; --text: #eef8f0; --muted: #a8b8ad; --line: #1b2b22; --accent: #4ade80; }
@@ -939,7 +939,7 @@ function pageDocument({
   <body>
     <header>
       <nav aria-label="Primary">
-        <a href="/">World Monitor</a>
+        <a href="/">Eagle Eye</a>
         <a href="/countries/">Countries</a>
         <a href="/chokepoints/">Chokepoints</a>
         <a href="/crises/">Crises</a>
@@ -952,7 +952,7 @@ function pageDocument({
     <main>
 ${body}
     </main>
-    <footer>World Monitor reference corpus. Crawlable pages use committed snapshots; live API results are labelled separately.</footer>
+    <footer>Eagle Eye reference corpus. Crawlable pages use committed snapshots; live API results are labelled separately.</footer>
     ${scriptSrcs.map((src) => `<script type="module" nonce="wm-static-bootstrap" src="${escapeHtml(src)}"></script>`).join('\n    ')}
   </body>
 </html>
@@ -961,7 +961,7 @@ ${body}
 
 function renderCountriesIndex({ countries, baseUrl, capturedAt, lastmod }) {
   const path = '/countries/';
-  const description = `Browse ${countries.length} country risk and resilience pages from World Monitor's dated ${capturedAt} structural snapshot, with current instability signals on each page.`;
+  const description = `Browse ${countries.length} country risk and resilience pages from Eagle Eye's dated ${capturedAt} structural snapshot, with current instability signals on each page.`;
   const body = `      <p class="eyebrow">Country corpus</p>
       <h1>Country risk and resilience</h1>
       <p class="lede">${escapeHtml(description)}</p>
@@ -972,7 +972,7 @@ ${countries.map((country) => `        <a class="card" href="/countries/${country
   return pageDocument({
     baseUrl,
     path,
-    title: 'Country Risk and Resilience | World Monitor',
+    title: 'Country Risk and Resilience | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
@@ -1011,7 +1011,7 @@ function renderCountryPage({
   );
   const body = `      <p class="eyebrow">Country &middot; ${escapeHtml(country.code)}</p>
       <h1>${escapeHtml(country.name)} country risk and resilience</h1>
-      <p class="lede">${escapeHtml(description)} The structural snapshot is dated and source-labelled; the current instability tool below loads separately from the live World Monitor API.</p>
+      <p class="lede">${escapeHtml(description)} The structural snapshot is dated and source-labelled; the current instability tool below loads separately from the live Eagle Eye API.</p>
       <section class="live-tool" data-live-country-risk data-country-code="${escapeHtml(country.code)}" data-country-name="${escapeHtml(country.name)}" data-state="loading">
         <div class="tool-head">
           <div>
@@ -1042,7 +1042,7 @@ function renderCountryPage({
         <div class="metric"><span>Confidence</span><strong>${country.lowConfidence ? 'Low' : 'Standard'}</strong></div>
       </section>
       <h2>How to read this page</h2>
-      <p>World Monitor's Country Resilience Index is a 0-100 structural resilience score. This page records the committed ${escapeHtml(prettyDate(capturedAt))} snapshot using the ${escapeHtml(methodologyFormula)} methodology tag. The full scoring approach — dimensions, sources, and confidence rules — is documented in the <a href="/docs/methodology/country-resilience-index">Country Resilience Index methodology</a>.</p>
+      <p>Eagle Eye's Country Resilience Index is a 0-100 structural resilience score. This page records the committed ${escapeHtml(prettyDate(capturedAt))} snapshot using the ${escapeHtml(methodologyFormula)} methodology tag. The full scoring approach — dimensions, sources, and confidence rules — is documented in the <a href="/docs/methodology/country-resilience-index">Country Resilience Index methodology</a>.</p>
       <p>Use it as a crawlable reference and stable landing page. For the current live picture — active alerts, conflict events, market and energy signals — open ${escapeHtml(country.name)} on the live map above.</p>
       <p class="source">Source: ${RESILIENCE_SNAPSHOT_PATH}. Captured ${escapeHtml(capturedAt)}. Methodology: <a href="/docs/methodology/country-resilience-index">Country Resilience Index</a>.</p>`;
   const coreTitle = `${country.name} Country Risk and Resilience`;
@@ -1052,7 +1052,7 @@ function renderCountryPage({
     // Keep SERP titles near the ~60-char display budget: drop the brand
     // suffix for long country names rather than letting Google truncate
     // mid-brand.
-    title: coreTitle.length > 44 ? coreTitle : `${coreTitle} | World Monitor`,
+    title: coreTitle.length > 44 ? coreTitle : `${coreTitle} | Eagle Eye`,
     description,
     lastmod,
     jsonLd: {
@@ -1069,12 +1069,12 @@ function renderCountryPage({
       },
       mainEntity: {
         '@type': 'Dataset',
-        name: `World Monitor Country Resilience snapshot for ${country.name}`,
-        description: `A dated World Monitor Country Resilience Index snapshot for ${country.name}, with the overall score, rank, dimension coverage, confidence classification, and scoring methodology used for this page.`,
+        name: `Eagle Eye Country Resilience snapshot for ${country.name}`,
+        description: `A dated Eagle Eye Country Resilience Index snapshot for ${country.name}, with the overall score, rank, dimension coverage, confidence classification, and scoring methodology used for this page.`,
         creator: {
           '@type': 'Organization',
-          name: 'World Monitor',
-          url: 'https://www.worldmonitor.app/',
+          name: 'Eagle Eye',
+          url: 'https://www.eagle-eye.app/',
         },
         license: DATASET_LICENSE,
         datePublished: capturedAt,
@@ -1093,7 +1093,7 @@ function renderCountryPage({
 
 function renderChokepointsIndex({ chokepoints, baseUrl, lastmod }) {
   const path = '/chokepoints/';
-  const description = `The ${chokepoints.length} maritime chokepoints World Monitor tracks — narrow straits and canals where a disruption removes optionality from global trade, energy and food flows.`;
+  const description = `The ${chokepoints.length} maritime chokepoints Eagle Eye tracks — narrow straits and canals where a disruption removes optionality from global trade, energy and food flows.`;
   const body = `      <p class="eyebrow">Maritime corpus</p>
       <h1>Chokepoints and waterways</h1>
       <p class="lede">${escapeHtml(description)}</p>
@@ -1111,7 +1111,7 @@ ${chokepoints.map((cp) => {
   return pageDocument({
     baseUrl,
     path,
-    title: 'Maritime Chokepoints | World Monitor',
+    title: 'Maritime Chokepoints | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
@@ -1134,7 +1134,7 @@ function renderChokepointPage({ chokepoint, baseUrl, lastmod, tradeRoutesById, r
   const path = `/chokepoints/${chokepoint.slug}/`;
   const content = CHOKEPOINT_CONTENT[chokepoint.id] || {};
   const blurb = content.blurb
-    || `${chokepoint.displayName} is one of the 13 canonical maritime chokepoints tracked by World Monitor.`;
+    || `${chokepoint.displayName} is one of the 13 canonical maritime chokepoints tracked by Eagle Eye.`;
   const description = chokepointMetaDescription(chokepoint.displayName);
   const mapUrl = withUtmSource(
     absoluteUrl(baseUrl, `/?chokepoint=${encodeURIComponent(chokepoint.id)}`),
@@ -1151,7 +1151,7 @@ ${routes.map((route) => {
     return `        <li>${escapeHtml(route.name)} <span class="vol">&middot; ${escapeHtml(route.volumeDesc)}${category ? ` &middot; ${escapeHtml(category)}` : ''}</span></li>`;
   }).join('\n')}
       </ul>`
-    : `<p>${escapeHtml(chokepoint.displayName)} is tracked as a strategic waterway reference. It is not currently mapped to one of World Monitor's modelled trade-route corridors, but its vessel traffic and disruption signals are still monitored on the live map.</p>`;
+    : `<p>${escapeHtml(chokepoint.displayName)} is tracked as a strategic waterway reference. It is not currently mapped to one of Eagle Eye's modelled trade-route corridors, but its vessel traffic and disruption signals are still monitored on the live map.</p>`;
 
   const tiles = [
     content.region ? metricTile('Connects', content.region) : null,
@@ -1210,7 +1210,7 @@ ${relatedItems.map((item) => `        <li>${item}</li>`).join('\n')}
   return pageDocument({
     baseUrl,
     path,
-    title: `${chokepoint.displayName} Chokepoint Status | World Monitor`,
+    title: `${chokepoint.displayName} Chokepoint Status | Eagle Eye`,
     description,
     lastmod,
     jsonLd: {
@@ -1255,7 +1255,7 @@ function countrySelectOptions(countryBounds, { includeWorldwide = false, default
 
 function renderCrisesIndex({ crises, baseUrl, lastmod }) {
   const path = '/crises/';
-  const description = 'Curated, bounded crisis trackers that combine stable coverage definitions with World Monitor’s maintained country-level humanitarian summaries.';
+  const description = 'Curated, bounded crisis trackers that combine stable coverage definitions with Eagle Eye’s maintained country-level humanitarian summaries.';
   const body = `      <p class="eyebrow">Bounded trackers</p>
       <h1>Current crisis trackers</h1>
       <p class="lede">${escapeHtml(description)}</p>
@@ -1267,11 +1267,11 @@ ${crises.map((crisis) => `        <a class="card" href="/crises/${escapeHtml(cri
       <p>Every tracker names its covered countries up front and never silently widens. Metrics are monthly country-level conflict summaries — recorded events, political-violence events, fatalities, and demonstrations — from the UN OCHA <a href="https://data.humdata.org/hapi">Humanitarian API (HDX HAPI)</a>. A combined total is shown only when every covered country reports the same reference month; otherwise per-country figures stand alone.</p>
       <h2>What they are not</h2>
       <p>These are bounded pulses, not battlefield maps, casualty ledgers, or forecasts. Missing countries are reported as unavailable rather than zero, and event-level context lives in the <a href="/?utm_source=seo-crisis">live dashboard</a> with its map layers and independent signals.</p>
-      <p class="source">Scope source: ${CRISIS_REGISTRY_PATH}. Live metrics: HAPI/HDX humanitarian conflict summaries through the World Monitor API.</p>`;
+      <p class="source">Scope source: ${CRISIS_REGISTRY_PATH}. Live metrics: HAPI/HDX humanitarian conflict summaries through the Eagle Eye API.</p>`;
   return pageDocument({
     baseUrl,
     path,
-    title: 'Current Crisis Trackers | World Monitor',
+    title: 'Current Crisis Trackers | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
@@ -1322,16 +1322,16 @@ ${crisis.coverage.map((country) => `          <li data-crisis-country data-count
         </div>
         <noscript><p>Enable JavaScript to load current monthly summaries. The tracker scope and methodology remain available on this page.</p></noscript>
       </section>
-      <a class="cta" href="${escapeHtml(dashboardUrl)}">Investigate this crisis in World Monitor →</a>
+      <a class="cta" href="${escapeHtml(dashboardUrl)}">Investigate this crisis in Eagle Eye →</a>
       <h2>Coverage boundary</h2>
       <p>${escapeHtml(crisis.coverage.map((country) => `${country.name} (${country.code})`).join(', '))}. Events outside this list are not included in the live totals on this page.</p>
       <h2>How to read this tracker</h2>
       <p>Use these monthly country summaries as a bounded pulse, then inspect the dashboard for event-level context, map layers, and other independent signals. The figures are not forecasts and should not be interpreted as a complete casualty or incident ledger.</p>
-      <p class="source">Scope source: ${CRISIS_REGISTRY_PATH}. Live metrics: HAPI/HDX humanitarian conflict summaries from the UN OCHA <a href="https://data.humdata.org/hapi">Humanitarian API</a>, served through the World Monitor API.</p>`;
+      <p class="source">Scope source: ${CRISIS_REGISTRY_PATH}. Live metrics: HAPI/HDX humanitarian conflict summaries from the UN OCHA <a href="https://data.humdata.org/hapi">Humanitarian API</a>, served through the Eagle Eye API.</p>`;
   return pageDocument({
     baseUrl,
     path,
-    title: `${crisis.title} | World Monitor`,
+    title: `${crisis.title} | Eagle Eye`,
     description: crisis.description,
     lastmod,
     jsonLd: {
@@ -1359,7 +1359,7 @@ ${crisis.coverage.map((country) => `          <li data-crisis-country data-count
 
 function renderToolsIndex({ baseUrl, lastmod }) {
   const path = '/tools/';
-  const description = 'Focused World Monitor tools for current natural hazards and country-level airspace disruption, backed by maintained first-party data contracts.';
+  const description = 'Focused Eagle Eye tools for current natural hazards and country-level airspace disruption, backed by maintained first-party data contracts.';
   const body = `      <p class="eyebrow">Live intelligence tools</p>
       <h1>Check a current operational signal</h1>
       <p class="lede">${escapeHtml(description)}</p>
@@ -1370,14 +1370,14 @@ function renderToolsIndex({ baseUrl, lastmod }) {
         <a class="card" href="/crises/"><strong>Bounded crisis trackers</strong><br><span>Four curated geographic scopes</span></a>
       </div>
       <h2>How these tools work</h2>
-      <p>Each tool asks one narrow operational question — what natural hazards are open right now, is a country's monitored airspace disrupted — and answers it from a maintained World Monitor API contract. Results are labelled with their source and retrieval time, unavailable data is reported as unavailable rather than zero, and independent signals are never combined into a single opaque threat score.</p>
+      <p>Each tool asks one narrow operational question — what natural hazards are open right now, is a country's monitored airspace disrupted — and answers it from a maintained Eagle Eye API contract. Results are labelled with their source and retrieval time, unavailable data is reported as unavailable rather than zero, and independent signals are never combined into a single opaque threat score.</p>
       <h2>When to use them</h2>
       <p>Use these pages for a fast, shareable check before a trip, a shipment, or a market open; use the <a href="/?utm_source=seo-tool">live dashboard</a> when you need the full picture — map layers, alerts, news, and country briefs side by side. Hazard coverage is documented in <a href="/docs/natural-disasters">natural disaster tracking</a>; chokepoint scoring in the <a href="/docs/methodology/chokepoints">chokepoint methodology</a>.</p>
-      <p class="source">Live results load from maintained World Monitor API contracts. Static route descriptions remain available if a current source cannot be reached.</p>`;
+      <p class="source">Live results load from maintained Eagle Eye API contracts. Static route descriptions remain available if a current source cannot be reached.</p>`;
   return pageDocument({
     baseUrl,
     path,
-    title: 'Live Intelligence Tools | World Monitor',
+    title: 'Live Intelligence Tools | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
@@ -1429,20 +1429,20 @@ ${countrySelectOptions(countryBounds, { includeWorldwide: true })}
         <div class="tool-meta"><time data-live-updated>Requesting the latest available snapshot…</time></div>
         <noscript><p>Enable JavaScript to load and filter the current event snapshot. This page still documents the tool’s coverage and sources.</p></noscript>
       </section>
-      <a class="cta" data-dashboard-link href="${escapeHtml(withUtmSource(absoluteUrl(baseUrl, '/'), 'seo-tool'))}">Open the selected area in World Monitor →</a>
+      <a class="cta" data-dashboard-link href="${escapeHtml(withUtmSource(absoluteUrl(baseUrl, '/'), 'seo-tool'))}">Open the selected area in Eagle Eye →</a>
       <h2>Sources and limits</h2>
-      <p>World Monitor reads its seeded natural-event snapshot from maintained <a href="https://eonet.gsfc.nasa.gov/">NASA EONET</a>, <a href="https://www.gdacs.org/">GDACS</a>, <a href="https://www.nhc.noaa.gov/">NHC</a>, and <a href="https://www.hko.gov.hk/">HKO</a> ingestion paths. Source names are retained on individual events. A zero is shown only when a source snapshot is explicitly available; unavailable snapshots fail closed. Coverage and update cadence are documented in <a href="/docs/natural-disasters">natural disaster tracking</a>.</p>
+      <p>Eagle Eye reads its seeded natural-event snapshot from maintained <a href="https://eonet.gsfc.nasa.gov/">NASA EONET</a>, <a href="https://www.gdacs.org/">GDACS</a>, <a href="https://www.nhc.noaa.gov/">NHC</a>, and <a href="https://www.hko.gov.hk/">HKO</a> ingestion paths. Source names are retained on individual events. A zero is shown only when a source snapshot is explicitly available; unavailable snapshots fail closed. Coverage and update cadence are documented in <a href="/docs/natural-disasters">natural disaster tracking</a>.</p>
       <p class="source">Geographic filters: ${COUNTRY_BBOXES_PATH}. Live metrics: <code>/api/natural/v1/list-natural-events</code>.</p>`;
   return pageDocument({
     baseUrl,
     path,
-    title: 'Live Natural Hazard Tracker | World Monitor',
+    title: 'Live Natural Hazard Tracker | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'World Monitor natural-hazard pulse',
+      name: 'Eagle Eye natural-hazard pulse',
       description,
       url: absoluteUrl(baseUrl, path),
       applicationCategory: 'DataApplication',
@@ -1510,20 +1510,20 @@ ${countrySelectOptions(countryBounds, { defaultCode: 'JP' })}
         <p class="tool-note">Military results are capped at 100 returned observations for the selected box. Countries with oversized or discontinuous envelopes are omitted so the tool never issues a continent-scale observation query. An empty or failed military response is unavailable, not confirmed zero activity.</p>
         <noscript><p>Enable JavaScript to check the selected country. The independent-source methodology and limitations remain available on this page.</p></noscript>
       </section>
-      <a class="cta" data-dashboard-link href="${escapeHtml(withUtmSource(absoluteUrl(baseUrl, '/?country=JP&expanded=1'), 'seo-tool'))}">Investigate the selected country in World Monitor →</a>
+      <a class="cta" data-dashboard-link href="${escapeHtml(withUtmSource(absoluteUrl(baseUrl, '/?country=JP&expanded=1'), 'seo-tool'))}">Investigate the selected country in Eagle Eye →</a>
       <h2>How to read the result</h2>
       <p>“Normal” applies only to monitored airports with current source coverage. “Unknown” means telemetry was not available and is not counted as normal. Military-flight results are bounded observations from OpenSky/Wingbits-compatible ingestion and are not exhaustive.</p>
       <p class="source">Geographic filters: ${COUNTRY_BBOXES_PATH}. Live metrics: <code>/api/aviation/v1/list-airport-delays</code> and <code>/api/military/v1/list-military-flights</code>.</p>`;
   return pageDocument({
     baseUrl,
     path,
-    title: 'Airspace-Disruption Checker | World Monitor',
+    title: 'Airspace-Disruption Checker | Eagle Eye',
     description,
     lastmod,
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'World Monitor airspace-disruption checker',
+      name: 'Eagle Eye airspace-disruption checker',
       description,
       url: absoluteUrl(baseUrl, path),
       applicationCategory: 'DataApplication',
@@ -1556,11 +1556,11 @@ function renderChangelogPage({ releases, pageIndex, totalPages, baseUrl, lastmod
     pageIndex + 1 < totalPages ? { rel: 'next', path: changelogPagePath(pageIndex + 1) } : null,
   ].filter(Boolean);
   const title = pageIndex === 0
-    ? 'World Monitor Changelog | World Monitor'
-    : `World Monitor Changelog Page ${pageIndex + 1} | World Monitor`;
-  const description = 'Paginated release notes for World Monitor — new panels, data sources, API changes and fixes — built from the committed CHANGELOG.md so every release is crawlable.';
+    ? 'Eagle Eye Changelog | Eagle Eye'
+    : `Eagle Eye Changelog Page ${pageIndex + 1} | Eagle Eye`;
+  const description = 'Paginated release notes for Eagle Eye — new panels, data sources, API changes and fixes — built from the committed CHANGELOG.md so every release is crawlable.';
   const body = `      <p class="eyebrow">Release notes</p>
-      <h1>World Monitor changelog</h1>
+      <h1>Eagle Eye changelog</h1>
       <p class="lede">${escapeHtml(description)}</p>
 ${releases.map((release) => `      <article class="card">
         <h2>${escapeHtml(release.label)}${release.date ? ` <small>${escapeHtml(release.date)}</small>` : ''}</h2>
@@ -1584,13 +1584,13 @@ ${release.bullets.map((bullet) => `          <li>${escapeHtml(bullet)}</li>`).jo
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: 'World Monitor changelog',
+      name: 'Eagle Eye changelog',
       description,
       url: absoluteUrl(baseUrl, path),
       inLanguage: 'en-US',
       isPartOf: {
         '@type': 'CreativeWorkSeries',
-        name: 'World Monitor release notes',
+        name: 'Eagle Eye release notes',
       },
     },
     breadcrumbs: breadcrumbLd(baseUrl, [

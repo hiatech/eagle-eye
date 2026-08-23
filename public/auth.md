@@ -1,7 +1,7 @@
-# WorldMonitor — Agent Authentication (auth.md)
+# EagleEye — Agent Authentication (auth.md)
 
-How agents authenticate with the WorldMonitor API and MCP server
-(`https://worldmonitor.app/mcp`), per the WorkOS **auth.md** spec:
+How agents authenticate with the EagleEye API and MCP server
+(`https://eagle-eye.app/mcp`), per the WorkOS **auth.md** spec:
 <https://workos.com/auth-md>. Discovery is open; data calls need a bearer token
 or API key.
 
@@ -20,7 +20,7 @@ chain:
 
    ```
    401 Unauthorized
-   WWW-Authenticate: Bearer resource_metadata="https://worldmonitor.app/.well-known/oauth-protected-resource"
+   WWW-Authenticate: Bearer resource_metadata="https://eagle-eye.app/.well-known/oauth-protected-resource"
    ```
 
 2. `GET /.well-known/oauth-protected-resource` (RFC 9728) → the `resource` id and
@@ -29,18 +29,18 @@ chain:
    plus the `agent_auth` block that points back here:
 
    ```json
-   { "issuer": "https://worldmonitor.app",
+   { "issuer": "https://eagle-eye.app",
      "agent_auth": {
-       "skill": "https://worldmonitor.app/auth.md",
-       "register_uri": "https://worldmonitor.app/oauth/register",
-       "claim_uri": "https://worldmonitor.app/oauth/authorize",
+       "skill": "https://eagle-eye.app/auth.md",
+       "register_uri": "https://eagle-eye.app/oauth/register",
+       "claim_uri": "https://eagle-eye.app/oauth/authorize",
        "identity_types_supported": ["anonymous"],
        "anonymous": { "credential_types_supported": ["access_token"],
-                      "claim_uri": "https://worldmonitor.app/oauth/authorize" } } }
+                      "claim_uri": "https://eagle-eye.app/oauth/authorize" } } }
    ```
 
    Metadata is per-host: `issuer` and endpoints match the origin you fetched
-   (`worldmonitor.app` or `api.worldmonitor.app`).
+   (`eagle-eye.app` or `api.eagle-eye.app`).
 
 ## Pick a method
 
@@ -70,7 +70,7 @@ POST /oauth/register  {"client_name":"My Agent","redirect_uris":["https://claude
 
 `redirect_uris` are allowlisted (Claude callbacks + `http://localhost` /
 `http://127.0.0.1` on any port). Clients are public — no secret; use PKCE
-(`S256`). **API-key path:** start at <https://worldmonitor.app/pro>, then use
+(`S256`). **API-key path:** start at <https://eagle-eye.app/pro>, then use
 the signed-in dashboard's API Keys settings to self-issue or revoke keys — no
 registration call.
 
@@ -95,11 +95,11 @@ Exchange the code for a bearer token, then send it on every request:
 POST /oauth/token  grant_type=authorization_code&code=…&code_verifier=…&client_id=…
 → {"access_token":"…","token_type":"Bearer","expires_in":3600,"refresh_token":"…"}
 
-POST /mcp   Authorization: Bearer <access_token>   (or)   X-WorldMonitor-Key: <api_key>
+POST /mcp   Authorization: Bearer <access_token>   (or)   X-EagleEye-Key: <api_key>
 ```
 
 The same credentials authorize the REST API. Catalog:
-<https://worldmonitor.app/.well-known/api-catalog>.
+<https://eagle-eye.app/.well-known/api-catalog>.
 
 ## Errors
 
@@ -116,7 +116,7 @@ The same credentials authorize the REST API. Catalog:
 - **Expiry** — access tokens last 1 hour, refresh tokens 7 days; let them lapse
   to de-authorize an agent.
 - **User revoke** — a signed-in user revokes an agent from the dashboard's API
-  Keys or Connected MCP Clients settings; start at <https://worldmonitor.app/pro>.
+  Keys or Connected MCP Clients settings; start at <https://eagle-eye.app/pro>.
   The token is then rejected with `401`
   / `invalid_grant`.
 - **Refresh rotation** — refresh tokens rotate on every use with token-family

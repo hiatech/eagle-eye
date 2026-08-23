@@ -128,7 +128,7 @@ export async function getPinnedUrlsForRetailer(
  * ~3 days, recovery to 3-in-stock is ~9 days. Acceptable for a daily-cron
  * scrape; tunable if budget allows.
  *
- * Aggregation queries (worldmonitor.ts buildSpreadSnapshot etc.) continue
+ * Aggregation queries (eagleeye.ts buildSpreadSnapshot etc.) continue
  * to filter `pm.pin_disabled_at IS NULL`, so disabled pins probed here
  * still don't affect spread quality during the recovery window.
  *

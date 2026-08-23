@@ -6,8 +6,8 @@ const originalFetch = globalThis.fetch;
 process.env.WS_RELAY_URL = 'http://relay.test';
 process.env.RELAY_SHARED_SECRET = 'test-secret';
 
-const { searchGoogleFlights } = await import('../server/worldmonitor/aviation/v1/search-google-flights.ts');
-const { searchGoogleDates } = await import('../server/worldmonitor/aviation/v1/search-google-dates.ts');
+const { searchGoogleFlights } = await import('../server/eagleeye/aviation/v1/search-google-flights.ts');
+const { searchGoogleDates } = await import('../server/eagleeye/aviation/v1/search-google-dates.ts');
 
 type MockFn = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 

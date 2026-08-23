@@ -12,7 +12,7 @@
  *   (b) made an in-flight attempt unboundable (an internal Retry-After sleep
  *       can be minutes — the same hazard billing.ts pins maxRetries: 0 for),
  *   (c) reported every provider 429 as an uncaught component-action error in
- *       Sentry (WORLDMONITOR-WP) even when the caller handled it gracefully.
+ *       Sentry (EAGLEEYE-WP) even when the caller handled it gracefully.
  * The direct client pins maxRetries: 0 and a per-attempt timeout so the
  * bounded ladder in payments/checkoutRateLimit.ts owns ALL retry policy.
  *

@@ -1,9 +1,9 @@
 ---
 title: "Authentication & Panel Gating"
-description: "How user authentication, premium panel gating, and server-side session enforcement work in World Monitor — Clerk, cookies, and entitlement checks."
+description: "How user authentication, premium panel gating, and server-side session enforcement work in Eagle Eye — Clerk, cookies, and entitlement checks."
 ---
 
-WorldMonitor uses [Clerk](https://clerk.com) for authentication. The auth system gates premium panels behind sign-in and tier checks, and enforces session-based access on server-side API endpoints via local JWT verification.
+EagleEye uses [Clerk](https://clerk.com) for authentication. The auth system gates premium panels behind sign-in and tier checks, and enforces session-based access on server-side API endpoints via local JWT verification.
 
 ---
 
@@ -108,7 +108,7 @@ The gateway validates the bearer token via local JWKS verification (jose) and ch
 
 ### Desktop Behavior
 
-Desktop users with a valid `WORLDMONITOR_API_KEY` in the Tauri keychain bypass all panel gating. The existing API key flow is unaffected — bearer tokens are a **second auth path**, not a replacement.
+Desktop users with a valid `EAGLEEYE_API_KEY` in the Tauri keychain bypass all panel gating. The existing API key flow is unaffected — bearer tokens are a **second auth path**, not a replacement.
 
 ---
 
@@ -116,7 +116,7 @@ Desktop users with a valid `WORLDMONITOR_API_KEY` in the Tauri keychain bypass a
 
 The Vercel API gateway accepts two forms of authentication for premium endpoints:
 
-1. **Static API key** — `X-WorldMonitor-Key` header (existing flow, unchanged)
+1. **Static API key** — `X-EagleEye-Key` header (existing flow, unchanged)
 2. **Bearer token** — `Authorization: Bearer <clerk_jwt>` (for web users)
 
 The gateway tries the API key first. If that fails on a premium endpoint, it falls back to bearer token validation using local JWKS verification via `server/auth-session.ts`. The JWT is verified against:

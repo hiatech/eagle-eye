@@ -1,15 +1,15 @@
 ---
 title: "地图基础设施与地理编码"
-description: "World Monitor 地图图层所用的静态地图资源、国家与地区几何数据、正向与反向地理编码服务、Mapbox 与自建瓦片配置，以及边界叠加层、投影与坐标系配置的完整参考文档，帮助开发者深入了解底层数据源、缓存策略与自定义扩展地图渲染管线的关键接入点和调优方法。"
+description: "Eagle Eye 地图图层所用的静态地图资源、国家与地区几何数据、正向与反向地理编码服务、Mapbox 与自建瓦片配置，以及边界叠加层、投影与坐标系配置的完整参考文档，帮助开发者深入了解底层数据源、缓存策略与自定义扩展地图渲染管线的关键接入点和调优方法。"
 ---
 
-## R2 CDN — `maps.worldmonitor.app`
+## R2 CDN — `maps.eagle-eye.app`
 
-所有大型静态地图文件均通过 Cloudflare R2 提供，而**不是** Vercel。R2 存储桶 `worldmonitor-maps` 由 CF 代理的自定义域名提供服务：
+所有大型静态地图文件均通过 Cloudflare R2 提供，而**不是** Vercel。R2 存储桶 `eagleeye-maps` 由 CF 代理的自定义域名提供服务：
 
 | URL | 用途 |
 |-----|-----|
-| `https://maps.worldmonitor.app/<file>` | 生产环境 URL（CF 代理、缓存、CORS 头） |
+| `https://maps.eagle-eye.app/<file>` | 生产环境 URL（CF 代理、缓存、CORS 头） |
 | `https://pub-8ace9f6a86d74cb2bd5eb1de5590dd9e.r2.dev/<file>` | 原始 R2 — **切勿在代码中使用**（无 CF 缓存、无 CORS） |
 
 ### 为什么选择 R2 而不是 Vercel？
@@ -30,7 +30,7 @@ description: "World Monitor 地图图层所用的静态地图资源、国家与�
 
 ```bash
 # 单个文件
-rclone copyto <local-path> r2:worldmonitor-maps/<filename>
+rclone copyto <local-path> r2:eagleeye-maps/<filename>
 
 # rclone 配置说明：设置 no_check_bucket = true（token 缺少 CreateBucket 权限）
 ```
@@ -55,7 +55,7 @@ country-boundary-overrides.geojson      │
 ```
 
 1. `countries.geojson` — 带有 ISO 代码和名称的基础多边形，从 `/data/` 提供（Vercel）
-2. `country-boundary-overrides.geojson` — 来自 [Natural Earth](https://www.naturalearthdata.com/) 的可选更高分辨率多边形，从 R2 CDN（`maps.worldmonitor.app`）提供。通过 `ISO3166-1-Alpha-2`（或 `ISO_A2`）代码匹配；匹配到的要素替换基础几何数据
+2. `country-boundary-overrides.geojson` — 来自 [Natural Earth](https://www.naturalearthdata.com/) 的可选更高分辨率多边形，从 R2 CDN（`maps.eagle-eye.app`）提供。通过 `ISO3166-1-Alpha-2`（或 `ISO_A2`）代码匹配；匹配到的要素替换基础几何数据
 3. 基础文件先加载并立即构建国家索引（服务变为可用）。覆盖文件随后获取，带 **3 秒超时** — 失败会被静默忽略。覆盖查找使用 `Map<code, Feature>` 实现 O(1) 匹配
 
 ### 索引数据结构
@@ -113,7 +113,7 @@ country-boundary-overrides.geojson      │
 3. 合并到或替换 `country-boundary-overrides.geojson`
 4. 上传到 R2：
    ```bash
-   rclone copyto public/data/country-boundary-overrides.geojson r2:worldmonitor-maps/country-boundary-overrides.geojson
+   rclone copyto public/data/country-boundary-overrides.geojson r2:eagleeye-maps/country-boundary-overrides.geojson
    ```
 5. 无需代码更改 — 应用会自动获取新的几何数据
 
@@ -134,13 +134,13 @@ country-boundary-overrides.geojson      │
 
 底图切片配置位于 `src/config/basemap.ts`。有关切片提供商（PMTiles、OpenFreeMap、CARTO）、主题和回退行为的完整详情，请参见[地图引擎](/zh/map-engine)。
 
-PMTiles 也通过 `maps.worldmonitor.app` 从 R2 提供，通过 `VITE_PMTILES_URL` 配置。
+PMTiles 也通过 `maps.eagle-eye.app` 从 R2 提供，通过 `VITE_PMTILES_URL` 配置。
 
 ## 常见错误
 
 | 错误 | 修复 |
 |---------|-----|
-| 在代码中使用 `pub-*.r2.dev` URL | 始终使用 `maps.worldmonitor.app`（CF 代理） |
+| 在代码中使用 `pub-*.r2.dev` URL | 始终使用 `maps.eagle-eye.app`（CF 代理） |
 | 从 Vercel 提供大型 GeoJSON | 上传到 R2 — Vercel 带宽在大规模下昂贵 |
 | 获取覆盖时不带超时 | 始终使用 `AbortSignal.timeout` — 覆盖 CDN 可能缓慢或宕机 |
 | 忘记 `POLITICAL_OVERRIDES` | 检查国家代码是否需要映射（例如 `CN-TW → TW`） |

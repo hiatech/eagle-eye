@@ -39,7 +39,7 @@ function envelope(): BriefEnvelope {
       'A dense operational update combines maritime insurance, port congestion, energy logistics, and cyber-risk posture into a single reader-facing story block.',
       9,
     ),
-    source: 'WorldMonitorLongSourceNameWithoutSpacesForOverflowRegression',
+    source: 'EagleEyeLongSourceNameWithoutSpacesForOverflowRegression',
     sourceUrl: 'https://example.com/brief-layout-regression',
     clusterId: 'cluster-layout-overflow-001',
     whyMatters: longText(

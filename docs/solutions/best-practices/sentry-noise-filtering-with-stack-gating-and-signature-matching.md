@@ -36,8 +36,8 @@ tags:
 
 Sentry noise filters must distinguish errors the application owns from errors that merely pass through application frames. Two production events illustrated the two different kinds of evidence this requires:
 
-- **WORLDMONITOR-WR** was a Clerk SDK error loading Clerk’s own UI bundle from `clerk.worldmonitor.app`. Although the stack named the locally bundled `clerk-*.js` asset, the message itself carried a stable, SDK-owned prefix: `[clerk] failed to load …`.
-- **WORLDMONITOR-TZ** was a bare `Failed to fetch` rejection whose stack contained both a first-party Vite chunk and `chrome-extension://…/frame_ant.js`. The extension frame’s function was `r.class.c.value.window.fetch`, showing that an injected fetch wrapper—not necessarily the first-party caller—owned the orphan rejection.
+- **EAGLEEYE-WR** was a Clerk SDK error loading Clerk’s own UI bundle from `clerk.eagle-eye.app`. Although the stack named the locally bundled `clerk-*.js` asset, the message itself carried a stable, SDK-owned prefix: `[clerk] failed to load …`.
+- **EAGLEEYE-TZ** was a bare `Failed to fetch` rejection whose stack contained both a first-party Vite chunk and `chrome-extension://…/frame_ant.js`. The extension frame’s function was `r.class.c.value.window.fetch`, showing that an injected fetch wrapper—not necessarily the first-party caller—owned the orphan rejection.
 
 The fixes were merged in [PR #5360](https://github.com/koala73/worldmonitor/pull/5360) on July 17, 2026. The implementation puts the Clerk signature in `ignoreErrors` and keeps the fetch-wrapper classification in `beforeSend`, where stack provenance is available (`src/bootstrap/sentry-init.ts:321-324`, `src/bootstrap/sentry-init.ts:525-550`).
 
@@ -97,7 +97,7 @@ Do not apply message-only suppression to generic phrases such as `Failed to fetc
 Observed event:
 
 ```text
-Error: [clerk] failed to load https://clerk.worldmonitor.app/npm/@clerk/ui@1/dist/ui.browser.js
+Error: [clerk] failed to load https://clerk.eagle-eye.app/npm/@clerk/ui@1/dist/ui.browser.js
 ```
 
 Recommended classification: `ignoreErrors`, using the namespaced Clerk prefix. The implementation does exactly that at `src/bootstrap/sentry-init.ts:321-324`. The positive test uses the production-shaped URL, and the adjacent negative test proves that a generic application message such as `Failed to load dashboard config` is not matched (`tests/sentry-beforesend.test.mjs:93-106`).

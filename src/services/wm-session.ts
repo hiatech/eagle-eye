@@ -35,7 +35,7 @@ const PERIODIC_REFRESH_MS = 30 * 60 * 1000;
 // request + mint + retry loop for every panel refresh.
 const SESSION_DEAD_COOLDOWN_MS = 15 * 60 * 1000;
 // A single endpoint that still 401s after a fresh mint proves nothing about
-// the session cookie (#5674). Server telemetry for the regrown WORLDMONITOR-WG
+// the session cookie (#5674). Server telemetry for the regrown EAGLEEYE-WG
 // episodes showed 11 of 12 sampled affected browsers emitting ZERO server-side
 // 401s across the whole episode — sibling routes on the same tab returned 200
 // in the very same second the client declared the session dead. Treating one
@@ -299,7 +299,7 @@ function markWmSessionDead(reason: WmSessionDeadReason, rawPath: string): void {
   // Guarded: a telemetry throw must never skip the degraded-event dispatch
   // below, nor turn the interceptor's recovery return into a rejection.
   // `route` must name what actually failed, because the obvious use of this tag
-  // is to group WORLDMONITOR-WG by it and read off the offending endpoint. For
+  // is to group EAGLEEYE-WG by it and read off the offending endpoint. For
   // retry_401 that is the replayed route. For mint_failed it is /api/wm-session:
   // the mint returned nothing usable, and whichever route happened to be in
   // flight is a bystander — tagging it would seed the census with innocent
@@ -322,7 +322,7 @@ function markWmSessionDead(reason: WmSessionDeadReason, rawPath: string): void {
     // The reason rides the event so the toast can name the right remedy. A
     // plain `Event` forced one blanket message, which told the majority of
     // affected users to check a cookie setting that was never the cause
-    // (WORLDMONITOR-WG residual — see describeWmSessionDegradation).
+    // (EAGLEEYE-WG residual — see describeWmSessionDegradation).
     window.dispatchEvent(
       new CustomEvent<WmSessionDegradedDetail>(WM_SESSION_DEGRADED_EVENT, { detail: { reason } }),
     );
@@ -331,7 +331,7 @@ function markWmSessionDead(reason: WmSessionDeadReason, rawPath: string): void {
 
 /**
  * A lone route failed its replay with a demonstrably fresh cookie. Suppress
- * just that route and report it under its own `kind` so WORLDMONITOR-WG stays
+ * just that route and report it under its own `kind` so EAGLEEYE-WG stays
  * the blackout counter it was designed to be (#5245) while the offending
  * endpoint still becomes aggregable. Bounded to one report per route per
  * cooldown window: a struck route short-circuits before recovery runs again.
@@ -500,7 +500,7 @@ export async function ensureWmSession(): Promise<boolean> {
       // A cookie the browser will not keep cannot authorize anything, and the
       // next route's 401 would buy another useless mint. Suppress up front and
       // name the real cause, instead of letting the retry_401 quorum report it
-      // as the API rejecting a good cookie (WORLDMONITOR-WG/XP).
+      // as the API rejecting a good cookie (EAGLEEYE-WG/XP).
       if (cookiePersistenceBroken) {
         if (anonymousSessionHeaderToken) {
           useAnonymousSessionHeader = true;
@@ -610,8 +610,8 @@ export function __setWmSessionSentryEnqueueForTests(fn: typeof enqueueSentryCall
 //
 //   2. PR #3575 review — using raw `startsWith(apiOrigin)` for absolute URLs
 //      lets attacker-controlled origins that embed the canonical-origin
-//      string as a prefix (e.g. `https://api.worldmonitor.app.evil.example/`)
-//      OR as the userinfo portion (`https://api.worldmonitor.app@evil/`)
+//      string as a prefix (e.g. `https://api.eagle-eye.app.evil.example/`)
+//      OR as the userinfo portion (`https://api.eagle-eye.app@evil/`)
 //      slip through, sending the wms_ token to a foreign host. Bug class:
 //      matcher over-matches → token leaks cross-origin.
 //
@@ -678,7 +678,7 @@ function isCredentiallessPublicDataRequest(
     && publicFlags[0] === '1';
 }
 
-// If a caller already set Authorization / X-WorldMonitor-Key / X-Api-Key, we
+// If a caller already set Authorization / X-EagleEye-Key / X-Api-Key, we
 // don't override — Clerk Bearer JWT and explicit user keys still take
 // precedence over the anonymous session token.
 export function installWmSessionFetchInterceptor(): void {
@@ -688,7 +688,7 @@ export function installWmSessionFetchInterceptor(): void {
   // CRITICAL: must be getCanonicalApiOrigin(), NOT getApiBaseUrl(). The latter
   // returns '' for non-desktop runtimes (see runtime.ts:111), which makes the
   // interceptor's cross-origin match below silently fail for every browser
-  // request to https://api.worldmonitor.app/api/* — the interceptor only
+  // request to https://api.eagle-eye.app/api/* — the interceptor only
   // catches relative '/api/' paths, the wms_ token never gets attached, and
   // the gateway returns {"error":"API key required"}. Production incident
   // 2026-05-03: every browser request 401'd because of this.
@@ -726,9 +726,9 @@ export function installWmSessionFetchInterceptor(): void {
 
     // Premium routes have a dedicated auth-injection layer
     // (`installWebApiRedirect`'s `enrichInitForPremium` adds Clerk Bearer JWT,
-    // WORLDMONITOR_API_KEY, or tester key based on what the user has). Stepping
+    // EAGLEEYE_API_KEY, or tester key based on what the user has). Stepping
     // aside lets that inner layer attach the right credential — if we set
-    // X-WorldMonitor-Key=wms_... here, the premium injector sees the header
+    // X-EagleEye-Key=wms_... here, the premium injector sees the header
     // and bails, and the server then 401s because wms_ is rejected on premium
     // routes (it's anonymous, not user-bound). PR #3557 review finding.
     const path = (() => {
@@ -748,7 +748,7 @@ export function installWmSessionFetchInterceptor(): void {
     // Don't override — Clerk and explicit-key paths take precedence.
     if (
       headers.has('Authorization') ||
-      headers.has('X-WorldMonitor-Key') ||
+      headers.has('X-EagleEye-Key') ||
       headers.has('X-Api-Key')
     ) {
       return original(input, withCredentials(init));
@@ -771,10 +771,10 @@ export function installWmSessionFetchInterceptor(): void {
         useAnonymousSessionHeader &&
         anonymousSessionHeaderToken &&
         !requestHeaders.has('Authorization') &&
-        !requestHeaders.has('X-WorldMonitor-Key') &&
+        !requestHeaders.has('X-EagleEye-Key') &&
         !requestHeaders.has('X-Api-Key')
       ) {
-        requestHeaders.set('X-WorldMonitor-Key', anonymousSessionHeaderToken);
+        requestHeaders.set('X-EagleEye-Key', anonymousSessionHeaderToken);
       }
       if (src instanceof Request) {
         const cloned = new Request(src, { ...withCredentials(init), headers: requestHeaders });

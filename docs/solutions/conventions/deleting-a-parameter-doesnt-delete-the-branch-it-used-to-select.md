@@ -59,7 +59,7 @@ of this writing). The release model collapsed from "one binary per variant" to "
 published binary, variants switch in-app", so `src/app/desktop-updater.ts` stopped
 appending `&variant=` to its download URL — correct, since no per-variant asset exists
 any more. On the server, `api/download.js` had a ternary that used `variant` as the
-switch enabling the World Monitor identity filter on the release asset. Dropping the
+switch enabling the Eagle Eye identity filter on the release asset. Dropping the
 parameter moved the app's own update download — the single highest-volume caller — onto
 the unfiltered branch, where any asset merely ending in the platform suffix could win.
 

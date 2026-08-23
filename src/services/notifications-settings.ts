@@ -168,9 +168,9 @@ function showWebPushUnsupportedState(rowEl: HTMLElement): void {
 
 function getTelegramBotUsername(): string {
   try {
-    return import.meta.env.VITE_TELEGRAM_BOT_USERNAME || 'WorldMonitorBot';
+    return import.meta.env.VITE_TELEGRAM_BOT_USERNAME || 'EagleEyeBot';
   } catch {
-    return 'WorldMonitorBot';
+    return 'EagleEyeBot';
   }
 }
 
@@ -609,7 +609,7 @@ export function renderNotificationsSettings(host: NotificationsSettingsHost): No
       // Fire-and-forget settings writes MUST NOT surface as unhandled promise
       // rejections. A debounced auto-save that 401s (expired Clerk session) or
       // hits a transient network error is expected and non-fatal — swallow it
-      // here so it never reaches window.onunhandledrejection (WORLDMONITOR-SN).
+      // here so it never reaches window.onunhandledrejection (EAGLEEYE-SN).
       // Logged for local debugging only; the setting simply isn't persisted.
       function fireForgetSave(p: Promise<unknown>, label: string): void {
         void p.catch((err) => {
@@ -940,7 +940,7 @@ export function renderNotificationsSettings(host: NotificationsSettingsHost): No
                 }
                 // This IIFE is `void`-ed with no .catch(), so a rethrow here
                 // escapes as an unhandled rejection and reaches
-                // window.onunhandledrejection — the exact WORLDMONITOR-SN
+                // window.onunhandledrejection — the exact EAGLEEYE-SN
                 // invariant fireForgetSave exists to uphold. Every sibling save
                 // in this file routes through fireForgetSave; this one cannot,
                 // because it needs the IncompatibleDeliveryError branch above.
@@ -1298,9 +1298,9 @@ export function renderNotificationsSettings(host: NotificationsSettingsHost): No
 
       const onMessage = (e: MessageEvent): void => {
         const trustedOrigin = e.origin === window.location.origin ||
-          e.origin === 'https://worldmonitor.app' ||
-          e.origin === 'https://www.worldmonitor.app' ||
-          e.origin.endsWith('.worldmonitor.app');
+          e.origin === 'https://eagle-eye.app' ||
+          e.origin === 'https://www.eagle-eye.app' ||
+          e.origin.endsWith('.eagle-eye.app');
         const fromSlack = slackOAuthPopup !== null && e.source === slackOAuthPopup;
         const fromDiscord = discordOAuthPopup !== null && e.source === discordOAuthPopup;
         if (!trustedOrigin || (!fromSlack && !fromDiscord)) return;

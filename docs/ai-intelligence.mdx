@@ -1,6 +1,6 @@
 ---
 title: "AI Intelligence"
-description: "LLM chains, RAG pipelines, threat classification, deduction engines, and browser-side ML that power World Monitor's AI-driven analysis stack."
+description: "LLM chains, RAG pipelines, threat classification, deduction engines, and browser-side ML that power Eagle Eye's AI-driven analysis stack."
 ---
 
 ## AI Summarization
@@ -133,7 +133,7 @@ RSS Feed Parse → isHeadlineMemoryEnabled()? → ML Worker (Web Worker)
 
 ### Durable Server-Side Intelligence Memory
 
-Headline Memory is not the only memory system. World Monitor also keeps a Pro-gated, server-side history of conflict, military, and energy events so agents and API clients can retrieve evidence across sessions and devices.
+Headline Memory is not the only memory system. Eagle Eye also keeps a Pro-gated, server-side history of conflict, military, and energy events so agents and API clients can retrieve evidence across sessions and devices.
 
 | Property | Browser Headline Memory | Durable Intelligence History |
 |---|---|---|
@@ -180,7 +180,7 @@ Four MCP utilities expose analysis primitives that previously existed only insid
 | Tool | What it reuses | Important boundary |
 |---|---|---|
 | `classify_event` | Enum-validated threat classifier | Accepts one supplied headline; this is the only utility here that invokes an LLM |
-| `extract_entities` | World Monitor's company, market, country, leader, CVE/APT, and FIN registries | Deterministic; accepts bounded caller text or the current digest |
+| `extract_entities` | Eagle Eye's company, market, country, leader, CVE/APT, and FIN registries | Deterministic; accepts bounded caller text or the current digest |
 | `get_news_clusters` | Dashboard Jaccard clustering | Computes over the live digest and returns sources, members, keywords, and threat level |
 | `get_keyword_spikes` | The dashboard's term-candidacy and spike-decision math | Uses a server-side 48-hour story-accumulator baseline rather than the dashboard's incremental seven-day client history; deterministic and cached for 10 minutes |
 

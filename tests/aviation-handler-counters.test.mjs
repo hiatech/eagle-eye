@@ -10,7 +10,7 @@ import {
   incrementProviderCounter,
   getProviderCounters,
   resetProviderCounters,
-} from '../server/worldmonitor/aviation/v1/_counters.ts';
+} from '../server/eagleeye/aviation/v1/_counters.ts';
 
 test('incrementProviderCounter: increments the specified field', () => {
   resetProviderCounters();

@@ -29,12 +29,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 const BATCH_PATH = '/api/batch/v1/execute';
 
-const bundle = loadYaml(readFileSync(resolve(root, 'docs/api/worldmonitor.openapi.yaml'), 'utf8'));
+const bundle = loadYaml(readFileSync(resolve(root, 'docs/api/eagleeye.openapi.yaml'), 'utf8'));
 const serviceJson = JSON.parse(readFileSync(resolve(root, 'docs/api/BatchService.openapi.json'), 'utf8'));
 const serviceYaml = loadYaml(readFileSync(resolve(root, 'docs/api/BatchService.openapi.yaml'), 'utf8'));
 
 const handlerSource = readFileSync(
-  resolve(root, 'server/worldmonitor/batch/v1/execute-batch.ts'),
+  resolve(root, 'server/eagleeye/batch/v1/execute-batch.ts'),
   'utf8',
 );
 const maxOpsMatch = handlerSource.match(/MAX_BATCH_OPERATIONS = (\d+)/);

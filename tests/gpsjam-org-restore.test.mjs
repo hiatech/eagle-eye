@@ -63,8 +63,8 @@ describe('gpsjam.org restore — source wiring guards', () => {
   });
 
   test('public proto API contract is unchanged (still reads npAvg / np_avg)', () => {
-    assert.match(read('server/worldmonitor/intelligence/v1/list-gps-interference.ts'), /npAvg: toNumber\(hex\.npAvg\)/);
-    assert.match(read('proto/worldmonitor/intelligence/v1/gps_jamming.proto'), /double np_avg = 5/);
+    assert.match(read('server/eagleeye/intelligence/v1/list-gps-interference.ts'), /npAvg: toNumber\(hex\.npAvg\)/);
+    assert.match(read('proto/eagleeye/intelligence/v1/gps_jamming.proto'), /double np_avg = 5/);
   });
 });
 

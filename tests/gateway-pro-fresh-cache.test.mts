@@ -60,9 +60,9 @@ function entitlement(planKey: string, tier: number, validUntil = Date.now() + 60
 }
 
 function request(path: string, headers: HeadersInit): Request {
-  return new Request(`https://worldmonitor.app${path}?_debug=1`, {
+  return new Request(`https://eagle-eye.app${path}?_debug=1`, {
     headers: {
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       ...headers,
     },
   });
@@ -187,7 +187,7 @@ describe('Pro-only market freshness cache contract', () => {
   it('keeps anonymous browser sessions on the existing five-minute private tier', async () => {
     const res = await handler(request(
       '/api/market/v1/list-market-quotes',
-      { 'X-WorldMonitor-Key': anonymousSessionToken },
+      { 'X-EagleEye-Key': anonymousSessionToken },
     ));
     assert.equal(res.status, 200);
     assert.equal(res.headers.get('X-Cache-Tier'), 'slow-browser');

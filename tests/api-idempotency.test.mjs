@@ -13,11 +13,11 @@ function restoreEnv() {
 }
 
 function makeRequest(body = JSON.stringify({ action: 'write' })) {
-  return new Request('https://worldmonitor.app/api/test-write', {
+  return new Request('https://eagle-eye.app/api/test-write', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
     },
     body,
   });

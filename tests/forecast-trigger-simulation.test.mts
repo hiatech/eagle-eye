@@ -21,7 +21,7 @@ const originalFetch = globalThis.fetch;
 const originalEnv = { ...process.env };
 
 function makeCtx(headers: Record<string, string> = {}) {
-  const req = new Request('https://worldmonitor.app/api/forecast/v1/trigger-simulation', {
+  const req = new Request('https://eagle-eye.app/api/forecast/v1/trigger-simulation', {
     method: 'POST',
     headers,
   });
@@ -29,7 +29,7 @@ function makeCtx(headers: Record<string, string> = {}) {
 }
 
 function proCtx() {
-  return makeCtx({ 'X-WorldMonitor-Key': 'pro-test-key' });
+  return makeCtx({ 'X-EagleEye-Key': 'pro-test-key' });
 }
 
 /**
@@ -77,16 +77,16 @@ const VALID_RUN_ID = '1734567890123-abc';
 const PKG_KEY = 'seed-data/forecast-traces/2026/05/18/' + VALID_RUN_ID + '/simulation-package.json';
 
 describe('triggerSimulation handler (#3734 U4)', () => {
-  let triggerSimulation: typeof import('../server/worldmonitor/forecast/v1/trigger-simulation').triggerSimulation;
-  let ApiError: typeof import('../src/generated/server/worldmonitor/forecast/v1/service_server').ApiError;
+  let triggerSimulation: typeof import('../server/eagleeye/forecast/v1/trigger-simulation').triggerSimulation;
+  let ApiError: typeof import('../src/generated/server/eagleeye/forecast/v1/service_server').ApiError;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'pro-test-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'pro-test-key';
     process.env.UPSTASH_REDIS_REST_URL = 'https://fake-upstash.example';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'fake-token';
-    const mod = await import('../server/worldmonitor/forecast/v1/trigger-simulation.ts');
+    const mod = await import('../server/eagleeye/forecast/v1/trigger-simulation.ts');
     triggerSimulation = mod.triggerSimulation;
-    const gen = await import('../src/generated/server/worldmonitor/forecast/v1/service_server.ts');
+    const gen = await import('../src/generated/server/eagleeye/forecast/v1/service_server.ts');
     ApiError = gen.ApiError;
   });
 

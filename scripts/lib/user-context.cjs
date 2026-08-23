@@ -27,7 +27,7 @@ async function fetchUserPreferences(userId, variant) {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${RELAY_SECRET}`,
-        'User-Agent': 'worldmonitor-relay/1.0',
+        'User-Agent': 'eagleeye-relay/1.0',
       },
       body: JSON.stringify({ userId, variant }),
       signal: AbortSignal.timeout(10_000),
@@ -88,12 +88,12 @@ function extractUserContext(prefs) {
     if (firstActive) ctx.frameworkName = firstActive;
   }
 
-  const panels = prefs['worldmonitor-panels'];
+  const panels = prefs['eagleeye-panels'];
   if (Array.isArray(panels)) {
     ctx.enabledPanels = panels.filter(p => typeof p === 'string').slice(0, 30);
   }
 
-  const disabled = prefs['worldmonitor-disabled-feeds'];
+  const disabled = prefs['eagleeye-disabled-feeds'];
   if (Array.isArray(disabled)) {
     ctx.disabledFeeds = disabled.filter(d => typeof d === 'string').slice(0, 20);
   }

@@ -2,8 +2,8 @@
  * GET /.well-known/oauth-authorization-server (rewritten to /api/oauth-authorization-server)
  *
  * RFC 8414 OAuth Authorization Server Metadata, served dynamically so every
- * host that terminates the request (apex worldmonitor.app, www, or
- * api.worldmonitor.app) returns self-consistent metadata whose `issuer` and
+ * host that terminates the request (apex eagle-eye.app, www, or
+ * api.eagle-eye.app) returns self-consistent metadata whose `issuer` and
  * endpoints point back at the request origin.
  *
  * Why dynamic (was a static file at public/.well-known/oauth-authorization-server):
@@ -18,7 +18,7 @@
  * construction also satisfies isitagentready.com / mcp.cloudflare.com.
  *
  * The `agent_auth` block follows the WorkOS auth.md spec
- * (https://workos.com/auth-md). WorldMonitor supports anonymous agent
+ * (https://workos.com/auth-md). EagleEye supports anonymous agent
  * registration: an agent registers a public client via RFC 7591 Dynamic Client
  * Registration (`register_uri`) and completes an OAuth 2.1 authorization_code +
  * PKCE (S256) flow to obtain a bearer access token — no pre-asserted user

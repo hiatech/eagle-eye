@@ -19,7 +19,7 @@ if (SITE_VARIANT === 'happy') {
   // The import is fire-and-forget, so its rejection must be consumed: Vite's
   // preload helper rejects with `Unable to preload CSS for <url>` when the
   // injected <link> errors, and a bare `void import(...)` let that escape to
-  // onunhandledrejection (WORLDMONITOR-XT). See bootstrap/variant-theme.ts.
+  // onunhandledrejection (EAGLEEYE-XT). See bootstrap/variant-theme.ts.
   void loadVariantThemeStylesheet('happy', () => import('./styles/happy-theme.css'));
 }
 
@@ -99,7 +99,7 @@ function shouldSuppressCspViolation(
   // policy mutation as the connect-src case above. The HLS *manifest* fetch is
   // connect-src (already suppressed via the foxnews-style rule); this covers the
   // media element load of that same stream. Built-in and user-added custom HLS
-  // channels (LiveNewsPanel) both hit this — WORLDMONITOR-HV (bloomberg.com
+  // channels (LiveNewsPanel) both hit this — EAGLEEYE-HV (bloomberg.com
   // us.m3u8, 4 users). Gated on policy detection so it stays scoped to the
   // current policy state, not a blanket protocol assumption. http: media-src
   // blocks (real mixed-content) still surface.
@@ -119,7 +119,7 @@ function shouldSuppressCspViolation(
   // provably never reference, so suppressing its http: block cannot mask a
   // first-party mixed-content regression (we ship no http:// media). Parsed
   // hostname match (not substring) so a `tts.baidu.com.evil.com` lookalike still
-  // surfaces (WORLDMONITOR-TW — map-popup description read-aloud, 1 user).
+  // surfaces (EAGLEEYE-TW — map-popup description read-aloud, 1 user).
   if (directive === 'media-src') {
     try {
       if (new URL(blockedURI).hostname === 'tts.baidu.com') return true;
@@ -135,22 +135,22 @@ function shouldSuppressCspViolation(
   // ships no http:// subresource loads, and every fetch directive we DO use
   // (connect-src, img-src, script-src, media-src) is set explicitly, so a genuine
   // first-party mixed-content fetch surfaces under its specific directive — never
-  // this default-src fallback. Preserve first-party worldmonitor.app http blocks
+  // this default-src fallback. Preserve first-party eagle-eye.app http blocks
   // so a real mixed-content regression on our own assets still surfaces
-  // (WORLDMONITOR-S0 — http://www.euronews.com article prefetch, 1 user/775 ev).
+  // (EAGLEEYE-S0 — http://www.euronews.com article prefetch, 1 user/775 ev).
   if (directive === 'default-src') {
     try {
       const u = new URL(blockedURI);
       if (u.protocol === 'http:'
-          && u.hostname !== 'worldmonitor.app'
-          && !u.hostname.endsWith('.worldmonitor.app')) return true;
+          && u.hostname !== 'eagle-eye.app'
+          && !u.hostname.endsWith('.eagle-eye.app')) return true;
     } catch { /* scheme-only values fall through */ }
   }
   // First-party Convex backend: corporate proxies / privacy extensions that mutate the
   // page CSP (stripping bare `https:` from connect-src) cause our Convex sync calls to
   // be CSP-blocked even though our policy allows them. Suppress unconditionally for OUR
   // configured Convex deployment hostname (`VITE_CONVEX_URL`) so we don't drown Sentry
-  // in 1M+ events/month from those users (WORLDMONITOR-HN). Convex is multi-tenant —
+  // in 1M+ events/month from those users (EAGLEEYE-HN). Convex is multi-tenant —
   // do NOT suppress all `*.convex.cloud`, that would silently swallow blocks to foreign/
   // attacker-controlled Convex projects. Match by exact hostname only. Real first-party
   // CSP regressions on this host are caught by the staging deploy + uptime check.
@@ -164,13 +164,13 @@ function shouldSuppressCspViolation(
   // CloudSOC, school content-filters) can strip both `'self'` and `https:` from img-src
   // in the user's effective policy, causing our own favicon and panel icons to be
   // CSP-blocked even though our policy (`img-src 'self' data: blob: https:`) allows
-  // them. Scope to `worldmonitor.app` and its subdomains — img-src blocks to foreign
+  // them. Scope to `eagle-eye.app` and its subdomains — img-src blocks to foreign
   // hosts (a third-party CDN we never load, attacker-controlled host) still surface
-  // (WORLDMONITOR-JP). Suffix check uses a leading `.` so lookalikes like
-  // `worldmonitor.app.evil.com` do NOT match.
+  // (EAGLEEYE-JP). Suffix check uses a leading `.` so lookalikes like
+  // `eagle-eye.app.evil.com` do NOT match.
   //
   // REQUIRE https: protocol — our CSP only allows https: for img-src, so a real
-  // mixed-content regression (`<img src="http://worldmonitor.app/...">`) would be
+  // mixed-content regression (`<img src="http://eagle-eye.app/...">`) would be
   // blocked by the browser. Suppressing http: blocks on first-party hosts would mask
   // that regression in Sentry. The `cspConnectSrcAllowsHttps` block above uses the
   // same protocol gate for connect-src.
@@ -178,28 +178,28 @@ function shouldSuppressCspViolation(
     try {
       const url = new URL(blockedURI);
       if (url.protocol === 'https:'
-          && (url.hostname === 'worldmonitor.app' || url.hostname.endsWith('.worldmonitor.app'))) return true;
+          && (url.hostname === 'eagle-eye.app' || url.hostname.endsWith('.eagle-eye.app'))) return true;
     } catch { /* scheme-only values fall through */ }
   }
   // YouTube IFrame API loader: explicitly allowed by our script-src
   // (`https://www.youtube.com`), so a block here means a third party (extension,
   // corporate proxy, in-app webview) mutated the policy. Not actionable — embedded
   // video remains broken in that user's environment regardless of our code
-  // (WORLDMONITOR-HP).
+  // (EAGLEEYE-HP).
   if (
     (directive === 'script-src-elem' || directive === 'script-src')
     && /^https:\/\/www\.youtube\.com\/iframe_api(?:\?|$)/.test(blockedURI)
   ) return true;
   // Zscaler enterprise content-filter proxy: `gateway.zscloud.net` is injected into
   // corporate users' frames by Zscaler's web filter agent. We never load it ourselves;
-  // it's inserted into the host page outside our control (WORLDMONITOR-HT). Match by
+  // it's inserted into the host page outside our control (EAGLEEYE-HT). Match by
   // parsed hostname so a `gateway.zscloud.net.evil.com` lookalike doesn't bypass the
   // surrounding signal filters.
   if (directive === 'frame-src') {
     try {
       const frameHost = new URL(blockedURI).hostname;
       if (frameHost === 'gateway.zscloud.net') return true;
-      // Same class, other vendors (WORLDMONITOR-HT long tail): NetSTAR inSITE
+      // Same class, other vendors (EAGLEEYE-HT long tail): NetSTAR inSITE
       // (gw-*.iss.netstar-inc.com), Techloq (filter.techloq.com — kosher
       // content filter), Trend Micro password-manager/agent asset frames
       // (pwm-image.trendmicro.com). All are filter/security agents framing
@@ -219,12 +219,12 @@ function shouldSuppressCspViolation(
       // install base) frames its own vendor host into every page with a
       // <video> element. We never reference anzz.site; exact parsed-hostname
       // match like the vendor rules above so lookalikes still surface
-      // (WORLDMONITOR-HT long tail — 5.8k events / 1.2k users since March).
+      // (EAGLEEYE-HT long tail — 5.8k events / 1.2k users since March).
       if (frameHost === 'h5player.anzz.site') return true;
     } catch { /* scheme-only values fall through */ }
   }
   // Browser extensions or injected scripts. `ms-browser-extension://` is Edge's
-  // scheme for legacy/internal extensions (WORLDMONITOR-JM).
+  // scheme for legacy/internal extensions (EAGLEEYE-JM).
   if (/^(?:chrome|moz|safari(?:-web)?|ms-browser)-extension/.test(sourceFile) || /^(?:chrome|moz|safari(?:-web)?|ms-browser)-extension/.test(blockedURI)) return true;
   // blob: — browsers report "blob" (scheme-only) or "blob:https://...".
   if (blockedURI === 'blob' || /^blob:/.test(sourceFile) || /^blob:/.test(blockedURI)) return true;
@@ -232,7 +232,7 @@ function shouldSuppressCspViolation(
   if (blockedURI === 'eval' || blockedURI === 'inline' || blockedURI === 'data' || /^data:/.test(blockedURI)) return true;
   // about: — browsers report "about" (scheme-only) or "about:blank" / "about:srcdoc"
   // for iframes created by extensions, ad-injectors, or Smart TV browsers (Samsung
-  // Internet on Tizen). We never set frame src to about:* ourselves (WORLDMONITOR-JQ).
+  // Internet on Tizen). We never set frame src to about:* ourselves (EAGLEEYE-JQ).
   if (blockedURI === 'about' || /^about:/.test(blockedURI)) return true;
   // Android WebView video poster injection.
   if (blockedURI === 'android-webview-video-poster') return true;
@@ -253,13 +253,13 @@ function shouldSuppressCspViolation(
       // We never load it; the block is the overlay's font failing regardless of
       // our code. Allowlisted by exact host like gstatic above — NOT a blanket
       // third-party suppression, so an unexpected font injection from any other
-      // host still surfaces (WORLDMONITOR-TR: 1065 events / 83 users).
+      // host still surfaces (EAGLEEYE-TR: 1065 events / 83 users).
       if (url.protocol === 'https:' && url.hostname === 'frontend-cdn.perplexity.ai' && /\.woff2?$/.test(url.pathname)) return true;
       // ByteDance's Doubao AI-assistant browser/extension injects its overlay's
       // KaTeX math fonts (lf-flow-web-cdn.doubao.com/obj/flow-doubao/...) into
       // every page — .woff2/.woff/.ttf fallback chain, so all three extensions
       // appear. We never load it; exact host + font-file path like the rules
-      // above, NOT a blanket third-party suppression (WORLDMONITOR-TR round 2:
+      // above, NOT a blanket third-party suppression (EAGLEEYE-TR round 2:
       // 310k events / 308 users in 11 days).
       if (url.protocol === 'https:' && url.hostname === 'lf-flow-web-cdn.doubao.com' && /\.(?:woff2?|ttf)$/.test(url.pathname)) return true;
     } catch { /* scheme-only values fall through */ }
@@ -275,15 +275,15 @@ function shouldSuppressCspViolation(
   // We legitimately load JS from `cdn.jsdelivr.net` (chart.js in the
   // widget-sanitizer iframe), but never CSS — so a `style-src*` block on
   // jsDelivr is by definition third-party
-  // injection (WORLDMONITOR-J0 — antd@4 CSS injection, 270 events / 26
-  // users on finance.worldmonitor.app).
+  // injection (EAGLEEYE-J0 — antd@4 CSS injection, 270 events / 26
+  // users on finance.eagle-eye.app).
   if (/^style-src(-elem)?$/.test(directive) && /^https:\/\/cdn\.jsdelivr\.net\//.test(blockedURI)) return true;
   // Google Fonts CSS injected by extensions/user-style themes (DM Sans, Syne,
   // Roboto… — families we never reference). The dashboard self-hosts all fonts
   // and the deploy/config tests keep Google Fonts out of our source/CSP
   // surfaces, so a style-src* block on fonts.googleapis.com/css* is by
   // definition third-party injection — the stylesheet counterpart of the
-  // fonts.gstatic.com font-src rule above (WORLDMONITOR-J0 round 2). Exact
+  // fonts.gstatic.com font-src rule above (EAGLEEYE-J0 round 2). Exact
   // host + /css path; Google Fonts under any other directive still surfaces.
   if (/^style-src(-elem)?$/.test(directive)) {
     try {
@@ -291,7 +291,7 @@ function shouldSuppressCspViolation(
       if (url.protocol === 'https:' && url.hostname === 'fonts.googleapis.com' && /^\/css2?$/.test(url.pathname)) return true;
       // Chinese-market extension CDN injecting its overlay stylesheet
       // (www.6ppn.com/ext/assets/style.<hash>.css — the /ext/ path is the
-      // extension's own asset root). Exact host + .css path (WORLDMONITOR-J0).
+      // extension's own asset root). Exact host + .css path (EAGLEEYE-J0).
       if (url.protocol === 'https:' && url.hostname === 'www.6ppn.com' && /\.css$/.test(url.pathname)) return true;
     } catch { /* unparseable values fall through */ }
     // Extension bug: a literal unsubstituted `[email]` template placeholder as
@@ -405,7 +405,7 @@ initMetaTags();
 
 // In desktop mode, route /api/* calls to the local Tauri sidecar backend.
 installRuntimeFetchPatch();
-// In web production, route RPC calls through api.worldmonitor.app (Cloudflare edge).
+// In web production, route RPC calls through api.eagle-eye.app (Cloudflare edge).
 installWebApiRedirect();
 // Force-reload tabs running a stale bundle (catches the class of bug where
 // users keep a tab open across a wire-shape change). Skips when build-hash
@@ -480,13 +480,13 @@ if (urlParams.get('settings') === '1') {
 // Beta mode toggle: type `beta=true` / `beta=false` in console
 Object.defineProperty(window, 'beta', {
   get() {
-    const on = localStorage.getItem('worldmonitor-beta-mode') === 'true';
+    const on = localStorage.getItem('eagleeye-beta-mode') === 'true';
     console.log(`[Beta] ${on ? 'ON' : 'OFF'}`);
     return on;
   },
   set(v: boolean) {
-    if (v) localStorage.setItem('worldmonitor-beta-mode', 'true');
-    else localStorage.removeItem('worldmonitor-beta-mode');
+    if (v) localStorage.setItem('eagleeye-beta-mode', 'true');
+    else localStorage.removeItem('eagleeye-beta-mode');
     location.reload();
   },
 });
@@ -502,7 +502,7 @@ if ('__TAURI_INTERNALS__' in window || '__TAURI__' in window) {
 }
 
 // `'serviceWorker' in navigator` is not a safe gate: in a sandboxed iframe the
-// property exists but reading it throws SecurityError (WORLDMONITOR-Y5), which
+// property exists but reading it throws SecurityError (EAGLEEYE-Y5), which
 // at module scope aborts every top-level statement below. Read it once, safely.
 const swContainer = readServiceWorkerContainer();
 if (!('__TAURI_INTERNALS__' in window) && !('__TAURI__' in window) && swContainer) {

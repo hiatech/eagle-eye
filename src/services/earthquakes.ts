@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { Earthquake, ListEarthquakesResponse } from '@/generated/client/worldmonitor/seismology/v1/service_client';
+import type { Earthquake, ListEarthquakesResponse } from '@/generated/client/eagleeye/seismology/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';
 import { SeismologyServiceClient } from '@/services/generated-rpc-clients';

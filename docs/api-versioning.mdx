@@ -1,12 +1,12 @@
 ---
 title: "API Versioning and Deprecation"
-description: "WorldMonitor REST compatibility guarantees, deprecation notices, and sunset signals for agents and long-lived integrations."
+description: "EagleEye REST compatibility guarantees, deprecation notices, and sunset signals for agents and long-lived integrations."
 ---
 
-WorldMonitor versions public REST APIs in the URL:
+EagleEye versions public REST APIs in the URL:
 
 ```
-https://api.worldmonitor.app/api/<domain>/v<major>/<operation>
+https://api.eagle-eye.app/api/<domain>/v<major>/<operation>
 ```
 
 For example, `/api/market/v1/list-market-quotes` is a version 1 operation.
@@ -15,14 +15,14 @@ present in each path rather than assuming one global API version.
 
 ## Compatibility within a major version
 
-Within a published major version, WorldMonitor may add optional request fields,
+Within a published major version, EagleEye may add optional request fields,
 response fields, operations, and enum values. Existing fields keep their
 meaning and type. We do not remove or rename operations or fields, make an
 optional field required, or otherwise introduce an intentionally breaking
 change without publishing a new major-version path.
 
 Clients should ignore response fields and enum values they do not recognize.
-The bundled [OpenAPI specification](https://www.worldmonitor.app/openapi.yaml)
+The bundled [OpenAPI specification](https://www.eagle-eye.app/openapi.yaml)
 is the source of truth for the currently published contract.
 
 ## Protobuf compatibility check
@@ -40,7 +40,7 @@ check instead of allowing a vacuous pass.
 
 ## Deprecation timeline
 
-When WorldMonitor replaces or retires a public REST version or operation:
+When EagleEye replaces or retires a public REST version or operation:
 
 1. We publish the replacement and migration guidance in the API documentation
    and [changelog](/changelog).
@@ -61,7 +61,7 @@ Responses from a deprecated operation or version include:
 ```http
 Deprecation: @1782864000
 Sunset: Thu, 31 Dec 2026 23:59:59 GMT
-Link: <https://www.worldmonitor.app/docs/api-versioning>; rel="deprecation"; type="text/html"
+Link: <https://www.eagle-eye.app/docs/api-versioning>; rel="deprecation"; type="text/html"
 ```
 
 - [`Deprecation`](https://www.rfc-editor.org/rfc/rfc9745.html) is the date the

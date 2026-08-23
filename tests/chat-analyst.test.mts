@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { readFileSync } from 'node:fs';
 
-import { buildAnalystSystemPrompt } from '../server/worldmonitor/intelligence/v1/chat-analyst-prompt.ts';
-import { buildActionEvents, VISUAL_INTENT_RE } from '../server/worldmonitor/intelligence/v1/chat-analyst-actions.ts';
+import { buildAnalystSystemPrompt } from '../server/eagleeye/intelligence/v1/chat-analyst-prompt.ts';
+import { buildActionEvents, VISUAL_INTENT_RE } from '../server/eagleeye/intelligence/v1/chat-analyst-actions.ts';
 import { postProcessAnalystHtml } from '../src/utils/analyst-markdown.ts';
 import {
   ALL_TOPIC_IDS,
@@ -19,8 +19,8 @@ import {
   buildRiskScores,
   buildWorldBrief,
   extractKeywords,
-} from '../server/worldmonitor/intelligence/v1/chat-analyst-context.ts';
-import { assembleBriefStoryContext } from '../server/worldmonitor/intelligence/v1/brief-story-context.ts';
+} from '../server/eagleeye/intelligence/v1/chat-analyst-context.ts';
+import { assembleBriefStoryContext } from '../server/eagleeye/intelligence/v1/brief-story-context.ts';
 import { readCachedJson, __resetKeyPrefixCacheForTests } from '../server/_shared/redis.ts';
 import {
   CII_RISK_SCORE_CACHE_KEYS,
@@ -33,7 +33,7 @@ import {
   SPR_KEY,
   SPR_POLICIES_KEY,
 } from '../server/_shared/cache-keys.ts';
-import type { AnalystContext } from '../server/worldmonitor/intelligence/v1/chat-analyst-context.ts';
+import type { AnalystContext } from '../server/eagleeye/intelligence/v1/chat-analyst-context.ts';
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -661,7 +661,7 @@ describe('issue #3724 — prompt injection via headline context', () => {
 });
 
 // ---------------------------------------------------------------------------
-// handler — edge wiring + pre-auth gates (WORLDMONITOR-SV)
+// handler — edge wiring + pre-auth gates (EAGLEEYE-SV)
 //
 // Importing the handler forces the full edge dependency graph to resolve
 // (a broken import path can't slip past `tsc` but WOULD fail at runtime on
@@ -688,9 +688,9 @@ describe('api/chat-analyst handler — edge wiring + pre-auth gates', () => {
 
   it('returns 204 with CORS on OPTIONS preflight (no secrets / no Redis)', async () => {
     const { default: handler } = await import('../api/chat-analyst.ts');
-    const req = new Request('https://api.worldmonitor.app/api/chat-analyst', {
+    const req = new Request('https://api.eagle-eye.app/api/chat-analyst', {
       method: 'OPTIONS',
-      headers: { origin: 'https://worldmonitor.app' },
+      headers: { origin: 'https://eagle-eye.app' },
     });
     const res = await handler(req);
     assert.equal(res.status, 204);
@@ -700,9 +700,9 @@ describe('api/chat-analyst handler — edge wiring + pre-auth gates', () => {
 
   it('returns 405 on disallowed methods', async () => {
     const { default: handler } = await import('../api/chat-analyst.ts');
-    const req = new Request('https://api.worldmonitor.app/api/chat-analyst', {
+    const req = new Request('https://api.eagle-eye.app/api/chat-analyst', {
       method: 'GET',
-      headers: { origin: 'https://worldmonitor.app' },
+      headers: { origin: 'https://eagle-eye.app' },
     });
     const res = await handler(req);
     assert.equal(res.status, 405);
@@ -711,7 +711,7 @@ describe('api/chat-analyst handler — edge wiring + pre-auth gates', () => {
   it('has a top-level error boundary that fails to a CORS-correct 503 (not an opaque platform 500)', () => {
     // Source-shape guard. The boundary converts an uncaught pre-stream throw
     // into a controlled, CORS-bearing 503 the panel can render and a server-
-    // side Sentry capture — the gap that left WORLDMONITOR-SV diagnosable only
+    // side Sentry capture — the gap that left EAGLEEYE-SV diagnosable only
     // as the browser's `API 500` message. Locks the boundary in against a
     // refactor that re-introduces an unguarded handler body.
     const src = readFileSync(
@@ -985,7 +985,7 @@ describe('buildHeadlinesFromGdeltIntel — selection, cap and age qualification'
 
   it('no longer carries the DOC-API URL or its 2.5s hot-path timeout', () => {
     const src = readFileSync(
-      new URL('../server/worldmonitor/intelligence/v1/chat-analyst-context.ts', import.meta.url),
+      new URL('../server/eagleeye/intelligence/v1/chat-analyst-context.ts', import.meta.url),
       'utf-8',
     );
     assert.ok(!src.includes('api.gdeltproject.org'),

@@ -3,10 +3,10 @@ info:
     title: SupplyChainService API
     version: 1.0.0
 security:
-    - WorldMonitorKey: []
+    - EagleEyeKey: []
     - ApiKeyHeader: []
 servers:
-    - url: https://api.worldmonitor.app
+    - url: https://api.eagle-eye.app
 paths:
     /api/supply-chain/v1/get-shipping-rates:
         get:
@@ -19,7 +19,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -126,7 +126,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -143,7 +143,7 @@ paths:
                                           - "example"
                                       "aisDisruptions": 1
                                       "congestionLevel": "example"
-                                      "description": "Example WorldMonitor observation."
+                                      "description": "Example EagleEye observation."
                                 "fetchedAt": "2026-01-15T12:00:00Z"
                                 "upstreamUnavailable": false
                             schema:
@@ -222,7 +222,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -307,7 +307,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -396,7 +396,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -410,7 +410,7 @@ paths:
                                 "carriers":
                                     - "carrierType": "all"
                                       "changePct": 1.5
-                                      "name": "WorldMonitor Analyst"
+                                      "name": "EagleEye Analyst"
                                       "price": 75.25
                                       "sparkline":
                                           - 1.5
@@ -481,7 +481,7 @@ paths:
             description: GetCountryChokepointIndex returns per-chokepoint exposure scores for a country. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetCountryChokepointIndex
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -503,7 +503,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -516,7 +516,7 @@ paths:
                             example:
                                 "exposures":
                                     - "chokepointId": "suez"
-                                      "chokepointName": "WorldMonitor Analyst"
+                                      "chokepointName": "EagleEye Analyst"
                                       "coastSide": "example"
                                       "exposureScore": 42.5
                                       "shockSupported": true
@@ -587,7 +587,7 @@ paths:
             description: GetBypassOptions returns ranked bypass corridors for a chokepoint. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetBypassOptions
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -616,7 +616,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -700,7 +700,7 @@ paths:
             description: GetCountryCostShock returns cost shock and war risk data for a country+chokepoint. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetCountryCostShock
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -729,7 +729,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -808,7 +808,7 @@ paths:
             description: GetCountryProducts returns the seeded bilateral-HS4 import basket for a country. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetCountryProducts
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -823,7 +823,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -837,7 +837,7 @@ paths:
                                 "fetchedAt": "2026-01-15T12:00:00Z"
                                 "iso2": "US"
                                 "products":
-                                    - "description": "Example WorldMonitor observation."
+                                    - "description": "Example EagleEye observation."
                                       "hs4": "example"
                                       "topExporters":
                                           - "partnerCode": 1
@@ -911,7 +911,7 @@ paths:
                  country+chokepoint+closure-window. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetMultiSectorCostShock
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -941,7 +941,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1025,7 +1025,7 @@ paths:
             description: GetSectorDependency returns dependency flags and risk profile for a country+HS2 sector. PRO-gated. Requires entitlement tier >= 1.
             operationId: GetSectorDependency
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -1047,7 +1047,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1132,7 +1132,7 @@ paths:
                  Route Explorer UI. Requires entitlement tier >= 1.
             operationId: GetRouteExplorerLane
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -1169,7 +1169,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1187,11 +1187,11 @@ paths:
                                           "lat": 40.7128
                                           "lon": -74.006
                                       "id": "example-id"
-                                      "name": "WorldMonitor Analyst"
+                                      "name": "EagleEye Analyst"
                                 "cargoType": "container"
                                 "chokepointExposures":
                                     - "chokepointId": "suez"
-                                      "chokepointName": "WorldMonitor Analyst"
+                                      "chokepointName": "EagleEye Analyst"
                                       "exposurePct": 1
                                 "disruptionScore": 42.5
                                 "estFreightUsdPerTeuRange":
@@ -1260,7 +1260,7 @@ paths:
             description: 'GetRouteImpact returns route-level trade exposure: lane value, primary exporter concentration, strategic products, resilience score, dependency flags, and Comtrade provenance. PRO-gated. Requires entitlement tier >= 1.'
             operationId: GetRouteImpact
             security:
-                - WorldMonitorKey: []
+                - EagleEyeKey: []
                 - ApiKeyHeader: []
                 - BearerAuth: []
             parameters:
@@ -1290,7 +1290,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1384,7 +1384,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1412,7 +1412,7 @@ paths:
                                           "operatorStatement":
                                               "date": "2026-01-15"
                                               "text": "example"
-                                              "url": "https://example.com/worldmonitor"
+                                              "url": "https://example.com/eagleeye"
                                 "upstreamUnavailable": false
                             schema:
                                 $ref: '#/components/schemas/ListPipelinesResponse'
@@ -1489,7 +1489,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1516,7 +1516,7 @@ paths:
                                         "operatorStatement":
                                             "date": "2026-01-15"
                                             "text": "example"
-                                            "url": "https://example.com/worldmonitor"
+                                            "url": "https://example.com/eagleeye"
                                 "revisions":
                                     - "classifierVersion": "example"
                                       "date": "2026-01-15"
@@ -1605,7 +1605,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1705,7 +1705,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1827,7 +1827,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1852,7 +1852,7 @@ paths:
                                                 "date": "2026-01-15"
                                                 "sourceType": "all"
                                                 "title": "example"
-                                                "url": "https://example.com/worldmonitor"
+                                                "url": "https://example.com/eagleeye"
                                           "firstRegulatorConfirmation": "40.7128"
                                           "lastEvidenceUpdate": "2026-01-15"
                                       "firstSeen": "example"
@@ -1933,7 +1933,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1957,7 +1957,7 @@ paths:
                                               "date": "2026-01-15"
                                               "sourceType": "all"
                                               "title": "example"
-                                              "url": "https://example.com/worldmonitor"
+                                              "url": "https://example.com/eagleeye"
                                         "firstRegulatorConfirmation": "40.7128"
                                         "lastEvidenceUpdate": "2026-01-15"
                                     "firstSeen": "example"
@@ -2056,7 +2056,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -2146,7 +2146,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -2158,7 +2158,7 @@ paths:
                         application/json:
                             example:
                                 "generatedAt": "2026-07-25T12:00:00.000Z"
-                                "payloadJson": "{\"generatedAt\":\"2026-07-25T12:00:00.000Z\",\"corridors\":[{\"id\":\"china-yangtze-river-delta\",\"name\":\"Yangtze River Delta\",\"description\":\"Reviewed coastal logistics corridor joining Shanghai, Jiangsu, and Zhejiang gateways.\",\"boundary\":[{\"lat\":28.4,\"lon\":118.2},{\"lat\":28.4,\"lon\":123.2},{\"lat\":33.4,\"lon\":123.2},{\"lat\":33.4,\"lon\":118.2},{\"lat\":28.4,\"lon\":118.2}],\"nodes\":[{\"id\":\"china-node:yrd-port-shanghai\",\"name\":\"Shanghai\",\"type\":\"port\",\"lat\":31.1918,\"lon\":121.6442,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1188\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1188\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Shanghai.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-yangtze-river-delta:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:worldmonitor-derived\",\"name\":\"WorldMonitor derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-yangtze-river-delta:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"worldmonitor:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-greater-bay-area\",\"name\":\"Greater Bay Area\",\"description\":\"Reviewed Pearl River Delta corridor connecting Guangdong, Hong Kong, and Macao-facing port, airport, and industrial gateways.\",\"boundary\":[{\"lat\":20.5,\"lon\":111.5},{\"lat\":20.5,\"lon\":115.8},{\"lat\":24.8,\"lon\":115.8},{\"lat\":24.8,\"lon\":111.5},{\"lat\":20.5,\"lon\":111.5}],\"nodes\":[{\"id\":\"china-node:gba-port-shekou\",\"name\":\"Shekou Shenzhen\",\"type\":\"port\",\"lat\":22.47,\"lon\":113.9,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1189\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1189\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Shekou Shenzhen.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-greater-bay-area:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:worldmonitor-derived\",\"name\":\"WorldMonitor derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-greater-bay-area:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"worldmonitor:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-bohai-rim\",\"name\":\"Bohai Rim\",\"description\":\"Reviewed northern maritime-industrial corridor spanning Beijing-Tianjin, Hebei, Shandong, Liaoning, and their major gateways.\",\"boundary\":[{\"lat\":35.5,\"lon\":116},{\"lat\":35.5,\"lon\":123.5},{\"lat\":42.2,\"lon\":123.5},{\"lat\":42.2,\"lon\":116},{\"lat\":35.5,\"lon\":116}],\"nodes\":[{\"id\":\"china-node:bohai-port-qingdao\",\"name\":\"Qingdao\",\"type\":\"port\",\"lat\":36.07,\"lon\":120.32,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1069\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1069\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Qingdao.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-bohai-rim:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:worldmonitor-derived\",\"name\":\"WorldMonitor derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-bohai-rim:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"worldmonitor:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-western-land-sea-corridor\",\"name\":\"Western Land-Sea Corridor\",\"description\":\"Reviewed western corridor linking inland manufacturing hubs, Xinjiang land crossings, and Guangxi gateways to regional and maritime routes.\",\"boundary\":[{\"lat\":20.4,\"lon\":106.2},{\"lat\":20.4,\"lon\":110.4},{\"lat\":32.5,\"lon\":110.4},{\"lat\":47,\"lon\":91},{\"lat\":47,\"lon\":78.5},{\"lat\":41,\"lon\":78.5},{\"lat\":27,\"lon\":99.7},{\"lat\":22,\"lon\":105.8},{\"lat\":20.4,\"lon\":106.2}],\"nodes\":[{\"id\":\"china-node:western-port-qinzhou\",\"name\":\"Qinzhou\",\"type\":\"port\",\"lat\":21.6788,\"lon\":108.6383,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1071\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1071\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Qinzhou.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-western-land-sea-corridor:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:worldmonitor-derived\",\"name\":\"WorldMonitor derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-western-land-sea-corridor:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"worldmonitor:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]}]}"
+                                "payloadJson": "{\"generatedAt\":\"2026-07-25T12:00:00.000Z\",\"corridors\":[{\"id\":\"china-yangtze-river-delta\",\"name\":\"Yangtze River Delta\",\"description\":\"Reviewed coastal logistics corridor joining Shanghai, Jiangsu, and Zhejiang gateways.\",\"boundary\":[{\"lat\":28.4,\"lon\":118.2},{\"lat\":28.4,\"lon\":123.2},{\"lat\":33.4,\"lon\":123.2},{\"lat\":33.4,\"lon\":118.2},{\"lat\":28.4,\"lon\":118.2}],\"nodes\":[{\"id\":\"china-node:yrd-port-shanghai\",\"name\":\"Shanghai\",\"type\":\"port\",\"lat\":31.1918,\"lon\":121.6442,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1188\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1188\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Shanghai.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-yangtze-river-delta:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:eagleeye-derived\",\"name\":\"EagleEye derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-yangtze-river-delta:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"eagleeye:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1188:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-greater-bay-area\",\"name\":\"Greater Bay Area\",\"description\":\"Reviewed Pearl River Delta corridor connecting Guangdong, Hong Kong, and Macao-facing port, airport, and industrial gateways.\",\"boundary\":[{\"lat\":20.5,\"lon\":111.5},{\"lat\":20.5,\"lon\":115.8},{\"lat\":24.8,\"lon\":115.8},{\"lat\":24.8,\"lon\":111.5},{\"lat\":20.5,\"lon\":111.5}],\"nodes\":[{\"id\":\"china-node:gba-port-shekou\",\"name\":\"Shekou Shenzhen\",\"type\":\"port\",\"lat\":22.47,\"lon\":113.9,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1189\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1189\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Shekou Shenzhen.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-greater-bay-area:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:eagleeye-derived\",\"name\":\"EagleEye derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-greater-bay-area:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"eagleeye:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1189:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-bohai-rim\",\"name\":\"Bohai Rim\",\"description\":\"Reviewed northern maritime-industrial corridor spanning Beijing-Tianjin, Hebei, Shandong, Liaoning, and their major gateways.\",\"boundary\":[{\"lat\":35.5,\"lon\":116},{\"lat\":35.5,\"lon\":123.5},{\"lat\":42.2,\"lon\":123.5},{\"lat\":42.2,\"lon\":116},{\"lat\":35.5,\"lon\":116}],\"nodes\":[{\"id\":\"china-node:bohai-port-qingdao\",\"name\":\"Qingdao\",\"type\":\"port\",\"lat\":36.07,\"lon\":120.32,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1069\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1069\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Qingdao.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-bohai-rim:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:eagleeye-derived\",\"name\":\"EagleEye derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-bohai-rim:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"eagleeye:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1069:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]},{\"id\":\"china-western-land-sea-corridor\",\"name\":\"Western Land-Sea Corridor\",\"description\":\"Reviewed western corridor linking inland manufacturing hubs, Xinjiang land crossings, and Guangxi gateways to regional and maritime routes.\",\"boundary\":[{\"lat\":20.4,\"lon\":106.2},{\"lat\":20.4,\"lon\":110.4},{\"lat\":32.5,\"lon\":110.4},{\"lat\":47,\"lon\":91},{\"lat\":47,\"lon\":78.5},{\"lat\":41,\"lon\":78.5},{\"lat\":27,\"lon\":99.7},{\"lat\":22,\"lon\":105.8},{\"lat\":20.4,\"lon\":106.2}],\"nodes\":[{\"id\":\"china-node:western-port-qinzhou\",\"name\":\"Qinzhou\",\"type\":\"port\",\"lat\":21.6788,\"lon\":108.6383,\"sourceOwner\":\"IMF PortWatch\",\"sourceSelector\":{\"family\":\"port\",\"id\":\"port1071\"}}],\"availability\":\"partial\",\"conditions\":[{\"family\":\"port\",\"providerId\":\"portwatch\",\"availability\":\"available\",\"reason\":null,\"sourceSignals\":[{\"id\":\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\",\"family\":\"port\",\"selectorId\":\"port1071\",\"availability\":\"available\",\"publisher\":{\"id\":\"publisher:imf-portwatch\",\"name\":\"IMF PortWatch\",\"type\":\"official\"},\"sourceUrl\":\"https://portwatch.imf.org/\",\"sourceScope\":\"node\",\"observationTime\":\"2026-07-25T11:00:00.000Z\",\"observationTimePrecision\":\"instant\",\"releaseTime\":null,\"releaseTimePrecision\":\"unknown\",\"retrievalTime\":\"2026-07-25T11:05:00.000Z\",\"retrievalTimePrecision\":\"instant\",\"revision\":null,\"transportFreshness\":\"fresh\",\"contentFreshness\":\"current\",\"summary\":\"PortWatch activity observation available for Qinzhou.\",\"metrics\":{\"tankerCalls30d\":14}}],\"provenance\":{\"contractVersion\":\"decision-signal-provenance/v1\",\"signalId\":\"signal:corridor-condition:china-western-land-sea-corridor:port:2026-07-25T11:00:00.000Z\",\"familyId\":\"composed_corridor_condition\",\"claims\":{\"publisher\":{\"status\":\"known\",\"value\":{\"id\":\"publisher:eagleeye-derived\",\"name\":\"EagleEye derived output\",\"type\":\"derived_output\",\"registryReference\":null}},\"observation_time\":{\"status\":\"known\",\"value\":{\"role\":\"observation\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"source_url\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition links source URLs through its input signals.\"},\"original_reference\":{\"status\":\"not_applicable\",\"reason\":\"The corridor condition is composed from multiple source records.\"},\"original_language\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no original-language text.\"},\"translation\":{\"status\":\"not_applicable\",\"reason\":\"The deterministic composition has no translated source text.\"},\"effective_time\":{\"status\":\"known\",\"value\":{\"role\":\"effective\",\"value\":\"2026-07-25T11:00:00.000Z\",\"precision\":\"instant\"}},\"publication_time\":{\"status\":\"not_applicable\",\"reason\":\"The computed condition is not a publisher release.\"},\"retrieval_time\":{\"status\":\"known\",\"value\":{\"role\":\"retrieval\",\"value\":\"2026-07-25T11:05:00.000Z\",\"precision\":\"instant\"}},\"revision\":{\"status\":\"known\",\"value\":{\"vintageId\":\"china-western-land-sea-corridor:port:2026-07-25T11:00:00.000Z\",\"sequence\":1,\"state\":\"original\"}},\"supersession\":{\"status\":\"known\",\"value\":{\"state\":\"current\"}},\"extraction_confidence\":{\"status\":\"not_applicable\",\"reason\":\"Each input signal owns its extraction confidence.\"},\"classification_confidence\":{\"status\":\"known\",\"value\":{\"score\":1,\"method\":\"exact-reviewed-selector/v1\"}},\"corroboration\":{\"status\":\"known\",\"value\":{\"state\":\"single_source\",\"sourceSignalIds\":[\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\"]}},\"transport_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"fresh\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"lastSuccessAt\":\"2026-07-25T11:05:00.000Z\"}},\"content_freshness\":{\"status\":\"known\",\"value\":{\"state\":\"current\",\"assessedAt\":\"2026-07-25T12:00:00.000Z\",\"contentAsOf\":\"2026-07-25T11:00:00.000Z\"}},\"derivation\":{\"status\":\"known\",\"value\":{\"methodId\":\"eagleeye:china-corridor-condition\",\"methodVersion\":\"1\",\"computedAt\":\"2026-07-25T12:00:00.000Z\",\"inputSignalIds\":[\"signal:portwatch:port1071:2026-07-25T11:00:00.000Z\"]}}}}},{\"family\":\"aviation\",\"providerId\":\"provider:aviation\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"hazard\",\"providerId\":\"provider:hazard\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"power_energy\",\"providerId\":\"provider:power_energy\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"strategic_industry\",\"providerId\":\"provider:strategic_industry\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null},{\"family\":\"trade\",\"providerId\":\"provider:trade\",\"availability\":\"unavailable\",\"reason\":\"No reviewed source observation is available in this example.\",\"sourceSignals\":[],\"provenance\":null}]}]}"
                                 "upstreamUnavailable": false
                             schema:
                                 $ref: '#/components/schemas/GetChinaCorridorControlTowersResponse'
@@ -2217,16 +2217,16 @@ paths:
                                     - $ref: '#/components/schemas/GatewayError'
 components:
     securitySchemes:
-        WorldMonitorKey:
+        EagleEyeKey:
             type: apiKey
             in: header
-            name: X-WorldMonitor-Key
-            description: User-issued WorldMonitor API key.
+            name: X-EagleEye-Key
+            description: User-issued EagleEye API key.
         ApiKeyHeader:
             type: apiKey
             in: header
             name: X-Api-Key
-            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).
+            description: Alias header for the EagleEye API key (X-EagleEye-Key).
         BearerAuth:
             type: http
             scheme: bearer

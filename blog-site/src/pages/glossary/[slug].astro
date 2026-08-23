@@ -13,11 +13,11 @@ const { term } = Astro.props;
 const bySlug = new Map(GLOSSARY_TERMS.map((t) => [t.slug, t]));
 const related = term.related.map((slug) => bySlug.get(slug)).filter((t) => t != null);
 
-const pageUrl = `https://www.worldmonitor.app/blog/glossary/${term.slug}/`;
+const pageUrl = `https://www.eagle-eye.app/blog/glossary/${term.slug}/`;
 const termLabel = `${term.term}${term.abbr ? ` (${term.abbr})` : ''}`;
 const metaTitle = term.abbr
-  ? `${term.abbr} Definition | World Monitor`
-  : `${term.term} Definition | World Monitor`;
+  ? `${term.abbr} Definition | Eagle Eye`
+  : `${term.term} Definition | Eagle Eye`;
 const metaDescription = term.short.length <= 160
   ? term.short
   : `${term.short.slice(0, 157).replace(/\s+\S*$/, '')}...`;
@@ -32,8 +32,8 @@ const jsonLd = {
   inLanguage: 'en-US',
   inDefinedTermSet: {
     '@type': 'DefinedTermSet',
-    name: 'World Monitor Global Intelligence Glossary',
-    url: 'https://www.worldmonitor.app/blog/glossary/',
+    name: 'Eagle Eye Global Intelligence Glossary',
+    url: 'https://www.eagle-eye.app/blog/glossary/',
   },
 };
 
@@ -41,8 +41,8 @@ const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Blog', item: 'https://www.worldmonitor.app/blog/' },
-    { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://www.worldmonitor.app/blog/glossary/' },
+    { '@type': 'ListItem', position: 1, name: 'Blog', item: 'https://www.eagle-eye.app/blog/' },
+    { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://www.eagle-eye.app/blog/glossary/' },
     { '@type': 'ListItem', position: 3, name: term.term, item: pageUrl },
   ],
 };
@@ -125,10 +125,10 @@ const faqLd = {
     <div class="cta-banner glossary-cta">
       <h3>See it live</h3>
       <p>
-        World Monitor tracks this and hundreds of other signals in real time on one map —
+        Eagle Eye tracks this and hundreds of other signals in real time on one map —
         free, no account required.
       </p>
-      <a href="https://www.worldmonitor.app" class="btn" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.eagle-eye.app" class="btn" target="_blank" rel="noopener noreferrer">
         Open Dashboard
       </a>
     </div>

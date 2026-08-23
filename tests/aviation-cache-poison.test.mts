@@ -3,11 +3,11 @@ import { afterEach, beforeEach, describe, it, mock } from 'node:test';
 
 import { createDomainGateway, serverOptions } from '../server/gateway.ts';
 import { drainResponseHeaders } from '../server/_shared/response-headers.ts';
-import { createAviationServiceRoutes } from '../src/generated/server/worldmonitor/aviation/v1/service_server.ts';
-import { aviationHandler } from '../server/worldmonitor/aviation/v1/handler.ts';
-import { listAirportFlights } from '../server/worldmonitor/aviation/v1/list-airport-flights.ts';
-import { getFlightStatus } from '../server/worldmonitor/aviation/v1/get-flight-status.ts';
-import { getCarrierOps } from '../server/worldmonitor/aviation/v1/get-carrier-ops.ts';
+import { createAviationServiceRoutes } from '../src/generated/server/eagleeye/aviation/v1/service_server.ts';
+import { aviationHandler } from '../server/eagleeye/aviation/v1/handler.ts';
+import { listAirportFlights } from '../server/eagleeye/aviation/v1/list-airport-flights.ts';
+import { getFlightStatus } from '../server/eagleeye/aviation/v1/get-flight-status.ts';
+import { getCarrierOps } from '../server/eagleeye/aviation/v1/get-carrier-ops.ts';
 
 const ENV_KEYS = [
   'AVIATIONSTACK_MONTHLY_BUDGET',
@@ -17,7 +17,7 @@ const ENV_KEYS = [
   'RELAY_SHARED_SECRET',
   'UPSTASH_REDIS_REST_TOKEN',
   'UPSTASH_REDIS_REST_URL',
-  'WORLDMONITOR_VALID_KEYS',
+  'EAGLEEYE_VALID_KEYS',
   'WS_RELAY_URL',
 ] as const;
 
@@ -115,7 +115,7 @@ function installFetchMock(options: FetchMockOptions = {}) {
 }
 
 function requestFor(path: string): Request {
-  return new Request(`https://worldmonitor.app${path}`);
+  return new Request(`https://eagle-eye.app${path}`);
 }
 
 function ctxFor(request: Request) {
@@ -248,13 +248,13 @@ describe('aviation cache poison prevention', () => {
   });
 
   it('forces airport-flight unavailable HTTP responses to no-store at the gateway', async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+    process.env.EAGLEEYE_VALID_KEYS = 'test-key';
     const calls = installFetchMock();
     const gateway = createDomainGateway(createAviationServiceRoutes(aviationHandler, serverOptions));
 
     const response = await gateway(new Request(
-      'https://worldmonitor.app/api/aviation/v1/list-airport-flights?airport=FFF&limit=30&_debug=1',
-      { headers: { 'X-WorldMonitor-Key': 'test-key' } },
+      'https://eagle-eye.app/api/aviation/v1/list-airport-flights?airport=FFF&limit=30&_debug=1',
+      { headers: { 'X-EagleEye-Key': 'test-key' } },
     ));
     const body = await response.json() as { source?: string; flights?: unknown[] };
 

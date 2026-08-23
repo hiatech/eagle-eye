@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, it } from 'node:test';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SERVER_SHARED_PATH = resolve(here, '../server/worldmonitor/resilience/v1/_shared.ts');
+const SERVER_SHARED_PATH = resolve(here, '../server/eagleeye/resilience/v1/_shared.ts');
 const WIDGET_UTILS_PATH = resolve(here, '../src/components/resilience-widget-utils.ts');
 
 function parseFactorTable(path: string): Record<string, number> {

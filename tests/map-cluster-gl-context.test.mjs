@@ -8,7 +8,7 @@ import { resolveClusterGlContext } from '../src/components/map-cluster-gl.ts';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const mapSrc = readFileSync(join(root, 'src', 'components', 'Map.ts'), 'utf-8');
 
-// WORLDMONITOR-YG / WORLDMONITOR-YH (11 events, production, Chrome 149/Linux):
+// EAGLEEYE-YG / EAGLEEYE-YH (11 events, production, Chrome 149/Linux):
 //
 //   TypeError: this.clusterGl.clearColor is not a function
 //     at x.clearClusterCanvas   (Map.ts clearClusterCanvas)
@@ -57,7 +57,7 @@ function clearClusterCanvas(clusterGl) {
   clusterGl.clear(clusterGl.COLOR_BUFFER_BIT);
 }
 
-describe('cluster canvas WebGL context guard (WORLDMONITOR-YG/YH)', () => {
+describe('cluster canvas WebGL context guard (EAGLEEYE-YG/YH)', () => {
   it('rejects a truthy non-GL stub from getContext("webgl")', () => {
     assert.equal(
       resolveClusterGlContext(canvasReturning(fingerprintBlockerStub())),

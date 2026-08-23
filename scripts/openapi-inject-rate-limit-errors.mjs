@@ -2,7 +2,7 @@
 /**
  * Inject gateway-level rate-limit and error-envelope contracts into OpenAPI.
  *
- * protoc-gen-openapiv3 only sees proto handler shapes, but WorldMonitor's REST
+ * protoc-gen-openapiv3 only sees proto handler shapes, but EagleEye's REST
  * gateway can reject any operation before a handler runs: origin/auth routing,
  * 404/405 dispatch, global/per-endpoint/per-account rate limits, and malformed
  * JSON body parsing. This post-generation pass documents those gateway-level
@@ -546,7 +546,7 @@ function injectYaml(text) {
 
 const jsonFiles = readdirSync(apiDir).filter((f) => /Service\.openapi\.json$/.test(f)).sort();
 const yamlFiles = readdirSync(apiDir)
-  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'worldmonitor.openapi.yaml')
+  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'eagleeye.openapi.yaml')
   .sort();
 let wouldChange = 0;
 const touched = [];

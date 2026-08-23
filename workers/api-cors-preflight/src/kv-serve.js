@@ -86,7 +86,7 @@ function serveFromKv(env, ctx, { tier, body, cf, started, corsHeaders }) {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
       'X-Content-Type-Options': 'nosniff',
-      'X-WorldMonitor-Bootstrap-Source': 'kv',
+      'X-EagleEye-Bootstrap-Source': 'kv',
     },
   });
 }

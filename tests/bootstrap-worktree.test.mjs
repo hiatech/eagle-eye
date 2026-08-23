@@ -139,7 +139,7 @@ describe('worktree bootstrap helper', () => {
 
     bootstrapWorktree({ dryRun: true, rootDir: root, skipEnv: true, log: line => logs.push(line) });
     assert.deepEqual(logs, [
-      '[worktree] would run: npm ci --cache /tmp/worldmonitor-npm-cache',
+      '[worktree] would run: npm ci --cache /tmp/eagleeye-npm-cache',
       '[worktree] bootstrap complete',
     ]);
 

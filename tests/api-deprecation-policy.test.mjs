@@ -3,13 +3,13 @@ import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const policyUrl = 'https://www.worldmonitor.app/docs/api-versioning';
+const policyUrl = 'https://www.eagle-eye.app/docs/api-versioning';
 
 describe('REST API versioning and deprecation policy', () => {
   it('keeps the policy discoverable from the OpenAPI generator and source bundle', () => {
     for (const path of [
       'proto/buf.gen.yaml',
-      'docs/api/worldmonitor.openapi.yaml',
+      'docs/api/eagleeye.openapi.yaml',
     ]) {
       assert.match(read(path), new RegExp(policyUrl.replaceAll('.', '\\.')));
     }

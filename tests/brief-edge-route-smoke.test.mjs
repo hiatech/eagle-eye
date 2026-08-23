@@ -45,9 +45,9 @@ describe('api/brief handler behaviour (no secrets / no Redis)', () => {
 
   it('returns 204 on OPTIONS preflight', async () => {
     const { default: handler } = await import('../api/brief/[userId]/[issueDate].ts');
-    const req = new Request('https://worldmonitor.app/api/brief/user_x/2026-04-17-0800', {
+    const req = new Request('https://eagle-eye.app/api/brief/user_x/2026-04-17-0800', {
       method: 'OPTIONS',
-      headers: { origin: 'https://worldmonitor.app' },
+      headers: { origin: 'https://eagle-eye.app' },
     });
     const res = await handler(req);
     assert.equal(res.status, 204);
@@ -56,9 +56,9 @@ describe('api/brief handler behaviour (no secrets / no Redis)', () => {
   it('returns 405 on disallowed methods', async () => {
     process.env.BRIEF_URL_SIGNING_SECRET ??= 'test-secret-used-only-for-method-gate';
     const { default: handler } = await import('../api/brief/[userId]/[issueDate].ts');
-    const req = new Request('https://worldmonitor.app/api/brief/user_x/2026-04-17-0800', {
+    const req = new Request('https://eagle-eye.app/api/brief/user_x/2026-04-17-0800', {
       method: 'POST',
-      headers: { origin: 'https://worldmonitor.app' },
+      headers: { origin: 'https://eagle-eye.app' },
     });
     const res = await handler(req);
     assert.equal(res.status, 405);
@@ -69,10 +69,10 @@ describe('api/brief handler behaviour (no secrets / no Redis)', () => {
     const { default: handler } = await import('../api/brief/[userId]/[issueDate].ts');
     // HEAD with a bad token → 403 path; body should still be empty.
     const req = new Request(
-      'https://worldmonitor.app/api/brief/user_x/2026-04-17-0800?t=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      'https://eagle-eye.app/api/brief/user_x/2026-04-17-0800?t=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       {
         method: 'HEAD',
-        headers: { origin: 'https://worldmonitor.app' },
+        headers: { origin: 'https://eagle-eye.app' },
       },
     );
     const res = await handler(req);
@@ -201,8 +201,8 @@ describe('infrastructure-error vs miss (both routes must not collapse)', () => {
       const issueDate = '2026-04-17-0800';
       const token = await signBriefToken(userId, issueDate, process.env.BRIEF_URL_SIGNING_SECRET);
       const req = new Request(
-        `https://worldmonitor.app/api/brief/${userId}/${issueDate}?t=${token}`,
-        { method: 'GET', headers: { origin: 'https://worldmonitor.app' } },
+        `https://eagle-eye.app/api/brief/${userId}/${issueDate}?t=${token}`,
+        { method: 'GET', headers: { origin: 'https://eagle-eye.app' } },
       );
       const res = await handler(req);
       assert.equal(res.status, 503, 'Upstash outage must surface as 503, not 404');
@@ -269,7 +269,7 @@ describe('assertBriefEnvelope is shared between renderer and preview', () => {
 });
 
 describe('api/latest-brief retry-on-Upstash-timeout', () => {
-  // Regression guard for WORLDMONITOR-QJ. Locks in the retry contract:
+  // Regression guard for EAGLEEYE-QJ. Locks in the retry contract:
   // (a) one retry fires on DOMException-like timeout/abort names,
   // (b) no retry on other error shapes, (c) per-attempt budgets are
   // FIRST_ATTEMPT_MS then RETRY_ATTEMPT_MS so worst-case wall time stays

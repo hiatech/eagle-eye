@@ -328,7 +328,7 @@ describe("listProMcpTokens", () => {
   });
 
   test("returns empty array when called without auth identity (does not throw AUTH_REQUIRED)", async () => {
-    // WORLDMONITOR-RD regression: this query is reactive (subscribed by
+    // EAGLEEYE-RD regression: this query is reactive (subscribed by
     // the settings UI), so it fires during transient unauth windows —
     // sign-out, initial page load before Clerk resolves, token-rotation
     // races. Throwing AUTH_REQUIRED from those races was paging via

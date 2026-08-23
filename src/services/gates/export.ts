@@ -59,7 +59,7 @@ function readExportGateInputs(authState: AuthSession): ExportGateInputs {
   const entitlement = getEntitlementState();
   return {
     gateActive: isExportGateActive(),
-    desktopKeyPresent: getSecretState('WORLDMONITOR_API_KEY').present,
+    desktopKeyPresent: getSecretState('EAGLEEYE_API_KEY').present,
     authPending: authState.isPending,
     signedIn: Boolean(authState.user),
     features: entitlement

@@ -39,7 +39,7 @@ describe('sandbox fixtures (public/sandbox/)', () => {
     for (const op of index.operations) {
       assert.ok(SANDBOX_OPERATIONS.includes(op.path), `unexpected sandbox operation ${op.path}`);
       const slug = op.path.split('/').at(-1);
-      assert.equal(op.fixture, `https://www.worldmonitor.app/sandbox/${slug}.json`);
+      assert.equal(op.fixture, `https://www.eagle-eye.app/sandbox/${slug}.json`);
       const fixture = JSON.parse(readFileSync(join(ROOT, `public/sandbox/${slug}.json`), 'utf8'));
       assert.equal(fixture.sandbox, true, `${slug}: fixtures must self-identify as sandbox data`);
       assert.equal(fixture.operation.path, op.path);

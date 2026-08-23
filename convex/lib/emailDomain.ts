@@ -5,7 +5,7 @@ import { isValid as mailcheckerIsValid } from "mailchecker";
 // business-seat invite gate (isCorporateDomain below).
 //
 // The set is intentionally a copy of the list the enterprise-contact edge
-// handler already enforces (`server/worldmonitor/leads/v1/submit-contact.ts`,
+// handler already enforces (`server/eagleeye/leads/v1/submit-contact.ts`,
 // FREE_EMAIL_DOMAINS). The two are NOT wired to a single import on purpose:
 // that handler is bundled for the edge/gateway (esbuild via
 // scripts/build-sidecar-sebuf.mjs) and must NOT pull in `mailchecker`'s ~1MB

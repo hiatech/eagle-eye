@@ -3,7 +3,7 @@ import { t } from '../i18n';
 import { SectionHeading } from './SectionHeading';
 
 export const FAQ = () => {
-  const termsLabel = 'worldmonitor.app/docs/terms';
+  const termsLabel = 'eagle-eye.app/docs/terms';
   const faqs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(n => {
     const answer = t(`welcome.faq.a${n}`);
     return {

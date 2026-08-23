@@ -33,11 +33,11 @@ function storage(): Storage {
 test('frontend session mint must not block API callers forever', async () => {
   (globalThis as unknown as { window: unknown }).window = globalThis;
   (globalThis as unknown as { location: Location }).location = {
-    href: 'https://worldmonitor.app/',
-    origin: 'https://worldmonitor.app',
-    hostname: 'worldmonitor.app',
+    href: 'https://eagle-eye.app/',
+    origin: 'https://eagle-eye.app',
+    hostname: 'eagle-eye.app',
     protocol: 'https:',
-    host: 'worldmonitor.app',
+    host: 'eagle-eye.app',
   } as Location;
   (globalThis as unknown as { sessionStorage: Storage }).sessionStorage = storage();
   (globalThis as unknown as { localStorage: Storage }).localStorage = storage();
@@ -85,10 +85,10 @@ test('wm-session request-body read must terminate for a body that never ends', a
         controller.enqueue(new TextEncoder().encode('{"widgetKey":"'));
       },
     });
-    const req = new Request('https://api.worldmonitor.app/api/wm-session', {
+    const req = new Request('https://api.eagle-eye.app/api/wm-session', {
       method: 'POST',
       headers: {
-        origin: 'https://worldmonitor.app',
+        origin: 'https://eagle-eye.app',
         'content-type': 'application/json',
       },
       body,
@@ -109,7 +109,7 @@ test('wm-session request-body read must terminate for a body that never ends', a
 test('widget-agent request-body read must terminate for a body that never ends', async () => {
   process.env.WIDGET_AGENT_KEY = 'server-widget-key';
   process.env.PRO_WIDGET_KEY = 'server-pro-key';
-  process.env.WORLDMONITOR_VALID_KEYS = 'browser-test-key';
+  process.env.EAGLEEYE_VALID_KEYS = 'browser-test-key';
   process.env.WIDGET_AGENT_BODY_TIMEOUT_MS = '50';
 
   const originalFetch = globalThis.fetch;
@@ -121,12 +121,12 @@ test('widget-agent request-body read must terminate for a body that never ends',
         controller.enqueue(new TextEncoder().encode('{"prompt":"'));
       },
     });
-    const req = new Request('https://www.worldmonitor.app/api/widget-agent', {
+    const req = new Request('https://www.eagle-eye.app/api/widget-agent', {
       method: 'POST',
       headers: {
-        Origin: 'https://www.worldmonitor.app',
+        Origin: 'https://www.eagle-eye.app',
         'Content-Type': 'application/json',
-        'X-WorldMonitor-Key': 'browser-test-key',
+        'X-EagleEye-Key': 'browser-test-key',
       },
       body,
       duplex: 'half',
@@ -146,11 +146,11 @@ test('widget-agent request-body read must terminate for a body that never ends',
 test('__resetWmSessionForTests restores the default mint timeout', async () => {
   (globalThis as unknown as { window: unknown }).window = globalThis;
   (globalThis as unknown as { location: Location }).location = {
-    href: 'https://worldmonitor.app/',
-    origin: 'https://worldmonitor.app',
-    hostname: 'worldmonitor.app',
+    href: 'https://eagle-eye.app/',
+    origin: 'https://eagle-eye.app',
+    hostname: 'eagle-eye.app',
     protocol: 'https:',
-    host: 'worldmonitor.app',
+    host: 'eagle-eye.app',
   } as Location;
   (globalThis as unknown as { sessionStorage: Storage }).sessionStorage = storage();
   (globalThis as unknown as { localStorage: Storage }).localStorage = storage();

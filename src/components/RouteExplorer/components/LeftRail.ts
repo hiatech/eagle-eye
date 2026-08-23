@@ -7,7 +7,7 @@
  * Sprint 4 will add dependency flags from get-route-impact.
  */
 
-import type { GetRouteExplorerLaneResponse, DependencyFlag } from '@/generated/server/worldmonitor/supply_chain/v1/service_server';
+import type { GetRouteExplorerLaneResponse, DependencyFlag } from '@/generated/server/eagleeye/supply_chain/v1/service_server';
 import {
   formatScoredResilienceOverallLabel,
   formatResilienceConfidence,

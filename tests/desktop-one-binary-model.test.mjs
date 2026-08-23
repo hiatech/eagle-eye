@@ -180,7 +180,7 @@ test('the publish gate applies the same identity filter the endpoint does', () =
   // Checking the platform suffix alone would let a stray branded artifact
   // satisfy the gate for a platform /api/download would then refuse to serve.
   const publish = theStepNamed(desktopWorkflow.jobs['update-release-notes'].steps, 'Publish the release');
-  assert.match(publish.run, /worldmonitor/, 'publish must require the World Monitor identity, not just a platform suffix');
+  assert.match(publish.run, /eagleeye/, 'publish must require the Eagle Eye identity, not just a platform suffix');
   assert.match(publish.run, /SERVABLE/);
   assert.doesNotMatch(
     publish.run,

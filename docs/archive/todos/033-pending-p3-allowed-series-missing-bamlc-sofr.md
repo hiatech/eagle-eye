@@ -10,7 +10,7 @@ dependencies: []
 
 ## Problem Statement
 
-`scripts/seed-economy.mjs` seeds `BAMLC0A0CM` (IG OAS) and `SOFR` into Redis, but neither series appears in `ALLOWED_SERIES` in `server/worldmonitor/economic/v1/get-fred-series-batch.ts`. Any RPC request for these series silently returns empty data.
+`scripts/seed-economy.mjs` seeds `BAMLC0A0CM` (IG OAS) and `SOFR` into Redis, but neither series appears in `ALLOWED_SERIES` in `server/eagleeye/economic/v1/get-fred-series-batch.ts`. Any RPC request for these series silently returns empty data.
 
 ## Findings
 

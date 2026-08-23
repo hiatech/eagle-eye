@@ -31,7 +31,7 @@ async function importHandler({ relaySecret, upstash = false }) {
 }
 
 function getRequest() {
-  return new Request('https://api.worldmonitor.app/api/product-catalog', {
+  return new Request('https://api.eagle-eye.app/api/product-catalog', {
     method: 'GET',
   });
 }
@@ -39,7 +39,7 @@ function getRequest() {
 function deleteRequest(authHeader) {
   const headers = new Headers();
   if (authHeader != null) headers.set('Authorization', authHeader);
-  return new Request('https://api.worldmonitor.app/api/product-catalog', {
+  return new Request('https://api.eagle-eye.app/api/product-catalog', {
     method: 'DELETE',
     headers,
   });
@@ -83,7 +83,7 @@ test('GET fallback publishes generated lifecycle, pricing, and capability facts'
 
   const body = await response.json();
   assert.equal(body.product.lifecycle, 'launched');
-  assert.equal(body.product.pricingUrl, 'https://www.worldmonitor.app/pro#pricing');
+  assert.equal(body.product.pricingUrl, 'https://www.eagle-eye.app/pro#pricing');
   assert.equal(body.currency, 'USD');
   assert.equal(body.capabilities.mcpTools, PUBLIC_PRODUCT_FACTS.capabilities.mcpTools);
   const proMonthly = PUBLIC_PRODUCT_FACTS.plans.find((plan) => plan.planKey === 'pro_monthly');

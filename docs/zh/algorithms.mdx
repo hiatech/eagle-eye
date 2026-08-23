@@ -1,6 +1,6 @@
 ---
 title: "算法与评分"
-description: "World Monitor 各情报模块所使用的评分公式、检测算法与分类流水线完整技术参考，覆盖国家不稳定指数 CII、异常检测、信号打分、冲突事件聚合、航运咽喉要道路由计算、能源基础设施风险与市场波动识别等核心逻辑，并配以数学定义、参数说明、调优实践与实现示例。"
+description: "Eagle Eye 各情报模块所使用的评分公式、检测算法与分类流水线完整技术参考，覆盖国家不稳定指数 CII、异常检测、信号打分、冲突事件聚合、航运咽喉要道路由计算、能源基础设施风险与市场波动识别等核心逻辑，并配以数学定义、参数说明、调优实践与实现示例。"
 ---
 
 ---
@@ -11,7 +11,7 @@ description: "World Monitor 各情报模块所使用的评分公式、检测算�
 
 每个 Tier-1 国家获得一个实时不稳定分数（0-100）。CII v8 追踪 31 个 Tier-1 国家，具有共享的服务端/前端 `baselineRisk` 和 `eventMultiplier` 系数以及带符号的 24 小时移动差值：美国、俄罗斯、中国、乌克兰、伊朗、以色列、台湾、朝鲜、沙特阿拉伯、土耳其、波兰、德国、法国、英国、印度、巴基斯坦、叙利亚、也门、缅甸、委内瑞拉、古巴、墨西哥、巴西、阿联酋、韩国、伊拉克、阿富汗、黎巴嫩、埃及、日本和卡塔尔。精选 Tier-1 集合之外的国家在由支持系统评分时使用默认的编辑系数（`DEFAULT_CII_BASELINE_RISK = 15`，`DEFAULT_CII_EVENT_MULTIPLIER = 1.0`）。
 
-权威 CII 分数来自服务端 `GET /api/intelligence/v1/get-risk-scores` RPC（`server/worldmonitor/intelligence/v1/get-risk-scores.ts`），通过缓存的风险分数源提供给浏览器。前端 `country-instability.ts` 路径共享已发布的 `baselineRisk` / `eventMultiplier` 系数和 v3 冲突曲线常量，但它是缓存后端分数之后的回退/本地渲染路径，不是已发布分数的真值来源：
+权威 CII 分数来自服务端 `GET /api/intelligence/v1/get-risk-scores` RPC（`server/eagleeye/intelligence/v1/get-risk-scores.ts`），通过缓存的风险分数源提供给浏览器。前端 `country-instability.ts` 路径共享已发布的 `baselineRisk` / `eventMultiplier` 系数和 v3 冲突曲线常量，但它是缓存后端分数之后的回退/本地渲染路径，不是已发布分数的真值来源：
 
 | 组成部分            | 权重 | 详情 |
 | -------------------- | ------ | ------- |

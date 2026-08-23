@@ -130,7 +130,7 @@ describe('persisted read-state (#4923)', () => {
 
     // Unrelated keys are ignored.
     store.set(READ_STATE_KEY, JSON.stringify({ v: 1, lastVisitAt: 9_000 }));
-    onApplied!({ detail: { keys: ['worldmonitor-theme'] } });
+    onApplied!({ detail: { keys: ['eagleeye-theme'] } });
     assert.equal(activityTracker.getPreviousVisitTime(), 2_000);
   });
 

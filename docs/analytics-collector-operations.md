@@ -5,14 +5,14 @@ description: "Operational contracts for the self-hosted Umami collector, its wri
 
 # Analytics Collector Operations
 
-World Monitor sends product analytics to the separately deployed Railway
+Eagle Eye sends product analytics to the separately deployed Railway
 `umami` service. Railway deployment status is not an application write-path
 health signal: a healthy deployment can still return HTTP 500 from `POST
 /api/send`.
 
 ## Write-path contract
 
-- The Umami service must run the WorldMonitor-managed image built by
+- The Umami service must run the EagleEye-managed image built by
   [`Dockerfile.umami`](../Dockerfile.umami), or another immutable image proven
   to contain both the composite `(session_id, data_key)` unique index and the
   `ON CONFLICT` upsert for `session_data`. A version label alone is

@@ -214,7 +214,7 @@ describe('China documentation contract', () => {
         'IMF PortWatch',
         'AviationStack',
         'Hong Kong Observatory',
-        'WorldMonitor energy spine',
+        'EagleEye energy spine',
         'UN Comtrade',
         'Shanghai Shipping Exchange',
       ],

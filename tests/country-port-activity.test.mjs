@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
 const handlerSrc = readFileSync(
-  resolve(root, 'server/worldmonitor/intelligence/v1/get-country-port-activity.ts'),
+  resolve(root, 'server/eagleeye/intelligence/v1/get-country-port-activity.ts'),
   'utf-8',
 );
 

@@ -27,18 +27,18 @@ describe('agent-mode view (/?mode=agent)', () => {
       assert.ok(key in view, `agent-view.json missing ${key}`);
     }
     assert.ok(Array.isArray(view.capabilities) && view.capabilities.length >= 5);
-    assert.ok(view.authentication.apiKey.header === 'X-WorldMonitor-Key');
+    assert.ok(view.authentication.apiKey.header === 'X-EagleEye-Key');
     assert.ok(view.authentication.oauth2.scope === 'mcp');
     assert.match(view.authentication.summary, /Authentication/);
   });
 
   it('advertises the sandbox, quickstart, and docs MCP endpoints', () => {
-    assert.equal(view.endpoints.sandbox.url, 'https://www.worldmonitor.app/sandbox/index.json');
+    assert.equal(view.endpoints.sandbox.url, 'https://www.eagle-eye.app/sandbox/index.json');
     assert.doesNotThrow(
       () => readFileSync(join(ROOT, 'public/sandbox/index.json')),
       'sandbox index advertised but public/sandbox/index.json is missing',
     );
-    assert.equal(view.endpoints.docsMcp.url, 'https://www.worldmonitor.app/docs/mcp');
+    assert.equal(view.endpoints.docsMcp.url, 'https://www.eagle-eye.app/docs/mcp');
     assert.ok(view.quickstart && typeof view.quickstart === 'object');
     for (const key of ['sandbox', 'rest', 'mcp']) {
       assert.match(view.quickstart[key], /^curl /, `quickstart.${key} must be a runnable curl line`);
@@ -53,8 +53,8 @@ describe('agent-mode view (/?mode=agent)', () => {
       Object.keys(sdks).filter((k) => !['guide', 'note'].includes(k)).sort(),
       ['go', 'javascript', 'python', 'ruby'],
     );
-    assert.equal(sdks.python.install, 'pip install worldmonitor-sdk');
-    assert.match(sdks.go.install, /^go get github\.com\/koala73\/worldmonitor\/sdk\/go$/);
+    assert.equal(sdks.python.install, 'pip install eagleeye-sdk');
+    assert.match(sdks.go.install, /^go get github\.com\/hiatech\/eagle-eye\/sdk\/go$/);
     for (const key of ['javascript', 'python', 'ruby', 'go']) {
       assert.match(sdks[key].url, /^https:\/\//, `sdks.${key}.url must be a registry URL`);
     }
@@ -68,7 +68,7 @@ describe('agent-mode view (/?mode=agent)', () => {
     // Hand-synced pair: the pro-test source and the committed build artifact
     // must both carry the pointer (the pre-push gate rebuilds and compares).
     const linkTag =
-      '<link rel="alternate" type="application/json" href="https://www.worldmonitor.app/?mode=agent"';
+      '<link rel="alternate" type="application/json" href="https://www.eagle-eye.app/?mode=agent"';
     for (const path of ['pro-test/welcome.html', 'public/pro/welcome.html']) {
       assert.ok(
         readFileSync(join(ROOT, path), 'utf-8').includes(linkTag),
@@ -78,7 +78,7 @@ describe('agent-mode view (/?mode=agent)', () => {
   });
 
   it('advertises the schemamap and every section llms.txt', () => {
-    assert.equal(view.discovery.schemamap, 'https://www.worldmonitor.app/schemamap.xml');
+    assert.equal(view.discovery.schemamap, 'https://www.eagle-eye.app/schemamap.xml');
     assert.doesNotThrow(() => readFileSync(join(ROOT, 'public/schemamap.xml')));
     const sections = view.discovery.sectionLlmsTxt;
     assert.deepEqual(Object.keys(sections).sort(), ['api', 'blog', 'developers', 'docs']);
@@ -94,14 +94,14 @@ describe('agent-mode view (/?mode=agent)', () => {
       );
     }
     // /docs/llms.txt is Mintlify-served; pin the URL so a docs-host move shows up here.
-    assert.equal(sections.docs, 'https://www.worldmonitor.app/docs/llms.txt');
+    assert.equal(sections.docs, 'https://www.eagle-eye.app/docs/llms.txt');
   });
 
   it('stays in parity with the MCP server card and A2A agent card', () => {
     assert.equal(view.endpoints.mcp.url, serverCard.url);
     assert.equal(view.endpoints.mcp.tools, serverCard.tools.length);
     assert.equal(view.endpoints.a2a.url, agentCard.url);
-    assert.equal(view.endpoints.nlweb.url, 'https://www.worldmonitor.app/ask');
+    assert.equal(view.endpoints.nlweb.url, 'https://www.eagle-eye.app/ask');
   });
 
   it('vercel.json serves it for /?mode=agent ahead of the welcome rewrite', () => {
@@ -124,11 +124,11 @@ describe('agent-mode view (/?mode=agent)', () => {
   it('every discovery URL it advertises resolves to a tracked file or a live rewrite', () => {
     // Static, repo-tracked surfaces — a typo here ships a dead link to agents.
     const trackedPaths = {
-      'https://worldmonitor.app/.well-known/agent-skills/index.json':
+      'https://eagle-eye.app/.well-known/agent-skills/index.json':
         'public/.well-known/agent-skills/index.json',
-      'https://worldmonitor.app/.well-known/api-catalog': 'public/.well-known/api-catalog',
-      'https://worldmonitor.app/.well-known/ai-catalog.json': 'public/.well-known/ai-catalog.json',
-      'https://worldmonitor.app/llms.txt': 'public/llms.txt',
+      'https://eagle-eye.app/.well-known/api-catalog': 'public/.well-known/api-catalog',
+      'https://eagle-eye.app/.well-known/ai-catalog.json': 'public/.well-known/ai-catalog.json',
+      'https://eagle-eye.app/llms.txt': 'public/llms.txt',
     };
     for (const [url, path] of Object.entries(trackedPaths)) {
       assert.equal(

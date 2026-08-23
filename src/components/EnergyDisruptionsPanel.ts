@@ -6,7 +6,7 @@ import { attributionFooterHtml, ATTRIBUTION_FOOTER_CSS } from '@/utils/attributi
 import type {
   ListEnergyDisruptionsResponse,
   EnergyDisruptionEntry,
-} from '@/generated/client/worldmonitor/supply_chain/v1/service_client';
+} from '@/generated/client/eagleeye/supply_chain/v1/service_client';
 import {
   formatEventWindow,
   formatCapacityOffline,

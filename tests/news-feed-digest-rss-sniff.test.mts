@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { looksLikeRssXml } from '../server/worldmonitor/news/v1/list-feed-digest';
+import { looksLikeRssXml } from '../server/eagleeye/news/v1/list-feed-digest';
 
 describe('looksLikeRssXml: reject non-RSS bodies before they poison the cache', () => {
   it('accepts a standard RSS 2.0 body', () => {
@@ -53,7 +53,7 @@ describe('looksLikeRssXml: reject non-RSS bodies before they poison the cache', 
 
   it('REGRESSION: rejects a Cloudflare interstitial that comes back as HTTP 200', () => {
     // Real shape from the production CF challenge — the exact body the user
-    // hit on tech.worldmonitor.app's cloud + IPO panels. Pre-sniff this
+    // hit on tech.eagle-eye.app's cloud + IPO panels. Pre-sniff this
     // would slip through fetchRssText and land at parseRssXml, which finds
     // zero <item> tags and caches an empty ParseResult for 1h.
     const body = `<!DOCTYPE html>

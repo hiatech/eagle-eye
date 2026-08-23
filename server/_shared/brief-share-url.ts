@@ -1,5 +1,5 @@
 /**
- * HMAC-derived public-share hash for the WorldMonitor Brief.
+ * HMAC-derived public-share hash for the EagleEye Brief.
  *
  * The hosted per-user magazine at /api/brief/{userId}/{issueSlot} is
  * bound to a specific reader via a signed token. Sharing that URL

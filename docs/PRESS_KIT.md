@@ -1,8 +1,8 @@
-# World Monitor: Press Kit & FAQ
+# Eagle Eye: Press Kit & FAQ
 
-## What Is World Monitor?
+## What Is Eagle Eye?
 
-World Monitor is a real-time global intelligence dashboard that brings together news, markets, military activity, infrastructure data, and AI-powered analysis into a single, interactive map interface. Think of it as a situational awareness tool that was previously only available to government agencies and large corporations with six-figure OSINT budgets, now accessible to journalists, analysts, researchers, and curious citizens through a web browser or desktop app.
+Eagle Eye is a real-time global intelligence dashboard that brings together news, markets, military activity, infrastructure data, and AI-powered analysis into a single, interactive map interface. Think of it as a situational awareness tool that was previously only available to government agencies and large corporations with six-figure OSINT budgets, now accessible to journalists, analysts, researchers, and curious citizens through a web browser or desktop app.
 
 The platform monitors over 200 countries using 500+ news feeds, 8 live news streams, satellite tracking, military flight and naval vessel data, prediction markets, and dozens of specialized data layers. All of this is visualized on either a photorealistic 3D globe or a flat WebGL map, with AI summarization that distills thousands of headlines into actionable intelligence briefs.
 
@@ -12,26 +12,26 @@ The platform monitors over 200 countries using 500+ news feeds, 8 live news stre
 
 ### The Core Experience
 
-When a user opens World Monitor, they see a globe (or flat map) populated with live data points. Each point represents something happening in the world right now: a military flight over the Black Sea, an earthquake in Turkey, a protest in Nairobi, a cyberattack origin in Eastern Europe, or a spike in GPS jamming near a conflict zone.
+When a user opens Eagle Eye, they see a globe (or flat map) populated with live data points. Each point represents something happening in the world right now: a military flight over the Black Sea, an earthquake in Turkey, a protest in Nairobi, a cyberattack origin in Eastern Europe, or a spike in GPS jamming near a conflict zone.
 
 Users can toggle 56 map layer types on and off, zoom into regions, click on any event for details, and read AI-generated summaries that connect dots across multiple data streams. A command palette (Cmd+K) provides instant search across countries, layers, and intelligence categories.
 
 ### Six Specialized Dashboards
 
-World Monitor runs six thematic variants from a single codebase, each tailored to a different audience:
+Eagle Eye runs six thematic variants from a single codebase, each tailored to a different audience:
 
 | Variant | Domain | Focus |
 |---------|--------|-------|
-| **World Monitor** | worldmonitor.app | Geopolitics, military, conflicts, infrastructure |
-| **Tech Monitor** | tech.worldmonitor.app | AI/ML, startups, cybersecurity, tech ecosystems |
-| **Finance Monitor** | finance.worldmonitor.app | Markets, central banks, Gulf FDI, commodities |
-| **Commodity Monitor** | commodity.worldmonitor.app | Mining, metals, energy, critical minerals |
-| **Happy Monitor** | happy.worldmonitor.app | Good news, conservation, positive global trends |
-| **Energy Monitor** | energy.worldmonitor.app | Energy security, oil and gas, chokepoints, policy response |
+| **Eagle Eye** | eagle-eye.app | Geopolitics, military, conflicts, infrastructure |
+| **Tech Monitor** | tech.eagle-eye.app | AI/ML, startups, cybersecurity, tech ecosystems |
+| **Finance Monitor** | finance.eagle-eye.app | Markets, central banks, Gulf FDI, commodities |
+| **Commodity Monitor** | commodity.eagle-eye.app | Mining, metals, energy, critical minerals |
+| **Happy Monitor** | happy.eagle-eye.app | Good news, conservation, positive global trends |
+| **Energy Monitor** | energy.eagle-eye.app | Energy security, oil and gas, chokepoints, policy response |
 
 ### AI Intelligence Layer
 
-World Monitor uses a multi-tier AI pipeline to process and summarize information:
+Eagle Eye uses a multi-tier AI pipeline to process and summarize information:
 
 1. **World Brief**: An AI-generated summary of the most significant global events, updated regularly, using a chain of language models that prioritizes speed and cost efficiency.
 2. **AI Deduction**: Users can ask free-text geopolitical questions (e.g., "What are the implications of rising tensions in the South China Sea?") and receive analysis grounded in live headlines.
@@ -45,7 +45,7 @@ Browser-side ML features can run locally using lightweight models, with no data 
 
 ## Where Does the Data Come From?
 
-World Monitor aggregates publicly available data from dozens of sources. No proprietary or classified information is used. Key source categories:
+Eagle Eye aggregates publicly available data from dozens of sources. No proprietary or classified information is used. Key source categories:
 
 ### News & Media
 
@@ -133,7 +133,7 @@ World Monitor aggregates publicly available data from dozens of sources. No prop
 
 ## Who Is It For?
 
-World Monitor serves several audiences:
+Eagle Eye serves several audiences:
 
 - **Journalists & Newsrooms**: Real-time situational awareness during breaking events. Layer military flights over conflict zones, cross-reference with news feeds and prediction markets.
 - **Security & Risk Analysts**: Country instability scoring (CII), threat classification, infrastructure monitoring, and AI-generated intelligence briefs.
@@ -146,7 +146,7 @@ World Monitor serves several audiences:
 
 ## How Is It Different from Existing Tools?
 
-| Feature | World Monitor | Traditional OSINT Tools | News Aggregators |
+| Feature | Eagle Eye | Traditional OSINT Tools | News Aggregators |
 |---------|--------------|------------------------|-----------------|
 | Real-time map visualization | Yes (3D globe + flat map) | Often static or delayed | No map |
 | AI summarization | Yes (multi-tier LLM) | Rarely | Basic or none |
@@ -208,7 +208,7 @@ The system identifies emerging crises by blending news clustering, geographic co
 
 ## Availability
 
-- **Web**: Available at worldmonitor.app and variant subdomains
+- **Web**: Available at eagle-eye.app and variant subdomains
 - **Desktop**: Native apps for macOS, Windows, and Linux (via Tauri)
 - **PWA**: Installable as a progressive web app with offline map tile caching
 - **Mobile**: Mobile-optimized responsive layout with touch gestures
@@ -218,7 +218,7 @@ The system identifies emerging crises by blending news clustering, geographic co
 
 ## What's Next: Roadmap Highlights
 
-World Monitor is actively developed with planned expansions across several areas:
+Eagle Eye is actively developed with planned expansions across several areas:
 
 ### Pro And API Tiers
 
@@ -226,7 +226,7 @@ World Monitor is actively developed with planned expansions across several areas
 - **Scheduled AI briefings** delivered via email, Slack, Telegram, Discord, or WhatsApp
 - **Advanced equity research** with financials, analyst targets, valuation metrics, and backtesting
 - **Custom alert rules** for specific countries, topics, or threshold triggers
-- **API and MCP access** for developers and organizations to integrate World Monitor data into their own tools
+- **API and MCP access** for developers and organizations to integrate Eagle Eye data into their own tools
 
 ### Enterprise Features (Planned)
 
@@ -248,10 +248,10 @@ World Monitor is actively developed with planned expansions across several areas
 
 ## Frequently Asked Questions
 
-**Q: Is World Monitor free?**
+**Q: Is Eagle Eye free?**
 A: Yes. The core dashboard with map layers, news feeds, live streams, and many AI features is free to use. Pro and API tiers add higher-value workflows, API keys, MCP access, and heavier operational use cases.
 
-**Q: Where does World Monitor get its data?**
+**Q: Where does Eagle Eye get its data?**
 A: Exclusively from publicly available, open-source data. This includes government agencies (USGS, NASA, NOAA, EIA, FRED), academic institutions (ACLED, UCDP), open tracking networks (ADS-B, AIS), news RSS feeds, and public APIs. No classified or proprietary intelligence is used.
 
 **Q: Is this legal?**
@@ -263,26 +263,26 @@ A: Most data layers update every 1 to 15 minutes. Military flight and vessel tra
 **Q: Can I trust the AI analysis?**
 A: The AI summarization and deduction features are tools, not oracles. They synthesize patterns from aggregated headlines and data, but should be treated as one input among many. All AI outputs cite their source headlines, allowing users to verify claims. The system is designed to surface signals, not make definitive predictions.
 
-**Q: Does World Monitor track users or sell data?**
+**Q: Does Eagle Eye track users or sell data?**
 A: No. There are no tracking cookies, no user profiling, and no data sales. The free tier requires no account. AI features can run entirely in-browser with no data sent to external servers.
 
 **Q: Is the code open source?**
-A: Yes. World Monitor is licensed under AGPL-3.0, meaning anyone can inspect, audit, modify, and redistribute the code. If you run a modified version as a service, you must share your modifications under the same license.
+A: Yes. Eagle Eye is licensed under AGPL-3.0, meaning anyone can inspect, audit, modify, and redistribute the code. If you run a modified version as a service, you must share your modifications under the same license.
 
 **Q: Who built this?**
-A: World Monitor was created by Elie Habib. It is an independent project, not affiliated with any government, intelligence agency, or defense contractor.
+A: Eagle Eye was created by Elie Habib. It is an independent project, not affiliated with any government, intelligence agency, or defense contractor.
 
-**Q: Can I embed World Monitor or use its data in my reporting?**
-A: The web interface can be referenced and linked in reporting. For data integration, use the documented REST API, OpenAPI specs, or MCP server. Please attribute "World Monitor (worldmonitor.app)" when referencing the platform in published work.
+**Q: Can I embed Eagle Eye or use its data in my reporting?**
+A: The web interface can be referenced and linked in reporting. For data integration, use the documented REST API, OpenAPI specs, or MCP server. Please attribute "Eagle Eye (eagle-eye.app)" when referencing the platform in published work.
 
 **Q: How is this different from Janes, Palantir, or Dataminr?**
-A: Those are enterprise products costing tens to hundreds of thousands of dollars per year, typically sold to governments and large corporations. World Monitor aims to democratize access to situational awareness by aggregating public data and using AI to make it digestible. It is open source, free to use, and designed for individual analysts and small teams, not just large organizations.
+A: Those are enterprise products costing tens to hundreds of thousands of dollars per year, typically sold to governments and large corporations. Eagle Eye aims to democratize access to situational awareness by aggregating public data and using AI to make it digestible. It is open source, free to use, and designed for individual analysts and small teams, not just large organizations.
 
 **Q: What does "Country Instability Index" mean and how reliable is it?**
 A: The CII is a documented composite stress score (0-100) for 31 Tier-1 countries. CII v8 combines baseline risk with unrest, conflict, security, information, and capped/floored live-signal terms, and emits methodology version plus provenance fields. It is not a predictive model and should not be used as the sole basis for security or investment decisions. It is most useful for identifying countries experiencing unusual activity relative to their baseline.
 
 **Q: How many people work on this?**
-A: World Monitor is primarily a solo project by its creator, with occasional open-source contributions from the community.
+A: Eagle Eye is primarily a solo project by its creator, with occasional open-source contributions from the community.
 
 ---
 
@@ -290,9 +290,9 @@ A: World Monitor is primarily a solo project by its creator, with occasional ope
 
 For press inquiries, interview requests, or additional information:
 
-- **GitHub**: github.com/koala73/worldmonitor
-- **Website**: worldmonitor.app
+- **GitHub**: github.com/hiatech/eagle-eye
+- **Website**: eagle-eye.app
 
 ---
 
-*This document was last updated March 2026. World Monitor is an independent, open-source project licensed under AGPL-3.0.*
+*This document was last updated March 2026. Eagle Eye is an independent, open-source project licensed under AGPL-3.0.*

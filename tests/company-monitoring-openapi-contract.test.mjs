@@ -24,8 +24,8 @@ const specs = [
   ],
   [
     'unified YAML',
-    loadYaml(readFileSync(resolve(root, 'docs/api/worldmonitor.openapi.yaml'), 'utf8')),
-    'worldmonitor_company_monitoring_v1_',
+    loadYaml(readFileSync(resolve(root, 'docs/api/eagleeye.openapi.yaml'), 'utf8')),
+    'eagleeye_company_monitoring_v1_',
   ],
 ];
 

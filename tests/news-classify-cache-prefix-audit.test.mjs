@@ -1,9 +1,9 @@
 // U4 prefix-bump audit (per cache-prefix-bump-propagation-scope learning).
 //
 // The classify cache prefix lives in three independent sites:
-//   1. server/worldmonitor/intelligence/v1/_shared.ts — canonical writer
+//   1. server/eagleeye/intelligence/v1/_shared.ts — canonical writer
 //      (CLASSIFY_CACHE_PREFIX constant + buildClassifyCacheKey helper)
-//   2. server/worldmonitor/news/v1/list-feed-digest.ts — digest reader
+//   2. server/eagleeye/news/v1/list-feed-digest.ts — digest reader
 //      (now imports buildClassifyCacheKey from the shared module above)
 //   3. scripts/ais-relay.cjs — relay reader+writer (independent inline
 //      helper, cannot import from .ts)
@@ -27,7 +27,7 @@ const repoRoot = resolve(__dirname, '..');
 
 // Read canonical version from _shared.ts. Single source of truth.
 const sharedSrc = readFileSync(
-  resolve(repoRoot, 'server/worldmonitor/intelligence/v1/_shared.ts'),
+  resolve(repoRoot, 'server/eagleeye/intelligence/v1/_shared.ts'),
   'utf-8',
 );
 

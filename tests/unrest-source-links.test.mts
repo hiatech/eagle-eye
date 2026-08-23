@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { renderPopupSourceLinks } from '../src/components/map-popup-source-links.ts';
-import type { UnrestEvent } from '../src/generated/server/worldmonitor/unrest/v1/service_server.ts';
-import { deduplicateEvents } from '../server/worldmonitor/unrest/v1/_shared.ts';
+import type { UnrestEvent } from '../src/generated/server/eagleeye/unrest/v1/service_server.ts';
+import { deduplicateEvents } from '../server/eagleeye/unrest/v1/_shared.ts';
 
 function serverEvent(sourceUrls: string[]): UnrestEvent {
   return {

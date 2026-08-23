@@ -4,8 +4,8 @@
  * Auth paths:
  *   1. Clerk JWT (Authorization: Bearer <token>) — validates plan === 'pro',
  *      then injects real server keys and proxies to the Railway relay.
- *   2. Browser tester key (X-WorldMonitor-Key) — validated against
- *      WORLDMONITOR_VALID_KEYS so one browser-held key can unlock premium
+ *   2. Browser tester key (X-EagleEye-Key) — validated against
+ *      EAGLEEYE_VALID_KEYS so one browser-held key can unlock premium
  *      testing paths across the app.
  *   3. Legacy tester keys (X-Widget-Key / X-Pro-Key) — validated directly here
  *      so the relay's WIDGET_AGENT_KEY / PRO_WIDGET_KEY are never exposed
@@ -24,10 +24,10 @@ import { timingSafeEqualSecret, timingSafeIncludes } from './_crypto.js';
 import { validateBearerToken } from '../server/auth-session';
 import { getBillingVerificationDenial, getEntitlements } from '../server/_shared/entitlement-check';
 
-const RELAY_BASE = 'https://proxy.worldmonitor.app';
+const RELAY_BASE = 'https://proxy.eagle-eye.app';
 const WIDGET_AGENT_KEY = process.env.WIDGET_AGENT_KEY ?? '';
 const PRO_WIDGET_KEY = process.env.PRO_WIDGET_KEY ?? '';
-const WORLDMONITOR_VALID_KEYS = (process.env.WORLDMONITOR_VALID_KEYS ?? '')
+const EAGLEEYE_VALID_KEYS = (process.env.EAGLEEYE_VALID_KEYS ?? '')
   .split(',')
   .map((v) => v.trim())
   .filter(Boolean);
@@ -45,8 +45,8 @@ async function readRequestBody(req: Request): Promise<string> {
   ]);
 }
 
-async function hasValidWorldMonitorKey(key: string): Promise<boolean> {
-  return timingSafeIncludes(key, WORLDMONITOR_VALID_KEYS);
+async function hasValidEagleEyeKey(key: string): Promise<boolean> {
+  return timingSafeIncludes(key, EAGLEEYE_VALID_KEYS);
 }
 
 function getCookie(req: Request, name: string): string {
@@ -85,7 +85,7 @@ export default async function handler(req: Request): Promise<Response> {
       headers: {
         ...corsHeaders,
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-WorldMonitor-Key, X-Api-Key, X-Widget-Key, X-Pro-Key',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-EagleEye-Key, X-Api-Key, X-Widget-Key, X-Pro-Key',
       },
     });
   }
@@ -93,15 +93,15 @@ export default async function handler(req: Request): Promise<Response> {
   // ── Auth ──────────────────────────────────────────────────────────────────
   let isPro = false;
 
-  const headerWorldMonitorKey =
-    req.headers.get('X-WorldMonitor-Key') ??
+  const headerEagleEyeKey =
+    req.headers.get('X-EagleEye-Key') ??
     req.headers.get('X-Api-Key') ??
     '';
-  const worldMonitorKey =
-    headerWorldMonitorKey ||
+  const eagleEyeKey =
+    headerEagleEyeKey ||
     getCookie(req, 'wm-pro-key') ||
     getCookie(req, 'wm-widget-key');
-  if (await hasValidWorldMonitorKey(worldMonitorKey)) {
+  if (await hasValidEagleEyeKey(eagleEyeKey)) {
     isPro = true;
   } else {
     const authHeader = req.headers.get('Authorization');
@@ -200,7 +200,7 @@ export default async function handler(req: Request): Promise<Response> {
   // ── Build relay headers (server-side keys, never exposed to browser) ──────
   const relayHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
-    'User-Agent': 'worldmonitor-widget-edge/1.0',
+    'User-Agent': 'eagleeye-widget-edge/1.0',
     ...(WIDGET_AGENT_KEY ? { 'X-Widget-Key': WIDGET_AGENT_KEY } : {}),
   };
   if (isPro && PRO_WIDGET_KEY) {

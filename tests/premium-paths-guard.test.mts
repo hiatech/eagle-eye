@@ -25,7 +25,7 @@ import { PREMIUM_RPC_PATHS } from '../src/shared/premium-paths.ts';
 // That exact regression hit `/api/chat-analyst` (post-PR-#3797). The fix is
 // trivial — add the path to PREMIUM_RPC_PATHS — but the trap is that it
 // stays invisible until someone manages to call the endpoint AND has no
-// tester key AND isn't on a desktop with WORLDMONITOR_API_KEY.
+// tester key AND isn't on a desktop with EAGLEEYE_API_KEY.
 //
 // This guard fails CI when a new file under `api/` gates on premium auth
 // (via `isCallerPremium()` or returns the literal 403 body) but the

@@ -36,8 +36,8 @@ function git(rootDir, ...args) {
 function makeTempGitRepo() {
   const root = makeTempRepo();
   git(root, 'init', '--quiet');
-  git(root, 'config', 'user.name', 'WorldMonitor Test');
-  git(root, 'config', 'user.email', 'test@worldmonitor.app');
+  git(root, 'config', 'user.name', 'EagleEye Test');
+  git(root, 'config', 'user.email', 'test@eagle-eye.app');
   writeFileSync(join(root, '.gitignore'), '.env*.backup*\n');
   writeFileSync(join(root, '.env.example'), 'PLACEHOLDER=value\n');
   git(root, 'add', '.gitignore', '.env.example');

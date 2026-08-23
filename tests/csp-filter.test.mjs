@@ -38,7 +38,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
 
   describe('connect-src HTTPS suppression (policy-aware)', () => {
     it('suppresses HTTPS connect-src when CSP allows https:', () => {
-      assert.ok(suppress('enforce', 'connect-src', 'https://api.worldmonitor.app/api/oref-alerts', '', true));
+      assert.ok(suppress('enforce', 'connect-src', 'https://api.eagle-eye.app/api/oref-alerts', '', true));
     });
 
     it('suppresses HTTPS connect-src for tilecache.rainviewer.com', () => {
@@ -58,7 +58,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
 
     it('does NOT suppress HTTPS connect-src when CSP does not allow https:', () => {
-      assert.ok(!suppress('enforce', 'connect-src', 'https://api.worldmonitor.app/api/oref-alerts', '', false));
+      assert.ok(!suppress('enforce', 'connect-src', 'https://api.eagle-eye.app/api/oref-alerts', '', false));
     });
 
     it('does NOT suppress HTTP connect-src even when CSP allows https:', () => {
@@ -70,7 +70,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
   });
 
-  describe('media-src HTTPS suppression (policy-aware) — WORLDMONITOR-HV', () => {
+  describe('media-src HTTPS suppression (policy-aware) — EAGLEEYE-HV', () => {
     // 7th positional arg = cspMediaSrcAllowsHttps. Our media-src policy carries
     // `https:` in both the meta tag and the vercel.json header, so an enforced
     // https: media-src block is an environmental policy mutation (proxy/extension
@@ -96,7 +96,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
   });
 
-  describe('media-src tts.baidu.com extension injection — WORLDMONITOR-TW', () => {
+  describe('media-src tts.baidu.com extension injection — EAGLEEYE-TW', () => {
     // Baidu read-aloud / TTS extensions inject `<audio src="http://tts.baidu.com/
     // text2audio?...&text=...">` to speak page content. http: mixed-content the
     // CSP correctly blocks; we never load tts.baidu.com, so it is third-party
@@ -116,7 +116,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
   });
 
-  describe('default-src HTTP mixed-content suppression — WORLDMONITOR-S0', () => {
+  describe('default-src HTTP mixed-content suppression — EAGLEEYE-S0', () => {
     // Browser link-prefetch / extension fetching a feed-supplied http article
     // URL; falls to the default-src fallback (no prefetch-src set). HTTPS-only
     // app never ships http subresource loads, so third-party http default-src
@@ -126,17 +126,17 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
 
     it('does NOT suppress http default-src block to our own host (real mixed-content regression)', () => {
-      assert.ok(!suppress('enforce', 'default-src', 'http://www.worldmonitor.app/asset.json', '', false));
-      assert.ok(!suppress('enforce', 'default-src', 'http://worldmonitor.app/asset.json', '', false));
+      assert.ok(!suppress('enforce', 'default-src', 'http://www.eagle-eye.app/asset.json', '', false));
+      assert.ok(!suppress('enforce', 'default-src', 'http://eagle-eye.app/asset.json', '', false));
     });
 
     it('does NOT suppress an https default-src block (still potential signal)', () => {
       assert.ok(!suppress('enforce', 'default-src', 'https://prefetch.example.com/page', '', false));
     });
 
-    it('does NOT let a worldmonitor.app suffix-spoof lookalike bypass the first-party gate', () => {
-      // worldmonitor.app.evil.com is third-party → http block IS suppressed (it is not us).
-      assert.ok(suppress('enforce', 'default-src', 'http://worldmonitor.app.evil.com/x', '', false));
+    it('does NOT let a eagle-eye.app suffix-spoof lookalike bypass the first-party gate', () => {
+      // eagle-eye.app.evil.com is third-party → http block IS suppressed (it is not us).
+      assert.ok(suppress('enforce', 'default-src', 'http://eagle-eye.app.evil.com/x', '', false));
     });
   });
 
@@ -168,7 +168,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
 
     it('suppresses blob: URI', () => {
-      assert.ok(suppress('enforce', 'worker-src', 'blob:https://www.worldmonitor.app/abc', '', false));
+      assert.ok(suppress('enforce', 'worker-src', 'blob:https://www.eagle-eye.app/abc', '', false));
     });
 
     it('suppresses eval', () => {
@@ -229,7 +229,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'font-src', 'https://fonts.evil.example/s/mulish/v18/font.woff2', '', false));
     });
 
-    it('suppresses Perplexity Comet overlay webfont injection (WORLDMONITOR-TR)', () => {
+    it('suppresses Perplexity Comet overlay webfont injection (EAGLEEYE-TR)', () => {
       assert.ok(suppress('enforce', 'font-src', 'https://frontend-cdn.perplexity.ai/_agi_assets/fonts/FKGroteskNeue.woff2', '', false));
       assert.ok(suppress('enforce', 'font-src', 'https://frontend-cdn.perplexity.ai/_agi_assets/fonts/FKGroteskNeue.woff', '', false));
     });
@@ -239,7 +239,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'font-src', 'https://frontend-cdn.perplexity.ai/_agi_assets/app.js', '', false));
     });
 
-    it('suppresses Doubao AI-assistant overlay KaTeX font injection (WORLDMONITOR-TR round 2)', () => {
+    it('suppresses Doubao AI-assistant overlay KaTeX font injection (EAGLEEYE-TR round 2)', () => {
       // ByteDance Doubao extension injects KaTeX fonts with a woff2/woff/ttf
       // fallback chain — all three extensions must be covered.
       assert.ok(suppress('enforce', 'font-src', 'https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/flow-ext-doubao/cdn-media-assets/KaTeX_Fraktur-Regular.7c187121.woff', '', false));
@@ -269,12 +269,12 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
 
     it('suppresses manifest.webmanifest', () => {
-      assert.ok(suppress('enforce', 'default-src', 'https://www.worldmonitor.app/manifest.webmanifest', '', false));
+      assert.ok(suppress('enforce', 'default-src', 'https://www.eagle-eye.app/manifest.webmanifest', '', false));
     });
 
     it('suppresses third-party stylesheet injection from cdn.jsdelivr.net (style-src-elem)', () => {
-      // WORLDMONITOR-J0: extension/bookmarklet injecting antd@4 CSS on
-      // finance.worldmonitor.app — 270 events / 26 users. We never load
+      // EAGLEEYE-J0: extension/bookmarklet injecting antd@4 CSS on
+      // finance.eagle-eye.app — 270 events / 26 users. We never load
       // CSS from jsDelivr (only JSON atlases + chart.js JS).
       assert.ok(suppress('enforce', 'style-src-elem', 'https://cdn.jsdelivr.net/npm/antd@4/dist/antd.min.css', '', false));
     });
@@ -293,7 +293,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'connect-src', 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json', '', false));
     });
 
-    it('suppresses Google Fonts CSS injection under style-src* (WORLDMONITOR-J0 round 2)', () => {
+    it('suppresses Google Fonts CSS injection under style-src* (EAGLEEYE-J0 round 2)', () => {
       // Extensions/user-style themes inject <link> stylesheets for families we
       // never reference (DM Sans, Syne, Roboto). We self-host all fonts, so a
       // style-src* block on fonts.googleapis.com/css* is always injection.
@@ -306,7 +306,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'style-src-elem', 'https://fonts.googleapis.com/icon.js', '', false));
     });
 
-    it('suppresses 6ppn.com extension stylesheet injection (WORLDMONITOR-J0)', () => {
+    it('suppresses 6ppn.com extension stylesheet injection (EAGLEEYE-J0)', () => {
       assert.ok(suppress('enforce', 'style-src-elem', 'https://www.6ppn.com/ext/assets/style.CMoYtLrp.css?v=uTaroZOITRdUkyChp', '', false));
     });
 
@@ -337,7 +337,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     // Corporate proxies / privacy extensions strip bare `https:` from connect-src in
     // the user's effective policy, blocking our first-party Convex backend even though
     // our policy allows it. Suppress unconditionally for our exact configured Convex
-    // host so we don't drown Sentry in events from those users (WORLDMONITOR-HN).
+    // host so we don't drown Sentry in events from those users (EAGLEEYE-HN).
     // Convex is multi-tenant — must NOT broaden to all *.convex.cloud (would silently
     // suppress blocks to foreign / attacker-controlled tenants).
     const FIRST_PARTY_CONVEX = 'tacit-curlew-777.convex.cloud';
@@ -393,7 +393,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'connect-src', 'https://gateway.zscloud.net/api', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('suppresses frame-src for content-filter/security agent vendor frames (WORLDMONITOR-HT)', () => {
+    it('suppresses frame-src for content-filter/security agent vendor frames (EAGLEEYE-HT)', () => {
       // NetSTAR inSITE, Techloq, Trend Micro agents frame their own vendor
       // hosts into every page. frame-src reports origin-only for cross-origin
       // frames, so these are origin-shaped blockedURIs.
@@ -406,7 +406,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(suppress('enforce', 'frame-src', 'https://toolytics.pa.clients6.google.com', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('suppresses frame-src for h5player userscript vendor frame (WORLDMONITOR-HT)', () => {
+    it('suppresses frame-src for h5player userscript vendor frame (EAGLEEYE-HT)', () => {
       // Tampermonkey "h5player" video-enhancement userscript frames its own
       // vendor host into every page. Origin-only blockedURI, exact host.
       assert.ok(suppress('enforce', 'frame-src', 'https://h5player.anzz.site', '', false, FIRST_PARTY_CONVEX));
@@ -419,7 +419,7 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     });
 
     it('does NOT suppress frame-src for arbitrary third-party hosts (rotating extension long tail stays surfaced)', () => {
-      // WORLDMONITOR-HT's rotating merchant-domain tail is deliberately NOT
+      // EAGLEEYE-HT's rotating merchant-domain tail is deliberately NOT
       // blanket-suppressed — a future first-party embed regression must surface.
       assert.ok(!suppress('enforce', 'frame-src', 'https://www.service.com.au', '', false, FIRST_PARTY_CONVEX));
     });
@@ -437,21 +437,21 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     // Corporate proxies / privacy extensions / school content-filters can strip
     // both `'self'` and `https:` from img-src in the user's effective policy,
     // causing browsers to block our own favicon and panel icons even though our
-    // policy (`img-src 'self' data: blob: https:`) allows them (WORLDMONITOR-JP).
-    it('suppresses img-src to apex worldmonitor.app (favicon)', () => {
-      assert.ok(suppress('enforce', 'img-src', 'https://worldmonitor.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
+    // policy (`img-src 'self' data: blob: https:`) allows them (EAGLEEYE-JP).
+    it('suppresses img-src to apex eagle-eye.app (favicon)', () => {
+      assert.ok(suppress('enforce', 'img-src', 'https://eagle-eye.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('suppresses img-src to www.worldmonitor.app (production favicon, WORLDMONITOR-JP)', () => {
-      assert.ok(suppress('enforce', 'img-src', 'https://www.worldmonitor.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
+    it('suppresses img-src to www.eagle-eye.app (production favicon, EAGLEEYE-JP)', () => {
+      assert.ok(suppress('enforce', 'img-src', 'https://www.eagle-eye.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('suppresses img-src to finance.worldmonitor.app subdomain', () => {
-      assert.ok(suppress('enforce', 'img-src', 'https://finance.worldmonitor.app/favico/finance/apple-touch-icon.png', '', false, FIRST_PARTY_CONVEX));
+    it('suppresses img-src to finance.eagle-eye.app subdomain', () => {
+      assert.ok(suppress('enforce', 'img-src', 'https://finance.eagle-eye.app/favico/finance/apple-touch-icon.png', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('suppresses img-src to tech.worldmonitor.app subdomain', () => {
-      assert.ok(suppress('enforce', 'img-src', 'https://tech.worldmonitor.app/favico/tech/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
+    it('suppresses img-src to tech.eagle-eye.app subdomain', () => {
+      assert.ok(suppress('enforce', 'img-src', 'https://tech.eagle-eye.app/favico/tech/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
     });
 
     it('does NOT suppress img-src to a foreign host', () => {
@@ -459,26 +459,26 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
       assert.ok(!suppress('enforce', 'img-src', 'https://malicious.example.com/tracker.gif', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress img-src to suffix-spoof lookalike `worldmonitor.app.evil.com`', () => {
+    it('does NOT suppress img-src to suffix-spoof lookalike `eagle-eye.app.evil.com`', () => {
       // Endswith check uses a leading `.` so attacker-controlled lookalikes
-      // (`worldmonitor.app.evil.com`, `not-worldmonitor.app`) are not whitelisted.
-      assert.ok(!suppress('enforce', 'img-src', 'https://worldmonitor.app.evil.com/pixel.gif', '', false, FIRST_PARTY_CONVEX));
+      // (`eagle-eye.app.evil.com`, `not-eagle-eye.app`) are not whitelisted.
+      assert.ok(!suppress('enforce', 'img-src', 'https://eagle-eye.app.evil.com/pixel.gif', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress img-src to prefix-spoof `not-worldmonitor.app`', () => {
-      assert.ok(!suppress('enforce', 'img-src', 'https://not-worldmonitor.app/pixel.gif', '', false, FIRST_PARTY_CONVEX));
+    it('does NOT suppress img-src to prefix-spoof `not-eagle-eye.app`', () => {
+      assert.ok(!suppress('enforce', 'img-src', 'https://not-eagle-eye.app/pixel.gif', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress connect-src to worldmonitor.app (rule is scoped to img-src)', () => {
+    it('does NOT suppress connect-src to eagle-eye.app (rule is scoped to img-src)', () => {
       // First-party img-src rule must not bleed into other directives.
       // A real connect-src regression to our own host must still surface.
-      assert.ok(!suppress('enforce', 'connect-src', 'https://api.worldmonitor.app/api/health', '', false, FIRST_PARTY_CONVEX));
+      assert.ok(!suppress('enforce', 'connect-src', 'https://api.eagle-eye.app/api/health', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress script-src to worldmonitor.app (rule is scoped to img-src)', () => {
+    it('does NOT suppress script-src to eagle-eye.app (rule is scoped to img-src)', () => {
       // A script-src block on our own host indicates a real CSP regression
       // we want to see — must not be swallowed by the img-src rule.
-      assert.ok(!suppress('enforce', 'script-src', 'https://www.worldmonitor.app/assets/main-abc.js', '', false, FIRST_PARTY_CONVEX));
+      assert.ok(!suppress('enforce', 'script-src', 'https://www.eagle-eye.app/assets/main-abc.js', '', false, FIRST_PARTY_CONVEX));
     });
 
     // Mixed-content / wrong-scheme regression guard. Our CSP only allows `https:`
@@ -486,17 +486,17 @@ describe('CSP violation filter (shouldSuppressCspViolation)', () => {
     // first-party host would be blocked by the browser. The first-party host
     // suppression MUST NOT hide that signal — it requires `https:` explicitly.
     it('does NOT suppress http:// img-src to our own apex (mixed-content regression must surface)', () => {
-      assert.ok(!suppress('enforce', 'img-src', 'http://worldmonitor.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
+      assert.ok(!suppress('enforce', 'img-src', 'http://eagle-eye.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress http:// img-src to a worldmonitor.app subdomain', () => {
-      assert.ok(!suppress('enforce', 'img-src', 'http://www.worldmonitor.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
+    it('does NOT suppress http:// img-src to a eagle-eye.app subdomain', () => {
+      assert.ok(!suppress('enforce', 'img-src', 'http://www.eagle-eye.app/favico/favicon-32x32.png', '', false, FIRST_PARTY_CONVEX));
     });
 
-    it('does NOT suppress ws:// img-src to a worldmonitor.app subdomain (only https: is whitelisted)', () => {
+    it('does NOT suppress ws:// img-src to a eagle-eye.app subdomain (only https: is whitelisted)', () => {
       // ws:// is not a valid img source but a malformed reference could trigger
       // a violation; protocol gate must reject anything other than https:.
-      assert.ok(!suppress('enforce', 'img-src', 'ws://www.worldmonitor.app/socket', '', false, FIRST_PARTY_CONVEX));
+      assert.ok(!suppress('enforce', 'img-src', 'ws://www.eagle-eye.app/socket', '', false, FIRST_PARTY_CONVEX));
     });
   });
 

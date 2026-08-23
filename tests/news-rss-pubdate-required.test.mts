@@ -16,7 +16,7 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { __testing__ } from '../server/worldmonitor/news/v1/list-feed-digest';
+import { __testing__ } from '../server/eagleeye/news/v1/list-feed-digest';
 
 const { parseRssXml, extractFirstDateTag, FUTURE_DATE_TOLERANCE_MS } = __testing__;
 

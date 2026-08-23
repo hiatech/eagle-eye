@@ -55,7 +55,7 @@ let unsubscribeConvex: (() => void) | null = null;
 // Convex/Clerk bootstrap rarely rejects with a non-Error value (undefined, null, string).
 // Sentry serializes those as synthetic `Error: undefined` with zero frames — uninvestigable.
 // Normalize to a real Error carrying the offending value both in the message (for log/search)
-// and as `cause` (for Sentry's structured display) so events remain debuggable (WORLDMONITOR-ND).
+// and as `cause` (for Sentry's structured display) so events remain debuggable (EAGLEEYE-ND).
 function normalizeCaughtError(action: string, err: unknown): Error {
   if (err instanceof Error) return err;
   const rendered = err === undefined ? 'undefined' : String(err);
@@ -382,7 +382,7 @@ export async function openBillingPortal(
   // in-app toast surface (UnifiedSettings) can tell the user what
   // happened. Callers that don't handle the outcome silently drop the
   // pre-reserved tab — still better UX than landing in a stranger's
-  // portal. WORLDMONITOR-R5.
+  // portal. EAGLEEYE-R5.
   const closeReserved = (): void => {
     if (reservedWin && !reservedWin.closed) reservedWin.close();
   };
@@ -428,7 +428,7 @@ export async function openBillingPortal(
     // have no Dodo customer row, so it shouldn't drown real config/SDK bugs
     // in error-level alerts. Anything else (DODO_API_KEY_MISSING, Dodo SDK
     // throw, network failure, unknown shape) stays at the default `error`
-    // level. WORLDMONITOR-R5.
+    // level. EAGLEEYE-R5.
     const kind = extractBillingErrorKind(err);
     const isNoCustomer = kind === 'NO_CUSTOMER';
     const level: 'warning' | 'error' = isNoCustomer ? 'warning' : 'error';

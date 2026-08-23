@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { getResilienceRanking } from '../server/worldmonitor/resilience/v1/get-resilience-ranking.ts';
-import { getResilienceScore } from '../server/worldmonitor/resilience/v1/get-resilience-score.ts';
-import { scoreAllDimensions } from '../server/worldmonitor/resilience/v1/_dimension-scorers.ts';
+import { getResilienceRanking } from '../server/eagleeye/resilience/v1/get-resilience-ranking.ts';
+import { getResilienceScore } from '../server/eagleeye/resilience/v1/get-resilience-score.ts';
+import { scoreAllDimensions } from '../server/eagleeye/resilience/v1/_dimension-scorers.ts';
 import { buildResilienceChoroplethMap } from '../src/components/resilience-choropleth-utils.ts';
 import { createRedisFetch } from './helpers/fake-upstash-redis.mts';
 import {

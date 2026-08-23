@@ -152,7 +152,7 @@ describe('planRequest — REST escape hatch and listing', () => {
 
 describe('resolveConfig', () => {
   it('reads the API key and hosts from the environment', () => {
-    const cfg = resolveConfig({ WORLDMONITOR_API_KEY: 'k', WORLDMONITOR_MCP_URL: 'http://m' });
+    const cfg = resolveConfig({ EAGLEEYE_API_KEY: 'k', EAGLEEYE_MCP_URL: 'http://m' });
     assert.equal(cfg.apiKey, 'k');
     assert.equal(cfg.mcpUrl, 'http://m');
   });

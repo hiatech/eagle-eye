@@ -1,6 +1,6 @@
 ---
 title: "燃料短缺警报方法论"
-description: "World Monitor 如何使用自动化的证据阈值管道对燃料短缺警报进行分类与发布，覆盖喷气燃料、汽油、柴油与取暖油四类主要品种，详解证据来源采集、阈值判定逻辑、去重与置信度评分、地理归属规则，以及编辑复核流程，帮助能源与物流团队及时识别区域性供应链风险与突发短缺信号。"
+description: "Eagle Eye 如何使用自动化的证据阈值管道对燃料短缺警报进行分类与发布，覆盖喷气燃料、汽油、柴油与取暖油四类主要品种，详解证据来源采集、阈值判定逻辑、去重与置信度评分、地理归属规则，以及编辑复核流程，帮助能源与物流团队及时识别区域性供应链风险与突发短缺信号。"
 ---
 
 ## 我们追踪什么
@@ -18,7 +18,7 @@ description: "World Monitor 如何使用自动化的证据阈值管道对燃料�
 
 ## 全自动化 — 无人工审核队列
 
-WorldMonitor 完全自动运行每个分类器。短缺层级也不例外。质量来自**分层证据阈值 + LLM 二次合理性检查 + 过时行自动衰减**，而非来自人工审核员。
+EagleEye 完全自动运行每个分类器。短缺层级也不例外。质量来自**分层证据阈值 + LLM 二次合理性检查 + 过时行自动衰减**，而非来自人工审核员。
 
 ### watch 层级（自动化）
 
@@ -47,7 +47,7 @@ WorldMonitor 完全自动运行每个分类器。短缺层级也不例外。质�
 
 ## 证据透明度
 
-每个公开短缺行内联暴露其 `evidenceSources[]` — 您可以阅读分类器使用的来源。这就是让 WorldMonitor 的短缺登记表在没有编辑队列的情况下也能站得住脚的原因。
+每个公开短缺行内联暴露其 `evidenceSources[]` — 您可以阅读分类器使用的来源。这就是让 EagleEye 的短缺登记表在没有编辑队列的情况下也能站得住脚的原因。
 
 对于任何 `confirmed` 行，面板展示：
 
@@ -72,7 +72,7 @@ WorldMonitor 完全自动运行每个分类器。短缺层级也不例外。质�
 
 一个 `energy_asset_overrides` 持久化层是设计好的紧急界面，用于读者标记分类明显错误的罕见情况。写入将是仅管理员、非关键路径——默认流程保持完全自动化，且每次覆盖都会向修订日志发出一个 `override` 触发条目。
 
-**状态（v1 上线）：** 覆盖持久化层尚未实现。读者标记的更正目前通过 [GitHub issues](https://github.com/koala73/worldmonitor/issues) 人工处理；一旦该层随分类器上线，将通过自动化的覆盖路径流转。请参阅 [`/corrections`](/zh/corrections) 了解计划中覆盖条目的形状。
+**状态（v1 上线）：** 覆盖持久化层尚未实现。读者标记的更正目前通过 [GitHub issues](https://github.com/hiatech/eagle-eye/issues) 人工处理；一旦该层随分类器上线，将通过自动化的覆盖路径流转。请参阅 [`/corrections`](/zh/corrections) 了解计划中覆盖条目的形状。
 
 ## 已知限制
 
@@ -86,4 +86,4 @@ WorldMonitor 完全自动运行每个分类器。短缺层级也不例外。质�
 （每次层级变更都会附带其触发器——`classifier` / `source`
 / `decay` / `override`——以及使用的来源）。写入条目的分类器
 将在上线后发布；更正目前通过
-[GitHub issues](https://github.com/koala73/worldmonitor/issues) 人工处理。
+[GitHub issues](https://github.com/hiatech/eagle-eye/issues) 人工处理。

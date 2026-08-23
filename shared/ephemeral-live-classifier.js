@@ -1,4 +1,4 @@
-// Ephemeral live-coverage classifier for the WorldMonitor brief pipeline.
+// Ephemeral live-coverage classifier for the EagleEye brief pipeline.
 //
 // The daily digest/brief is delivered after a delay and often read hours
 // later. "Watch live" programming invites and live event previews are not

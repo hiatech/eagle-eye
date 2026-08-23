@@ -20,7 +20,7 @@ async function setupDashboard(page: Page, viewport: { width: number; height: num
   await page.addInitScript(() => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('worldmonitor-variant', 'full');
+    localStorage.setItem('eagleeye-variant', 'full');
   });
   await installLocalOnlyNetwork(page);
 

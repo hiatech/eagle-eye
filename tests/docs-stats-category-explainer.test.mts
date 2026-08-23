@@ -59,7 +59,7 @@ describe('answer-first opening', () => {
   it('fires when the narrative lede returns ahead of the definition', () => {
     const failures = validateCategoryExplainerCopy(
       REAL_STATS,
-      withCopy((s) => s.replace('World Monitor is a **free, open-source', 'Imagine 100 tabs. World Monitor is a **free, open-source')),
+      withCopy((s) => s.replace('Eagle Eye is a **free, open-source', 'Imagine 100 tabs. Eagle Eye is a **free, open-source')),
     );
     assert.equal(failures.length, 1, failures.join('\n'));
     assert.match(failures[0], /must open with the self-contained/);
@@ -71,7 +71,7 @@ describe('answer-first opening', () => {
       withCopy((s) => {
         const body = s.slice(s.match(/^---\n[\s\S]*?\n---\n/)![0].length);
         const opening = body.slice(0, body.indexOf('\n## '));
-        return s.replace(opening, 'World Monitor is a **free, open-source, real-time global intelligence dashboard**.');
+        return s.replace(opening, 'Eagle Eye is a **free, open-source, real-time global intelligence dashboard**.');
       }),
     );
     assert.equal(failures.length, 1, failures.join('\n'));
@@ -126,8 +126,8 @@ describe('dashboard variants', () => {
 describe('citation surface', () => {
   it('fires once per required link that is dropped', () => {
     for (const link of [
-      'https://www.worldmonitor.app/docs/data-sources',
-      'https://www.worldmonitor.app/pricing.md',
+      'https://www.eagle-eye.app/docs/data-sources',
+      'https://www.eagle-eye.app/pricing.md',
       '/blog/glossary/',
     ]) {
       const failures = validateCategoryExplainerCopy(

@@ -36,7 +36,7 @@ const STYLES = `
 const BODY = `
   <div class="head">
     <div class="title">Market Radar</div>
-    <div class="badge">WorldMonitor Markets</div>
+    <div class="badge">EagleEye Markets</div>
   </div>
   <div class="empty" id="empty">Waiting for market data…</div>
   <div id="card" style="display:none">
@@ -119,8 +119,8 @@ const RENDER = `
 `;
 
 export const MARKET_RADAR_APP_HTML = buildAppHtml({
-  title: 'Market Radar — WorldMonitor',
-  appName: 'worldmonitor-market-radar',
+  title: 'Market Radar — EagleEye',
+  appName: 'eagleeye-market-radar',
   styles: STYLES,
   body: BODY,
   renderBody: RENDER,

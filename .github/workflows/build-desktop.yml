@@ -1,6 +1,6 @@
 name: 'Build Desktop App'
 
-# One published desktop binary (#5908). World Monitor ships as a single build
+# One published desktop binary (#5908). Eagle Eye ships as a single build
 # and every variant — tech, finance, commodity, energy, happy — is selected
 # in-app after install. There is deliberately no per-variant build leg or
 # per-variant tag: `/api/version` and `/api/download` read `/releases/latest`,
@@ -272,7 +272,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_VARIANT: full
           VITE_DESKTOP_RUNTIME: '1'
-          VITE_WS_API_URL: https://worldmonitor.app
+          VITE_WS_API_URL: https://eagle-eye.app
           # Client env parity (#5905): a key missing here silently disables the
           # capability in every shipped build — checked by
           # scripts/check-desktop-build-env.mjs (desktop-config CI job).
@@ -291,7 +291,7 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           tagName: v__VERSION__
-          releaseName: 'World Monitor v__VERSION__'
+          releaseName: 'Eagle Eye v__VERSION__'
           releaseBody: 'See changelog below.'
           # Always upload into a DRAFT release (#5908). With fail-fast: false and
           # five platforms, a non-draft first leg would make v__VERSION__ the
@@ -311,7 +311,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_VARIANT: full
           VITE_DESKTOP_RUNTIME: '1'
-          VITE_WS_API_URL: https://worldmonitor.app
+          VITE_WS_API_URL: https://eagle-eye.app
           # Client env parity (#5905): a key missing here silently disables the
           # capability in every shipped build — checked by
           # scripts/check-desktop-build-env.mjs (desktop-config CI job).
@@ -324,7 +324,7 @@ jobs:
           CONVEX_URL: ${{ secrets.CONVEX_URL }}
         with:
           tagName: v__VERSION__
-          releaseName: 'World Monitor v__VERSION__'
+          releaseName: 'Eagle Eye v__VERSION__'
           releaseBody: 'See changelog below.'
           # Always upload into a DRAFT release (#5908). With fail-fast: false and
           # five platforms, a non-draft first leg would make v__VERSION__ the
@@ -515,9 +515,9 @@ jobs:
           ASSETS=$(gh release view "$TAG" --json assets --jq '.assets[].name')
           echo "Assets on $TAG:"; printf '  %s\n' $ASSETS
 
-          # Keep only assets that carry the World Monitor identity, applying the
+          # Keep only assets that carry the Eagle Eye identity, applying the
           # same canonicalisation `/api/download` uses (lowercase, strip
-          # non-alphanumerics, require `worldmonitor`). Checking the platform
+          # non-alphanumerics, require `eagleeye`). Checking the platform
           # suffix alone would let a stray branded artifact satisfy this gate for
           # a platform the endpoint would then refuse to serve — the publisher
           # and the endpoint have to mean the same thing by "an asset exists".
@@ -526,11 +526,11 @@ jobs:
             canon=$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
             # Prefix-strip test rather than `case`: older bash refuses to parse a
             # `case` nested inside this command substitution.
-            if [ "${canon#*worldmonitor}" != "$canon" ]; then
+            if [ "${canon#*eagleeye}" != "$canon" ]; then
               printf '%s\n' "$name"
             fi
           done)
-          echo "Servable (World Monitor identity) assets:"; printf '  %s\n' $SERVABLE
+          echo "Servable (Eagle Eye identity) assets:"; printf '  %s\n' $SERVABLE
 
           MISSING=""
           # Mirrors PLATFORM_PATTERNS in api/download.js — every platform the

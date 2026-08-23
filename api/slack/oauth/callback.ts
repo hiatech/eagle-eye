@@ -46,7 +46,7 @@ async function encryptWebhook(url: string): Promise<string> {
 async function upstashGetDel(key: string): Promise<string | null> {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) throw new Error('Redis not configured');
   const res = await fetch(`${UPSTASH_URL}/getdel/${encodeURIComponent(key)}`, {
-    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'User-Agent': 'worldmonitor-edge/1.0' },
+    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'User-Agent': 'eagleeye-edge/1.0' },
     signal: AbortSignal.timeout(5000),
   });
   if (!res.ok) throw new Error(`Redis HTTP ${res.status}`);
@@ -71,7 +71,7 @@ async function publishWelcome(userId: string, channelType: string): Promise<void
   try {
     const res = await fetch(`${UPSTASH_URL}/lpush/wm:events:queue/${encodeURIComponent(msg)}`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'User-Agent': 'worldmonitor-edge/1.0' },
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'User-Agent': 'eagleeye-edge/1.0' },
       signal: AbortSignal.timeout(5000),
     });
     const data = await res.json().catch(() => null) as { result?: unknown } | null;

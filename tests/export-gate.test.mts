@@ -55,7 +55,7 @@ describe('resolveExportGate — KTD2 decision chain', () => {
     );
   });
 
-  it('desktop WORLDMONITOR_API_KEY present → allowed with no snapshot and no session', () => {
+  it('desktop EAGLEEYE_API_KEY present → allowed with no snapshot and no session', () => {
     assert.equal(
       resolveExportGate(inputs({ desktopKeyPresent: true, signedIn: false, features: null })).locked,
       false,

@@ -102,7 +102,7 @@ describe('stripCheckoutIntentFromSearch', () => {
 
 describe('buildCheckoutReturnUrl', () => {
   it('appends checkout params to a clean current URL', () => {
-    const returnUrl = buildCheckoutReturnUrl('https://worldmonitor.app/pro', 'pro_monthly');
+    const returnUrl = buildCheckoutReturnUrl('https://eagle-eye.app/pro', 'pro_monthly');
     const url = new URL(returnUrl);
     assert.equal(url.searchParams.get(CHECKOUT_PRODUCT_PARAM), 'pro_monthly');
     assert.equal(url.searchParams.get(CHECKOUT_REF_PARAM), null);
@@ -112,7 +112,7 @@ describe('buildCheckoutReturnUrl', () => {
   it('overwrites stale checkout params when the user clicks a different tier', () => {
     // User clicks Pro, dismisses sign-in, clicks Enterprise. returnUrl
     // for the second click must not carry Pro's intent.
-    const firstClick = buildCheckoutReturnUrl('https://worldmonitor.app/pro', 'pro_monthly');
+    const firstClick = buildCheckoutReturnUrl('https://eagle-eye.app/pro', 'pro_monthly');
     const secondClick = buildCheckoutReturnUrl(firstClick, 'enterprise');
     const url = new URL(secondClick);
     assert.equal(url.searchParams.get(CHECKOUT_PRODUCT_PARAM), 'enterprise');
@@ -121,7 +121,7 @@ describe('buildCheckoutReturnUrl', () => {
   });
 
   it('includes referralCode + discountCode when provided', () => {
-    const returnUrl = buildCheckoutReturnUrl('https://worldmonitor.app/pro', 'pro_annual', {
+    const returnUrl = buildCheckoutReturnUrl('https://eagle-eye.app/pro', 'pro_annual', {
       referralCode: 'abc',
       discountCode: 'SAVE20',
     });
@@ -133,7 +133,7 @@ describe('buildCheckoutReturnUrl', () => {
 
   it('preserves unrelated query params on the current URL (utm, etc.)', () => {
     const returnUrl = buildCheckoutReturnUrl(
-      'https://worldmonitor.app/pro?utm_source=email',
+      'https://eagle-eye.app/pro?utm_source=email',
       'pro_monthly',
     );
     const url = new URL(returnUrl);
@@ -143,7 +143,7 @@ describe('buildCheckoutReturnUrl', () => {
 
   it('preserves pathname and hash (e.g., returning to /pro#enterprise)', () => {
     const returnUrl = buildCheckoutReturnUrl(
-      'https://worldmonitor.app/pro#pricing',
+      'https://eagle-eye.app/pro#pricing',
       'pro_monthly',
     );
     const url = new URL(returnUrl);
@@ -155,7 +155,7 @@ describe('buildCheckoutReturnUrl', () => {
 describe('reviewer scenario coverage (regression guards)', () => {
   it('scenario 1: click paid tier signed-out → sign in → checkout auto-resumes', () => {
     // 1. Signed-out click builds returnUrl with intent
-    const returnUrl = buildCheckoutReturnUrl('https://worldmonitor.app/pro', 'pro_monthly', {
+    const returnUrl = buildCheckoutReturnUrl('https://eagle-eye.app/pro', 'pro_monthly', {
       referralCode: 'abc',
     });
     // 2. Clerk redirects user to returnUrl after successful sign-in

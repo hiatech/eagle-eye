@@ -1,16 +1,16 @@
 ---
 title: "JMESPath 投影指南"
-description: "使用 JMESPath 投影表达式将 MCP 响应载荷体积精简 80-95%，显著降低 LLM 上下文占用与 token 成本。基于真实 WorldMonitor 响应结构的十二个完整实战示例解析，涵盖新闻、市场、海事等常见查询，帮助 Agent 开发者优化提示与工具调用效率。"
+description: "使用 JMESPath 投影表达式将 MCP 响应载荷体积精简 80-95%，显著降低 LLM 上下文占用与 token 成本。基于真实 EagleEye 响应结构的十二个完整实战示例解析，涵盖新闻、市场、海事等常见查询，帮助 Agent 开发者优化提示与工具调用效率。"
 ---
 
-每个 WorldMonitor MCP 工具都接受一个可选的 `jmespath` 字符串参数。服务端会在任意工具级过滤器和 `summary` 参数**之后**应用该表达式，然后在序列化之前投影响应。一个选得好的投影通常能把载荷大小削减 **80–95%**——这是你在保持长 agent 循环不超出上下文窗口方面最有效的手段。
+每个 EagleEye MCP 工具都接受一个可选的 `jmespath` 字符串参数。服务端会在任意工具级过滤器和 `summary` 参数**之后**应用该表达式，然后在序列化之前投影响应。一个选得好的投影通常能把载荷大小削减 **80–95%**——这是你在保持长 agent 循环不超出上下文窗口方面最有效的手段。
 
 本页是实用参考：先给出快速概览，然后针对三份真实抓取的工具响应给出十二个实例解析。至于语法本身，请依赖规范——[jmespath.org/specification.html](https://jmespath.org/specification.html)。回来看这里比重读规范更快。
 
 ## 快速概览
 
 - 在任意 `tools/call` 上把表达式作为 `jmespath` 参数传入。表达式的根是**完整响应信封**——缓存工具的 `{ cached_at, stale, data: { … } }`——所以大多数表达式以 `data.<key>` 开头以触达载荷，而当你需要时，`cached_at` / `stale` 也能从同一根寻址。
-- **带连字符的键必须用双引号引用。** 大多数 WorldMonitor 工具都有带连字符的缓存键（`stocks-bootstrap`、`ucdp-events`、`etf-flows`、`fear-greed`、`transit-summaries`）。使用 `data."stocks-bootstrap".quotes[*].symbol`，而不是 `data.stocks-bootstrap.…`。
+- **带连字符的键必须用双引号引用。** 大多数 EagleEye 工具都有带连字符的缓存键（`stocks-bootstrap`、`ucdp-events`、`etf-flows`、`fear-greed`、`transit-summaries`）。使用 `data."stocks-bootstrap".quotes[*].symbol`，而不是 `data.stocks-bootstrap.…`。
 - **数字和 JSON 字面量放在反引号里，字符串放在单引号里。** `[?deathsBest > \`5\`]`（数字），`[?country == 'Iraq']`（字符串）。混用会静默地把值解析成别的什么东西。
 - **两个服务端限制**保持 edge function 健康：
   - 表达式本身：≤ **1024 字节**。
@@ -28,15 +28,15 @@ description: "使用 JMESPath 投影表达式将 MCP 响应载荷体积精简 80
 - **一个错误、过长或过度展开的表达式返回 `HTTP 400`**，并携带相同的 `{ _jmespath_error, original_keys }` 主体（MCP 传输则是在 200 result 内软失败）。≤ 1024 字节表达式限制与 256 KB 投影输出上限完全一致。
 
 ```bash
-curl "https://api.worldmonitor.app/api/market/v1/get-fear-greed-index?jmespath=compositeScore" \
-  -H "X-WorldMonitor-Key: $WORLDMONITOR_API_KEY"
+curl "https://api.eagle-eye.app/api/market/v1/get-fear-greed-index?jmespath=compositeScore" \
+  -H "X-EagleEye-Key: $EAGLEEYE_API_KEY"
 ```
 
 ## 十二个示例
 
 ### 1. 钻取单个嵌套对象
 
-**意图。** 跳过股票列表，只从 `get_market_data` 取 WorldMonitor 恐慌贪婪综合得分。
+**意图。** 跳过股票列表，只从 `get_market_data` 取 EagleEye 恐慌贪婪综合得分。
 
 **工具调用：**
 
@@ -348,7 +348,7 @@ curl "https://api.worldmonitor.app/api/market/v1/get-fear-greed-index?jmespath=c
 ]
 ```
 
-**为什么有效。** 过滤和 multiselect-hash 在同一投影里从左到右组合——`[?...].{a:..., b:...}` 先过滤，再精简每个幸存行。大多数 WorldMonitor 响应使用大写下划线枚举字符串（`SEVERITY_LEVEL_HIGH`、`TREND_DIRECTION_STABLE`、`UCDP_VIOLENCE_TYPE_*`）；用 `==` 和单引号按原样搜索它们。
+**为什么有效。** 过滤和 multiselect-hash 在同一投影里从左到右组合——`[?...].{a:..., b:...}` 先过滤，再精简每个幸存行。大多数 EagleEye 响应使用大写下划线枚举字符串（`SEVERITY_LEVEL_HIGH`、`TREND_DIRECTION_STABLE`、`UCDP_VIOLENCE_TYPE_*`）；用 `==` 和单引号按原样搜索它们。
 
 ---
 

@@ -1,4 +1,4 @@
--- World Monitor Umami relational retention contract.
+-- Eagle Eye Umami relational retention contract.
 --
 -- Run this file from a controlled maintenance job with the Umami Postgres
 -- DATABASE_URL. It is intentionally not invoked by the application or the
@@ -17,7 +17,7 @@ BEGIN;
 -- unaffected when an operator accidentally starts a second job.
 SET LOCAL lock_timeout = '5s';
 SET LOCAL statement_timeout = '60s';
-SELECT pg_advisory_xact_lock(hashtextextended('worldmonitor.umami.retention', 0));
+SELECT pg_advisory_xact_lock(hashtextextended('eagleeye.umami.retention', 0));
 
 -- Event data must be removed before the event row it references.
 WITH doomed AS MATERIALIZED (

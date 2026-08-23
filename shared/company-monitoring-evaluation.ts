@@ -1067,7 +1067,7 @@ export function evaluateStage0(
   const admission = asObject(candidate.admissionQuality, 'admissionQuality');
   const approval = asObject(candidate.approval, 'approval');
   if (approval.status !== 'approved') reasons.push('product_owner_approval_missing');
-  if (approval.approverName !== 'Elie Habib' || approval.approverRole !== 'WorldMonitor product owner') {
+  if (approval.approverName !== 'Elie Habib' || approval.approverRole !== 'EagleEye product owner') {
     reasons.push('named_product_owner_approval_missing');
   }
   if (approval.approvedThresholdsSha256 !== APPROVED_THRESHOLD_DIGEST) {

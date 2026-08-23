@@ -49,7 +49,7 @@ const AIRPLANES_LIVE_POINT_ENDPOINT = 'https://api.airplanes.live/v2/point';
 const ADSB_FI_POINT_ENDPOINT = 'https://opendata.adsb.fi/api/v3';
 
 // Both point-query providers restrict their public APIs to non-commercial use.
-// The hosted WorldMonitor service must therefore stay fail-closed unless an
+// The hosted EagleEye service must therefore stay fail-closed unless an
 // operator has separately confirmed an eligible deployment and opts in.
 const GAP_FILL_NONCOMMERCIAL_ENABLED = process.env.WM_ENABLE_NONCOMMERCIAL_ADSB_GAP_FILL === '1';
 

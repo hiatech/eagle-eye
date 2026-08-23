@@ -1,7 +1,7 @@
 ---
 title: "Monitor Disease Outbreaks and Air Quality on One Map"
-description: "WorldMonitor merges WHO outbreak news, CDC travel notices, and outbreak trackers with OpenAQ and WAQI air-quality sensors into one global health-signals layer."
-metaTitle: "Disease Outbreak & Air Quality Monitoring | WorldMonitor"
+description: "EagleEye merges WHO outbreak news, CDC travel notices, and outbreak trackers with OpenAQ and WAQI air-quality sensors into one global health-signals layer."
+metaTitle: "Disease Outbreak & Air Quality Monitoring | EagleEye"
 keywords: "disease outbreak map, epidemic monitoring dashboard, WHO outbreak tracker, air quality PM2.5 map, global health surveillance, health signals API"
 audience: "Public-health analysts, NGO and travel-security teams, researchers, journalists, expats and frequent travelers"
 heroImage: "/blog/images/blog/disease-outbreak-air-quality-monitoring-health-signals.jpg"
@@ -11,7 +11,7 @@ modifiedDate: "2026-07-22"
 
 Health signals are geopolitical signals. An outbreak reshapes trade and travel; a smoke or smog crisis empties cities and moves elections; and health infrastructure under strain is one of the most concrete measures of a state losing capacity. Yet health monitoring usually lives in separate tools from the conflict, disaster, and market layers it interacts with.
 
-WorldMonitor folds both halves — outbreaks and air quality — into the same dashboard as everything else.
+EagleEye folds both halves — outbreaks and air quality — into the same dashboard as everything else.
 
 ## Outbreak tracking from official and specialist sources
 
@@ -22,7 +22,7 @@ The disease-outbreak pipeline merges complementary sources rather than betting o
 - **Outbreak News Today** — specialist reporting that often moves days ahead of official confirmation.
 - A dedicated **outbreak tracker dataset** for structured, ongoing events.
 
-Outbreaks appear in the **Disease Outbreaks panel** and as a map layer, so an event sits in geographic context: next to the airports it may close, the displacement it may cause, and the [country risk](/blog/posts/country-risk-monitoring-due-diligence-worldmonitor/) it feeds into.
+Outbreaks appear in the **Disease Outbreaks panel** and as a map layer, so an event sits in geographic context: next to the airports it may close, the displacement it may cause, and the [country risk](/blog/posts/country-risk-monitoring-due-diligence-eagle-eye/) it feeds into.
 
 ## Air quality as ground truth
 
@@ -32,7 +32,7 @@ For daily use it's simpler than that: if you live in, travel to, or manage peopl
 
 ## One health layer, one query
 
-For agents and developers, the `get_health_signals` MCP tool returns current outbreak signals and air-quality readings in a single structured call, with the REST equivalents under the versioned health API. The [humanitarian workflow](/blog/posts/humanitarian-situational-awareness-ngo-security-monitoring-worldmonitor/) shows the field-security use; pairing it with [displacement data](/blog/posts/track-refugee-displacement-flows-unhcr-worldmonitor/) gives the fuller picture of pressure on a population.
+For agents and developers, the `get_health_signals` MCP tool returns current outbreak signals and air-quality readings in a single structured call, with the REST equivalents under the versioned health API. The [humanitarian workflow](/blog/posts/humanitarian-situational-awareness-ngo-security-monitoring-eagle-eye/) shows the field-security use; pairing it with [displacement data](/blog/posts/track-refugee-displacement-flows-unhcr-eagle-eye/) gives the fuller picture of pressure on a population.
 
 A useful habit from the [15-minute briefing routine](/blog/posts/daily-intelligence-briefing-workflow-15-minutes/): scan health signals for the countries already on your watchlist. Outbreaks rarely stay health stories — they become border stories, supply stories, and political stories, and the analysts who tracked them from the WHO bulletin onward are never surprised by that.
 
@@ -46,7 +46,7 @@ Check health events at [WHO Disease Outbreak News](https://www.who.int/emergenci
 
 ## Frequently Asked Questions
 
-**Which outbreak sources does WorldMonitor track?**
+**Which outbreak sources does EagleEye track?**
 
 WHO Disease Outbreak News via WHO's API, CDC travel health notices, Outbreak News Today's specialist reporting, and a structured outbreak-tracker dataset — merged and deduplicated.
 

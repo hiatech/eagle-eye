@@ -21,10 +21,10 @@ async function importFreshNotificationChannels() {
 }
 
 function makeSetChannelRequest(): Request {
-  return new Request('https://worldmonitor.app/api/notification-channels', {
+  return new Request('https://eagle-eye.app/api/notification-channels', {
     method: 'POST',
     headers: {
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       Authorization: 'Bearer clerk-token',
       'Content-Type': 'application/json',
       'Idempotency-Key': 'notification-channel-timeout-retry',
@@ -38,10 +38,10 @@ function makeSetChannelRequest(): Request {
 }
 
 function makeSetWebPushRequest(): Request {
-  return new Request('https://worldmonitor.app/api/notification-channels', {
+  return new Request('https://eagle-eye.app/api/notification-channels', {
     method: 'POST',
     headers: {
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       Authorization: 'Bearer clerk-token',
       'Content-Type': 'application/json',
       'Idempotency-Key': 'notification-web-push-timeout-retry',
@@ -163,7 +163,7 @@ describe('/api/notification-channels relay timeout recovery', () => {
 
     assert.equal(first.status, 500);
     assert.deepEqual(await first.json(), { error: 'Operation failed' });
-    assert.equal(first.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+    assert.equal(first.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
     assert.equal(first.headers.get('Idempotency-Key'), 'notification-channel-timeout-retry');
     assert.equal(first.headers.get('Idempotent-Replayed'), 'false');
     assert.equal(relaySignals[0]?.aborted, true);
@@ -192,7 +192,7 @@ describe('/api/notification-channels relay timeout recovery', () => {
     assert.equal(second.headers.get('Idempotent-Replayed'), 'false');
     assert.equal(relayFetch.mock.calls.length, 4);
     const relayInit = relayFetch.mock.calls[3]!.arguments[1] as RequestInit;
-    assert.equal((relayInit.headers as Record<string, string>)['User-Agent'], 'worldmonitor-edge/1.0');
+    assert.equal((relayInit.headers as Record<string, string>)['User-Agent'], 'eagleeye-edge/1.0');
     assert.ok(relayInit.signal instanceof AbortSignal);
     assert.deepEqual(relayTimeouts, [15_000, 15_000, 15_000, 15_000]);
     assert.equal(allRelaySignals[2], allRelaySignals[3]);

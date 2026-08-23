@@ -24,7 +24,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 
-const IMAGE = process.env.UMAMI_PROBE_IMAGE || 'worldmonitor/umami:ci';
+const IMAGE = process.env.UMAMI_PROBE_IMAGE || 'eagleeye/umami:ci';
 const serviceUrl = process.env.UMAMI_TEST_DATABASE_URL;
 assert.ok(
   serviceUrl,

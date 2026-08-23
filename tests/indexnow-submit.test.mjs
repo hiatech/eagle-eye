@@ -23,13 +23,13 @@ describe('IndexNow submission', () => {
   it('registers the canonical apex MCP endpoint in its own same-host batch', () => {
     assert.equal(importFetchCalls.length, 0, 'importing the module must not submit URLs');
 
-    const batch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
-    assert.equal(batch.host, 'worldmonitor.app');
-    assert.equal(batch.keyLocation, `https://worldmonitor.app/${batch.key}.txt`);
-    assert.deepEqual(batch.urls, ['https://worldmonitor.app/mcp']);
-    const wwwBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'www.worldmonitor.app');
+    const batch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
+    assert.equal(batch.host, 'eagle-eye.app');
+    assert.equal(batch.keyLocation, `https://eagle-eye.app/${batch.key}.txt`);
+    assert.deepEqual(batch.urls, ['https://eagle-eye.app/mcp']);
+    const wwwBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'www.eagle-eye.app');
     assert.ok(
-      wwwBatch.urls.includes('https://www.worldmonitor.app/blog/authors/elie-habib/'),
+      wwwBatch.urls.includes('https://www.eagle-eye.app/blog/authors/elie-habib/'),
       'www batch must submit the canonical Elie Habib author archive',
     );
     assert.notEqual(batch.key, wwwBatch.key, 'apex and www must use independently verified keys');
@@ -44,18 +44,18 @@ describe('IndexNow submission', () => {
     const sitemap = readFileSync(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
     const sitemapUrls = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)]
       .map((match) => match[1].trim());
-    const wwwSitemapUrls = sitemapUrls.filter((url) => new URL(url).hostname === 'www.worldmonitor.app');
-    const apexSitemapUrls = sitemapUrls.filter((url) => new URL(url).hostname === 'worldmonitor.app');
-    const wwwBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'www.worldmonitor.app');
-    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
+    const wwwSitemapUrls = sitemapUrls.filter((url) => new URL(url).hostname === 'www.eagle-eye.app');
+    const apexSitemapUrls = sitemapUrls.filter((url) => new URL(url).hostname === 'eagle-eye.app');
+    const wwwBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'www.eagle-eye.app');
+    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
 
     for (const url of wwwSitemapUrls) assert.ok(wwwBatch.urls.includes(url), `${url} must be submitted`);
     for (const url of apexSitemapUrls) assert.ok(apexBatch.urls.includes(url), `${url} must be submitted`);
     for (const url of [
-      'https://www.worldmonitor.app/blog/',
-      'https://www.worldmonitor.app/blog/glossary/',
-      'https://www.worldmonitor.app/blog/glossary/ais/',
-      'https://www.worldmonitor.app/blog/authors/elie-habib/',
+      'https://www.eagle-eye.app/blog/',
+      'https://www.eagle-eye.app/blog/glossary/',
+      'https://www.eagle-eye.app/blog/glossary/ais/',
+      'https://www.eagle-eye.app/blog/authors/elie-habib/',
     ]) {
       assert.ok(wwwBatch.urls.includes(url), `${url} must be submitted`);
     }
@@ -86,12 +86,12 @@ describe('IndexNow submission', () => {
       requests.push({ url: String(url), init });
       return new Response(null, {
         status: 301,
-        headers: { location: 'https://www.worldmonitor.app/key.txt' },
+        headers: { location: 'https://www.eagle-eye.app/key.txt' },
       });
     };
 
     await assert.rejects(
-      indexNow.verifyIndexNowKey(indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app'), {
+      indexNow.verifyIndexNowKey(indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app'), {
         fetchImpl,
       }),
       /direct 200/i,
@@ -102,12 +102,12 @@ describe('IndexNow submission', () => {
 
   it('does not notify search engines when host ownership verification fails', async () => {
     const requests = [];
-    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
+    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
     const fetchImpl = async (url, init) => {
       requests.push({ url: String(url), init });
       return new Response(null, {
         status: 301,
-        headers: { location: 'https://www.worldmonitor.app/key.txt' },
+        headers: { location: 'https://www.eagle-eye.app/key.txt' },
       });
     };
 
@@ -123,7 +123,7 @@ describe('IndexNow submission', () => {
 
   it('does not notify search engines when a direct key response has the wrong body', async () => {
     const requests = [];
-    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
+    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
     const fetchImpl = async (url, init) => {
       requests.push({ url: String(url), init });
       return new Response('wrong-indexnow-key', { status: 200 });
@@ -141,7 +141,7 @@ describe('IndexNow submission', () => {
 
   it('submits the apex-specific key and canonical URL after ownership verification', async () => {
     const requests = [];
-    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'worldmonitor.app');
+    const apexBatch = indexNow.INDEXNOW_BATCHES.find(({ host }) => host === 'eagle-eye.app');
     const endpoint = 'https://www.bing.com/IndexNow';
     const fetchImpl = async (url, init) => {
       requests.push({ url: String(url), init });
@@ -159,10 +159,10 @@ describe('IndexNow submission', () => {
     assert.equal(results[0].status, 'fulfilled');
     assert.equal(results[0].value.status, 202);
     assert.deepEqual(JSON.parse(requests[1].init.body), {
-      host: 'worldmonitor.app',
+      host: 'eagle-eye.app',
       key: apexBatch.key,
       keyLocation: apexBatch.keyLocation,
-      urlList: ['https://worldmonitor.app/mcp'],
+      urlList: ['https://eagle-eye.app/mcp'],
     });
   });
 
@@ -188,7 +188,7 @@ describe('IndexNow submission', () => {
     assert.match(workflow, /grep -Fxq "public\/\$\{WWW_KEY_PATH\}"/);
     assert.match(workflow, /submit_apex/);
     assert.match(workflow, /submit_www/);
-    assert.match(workflow, /node scripts\/seo-indexnow-submit\.mjs --host worldmonitor\.app/);
-    assert.match(workflow, /node scripts\/seo-indexnow-submit\.mjs --host www\.worldmonitor\.app/);
+    assert.match(workflow, /node scripts\/seo-indexnow-submit\.mjs --host eagle-eye\.app/);
+    assert.match(workflow, /node scripts\/seo-indexnow-submit\.mjs --host www\.eagle-eye\.app/);
   });
 });

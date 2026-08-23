@@ -54,7 +54,7 @@ describe('api/mcp.ts — Pro daily quota is NOT refunded after execution (GHSA-h
   let mcpHandler;
 
   beforeEach(async () => {
-    process.env.WORLDMONITOR_VALID_KEYS = 'wm_test_key_quota_no_refund';
+    process.env.EAGLEEYE_VALID_KEYS = 'wm_test_key_quota_no_refund';
     process.env.UPSTASH_REDIS_REST_URL = 'https://stub.upstash';
     process.env.UPSTASH_REDIS_REST_TOKEN = 'stub';
     process.env.MCP_INTERNAL_HMAC_SECRET = HMAC_SECRET;

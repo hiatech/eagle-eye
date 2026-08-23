@@ -23,7 +23,7 @@ const {
 
 export { proxyFetch };
 
-export const CHINA_EXCHANGE_EDGE_EGRESS_URL = 'https://api.worldmonitor.app/api/internal/china-exchange-egress';
+export const CHINA_EXCHANGE_EDGE_EGRESS_URL = 'https://api.eagle-eye.app/api/internal/china-exchange-egress';
 export const CHINA_EXCHANGE_EDGE_ERROR_CODES = new Set([
   'upstream_timeout',
   'upstream_fetch_failed',
@@ -280,7 +280,7 @@ export async function fetchViaEdgeEgress(_input, init, {
     headers: {
       Authorization: `Bearer ${edgeEgress.secret}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'WorldMonitor/2.10 (+https://worldmonitor.app)',
+      'User-Agent': 'EagleEye/2.10 (+https://eagle-eye.app)',
     },
     body: init?.body,
     redirect: 'error',

@@ -41,11 +41,11 @@ export const config = { runtime: 'edge', regions: ['iad1', 'lhr1', 'fra1', 'sfo1
 
 import { authenticateInternalRequest } from '../../server/_shared/internal-auth';
 import { normalizeCountryToIso2 } from '../../server/_shared/country-normalize';
-import { assembleBriefStoryContext } from '../../server/worldmonitor/intelligence/v1/brief-story-context';
+import { assembleBriefStoryContext } from '../../server/eagleeye/intelligence/v1/brief-story-context';
 import {
   buildAnalystWhyMattersPrompt,
   sanitizeStoryFields,
-} from '../../server/worldmonitor/intelligence/v1/brief-why-matters-prompt';
+} from '../../server/eagleeye/intelligence/v1/brief-why-matters-prompt';
 import { callLlm } from '../../server/_shared/llm';
 import { readRawJsonFromUpstash, setCachedData, redisPipeline } from '../_upstash-json.js';
 // @ts-expect-error — JS module, no declaration file

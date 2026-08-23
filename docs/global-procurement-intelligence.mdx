@@ -1,9 +1,9 @@
 ---
 title: "Global Procurement Intelligence"
-description: "How WorldMonitor aggregates active public tender opportunities, communicates source health, and exposes the paginated procurement API."
+description: "How EagleEye aggregates active public tender opportunities, communicates source health, and exposes the paginated procurement API."
 ---
 
-WorldMonitor separates **open opportunities** from historical **recent awards**. Open opportunities live in the dedicated **Global Procurement** panel as a forward-looking, seed-backed feed; awards remain sourced from USASpending in the Economic panel.
+EagleEye separates **open opportunities** from historical **recent awards**. Open opportunities live in the dedicated **Global Procurement** panel as a forward-looking, seed-backed feed; awards remain sourced from USASpending in the Economic panel.
 
 Global Procurement is a **Pro feature**. The panel shows the standard sign-in or upgrade gate to free users, and the RPC independently enforces an active tier-1 subscription server-side. The browser only requests and retains tender data while Pro access is active; sign-out or downgrade clears both the panel payload and its in-memory response cache. Recent awards remain part of the free Economic panel behavior.
 
@@ -63,7 +63,7 @@ This feed never represents a record without a verifiable future closing date, so
 
 Supported sorts are `newest`, `closing_soon`, `estimated_value`, and `relevance`. `page_size` is bounded to 100. The response includes applied filters, a cursor, snapshot time, availability, and source-health summaries.
 
-Every record contains a stable WorldMonitor ID (`source:sourceNoticeId`), its official notice URL, source notice ID, typed money fields when supplied, source timestamps, category data, and a provenance-preserving source name. Missing upstream fields remain absent rather than being inferred.
+Every record contains a stable EagleEye ID (`source:sourceNoticeId`), its official notice URL, source notice ID, typed money fields when supplied, source timestamps, category data, and a provenance-preserving source name. Missing upstream fields remain absent rather than being inferred.
 
 ## MCP tool
 

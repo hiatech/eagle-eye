@@ -5,10 +5,10 @@
 export const PUBLIC_PRODUCT_FACTS = {
   "_generated": "scripts/generate-public-product-facts.mjs — do not edit by hand; run `npm run product:facts`",
   "product": {
-    "name": "World Monitor",
+    "name": "Eagle Eye",
     "lifecycle": "launched",
-    "canonicalUrl": "https://www.worldmonitor.app/",
-    "pricingUrl": "https://www.worldmonitor.app/pro#pricing",
+    "canonicalUrl": "https://www.eagle-eye.app/",
+    "pricingUrl": "https://www.eagle-eye.app/pro#pricing",
     "primaryCtaLabel": "View Pro plans"
   },
   "currency": "USD",
@@ -22,7 +22,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 0,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": false,
       "selfServe": false,
       "dashboardAiCallsPerDay": 0,
@@ -37,7 +37,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 39.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 500,
@@ -52,7 +52,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 359.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 500,
@@ -67,7 +67,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 49.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 2500,
@@ -82,7 +82,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 449.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 2500,
@@ -97,7 +97,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 99.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 1000,
@@ -112,7 +112,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 899.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 1000,
@@ -127,7 +127,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 299.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 10000,
@@ -142,7 +142,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": 2699.99,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": true,
       "selfServe": true,
       "dashboardAiCallsPerDay": 10000,
@@ -157,7 +157,7 @@ export const PUBLIC_PRODUCT_FACTS = {
       "price": null,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://www.worldmonitor.app/pro#pricing",
+      "url": "https://www.eagle-eye.app/pro#pricing",
       "currentForCheckout": false,
       "selfServe": false,
       "dashboardAiCallsPerDay": null,
@@ -244,7 +244,7 @@ export const TIER_CONFIG = {
       "mcpBurstRequestsPerMinute": 0
     },
     "cta": "Get Started",
-    "href": "https://worldmonitor.app/dashboard",
+    "href": "https://eagle-eye.app/dashboard",
     "highlighted": false
   },
   "pro": {
@@ -324,7 +324,7 @@ export const TIER_CONFIG = {
   "api_business": {
     "name": "API Business",
     "localeKey": "apiBusiness",
-    "description": "Launch your own product on WorldMonitor data",
+    "description": "Launch your own product on EagleEye data",
     "features": [
       "Everything in API Starter",
       "Redistribution rights — embed our data in what you sell",
@@ -365,7 +365,7 @@ export const TIER_CONFIG = {
       "mcpBurstRequestsPerMinute": 1000
     },
     "cta": "Contact Sales",
-    "href": "mailto:enterprise@worldmonitor.app",
+    "href": "mailto:enterprise@eagle-eye.app",
     "highlighted": false
   }
 };

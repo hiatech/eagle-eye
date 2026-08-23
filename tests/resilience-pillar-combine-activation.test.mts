@@ -16,12 +16,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 
-import { getResilienceRanking } from '../server/worldmonitor/resilience/v1/get-resilience-ranking.ts';
-import { getResilienceScore } from '../server/worldmonitor/resilience/v1/get-resilience-score.ts';
+import { getResilienceRanking } from '../server/eagleeye/resilience/v1/get-resilience-ranking.ts';
+import { getResilienceScore } from '../server/eagleeye/resilience/v1/get-resilience-score.ts';
 import {
   isPillarCombineEnabled,
   penalizedPillarScore,
-} from '../server/worldmonitor/resilience/v1/_shared.ts';
+} from '../server/eagleeye/resilience/v1/_shared.ts';
 import { createRedisFetch } from './helpers/fake-upstash-redis.mts';
 import {
   buildReleaseGateFixtures,

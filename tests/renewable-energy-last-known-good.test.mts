@@ -165,7 +165,7 @@ describe('renewable energy last-known-good recovery (#5497)', () => {
       cachedAt: null,
     });
     assert.ok(
-      storage.getItem(`worldmonitor-persistent-cache:breaker:${breakerName}:${RENEWABLE_DATA_CACHE_KEY}`),
+      storage.getItem(`eagleeye-persistent-cache:breaker:${breakerName}:${RENEWABLE_DATA_CACHE_KEY}`),
       'validated World Bank data must be persisted under the versioned cache key',
     );
   });
@@ -247,7 +247,7 @@ describe('renewable energy last-known-good recovery (#5497)', () => {
     const breakerName = 'Renewable Test Legacy';
     const legacyKey = `breaker:${breakerName}`;
     storage.setItem(
-      `worldmonitor-persistent-cache:${legacyKey}`,
+      `eagleeye-persistent-cache:${legacyKey}`,
       JSON.stringify({
         key: legacyKey,
         updatedAt: now,
@@ -312,7 +312,7 @@ describe('renewable energy last-known-good recovery (#5497)', () => {
 
     assert.equal(result.data, null);
     assert.equal(
-      storage.getItem(`worldmonitor-persistent-cache:breaker:${breakerName}:${RENEWABLE_DATA_CACHE_KEY}`),
+      storage.getItem(`eagleeye-persistent-cache:breaker:${breakerName}:${RENEWABLE_DATA_CACHE_KEY}`),
       null,
     );
   });

@@ -23,7 +23,7 @@ const jsonServiceSpecs = readdirSync(apiDir)
   .filter((f) => /Service\.openapi\.json$/.test(f))
   .sort();
 const yamlSpecs = readdirSync(apiDir)
-  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'worldmonitor.openapi.yaml')
+  .filter((f) => /Service\.openapi\.yaml$/.test(f) || f === 'eagleeye.openapi.yaml')
   .sort();
 
 function openApiArtifacts() {
@@ -34,7 +34,7 @@ function openApiArtifacts() {
       entries: jsonOperationEntries(JSON.parse(readFileSync(resolve(apiDir, file), 'utf8'))),
     })),
     ...yamlSpecs.map((file) => ({
-      family: file === 'worldmonitor.openapi.yaml' ? 'bundle' : 'yaml',
+      family: file === 'eagleeye.openapi.yaml' ? 'bundle' : 'yaml',
       file,
       entries: yamlOperationEntries(readFileSync(resolve(apiDir, file), 'utf8')),
     })),
@@ -158,7 +158,7 @@ describe('OpenAPI deprecated + operation-description contract', () => {
       assert.equal(domain?.deprecated, true, `${path} domain query param must be machine-readable as deprecated`);
     }
 
-    for (const file of ['IntelligenceService.openapi.yaml', 'worldmonitor.openapi.yaml']) {
+    for (const file of ['IntelligenceService.openapi.yaml', 'eagleeye.openapi.yaml']) {
       const yaml = readFileSync(resolve(apiDir, file), 'utf8');
       const responseBlock = yamlSchemaBlock(yaml, 'GetCompanyEnrichmentResponse');
       assert.match(responseBlock, /^\s{16}github:\n\s{20}deprecated: true/m, `${file} github field`);
@@ -180,7 +180,7 @@ describe('OpenAPI deprecated + operation-description contract', () => {
 
     for (const family of ['client', 'server']) {
       const generated = readFileSync(
-        resolve(root, `src/generated/${family}/worldmonitor/intelligence/v1/service_${family}.ts`),
+        resolve(root, `src/generated/${family}/eagleeye/intelligence/v1/service_${family}.ts`),
         'utf8',
       );
       assert.match(generated, /export interface GetCompanyEnrichmentRequest \{\n  \/\*\* @deprecated \*\/\n  domain: string;/);
@@ -224,7 +224,7 @@ function yamlPathBlock(text, path) {
 // deprecated-flag injector read.
 function countDeprecatedRpcDeclarations() {
   let count = 0;
-  for (const file of walkProtoFiles(resolve(root, 'proto/worldmonitor'))) {
+  for (const file of walkProtoFiles(resolve(root, 'proto/eagleeye'))) {
     const text = readFileSync(file, 'utf8');
     count += (text.match(/^\s*option\s+deprecated\s*=\s*true\s*;/gm) ?? []).length;
   }

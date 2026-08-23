@@ -153,10 +153,10 @@ for (const [tierGroup, entries] of tierGroups) {
     }
   } else if (!primary.selfServe && primary.priceCents === 0) {
     tier.cta = 'Get Started';
-    tier.href = 'https://worldmonitor.app/dashboard';
+    tier.href = 'https://eagle-eye.app/dashboard';
   } else if (!primary.selfServe && primary.priceCents === null) {
     tier.cta = 'Contact Sales';
-    tier.href = 'mailto:enterprise@worldmonitor.app';
+    tier.href = 'mailto:enterprise@eagle-eye.app';
   }
 
   tier.highlighted = primary.highlighted;
@@ -214,7 +214,7 @@ function getDescription(tierGroup) {
     pro: 'Full intelligence dashboard',
     pro_business: 'The Pro dashboard, licensed for work',
     api_starter: 'Build internal tools on live intelligence data',
-    api_business: 'Launch your own product on WorldMonitor data',
+    api_business: 'Launch your own product on EagleEye data',
     enterprise: 'Custom solutions for organizations',
   };
   return descriptions[tierGroup] || '';

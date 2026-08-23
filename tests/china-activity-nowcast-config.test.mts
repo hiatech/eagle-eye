@@ -27,11 +27,11 @@ describe('China activity nowcast production registration (#5579)', () => {
   });
 
   it('registers the generated public RPC and a bounded gateway cache tier', () => {
-    const proto = read('proto/worldmonitor/economic/v1/service.proto');
-    const handler = read('server/worldmonitor/economic/v1/handler.ts');
+    const proto = read('proto/eagleeye/economic/v1/service.proto');
+    const handler = read('server/eagleeye/economic/v1/handler.ts');
     const gateway = read('server/gateway.ts');
-    const client = read('src/generated/client/worldmonitor/economic/v1/service_client.ts');
-    const server = read('src/generated/server/worldmonitor/economic/v1/service_server.ts');
+    const client = read('src/generated/client/eagleeye/economic/v1/service_client.ts');
+    const server = read('src/generated/server/eagleeye/economic/v1/service_server.ts');
     const openapi = read('docs/api/EconomicService.openapi.yaml');
 
     assert.match(proto, /rpc GetChinaActivityNowcast/);

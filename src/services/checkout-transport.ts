@@ -1,7 +1,7 @@
 /**
  * Transport for POST /api/create-checkout: idempotency key + single retry.
  *
- * WORLDMONITOR-Q4 triage: 8 of 9 "Checkout error: service_unavailable"
+ * EAGLEEYE-Q4 triage: 8 of 9 "Checkout error: service_unavailable"
  * events were Cloudflare-emitted 502s (cf-ray present, CF error-page
  * HTML body) — transient origin failures on the checkout-session POST.
  * The edge handler already dedupes replays via the Idempotency-Key

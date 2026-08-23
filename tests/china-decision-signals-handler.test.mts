@@ -6,7 +6,7 @@ import {
   CHINA_DECISION_SIGNAL_SOURCE_KEYS,
   projectChinaDecisionSignalWireResponse,
   resolveChinaDecisionSignalSnapshot,
-} from '../server/worldmonitor/intelligence/v1/get-china-decision-signals';
+} from '../server/eagleeye/intelligence/v1/get-china-decision-signals';
 
 const ctx = {} as never;
 const macroProvenance = JSON.parse(readFileSync(

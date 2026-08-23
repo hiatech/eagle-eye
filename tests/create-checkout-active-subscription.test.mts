@@ -17,16 +17,16 @@ async function importFreshCreateCheckout() {
 }
 
 function makeCheckoutRequest(): Request {
-  return new Request('https://worldmonitor.app/api/create-checkout', {
+  return new Request('https://eagle-eye.app/api/create-checkout', {
     method: 'POST',
     headers: {
-      Origin: 'https://worldmonitor.app',
+      Origin: 'https://eagle-eye.app',
       Authorization: 'Bearer clerk-token',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       productId: 'pdt_pro_monthly',
-      returnUrl: 'https://worldmonitor.app/?wm_checkout=return',
+      returnUrl: 'https://eagle-eye.app/?wm_checkout=return',
     }),
   });
 }
@@ -72,7 +72,7 @@ describe('/api/create-checkout ACTIVE_SUBSCRIPTION_EXISTS relay handling', () =>
     assert.equal(consoleError.mock.calls.length, 0);
     assert.equal(relayFetch.mock.calls.length, 1);
     const relayInit = relayFetch.mock.calls[0].arguments[1] as RequestInit;
-    assert.equal((relayInit.headers as Record<string, string>)['User-Agent'], 'worldmonitor-checkout-edge/1.0');
+    assert.equal((relayInit.headers as Record<string, string>)['User-Agent'], 'eagleeye-checkout-edge/1.0');
   });
 
   it('continues logging and forwarding non-active 409 checkout blocks', async () => {

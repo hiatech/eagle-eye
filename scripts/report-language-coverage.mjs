@@ -6,7 +6,7 @@
  *   node scripts/report-language-coverage.mjs --json   # machine-readable rows
  *
  * Audits SUPPORTED_LANGUAGES (src/services/i18n.ts) against both feed catalogs
- * — src/config/feeds.ts and server/worldmonitor/news/v1/_feeds.ts — using the
+ * — src/config/feeds.ts and server/eagleeye/news/v1/_feeds.ts — using the
  * policy in shared/language-coverage-policy.json.
  * CI gate: tests/language-coverage-health.test.mts.
  */

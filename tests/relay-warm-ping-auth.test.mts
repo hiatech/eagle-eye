@@ -5,8 +5,8 @@
 // to keep their compute caches hot. These require a session token or API key in
 // normal traffic, and the #3541 hardening removed Origin-trust — so relay
 // warm-pings 401 without a real credential. The relay now authenticates as a
-// trusted internal caller via X-WorldMonitor-Key = WORLDMONITOR_RELAY_KEY,
-// validated by the gateway against its own WORLDMONITOR_RELAY_KEY for these
+// trusted internal caller via X-EagleEye-Key = EAGLEEYE_RELAY_KEY,
+// validated by the gateway against its own EAGLEEYE_RELAY_KEY for these
 // paths only.
 //
 // These tests exercise the real isRelayWarmPingRequest verifier and pin the
@@ -24,16 +24,16 @@ const NON_WARM_PATH = '/api/intelligence/v1/get-country-risk';
 
 function req(pathname: string, key?: string): Request {
   const headers: Record<string, string> = {};
-  if (key !== undefined) headers['X-WorldMonitor-Key'] = key;
-  return new Request(`https://api.worldmonitor.app${pathname}`, { headers });
+  if (key !== undefined) headers['X-EagleEye-Key'] = key;
+  return new Request(`https://api.eagle-eye.app${pathname}`, { headers });
 }
 
 describe('relay warm-ping internal auth', () => {
-  const original = process.env.WORLDMONITOR_RELAY_KEY;
-  beforeEach(() => { process.env.WORLDMONITOR_RELAY_KEY = SECRET; });
+  const original = process.env.EAGLEEYE_RELAY_KEY;
+  beforeEach(() => { process.env.EAGLEEYE_RELAY_KEY = SECRET; });
   afterEach(() => {
-    if (original === undefined) delete process.env.WORLDMONITOR_RELAY_KEY;
-    else process.env.WORLDMONITOR_RELAY_KEY = original;
+    if (original === undefined) delete process.env.EAGLEEYE_RELAY_KEY;
+    else process.env.EAGLEEYE_RELAY_KEY = original;
   });
 
   it('covers exactly the free relay warm-ping endpoints', () => {
@@ -67,13 +67,13 @@ describe('relay warm-ping internal auth', () => {
     assert.equal(await isRelayWarmPingRequest(req(NON_WARM_PATH, SECRET), NON_WARM_PATH), false);
   });
 
-  it('fails CLOSED when WORLDMONITOR_RELAY_KEY is unset (no bypass)', async () => {
-    delete process.env.WORLDMONITOR_RELAY_KEY;
+  it('fails CLOSED when EAGLEEYE_RELAY_KEY is unset (no bypass)', async () => {
+    delete process.env.EAGLEEYE_RELAY_KEY;
     assert.equal(await isRelayWarmPingRequest(req(WARM_PATH, SECRET), WARM_PATH), false);
   });
 
   it('fails CLOSED when the relay key is blank/whitespace', async () => {
-    process.env.WORLDMONITOR_RELAY_KEY = '   ';
+    process.env.EAGLEEYE_RELAY_KEY = '   ';
     assert.equal(await isRelayWarmPingRequest(req(WARM_PATH, '   '), WARM_PATH), false);
   });
 });
@@ -85,7 +85,7 @@ describe('relay warm-ping internal auth', () => {
 describe('relay warm-ping auth wiring (source guardrail)', () => {
   it('keeps the active Service Statuses relay loop on shared warm-ping auth headers', async () => {
     const src = await readFile(new URL('../scripts/ais-relay.cjs', import.meta.url), 'utf8');
-    assert.match(src, /const SERVICE_STATUSES_RPC_URL = 'https:\/\/api\.worldmonitor\.app\/api\/infrastructure\/v1\/list-service-statuses'/);
+    assert.match(src, /const SERVICE_STATUSES_RPC_URL = 'https:\/\/api\.eagle-eye\.app\/api\/infrastructure\/v1\/list-service-statuses'/);
     assert.match(
       src,
       /fetch\(SERVICE_STATUSES_RPC_URL,\s*\{[\s\S]{0,240}?headers: warmPingHeaders\(\{ 'Content-Type': 'application\/json' \}\)/,

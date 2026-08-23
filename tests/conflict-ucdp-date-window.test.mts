@@ -79,7 +79,7 @@ async function loadUcdpDeriver() {
   );
   patched = replaceRequired(
     patched,
-    /import type \{[\s\S]*?\} from '@\/generated\/client\/worldmonitor\/conflict\/v1\/service_client';/,
+    /import type \{[\s\S]*?\} from '@\/generated\/client\/eagleeye\/conflict\/v1\/service_client';/,
     `type AcledConflictEvent = any;
 type UcdpViolenceEvent = any;
 type HumanitarianCountrySummary = any;

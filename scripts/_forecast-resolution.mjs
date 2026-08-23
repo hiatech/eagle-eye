@@ -1,7 +1,7 @@
 // Pure spec-builder module for the forecast resolvability contract (#4976 Bet 1).
 //
 // Every published forecast gets a machine-checkable ResolutionSpec: `hard`
-// (auto-resolvable from a WorldMonitor feed the detector already scored from)
+// (auto-resolvable from a EagleEye feed the detector already scored from)
 // or `judged` (a resolution question for a later LLM judge, Bet 2). This
 // module owns that dispatch, the feed allowlist a hard spec's `sourceFeed`
 // must belong to (R4), and the deadline math (R5).

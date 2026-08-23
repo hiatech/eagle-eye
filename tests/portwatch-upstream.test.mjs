@@ -8,7 +8,7 @@ import { buildHistory } from '../scripts/seed-portwatch.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE_DIR = resolve(__dirname, 'fixtures');
 const root = resolve(__dirname, '..');
-const src = readFileSync(resolve(root, 'server/worldmonitor/supply-chain/v1/_portwatch-upstream.ts'), 'utf-8');
+const src = readFileSync(resolve(root, 'server/eagleeye/supply-chain/v1/_portwatch-upstream.ts'), 'utf-8');
 const relaySrc = readFileSync(resolve(root, 'scripts/ais-relay.cjs'), 'utf-8');
 const seederSrc = readFileSync(resolve(root, 'scripts/seed-portwatch.mjs'), 'utf-8');
 
@@ -157,7 +157,7 @@ describe('computeWowChangePct', () => {
   });
 });
 
-import { detectTrafficAnomaly } from '../server/worldmonitor/supply-chain/v1/_scoring.mjs';
+import { detectTrafficAnomaly } from '../server/eagleeye/supply-chain/v1/_scoring.mjs';
 
 describe('detectTrafficAnomaly', () => {
   it('flags >50% drop in war_zone as signal', () => {

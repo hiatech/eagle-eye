@@ -1,13 +1,13 @@
 ---
 title: "CLI Release Runbook"
-description: "How maintainers publish the worldmonitor npm CLI from cli/ using cli-v* tags, npm trusted publishing, and the release workflow's dry-run gates."
+description: "How maintainers publish the eagleeye npm CLI from cli/ using cli-v* tags, npm trusted publishing, and the release workflow's dry-run gates."
 ---
-This runbook covers maintainer releases of the official [`worldmonitor`](https://www.npmjs.com/package/worldmonitor) npm CLI from `cli/`. CLI releases are intentionally independent from desktop app releases: a `cli-vX.Y.Z` Git tag triggers `.github/workflows/publish-cli.yml`.
+This runbook covers maintainer releases of the official [`eagleeye`](https://www.npmjs.com/package/eagleeye) npm CLI from `cli/`. CLI releases are intentionally independent from desktop app releases: a `cli-vX.Y.Z` Git tag triggers `.github/workflows/publish-cli.yml`.
 The Python, Ruby, and Go SDKs release the same way with their own tags (`py-v*`, `gem-v*`, `sdk/go/v*`) — see [Official SDKs → Releasing](/sdks#releasing-maintainers).
 
 ## Prerequisites
 
-- The `worldmonitor` package already exists on npm.
+- The `eagleeye` package already exists on npm.
 - npm Trusted Publishing is configured for this repository and `.github/workflows/publish-cli.yml`.
 - The workflow keeps `permissions.id-token: write` so npm can mint the short-lived OIDC credential and attach provenance.
 
@@ -51,4 +51,4 @@ Use `dry_run: false` only when you intentionally want the manual workflow path t
 | Publish step fails authentication | npm Trusted Publishing is missing or points at the wrong workflow/repository | Configure the package trusted publisher for this repo and `.github/workflows/publish-cli.yml` |
 | CLI tests fail | The package is not release-ready | Fix `cli/`, rerun tests locally, commit, and push a new release tag |
 
-After the workflow succeeds, confirm the new version appears on npm and that `npx worldmonitor --version` resolves to the published version.
+After the workflow succeeds, confirm the new version appears on npm and that `npx eagleeye --version` resolves to the published version.

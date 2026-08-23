@@ -1,7 +1,7 @@
 /**
- * Publish job: builds compact WorldMonitor snapshot payloads and writes to Redis.
+ * Publish job: builds compact EagleEye snapshot payloads and writes to Redis.
  * Runs as an independent Railway cron service (02:30 UTC daily) after aggregate.
- * This is the handoff point between consumer-prices-core and WorldMonitor.
+ * This is the handoff point between consumer-prices-core and EagleEye.
  */
 import {
   buildBasketSeriesSnapshot,
@@ -10,7 +10,7 @@ import {
   buildMoversSnapshot,
   buildOverviewSnapshot,
   buildRetailerSpreadSnapshot,
-} from '../snapshots/worldmonitor.js';
+} from '../snapshots/eagleeye.js';
 import { buildCoverageSnapshot } from '../snapshots/coverage.js';
 import {
   COVERAGE_ACTIVATION_SCHEMA_VERSION,
@@ -183,7 +183,7 @@ export async function publishAll() {
       );
       pagesOk++;
       // #6059 activation handshake. Written AFTER the snapshot lands and only
-      // for real coverage, so WorldMonitor health leaves its bounded
+      // for real coverage, so EagleEye health leaves its bounded
       // ROLLOUT_PENDING window for this market and becomes strict forever.
       // Durable by design: no EX, so it outlives the 7d seed-meta TTL and a
       // publisher that ran once and then died can never read as

@@ -1,5 +1,5 @@
 // Hand-curated canonical-slug table for the
-// `worldmonitor://chokepoints/{slug}/status` resource URI. The slug → matcher
+// `eagleeye://chokepoints/{slug}/status` resource URI. The slug → matcher
 // map is the STABILITY CONTRACT: callers can bookmark a slug and trust the URI
 // resolves to the same chokepoint across cache refreshes / upstream renames.
 // A new chokepoint requires an explicit edit here AND an update to the

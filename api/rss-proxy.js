@@ -53,7 +53,7 @@ async function fetchViaRailway(feedUrl, timeoutMs) {
   return fetchWithTimeout(relayUrl, {
     headers: getRelayHeaders({
       'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-      'User-Agent': 'WorldMonitor-RSS-Proxy/1.0',
+      'User-Agent': 'EagleEye-RSS-Proxy/1.0',
     }),
   }, timeoutMs);
 }
@@ -119,7 +119,7 @@ export default async function handler(req, ctx) {
   // A malformed `url` param is a client error, not a server fault. Parse it up
   // front and return 400 WITHOUT a Sentry capture — otherwise `new URL()` throws
   // "Invalid URL string." inside the try below, which the catch reports as an
-  // error-level exception and answers with a 502 (WORLDMONITOR-TT: 21 events from
+  // error-level exception and answers with a 502 (EAGLEEYE-TT: 21 events from
   // malformed/double-encoded feed params).
   let parsedUrl;
   try {

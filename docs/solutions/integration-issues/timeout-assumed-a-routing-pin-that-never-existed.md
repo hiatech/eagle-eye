@@ -77,7 +77,7 @@ completion deadline covers 100%.
 
 ## The trap: the security policy and the latency fix pull in opposite directions
 
-WorldMonitor blocks China-hosted inference providers because it is a
+EagleEye blocks China-hosted inference providers because it is a
 geopolitical product — an adapter could log queries or bias outputs on exactly
 the topics it covers (Taiwan, Xinjiang, the South China Sea).
 

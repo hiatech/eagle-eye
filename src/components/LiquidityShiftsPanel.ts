@@ -1,4 +1,4 @@
-import type { MarketServiceClient } from '@/generated/client/worldmonitor/market/v1/service_client';
+import type { MarketServiceClient } from '@/generated/client/eagleeye/market/v1/service_client';
 import { Panel } from './Panel';
 import { t } from '@/services/i18n';
 import { escapeHtml, unsafeRawHtml } from '@/utils/sanitize';
@@ -9,7 +9,7 @@ let _client: MarketServiceClient | null = null;
 
 async function getMarketClient(): Promise<MarketServiceClient> {
   if (!_client) {
-    const { MarketServiceClient } = await import('@/generated/client/worldmonitor/market/v1/service_client');
+    const { MarketServiceClient } = await import('@/generated/client/eagleeye/market/v1/service_client');
     const { getRpcBaseUrl } = await import('@/services/rpc-client');
     _client = new MarketServiceClient(getRpcBaseUrl(), { fetch: proFreshRpcFetch });
   }

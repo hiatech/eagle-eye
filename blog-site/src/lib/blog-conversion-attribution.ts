@@ -5,16 +5,16 @@ import {
 } from '../../../shared/content-attribution';
 
 export const BLOG_CONVERSION_EVENT = 'blog-product-cta-click';
-export const BLOG_CONVERSION_SOURCE = 'worldmonitor-blog';
+export const BLOG_CONVERSION_SOURCE = 'eagleeye-blog';
 export const BLOG_CONVERSION_MEDIUM = 'owned-content';
 
 export type BlogProductDestination = Exclude<ContentDestination, 'unknown'>;
 
 export const BLOG_PRODUCT_URLS: Record<BlogProductDestination, string> = {
-  dashboard: 'https://www.worldmonitor.app/dashboard',
-  pro: 'https://www.worldmonitor.app/pro',
-  api: 'https://www.worldmonitor.app/docs/api-reference',
-  mcp: 'https://www.worldmonitor.app/docs/mcp-quickstart',
+  dashboard: 'https://www.eagle-eye.app/dashboard',
+  pro: 'https://www.eagle-eye.app/pro',
+  api: 'https://www.eagle-eye.app/docs/api-reference',
+  mcp: 'https://www.eagle-eye.app/docs/mcp-quickstart',
 };
 
 /**

@@ -11,7 +11,7 @@ const FEEDS_PATH = join(__dirname, '..', 'src', 'config', 'feeds.ts');
 // #4920: the SERVER digest catalog is a separate universe from the client
 // config — buildDigest ingests from _feeds.ts, so completeness must be
 // measured against it too, not just the client list.
-const SERVER_FEEDS_PATH = join(__dirname, '..', 'server', 'worldmonitor', 'news', 'v1', '_feeds.ts');
+const SERVER_FEEDS_PATH = join(__dirname, '..', 'server', 'eagleeye', 'news', 'v1', '_feeds.ts');
 
 const CHROME_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const FETCH_TIMEOUT = 15_000;

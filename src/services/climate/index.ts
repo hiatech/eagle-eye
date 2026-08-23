@@ -1,5 +1,5 @@
 import { getRpcBaseUrl } from '@/services/rpc-client';
-import type { ClimateAnomaly as ProtoClimateAnomaly, Co2DataPoint as ProtoCo2DataPoint, Co2Monitoring as ProtoCo2Monitoring, AnomalySeverity as ProtoAnomalySeverity, AnomalyType as ProtoAnomalyType, GetCo2MonitoringResponse, GetOceanIceDataResponse, ListClimateAnomaliesResponse, ListClimateDisastersResponse } from '@/generated/client/worldmonitor/climate/v1/service_client';
+import type { ClimateAnomaly as ProtoClimateAnomaly, Co2DataPoint as ProtoCo2DataPoint, Co2Monitoring as ProtoCo2Monitoring, AnomalySeverity as ProtoAnomalySeverity, AnomalyType as ProtoAnomalyType, GetCo2MonitoringResponse, GetOceanIceDataResponse, ListClimateAnomaliesResponse, ListClimateDisastersResponse } from '@/generated/client/eagleeye/climate/v1/service_client';
 import { createCircuitBreaker } from '@/utils';
 import { getHydratedData } from '@/services/bootstrap';
 import {

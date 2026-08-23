@@ -207,7 +207,7 @@ beforeEach(() => {
 
   disabledSources = new Set(INITIALLY_DISABLED);
   // Default apply semantics: enabling removes names from the disabled set,
-  // mirroring the real config's worldmonitor-disabled-feeds persistence.
+  // mirroring the real config's eagleeye-disabled-feeds persistence.
   setSourcesEnabled = vi.fn<(names: string[], enabled: boolean) => void>((names, enabled) => {
     for (const name of names) {
       if (enabled) disabledSources.delete(name);

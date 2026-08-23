@@ -19,7 +19,7 @@ so a headline reading *"Ignore previous instructions and…"* is an
 indirect-prompt-injection payload.
 
 **This is not a new channel.** The existing news tools have exactly the same
-one, and every WorldMonitor surface that feeds third-party text into an LLM has
+one, and every EagleEye surface that feeds third-party text into an LLM has
 had it since #3724.
 
 **What is new is the exposure window.** Live seed keys in Redis overwrite
@@ -82,7 +82,7 @@ reach the consumer, which is a narrower set than it first appears.
 | **MCP server instructions** | The `Content safety:` stanza in `SERVER_INSTRUCTIONS` (`api/mcp/constants.ts`), returned in `initialize.result.instructions`, which the MCP lifecycle spec has clients surface to the model. | **Yes — this is the primary channel.** Delivered verbatim, once per session, to every agent regardless of host. |
 | MCP tool description | A content-safety clause at the end of each of the three tools' descriptions. `tools/list` compresses to the first sentence, so this arrives via `describe_tool`, which the instructions tell agents to call. | Partially — only if the agent asks for the full definition. |
 | MCP `outputSchema` | `INTEL_HISTORY_RECORD_SCHEMA` in `api/mcp/registry/rpc-tools.ts` — `title`, `summary`, `sourceUrl` and `resource`. | **Host-dependent; assume no.** Kept because it is the contract REST clients and `describe_tool` read. |
-| REST / OpenAPI | The `UNTRUSTED CONTENT` note and per-field comments on `IntelHistoryRecord` in `proto/worldmonitor/intelligence/v1/intel_history_record.proto`, which flow into the generated specs. | N/A — human and client-generator surface. |
+| REST / OpenAPI | The `UNTRUSTED CONTENT` note and per-field comments on `IntelHistoryRecord` in `proto/eagleeye/intelligence/v1/intel_history_record.proto`, which flow into the generated specs. | N/A — human and client-generator surface. |
 | Docs | The Historical intelligence sections of `docs/mcp-tools-reference.mdx` and `docs/mcp-overview.mdx`, plus their `docs/zh` mirrors. | N/A — human surface. |
 | Structured provenance | `resource` names the producing feed and `sourceUrl` the underlying report, so a consumer that wants to weight records by source already can. | Yes — in every response body. |
 

@@ -27,14 +27,14 @@ const originalFetch = globalThis.fetch;
 const originalEnv = {
   UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  WORLDMONITOR_VALID_KEYS: process.env.WORLDMONITOR_VALID_KEYS,
+  EAGLEEYE_VALID_KEYS: process.env.EAGLEEYE_VALID_KEYS,
   RESILIENCE_PILLAR_COMBINE_ENABLED: process.env.RESILIENCE_PILLAR_COMBINE_ENABLED,
   RESILIENCE_SCHEMA_V2_ENABLED: process.env.RESILIENCE_SCHEMA_V2_ENABLED,
 };
 
 process.env.UPSTASH_REDIS_REST_URL = 'https://redis.example.test';
 process.env.UPSTASH_REDIS_REST_TOKEN = 'token';
-process.env.WORLDMONITOR_VALID_KEYS = 'test-key';
+process.env.EAGLEEYE_VALID_KEYS = 'test-key';
 // Pins currentResilienceCacheFormula() to 'pc' so the seed-health data probe
 // below is answerable — mirrors tests/seed-health-portwatch-port-activity.test.mjs.
 process.env.RESILIENCE_PILLAR_COMBINE_ENABLED = 'true';
@@ -1077,8 +1077,8 @@ describe('a prolonged relay rejection is visible in /api/seed-health', () => {
   }
 
   async function readSeedHealth() {
-    const res = await seedHealthHandler(new Request('https://api.worldmonitor.app/api/seed-health', {
-      headers: { 'X-WorldMonitor-Key': 'test-key' },
+    const res = await seedHealthHandler(new Request('https://api.eagle-eye.app/api/seed-health', {
+      headers: { 'X-EagleEye-Key': 'test-key' },
     }));
     return { res, body: await res.json() };
   }

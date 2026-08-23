@@ -3,10 +3,10 @@ info:
     title: CompanyMonitoringService API
     version: 1.0.0
 security:
-    - WorldMonitorKey: []
+    - EagleEyeKey: []
     - ApiKeyHeader: []
 servers:
-    - url: https://api.worldmonitor.app
+    - url: https://api.eagle-eye.app
 paths:
     /api/company-monitoring/v1/create-monitored-company:
         post:
@@ -42,7 +42,7 @@ paths:
                                     - "example-id"
                                 "locations":
                                     - "example"
-                                "name": "WorldMonitor Analyst"
+                                "name": "EagleEye Analyst"
                         schema:
                             $ref: '#/components/schemas/CreateMonitoredCompanyRequest'
                 required: true
@@ -62,7 +62,7 @@ paths:
                         application/json:
                             example:
                                 "company":
-                                    "canonicalUrl": "https://example.com/worldmonitor"
+                                    "canonicalUrl": "https://example.com/eagleeye"
                                     "claims":
                                         - "allowedUses":
                                             - "COMPANY_CLAIM_ALLOWED_USE_DISCOVERY"
@@ -208,7 +208,7 @@ paths:
                                       "value": "example"
                                 "customerReference": "example"
                                 "domicileCountry": "DOMICILE_COUNTRY_US"
-                                "name": "WorldMonitor Analyst"
+                                "name": "EagleEye Analyst"
                                 "removeClaimIds":
                                     - "cm_claim_01ARZ3NDEKTSV4RRFFQ69G5FAV"
                         schema:
@@ -230,7 +230,7 @@ paths:
                         application/json:
                             example:
                                 "company":
-                                    "canonicalUrl": "https://example.com/worldmonitor"
+                                    "canonicalUrl": "https://example.com/eagleeye"
                                     "claims":
                                         - "allowedUses":
                                             - "COMPANY_CLAIM_ALLOWED_USE_DISCOVERY"
@@ -390,7 +390,7 @@ paths:
                         application/json:
                             example:
                                 "company":
-                                    "canonicalUrl": "https://example.com/worldmonitor"
+                                    "canonicalUrl": "https://example.com/eagleeye"
                                     "claims":
                                         - "allowedUses":
                                             - "COMPANY_CLAIM_ALLOWED_USE_DISCOVERY"
@@ -533,7 +533,7 @@ paths:
                                         - "example-id"
                                     "locations":
                                         - "example"
-                                    "name": "WorldMonitor Analyst"
+                                    "name": "EagleEye Analyst"
                                   "ordinal": 0
                         schema:
                             $ref: '#/components/schemas/ImportMonitoredCompanyBatchRequest'
@@ -662,7 +662,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -674,7 +674,7 @@ paths:
                         application/json:
                             example:
                                 "companies":
-                                    - "canonicalUrl": "https://example.com/worldmonitor"
+                                    - "canonicalUrl": "https://example.com/eagleeye"
                                       "claims":
                                           - "allowedUses":
                                               - "COMPANY_CLAIM_ALLOWED_USE_DISCOVERY"
@@ -813,7 +813,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -825,7 +825,7 @@ paths:
                         application/json:
                             example:
                                 "impacts":
-                                    - "canonicalUrl": "https://example.com/worldmonitor"
+                                    - "canonicalUrl": "https://example.com/eagleeye"
                                       "changedAt": "2026-01-15T12:00:00Z"
                                       "channels":
                                           - "MATERIAL_IMPACT_CHANNEL_REPUTATION"
@@ -922,7 +922,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -934,7 +934,7 @@ paths:
                         application/json:
                             example:
                                 "impacts":
-                                    - "canonicalUrl": "https://example.com/worldmonitor"
+                                    - "canonicalUrl": "https://example.com/eagleeye"
                                       "changedAt": "2026-01-15T12:00:00Z"
                                       "channels":
                                           - "MATERIAL_IMPACT_CHANNEL_REPUTATION"
@@ -1020,7 +1020,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1032,21 +1032,21 @@ paths:
                         application/json:
                             example:
                                 "event":
-                                    "canonicalUrl": "https://example.com/worldmonitor"
+                                    "canonicalUrl": "https://example.com/eagleeye"
                                     "category": "cs.AI"
                                     "eventId": "cm_event_01ARZ3NDEKTSV4RRFFQ69G5FAV"
                                     "lifecycle": "MATERIAL_IMPACT_LIFECYCLE_ADMITTED"
                                     "occurredAt": "2026-01-15T12:00:00Z"
                                 "evidence":
                                     - "authorityTier": "EVIDENCE_AUTHORITY_TIER_PRIMARY_VERIFIED"
-                                      "canonicalUrl": "https://example.com/worldmonitor"
+                                      "canonicalUrl": "https://example.com/eagleeye"
                                       "evidenceId": "cm_evidence_01ARZ3NDEKTSV4RRFFQ69G5FAV"
                                       "excerpt": "example"
                                       "provider": "MONITORING_PROVIDER_EXA"
                                 "evidenceTotalCount": 1
                                 "evidenceTruncated": true
                                 "impact":
-                                    "canonicalUrl": "https://example.com/worldmonitor"
+                                    "canonicalUrl": "https://example.com/eagleeye"
                                     "changedAt": "2026-01-15T12:00:00Z"
                                     "channels":
                                         - "MATERIAL_IMPACT_CHANNEL_REPUTATION"
@@ -1130,7 +1130,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1219,7 +1219,7 @@ paths:
                 - name: jmespath
                   in: query
                   description: |-
-                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.worldmonitor.app/docs/mcp-jmespath.
+                    Optional JMESPath expression applied server-side to project or reduce the JSON response before it is returned (mirrors the MCP jmespath argument). Invalid expressions, expressions larger than 1024 UTF-8 bytes, or projections that exceed the 256 KB output cap return HTTP 400 with a {_jmespath_error, original_keys} envelope. Grammar and worked examples: https://www.eagle-eye.app/docs/mcp-jmespath.
                   required: false
                   example: "keys(@)"
                   schema:
@@ -1297,16 +1297,16 @@ paths:
                                     - $ref: '#/components/schemas/GatewayError'
 components:
     securitySchemes:
-        WorldMonitorKey:
+        EagleEyeKey:
             type: apiKey
             in: header
-            name: X-WorldMonitor-Key
-            description: User-issued WorldMonitor API key.
+            name: X-EagleEye-Key
+            description: User-issued EagleEye API key.
         ApiKeyHeader:
             type: apiKey
             in: header
             name: X-Api-Key
-            description: Alias header for the WorldMonitor API key (X-WorldMonitor-Key).
+            description: Alias header for the EagleEye API key (X-EagleEye-Key).
     schemas:
         JmespathProjectionError:
             description: Returned when a REST jmespath projection is invalid or exceeds the expression/output byte limits.
@@ -1488,7 +1488,7 @@ components:
                 companyId:
                     type: string
                     pattern: ^cm_company_[0-9A-HJKMNP-TV-Z]{26}$
-                    description: Stable WorldMonitor logical ID; never a storage-layer document ID.
+                    description: Stable EagleEye logical ID; never a storage-layer document ID.
                 name:
                     type: string
                 domicileCountry:
@@ -1543,7 +1543,7 @@ components:
                 claimId:
                     type: string
                     pattern: ^cm_claim_[0-9A-HJKMNP-TV-Z]{26}$
-                    description: Stable WorldMonitor logical ID; never a storage-layer document ID.
+                    description: Stable EagleEye logical ID; never a storage-layer document ID.
                 type:
                     type: string
                     enum:
@@ -1853,7 +1853,7 @@ components:
                 impactId:
                     type: string
                     pattern: ^cm_impact_[0-9A-HJKMNP-TV-Z]{26}$
-                    description: Stable WorldMonitor logical IDs; never storage-layer document IDs.
+                    description: Stable EagleEye logical IDs; never storage-layer document IDs.
                 eventId:
                     type: string
                     pattern: ^cm_event_[0-9A-HJKMNP-TV-Z]{26}$
@@ -2018,7 +2018,7 @@ components:
                 eventId:
                     type: string
                     pattern: ^cm_event_[0-9A-HJKMNP-TV-Z]{26}$
-                    description: Stable WorldMonitor logical ID; never a storage-layer document ID.
+                    description: Stable EagleEye logical ID; never a storage-layer document ID.
                 revision:
                     type: integer
                     minimum: 1
@@ -2048,7 +2048,7 @@ components:
                 evidenceId:
                     type: string
                     pattern: ^cm_evidence_[0-9A-HJKMNP-TV-Z]{26}$
-                    description: Stable WorldMonitor logical ID; never a storage-layer document ID.
+                    description: Stable EagleEye logical ID; never a storage-layer document ID.
                 provider:
                     type: string
                     enum:

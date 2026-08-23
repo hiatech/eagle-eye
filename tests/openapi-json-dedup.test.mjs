@@ -22,7 +22,7 @@ import { dedupeSharedChinaProvenanceSchemas } from '../scripts/openapi-dedup-sch
 // the next injector cannot silently re-cross the cap.
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const bundlePath = resolve(root, 'docs/api/worldmonitor.openapi.yaml');
+const bundlePath = resolve(root, 'docs/api/eagleeye.openapi.yaml');
 const buildScriptPath = resolve(root, 'scripts/build-openapi-json.mjs');
 
 // Leave headroom under the ~1 MB cap: the spec sat at ~752 KB when the check
@@ -81,7 +81,7 @@ function resolveParameterRefs(spec) {
 
 function resolveSharedChinaProvenanceRefs(spec) {
   const refPrefix =
-    '#/components/schemas/worldmonitor_intelligence_v1_ChinaDecisionSignalProvenanceClaims/';
+    '#/components/schemas/eagleeye_intelligence_v1_ChinaDecisionSignalProvenanceClaims/';
   const resolvePointer = (ref) =>
     ref
       .slice(2)
@@ -184,7 +184,7 @@ describe('dedupeSharedChinaProvenanceSchemas (fixture)', () => {
     const spec = {
       components: {
         schemas: {
-          worldmonitor_supply_chain_v1_ChinaCorridorProvenance: {
+          eagleeye_supply_chain_v1_ChinaCorridorProvenance: {
             properties: {
               claims: {
                 properties: {
@@ -213,7 +213,7 @@ describe('dedupeSharedChinaProvenanceSchemas (fixture)', () => {
               },
             },
           },
-          worldmonitor_intelligence_v1_ChinaDecisionSignalProvenanceClaims: {
+          eagleeye_intelligence_v1_ChinaDecisionSignalProvenanceClaims: {
             properties: {
               publisher: {
                 oneOf: [
@@ -244,12 +244,12 @@ describe('dedupeSharedChinaProvenanceSchemas (fixture)', () => {
     const stats = dedupeSharedChinaProvenanceSchemas(spec);
     assert.deepEqual(stats, { compared: 2, replacedRefs: 1 });
     assert.equal(
-      spec.components.schemas.worldmonitor_supply_chain_v1_ChinaCorridorProvenance
+      spec.components.schemas.eagleeye_supply_chain_v1_ChinaCorridorProvenance
         .properties.claims.properties.publisher.oneOf[0].properties.value.$ref,
-      '#/components/schemas/worldmonitor_intelligence_v1_ChinaDecisionSignalProvenanceClaims/properties/publisher/oneOf/0/properties/value',
+      '#/components/schemas/eagleeye_intelligence_v1_ChinaDecisionSignalProvenanceClaims/properties/publisher/oneOf/0/properties/value',
     );
     assert.deepEqual(
-      spec.components.schemas.worldmonitor_supply_chain_v1_ChinaCorridorProvenance
+      spec.components.schemas.eagleeye_supply_chain_v1_ChinaCorridorProvenance
         .properties.claims.properties.revision.oneOf[0].properties.value,
       { type: 'number' },
     );

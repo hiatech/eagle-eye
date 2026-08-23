@@ -20,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const ROOT = resolve(dirname(__filename), '..');
 const SKILLS_DIR = resolve(ROOT, 'public/.well-known/agent-skills');
 const INDEX_PATH = join(SKILLS_DIR, 'index.json');
-const PUBLIC_BASE = 'https://worldmonitor.app';
+const PUBLIC_BASE = 'https://eagle-eye.app';
 
 // Canonical v0.2.0 discovery-schema URL. Graders (orank/ora.ai Identity
 // `agent-skills-index-v2`) string-match this exact value; the earlier
@@ -33,10 +33,10 @@ const SCHEMA = 'https://schemas.agentskills.io/discovery/0.2.0/schema.json';
 // and want explicit when-to-use guidance in it — a "when to use" section in
 // llms.txt does not satisfy the check because the grader evaluates the manifest
 // it found, not llms.txt. Names best-fit jobs, when NOT to use, and how an
-// agent should call World Monitor. Keep in sync with the "When to Use World
+// agent should call Eagle Eye. Keep in sync with the "When to Use World
 // Monitor (Agent Guidance)" section of public/llms.txt.
 const INSTRUCTIONS = [
-  'World Monitor is a live, machine-readable global-intelligence API and MCP server. Reach for it when a task needs fresh, correlated, structured data about the state of the world — JSON to reason over, not prose to re-parse.',
+  'Eagle Eye is a live, machine-readable global-intelligence API and MCP server. Reach for it when a task needs fresh, correlated, structured data about the state of the world — JSON to reason over, not prose to re-parse.',
   '',
   'When to use these skills:',
   '- Use `fetch-news-digest` when the user asks what’s in the news right now — the aggregated, categorized, threat-classified output of 500+ curated feeds in one call.',
@@ -63,17 +63,17 @@ const INSTRUCTIONS = [
   '- Use `monitor-webcams` when the user asks for live visual context near a location, route, border, port, airport, or city.',
   '- Use `track-climate-hazards` when the user asks about floods, cyclones, droughts, heatwaves, wildfires, climate anomalies, or climate disruption headlines.',
   '- Use `monitor-health-alerts` when the user asks about disease outbreaks or PM2.5 air-quality health warnings.',
-  '- Use `check-forecast-signals` when the user asks what World Monitor is forecasting, how probabilities shifted, or how calibrated the forecasts are.',
+  '- Use `check-forecast-signals` when the user asks what Eagle Eye is forecasting, how probabilities shifted, or how calibrated the forecasts are.',
   '',
   'Beyond these skills the MCP server exposes a broad catalog of tools — displacement, natural disasters, research, imagery, and more. Use them together to check whether a live event (a conflict, sanction, climate hazard, or chokepoint disruption) has a plausible market, health, energy, or supply-chain transmission path.',
   '',
-  'When NOT to use: World Monitor is not a general web-search engine, a historical archive, or a trading-execution venue — it places no orders and stores no user documents. For a one-off narrative that needs no correlation across live layers, a plain LLM is cheaper and faster.',
+  'When NOT to use: Eagle Eye is not a general web-search engine, a historical archive, or a trading-execution venue — it places no orders and stores no user documents. For a one-off narrative that needs no correlation across live layers, a plain LLM is cheaper and faster.',
   '',
   'How an agent should call it:',
-  '- MCP server (recommended): https://worldmonitor.app/mcp — Streamable HTTP; issue `tools/list` for the live inventory.',
-  '- REST API: base https://api.worldmonitor.app — OpenAPI spec at https://worldmonitor.app/openapi.yaml.',
-  '- CLI (shell/scripts): the `worldmonitor` npm package wraps these tools — `npx worldmonitor tools` (public, no key) or `npm i -g worldmonitor`, then pass `--api-key` for data calls. https://www.npmjs.com/package/worldmonitor',
-  '- Auth: OAuth2 (`scope=mcp`) or an API-key header `X-WorldMonitor-Key: wm_<40-hex>`. Issue a key at https://worldmonitor.app/pro.',
+  '- MCP server (recommended): https://eagle-eye.app/mcp — Streamable HTTP; issue `tools/list` for the live inventory.',
+  '- REST API: base https://api.eagle-eye.app — OpenAPI spec at https://eagle-eye.app/openapi.yaml.',
+  '- CLI (shell/scripts): the `eagleeye` npm package wraps these tools — `npx eagleeye tools` (public, no key) or `npm i -g eagleeye`, then pass `--api-key` for data calls. https://www.npmjs.com/package/eagleeye',
+  '- Auth: OAuth2 (`scope=mcp`) or an API-key header `X-EagleEye-Key: wm_<40-hex>`. Issue a key at https://eagle-eye.app/pro.',
 ].join('\n');
 
 // Closing fence must be anchored to its own line so values that happen to

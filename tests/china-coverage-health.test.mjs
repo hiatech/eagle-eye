@@ -478,7 +478,7 @@ describe('China coverage manifest', () => {
         ]), { status: 200 });
       };
       await assert.rejects(readChinaCoverageInputs([singleEntry()]), /1 command error/);
-      assert.equal(new Headers(requestInit.headers).get('User-Agent'), 'worldmonitor-ops/1.0 (+https://worldmonitor.app)');
+      assert.equal(new Headers(requestInit.headers).get('User-Agent'), 'eagleeye-ops/1.0 (+https://eagle-eye.app)');
 
       globalThis.fetch = async () => new Response(JSON.stringify([
         { result: '{not-json' },

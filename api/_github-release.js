@@ -1,6 +1,6 @@
 import { readRawJsonFromUpstash, setCachedData } from './_upstash-json.js';
 
-const RELEASES_URL = 'https://api.github.com/repos/koala73/worldmonitor/releases/latest';
+const RELEASES_URL = 'https://api.github.com/repos/hiatech/eagle-eye/releases/latest';
 const CACHE_KEY = 'github:latest-release:v1';
 // Matches the s-maxage the callers already advertise, so adding the Redis tier
 // does not change how stale a client can observe this — it only stops every

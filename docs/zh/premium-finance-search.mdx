@@ -14,7 +14,7 @@ description: "为高级金融提供支持的定向股票新闻搜索层 —— �
 
 ## 为何存在此层
 
-WorldMonitor 主要以 feed 为先：
+EagleEye 主要以 feed 为先：
 
 - 精选 RSS feeds
 - 摘要聚合
@@ -47,11 +47,11 @@ WorldMonitor 主要以 feed 为先：
 
 主要实现：
 
-- [stock-news-search.ts](https://github.com/koala73/worldmonitor/blob/main/server/worldmonitor/market/v1/stock-news-search.ts)
+- [stock-news-search.ts](https://github.com/hiatech/eagle-eye/blob/main/server/eagleeye/market/v1/stock-news-search.ts)
 
 集成点：
 
-- [analyze-stock.ts](https://github.com/koala73/worldmonitor/blob/main/server/worldmonitor/market/v1/analyze-stock.ts)
+- [analyze-stock.ts](https://github.com/hiatech/eagle-eye/blob/main/server/eagleeye/market/v1/analyze-stock.ts)
 
 该辅助模块：
 
@@ -98,10 +98,10 @@ WorldMonitor 主要以 feed 为先：
 
 这些通过以下方式接入：
 
-- [runtime-config.ts](https://github.com/koala73/worldmonitor/blob/main/src/services/runtime-config.ts)
-- [settings-constants.ts](https://github.com/koala73/worldmonitor/blob/main/src/services/settings-constants.ts)
-- [main.rs](https://github.com/koala73/worldmonitor/blob/main/src-tauri/src/main.rs)
-- [local-api-server.mjs](https://github.com/koala73/worldmonitor/blob/main/src-tauri/sidecar/local-api-server.mjs)
+- [runtime-config.ts](https://github.com/hiatech/eagle-eye/blob/main/src/services/runtime-config.ts)
+- [settings-constants.ts](https://github.com/hiatech/eagle-eye/blob/main/src/services/settings-constants.ts)
+- [main.rs](https://github.com/hiatech/eagle-eye/blob/main/src-tauri/src/main.rs)
+- [local-api-server.mjs](https://github.com/hiatech/eagle-eye/blob/main/src-tauri/sidecar/local-api-server.mjs)
 
 这些值是多密钥字符串，以逗号或换行符分隔。
 

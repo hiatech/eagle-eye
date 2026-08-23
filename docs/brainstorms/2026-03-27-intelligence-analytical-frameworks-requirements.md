@@ -7,7 +7,7 @@ topic: intelligence-analytical-frameworks
 
 ## Problem Frame
 
-WorldMonitor's AI intelligence panels (WorldBrief, Country Brief, Market Brief) generate analysis using a single neutral LLM prompt. Users who want to apply structured analytical lenses — Ray Dalio macroeconomic cycles, Buffett value frameworks, adversarial geopolitical equilibrium models — have no way to do so. Every user gets the same generic framing regardless of their decision-making context. This limits the depth and usefulness of the intelligence layer for sophisticated users and reduces differentiation for premium tiers.
+EagleEye's AI intelligence panels (WorldBrief, Country Brief, Market Brief) generate analysis using a single neutral LLM prompt. Users who want to apply structured analytical lenses — Ray Dalio macroeconomic cycles, Buffett value frameworks, adversarial geopolitical equilibrium models — have no way to do so. Every user gets the same generic framing regardless of their decision-making context. This limits the depth and usefulness of the intelligence layer for sophisticated users and reduces differentiation for premium tiers.
 
 ## Requirements
 

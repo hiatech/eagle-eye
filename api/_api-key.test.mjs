@@ -5,7 +5,7 @@ import test from 'node:test';
 const SECRET = 'test-secret-must-be-at-least-32-chars-long-xxx';
 const ENTERPRISE_KEY = 'enterprise-test-key-123';
 process.env.WM_SESSION_SECRET = SECRET;
-process.env.WORLDMONITOR_VALID_KEYS = ENTERPRISE_KEY;
+process.env.EAGLEEYE_VALID_KEYS = ENTERPRISE_KEY;
 
 const { USER_API_KEY_GATEWAY_VALIDATION_ERROR, getHeaderApiKey, validateApiKey } = await import('./_api-key.js');
 const { issueSessionToken } = await import('./_session.js');
@@ -15,15 +15,15 @@ function makeReq({ origin, referer, secFetchSite, key, cookie } = {}) {
   if (origin) headers.set('origin', origin);
   if (referer) headers.set('referer', referer);
   if (secFetchSite) headers.set('sec-fetch-site', secFetchSite);
-  if (key) headers.set('x-worldmonitor-key', key);
+  if (key) headers.set('x-eagleeye-key', key);
   if (cookie) headers.set('cookie', cookie);
-  return new Request('https://api.worldmonitor.app/api/test', { headers });
+  return new Request('https://api.eagle-eye.app/api/test', { headers });
 }
 
 // ── #3541 regression: header-only signals must NEVER pass ──────────────────
 
 test('#3541: forged Referer alone is rejected', async () => {
-  const r = await validateApiKey(makeReq({ referer: 'https://worldmonitor.app/' }));
+  const r = await validateApiKey(makeReq({ referer: 'https://eagle-eye.app/' }));
   assert.equal(r.valid, false);
   assert.equal(r.required, true);
 });
@@ -33,15 +33,15 @@ test('#3541: forged Sec-Fetch-Site: same-origin alone is rejected (this was the 
   assert.equal(r.valid, false);
 });
 
-test('#3541: forged Origin: https://worldmonitor.app alone is rejected (no key, no session)', async () => {
-  const r = await validateApiKey(makeReq({ origin: 'https://worldmonitor.app' }));
+test('#3541: forged Origin: https://eagle-eye.app alone is rejected (no key, no session)', async () => {
+  const r = await validateApiKey(makeReq({ origin: 'https://eagle-eye.app' }));
   assert.equal(r.valid, false);
 });
 
 test('#3541: combined forged Origin + Sec-Fetch-Site + Referer all together is still rejected', async () => {
   const r = await validateApiKey(makeReq({
-    origin: 'https://worldmonitor.app',
-    referer: 'https://worldmonitor.app/',
+    origin: 'https://eagle-eye.app',
+    referer: 'https://eagle-eye.app/',
     secFetchSite: 'same-origin',
   }));
   assert.equal(r.valid, false);
@@ -158,7 +158,7 @@ test('garbage wms_ shape is rejected', async () => {
   assert.equal(r.valid, false);
 });
 
-// ── Enterprise key (WORLDMONITOR_VALID_KEYS) ────────────────────────────────
+// ── Enterprise key (EAGLEEYE_VALID_KEYS) ────────────────────────────────
 
 test('valid enterprise key is accepted from any origin', async () => {
   const r = await validateApiKey(makeReq({ origin: 'https://evil.example.com', key: ENTERPRISE_KEY }));
@@ -183,32 +183,32 @@ test('wm_-prefixed user key returns required:true / valid:false so gateway can f
   assert.equal(r.error, USER_API_KEY_GATEWAY_VALIDATION_ERROR);
 });
 
-test('getHeaderApiKey centralizes X-WorldMonitor-Key and X-Api-Key aliases', () => {
+test('getHeaderApiKey centralizes X-EagleEye-Key and X-Api-Key aliases', () => {
   assert.equal(getHeaderApiKey(makeReq({ key: 'canonical-key' })), 'canonical-key');
-  const req = new Request('https://api.worldmonitor.app/api/test', {
+  const req = new Request('https://api.eagle-eye.app/api/test', {
     headers: { 'X-Api-Key': 'alias-key' },
   });
   assert.equal(getHeaderApiKey(req), 'alias-key');
 });
 
-test('REGRESSION: wm_-prefixed key in WORLDMONITOR_VALID_KEYS is honored as enterprise', async () => {
+test('REGRESSION: wm_-prefixed key in EAGLEEYE_VALID_KEYS is honored as enterprise', async () => {
   // Pre-#3541 the static enterprise allowlist accepted any key shape, so
-  // some operator-issued keys (e.g. Railway WORLDMONITOR_RELAY_KEY) carry the
+  // some operator-issued keys (e.g. Railway EAGLEEYE_RELAY_KEY) carry the
   // wm_ prefix from before user-issued keys were namespaced. Without the
   // static-allowlist-first ordering, those keys 401 because they get punted
   // to validateUserApiKey() which doesn't know about operator-minted values.
   // Symptom: ais-relay warm-pings (Chokepoints / CableHealth / CII /
   // ServiceStatuses) all 401 in production despite the key being literally
-  // present in WORLDMONITOR_VALID_KEYS.
-  const previous = process.env.WORLDMONITOR_VALID_KEYS;
-  process.env.WORLDMONITOR_VALID_KEYS = `${ENTERPRISE_KEY},wm_legacy_operator_key_in_static_list`;
+  // present in EAGLEEYE_VALID_KEYS.
+  const previous = process.env.EAGLEEYE_VALID_KEYS;
+  process.env.EAGLEEYE_VALID_KEYS = `${ENTERPRISE_KEY},wm_legacy_operator_key_in_static_list`;
   try {
     const r = await validateApiKey(makeReq({ key: 'wm_legacy_operator_key_in_static_list' }));
     assert.equal(r.valid, true, 'wm_-prefixed key in static allowlist must validate as enterprise');
     assert.equal(r.required, true);
     assert.equal(r.kind, 'enterprise', 'must be kind=enterprise so gateway skips entitlement check');
   } finally {
-    process.env.WORLDMONITOR_VALID_KEYS = previous;
+    process.env.EAGLEEYE_VALID_KEYS = previous;
   }
 });
 

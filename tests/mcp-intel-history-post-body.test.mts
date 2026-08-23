@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { TOOL_REGISTRY } from '../api/mcp/registry/index.ts';
 import { verifyInternalMcpRequest } from '../server/_shared/mcp-internal-hmac.ts';
 
-const BASE_URL = 'https://worldmonitor.app';
+const BASE_URL = 'https://eagle-eye.app';
 const HMAC_SECRET = 'test-secret-mcp-intel-history-post-body';
 const USER_ID = 'user_mcp_intel_history_post_body';
 const originalFetch = globalThis.fetch;

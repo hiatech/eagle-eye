@@ -289,7 +289,7 @@ describe('readDenialErrorCode', () => {
     const res = json({
       error: 'pro_required',
       message: 'The Brief is available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     });
     assert.equal(await readDenialErrorCode(res), 'pro_required');
   });
@@ -802,7 +802,7 @@ describe('classifyDenialResponse', () => {
     const res = denial({
       error: 'pro_required',
       message: 'The Brief is available on the Pro plan.',
-      upgradeUrl: 'https://worldmonitor.app/pro',
+      upgradeUrl: 'https://eagle-eye.app/pro',
     }, 403);
     assert.equal(await classifyDenialResponse(res, PRO), 'entitlement_desync');
   });

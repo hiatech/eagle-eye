@@ -10,7 +10,7 @@ import {
   listCountryPopulations,
   MAX_EXPOSURE_RADIUS_KM,
 } from '../shared/analysis-population-exposure.ts';
-import { getPopulationExposure } from '../server/worldmonitor/displacement/v1/get-population-exposure.ts';
+import { getPopulationExposure } from '../server/eagleeye/displacement/v1/get-population-exposure.ts';
 import {
   Z_THRESHOLD_LOW,
   Z_THRESHOLD_MEDIUM,

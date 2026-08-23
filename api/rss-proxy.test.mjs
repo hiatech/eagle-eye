@@ -5,7 +5,7 @@ const originalEnv = { ...process.env };
 const originalFetch = globalThis.fetch;
 const TEST_KEY = 'rss-proxy-test-key';
 
-process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
 delete process.env.UPSTASH_REDIS_REST_URL;
 delete process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -21,7 +21,7 @@ function restoreEnv() {
   Object.assign(process.env, originalEnv);
 }
 
-const PROXY_ENDPOINT = 'https://api.worldmonitor.app/api/rss-proxy';
+const PROXY_ENDPOINT = 'https://api.eagle-eye.app/api/rss-proxy';
 
 /**
  * @param {string | null} feedUrl  feed to proxy; `null` omits the `url` param
@@ -32,13 +32,13 @@ const PROXY_ENDPOINT = 'https://api.worldmonitor.app/api/rss-proxy';
  *   empty — the handler distinguishes absent from present-but-wrong.
  */
 function makeRequest(feedUrl, opts = {}) {
-  const { method = 'GET', origin = 'https://worldmonitor.app', apiKey = TEST_KEY } = opts;
+  const { method = 'GET', origin = 'https://eagle-eye.app', apiKey = TEST_KEY } = opts;
   const url = feedUrl === null
     ? PROXY_ENDPOINT
     : `${PROXY_ENDPOINT}?url=${encodeURIComponent(feedUrl)}`;
   const headers = {};
   if (origin !== null) headers.Origin = origin;
-  if (apiKey !== null) headers['X-WorldMonitor-Key'] = apiKey;
+  if (apiKey !== null) headers['X-EagleEye-Key'] = apiKey;
   return new Request(url, { method, headers });
 }
 
@@ -64,7 +64,7 @@ function feedCalls(calls) {
 }
 
 beforeEach(() => {
-  process.env.WORLDMONITOR_VALID_KEYS = TEST_KEY;
+  process.env.EAGLEEYE_VALID_KEYS = TEST_KEY;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
   delete process.env.WS_RELAY_URL;
@@ -431,7 +431,7 @@ test('returns 429 and skips the feed fetch when the rate limit is exhausted', as
   assert.match(res.headers.get('Retry-After') ?? '', /^\d+$/);
   // The 429 must still carry CORS headers, or the browser client sees an opaque
   // network error instead of a readable rate-limit response.
-  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
   assert.deepEqual(
     feedCalls(calls).map((c) => c.url),
     [],
@@ -509,7 +509,7 @@ test('returns 400 when the url parameter is missing entirely', async () => {
 test('returns 400 (not 502) for a malformed url parameter', async () => {
   const calls = spyFetch();
 
-  // Regression for WORLDMONITOR-TT: `new URL()` throwing inside the try block
+  // Regression for EAGLEEYE-TT: `new URL()` throwing inside the try block
   // was reported to Sentry at error level and answered 502. It is a client
   // error and must be caught by the pre-try parse.
   const res = await handler(makeRequest('not-a-url'));
@@ -525,7 +525,7 @@ test('answers CORS preflight with 204 and no upstream call', async () => {
   const res = await handler(makeRequest('https://techcrunch.com/feed', { method: 'OPTIONS' }));
 
   assert.equal(res.status, 204);
-  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
   // Exact match, not a substring — pins the advertised verb set so widening it
   // (e.g. to include POST/PUT/DELETE) can't slip through unnoticed.
   assert.equal(res.headers.get('Access-Control-Allow-Methods'), 'GET, OPTIONS');
@@ -557,7 +557,7 @@ test('rejects a disallowed Origin before auth, method, or fetch', async () => {
   assert.equal(res.status, 403);
   assert.equal((await res.json()).error, 'Origin not allowed');
   // Never echo the attacker origin back.
-  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://worldmonitor.app');
+  assert.equal(res.headers.get('Access-Control-Allow-Origin'), 'https://eagle-eye.app');
   assert.deepEqual(calls, []);
 });
 

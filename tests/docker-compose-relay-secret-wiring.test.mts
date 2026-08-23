@@ -12,7 +12,7 @@
  *
  * Both sides need it, for different reasons:
  *   - ais-relay  reads it to authenticate inbound requests (scripts/ais-relay.cjs)
- *   - worldmonitor reads it to sign outbound ones (server/_shared/relay.ts)
+ *   - eagleeye reads it to sign outbound ones (server/_shared/relay.ts)
  *
  * A grep-level test rather than a container harness: the failure mode is a
  * missing line in YAML, which absence-of-key catches deterministically.
@@ -39,7 +39,7 @@ function serviceBlock(compose: string, serviceName: string): string {
 describe('docker self-hosting — relay secret reaches both sides', () => {
   it('passes RELAY_SHARED_SECRET to the relay and to its caller', async () => {
     const compose = await read('docker-compose.yml');
-    for (const service of ['ais-relay', 'worldmonitor']) {
+    for (const service of ['ais-relay', 'eagleeye']) {
       assert.match(
         serviceBlock(compose, service),
         /^\s+RELAY_SHARED_SECRET:\s*"\$\{RELAY_SHARED_SECRET[:-]/m,
@@ -87,9 +87,9 @@ describe('docker self-hosting — browser session auth is configurable', () => {
     // serves 200 on the shell, and is unusable in a browser: the 503 shows up
     // only in the network tab.
     assert.match(
-      serviceBlock(await read('docker-compose.yml'), 'worldmonitor'),
+      serviceBlock(await read('docker-compose.yml'), 'eagleeye'),
       /^\s+WM_SESSION_SECRET:\s*"\$\{WM_SESSION_SECRET:\?/m,
-      'worldmonitor must require WM_SESSION_SECRET',
+      'eagleeye must require WM_SESSION_SECRET',
     );
   });
 

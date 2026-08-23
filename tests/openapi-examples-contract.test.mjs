@@ -45,7 +45,7 @@ const CURATED = (() => {
   );
   const chokepointIds = new Set(filterContract.intelligenceChokepointIds ?? []);
   const scenarioSrc = readFileSync(
-    resolve(root, 'server/worldmonitor/supply-chain/v1/scenario-templates.ts'),
+    resolve(root, 'server/eagleeye/supply-chain/v1/scenario-templates.ts'),
     'utf8',
   );
   const scenarioIds = new Set([...scenarioSrc.matchAll(/\bid:\s*['"`]([a-z0-9-]+)['"`]/g)].map((m) => m[1]));
@@ -59,7 +59,7 @@ const CURATED = (() => {
   const geographySrc = readFileSync(resolve(root, 'scripts/shared/geography.js'), 'utf8');
   const regionIdsMatch = geographySrc.match(/\bREGION_IDS\s*=\s*\[([\s\S]*?)\]/);
   const regionIds = new Set(regionIdsMatch ? [...regionIdsMatch[1].matchAll(/['"`]([a-z0-9-]+)['"`]/g)].map((m) => m[1]) : []);
-  const consumerSrc = readFileSync(resolve(root, 'server/worldmonitor/consumer-prices/v1/get-consumer-price-basket-series.ts'), 'utf8');
+  const consumerSrc = readFileSync(resolve(root, 'server/eagleeye/consumer-prices/v1/get-consumer-price-basket-series.ts'), 'utf8');
   const consumerRangesMatch = consumerSrc.match(/VALID_RANGES\s*=\s*new Set\(\[([^\]]+)\]\)/);
   const consumerRanges = new Set(consumerRangesMatch ? [...consumerRangesMatch[1].matchAll(/['"`]([^'"`]+)['"`]/g)].map((m) => m[1]) : []);
   const basketMatch = consumerSrc.match(/\bDEFAULT_BASKET\s*=\s*['"`]([^'"`]+)['"`]/);
@@ -308,7 +308,7 @@ function assertSummarizeProviderExamples(spec, label) {
   );
   assert.ok(examples.length >= 3, `${label}: expected SummarizeArticle provider examples`);
   for (const { value, where } of examples) {
-    assert.notEqual(value, 'worldmonitor', `${where}: worldmonitor is not accepted by getProviderCredentials()`);
+    assert.notEqual(value, 'eagleeye', `${where}: eagleeye is not accepted by getProviderCredentials()`);
     assert.ok(CURATED.llmProviders.has(value), `${where}: provider '${value}' is not an LlmProviderName`);
   }
 }
@@ -497,7 +497,7 @@ function assertScenarioStatusPollExample(spec, label) {
     assert.ok(example.result && typeof example.result === 'object', `${label}: done status must include result`);
     assert.ok(!Object.hasOwn(example, 'error') || example.error === '', `${label}: done status must not include a populated error`);
     assert.ok(example.result.template && typeof example.result.template === 'object', `${label}: done result must include template`);
-    assert.notEqual(example.result.template.name, 'WorldMonitor Analyst', `${label}: worker writes a template key, not a display name`);
+    assert.notEqual(example.result.template.name, 'EagleEye Analyst', `${label}: worker writes a template key, not a display name`);
     const affected = Array.isArray(example.result.affectedChokepointIds) ? example.result.affectedChokepointIds : [];
     for (const id of affected) {
       assert.ok(CURATED.chokepointIds.has(id), `${label}: affected chokepoint '${id}' is not registered`);
@@ -673,7 +673,7 @@ describe('OpenAPI examples contract', () => {
         'InfrastructureService.openapi.yaml',
         loadYaml(readFileSync(resolve(apiDir, 'InfrastructureService.openapi.yaml'), 'utf8')),
       ],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
 
     for (const [label, spec] of specs) {
@@ -692,8 +692,8 @@ describe('OpenAPI examples contract', () => {
   });
 
   it('adds request and response examples to the unified OpenAPI bundle', () => {
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    const result = assertOperationExamples(bundle, 'worldmonitor.openapi.yaml');
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    const result = assertOperationExamples(bundle, 'eagleeye.openapi.yaml');
     assert.equal(result.operations, 214);
     assert.equal(result.responseExpected, 214);
   });
@@ -715,8 +715,8 @@ describe('OpenAPI examples contract', () => {
       const yamlSpec = loadYaml(readFileSync(resolve(apiDir, yamlFile), 'utf8'));
       violations.push(...honeypotRequestViolations(yamlSpec, yamlFile));
     }
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    violations.push(...honeypotRequestViolations(bundle, 'worldmonitor.openapi.yaml'));
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    violations.push(...honeypotRequestViolations(bundle, 'eagleeye.openapi.yaml'));
 
     assert.ok(guardedFields >= 2, `expected honeypot-marked schema fields to guard, found ${guardedFields}`);
     assert.deepEqual(violations, [], `request examples must omit honeypot fields; populated: ${violations.join(', ')}`);
@@ -796,7 +796,7 @@ describe('OpenAPI curated example values', () => {
     const specs = [
       ['NewsService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'NewsService.openapi.json'), 'utf8'))],
       ['NewsService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'NewsService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
 
     for (const [label, spec] of specs) {
@@ -813,7 +813,7 @@ describe('OpenAPI curated example values', () => {
     const intelligenceSpecs = [
       ['IntelligenceService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'IntelligenceService.openapi.json'), 'utf8'))],
       ['IntelligenceService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'IntelligenceService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
     assertParamExampleSet(intelligenceSpecs, 'GetGdeltTopicTimeline', 'topic', CURATED.gdeltTopics);
     assertParamExampleSet(intelligenceSpecs, 'GetRegionalSnapshot', 'region_id', CURATED.regionIds);
@@ -826,7 +826,7 @@ describe('OpenAPI curated example values', () => {
     const consumerSpecs = [
       ['ConsumerPricesService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'ConsumerPricesService.openapi.json'), 'utf8'))],
       ['ConsumerPricesService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'ConsumerPricesService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
     for (const operationId of ['GetConsumerPriceOverview', 'GetConsumerPriceBasketSeries', 'ListConsumerPriceCategories', 'ListRetailerPriceSpreads']) {
       assertParamExampleSet(consumerSpecs, operationId, 'basket_slug', CURATED.consumerBaskets);
@@ -838,7 +838,7 @@ describe('OpenAPI curated example values', () => {
     const aviationSpecs = [
       ['AviationService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'AviationService.openapi.json'), 'utf8'))],
       ['AviationService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'AviationService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
     const flightOps = ['SearchGoogleFlights', 'SearchGoogleDates'];
     for (const operationId of flightOps) {
@@ -859,7 +859,7 @@ describe('OpenAPI curated example values', () => {
     const newsSpecs = [
       ['NewsService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'NewsService.openapi.json'), 'utf8'))],
       ['NewsService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'NewsService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
     for (const [label, spec] of newsSpecs) {
       const mode = spec.paths?.['/api/news/v1/summarize-article']?.post
@@ -882,8 +882,8 @@ describe('OpenAPI curated example values', () => {
       const yamlSpec = loadYaml(readFileSync(resolve(apiDir, yamlFile), 'utf8'));
       checked += assertClosedValueParamExamples(yamlSpec, yamlFile);
     }
-    const bundle = loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'));
-    checked += assertClosedValueParamExamples(bundle, 'worldmonitor.openapi.yaml');
+    const bundle = loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'));
+    checked += assertClosedValueParamExamples(bundle, 'eagleeye.openapi.yaml');
     assert.ok(checked >= 20, `expected at least 20 prose-enumerated parameter examples, checked ${checked}`);
   });
 
@@ -899,7 +899,7 @@ describe('OpenAPI curated example values', () => {
       ['DisplacementService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'DisplacementService.openapi.yaml'), 'utf8'))],
       ['MilitaryService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'MilitaryService.openapi.json'), 'utf8'))],
       ['MilitaryService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'MilitaryService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
     assertIssue4827Cluster7ResidueFixed(specs);
   });
@@ -908,7 +908,7 @@ describe('OpenAPI curated example values', () => {
     const specs = [
       ['ScenarioService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'ScenarioService.openapi.json'), 'utf8'))],
       ['ScenarioService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'ScenarioService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
 
     for (const [label, spec] of specs) {
@@ -920,7 +920,7 @@ describe('OpenAPI curated example values', () => {
     const specs = [
       ['GivingService.openapi.json', JSON.parse(readFileSync(resolve(apiDir, 'GivingService.openapi.json'), 'utf8'))],
       ['GivingService.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'GivingService.openapi.yaml'), 'utf8'))],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
 
     for (const [label, spec] of specs) {
@@ -938,7 +938,7 @@ describe('OpenAPI curated example values', () => {
         'ShippingV2Service.openapi.yaml',
         loadYaml(readFileSync(resolve(apiDir, 'ShippingV2Service.openapi.yaml'), 'utf8')),
       ],
-      ['worldmonitor.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'worldmonitor.openapi.yaml'), 'utf8'))],
+      ['eagleeye.openapi.yaml', loadYaml(readFileSync(resolve(apiDir, 'eagleeye.openapi.yaml'), 'utf8'))],
     ];
 
     for (const [label, spec] of specs) {

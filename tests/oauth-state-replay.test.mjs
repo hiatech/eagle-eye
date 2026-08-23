@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { after, describe, it } from 'node:test';
 
 const REDIS_URL = 'https://redis.test';
-const CALLBACK_ORIGIN = 'https://worldmonitor.test';
+const CALLBACK_ORIGIN = 'https://eagleeye.test';
 const TEST_ENCRYPTION_KEY = Buffer.alloc(32).toString('base64');
 const ENV_KEYS = [
   'SLACK_CLIENT_ID',

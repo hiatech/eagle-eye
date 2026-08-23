@@ -146,25 +146,25 @@ describe('SEO and AI visibility baseline', () => {
         ...window,
         metrics: { totalCitations: 12, averageCitedPages: 2 },
         groundingQueries: [{ phrase: 'geopolitical risk API', citationCount: 3 }],
-        citedPages: [{ url: 'https://www.worldmonitor.app/docs/api-reference', citationCount: 4 }],
+        citedPages: [{ url: 'https://www.eagle-eye.app/docs/api-reference', citationCount: 4 }],
       })),
     };
     assert.doesNotThrow(() => validateBaseline(available, querySet));
 
     const external = structuredClone(available);
     external.search.bingWebmaster.aiPerformance.windows[0].citedPages[0].url =
-      'https://example.com/not-world-monitor';
+      'https://example.com/not-eagle-eye';
     assert.throws(
       () => validateBaseline(external, querySet),
-      /must be a World Monitor HTTPS URL/,
+      /must be a Eagle Eye HTTPS URL/,
     );
 
     const insecure = structuredClone(available);
     insecure.search.bingWebmaster.aiPerformance.windows[0].citedPages[0].url =
-      'http://worldmonitor.app/docs/api-reference';
+      'http://eagle-eye.app/docs/api-reference';
     assert.throws(
       () => validateBaseline(insecure, querySet),
-      /must be a World Monitor HTTPS URL/,
+      /must be a Eagle Eye HTTPS URL/,
     );
   });
 
@@ -180,7 +180,7 @@ describe('SEO and AI visibility baseline', () => {
 
     const unavailablePages = structuredClone(baseline);
     unavailablePages.search.bingWebmaster.aiPerformance.windows[0].citedPages = [{
-      url: 'https://www.worldmonitor.app/docs/api-reference',
+      url: 'https://www.eagle-eye.app/docs/api-reference',
       citationCount: 1,
     }];
     assert.throws(
@@ -197,7 +197,7 @@ describe('SEO and AI visibility baseline', () => {
         metrics: { totalCitations: 12, averageCitedPages: 2 },
         groundingQueries: [{ phrase: 'geopolitical risk API', citationCount: 3 }],
         citedPages: [{
-          url: 'https://www.worldmonitor.app/docs/api-reference',
+          url: 'https://www.eagle-eye.app/docs/api-reference',
           citationCount: 4,
         }],
       })),
@@ -230,7 +230,7 @@ describe('SEO and AI visibility baseline', () => {
     const duplicateUrl = structuredClone(available);
     duplicateUrl.search.bingWebmaster.aiPerformance.windows[0]
       .citedPages.push({
-        url: 'https://www.worldmonitor.app/docs/api-reference',
+        url: 'https://www.eagle-eye.app/docs/api-reference',
         citationCount: 1,
       });
     assert.throws(
@@ -240,10 +240,10 @@ describe('SEO and AI visibility baseline', () => {
 
     const credentialUrl = structuredClone(available);
     credentialUrl.search.bingWebmaster.aiPerformance.windows[0]
-      .citedPages[0].url = 'https://operator:secret@worldmonitor.app/docs/api-reference';
+      .citedPages[0].url = 'https://operator:secret@eagle-eye.app/docs/api-reference';
     assert.throws(
       () => validateBaseline(credentialUrl, querySet),
-      /World Monitor HTTPS URL/,
+      /Eagle Eye HTTPS URL/,
     );
   });
 
@@ -260,7 +260,7 @@ describe('SEO and AI visibility baseline', () => {
           metrics: { totalCitations: 12, averageCitedPages: 2 },
           groundingQueries: [{ phrase: 'geopolitical risk API', citationCount: null }],
           citedPages: [{
-            url: 'https://www.worldmonitor.app/docs/api-reference',
+            url: 'https://www.eagle-eye.app/docs/api-reference',
             citationCount: null,
           }],
         },
@@ -286,7 +286,7 @@ describe('SEO and AI visibility baseline', () => {
     invalid.aiObservations[0].citedUrls = [];
     assert.throws(
       () => validateBaseline(invalid, querySet),
-      /directCitation must match World Monitor cited URLs/,
+      /directCitation must match Eagle Eye cited URLs/,
     );
 
     const citationWithoutBrandText = structuredClone(baseline);
@@ -299,7 +299,7 @@ describe('SEO and AI visibility baseline', () => {
     contradictory.aiObservations[0].directCitation = false;
     assert.throws(
       () => validateBaseline(contradictory, querySet),
-      /directCitation must match World Monitor cited URLs/,
+      /directCitation must match Eagle Eye cited URLs/,
     );
   });
 
@@ -737,7 +737,7 @@ describe('scorecard computation', () => {
       platform: 'chatgpt_search',
       directCitation: false,
       citedUrls: [],
-      summary: 'World Monitor was mentioned without a direct citation.',
+      summary: 'Eagle Eye was mentioned without a direct citation.',
     });
     const previous = buildScorecard(querySet, previousBaseline);
     const nextBaseline = structuredClone(baseline);
@@ -750,7 +750,7 @@ describe('scorecard computation', () => {
       queryId: 'q21',
       platform: 'chatgpt_search',
       directCitation: true,
-      citedUrls: ['https://www.worldmonitor.app/pricing.md'],
+      citedUrls: ['https://www.eagle-eye.app/pricing.md'],
     });
     nextBaseline.search.googleSearchConsole = {
       status: 'available',
@@ -1052,7 +1052,7 @@ describe('scorecard computation', () => {
   it('escapes markdown-significant characters in cited URLs and summaries', () => {
     const hostile = structuredClone(baseline);
     const observation = hostile.aiObservations[0];
-    observation.citedUrls = ['https://www.worldmonitor.app/report(2026)?q=a|b'];
+    observation.citedUrls = ['https://www.eagle-eye.app/report(2026)?q=a|b'];
     observation.directCitation = true;
     observation.accuracy = 'mixed';
     observation.summary = 'Line one\nwith | pipe';
@@ -1060,7 +1060,7 @@ describe('scorecard computation', () => {
     const markdown = formatScorecardMarkdown(buildScorecard(querySet, hostile));
 
     assert.ok(
-      markdown.includes('[link](https://www.worldmonitor.app/report%282026%29?q=a\\|b)'),
+      markdown.includes('[link](https://www.eagle-eye.app/report%282026%29?q=a\\|b)'),
       'cited URL must be rendered with encoded parentheses and escaped pipe',
     );
     assert.ok(markdown.includes('Line one with \\| pipe'));

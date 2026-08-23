@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "querySetId": "seo-ai-visibility-v1",
   "reviewedAt": "2026-07-27",
-  "reviewNotes": "Twenty-five English-language decision queries reviewed against World Monitor's current page families. Reference entities are comparison candidates or primary sources to inspect; their inclusion is not an endorsement or a ranking claim.",
+  "reviewNotes": "Twenty-five English-language decision queries reviewed against Eagle Eye's current page families. Reference entities are comparison candidates or primary sources to inspect; their inclusion is not an endorsement or a ranking claim.",
   "queries": [
     {
       "id": "q01",
@@ -11,7 +11,7 @@
       "targetAudience": "Security analysts and cross-domain risk teams",
       "targetPage": {
         "family": "homepage",
-        "url": "https://www.worldmonitor.app/"
+        "url": "https://www.eagle-eye.app/"
       },
       "conversionGoal": "Launch the dashboard",
       "referenceEntities": [
@@ -34,7 +34,7 @@
       "targetAudience": "OSINT practitioners, journalists, and researchers",
       "targetPage": {
         "family": "dashboard",
-        "url": "https://www.worldmonitor.app/dashboard"
+        "url": "https://www.eagle-eye.app/dashboard"
       },
       "conversionGoal": "Open the live map and inspect a source",
       "referenceEntities": [
@@ -57,7 +57,7 @@
       "targetAudience": "New evaluators and non-specialist decision-makers",
       "targetPage": {
         "family": "blog",
-        "url": "https://www.worldmonitor.app/blog/posts/what-is-worldmonitor-real-time-global-intelligence/"
+        "url": "https://www.eagle-eye.app/blog/posts/what-is-eagle-eye-real-time-global-intelligence/"
       },
       "conversionGoal": "Continue from the explainer to the dashboard",
       "referenceEntities": [
@@ -68,7 +68,7 @@
         },
         {
           "role": "source",
-          "name": "World Monitor GitHub repository",
+          "name": "Eagle Eye GitHub repository",
           "url": "https://github.com/koala73/worldmonitor"
         }
       ]
@@ -80,7 +80,7 @@
       "targetAudience": "Operations and crisis-management teams",
       "targetPage": {
         "family": "homepage",
-        "url": "https://www.worldmonitor.app/"
+        "url": "https://www.eagle-eye.app/"
       },
       "conversionGoal": "Launch the dashboard with relevant layers",
       "referenceEntities": [
@@ -103,7 +103,7 @@
       "targetAudience": "Analysts validating provenance and methodology",
       "targetPage": {
         "family": "documentation",
-        "url": "https://www.worldmonitor.app/docs/data-sources"
+        "url": "https://www.eagle-eye.app/docs/data-sources"
       },
       "conversionGoal": "Review methodology and source documentation",
       "referenceEntities": [
@@ -126,7 +126,7 @@
       "targetAudience": "Country-risk, macro, and supply-chain analysts",
       "targetPage": {
         "family": "country_pages",
-        "url": "https://www.worldmonitor.app/countries/"
+        "url": "https://www.eagle-eye.app/countries/"
       },
       "conversionGoal": "Open a country page and continue into the dashboard",
       "referenceEntities": [
@@ -149,7 +149,7 @@
       "targetAudience": "Energy traders, maritime analysts, and logistics teams",
       "targetPage": {
         "family": "chokepoints",
-        "url": "https://www.worldmonitor.app/chokepoints/"
+        "url": "https://www.eagle-eye.app/chokepoints/"
       },
       "conversionGoal": "Inspect live chokepoint status and open the dashboard",
       "referenceEntities": [
@@ -172,7 +172,7 @@
       "targetAudience": "Newsrooms, researchers, and crisis-response teams",
       "targetPage": {
         "family": "crises",
-        "url": "https://www.worldmonitor.app/crises/"
+        "url": "https://www.eagle-eye.app/crises/"
       },
       "conversionGoal": "Open a bounded crisis tracker and verify its sources",
       "referenceEntities": [
@@ -195,7 +195,7 @@
       "targetAudience": "Travel-security, aviation, and duty-of-care teams",
       "targetPage": {
         "family": "tools",
-        "url": "https://www.worldmonitor.app/tools/airspace-disruption-checker/"
+        "url": "https://www.eagle-eye.app/tools/airspace-disruption-checker/"
       },
       "conversionGoal": "Run the checker and open the aviation dashboard context",
       "referenceEntities": [
@@ -218,7 +218,7 @@
       "targetAudience": "Procurement, logistics, and supply-chain risk teams",
       "targetPage": {
         "family": "blog",
-        "url": "https://www.worldmonitor.app/blog/posts/supply-chain-early-warning-dashboard-worldmonitor-api/"
+        "url": "https://www.eagle-eye.app/blog/posts/supply-chain-early-warning-dashboard-eagle-eye-api/"
       },
       "conversionGoal": "Review the workflow and start an API or dashboard path",
       "referenceEntities": [
@@ -241,7 +241,7 @@
       "targetAudience": "Developers building risk and monitoring products",
       "targetPage": {
         "family": "developer_mcp",
-        "url": "https://www.worldmonitor.app/docs/api-reference"
+        "url": "https://www.eagle-eye.app/docs/api-reference"
       },
       "conversionGoal": "Review the API reference and pricing",
       "referenceEntities": [
@@ -264,7 +264,7 @@
       "targetAudience": "AI-agent developers and MCP client users",
       "targetPage": {
         "family": "developer_mcp",
-        "url": "https://www.worldmonitor.app/docs/mcp-overview"
+        "url": "https://www.eagle-eye.app/docs/mcp-overview"
       },
       "conversionGoal": "Connect an MCP client",
       "referenceEntities": [
@@ -287,7 +287,7 @@
       "targetAudience": "Agent engineers and technical analysts",
       "targetPage": {
         "family": "blog",
-        "url": "https://www.worldmonitor.app/blog/posts/build-geopolitical-risk-agent-worldmonitor-mcp/"
+        "url": "https://www.eagle-eye.app/blog/posts/build-geopolitical-risk-agent-eagle-eye-mcp/"
       },
       "conversionGoal": "Follow the tutorial and connect MCP",
       "referenceEntities": [
@@ -310,7 +310,7 @@
       "targetAudience": "Data engineers and application developers",
       "targetPage": {
         "family": "documentation",
-        "url": "https://www.worldmonitor.app/docs/api-reference"
+        "url": "https://www.eagle-eye.app/docs/api-reference"
       },
       "conversionGoal": "Inspect endpoint coverage and create an API integration",
       "referenceEntities": [
@@ -333,7 +333,7 @@
       "targetAudience": "AI product teams and advanced assistant users",
       "targetPage": {
         "family": "developer_mcp",
-        "url": "https://www.worldmonitor.app/docs/mcp-quickstart"
+        "url": "https://www.eagle-eye.app/docs/mcp-quickstart"
       },
       "conversionGoal": "Connect an assistant through MCP",
       "referenceEntities": [
@@ -356,7 +356,7 @@
       "targetAudience": "Individual analysts comparing free and paid options",
       "targetPage": {
         "family": "pricing",
-        "url": "https://www.worldmonitor.app/pro#pricing"
+        "url": "https://www.eagle-eye.app/pro#pricing"
       },
       "conversionGoal": "Review plans and start a Pro checkout",
       "referenceEntities": [
@@ -374,12 +374,12 @@
     },
     {
       "id": "q17",
-      "query": "World Monitor alternatives for geopolitical intelligence",
+      "query": "Eagle Eye alternatives for geopolitical intelligence",
       "intent": "evaluation",
       "targetAudience": "Buyers shortlisting intelligence platforms",
       "targetPage": {
         "family": "blog",
-        "url": "https://www.worldmonitor.app/blog/posts/worldmonitor-vs-traditional-intelligence-tools/"
+        "url": "https://www.eagle-eye.app/blog/posts/eagle-eye-vs-traditional-intelligence-tools/"
       },
       "conversionGoal": "Compare fit and continue to the appropriate product tier",
       "referenceEntities": [
@@ -397,12 +397,12 @@
     },
     {
       "id": "q18",
-      "query": "World Monitor vs GDELT",
+      "query": "Eagle Eye vs GDELT",
       "intent": "evaluation",
       "targetAudience": "Researchers and developers choosing data workflows",
       "targetPage": {
         "family": "documentation",
-        "url": "https://www.worldmonitor.app/docs/data-sources"
+        "url": "https://www.eagle-eye.app/docs/data-sources"
       },
       "conversionGoal": "Understand source composition and inspect the API",
       "referenceEntities": [
@@ -413,19 +413,19 @@
         },
         {
           "role": "source",
-          "name": "World Monitor source catalog",
-          "url": "https://www.worldmonitor.app/docs/data-sources"
+          "name": "Eagle Eye source catalog",
+          "url": "https://www.eagle-eye.app/docs/data-sources"
         }
       ]
     },
     {
       "id": "q19",
-      "query": "World Monitor vs Liveuamap",
+      "query": "Eagle Eye vs Liveuamap",
       "intent": "evaluation",
       "targetAudience": "News, OSINT, and security analysts",
       "targetPage": {
         "family": "dashboard",
-        "url": "https://www.worldmonitor.app/dashboard"
+        "url": "https://www.eagle-eye.app/dashboard"
       },
       "conversionGoal": "Evaluate the live dashboard using a current event",
       "referenceEntities": [
@@ -436,7 +436,7 @@
         },
         {
           "role": "source",
-          "name": "World Monitor GitHub repository",
+          "name": "Eagle Eye GitHub repository",
           "url": "https://github.com/koala73/worldmonitor"
         }
       ]
@@ -448,7 +448,7 @@
       "targetAudience": "Independent analysts, researchers, and consultants",
       "targetPage": {
         "family": "pricing",
-        "url": "https://www.worldmonitor.app/pro#pricing"
+        "url": "https://www.eagle-eye.app/pro#pricing"
       },
       "conversionGoal": "Select an individual plan or remain on the free tier",
       "referenceEntities": [
@@ -466,88 +466,88 @@
     },
     {
       "id": "q21",
-      "query": "World Monitor capabilities",
+      "query": "Eagle Eye capabilities",
       "intent": "branded_entity",
       "targetAudience": "Prospective users checking product scope",
       "targetPage": {
         "family": "homepage",
-        "url": "https://www.worldmonitor.app/"
+        "url": "https://www.eagle-eye.app/"
       },
       "conversionGoal": "Launch the dashboard or choose a focused variant",
       "referenceEntities": [
         {
           "role": "source",
-          "name": "World Monitor product reference",
-          "url": "https://www.worldmonitor.app/llms.txt"
+          "name": "Eagle Eye product reference",
+          "url": "https://www.eagle-eye.app/llms.txt"
         },
         {
           "role": "source",
-          "name": "World Monitor GitHub repository",
+          "name": "Eagle Eye GitHub repository",
           "url": "https://github.com/koala73/worldmonitor"
         }
       ]
     },
     {
       "id": "q22",
-      "query": "World Monitor data sources and methodology",
+      "query": "Eagle Eye data sources and methodology",
       "intent": "branded_entity",
       "targetAudience": "Analysts performing source due diligence",
       "targetPage": {
         "family": "documentation",
-        "url": "https://www.worldmonitor.app/docs/data-sources"
+        "url": "https://www.eagle-eye.app/docs/data-sources"
       },
       "conversionGoal": "Validate provenance and continue to a methodology page",
       "referenceEntities": [
         {
           "role": "source",
-          "name": "World Monitor data-source catalog",
-          "url": "https://www.worldmonitor.app/docs/data-sources"
+          "name": "Eagle Eye data-source catalog",
+          "url": "https://www.eagle-eye.app/docs/data-sources"
         },
         {
           "role": "source",
-          "name": "World Monitor health endpoint documentation",
-          "url": "https://www.worldmonitor.app/docs/health-endpoints"
+          "name": "Eagle Eye health endpoint documentation",
+          "url": "https://www.eagle-eye.app/docs/health-endpoints"
         }
       ]
     },
     {
       "id": "q23",
-      "query": "World Monitor pricing",
+      "query": "Eagle Eye pricing",
       "intent": "branded_entity",
       "targetAudience": "Users evaluating paid access",
       "targetPage": {
         "family": "pricing",
-        "url": "https://www.worldmonitor.app/pro#pricing"
+        "url": "https://www.eagle-eye.app/pro#pricing"
       },
       "conversionGoal": "View current pricing and start checkout",
       "referenceEntities": [
         {
           "role": "source",
-          "name": "World Monitor pricing reference",
-          "url": "https://www.worldmonitor.app/pricing.md"
+          "name": "Eagle Eye pricing reference",
+          "url": "https://www.eagle-eye.app/pricing.md"
         },
         {
           "role": "source",
-          "name": "World Monitor Pro page",
-          "url": "https://www.worldmonitor.app/pro#pricing"
+          "name": "Eagle Eye Pro page",
+          "url": "https://www.eagle-eye.app/pro#pricing"
         }
       ]
     },
     {
       "id": "q24",
-      "query": "World Monitor MCP access",
+      "query": "Eagle Eye MCP access",
       "intent": "branded_entity",
       "targetAudience": "Developers and assistant users checking MCP access",
       "targetPage": {
         "family": "developer_mcp",
-        "url": "https://www.worldmonitor.app/docs/mcp-overview"
+        "url": "https://www.eagle-eye.app/docs/mcp-overview"
       },
       "conversionGoal": "Review access requirements and connect a client",
       "referenceEntities": [
         {
           "role": "source",
-          "name": "World Monitor MCP server reference",
-          "url": "https://www.worldmonitor.app/mcp-server.md"
+          "name": "Eagle Eye MCP server reference",
+          "url": "https://www.eagle-eye.app/mcp-server.md"
         },
         {
           "role": "source",
@@ -558,24 +558,24 @@
     },
     {
       "id": "q25",
-      "query": "how fresh is World Monitor data",
+      "query": "how fresh is Eagle Eye data",
       "intent": "branded_entity",
       "targetAudience": "Analysts validating operational freshness",
       "targetPage": {
         "family": "crises",
-        "url": "https://www.worldmonitor.app/crises/"
+        "url": "https://www.eagle-eye.app/crises/"
       },
       "conversionGoal": "Inspect source health and open a live crisis view",
       "referenceEntities": [
         {
           "role": "source",
-          "name": "World Monitor health endpoint documentation",
-          "url": "https://www.worldmonitor.app/docs/health-endpoints"
+          "name": "Eagle Eye health endpoint documentation",
+          "url": "https://www.eagle-eye.app/docs/health-endpoints"
         },
         {
           "role": "source",
-          "name": "World Monitor compact health API",
-          "url": "https://www.worldmonitor.app/api/health?compact=1"
+          "name": "Eagle Eye compact health API",
+          "url": "https://www.eagle-eye.app/api/health?compact=1"
         }
       ]
     }

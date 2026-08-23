@@ -1,6 +1,6 @@
 name: Publish Ruby SDK to RubyGems
 
-# Publishes the `worldmonitor` gem from sdk/ruby/ via RubyGems trusted
+# Publishes the `eagleeye` gem from sdk/ruby/ via RubyGems trusted
 # publishing (OIDC) — NO API-key secret required. Auth is a short-lived OIDC
 # token minted by GitHub Actions (`id-token: write`) and exchanged by
 # rubygems/configure-rubygems-credentials for a scoped RubyGems credential.
@@ -9,7 +9,7 @@ name: Publish Ruby SDK to RubyGems
 # workflow is already tag-triggered.
 #
 # One-time prerequisite: a (pending) Trusted Publisher must be configured on
-# RubyGems (rubygems.org -> gem `worldmonitor` -> Trusted publishers, or
+# RubyGems (rubygems.org -> gem `eagleeye` -> Trusted publishers, or
 # Profile -> Pending trusted publishers while the gem does not exist yet)
 # pointing at this repository and this workflow file (publish-ruby.yml).
 # Until that exists the Publish step fails auth.
@@ -45,20 +45,20 @@ jobs:
           ruby-version: '3.3'
 
       - name: Test
-        run: ruby test/test_worldmonitor.rb
+        run: ruby test/test_eagleeye.rb
 
       - name: Verify gem version matches the tag
         if: startsWith(github.ref, 'refs/tags/gem-v')
         run: |
-          GEM_VERSION="$(ruby -r ./lib/worldmonitor/version -e 'puts WorldMonitor::VERSION')"
+          GEM_VERSION="$(ruby -r ./lib/eagleeye/version -e 'puts EagleEye::VERSION')"
           TAG_VERSION="${GITHUB_REF_NAME#gem-v}"
           if [ "$GEM_VERSION" != "$TAG_VERSION" ]; then
-            echo "::error::WorldMonitor::VERSION ($GEM_VERSION) does not match tag ($TAG_VERSION)"
+            echo "::error::EagleEye::VERSION ($GEM_VERSION) does not match tag ($TAG_VERSION)"
             exit 1
           fi
 
       - name: Build gem
-        run: gem build worldmonitor.gemspec
+        run: gem build eagleeye.gemspec
 
       - name: Configure RubyGems trusted publishing credentials
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
@@ -66,4 +66,4 @@ jobs:
 
       - name: Publish
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
-        run: gem push worldmonitor-*.gem
+        run: gem push eagleeye-*.gem

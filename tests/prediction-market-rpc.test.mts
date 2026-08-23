@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 
-import { listPredictionMarkets } from '../server/worldmonitor/prediction/v1/list-prediction-markets.ts';
+import { listPredictionMarkets } from '../server/eagleeye/prediction/v1/list-prediction-markets.ts';
 
 const originalFetch = globalThis.fetch;
 const originalEnv = {

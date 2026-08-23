@@ -10,11 +10,11 @@ dependencies: []
 
 ## Problem Statement
 
-`server/worldmonitor/forecast/v1/get-forecasts.ts:17` calls `getCachedJson(REDIS_KEY)` directly. Per CLAUDE.md ("Cache Stampede: Use cachedFetchJson"), RPC handlers with shared cache should use `cachedFetchJson` to coalesce concurrent misses. With 8 region pills and a user clicking quickly, multiple concurrent edge function invocations could each miss the in-process cache and hit Upstash with the same key.
+`server/eagleeye/forecast/v1/get-forecasts.ts:17` calls `getCachedJson(REDIS_KEY)` directly. Per CLAUDE.md ("Cache Stampede: Use cachedFetchJson"), RPC handlers with shared cache should use `cachedFetchJson` to coalesce concurrent misses. With 8 region pills and a user clicking quickly, multiple concurrent edge function invocations could each miss the in-process cache and hit Upstash with the same key.
 
 ## Findings
 
-- `server/worldmonitor/forecast/v1/get-forecasts.ts:17` — uses `getCachedJson` directly without `cachedFetchJson` wrapper.
+- `server/eagleeye/forecast/v1/get-forecasts.ts:17` — uses `getCachedJson` directly without `cachedFetchJson` wrapper.
 - CLAUDE.md "Cache Stampede: Use cachedFetchJson (Critical Pattern)" — established rule for all RPC handlers with shared cache.
 
 ## Proposed Solutions

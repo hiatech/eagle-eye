@@ -21,6 +21,6 @@ target/
 
 # Never deploy api test files: every non-underscore file under api/ becomes a
 # live serverless function, and a deployed *.test.mjs executes its whole
-# node:test suite (production env + Sentry) on every request (WORLDMONITOR-VD).
+# node:test suite (production env + Sentry) on every request (EAGLEEYE-VD).
 # Guarded by tests/deploy-config.test.mjs.
 api/**/*.test.mjs

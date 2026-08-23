@@ -10,7 +10,7 @@ import {
 } from '../scripts/freeze-resilience-ranking.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SCORER_PATH = resolve(here, '../server/worldmonitor/resilience/v1/_dimension-scorers.ts');
+const SCORER_PATH = resolve(here, '../server/eagleeye/resilience/v1/_dimension-scorers.ts');
 const sourceText = readFileSync(SCORER_PATH, 'utf8');
 
 describe('freeze-resilience-ranking methodology metadata', () => {

@@ -39,7 +39,7 @@ vi.mock('@/services/notification-channels', () => ({
 }));
 
 vi.mock('@/services/clerk', () => ({
-  getCurrentClerkUser: () => ({ id: 'user_push', email: 'push@worldmonitor.test' }),
+  getCurrentClerkUser: () => ({ id: 'user_push', email: 'push@eagleeye.test' }),
 }));
 
 vi.mock('@/services/entitlements', () => ({

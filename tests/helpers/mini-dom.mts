@@ -534,8 +534,8 @@ export function createBrowserEnvironment() {
     removeEventListener() {},
     open() {},
     location: {
-      origin: 'https://worldmonitor.test',
-      href: 'https://worldmonitor.test/',
+      origin: 'https://eagleeye.test',
+      href: 'https://eagleeye.test/',
     },
     navigator: {
       clipboard: {

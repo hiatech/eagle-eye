@@ -1,6 +1,6 @@
-# Contributing to World Monitor
+# Contributing to Eagle Eye
 
-Thank you for your interest in contributing to World Monitor! This project thrives on community contributions — whether it's code, data sources, documentation, or bug reports.
+Thank you for your interest in contributing to Eagle Eye! This project thrives on community contributions — whether it's code, data sources, documentation, or bug reports.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ Thank you for your interest in contributing to World Monitor! This project thriv
 
 ## Architecture Overview
 
-World Monitor is a real-time OSINT dashboard built with **Vanilla TypeScript** (no UI framework), **MapLibre GL + deck.gl** for map rendering, and a custom Proto-first RPC framework called **Sebuf** for all API communication.
+Eagle Eye is a real-time OSINT dashboard built with **Vanilla TypeScript** (no UI framework), **MapLibre GL + deck.gl** for map rendering, and a custom Proto-first RPC framework called **Sebuf** for all API communication.
 
 ### Key Technologies
 
@@ -78,8 +78,8 @@ Variants share all code but differ in default panels, map layers, and RSS feeds.
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/<your-username>/worldmonitor.git
-   cd worldmonitor
+   git clone https://github.com/<your-username>/eagle-eye.git
+   cd eagleeye
    ```
 3. **Create a branch** for your work:
    ```bash
@@ -124,7 +124,7 @@ The dev server runs at `http://localhost:3000` (override the port with `DEV_PORT
 
 For full functionality, copy `.env.example` to `.env.local` and fill in the API keys you need. The app runs without any API keys — external data sources will simply be unavailable.
 
-See the [API dependencies docs](https://www.worldmonitor.app/docs/getting-started#api-dependencies) for the full list.
+See the [API dependencies docs](https://www.eagle-eye.app/docs/getting-started#api-dependencies) for the full list.
 
 ## How to Contribute
 
@@ -137,7 +137,7 @@ See the [API dependencies docs](https://www.worldmonitor.app/docs/getting-starte
 - **Performance optimizations** — faster loading, better caching
 - **Documentation** — improve docs, add examples, fix typos
 - **Accessibility** — make the dashboard usable by everyone
-- **Internationalization** — help make World Monitor available in more languages
+- **Internationalization** — help make Eagle Eye available in more languages
 - **Tests** — add unit or integration tests
 
 ### What We're Especially Looking For
@@ -199,11 +199,11 @@ That said, **all code is held to the same quality bar regardless of how it was w
 ### File Organization
 
 - Static layer/geo data and variant configs go in `src/config/`
-- Sebuf handler implementations go in `server/worldmonitor/{domain}/v1/`
+- Sebuf handler implementations go in `server/eagleeye/{domain}/v1/`
 - Edge function gateway and legacy endpoints go in `api/`
 - UI components (panels, map, modals) go in `src/components/`
 - Service modules (data fetching, client wrappers) go in `src/services/`
-- Proto definitions go in `proto/worldmonitor/{domain}/v1/`
+- Proto definitions go in `proto/eagleeye/{domain}/v1/`
 
 ## Working with Sebuf (RPC Framework)
 
@@ -211,11 +211,11 @@ Sebuf is the project's custom Proto-first HTTP RPC framework — a lightweight a
 
 ### How It Works
 
-1. **Proto definitions** in `proto/worldmonitor/{domain}/v1/` define services and messages
+1. **Proto definitions** in `proto/eagleeye/{domain}/v1/` define services and messages
 2. **Code generation** (`make generate`) produces:
    - TypeScript clients in `src/generated/client/` (e.g., `MarketServiceClient`)
    - Server route factories in `src/generated/server/` (e.g., `createMarketServiceRoutes`)
-3. **Handlers** in `server/worldmonitor/{domain}/v1/handler.ts` implement the service interface
+3. **Handlers** in `server/eagleeye/{domain}/v1/handler.ts` implement the service interface
 4. **Gateway** in `api/[domain]/v1/[rpc].ts` registers all handlers and routes requests
 5. **Clients** in `src/services/{domain}/index.ts` wrap the generated client for app use
 
@@ -252,7 +252,7 @@ The pinned sebuf version is set by `SEBUF_VERSION` in the `Makefile` (currently 
 | File | Purpose |
 | --- | --- |
 | `docs/api/{Service}.openapi.yaml` / `.json` | Per-service specs — referenced individually by Mintlify in `docs/docs.json` |
-| `docs/api/worldmonitor.openapi.yaml` | **Unified bundle** spanning every service (sebuf ≥ v0.11.0) — use this for external consumers, API explorers, or anywhere you want a single spec covering all RPCs |
+| `docs/api/eagleeye.openapi.yaml` | **Unified bundle** spanning every service (sebuf ≥ v0.11.0) — use this for external consumers, API explorers, or anywhere you want a single spec covering all RPCs |
 
 The unified bundle is emitted by a third `protoc-gen-openapiv3` invocation in `proto/buf.gen.yaml` using `bundle=true`, `bundle_only=true`, and `strategy: all`. Regenerate alongside the per-service files; do not edit by hand.
 
@@ -261,14 +261,14 @@ The unified bundle is emitted by a third `protoc-gen-openapiv3` invocation in `p
 To add a new data layer to the map:
 
 1. **Define the data source** — identify the API or dataset you want to integrate
-2. **Add the proto service** (if the data needs a backend proxy) — define messages and RPC methods in `proto/worldmonitor/{domain}/v1/`
+2. **Add the proto service** (if the data needs a backend proxy) — define messages and RPC methods in `proto/eagleeye/{domain}/v1/`
 3. **Generate stubs** — run `make generate`
-4. **Implement the handler** in `server/worldmonitor/{domain}/v1/`
+4. **Implement the handler** in `server/eagleeye/{domain}/v1/`
 5. **Register the handler** in `api/[domain]/v1/[rpc].ts` and `vite.config.ts` (for local dev)
 6. **Create the service module** in `src/services/{domain}/` wrapping the generated client
 7. **Add the layer config** and implement the map renderer following existing layer patterns
 8. **Add to layer toggles** — make it toggleable in the UI
-9. **Document the source** — add it to the [data sources docs](https://www.worldmonitor.app/docs/data-sources)
+9. **Document the source** — add it to the [data sources docs](https://www.eagle-eye.app/docs/data-sources)
 
 For endpoints that deal with non-JSON payloads (XML feeds, binary data, HTML embeds), you can add a standalone Edge Function in `api/` instead of Sebuf. For anything returning JSON, prefer Sebuf — the typed contracts are always worth it.
 
@@ -285,7 +285,7 @@ Country outlines are loaded from `public/data/countries.geojson`. Optional highe
 
 ```bash
 node scripts/fetch-country-boundary-overrides.mjs
-rclone copy public/data/country-boundary-overrides.geojson r2:worldmonitor-maps/
+rclone copy public/data/country-boundary-overrides.geojson r2:eagleeye-maps/
 ```
 
 ## Adding RSS Feeds
@@ -310,7 +310,7 @@ When filing a bug report, please include:
 - **Browser/OS** — your environment details
 - **Console errors** — any relevant browser console output
 
-Use the [Bug Report issue template](https://github.com/koala73/worldmonitor/issues/new/choose) when available.
+Use the [Bug Report issue template](https://github.com/hiatech/eagle-eye/issues/new/choose) when available.
 
 ## Feature Requests
 
@@ -321,7 +321,7 @@ We welcome feature ideas! When suggesting a feature:
 - **Consider alternatives** you've thought about
 - **Provide context** — who would benefit from this feature?
 
-Use the [Feature Request issue template](https://github.com/koala73/worldmonitor/issues/new/choose) when available.
+Use the [Feature Request issue template](https://github.com/hiatech/eagle-eye/issues/new/choose) when available.
 
 ## Code of Conduct
 
@@ -329,4 +329,4 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 
 ---
 
-Thank you for helping make World Monitor better! 🌍
+Thank you for helping make Eagle Eye better! 🌍
