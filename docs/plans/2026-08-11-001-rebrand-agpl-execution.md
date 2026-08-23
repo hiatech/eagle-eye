@@ -451,3 +451,83 @@ alındı — 2500+ dosyaya dokunan bir değişiklikte hedefli testler yeterli de
 - **`docs/trademark-policy.mdx`** artık "Eagle Eye" üzerinde marka hakkı iddia ediyor.
 - **`convex/broadcast/proLaunchEmailContent.ts`** dokunulmadı: upstream'in 50.000 yıldızı
   hakkındaki iddiaları fork için yanlış — pazarlama metni olarak gözden geçirilmeli.
+
+---
+
+## 5. Kalan işler — tek liste (2026-08-11 denetimi)
+
+> Bu bölüm **tek bakılacak yer**dir, ama detayın sahibi değildir. Faz işleri
+> `2026-08-07-001-feat-fork-multilingual-roadmap.md`'ye, rebrand artıkları §4 **R1**'e
+> aittir. Buradaki satırlar oraya işaret eder; bir madde kapandığında **hem burası hem
+> sahibi olan bölüm** güncellenir. Durum sütunu elle tutulur ve bu yüzden bayatlar —
+> şüphelenirsen aşağıdaki doğrulama komutunu koştur.
+
+### 5.1 Bloker — canlıya çıkmadan önce
+
+| # | İş | Durum | Sahibi |
+|---|---|---|---|
+| K1 | **`main`'e merge** — dal `rebrand/agpl-compliance`, `main` hâlâ `dcc127940` | ❌ | — (plan dışı) |
+| K2 | **`eagle-eye.app` alan adı** sahiplen + yapılandır (~3.600 referans) | ❌ | R1 |
+
+**K1 neden bloker:** AGPL §13 çalıştırılan sürümün kaynağını şart koşuyor. Dal push edildi,
+ama deploy `main`'den yapılıyorsa `NOTICE`'ın gösterdiği adreste o kaynak **yok**.
+**K2 neden bloker:** alan adı yapılandırılmadan deploy edilirse her iç link ölü.
+
+### 5.2 Kırık — şu anda hatalı davranıyor
+
+| # | İş | Durum | Sahibi |
+|---|---|---|---|
+| K3 | **`/api/download` 404** — fork'ta 0 release; ölçüldü, tahmin değil | ⚠️ | R1 |
+
+Ya `hiatech/eagle-eye` altında masaüstü release yayınla, ya dört dosyayı upstream'e geri çevir
+(`api/download.js:6`, `api/_github-release.js:3`, `src/app/desktop-updater.ts:103`,
+`src/services/preferences-content.ts:33`).
+
+### 5.3 Bayat kimlik — yanlış yeri gösteriyor
+
+| # | İş | Durum | Sahibi |
+|---|---|---|---|
+| K4 | `scripts/railway-cli.mjs:19` `REPOSITORY` hâlâ `koala73/worldmonitor` | ❌ | R1 |
+| K5 | Vercel preview allowlist'i upstream'in `eliewm` kapsamını yazıyor (= B1'in kalanı) | ❌ | R1 + roadmap B1 |
+
+K4'ün doğru değeri Hiatech'in Railway projesine bağlı, repoda olmayan bir gerçek — **tahmin
+edilmemeli**. K5 şu an hiçbir şeyle eşleşmiyor: zararsız ama ölü kural.
+
+### 5.4 Gözden geçirilecek — karar gerektiriyor
+
+| # | İş | Durum | Sahibi |
+|---|---|---|---|
+| K6 | Logo/favicon/og-image eski görseli taşıyor (9 dosya + 6 varyant og-image) | ❌ | R1 |
+| K7 | `src-tauri/tauri.conf.json:6` bundle kimliği değişti — yayınlanmış sürüm varsa güncellemeyi kırar | ⚠️ | R1 |
+| K8 | `docs/trademark-policy.mdx` "Eagle Eye" üzerinde marka hakkı iddia ediyor | ⚠️ | R1 |
+| K9 | `convex/broadcast/proLaunchEmailContent.ts` upstream'in 50.000 yıldızını "bizim" gibi anlatıyor | ⚠️ | R1 |
+| K10 | `X-WorldMonitor-Key` → `X-EagleEye-Key` kırıcı değişimi — geriye dönük uyum istenirse 3 okuma noktası | ⚠️ | R1 |
+
+K10'un okuma noktaları: `api/_api-key.js:18` (zaten `X-Api-Key`'e düşüyor, o başlığı
+kullananlar etkilenmedi), `api/mcp/auth.ts:308`, `api/mcp/handler.ts:81`.
+
+### 5.5 Özellik işi
+
+| # | İş | Durum | Sahibi |
+|---|---|---|---|
+| K11 | **Faz 5** — Wikinews · Mastodon · Bluesky/AT Protocol | ❌ Başlamadı | roadmap Faz 5 |
+
+Her kaynak için: `scripts/seed-*.mjs` + `runSeed()` + cache key + handler. Yol haritasının tek
+açık fazı. K1 çözülmeden buna başlamak, 16 commit'lik rebrand'in üstüne yığmak olur.
+
+### 5.6 Durumu doğrulama
+
+Bu tablo elle tutulur. Gerçeği ölçmek için:
+
+```bash
+git log --oneline origin/main..HEAD | wc -l          # K1: merge bekleyen commit
+grep -n "REPOSITORY = " scripts/railway-cli.mjs      # K4
+grep -n "eliewm" server/cors.ts api/_cors.js         # K5
+grep -n "identifier" src-tauri/tauri.conf.json       # K7
+gh api repos/hiatech/eagle-eye/releases | jq length  # K3 (gh yoksa curl)
+```
+
+### Kapanmış maddeler (tarihsel)
+
+`B2` AGPL §13 (C0–C7) · rebrand'ın tamamı (R1) · GitHub deposunun yeniden adlandırılması ·
+`B3` self-host sırları · Faz 0–4 · Faz 6.1–6.5.

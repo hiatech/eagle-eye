@@ -1137,6 +1137,10 @@ dışarıdan sağlıklı görünüyor.
 
 ## Sıradaki adım (2026-08-11)
 
+> **Kalan işlerin tek listesi** `2026-08-11-001-rebrand-agpl-execution.md` **§5**'te
+> (K1–K11: bloker / kırık / bayat kimlik / gözden geçirilecek / özellik). Aşağıdaki bölüm
+> o listenin faz tarafının tarihsel gerekçesidir.
+
 Faz 4 ve 6.1–6.5 kapalı. Canlıya çıkışın önünde duran tek iş **B2 (AGPL §13)** ve artık
 bilgi eksikliğinden beklemiyor: `origin` zaten `github.com/hiatech/worldmonitor`, yani
 B2'nin "fork'un repo adresi belli olsun" ön koşulu çözülmüş durumda.
