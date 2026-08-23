@@ -429,9 +429,9 @@ CSP sha256 zinciri: 6 token değişti, `vercel.json` + `docker/nginx.conf` +
 alındı — 2500+ dosyaya dokunan bir değişiklikte hedefli testler yeterli değildi.
 
 **Sahibine bırakılanlar (tahmin edilmedi).**
-- **GitHub deposunun adı** `hiatech/worldmonitor` → `hiatech/eagle-eye` olarak değiştirilmeli.
-  `NOTICE` §13 adresi artık yeni adı gösteriyor; yeniden adlandırma yapılmazsa **§13 linki
-  kırılır**. GitHub eski addan yönlendirme yapar, ama kanonik ad değişmelidir.
+- ~~**GitHub deposunun adı**~~ ✅ **2026-08-11'de yapıldı.** `hiatech/worldmonitor` →
+  `hiatech/eagle-eye` (GitHub API `PATCH`, admin yetkisiyle). 10 açık issue korundu, eski
+  adrese yönlendirme aktif, `origin` yeni adrese çevrildi. `NOTICE` §13 adresi artık gerçek.
 - **`eagle-eye.app` alan adı** sahiplenilmeli/yapılandırılmalı (~3.600 referans).
 - **`scripts/railway-cli.mjs:19` `REPOSITORY`** — hâlâ `koala73/worldmonitor`. Ertelenenler
   listesindeki gerekçe aynen geçerli: doğru değer repoda olmayan bir gerçek.
@@ -440,8 +440,9 @@ alındı — 2500+ dosyaya dokunan bir değişiklikte hedefli testler yeterli de
   fork'un kendi Vercel proje adı + ekip kapsamı girilmeli.
 - **`/api/download` fork'a çevrildi** — bu, ertelenenler listesindeki kararın **tersi**.
   Talimat gereği yapıldı: fork'un alan adından upstream'in imzalı binary'lerini sunmak
-  zaten yanlıştı. Sonucu: `hiatech/eagle-eye` altında masaüstü release yayınlanana kadar
-  endpoint 404 verir. Geri almak için `api/download.js:6`, `api/_github-release.js:3`,
+  zaten yanlıştı. Sonucu **ölçüldü, tahmin değil**: fork'ta 0 release var ve
+  `repos/hiatech/eagle-eye/releases/latest` bugün **HTTP 404** dönüyor — yani `/api/download`
+  şu anda kırık. Masaüstü release yayınlanana kadar böyle kalır. Geri almak için `api/download.js:6`, `api/_github-release.js:3`,
   `src/app/desktop-updater.ts:103`, `src/services/preferences-content.ts:33`.
 - **Logo/favicon/og-image varlıkları** eski görseli taşıyor (`public/favico/**`,
   `eagle-eye-icon-1024.png`, altı varyantın `og-image.png`'si). Tasarım işi.
