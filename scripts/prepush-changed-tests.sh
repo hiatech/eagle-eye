@@ -49,6 +49,21 @@
 
 TEST_TIMEOUT="${WM_PREPUSH_TEST_TIMEOUT:-120}"
 
+# macOS ships no `timeout` (it is GNU coreutils; Homebrew installs it as
+# `gtimeout`). Without a fallback the runner dies with "command not found" and
+# every push touching a test file fails for a reason unrelated to the tests.
+# Prefer a real timeout when one exists; otherwise run uncapped rather than
+# refuse the push. Bash 3.2 needs the +"${...}" guard to expand an empty array.
+if command -v timeout >/dev/null 2>&1; then
+  TIMEOUT_CMD=(timeout "$TEST_TIMEOUT")
+elif command -v gtimeout >/dev/null 2>&1; then
+  TIMEOUT_CMD=(gtimeout "$TEST_TIMEOUT")
+else
+  echo "note: no timeout(1) available — running tests without a time cap." >&2
+  TIMEOUT_CMD=()
+fi
+run_capped() { ${TIMEOUT_CMD[@]+"${TIMEOUT_CMD[@]}"} "$@"; }
+
 mode="${1:-}"
 case "$mode" in
   node | dom | run-node | run-dom) ;;
@@ -118,7 +133,7 @@ case "$mode" in
     echo "Running changed test files only..."
     # Quoted expansion, not word-splitting: a test path containing a space is
     # one argument, not two nonexistent ones.
-    timeout "$TEST_TIMEOUT" npx tsx --test "${selected[@]}" || exit 1
+    run_capped npx tsx --test "${selected[@]}" || exit 1
     ;;
 
   run-dom)
@@ -132,7 +147,7 @@ case "$mode" in
     # metacharacter can match nothing and fail the push as "No test files
     # found". The suite is a handful of files and happy-dom boots per file in
     # milliseconds (see vitest.dom.config.mts), so scoping buys nothing here.
-    timeout "$TEST_TIMEOUT" npm run test:dom || exit 1
+    run_capped npm run test:dom || exit 1
     ;;
 esac
 
