@@ -21,7 +21,7 @@ function service({
   watchPatterns = [],
 } = {}) {
   return {
-    source: { repo: 'koala73/worldmonitor', rootDirectory: 'scripts' },
+    source: { repo: 'hiatech/eagle-eye', rootDirectory: 'scripts' },
     build: {
       watchPatterns,
       ...(dockerfilePath === undefined ? {} : { dockerfilePath }),

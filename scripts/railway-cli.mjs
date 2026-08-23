@@ -16,7 +16,7 @@ import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
 
-export const REPOSITORY = 'koala73/worldmonitor';
+export const REPOSITORY = 'hiatech/eagle-eye';
 
 const GIT_CALL_TIMEOUT_MS = 30_000;
 

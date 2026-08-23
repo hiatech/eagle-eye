@@ -29,7 +29,7 @@ function service({
   watchPatterns = [],
 } = {}) {
   return {
-    source: { repo: 'koala73/worldmonitor', rootDirectory: 'scripts' },
+    source: { repo: 'hiatech/eagle-eye', rootDirectory: 'scripts' },
     build: {
       watchPatterns,
       ...(dockerfilePath === undefined ? {} : { dockerfilePath }),
@@ -882,7 +882,7 @@ describe('unmanaged live seeders', () => {
 
   function unmanagedSeeder({ watchPatterns, rootDirectory = 'scripts' }) {
     return {
-      source: { repo: 'koala73/worldmonitor', rootDirectory },
+      source: { repo: 'hiatech/eagle-eye', rootDirectory },
       build: { watchPatterns },
       deploy: { startCommand: 'node seed-forecasts.mjs' },
       variables: {},
@@ -975,7 +975,7 @@ describe('unmanaged live seeders', () => {
       services: {
         'svc-example': managedService(),
         'svc-web': {
-          source: { repo: 'koala73/worldmonitor', rootDirectory: '' },
+          source: { repo: 'hiatech/eagle-eye', rootDirectory: '' },
           build: { watchPatterns: ['src/**'] },
           deploy: { startCommand: 'npm run start' },
           variables: {},

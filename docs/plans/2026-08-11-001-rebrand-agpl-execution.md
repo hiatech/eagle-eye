@@ -466,12 +466,17 @@ alındı — 2500+ dosyaya dokunan bir değişiklikte hedefli testler yeterli de
 
 | # | İş | Durum | Sahibi |
 |---|---|---|---|
-| K1 | **`main`'e merge** — dal `rebrand/agpl-compliance`, `main` hâlâ `dcc127940` | ❌ | — (plan dışı) |
+| K1 | **`main`'e merge** — dal `rebrand/agpl-compliance`, `main` hâlâ `dcc127940` | ✅ (2026-08-24) | — (plan dışı) |
 | K2 | **`eagle-eye.app` alan adı** sahiplen + yapılandır (~3.600 referans) | ❌ | R1 |
 
 **K1 neden bloker:** AGPL §13 çalıştırılan sürümün kaynağını şart koşuyor. Dal push edildi,
 ama deploy `main`'den yapılıyorsa `NOTICE`'ın gösterdiği adreste o kaynak **yok**.
+**K1 kapandı (2026-08-24):** `origin/main` fast-forward ile `829436797`'ye ilerletildi (17
+commit, çakışma yok).
 **K2 neden bloker:** alan adı yapılandırılmadan deploy edilirse her iç link ölü.
+**K2 durumu (2026-08-24):** sahibi doğruladı — alan adı henüz satın alınmadı. Kodun beklediği
+değer (`src/config/web-origin.ts:15`, `WEB_APP_ORIGIN = 'https://eagle-eye.app'`) hazır;
+eksik olan registrar/DNS adımı, koddan yapılamaz.
 
 ### 5.2 Kırık — şu anda hatalı davranıyor
 
@@ -487,11 +492,22 @@ Ya `hiatech/eagle-eye` altında masaüstü release yayınla, ya dört dosyayı u
 
 | # | İş | Durum | Sahibi |
 |---|---|---|---|
-| K4 | `scripts/railway-cli.mjs:19` `REPOSITORY` hâlâ `koala73/worldmonitor` | ❌ | R1 |
+| K4 | `scripts/railway-cli.mjs:19` `REPOSITORY` hâlâ `koala73/worldmonitor` | ✅ (2026-08-24) | R1 |
 | K5 | Vercel preview allowlist'i upstream'in `eliewm` kapsamını yazıyor (= B1'in kalanı) | ❌ | R1 + roadmap B1 |
 
 K4'ün doğru değeri Hiatech'in Railway projesine bağlı, repoda olmayan bir gerçek — **tahmin
 edilmemeli**. K5 şu an hiçbir şeyle eşleşmiyor: zararsız ama ölü kural.
+
+**K4 kapandı (2026-08-24):** sahibi doğruladı — Railway projesi henüz kurulmadı, dolayısıyla
+"hangi Railway projesi" sorusu bugün yok, ama "hangi GitHub repo'dan deploy edilecek" sorusunun
+tek doğru cevabı zaten belliydi: `origin` = `hiatech/eagle-eye`. `REPOSITORY` bu değere
+çevrildi, `isSeederService`/`isRepositoryService`'in kullandığı 4 test fixture'ı
+(`tests/railway-watch-path-audit.test.mjs`, `tests/railway-watch-path-drift-regression.test.mjs`)
+eşleşecek şekilde güncellendi; ikisi de yeşil (79/79). Railway projesi kurulduğunda ek işlem
+gerekmiyor.
+**K5 durumu (2026-08-24):** sahibi doğruladı — bu fork Vercel değil, kendi sunucu + Docker'a
+deploy ediyor (roadmap B1'in kaydettiği karar). Vercel preview allowlist'i hiç devreye
+girmeyecek; kural zararsız ve ölü kalmaya devam ediyor, düzeltme gerekmiyor.
 
 ### 5.4 Gözden geçirilecek — karar gerektiriyor
 
