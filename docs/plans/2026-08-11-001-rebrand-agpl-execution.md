@@ -100,7 +100,8 @@ Durum: `TODO` · `DOING` · `DONE` · `SKIP` · `BLOCKED`
 | C6 | `docs/license.mdx`, ISSUE_TEMPLATE, ghcr image, airline User-Agent | DONE | `55097414f` |
 | C7 | Roadmap'te B2'yi ✅ yap | DONE | *(bu commit)* |
 
-**Tüm adımlar tamamlandı.** Kalan iş `git push` — kullanıcı onayı gerektiriyor.
+**Tüm adımlar tamamlandı ve 2026-08-11'de push edildi** (R1 ile birlikte, 14 commit,
+`origin/rebrand/agpl-compliance` = `e7e7601d6`). Kalan iş `main`'e merge.
 
 ### Ertelenenler (bu plana dahil değil)
 
@@ -363,8 +364,10 @@ bölümünde B2 üstü çizildi ve ertelenen üç madde listelendi.
   ertelenen binary indirme yolları.
 - Korunması gereken telifler yerinde: `LICENSE:2` ve dört MIT alt-lisansı byte-identical.
 
-**Yapılmayan.** `git push` — ASLA listesi gereği kullanıcı onayı bekliyor. Dal:
-`rebrand/agpl-compliance`, 8 commit (`daf662063`…).
+**Push.** Kullanıcı onayı 2026-08-11'de alındı ve dal push edildi:
+`origin/rebrand/agpl-compliance` = `e7e7601d6`, 14 commit (`daf662063`…`e7e7601d6`).
+Pre-push kapıları dört kez reddetti; dördü de gerçek sorundu ve düzeltildi (R1'e bak).
+`main` hâlâ `dcc127940` — merge yapılmadı.
 
 **§13 için kalan tek gerçek koşul:** dağıtılan sürümün kaynağı fork deposunda **yayınlanmış**
 olmalı. Linkler artık doğru yeri gösteriyor; deploy'dan önce bu dalın push edilmiş olması
