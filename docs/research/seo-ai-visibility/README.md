@@ -4,6 +4,15 @@ This directory is the inspectable measurement artifact for issue #5667. It keeps
 traditional search, AI answers, referrals, and product outcomes separate so a
 missing source cannot silently become a zero or a site-wide vanity score.
 
+> **Host rewrite at the Eagle Eye rename (2026-08-11).** Every URL in this
+> directory was rewritten from `worldmonitor.app` to `eagle-eye.app`. The
+> observations themselves predate the rename — the engines cited the old host on
+> the dates recorded. The corpus was rewritten as a unit rather than frozen
+> because `query-set.json` is live configuration and `baselines/*.json` pin a
+> digest of it, so the two cannot diverge; the baseline digest and the generated
+> scorecard were regenerated to match. Read the dated rows as "our pages", not as
+> verbatim hostnames returned on that date.
+
 ## Files
 
 - `query-set.json` — 25 reviewed decision queries with intent, audience, target
