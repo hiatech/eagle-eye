@@ -242,30 +242,53 @@ function listChangedFiles() {
 }
 
 /**
- * For a given file in diff mode, parse `git diff --unified=0` to extract
- * the set of line ranges that were added/modified vs origin/main. Used
- * to scope catch-block checks to "newly introduced or touched" only.
+ * Line ranges added/modified vs origin/main, per file. Used to scope
+ * catch-block checks to "newly introduced or touched" only.
+ *
+ * Built from ONE unrestricted `git diff`, deliberately: restricting the diff
+ * to a single path (`-- <file>`) hides the other half of a rename, so git
+ * reports a moved file as wholly new and every pre-existing catch block in it
+ * looks freshly written. A repo-wide rename then fails this gate on code
+ * nobody touched. The unrestricted diff pairs the paths and yields only the
+ * hunks that really changed.
  */
-function changedLineRanges(filePath) {
+let changedRangesCache = null;
+
+function buildChangedRanges() {
+  const byFile = new Map();
+  let out;
   try {
-    const out = execSync(
-      `git diff --unified=0 origin/main...HEAD -- "${filePath}"`,
-      { encoding: 'utf8' },
-    );
-    const ranges = [];
-    for (const line of out.split('\n')) {
-      // Hunk header: @@ -oldStart,oldCount +newStart,newCount @@
-      const m = line.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/);
-      if (!m) continue;
-      const start = Number(m[1]);
-      const count = m[2] ? Number(m[2]) : 1;
-      if (count === 0) continue; // pure deletion — no new lines on this side
-      ranges.push([start, start + count - 1]);
-    }
-    return ranges;
+    out = execSync('git diff --unified=0 --find-renames origin/main...HEAD', {
+      encoding: 'utf8',
+      maxBuffer: 256 * 1024 * 1024,
+    });
   } catch {
-    return [];
+    return byFile;
   }
+  let current = null;
+  for (const line of out.split('\n')) {
+    // `+++ b/<path>` opens each file section; /dev/null means the file is gone.
+    if (line.startsWith('+++ ')) {
+      const path = line.slice(4).replace(/^b\//, '');
+      current = path === '/dev/null' ? null : path;
+      if (current && !byFile.has(current)) byFile.set(current, []);
+      continue;
+    }
+    if (!current) continue;
+    // Hunk header: @@ -oldStart,oldCount +newStart,newCount @@
+    const m = line.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/);
+    if (!m) continue;
+    const start = Number(m[1]);
+    const count = m[2] ? Number(m[2]) : 1;
+    if (count === 0) continue; // pure deletion — no new lines on this side
+    byFile.get(current).push([start, start + count - 1]);
+  }
+  return byFile;
+}
+
+function changedLineRanges(filePath) {
+  if (changedRangesCache === null) changedRangesCache = buildChangedRanges();
+  return changedRangesCache.get(filePath) ?? [];
 }
 
 function rangesOverlap(catchStart, catchEnd, ranges) {
